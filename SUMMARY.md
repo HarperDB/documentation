@@ -6,6 +6,10 @@
 * [Install HarperDB](docs/install-harperdb/index.md)
   * [On Linux](docs/install-harperdb/linux.md)
   * [With Docker](docs/install-harperdb/docker.md)
+  * [On Mac](docs/install-harperdb/mac.md)
+  * [On Windows 10 (WSL2)](docs/install-harperdb/windows.md)
+  * [Offline Install](docs/install-harperdb/offline.md)
+  * [Node Version Requirement](docs/install-harperdb/node-version.md)
 
 * [Full API Documentation](https://api.harperdb.io)
 
