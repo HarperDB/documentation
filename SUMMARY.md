@@ -9,7 +9,7 @@
 * [With Docker](docs/install-harperdb/docker.md)
 
 ### Full API Documentation
-* [View Our POSTMAN Collection](https://api.harperdb.io)
+* [POSTMAN Collection](https://api.harperdb.io)
 
 ### HarperDB Studio
 * [Overview](../harperdb-studio/index.md)
