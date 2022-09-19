@@ -10,6 +10,7 @@
 ### Full API Documentation
 * [POSTMAN Collection](https://api.harperdb.io)
 
+<!---
 ### HarperDB Studio
 * [Overview](../harperdb-studio/index.md)
 * [Create an Account]()
@@ -68,30 +69,31 @@
 ### Add-ons and SDKs
 * [Overview](../add-ons-and-sdks/index.md)
 * [Google Data Studio]()
+--> 
 
-### SQL Guide
-* [Overview](../sql-guide/index.md)
-* [SQL Features Matrix]()
-* [Insert]()
-* [Update]()
-* [Delete]()
-* [Select]()
-* [Joins]()
-* [SQL Date Functions]()
-* [SQL Reserved Word]()
-* [SQL Functions]()
-* [SQL JSON Search]()
-* [SQL Geospatial Functions](../sql-guide/geospatial-functions.md)
-  * [geoArea](../sql-guide/geospatial-functions-geoarea.md)
-  * [geoLength]()
-  * [geoDifference]()
-  * [geoDistance]()
-  * [geoNear]()
-  * [geoContains]()
-  * [geoEqual]()
-  * [geoCrosses]()
-  * [geoConvert]()
+* [SQL Guide](../sql-guide/index.md)
+  * [SQL Features Matrix](../sql-guide/features-matrix.md)
+  * [Insert](../sql-guide/insert.md)
+  * [Update](../sql-guide/update.md)
+  * [Delete](../sql-guide/delete.md)
+  * [Select](../sql-guide/select.md)
+  * [Joins](../sql-guide/joins.md)
+  * [SQL Date Functions](../sql-guide/date-functions.md)
+  * [SQL Reserved Word](../sql-guide/reserved-word.md)
+  * [SQL Functions](../sql-guide/functions.md)
+  * [SQL JSON Search](../sql-guide/json-search.md)
+  * [SQL Geospatial Functions](../sql-guide/geospatial-functions/index.md)
+    * [geoArea](../sql-guide/geospatial-functions/geoArea.md)
+    * [geoLength](../sql-guide/geospatial-functions-geoLength.md)
+    * [geoDifference](../sql-guide/geospatial-functions-geoDifference.md)
+    * [geoDistance](../sql-guide/geospatial-functions-geoDistance.md)
+    * [geoNear](../sql-guide/geospatial-functions-geoNear.md)
+    * [geoContains](../sql-guide/geospatial-functions-geoContains.md)
+    * [geoEqual](../sql-guide/geospatial-functions-geoEqual.md)
+    * [geoCrosses](../sql-guide/geospatial-functions-geoCrosses.md)
+    * [geoConvert](../sql-guide/geospatial-functions-geoConvert.md)
 
+<!---
 ### Administration
 * [Overview](../administration/index.md)
 * [HarperDB CLI]()
@@ -135,3 +137,4 @@
 * [1.3.0]()
 * [1.2.0]()
 * [1.1.0]()
+-->
