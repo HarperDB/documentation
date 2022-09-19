@@ -4,7 +4,6 @@ HarperDB was built by developers for developers, which means getting started sho
 
 The quickest way to get up and running with HarperDB is with [HarperDB Cloud](https://harperdb.io/docs/harperdb-cloud/), our database-as-a-service offering, which this guide will utilize.
 
----
 
 ### Set Up a HarperDB Instance
 
@@ -15,7 +14,6 @@ Before you can start using HarperDB you need to set up an instance. Note, if you
 
 > HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
----
 
 ### Using the HarperDB Studio
 Now that you have a HarperDB instance, you can do pretty much everything you’d like through the Studio. This section links to appropriate articles to get you started interacting with your data.
@@ -26,7 +24,6 @@ Now that you have a HarperDB instance, you can do pretty much everything you’d
 3. [Load CSV data](../harperdb-studio/manage-schemas-browse-data#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
 5. [Query data via SQL](../harperdb-studio/query-instance-data)
 
----
 
 ### Using the HarperDB API
 Complete HarperDB API documentation is available at api.harperdb.io. The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice. For example purposes, a basic cURL command is shown below to create a schema called dev.
@@ -48,8 +45,6 @@ Breaking it down, there are only a few requirements for interacting with HarperD
 * Providing the Authorization header (more on using Basic authentication).
 * Providing the Content-Type header, HarperDB only accepts application/json.
 * Providing a JSON body with the desired operation and any additional operation properties (shown in the --data-raw parameter). This is the only parameter that needs to be changed to execute alternative operations on HarperDB.
-
----
 
 ### Video Tutorials
 
