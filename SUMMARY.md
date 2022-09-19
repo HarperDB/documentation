@@ -1,12 +1,12 @@
 # Summary
 
-## Getting Started
-* [Developer Documentation](getting-started/developer-documentation.md)
+### Getting Started
+* [Developer Documentation](docs/getting-started/developer-documentation.md)
 
-## Install HarperDB
-* [Overview](install-harperdb/index.md)
-* [On Linux](install-harperdb/linux.md)
-* [With Docker](install-harperdb/docker.md)
+### Install HarperDB
+* [Overview](docs/install-harperdb/index.md)
+* [On Linux](docs/install-harperdb/linux.md)
+* [With Docker](docs/install-harperdb/docker.md)
 
-## Install HarperDB
+### Install HarperDB
 * [View Our POSTMAN Collection](https://api.harperdb.io)
