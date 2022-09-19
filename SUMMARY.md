@@ -1,6 +1,6 @@
 # Summary
 
-[Getting Started](docs/getting-started/index.md)
+* [Getting Started](docs/getting-started/index.md)
 
 ### Install HarperDB
 * [Overview](docs/install-harperdb/index.md)
