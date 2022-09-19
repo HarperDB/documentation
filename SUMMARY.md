@@ -1,7 +1,7 @@
 # Summary
 
 ### Getting Started
-* [Developer Documentation](docs/getting-started/developer-documentation.md)
+* [Getting Started](docs/getting-started/index.md)
 
 ### Install HarperDB
 * [Overview](docs/install-harperdb/index.md)
