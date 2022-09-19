@@ -8,5 +8,5 @@
 * [On Linux](docs/install-harperdb/linux.md)
 * [With Docker](docs/install-harperdb/docker.md)
 
-### Install HarperDB
+### Full API Documentation
 * [View Our POSTMAN Collection](https://api.harperdb.io)
