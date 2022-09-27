@@ -13,32 +13,40 @@ HarperDB allows for managing [cross-origin HTTP requests](https://developer.mozi
 2) In harperdb.config there should be 2 entries under `operationsApi.network`: cors and corsWhitelist. 
    * `cors`
    
-     1) To turn off change to: `cors: false`
+     1) To turn off, change to: `cors: false`
      
-     2) To turn on change to: `cors: true`
-     CORS_WHITELIST
-     The CORS_WHITELIST will only be recognized by the system when CORS_ON=true
-     To create a whitelist you set CORS_WHITELIST to a comma-separated list of domains.
-     i.e. CORS_WHITELIST=http://harperdb.io,http://products.harperdb.io
-     To clear out the whitelist and allow all domains: CORS_WHITELIST=
-     SSL
-     HarperDB provides the option to use an HTTP or HTTPS interface. The default port for the server is 9925.
+     2) To turn on, change to: `cors: true`
+     
+   * `corsWhitelist`
+     
+      1) The `corsWhitelist` will only be recognized by the system when `cors` is `true`
+     
+      2) To create a whitelist you set `corsWhitelist` to a comma-separated list of domains.
+     
+         i.e. `corsWhitelist` is `http://harperdb.io,http://products.harperdb.io`
+     
+      3) To clear out the whitelist and allow all domains: `corsWhitelist` is `[null]`
+     
+     
+## SSL
+
+HarperDB provides the option to use an HTTP or HTTPS interface. The default port for the server is 9925.
 
 
 
-These default ports can be changed by updating the SERVER_PORT value in HDB_ROOT/config/settings.js.
+These default ports can be changed by updating the `operationsApi.network.port` value in `HDB_ROOT/harperdb.config`
 
 
 
-By default HTTPS is turned off and HTTP is turned on.
+By default, HTTPS is turned off and HTTP is turned on.
 
 
 
-You can toggle HTTPS and HTTP in the settings file. By setting HTTPS_ON to true/false. When HTTPS_ON is set to false, the server will use HTTP.
+You can toggle HTTPS and HTTP in the settings file. By setting `operationsApi.network.https` to true/false. When `https` is set to `false`, the server will use HTTP.
 
 
 
-HarperDB automatically generates a certificate and a privateKey file which live at HARPERDB_ROOT/keys/.
+HarperDB automatically generates a certificate and a privateKey file which live at `HDB_ROOT/keys/`.
 
 
 
@@ -46,4 +54,4 @@ You can replace these with your own certificate and key.
 
 
 
-If any of these settings are changed please make sure to run harperdb stop && harperdb run as they will not take effect until a restart.
+**If any of these settings are changed please make sure to run `harperdb stop && harperdb run` as they will not take effect until a restart.**
