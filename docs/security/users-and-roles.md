@@ -163,106 +163,113 @@ The table below includes all API operations available in HarperDB and indicates 
 
 *Keep in mind that non-super_user roles will also be restricted within the operations they do have access to by the schema-level CRUD permissions set for the roles.*
 
-| Schemas and Tables | Restricted to Super_Users |
-|--------------------|---------------------------|
-| describe_all       |                           |
-| describe_schema    |                           |
-| describe_table     |                           |
-| create_schema      | X                         |
-| drop_schema        | X                         |
-| create_table       | X                         |
-| drop_table         | X                         |
-| create_attribute   |                           |
-| drop_attribute     | X                         |
+| Schemas and Tables |  Restricted to Super_Users  |
+|--------------------|:---------------------------:|
+| describe_all       |                             |
+| describe_schema    |                             |
+| describe_table     |                             |
+| create_schema      |              X              |
+| drop_schema        |              X              |
+| create_table       |              X              |
+| drop_table         |              X              |
+| create_attribute   |                             |
+| drop_attribute     |              X              |
 
 
-| NoSQL Operations     | Restricted to Super_Users |
-|----------------------|---------------------------|
-| insert               |                           |
-| update               |                           |
-| upsert               |                           |
-| delete               |                           |
-| search_by_hash       |                           |
-| search_by_value      |                           |
-| search_by_conditions |                           |
+| NoSQL Operations     |  Restricted to Super_Users  |
+|----------------------|:---------------------------:|
+| insert               |                             |
+| update               |                             |
+| upsert               |                             |
+| delete               |                             |
+| search_by_hash       |                             |
+| search_by_value      |                             |
+| search_by_conditions |                             |
 
-| SQL Operations	 | Restricted to Super_Users |
-|-----------------|---------------------------|
-| select          |                           |
-| insert          |                           |
-| update          |                           |
-| delete          |                           |
+| SQL Operations	 |  Restricted to Super_Users  |
+|-----------------|:---------------------------:|
+| select          |                             |
+| insert          |                             |
+| update          |                             |
+| delete          |                             |
 
-| Bulk Operations	 | Restricted to Super_Users |
-|------------------|---------------------------|
-| csv_data_load    |                           |
-| csv_file_load    |                           |
-| csv_url_load     |                           |
-| import_from_s3   |                           |
+| Bulk Operations	 |  Restricted to Super_Users  |
+|------------------|:---------------------------:|
+| csv_data_load    |                             |
+| csv_file_load    |                             |
+| csv_url_load     |                             |
+| import_from_s3   |                             |
 
-| Users and Roles | Restricted to Super_Users |
-|-----------------|---------------------------|
-| list_roles      | X                         |
-| add_role        | X                         |
-| alter_role      | X                         |
-| drop_role       | X                         |
-| list_users      | X                         |
-| user_info       |                           |
-| add_user        | X                         |
-| alter_user      | X                         |
-| drop_user       | X                         |
+| Users and Roles |  Restricted to Super_Users  |
+|-----------------|:---------------------------:|
+| list_roles      |              X              |
+| add_role        |              X              |
+| alter_role      |              X              |
+| drop_role       |              X              |
+| list_users      |              X              |
+| user_info       |                             |
+| add_user        |              X              |
+| alter_user      |              X              |
+| drop_user       |              X              |
 
-| Clustering     | Restricted to Super_Users |
-|----------------|---------------------------|
-| add_node       | X                         |
-| update_node    | X                         |
-| remove_node    | X                         |
-| cluster_status | X                         |
+| Clustering            |  Restricted to Super_Users  |
+|-----------------------|:---------------------------:|
+| cluster_set_routes    |              X              |
+| cluster_get_routes    |              X              |
+| cluster_delete_routes |              X              |
+| add_node              |              X              |
+| update_node           |              X              |
+| cluster_status        |              X              |
+| remove_node           |              X              |
+| configure_cluster     |              X              |
 
-| Custom Functions                 | Restricted to Super_Users |
-|----------------------------------|---------------------------|
-| custom_functions_status          | X                         |
-| get_custom_functions             | X                         |
-| get_custom_function              | X                         |
-| set_custom_function              | X                         |
-| drop_custom_function             | X                         |
-| add_custom_function_project      | X                         |
-| drop_custom_function_project     | X                         |
-| package_custom_function_project	 | X                         |
-| deploy_custom_function_project	  | X                         |
 
-| Registration      | Restricted to Super_Users |
-|-------------------|---------------------------|
-| registration_info |                           |
-| get_fingerprint   | X                         |
-| set_license       | X                         |
+| Custom Functions                 |  Restricted to Super_Users  |
+|----------------------------------|:---------------------------:|
+| custom_functions_status          |              X              |
+| get_custom_functions             |              X              |
+| get_custom_function              |              X              |
+| set_custom_function              |              X              |
+| drop_custom_function             |              X              |
+| add_custom_function_project      |              X              |
+| drop_custom_function_project     |              X              |
+| package_custom_function_project	 |              X              |
+| deploy_custom_function_project	  |              X              |
 
-| Jobs                       | Restricted to Super_Users |
-|----------------------------|---------------------------|
-| get_job                    |                           |
-| search_jobs_by_start_date	 | X                         |
+| Registration      |  Restricted to Super_Users  |
+|-------------------|:---------------------------:|
+| registration_info |                             |
+| get_fingerprint   |              X              |
+| set_license       |              X              |
 
-| Logs                           | Restricted to Super_Users |
-|--------------------------------|---------------------------|
-| read_log	                      | X                         |
-| read_transaction_log           | X                         |
-| delete_transaction_logs_before | X                         |
+| Jobs                       |  Restricted to Super_Users  |
+|----------------------------|:---------------------------:|
+| get_job                    |                             |
+| search_jobs_by_start_date	 |              X              |
 
-| Utilities             | Restricted to Super_Users |
-|-----------------------|---------------------------|
-| delete_records_before | X                         |
-| export_local          |                           |
-| export_to_s3          |                           |
-| system_information    | X                         |
-| restart               | X                         |
-| restart_service       | X                         |
-| get_configuration     | X                         |
-| configure_cluster     | X                         |
+| Logs                           |  Restricted to Super_Users  |
+|--------------------------------|:---------------------------:|
+| read_log	                      |              X              |
+| read_transaction_log           |              X              |
+| delete_transaction_logs_before |              X              |
+| read_audit_log                 |              X              |
+| delete_audit_logs_before       |              X              |
 
-| Token Authentication	        | Restricted to Super_Users |
-|------------------------------|---------------------------|
-| create_authentication_tokens |                           |
-| refresh_operation_token      |                           |
+| Utilities             |  Restricted to Super_Users  |
+|-----------------------|:---------------------------:|
+| delete_records_before |              X              |
+| export_local          |                             |
+| export_to_s3          |                             |
+| system_information    |              X              |
+| restart               |              X              |
+| restart_service       |              X              |
+| get_configuration     |              X              |
+| configure_cluster     |              X              |
+
+| Token Authentication	        |  Restricted to Super_Users  |
+|------------------------------|:---------------------------:|
+| create_authentication_tokens |                             |
+| refresh_operation_token      |                             |
 
 ## Error: Must execute as User
 
