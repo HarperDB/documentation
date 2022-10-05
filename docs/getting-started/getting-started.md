@@ -1,6 +1,6 @@
-{% set node_version = "16.17.1" %}
+{% set nodeVersion = "16.17.1" %}
 
-{{node_version}} {{ node_version }} 
+{{nodeVersion}} {{ nodeVersion }} 
 
 # Getting Started
 
