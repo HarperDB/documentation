@@ -1,4 +1,5 @@
 {
+  "root": "../docs",
   "variables": {
     "nodeVersion": "16.17.1"
   }

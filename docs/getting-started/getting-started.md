@@ -1,5 +1,6 @@
-{{nodeVersion}} {{ nodeVersion }}
-book.[node_version]
+{% set node_version = "16.17.1" %}
+
+{{node_version}} {{ node_version }} 
 
 # Getting Started
 
