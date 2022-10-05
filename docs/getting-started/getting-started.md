@@ -1,4 +1,4 @@
-{{node_version}} {{ node_version }}
+{{nodeVersion}} {{ nodeVersion }}
 book.[node_version]
 
 # Getting Started
