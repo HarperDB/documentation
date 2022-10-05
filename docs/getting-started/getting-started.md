@@ -1,3 +1,5 @@
+{{node_version}} {{ node_version }}
+
 # Getting Started
 
 HarperDB was built by developers for developers, which means getting started should be simple.
