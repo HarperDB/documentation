@@ -1,9 +1,10 @@
-{% set nodeVersion = "16.17.1" %}
+[//]: # ({% set nodeVersion = "16.17.1" %})
 
 {{nodeVersion}} {{ nodeVersion }} 
 
-gitbook.time
-gitbook.version
+[//]: # (gitbook.time)
+
+[//]: # (gitbook.version)
 
 # Getting Started
 

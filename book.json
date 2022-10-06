@@ -1,6 +1,0 @@
-{
-  "root": "docs",
-  "variables": {
-    "node_version": "16.17.1"
-  }
-}
