@@ -1,11 +1,3 @@
-[//]: # ({% set nodeVersion = "16.17.1" %})
-
-{{nodeVersion}} {{ nodeVersion }} 
-
-[//]: # (gitbook.time)
-
-[//]: # (gitbook.version)
-
 # Getting Started
 
 HarperDB was built by developers for developers, which means getting started should be simple.
