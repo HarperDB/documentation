@@ -1,27 +1,27 @@
 # Authentication
 
-HarperDB utilizes Basic Auth to secure our REST requests.  In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a user name and password when making a request.
+HarperDB utilizes Basic Auth to secure our HTTP requests.  In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a user name and password when making a request.
 
 
 
-** ***You do not need to log in separately. Basic Auth is added to each REST request like create_schema, create_table, insert etc… via headers.*** **
+** ***You do not need to log in separately. Basic Auth is added to each HTTP request like create_schema, create_table, insert etc… via headers.*** **
 
 
 
-A header is added to each REST request.  The header key is **“Authorization”** the header value is **“Basic <<your username and password buffer token>>”**
+A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <<your username and password buffer token>>”**
 
 
 
 
 
-## Using HarperDB Studio
+## Authentication in HarperDB Studio
 
-Below is a code sample from HarperDB Studio.  On Line 14 you will see where we are adding the authorization header to each request.  Again this needs to be added for each and every REST request for HarperDB.
+Below is a code sample from HarperDB Studio.  On Line 14 you will see where we are adding the authorization header to each request. This needs to be added for each and every HTTP request for HarperDB.
 
-```bash
-function callHarperDB(call_object,operation,  callback){
+```javascript
+function callHarperDB(call_object, operation, callback){
 
-    var options = {
+    const options = {
         "method": "POST",
         "hostname": call_object.endpoint_url,
         "port": call_object.endpoint_port,
@@ -34,15 +34,15 @@ function callHarperDB(call_object,operation,  callback){
         }
     };
 
-    var http_req = http.request(options, function (hdb_res) {
-        var chunks = [];
+    const http_req = http.request(options, function (hdb_res) {
+        let chunks = [];
 
         hdb_res.on("data", function (chunk) {
             chunks.push(chunk);
         });
 
         hdb_res.on("end", function () {
-            var body = Buffer.concat(chunks);
+            const body = Buffer.concat(chunks);
             if (isJson(body)) {
                return callback(null, JSON.parse(body));
             } else {

@@ -1,9 +1,5 @@
 # Users & Roles
 
-*Role Permissions documentation below for HarperDB version 2.2.0 and above.*
-
-
-
 HarperDB utilizes a Role-Based Access Control (RBAC) framework to manage access to HarperDB instances.  A user is assigned a role that determines the user’s permissions to access database resources and run core operations.
 
 ## Roles in HarperDB
@@ -12,7 +8,7 @@ Role permissions in HarperDB are broken into two categories – permissions arou
 
 
 
-**Database Manipulation**:  A role defines CRUD permissions against database resources (i.e. data) in a HarperDB instance.
+**Database Manipulation**:  A role defines CRUD (create, read, update, delete) permissions against database resources (i.e. data) in a HarperDB instance.
 
 1) At the table-level access, permissions must be explicitly defined when adding or altering a role – *i.e. HarperDB will assume CRUD access to be FALSE if not explicitly provided in the permissions JSON passed to the `add_role` and/or `alter_role` API operations.*
 
@@ -48,14 +44,14 @@ When creating a new, user-defined role in a HarperDB instance, you must provide 
 
 * `role` name used to easily identify the role assigned to individual users.
 
-    *Important: starting with 3.0, roles are assigned to users and altered/dropped based on the role name used in and returned from a successful `add_role` , `alter_role`, or `list_roles` operation.*
+    *Roles can be altered/dropped based on the role name used in and returned from a successful `add_role` , `alter_role`, or `list_roles` operation.*
 
 * `permissions` used to explicitly defined CRUD access to existing table data.
 
 
 Example JSON for `add_role` request
 
-```bash
+```json
 {
   "operation":"add_role",
   "role":"software_developer",
@@ -107,9 +103,9 @@ There are two parts to a permissions set:
 
 Each table that a role should be given some level of CRUD permissions to must be included in the `tables` array for its schema in the roles permissions JSON passed to the API (*see example above*).
 
-```bash
+```json
 {
-  table_name: { // the name of the table to define CRUD perms for
+  "table_name": { // the name of the table to define CRUD perms for
     "read": boolean, // access to read from this table
     "insert": boolean, // access to insert data to table
     "update": boolean, // access to update data in table

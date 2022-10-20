@@ -6,26 +6,26 @@ HarperDB was set up to require very minimal configuration to work out of the box
 
 ## CORS
 
-HarperDB allows for managing [cross-origin HTTP requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). By default, HarperDB enables CORS for all domains if you need to disable CORS completely or set up whitelisted domains you can do the following:
+HarperDB allows for managing [cross-origin HTTP requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). By default, HarperDB enables CORS for all domains if you need to disable CORS completely or set up an access list of domains you can do the following:
 
-1) Open the HarperDB harperdb.config file this can be found in /HDB_ROOT, the location you specified during install.
+1) Open the harperdb-config.yaml file this can be found in /<ROOTPATH>, the location you specified during install.
 
-2) In harperdb.config there should be 2 entries under `operationsApi.network`: cors and corsWhitelist. 
+2) In harperdb-config.yaml there should be 2 entries under `operationsApi.network`: cors and corsAccessList. 
    * `cors`
    
      1) To turn off, change to: `cors: false`
      
      2) To turn on, change to: `cors: true`
      
-   * `corsWhitelist`
+   * `corsAccessList`
      
-      1) The `corsWhitelist` will only be recognized by the system when `cors` is `true`
+      1) The `corsAccessList` will only be recognized by the system when `cors` is `true`
      
-      2) To create a whitelist you set `corsWhitelist` to a comma-separated list of domains.
+      2) To create an access list you set `corsAccessList` to a comma-separated list of domains.
      
-         i.e. `corsWhitelist` is `http://harperdb.io,http://products.harperdb.io`
+         i.e. `corsAccessList` is `http://harperdb.io,http://products.harperdb.io`
      
-      3) To clear out the whitelist and allow all domains: `corsWhitelist` is `[null]`
+      3) To clear out the access list and allow all domains: `corsAccessList` is `[null]`
      
      
 ## SSL
@@ -34,11 +34,11 @@ HarperDB provides the option to use an HTTP or HTTPS interface. The default port
 
 
 
-These default ports can be changed by updating the `operationsApi.network.port` value in `HDB_ROOT/harperdb.config`
+These default ports can be changed by updating the `operationsApi.network.port` value in `<ROOTPATH>/harperdb-config.yaml`
 
 
 
-By default, HTTPS is turned off and HTTP is turned on.
+By default, HTTPS is turned off and HTTP is turned on. It is recommended that you never directly expose HarperDB's HTTP interface through a publicly available port. HTTP is intended for local or private network use.
 
 
 
@@ -46,7 +46,7 @@ You can toggle HTTPS and HTTP in the settings file. By setting `operationsApi.ne
 
 
 
-HarperDB automatically generates a certificate and a privateKey file which live at `HDB_ROOT/keys/`.
+HarperDB automatically generates a certificate and a privateKey file which live at `<ROOTPATH>/keys/`.
 
 
 
@@ -54,4 +54,4 @@ You can replace these with your own certificate and key.
 
 
 
-**If any of these settings are changed please make sure to run `harperdb stop && harperdb run` as they will not take effect until a restart.**
+**If any of these settings are changed please make sure to run `harperdb restart` as they will not take effect until a restart.**
