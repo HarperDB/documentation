@@ -1,12 +1,12 @@
 # Define Helpers
 
-Helpers are functions for use within your routes. You may want to use the same helper in multiple route files, so this allows you to write it once, and include it at wherever you need it.
+Helpers are functions for use within your routes. You may want to use the same helper in multiple route files, so this allows you to write it once, and include it wherever you need it.
 
 
 
-* To use your helpers, they must be exported from your helper file using `module.exports`.
+* To use your helpers, they must be exported from your helper file. Please use any standard export mechanisms available for your module system. We like ESM, ECMAScript Modules. Our example below exports using `module.exports`.
 
-* To include the helper in your route file, you must use a `require` statement.
+* To include the helper in your route file, you must import. With ESM, you'd use a `require` statement.
 
 
 Below is code from the customValidation helper that is referenced in [Define Routes](https://harperdb.io/developers/documentation/custom-functions/define-routes/). It takes the request and the logger method from the route declaration, and makes a call to an external API to validate the headers. The API in this example is just returning a list of ToDos, but it could easily be replaced with a call to a real authentication service.

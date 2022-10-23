@@ -8,10 +8,10 @@ In order to serve your static UI correctly, your UI project must meet the follow
 
 * Correctly path any other files relative to index.html
 
-* If your app makes use of client-side routing, it must have **[project_name]/static** as its base (`basename` for react-router, `base` for vue-router, etc.):
+* If your app makes use of client-side routing, it must have **[project_name]** as its base (`basename` for react-router, `base` for vue-router, etc.):
 
 ```javascript
-<Router basename="/dogs/static">
+<Router basename="/dogs">
     <Switch>
         <Route path="/care" component={CarePage} />
         <Route path="/feeding" component={FeedingPage} />

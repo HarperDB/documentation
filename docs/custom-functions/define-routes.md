@@ -98,11 +98,11 @@ hdbCore contains three functions that allow you to authenticate an inbound reque
 
 * **preValidation**
 
-   This takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operation API. It will determine if the user exists, and if they are allowed to perform this operation. **The request method defined below must be the handler when you use this preValidation hook**.
+   This takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API. It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
 
 * **request**
 
-   Executes a request against HarperDB. It bypasses the Operations API, and uses the request.body, which should contain a standard HarperDB operation.
+   Executes a request against HarperDB. It calls the operations API, with authorization.
 
 * **requestWithoutAuthentication**
 
@@ -115,7 +115,7 @@ hdbCore contains three functions that allow you to authenticate an inbound reque
 
 **logger**
 
-This helper allows you to write directly to the HarperDB log. It’s useful for debugging during development. There are 5 functions contained within logger, each of which pertains to a different **LOG_LEVEL** configuration in your harperdb-config.yaml file.
+This helper allows you to write directly to the Custom Functions log file, custom_functions.log. It’s useful for debugging during development, although you may also use the console logger. There are 5 functions contained within logger, each of which pertains to a different **logging.level** configuration in your harperdb-config.yaml file.
 
 
 * logger.trace(‘Starting the handler for /dogs’)
