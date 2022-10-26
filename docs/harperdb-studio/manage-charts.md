@@ -14,7 +14,7 @@ Charts are generated based on SQL queries, therefore to build a new chart you fi
 1) Click **query** in the instance control bar. 
 2) Enter the SQL query you would like to generate a chart from.
 
-    *For example, using the dog demo data from the API Docs, we can get get the average dog age per owner with the following query: `SELECT AVG(age) as avg_age, owner_name FROM dev.dog GROUP BY owner_name`.*
+    *For example, using the dog demo data from the API Docs, we can get the average dog age per owner with the following query: `SELECT AVG(age) as avg_age, owner_name FROM dev.dog GROUP BY owner_name`.*
 
 3) Click **Execute**.
 
@@ -54,7 +54,7 @@ The example query above, configured as a bar chart, results in the following cha
 HarperDB Studio charts can be downloaded in SVG, PNG, and CSV format. Instructions as follows (starting on the charts page described above):
 
 1) Identify the chart you would like to export. 
-2) Click the three bars icon ().
+2) Click the three bars icon.
 
 3) Select the appropriate download option.
 
@@ -66,7 +66,7 @@ Delete a chart as follows (starting on the charts page described above):
 
 1) Identify the chart you would like to delete.
 
-2) Click the X icon (Charts X Icon).
+2) Click the X icon.
 
 3) Click the **confirm delete chart** button.
 

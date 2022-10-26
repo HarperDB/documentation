@@ -11,7 +11,7 @@ An organization is automatically created for you when you sign up for HarperDB S
 
 ---
 
-## List Organzations
+## List Organizations
 A summary view of all organizations your user belongs to can be viewed on the [HarperDB Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page. You can navigate to this page at any time by clicking the **all organizations** link at the top of the HarperDB Studio.
 
 ## Create a New Organization
@@ -30,7 +30,7 @@ A new organization can be created as follows:
 An organization cannot be deleted until all instances have been removed. An organization can be deleted as follows:
 
 1) Navigate to the HarperDB Studio Organizations page. 
-2) Identify the proper organization card and click the trash can icon (HarperDB Studio Delete Icon). 
+2) Identify the proper organization card and click the trash can icon. 
 3) Enter the organization name into the text box. 
 
     *This is done for confirmation purposes to ensure you do not accidentally delete an organization.*

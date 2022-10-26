@@ -16,6 +16,7 @@ All clustering configuration is handled through the **cluster** page of the Harp
 
 Note, the **cluster** page will only be available to super users.
 
+---
 ## Initial Configuration
 
 HarperDB instances do not have clustering configured by default. The HarperDB Studio will walk you through the initial configuration. Upon entering the **cluster** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen.
@@ -31,6 +32,8 @@ HarperDB instances do not have clustering configured by default. The HarperDB St
 3) Click **Enable Instance Clustering**.
    
 At this point the Studio will restart your HarperDB Instance, required for the configuration changes to take effect.
+
+---
 
 ## Manage Clustering
 Once initial clustering configuration is completed you a presented with a clustering management screen with the following properties:
@@ -50,6 +53,7 @@ Once initial clustering configuration is completed you a presented with a cluste
 * **manage clustering**
 
     Once instances are connected, this will display clustering management options for all connected instances and all schemas and tables.
+---
 
 ## Connect an Instance
 
@@ -59,9 +63,11 @@ HarperDB Instances can be clustered together with the following instructions.
 
 2) Identify the instance you would like to connect from the **unconnected instances** panel.
 
-3) Click the plus icon (Studio Plus Button) next the appropriate instance.
+3) Click the plus icon next the appropriate instance.
 
-4) If configurations are correct, all schemas will sync across the cluster, then appear in the **manage clustering** panel. If there is a configuration issue, a red exclamation icon (Studio Red Exclamation Icon) will appear, click it to learn more about what could be causing the issue.
+4) If configurations are correct, all schemas will sync across the cluster, then appear in the **manage clustering** panel. If there is a configuration issue, a red exclamation icon will appear, click it to learn more about what could be causing the issue.
+
+---
 
 ## Disconnect an Instance
 
@@ -69,7 +75,9 @@ HarperDB Instances can be disconnected with the following instructions.
 
 1) Identify the instance you would like to disconnect from the **connected instances** panel.
 
-2) Click the minus icon (Studio Minus Icon) next the appropriate instance.
+2) Click the minus icon next the appropriate instance.
+
+---
 
 ## Manage Replication
 
@@ -77,6 +85,6 @@ Subscriptions must be configured in order to move data between connected instanc
 
 1) Identify the instance, schema, and table for replication to be configured.
 
-2) For publish, click the toggle switch (Studio Toggle Switch) in the **publish** column.
+2) For publish, click the toggle switch in the **publish** column.
 
-3) For subscribe, click the toggle switch (Studio Toggle Switch) in the **subscribe** column.
+3) For subscribe, click the toggle switch in the **subscribe** column.

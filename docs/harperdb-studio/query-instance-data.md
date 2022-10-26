@@ -23,11 +23,11 @@ The first page of results set data is automatically loaded on query execution. P
 
 #### Refresh Results Set
 
-Click the refresh icon (Refresh Icon) at the top right of the results set table.
+Click the refresh icon at the top right of the results set table.
 
 #### Automatically Refresh Results Set
 
-Toggle the auto switch (Auto Toggle Switch) at the top right of the results set table. The results set will now automatically refresh every 15 seconds. Filters and pages will remain set for refreshed data.
+Toggle the auto switch at the top right of the results set table. The results set will now automatically refresh every 15 seconds. Filters and pages will remain set for refreshed data.
 
 ## Query History
 
@@ -42,7 +42,7 @@ Query history is stored in your local browser cache. Executed queries are listed
 
 #### Clear Query History
 
-Click the trash can icon () at the top right of the **query history** section.
+Click the trash can icon at the top right of the **query history** section.
 
 ## Create Charts
 

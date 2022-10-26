@@ -13,7 +13,7 @@ Once on the instance browse page you can view data, manage schemas and tables, a
 
 #### Create a Schema
 
-1) Click the plus icon (Browse Add Button) at the top right of the schemas section. 
+1) Click the plus icon at the top right of the schemas section. 
 2) Enter the schema name. 
 3) Click the green check mark.
 
@@ -22,7 +22,7 @@ Once on the instance browse page you can view data, manage schemas and tables, a
 
 Deleting a schema is permanent and irreversible. Deleting a schema removes all tables and data within it.
 
-1) Click the minus icon (Browse Remove Button) at the top right of the schemas section. 
+1) Click the minus icon at the top right of the schemas section. 
 2) Identify the appropriate schema to delete and click the red minus sign in the same row. 
 3) Click the red check mark to confirm deletion.
 
@@ -30,7 +30,7 @@ Deleting a schema is permanent and irreversible. Deleting a schema removes all t
 #### Create a Table
 
 1) Select the desired schema from the schemas section. 
-2) Click the plus icon (Browse Add Button) at the top right of the tables section. 
+2) Click the plus icon at the top right of the tables section. 
 3) Enter the table name. 
 4) Enter the hash attribute.
    
@@ -42,7 +42,7 @@ Deleting a schema is permanent and irreversible. Deleting a schema removes all t
 Deleting a table is permanent and irreversible. Deleting a table removes all data within it.
 
 1) Select the desired schema from the schemas section. 
-2) Click the minus icon (Browse Remove Button) at the top right of the tables section. 
+2) Click the minus icon at the top right of the tables section. 
 3) Identify the appropriate table to delete and click the red minus sign in the same row. 
 4) Click the red check mark to confirm deletion.
 
@@ -54,14 +54,14 @@ The following section assumes you have selected the appropriate table from the s
 
 #### Filter Table Data
 
-1) Click the magnifying glass icon (Browse Magnifier Icon) at the top right of the table browser. 
+1) Click the magnifying glass icon at the top right of the table browser. 
 2) This expands the search filters. 
 3) The results will be filtered appropriately.
 
 
 #### Load CSV Data
 
-1) Click the data icon (Studio Data Icon) at the top right of the table browser. You will be directed to the CSV upload page where you can choose to import a CSV by URL or upload a CSV file. 
+1) Click the data icon at the top right of the table browser. You will be directed to the CSV upload page where you can choose to import a CSV by URL or upload a CSV file. 
 2) To import a CSV by URL:
    1) Enter the URL in the **CSV file URL** textbox. 
    2) Click **Import From URL**. 
@@ -75,7 +75,7 @@ The following section assumes you have selected the appropriate table from the s
 
 #### Add a Record
 
-1) Click the plus icon (Browse Add Button) at the top right of the table browser. 
+1) Click the plus icon at the top right of the table browser. 
 2) The Studio will pre-populate existing table attributes in JSON format.
 
     *The hash_attribute is not included, but you can add it in and set it to your desired value. Auto-maintained fields are not included and cannot be manually set. You may enter a JSON array to insert multiple records in a single transaction.*
@@ -92,7 +92,7 @@ The following section assumes you have selected the appropriate table from the s
 
     *You may add new attributes to the JSON and they will be reflexively added to the table.*
 
-3) Click the **save icon** (Studio Record Save Icon).
+3) Click the **save icon**.
 
 
 #### Delete a Record
@@ -100,8 +100,8 @@ The following section assumes you have selected the appropriate table from the s
 Deleting a record is permanent and irreversible. If transaction logging is turned on, the delete transaction will be recorded as well as the data that was deleted.
 
 1) Click the record/row you would like to delete. 
-2) Click the **delete icon** (Studio Record Delete Icon). 
-3) Confirm deletion by clicking the **check icon** (Studio Record Delete Confirmation).
+2) Click the **delete icon**. 
+3) Confirm deletion by clicking the **check icon**.
 
 ## Browse Table Data
 
@@ -118,11 +118,11 @@ The first page of table data is automatically loaded on table selection. Paging 
 
 #### Refresh Table Data
 
-Click the refresh icon (Refresh Icon) at the top right of the table browser.
+Click the refresh icon at the top right of the table browser.
 
 
 
 #### Automatically Refresh Table Data
 
-Toggle the auto switch (Auto Toggle Switch) at the top right of the table brower. The table data will now automatically refresh every 15 seconds. Filters and pages will remain set for refreshed data.
+Toggle the auto switch at the top right of the table browser. The table data will now automatically refresh every 15 seconds. Filters and pages will remain set for refreshed data.
 
