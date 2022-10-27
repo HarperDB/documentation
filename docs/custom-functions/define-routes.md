@@ -102,15 +102,13 @@ hdbCore contains three functions that allow you to authenticate an inbound reque
 
 * **request**
 
-   Executes a request against HarperDB. It calls the operations API, with authorization.
+  This will execute a request with HarperDB using the operations API. The `request.body` should contain a standard HarperDB operation and must also include the `hdb_user` property that was in `request.body` provided in the callback.
 
 * **requestWithoutAuthentication**
 
    Executes a request against HarperDB without any security checks around whether the inbound user is allowed to make this request. For security purposes, you should always take the following precautions when using this method:
 
-  * **never pass through a user-submitted operation.** Always define your operation in your handler. A user could send an operation like drop_schema, and hdbCore.requestWithoutAuthentication will let them do it.
-  
-  * **never use user-submitted values in your operations, including url params.** Always validate user input to ensure nothing malformed or malicious becomes part of the operation you send to hdbCore.requestWithoutAuthentication.
+  * Properly handle user-submitted values, including url params. User-submitted values should only be used for `search_value` and for defining values in records. Special care should be taken to properly escape any values if user-submitted values are used for SQL.
 
 
 **logger**
