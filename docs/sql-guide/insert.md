@@ -1,6 +1,6 @@
 # Insert
 
-HarperDB supports inserting 1 to n records into a table.  The only constraint is the hash_attribute must be defined and supplied a unique value per row. HarperDB does not support selecting from one table to insert into another at this time.
+HarperDB supports inserting 1 to n records into a table.  The primary key must be unique (not used by any other record). If no primary key is provided, it will be assigned an auto-generated UUID. HarperDB does not support selecting from one table to insert into another at this time.
 
 
 
