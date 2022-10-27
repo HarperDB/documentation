@@ -32,9 +32,9 @@ Deleting a schema is permanent and irreversible. Deleting a schema removes all t
 1) Select the desired schema from the schemas section. 
 2) Click the plus icon at the top right of the tables section. 
 3) Enter the table name. 
-4) Enter the hash attribute.
+4) Enter the primary key.
    
-   *The hash attribute defines the unique identifier for each row in your table. In a traditional RDBMS this would be called a primary key.*
+   *Primary key, formerly referred to as hash attribute, defines the unique identifier for each row in your table.*
 5) Click the green check mark.
 
 
@@ -78,10 +78,10 @@ The following section assumes you have selected the appropriate table from the s
 1) Click the plus icon at the top right of the table browser. 
 2) The Studio will pre-populate existing table attributes in JSON format.
 
-    *The hash_attribute is not included, but you can add it in and set it to your desired value. Auto-maintained fields are not included and cannot be manually set. You may enter a JSON array to insert multiple records in a single transaction.*
+    *The primary key is not included, but you can add it in and set it to your desired value. Auto-maintained fields are not included and cannot be manually set. You may enter a JSON array to insert multiple records in a single transaction.*
 3) Enter values to be added to the record.
 
-    *You may add new attributes to the JSON and they will be reflexively added to the table.*
+    *You may add new attributes to the JSON; they will be reflexively added to the table.*
 4) Click the **Add New** button.
 
 
@@ -90,7 +90,7 @@ The following section assumes you have selected the appropriate table from the s
 1) Click the record/row you would like to edit. 
 2) Modify the desired values.
 
-    *You may add new attributes to the JSON and they will be reflexively added to the table.*
+    *You may add new attributes to the JSON; they will be reflexively added to the table.*
 
 3) Click the **save icon**.
 
