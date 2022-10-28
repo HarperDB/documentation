@@ -34,7 +34,7 @@ Deleting a schema is permanent and irreversible. Deleting a schema removes all t
 3) Enter the table name. 
 4) Enter the primary key.
    
-   *Primary key, formerly referred to as hash attribute, defines the unique identifier for each row in your table.*
+   *The primary key is also often referred to as the hash attribute in the studio, and it defines the unique identifier for each row in your table.*
 5) Click the green check mark.
 
 
