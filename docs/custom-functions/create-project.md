@@ -18,6 +18,8 @@ To manually create a project, you have three options:
 
 
 2. **clone our public gitHub project template**
+
+   _This requires a local installation. Remove the .git directory for a clean slate of git history._
    
 
 ```bash
@@ -26,6 +28,9 @@ To manually create a project, you have three options:
 
 
 3. **create a project folder in your Custom Functions root directory**
+
+   _This requires a local installation._
+
 
 ```bash
 > mkdir ~/hdb/custom_functions/dogs
