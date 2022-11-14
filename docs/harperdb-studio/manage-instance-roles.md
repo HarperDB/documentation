@@ -39,7 +39,7 @@ The *roles management* screen consists of the following panels:
 
 #### Create a Role
 
-1) Click the plus icon (Browse Add Button) at the top right of the appropriate role section.
+1) Click the plus icon at the top right of the appropriate role section.
 
 2) Enter the role name.
 
@@ -65,7 +65,7 @@ The *roles management* screen consists of the following panels:
 
 Deleting a role is permanent and irreversible. A role cannot be remove if users are associated with it.
 
-1) Click the minus icon (Browse Remove Button) at the top right of the schemas section.
+1) Click the minus icon at the top right of the schemas section.
 
 2) Identify the appropriate role to delete and click the red minus sign in the same row.
 

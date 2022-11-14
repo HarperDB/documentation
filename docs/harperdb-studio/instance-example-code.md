@@ -16,7 +16,7 @@ Example code prepopulated with the instance URL and authorization token for the 
 
 7) Select your desired language/variant from the **Choose Programming Language** dropdown.
 
-8) Copy code from the sample code panel using the copy icon (Studio Copy Sample Code Icon).
+8) Copy code from the sample code panel using the copy icon.
 
 ## Supported Languages
 

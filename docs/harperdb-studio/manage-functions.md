@@ -52,11 +52,11 @@ Once initial Custom Functions configuration is completed you a presented with a 
 
 HarperDB Custom Functions Projects can be initialized with the following instructions.
 
-1) If this is your first project, skip this step. Click the plus icon (Studio Plus Icon) next to the **projects** heading.
+1) If this is your first project, skip this step. Click the plus icon next to the **projects** heading.
 
 2) Enter the project name in the text box located under the **projects** heading.
 
-3) Click the check mark icon (Studio Green Checkmark) next the appropriate instance.
+3) Click the check mark icon next the appropriate instance.
 
 4) The Studio will take a few moments to provision a new project based on the [Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template).
 
@@ -72,7 +72,7 @@ Custom Functions routes and helper functions can be modified directly through th
 
 3) Modify the code with your desired changes.
 
-4) Click the save icon (Studio Record Save Icon) at the bottom right of the screen.
+4) Click the save icon at the bottom right of the screen.
 
     *Note, saving modifications will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -82,11 +82,11 @@ To create an additional **route** to your Custom Functions project. From the **f
 
 1) Select the appropriate Custom Functions **project**.
 
-2) Click the plus icon (Studio Plus Icon) to the right of the **routes** header.
+2) Click the plus icon to the right of the **routes** header.
 
 3) Enter the name of the new route in the textbox that appears.
 
-4) Click the check icon (Studio Green Checkmark) to create the new route.
+4) Click the check icon to create the new route.
 
     *Note, adding a route will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -94,11 +94,11 @@ To create an additional **helper** to your Custom Functions project. From the **
 
 1) Select the appropriate Custom Functions **project**.
 
-2) Click the plus icon (Studio Plus Icon) to the right of the **helpers** header.
+2) Click the plus icon to the right of the **helpers** header.
 
 3) Enter the name of the new helper in the textbox that appears.
 
-4) Click the check icon (Studio Green Checkmark) to create the new helper.
+4) Click the check icon to create the new helper.
 
     *Note, adding a helper will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -106,11 +106,11 @@ To create an additional **helper** to your Custom Functions project. From the **
 
 To delete a Custom Functions project from the **functions** page:
 
-1) Click the minus icon (Studio Minus Icon) to the right of the **projects** header.
+1) Click the minus icon to the right of the **projects** header.
 
-2) Click the red minus icon (Studio Red Minus Icon) to the right of the Custom Functions project you would like to delete.
+2) Click the red minus icon to the right of the Custom Functions project you would like to delete.
 
-3) Confirm deletion by clicking the red check icon (Studio Red Check Mark).
+3) Confirm deletion by clicking the red check icon.
 
     *Note, deleting a project will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -118,11 +118,11 @@ To delete a Custom Functions _project route_ from the **functions** page:
 
 1) Select the appropriate Custom Functions **project**.
 
-2) Click the minus icon (Studio Minus Icon) to the right of the **routes** header.
+2) Click the minus icon to the right of the **routes** header.
 
-3) Click the red minus icon (Studio Red Minus Icon) to the right of the Custom Functions route you would like to delete.
+3) Click the red minus icon to the right of the Custom Functions route you would like to delete.
 
-4) Confirm deletion by clicking the red check icon (Studio Red Check Mark).
+4) Confirm deletion by clicking the red check icon.
 
     *Note, deleting a route will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -130,11 +130,11 @@ To delete a Custom Functions _project helper_ from the **functions** page:
 
 1) Select the appropriate Custom Functions **project**.
 
-2) Click the minus icon (Studio Minus Icon) to the right of the **helper** header.
+2) Click the minus icon to the right of the **helper** header.
 
-3) Click the red minus icon (Studio Red Minus Icon) to the right of the Custom Functions header you would like to delete.
+3) Click the red minus icon to the right of the Custom Functions header you would like to delete.
 
-4) Confirm deletion by clicking the red check icon (Studio Red Check Mark).
+4) Confirm deletion by clicking the red check icon.
 
     *Note, deleting a header will restart the Custom Functions server on your HarperDB instance and may result in up to 60 seconds of downtime for all Custom Functions.*
 
@@ -144,7 +144,7 @@ The HarperDB Studio provides the ability to deploy Custom Functions projects to 
 
 1) Select the **project** you would like to deploy.
 
-2) Click the **deploy** (Studio Deploy Button) button at the top right.
+2) Click the **deploy** button at the top right.
 
 3) A list of instances (excluding the current instance) within the organization will be displayed in tabular with the following information:
 
@@ -162,6 +162,6 @@ The HarperDB Studio provides the ability to deploy Custom Functions projects to 
    
    * **Remote**: Button used to remove the project from the instance. *Note, this will only be visible if the project has been previously deployed to the instance.*
    
-4) In the appropriate instance row, click the **deploy** (Studio Deploy Button) button.
+4) In the appropriate instance row, click the **deploy** button.
    
     *Note, deploying a project will restart the Custom Functions server on the HarperDB instance receiving the deployment and may result in up to 60 seconds of downtime for all Custom Functions.*

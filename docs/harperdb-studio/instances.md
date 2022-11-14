@@ -104,7 +104,7 @@ An instance can be deleted as follows:
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. 
 2) Click the appropriate organization that the instance belongs to. 
-3) Identify the proper instance card and click the trash can icon (HarperDB Studio Delete Icon). 
+3) Identify the proper instance card and click the trash can icon. 
 4) Enter the instance name into the text box.
 
    *This is done for confirmation purposes to ensure you do not accidentally delete an instance.*
@@ -120,14 +120,14 @@ The Studio enables users to log in and out of different database users from the 
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. 
 2) Click the appropriate organization that the instance belongs to. 
-3) Identify the proper instance card and click the lock icon (Studio Instance Lock Icon). 
+3) Identify the proper instance card and click the lock icon. 
 4) You will immediately be logged out of the instance.
 
 To log in to an instance:
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. 
 2) Click the appropriate organization that the instance belongs to. 
-3) Identify the proper instance card, it will have an unlocked icon (Studio Unlock Icon) and a status reading PLEASE LOG IN, and click the center of the card. 
+3) Identify the proper instance card, it will have an unlocked icon and a status reading PLEASE LOG IN, and click the center of the card. 
 4) Enter the database username. 
 
    *The username of a HarperDB user that is already configured in your HarperDB instance.*
