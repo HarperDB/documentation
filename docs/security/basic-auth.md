@@ -1,6 +1,6 @@
 # Authentication
 
-HarperDB utilizes Basic Auth to secure our HTTP requests.  In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a user name and password when making a request.
+HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests.  In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a user name and password when making a request.
 
 
 
@@ -28,7 +28,7 @@ function callHarperDB(call_object, operation, callback){
         "path": "/",
         "headers": {
             "content-type": "application/json",
-            "authorization": "Basic " + Buffer.from(call_object.username + ':' + call_object.password).toString('base64'),
+            "authorization": "Basic " + btoa(call_object.username + ':' + call_object.password),
             "cache-control": "no-cache"
 
         }
