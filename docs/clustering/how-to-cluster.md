@@ -7,6 +7,8 @@ To create a cluster you must have two or more nodes* (aka instances) of HarperDB
 
 Below are the steps, in order, that should be taken to set up a HarperDB cluster.
 
+---
+
 ### Creating a Cluster User
 
 Inter-node authentication takes place via HarperDB users. There is a special role type called `cluster_user` that exists by default and limits the user to only clustering functionality.
@@ -66,6 +68,8 @@ harperdb install --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsClu
 CLUSTERING_USER=cluster_account CLUSTERING_PASSWORD=letsCluster123
 ```
 
+---
+
 ### Naming a Node
 Node name is the name given to a node. It is how nodes are identified within the cluster and must be unique to the cluster.
 
@@ -107,7 +111,7 @@ harperdb --CLUSTERING_NODENAME Node1
 CLUSTERING_NODENAME=Node1
 ```
 
-
+---
 
 ### Enabling Clustering
 
@@ -155,6 +159,8 @@ An efficient way to **install HarperDB**, **create the cluster user**, **set the
 harperdb install --CLUSTERING_ENABLED true --CLUSTERING_NODENAME Node1 --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsCluster123!
 ```
 
+---
+
 ### Understanding Routes
 
 A route is a connection between two nodes. It is how the clustering network is established.
@@ -185,125 +191,132 @@ clustering:
             port: 9932
 ```
 
-![figure 1](/Users/terraroush/documentation/docs/images/clustering/figure1.png "diagram displaying a three node cluster")
+![figure 1](/Users/terraroush/documentation/images/clustering/figure1.png "diagram displaying a three node cluster")
 
 This diagram shows one way of using routes to connect a network of nodes. Node2 and Node3 do not reference any routes in their config. Node1 contains routes for Node2 and Node3, which is enough to establish a network between all three nodes.
 
 There are multiple ways to set routes, they are:
 
 1) Directly editing the `harperdb-config.yaml` file (refer to code snippet above). 
-2) Calling cluster_set_routes through the API.
+2) Calling `cluster_set_routes` through the API.
 
 ```json
 {
-"operation": "cluster_set_routes",
-"server": "hub",
-"routes":[ {"host": "3.735.184.8", "port": 9932} ]
+    "operation": "cluster_set_routes",
+    "server": "hub",
+    "routes":[ {"host": "3.735.184.8", "port": 9932} ]
 }
 ```
 
-Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect.
+_Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
 
-From the command line.
+3) From the command line.
+```bash
 --CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES "[{\"host\": \"3.735.184.8\", \"port\": 9932}]"
+```
 
+4) Using environment variables.
 
-Using environment variables.
+```bash
 CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES=[{"host": "3.735.184.8", "port": 9932}]
+```
 
-
-The API also has cluster_get_routes for getting all routes in the config and cluster_delete_routes for deleting routes.
+The API also has `cluster_get_routes` for getting all routes in the config and `cluster_delete_routes` for deleting routes.
+```json
 {
-"operation": "cluster_delete_routes",
-"routes":[ {"host": "3.735.184.8", "port": 9932} ]
+    "operation": "cluster_delete_routes",
+    "routes":[ {"host": "3.735.184.8", "port": 9932} ]
 }
+```
 
+---
 
-
-Subscriptions
+### Subscriptions
 
 A subscription defines how data should move between two nodes. They are exclusively table level and operate independently. They connect a table on one node to a table on another node, the subscription will apply to a matching schema name and table name on both nodes.
 
-Note: ‘local’ and ‘remote’ will often be referred to. In the context of these docs ‘local’ is the node that is receiving the API request to create/update a subscription and remote is the other node that is referred to in the request, the node on the other end of the subscription.
+_Note: ‘local’ and ‘remote’ will often be referred to. In the context of these docs ‘local’ is the node that is receiving the API request to create/update a subscription and remote is the other node that is referred to in the request, the node on the other end of the subscription._
 
 A subscription consists of:
 
-schema - the name of the schema that the table you are creating the subscription for belongs to.
-table - the name of the table the subscription will apply to.
-publish - a boolean which determines if transactions on the local table should be replicated on the remote table.
-subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table.
+`schema` - the name of the schema that the table you are creating the subscription for belongs to.
+`table` - the name of the table the subscription will apply to.
+`publish` - a boolean which determines if transactions on the local table should be replicated on the remote table.
+`subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table.
 
-Publish subscription
+#### Publish subscription
 
 ![figure 2](/Users/terraroush/documentation/images/clustering/figure2.png "diagram example of a publish subscription from the perspective of Node1")
 
-This diagram is an example of a publish subscription from the perspective of Node1.
+This diagram is an example of a `publish` subscription from the perspective of Node1.
 
 The record with id 2 has been inserted in the dog table on Node1, after it has completed that insert it is sent to Node 2 and inserted in the dog table there.
 
-Subscribe subscription
+#### Subscribe subscription
 
 ![figure 3](/Users/terraroush/documentation/images/clustering/figure3.png "diagram example of a subscribe subscription from the perspective of Node1")
 
-This diagram is an example of a subscribe subscription from the perspective of Node1.
+This diagram is an example of a `subscribe` subscription from the perspective of Node1.
 
 The record with id 3 has been inserted in the dog table on Node2, after it has completed that insert it is sent to Node1 and inserted there.
 
-Subscribe and publish
+#### Subscribe and Publish
 
 ![figure 4](/Users/terraroush/documentation/images/clustering/figure4.png "diagram shows both subscribe and publish but publish is set to false")
 
-This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is not being replicated on Node2.
+This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is **_not_** being replicated on Node2.
 
 ![figure 5](/Users/terraroush/documentation/images/clustering/figure5.png "shows both subscribe and publish set to true")
 
 This shows both subscribe and publish set to true. The insert on Node1 is replicated on Node2 and the update on Node2 is replicated on Node1.
 
-Creating subscriptions
+### Creating subscriptions
 
 Subscriptions can be added, updated, or removed through the API.
 
-Note: The schema and tables in the subscription must exist on the local node (the node that is receiving the API request), but do not need to exist on the remote node. Any schema and tables that do not exist on the remote node will be automatically created.
+_Note: The schema and tables in the subscription must exist on the local node (the node that is receiving the API request), but do not need to exist on the remote node. Any schema and tables that do not exist on the remote node will be automatically created._
 
-To add a single node and create one or more subscriptions use add_node
+To add a single node and create one or more subscriptions use `add_node`.
 
+```json
 {
-"operation": "add_node",
-"node_name": "Node2",
-"subscriptions": [
-{
-"schema": "dev",
-"table": "dog",
-"publish": false,
-"subscribe": true
-},
-{
-"schema": "dev",
-"table": "chicken",
-"publish": true,
-"subscribe": true
+    "operation": "add_node",
+    "node_name": "Node2",
+    "subscriptions": [
+        {
+            "schema": "dev",
+            "table": "dog",
+            "publish": false,
+            "subscribe": true
+        },
+        {
+            "schema": "dev",
+            "table": "chicken",
+            "publish": true,
+            "subscribe": true
+        }
+    ]
 }
-]
-}
-
+```
 
 This is an example of adding Node2 to your local node. Subscriptions are created for two tables, dog and chicken.
 
-To update one or more subscriptions with a single node use update_node
+To update one or more subscriptions with a single node use `update_node`.
 
+```json
 {
-"operation": "update_node",
-"node_name": "Node2",
-"subscriptions": [
-{
-"schema": "dev",
-"table": "dog",
-"publish": true,
-"subscribe": true
+    "operation": "update_node",
+    "node_name": "Node2",
+    "subscriptions": [
+        {
+            "schema": "dev",
+            "table": "dog",
+            "publish": true,
+            "subscribe": true
+        }
+    ]
 }
-]
-}
-
+```
 
 This call will update the subscription with the dog table. Any other subscriptions with Node2 will not change.
 
