@@ -6,6 +6,7 @@ This section contains technical details and reference materials for installing H
 
 * [Linux](linux.md)
 * [Docker](docker.md)
-* Mac
-* Windows (WSL2)
-* Offline
+* [Mac](mac.md)
+* [Windows](windows.md)
+* [Offline](offline.md)
+* [Other](other.md)
