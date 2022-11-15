@@ -15,6 +15,8 @@ These instructions assume that the following has already been completed:
 
 ---
 
+If you wish to install locally or already have a configured server, skip to [Install and Start HarperDB](#install)
+
 ### (Optional) LVM Configuration
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
 
@@ -67,7 +69,7 @@ Create logical volume
 lvcreate -n hdb_lv -i $free_disks_qty -l 100%FREE hdb_vg
 ```
 
-Configure Data Volume
+### Configure Data Volume
 
 Run `lsblk` and note the device name of the additional volume
 
@@ -96,7 +98,7 @@ Create a fstab entry to mount the filesystem on boot
 echo "LABEL=hdb_data /home/ubuntu/hdb ext4 defaults,noatime 0 1" | sudo tee -a /etc/fstab
 ```
 
-Configure Linux and Install Prerequisites
+### Configure Linux and Install Prerequisites
 If a swap file or partition does not already exist, create and enable a 2GB swap file
 
 ```bash
@@ -112,18 +114,6 @@ Increase the open file limits for the ubuntu user
 ```bash
 echo "ubuntu soft nofile 500000" | sudo tee -a /etc/security/limits.conf
 echo "ubuntu hard nofile 1000000" | sudo tee -a /etc/security/limits.conf
-```
-
-Verify Python v3.6, v3.7, v3.8, or v3.9 is installed.
-
-```bash
-python3 --version
-```
-
-Install build-essential
-
-```bash
-sudo apt-get update && sudo apt-get install -y build-essential
 ```
 
 Install Node Version Manager (nvm)
@@ -146,7 +136,7 @@ Install Node.js using nvm ([read more about specific Node version requirements h
 nvm install 14.19.1
 ```
 
-Install and Start HarperDB
+### <a id="install"></a> Install and Start HarperDB
 Install HarperDB
 
 ```bash
