@@ -37,16 +37,10 @@ const authRequest = (options) => {
 };
 
 const customValidation = async (request,logger) => {
-   const options = {
-      hostname: 'jsonplaceholder.typicode.com',
-      port: 443,
-      path: '/todos/1',
-      method: 'GET',
-      headers: { authorization: request.headers.authorization },
-   };
-   
-   const result = await authRequest(options);
 
+    let response = await fetch('https://jsonplaceholder.typicode.com/todos/1', { headers: { authorization: request.headers.authorization } });
+    let result = await response.json();
+    
    /*
    *  throw an authentication error based on the response body or statusCode
    */
