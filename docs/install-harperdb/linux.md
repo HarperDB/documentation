@@ -11,7 +11,8 @@ These instructions assume that the following has already been completed:
 3. A non-root user account dedicated to HarperDB with sudo privileges exists
 4. An additional volume for storing HarperDB files is attached to the Linux instance
 5. Traffic to ports 22 (SSH), 9925 (HarperDB HTTP or HTTPS), and 9926 (HarperDB Custom Functions) is permitted
-6. For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
+
+For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
 ---
 
