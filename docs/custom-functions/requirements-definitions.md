@@ -12,8 +12,6 @@ Custom Functions is enabled by default. If you wish to manage Custom Functions d
 * **customFunctions.network.port**
    This is the port HarperDB will use to start a standalone Fastify Server dedicated to serving your Custom Functions’ routes.
 
-* **customFunctions.root**
-   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your <ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
 
 * **customFunctions.processes**
    The number of processes you wish to spin up for the Custom Functions Fastify server.
