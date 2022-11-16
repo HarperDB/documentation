@@ -60,7 +60,7 @@ The simple example above was just a pass-through to HarperDB- the exact same res
 
 
 
-Below is an example of a route that uses a custom Validation hook:
+Below is an example of a route that uses a custom validation hook:
 
 ```javascript
 const customValidation = require('../helpers/customValidation');
