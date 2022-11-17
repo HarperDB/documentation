@@ -1,14 +1,18 @@
 # HarperDB CLI
 
-The HarperDB command line interface (CLI) is used to administer self-installed HarperDB instances.
+The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](https://harperdb.io/docs/install-harperdb/).
 
 ## Installing HarperDB
-To install HarperDB with CLI prompts; run the following command:
+To install HarperDB with CLI prompts, run the following command:
 
+```bash
 harperdb install
-Alternatively, HarperDB installations can be automated with environment variables or command line arguments; see a full list of configuration parameters here. Note, when used in conjunction, command line arguments will override environment variables.
+```
 
-Environment Variables
+Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](https://harperdb.io/docs/reference/configuration-file/). Note, when used in conjunction, command line arguments will override environment variables.
+
+#### Environment Variables
+```bash
 #minimum required parameters for no additional CLI prompts
 export TC_AGREEMENT=yes
 export HDB_ADMIN_USERNAME=HDB_ADMIN
@@ -16,35 +20,67 @@ export HDB_ADMIN_PASSWORD=password
 export HDB_ROOT=/tmp/hdb/
 export SERVER_PORT=9925
 harperdb install
-Command Line Arguments
+```
+
+#### Command Line Arguments
+
+```bash
 #minimum required parameters for no additional CLI prompts
 harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_PASSWORD password --HDB_ROOT /tmp/hdb/ --SERVER_PORT 9925
-Starting HarperDB
-To run HarperDB after it is installed; run the following command:
+```
+---
 
+## Starting HarperDB
+
+To run HarperDB after it is installed, run the following command:
+
+```bash
 harperdb run
-Stopping HarperDB
-To stop HarperDB once it is running run the following command:
+```
 
+---
+
+## Stopping HarperDB
+
+To stop HarperDB once it is running, run the following command:
+
+```bash
 harperdb stop
-Restarting HarperDB
-To restart HarperDB once it is running run the following command:
+```
+---
 
+## Restarting HarperDB
+
+To restart HarperDB once it is running, run the following command:
+
+```bash
 harperdb restart
-Managing HarperDB Service(s)
+```
+---
+
+## Managing HarperDB Service(s)
+
 The following commands are used to run, restart, or stop one or more HarperDB service without restarting the full application:
 
+```bash
 harperdb run --service harperdb,"custom functions",ipc
 harperdb stop --service harperdb
 harperdb restart --service "custom functions"
+```
+
 The following services are managed via this command:
 
-HarperDB
-Custom Functions
-IPC
-Clustering
-Clustering Connector
-Getting the HarperDB Version
+* HarperDB 
+* Custom Functions 
+* IPC 
+* Clustering 
+* Clustering Connector 
+
+---
+
+## Getting the HarperDB Version
 To check the version of HarperDB that is installed run the following command:
 
+```bash
 harperdb version
+```
