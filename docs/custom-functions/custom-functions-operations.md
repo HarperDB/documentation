@@ -17,21 +17,27 @@ HarperDB Studio manages your Custom Functions using 9 HarperDB operations. You m
 * **get_custom_function**
 
    Returns the content of the specified file as text. HarperDB Studio uses this call to render the file content in its built-in code editor.
+
 * **set_custom_function**
 
    Updates the content of the specified file. HarperDB Studio uses this call to save any changes made through its built-in code editor.
+
 * **drop_custom_function**
 
    Deletes the specified file.
+
 * **add_custom_function_project**
 
    Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: https://github.com/HarperDB/harperdb-custom-functions-template.
+
 * **drop_custom_function_project**
 
    Deletes the specified project folder and all of its contents.
+
 * **package_custom_function_project**
 
-   Creates a .tar file of the specified project folder, then reads it into a base64-encoded string and returns that string the the user.
+   Creates a .tar file of the specified project folder, then reads it into a base64-encoded string and returns that string the user.
+
 * **deploy_custom_function_project**
 
    Takes the output of package_custom_function_project, decrypts the base64-encoded string, reconstitutes the .tar file of your project folder, and extracts it to the Custom Functions root project directory.
