@@ -4,7 +4,7 @@ HarperDB Custom Functions projects are managed by HarperDB’s process manager. 
 
 
 
-The primary debugging method in Custom Functions is to utilize the HarperDB log to monitor outputs. The [HarperDB Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](https://harperdb.io/docs/reference/configuration-file/).
+A great debugging method in Custom Functions is to utilize the HarperDB log to monitor outputs. The [HarperDB Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](https://harperdb.io/docs/reference/configuration-file/). You may also use the console logs. Conveniently, console logs will go to the Custom Functions log folder.
 
 HarperDB Logger Functions
 * `trace(message)`: Write a 'trace' level log, if the configured level allows for it.
