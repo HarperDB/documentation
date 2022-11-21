@@ -20,7 +20,7 @@ For debugging purposes, it is recommended to use `notify` as these messages will
 
 ## Viewing the Log
 
-The HarperDB Log can be found on the [Studio Status page](https://harperdb.io/docs/harperdb-studio/instance-metrics/) or in the local log file. Additionally, you can use the [`read_log` operation](https://api.harperdb.io/#7f718dd1-afa5-49ce-bc0c-564e17b1c9cf) to query the HarperDB log.
+The HarperDB Log can be found on the [Studio Status page](https://harperdb.io/docs/harperdb-studio/instance-metrics/) or in the local Custom Functions log file, `<HDBROOT>/log/custom_functions.log`. Additionally, you can use the [`read_log` operation](https://api.harperdb.io/#7f718dd1-afa5-49ce-bc0c-564e17b1c9cf) to query the HarperDB log.
 
 ### Example 1: Execute Query and Log Results
 
