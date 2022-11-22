@@ -2,7 +2,7 @@
 
 To create a cluster you must have two or more nodes* (aka instances) of HarperDB running.
 
-**A node is a single instance/installation of HarperDB constitutes a node. A node of HarperDB can operate independently with clustering on or off.*
+**A node is a single instance/installation of HarperDB. A node of HarperDB can operate independently with clustering on or off.*
 
 
 Below are the steps, in order, that should be taken to set up a HarperDB cluster.
@@ -274,7 +274,7 @@ This shows both subscribe and publish set to true. The insert on Node1 is replic
 
 Subscriptions can be added, updated, or removed through the API.
 
-_Note: The schema and tables in the subscription must exist on the local node (the node that is receiving the API request), but do not need to exist on the remote node. Any schema and tables that do not exist on the remote node will be automatically created._
+_Note: The schema and tables in the subscription must exist on either the local or the remote node. Any schema and tables that do not exist on one particular node, for example, the local node, will be automatically created on the local node._
 
 To add a single node and create one or more subscriptions use `add_node`.
 
