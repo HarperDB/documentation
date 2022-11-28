@@ -8,7 +8,7 @@ Route URLs are resolved in the following manner:
 
 * [**Instance URL**]:[**Custom Functions Port**]/[**Project Name**]/[**Route URL**]
 
-* The route below, within the **dogs** project, would be available at **http://localhost:9926/dogs**.
+* The route below, within the **dogs** project, with a route of **breeds** would be available at **http://localhost:9926/dogs/breeds**.
 
 
 In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.

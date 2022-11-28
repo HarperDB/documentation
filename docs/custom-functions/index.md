@@ -13,8 +13,12 @@ Custom functions are a key part of building a complete HarperDB application. It 
 * Distribute your Custom Functions to all your HarperDB instances with a single click
 
 ---
-* [Create A Project](https://harperdb.io/docs/custom-functions/create-a-project/)
+* [Requirements and Definitions](requirements-definitions.md)
 
-* [Define Routes](https://harperdb.io/docs/custom-functions/define-routes/)
+* [Create A Project](create-project.md)
 
-* [Host a Static UI](https://harperdb.io/docs/custom-functions/host-a-static-web-ui/)
+* [Define Routes](define-routes.md)
+
+* [Define Helpers](define-helpers.md)
+
+* [Host a Static UI](host-static.md)
