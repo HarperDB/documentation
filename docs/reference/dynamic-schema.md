@@ -16,7 +16,7 @@ HarperDB tables group records together with a common data pattern. To create a t
 
 **Hash Attribute**
 
-The hash attribute is used to uniquely identify records. Uniqueness is enforced on the hash attribute, inserts with existing `hash_attribute` values will be rejected. If a hash value is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](https://harperdb.io/docs/reference/storage-algorithm/) utilizes this value for indexing.
+The hash attribute is used to uniquely identify records. Uniqueness is enforced on the hash attribute, inserts with existing `hash_attribute` values will be rejected. If a hash value is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](storage-algorithm.md) utilizes this value for indexing.
 
 **Standard Attributes**
 
