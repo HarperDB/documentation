@@ -83,7 +83,7 @@ module.exports = async (server, { hdbCore, logger }) => {
 ```
 
 
-Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](https://harperdb.io/developers/documentation/custom-functions/define-helpers/).
+Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](define-helpers.md).
 
 ## Helper Methods
 When declaring routes, you are given access to 2 helper methods: hdbCore and logger.
