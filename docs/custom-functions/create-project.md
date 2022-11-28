@@ -27,11 +27,15 @@ To manually create a project, you have three options:
 ```
 
 
-3. **create a project folder in your Custom Functions root directory**
+3. **create a project folder in your Custom Functions root directory** and **initialize**
 
    _This requires a local installation._
 
 
 ```bash
 > mkdir ~/hdb/custom_functions/dogs
+```
+
+```bash
+> npm init
 ```
