@@ -2,19 +2,38 @@
 Before you get started with Custom Functions, here’s a primer on the basic configuration and the structure of a Custom Functions Project.
 
 ## Configuration
-Custom Functions is enabled by default. If you wish to manage Custom Functions directly, you will find the relevant configuration parameters in your [configuration file](https://harperdb.io/docs/reference/configuration-file/). The available settings are listed below:
+Custom Functions are configured in the harperdb-config.yaml file located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user). Below is a view of the Custom Functions' section of the config YAML file, plus descriptions of important Custom Functions settings. 
 
+```yaml
+customFunctions:
+  enabled: true
+  network:
+    cors: true
+    corsAccessList:
+      - null
+    headersTimeout: 60000
+    https: false
+    keepAliveTimeout: 5000
+    port: 9926
+    timeout: 120000
+  nodeEnv: production
+  root: ~/hdb/custom_functions
+  tls:
+    certificate: ~/hdb/keys/certificate.pem
+    certificateAuthority: ~/hdb/keys/ca.pem
+    privateKey: ~/hdb/keys/privateKey.pem
+```
 
+* **`enabled`**
+  A boolean value that tells HarperDB to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable. `enabled` is `true` by default.
 
-* **customFunctions.enabled**
-   A boolean value that tells HarperDB to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable.
+* **`network.port`**
+  This is the port HarperDB will use to start a standalone Fastify Server dedicated to serving your Custom Functions’ routes.
 
-* **customFunctions.network.port**
-   This is the port HarperDB will use to start a standalone Fastify Server dedicated to serving your Custom Functions’ routes.
-
-* **customFunctions.root**
+* **`root`**
   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your \<ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
 
+_Please visit our [configuration docs]() for a more comprehensive look at these settings._
 
 ## Project Structure
 **project folder**
