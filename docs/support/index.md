@@ -22,13 +22,6 @@ HarperDB should be installed using a specific user for HarperDB. This allows you
 
 You may have gotten an error like,  `Error: Must execute as <<username>>.` This means that you installed HarperDB as `<<user>>`. Because HarperDB stores files directly to the file system, we only allow the HarperDB executable to be run by a single user. This prevents permissions issues on files. For example if you installed as user_a, but later wanted to run as user_b. User_b may not have access to the database files HarperDB needs. This also keeps HarperDB more secure as it allows you to lock files down to a specific user and prevents other users from accessing your files.
 
-**Error: HarperDB is not responding; node version compatibility**
-
-When HarperDB dependencies build during installation the build process will use the system’s OS package manager NodeJS version over alternative installations. If there is a Node Version Manager installed outside the OS’s Package Manager, the OS’s version should be removed. An error in the installation logs will look similar to below:
-
-```bash
-WARN engine harperdb@2.1.2: wanted: {"node":"12.16.1"} (current: {"node":"8.10.0","npm":"3.5.2"})
-```
 
 ---
 
@@ -36,7 +29,7 @@ WARN engine harperdb@2.1.2: wanted: {"node":"12.16.1"} (current: {"node":"8.10.0
 
 **What operating system should I use to run HarperDB?**
 
-Linux flavored operating systems.
+HarperDB applications can be developed on all major operating systems: Linux, Windows, and MacOS. However, Linux is strongly recommended for production use.
 
 **How are HarperDB’s SQL and NoSQL capabilities different from other solutions?**
 
@@ -44,11 +37,11 @@ Many solutions offer NoSQL capability and separate processing for SQL such as in
 
 **How does HarperDB ensure high availability and consistency?**
 
-Node.js clustering allows our developers to create highly available access to users data stores. We do this by utilizing file system journaling and a consistency check process to manage race conditions and unintended overwrites. HarperDB’s exploded data model allows for attribute specific rollbacks allowing users to quickly correct mistakes.
+HarperDB's clustering and replication capabilities allow high availability and fault-tolerance; if a server goes down, traffic can be quickly routed to other HarperDB servers that can service requests. HarperDB's replication uses a consistent resolution strategy (last-write-wins by logical timestamp), to ensure eventual consistency. HarperDB offers auditing capabilities that can be enabled to preserve a record of all changes so that mistakes or even malicious data changes are recorded and can be reverted.
 
 **Is HarperDB ACID-compliant?**
 
-All transactions are granular down to the attribute allowing for extremely precise writes/updates. If one aspect of the write fails, HarperDB rolls back the transaction to the previous record state. All transactions are versioned allowing for precise rollback and auditing. All data is written directly to the file system allowing for data durability in a human-readable format.
+HarperDB operations are atomic, consist, and isolated per instance. This means that any query will provide an isolated consistent snapshot view of the database (based on when the query started. Updating and insertion operations are also performed atomically; any reads and writes are performed within an atomic, isolated transaction with serialization isolation level, and will rollback if it can not be fully completed successfully. Data is immediately flushed to disk after a write to ensure eventual durability. ACID compliance is not guaranteed across instances in a cluster, rather the eventual consistency will propagate changes with last-write-wins (by last logical timestamp) resolution.
 
 **How Does HarperDB Secure My Data?**
 
@@ -62,9 +55,9 @@ HarperDB can be considered column oriented, however, the exploded data model cre
 
 HarperDB takes every attribute of a database table object and creates a key:value for both the key and its corresponding value. For example, the attribute eye color will be represented by a key “eye-color” and the corresponding value “green” will be represented by a key with the value “green”.  We use LMDB’s lightning-fast key:value store to underpin all these interrelated keys and values, meaning that every “column” is automatically indexed, and you get huge performance in a tiny package.
 
-**Are Hash Attributes Case-Sensitive?**
+**Are Primary Keys Case-Sensitive?**
 
-When using HarperDB, hash attributes are case-sensitive. This can cause confusion for developers. For example, if you have a user table, it might make sense to use user.email as the hash attribute. This can cause problems as Harper@harperdb.io and harper@harperdb.io would be seen as two different records. We recommend enforcing case on hash within your app to avoid this issue.
+When using HarperDB, primary keys are case-sensitive. This can cause confusion for developers. For example, if you have a user table, it might make sense to use `user.email` as the primary key. This can cause problems as Harper@harperdb.io and harper@harperdb.io would be seen as two different records. We recommend enforcing case on keys within your app to avoid this issue.
 
 **How Do I Move My HarperDB Data Directory?**
 
@@ -76,13 +69,13 @@ Next, edit HarperDB’s hdb_boot_properties.file to point HarperDB to the new lo
 
 On MacOS/OSX
 ```bash
-sed -i '' -E 's/^(settings_path[[:blank:]]*=[[:blank:]]*).*/\1NEW_HDB_ROOT\/harperdb.conf/' ~/.harperdb/hdb_boot_properties.file
+sed -i '' -E 's/^(settings_path[[:blank:]]*=[[:blank:]]*).*/\1NEW_HDB_ROOT\/harperdb-config.yaml/' ~/.harperdb/hdb_boot_properties.file
 ```
 
 On Linux
 
 ```bash
-sed -i -E 's/^(settings_path[[:blank:]]*=[[:blank:]]*).*/\1NEW_HDB_ROOT\/harperdb.conf/' ~/hdb_boot_properties.file
+sed -i -E 's/^(settings_path[[:blank:]]*=[[:blank:]]*).*/\1NEW_HDB_ROOT\/harperdb-config.yaml/' ~/hdb_boot_properties.file
 ```
 
 Finally, edit the config file in the root folder you just moved:
