@@ -269,15 +269,6 @@ customFunctions:
 - `production` native node logging is kept to a minimum; more caching to optimize performance. This is the default value.
 - `development` more native node logging; less caching.
 
-`processes` - _Type_: integer; _Default_: automatically generated according to machine
-
-Set the number of Custom Functions processes to run.
-
-```yaml
-customFunctions:
-  processes: 4
-```
-
 `root` - _Type_: string; _Default_: &lt;ROOTPATH>/custom_functions
 
 The path to the folder containing Custom Function files.
@@ -548,15 +539,6 @@ operationsApi:
 - `production` native node logging is kept to a minimum; more caching to optimize performance. This is the default value.
 - `development` more native node logging; less caching.
 
-`processes` - _Type_: integer; _Default_: automatically generated according to machine
-
-Set the number of HarperDB processes to run.
-
-```yaml
-operationsApi:
-  processes: 4
-```
-
 `tls`
 
 This configures the Transport Layer Security for HTTPS support.
@@ -604,3 +586,4 @@ The `writeAsync` option turns off disk flushing/syncing, allowing for faster wri
 storage:
   writeAsync: false
 ```
+
