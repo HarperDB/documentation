@@ -17,8 +17,8 @@ Alternatively, HarperDB installations can be automated with environment variable
 export TC_AGREEMENT=yes
 export HDB_ADMIN_USERNAME=HDB_ADMIN
 export HDB_ADMIN_PASSWORD=password
-export HDB_ROOT=/tmp/hdb/
-export SERVER_PORT=9925
+export ROOTPATH=/tmp/hdb/
+export OPERATIONSAPI_NETWORK_PORT=9925
 harperdb install
 ```
 
@@ -26,7 +26,7 @@ harperdb install
 
 ```bash
 #minimum required parameters for no additional CLI prompts
-harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_PASSWORD password --HDB_ROOT /tmp/hdb/ --SERVER_PORT 9925
+harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_PASSWORD password --ROOTPATH /tmp/hdb/ --OPERATIONSAPI_NETWORK_PORT 9925
 ```
 ---
 
@@ -74,7 +74,6 @@ The following services are managed via this command:
 * Custom Functions 
 * IPC 
 * Clustering 
-* Clustering Connector 
 
 ---
 
