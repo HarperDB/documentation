@@ -20,17 +20,23 @@ Role permissions in HarperDB are broken into two categories – permissions arou
 
 
 **Built-In Roles**
-There are two built-in roles within HarperDB. See full breakdown of operations restricted to only super_user roles [here](https://harperdb.io/docs/security/users-roles/).
 
-* `super_user` – this role provides full access to all operations and methods within a HarperDB instance, this can be considered the admin role.
+There are three built-in roles within HarperDB. See full breakdown of operations restricted to only super_user roles [here](https://harperdb.io/docs/security/users-roles/).
+
+* `super_user` - This role provides full access to all operations and methods within a HarperDB instance, this can be considered the admin role.
 
   * This role provides full access to all Database Definition operations and the ability to run Database Manipulation operations across the entire database schema with no restrictions. 
-* `cluster_user` – this role is an internal system role type that is managed internally to allow clustered instances to communicate with one another.
+  
+* `cluster_user` - This role is an internal system role type that is managed internally to allow clustered instances to communicate with one another.
 
   * This role is an internally managed role to facilitate communication between clustered instances.
 
+* `structure_user` - This role provides specific access for creation and deletion of data.
+
+  * When defining this role type you can either assign a value of true which will allow the role to create and drop schemas & tables. Alternatively the role type can be assigned a string array. The values in this array are schemas and allows the role to only create and drop tables in the designated schemas.
 
 **User-Defined Roles**
+
 In addition to built-in roles, admins (i.e. users assigned to the super_user role) can create customized roles for other users to interact with and manipulate the data within explicitly defined tables and attributes.
 
 * Unless the user-defined role is given `super_user` permissions, permissions must be defined explicitly within the request body JSON.
