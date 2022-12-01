@@ -5,7 +5,7 @@ HarperDB Studio is the web-based GUI for HarperDB. Studio enables you to adminis
 
 ---
 ## How does Studio Work?
-While HarperDB Studio is web based and hosted by us, all database interactions are performed locally. The HarperDB Studio loads in your browser, at which point you login to your HarperDB instances. Credentials are stored in your browser cache and are not transmitted back to HarperDB. All database interactions are made via the HarperDB Operations API directly from your browser to your instance.
+While HarperDB Studio is web based and hosted by us, all database interactions are performed on the HarperDB instance the studio is connected to. The HarperDB Studio loads in your browser, at which point you login to your HarperDB instances. Credentials are stored in your browser cache and are not transmitted back to HarperDB. All database interactions are made via the HarperDB Operations API directly from your browser to your instance.
 
 ## What type of instances can I manage?
 HarperDB Studio enables users to manage both HarperDB Cloud instances and privately hosted instances all from a single UI. All HarperDB instances feature identical behavior whether they are hosted by us or by you.
