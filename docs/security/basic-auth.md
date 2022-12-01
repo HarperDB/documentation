@@ -18,6 +18,8 @@ A header is added to each HTTP request.  The header key is **“Authorization”
 
 Below is a code sample from HarperDB Studio.  On Line 14 you will see where we are adding the authorization header to each request. This needs to be added for each and every HTTP request for HarperDB.
 
+_Note: This function uses btoa. Learn about [btoa here](https://developer.mozilla.org/en-US/docs/Web/API/btoa)._
+
 ```javascript
 function callHarperDB(call_object, operation, callback){
 
