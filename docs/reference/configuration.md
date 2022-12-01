@@ -68,6 +68,8 @@ clustering:
 
 The name of your cluster. This name needs to be consistent for all other nodes intended to be meshed in the same network.
 
+<div style="padding-left: 30px;">
+
 `port` - _Type_: integer, _Default_: 9932
 
 The port the hub server uses to accept cluster connections
@@ -75,15 +77,19 @@ The port the hub server uses to accept cluster connections
 `routes` - _Type_: array, _Default_: null
 
 An object array that represent the host and port this server will cluster to. Each object must have two properties `port` and `host`. Multiple entries can be added to create network resiliency in the event one server is unavailable. Routes can be added, updated and removed either by directly editing the `harperdb-config.yaml` file or by using the `cluster_set_routes` or `cluster_delete_routes` API endpoints.
+</div>
 
+<div style="padding-left: 60px;">
+
+`host` - _Type_: string
+
+The host of the remote instance you are creating the connection with.
 
 `port` - _Type_: integer
 
 The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance. 
 
-`host` - _Type_: string
-
-The host of the remote instance you are creating the connection with.
+</div>
 
 `clustering.hubServer.leafNodes`
 
@@ -113,6 +119,7 @@ clustering:
 Use this port to connect a client to the hub server, for example using the NATs SDK to interact with the server.
 
 `clustering.leafServer.network`
+
 Manages streams, streams are ‘message stores’ that store table transactions.
 
 ```yaml
@@ -135,14 +142,42 @@ Use this port to connect a client to the leaf server, for example using the NATs
 
 An object array that represent the host and port the leaf node will directly connect with. Each object must have two properties `port` and `host`. Unlike the hub server, the leaf server will establish connections to all listed hosts. Routes can be added, updated and removed either by directly editing the `harperdb-config.yaml` file or by using the `cluster_set_routes` or `cluster_delete_routes` API endpoints.
 
-`port` - _Type_: integer
-
-The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.leafNodes.network.port` on the remote instance. 
+<div style="padding-left: 30px;">
 
 `host` - _Type_: string
 
-
 The host of the remote instance you are creating the connection with.
+
+`port` - _Type_: integer
+
+The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.leafNodes.network.port` on the remote instance. 
+</div>
+
+`clustering.leafServer.streams`
+
+```yaml
+clustering:
+  leafServer:
+    streams:
+      maxAge: 
+      maxBytes:
+      maxMsgs:
+```
+
+`maxAge` - _Type_: ; _Default_: 
+
+
+
+`maxBytes` - _Type_: ; _Default_: 
+
+
+
+`maxMsgs` - _Type_: ; _Default_:
+
+
+
+
+---
 
 `nodeName` - _Type_: string; _Default_: null
 
@@ -183,6 +218,8 @@ Path to the private key file.
 `insecure` - _Type_: boolean; _Default_: true
 
 When true, will skip certificate verification. For use only with self-signed certs.
+
+---
 
 `user` - _Type_: string; _Default_: null
 
@@ -228,6 +265,8 @@ customFunctions:
     timeout: 120000 
 ```
 
+<div style="padding-left: 30px;">
+
 `cors` - _Type_: boolean; _Default_: true
 
 Enable Cross Origin Resource Sharing, which allows requests across a domain.
@@ -255,6 +294,7 @@ The port used to access the Custom Functions server.
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
+</div>
 
 `nodeEnv` - _Type_: string; _Default_: production
 
@@ -405,6 +445,7 @@ logging:
     timezone: GMT
     workerInterval: 30
 ```
+<div style="padding-left: 30px;">
 
 `compress` - _Type_: boolean; _Default_: false
 
@@ -441,6 +482,8 @@ Sets the timezone for logging rotation.
 `workerInterval` - _Type_: integer; _Default_: 30
 
 Sets the interval at which the worker checks log size in seconds.
+</div>
+
 
 `stdStreams` - _Type_: boolean; _Default_: false
 
@@ -467,6 +510,8 @@ operationsApi:
     refreshTokenTimeout: 30d
 ```
 
+<div style="padding-left: 30px;">
+
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
 Defines the length of time an operation token will be valid until it expires. Example values: https://github.com/vercel/ms.
@@ -474,6 +519,7 @@ Defines the length of time an operation token will be valid until it expires. Ex
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
 Defines the length of time a refresh token will be valid until it expires. Example values: https://github.com/vercel/ms.
+</div>
 
 `foreground` - _Type_: boolean; _Default_: false
 
@@ -498,6 +544,7 @@ operationsApi:
     port: 9925
     timeout: 120000
 ```
+<div style="padding-left: 30px;">
 
 `cors` - _Type_: boolean; _Default_: true
 
@@ -526,6 +573,8 @@ The port the HarperDB operations API interface will listen on.
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
+
+</div>
 
 `nodeEnv` - _Type_: string; _Default_: production
 
@@ -563,8 +612,22 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
+---
+
+### `http`
+
+`threads` - _Type_: ; _Default_: 
+
+The `threads` option 
+
+```yaml
+http:
+  threads: 
+```
 
 ---
+
+### `rootPath`
 
 `rootPath` - _Type_: string; _Default_: home directory of the current user
 
@@ -576,7 +639,7 @@ rootPath: /Users/jonsnow/hdb
 
 ---
 
-`storage`
+### `storage`
 
 `writeAsync` - _Type_: boolean; _Default_: false
 
@@ -587,3 +650,41 @@ storage:
   writeAsync: false
 ```
 
+caching - Type: boolean; Default: true
+
+The caching option enables in-memory caching of records, providing faster access to frequently accessed objects. This can incur some extra overhead for situations where reads extremely random and don't benefit from caching.
+
+```yaml
+storage:
+  caching: true
+```
+
+
+compression - Type: boolean; Default: false
+
+The compression option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
+
+```yaml
+storage:
+  compression: false
+```
+
+
+noReadAhead - Type: boolean; Default: true
+
+The noReadAhead option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
+
+```yaml
+storage:
+  noReadAhead: true
+```
+
+
+prefetchWrites - Type: boolean; Default: true
+
+The prefetchWrites option loads data prior to write transactions. This should be enabled for databases that are larger than memory (although it can be faster to disable this for smaller databases).
+
+```yaml
+storage:
+  prefetchWrites: true
+```
