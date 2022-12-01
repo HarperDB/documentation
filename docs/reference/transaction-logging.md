@@ -1,4 +1,58 @@
-# Transaction Logs
+# Transaction Logging
+
+HarperDB offers two options for logging transactions executed against a table. Both options are similar but utilize different storage layers.
+
+## Transaction log
+
+The transaction log is built upon clustering streams. Clustering streams are per-table message stores that enable data to be propagated across a cluster. HarperDB leverages streams for use with the transaction log. When clustering is enabled all transactions that occur against a table are pushed to its stream, and thus make up the transaction log.
+
+To use the transaction log, clustering must be enabled. You can enable clustering by setting `clustering.enabled` to `true` in the config file, `harperdb-config.yaml`.
+
+## Transaction Log Operations
+
+The `read_transaction_log` operation returns a prescribed set of records, based on given parameters. The example below will give a maximum of 10 records within the timestamps provided.
+
+```json
+{
+    "operation": "read_transaction_log",
+    "schema": "dev",
+    "table": "dog",
+    "from": 1560249020865,
+    "to": 1660585656639,
+    "limit": 10
+}
+```
+
+To free up space, the `delete_transaction_logs_before` operation will delete transaction log data according to the given parameters. The example below will delete records older than the timestamp provided.
+
+```json
+{
+    "operation": "delete_transaction_logs_before",
+    "schema": "dev",
+    "table": "dog",
+    "timestamp": 1598290282817
+}
+```
+
+Mention - streams are used for catchup if a node goes down, if you delete messages from a stream there is a chance catchup won't work
+
+
+Audit log
+The audit log uses a standard HarperDB table to track transactions. Each table a user creates a corresponding table will be created to track transactions against that table.
+
+Audit log is disabled by default, to enable it set….
+
+___
+
+---
+
+
+
+
+
+
+
+
 
 Transaction logs supply a history of data including transactions that occur in tables such as, but not limited to, insert or update. The logs can be useful for diagnostic and auditing purposes. 
 
