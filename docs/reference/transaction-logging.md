@@ -8,7 +8,11 @@ The transaction log is built upon clustering streams. Clustering streams are per
 
 To use the transaction log, clustering must be enabled. You can enable clustering by setting `clustering.enabled` to `true` in the config file, `harperdb-config.yaml`.
 
+_Note: Streams are used for catchup if a node goes down. If you delete messages from a stream there is a chance catchup won't work._
+
 ## Transaction Log Operations
+
+### read_transaction_log
 
 The `read_transaction_log` operation returns a prescribed set of records, based on given parameters. The example below will give a maximum of 10 records within the timestamps provided.
 
@@ -17,11 +21,54 @@ The `read_transaction_log` operation returns a prescribed set of records, based 
     "operation": "read_transaction_log",
     "schema": "dev",
     "table": "dog",
-    "from": 1560249020865,
-    "to": 1660585656639,
-    "limit": 10
+    "from": 1598290235769,
+    "to": 1660249020865,
+    "limit": 2
 }
 ```
+
+_See example response below._
+
+### read_transaction_log Response
+
+
+```json
+[
+    {
+        "operation": "insert",
+        "user": "admin",
+        "timestamp": 1660165619736,
+        "records": [
+            {
+                "id": 1,
+                "dog_name": "Penny",
+                "owner_name": "Kyle",
+                "breed_id": 154,
+                "age": 7,
+                "weight_lbs": 38,
+                "__updatedtime__": 1660165619688,
+                "__createdtime__": 1660165619688
+            }
+        ]
+    },
+    {
+        "operation": "update",
+        "user": "admin",
+        "timestamp": 1660165620040,
+        "records": [
+            {
+                "id": 1,
+                "dog_name": "Penny B",
+                "__updatedtime__": 1660165620036
+            }
+        ]
+    }
+]
+```
+
+_See example request above._
+
+### delete_transaction_logs_before
 
 To free up space, the `delete_transaction_logs_before` operation will delete transaction log data according to the given parameters. The example below will delete records older than the timestamp provided.
 
@@ -33,8 +80,6 @@ To free up space, the `delete_transaction_logs_before` operation will delete tra
     "timestamp": 1598290282817
 }
 ```
-
-Mention - streams are used for catchup if a node goes down, if you delete messages from a stream there is a chance catchup won't work
 
 
 Audit log
