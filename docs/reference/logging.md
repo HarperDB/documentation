@@ -27,7 +27,7 @@ The HarperDB log writes messages as JSON objects, each containing the following 
 ```
 
 
-HarperDB leverages [pm2](https://pm2.keymetrics.io/docs/usage/quick-start/), a process manager for Node.js applications, for logging. HarperDB has multiple process groups, in most cases each one gets its own log file. Below is a description of each one of those process groups and corresponding log files.
+HarperDB leverages [pm2](https://pm2.keymetrics.io/docs/usage/quick-start/), a process manager for Node.js applications, for logging. HarperDB has multiple process groups, in some cases each one gets its own log file. Below is a description of each one of those process groups and corresponding log files.
 
 ---
 
@@ -37,36 +37,13 @@ Because the `hdb/log` directory does not exist when first installing HarperDB th
 ### hdb.log
 Captures logs from all `HarperDB` processes. These processes are responsible for running HarperDB’s operations API and the majority of business logic that goes into executing these requests.
 
-This log is one of the more active logs and is a great place to start if the API responds with an error or if you’re note sure what log file to begin with.
-
-### jobs.log
-This log captures logs from all job processes. Some requests to HarperDB need a bit of time to run (for example csv data loads), in this scenario HarperDB starts a ‘job’. A job is a background process that is responsible for a single request. Each job gets a unique ID which is returned when the job is started. All job logs are written to the one log file `jobs.log`. To distinguish the logs apart the job ID is used in the log `process_name`.
-
-If a job is started and an ID is returned but the job fails to complete, this is a good place to look.
-
-### custom_functions.log
-All logs within your Custom Function code will come here. Logging in Custom Functions is an essential part of the development process. The Custom Functions template includes a logger module which can be used to write to the `custom_functions.log` file. More information can be found [here](https://harperdb.io/docs/custom-functions/debugging-a-custom-function/).
-
-### cli.log
-Commands that are run from the command line–run, restart, stop, upgrade and register–are not managed by pm2. Any logs that are generated when running one of these commands will end up in the `cli.log`.
-
-### pm2.log
-PM2 is a daemon that is responsible for managing the majority of HarperDB’s processes. This daemon will log to the `pm2.log` file. If a pm2 managed process is started, stopped, restarted or terminated the event will be logged in this log. This log is native to the pm2 module, so it will not have any logs related to HarperDB operations.
+This log is one of the more active logs and is a great place to start if the API responds with an error or if you’re not sure what log file to begin with.
 
 ### clustering_hub.log
 The clustering hub log tracks all logs for the local hub server. The hub server's main job is to connect with hub servers on other HarperDB nodes. When routes (host and port of remote node) are added to the cluster the hub server will log whether it was able to connect to that route (remote node) or not. This can be helpful when setting up or debugging clustering connections.
 
 ### clustering_leaf.log
 The clustering leaf log is the log for the local leaf server. The leaf server manages streams, streams are **table** message stores that connect to other streams on other HarperDB nodes. Stream to stream communication is what enables propagation of data across the cluster. The `clustering_leaf.log` is a good place to look if there is an issue with a subscription between tables on different nodes.
-
-### clustering_ingest_service.log
-The ingest service manages a stream called the work queue. The work queue has connections to streams (table message stores) on other HarperDB nodes. When a transaction occurs on a remote stream it is replicated to another node's work queue. The work queue manages all remote CRUD transactions at the table level. This log is great for tracking the propagation of data across the cluster to see if it is transacting on a particular node.
-
-### clustering_reply_service.log
-The reply service is responsible for processing requests from other nodes that want to add, update or delete subscriptions on its instance. It is also used for generating its cluster status. If there is an issue with any of these operations this is a good place to start.
-
-### ipc.log
-Because HarperDB runs multiple processes it needs to utilize interprocess communication. The `ipc.log` tracks this communication. If you are getting inconsistent results between processes this log could be helpful.
 
 ---
 
