@@ -9,14 +9,14 @@ The dynamic schema provides the structure of schema and table namespaces while s
 HarperDB schemas are analogous to a namespace that groups tables together. A schema is required to create a table.
 
 ### Tables
-HarperDB tables group records together with a common data pattern. To create a table users must provide a table name and a `hash_attribute` name.
+HarperDB tables group records together with a common data pattern. To create a table users must provide a table name and a primary key.
 
 * **Table Name**: Used to identify the table. 
-* **Hash Attribute**: Required attribute that serves as the unique identifier for a record.
+* **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB.
 
-**Hash Attribute**
+Primary Key
 
-The hash attribute is used to uniquely identify records. Uniqueness is enforced on the hash attribute, inserts with existing `hash_attribute` values will be rejected. If a hash value is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](storage-algorithm.md) utilizes this value for indexing.
+The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](storage-algorithm.md) utilizes this value for indexing.
 
 **Standard Attributes**
 
