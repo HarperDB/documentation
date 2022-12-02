@@ -29,7 +29,7 @@ You may have gotten an error like,  `Error: Must execute as <<username>>.` This 
 
 **What operating system should I use to run HarperDB?**
 
-HarperDB applications can be developed on all major operating systems: Linux, Windows, and MacOS. However, Linux is strongly recommended for production use.
+All major operating systems: Linux, Windows, and macOS. However, running HarperDB on Windows and macOS is intended only for development and evaluation purposes. Linux is strongly recommended for production use.
 
 **How are HarperDB’s SQL and NoSQL capabilities different from other solutions?**
 

@@ -68,7 +68,7 @@ harperdb stop --service harperdb
 harperdb restart --service "custom functions"
 ```
 
-The following services are managed via this command:
+The following services are managed via the above commands:
 
 * HarperDB 
 * Custom Functions 
