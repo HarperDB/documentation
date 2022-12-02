@@ -26,4 +26,4 @@ Additionally, they cannot contain the first 31 non-printing characters. Spaces a
 
 **Attribute Maximum**
 
-HarperDB 2.3.1 and up limits tables to 10,000 attributes. For 2.3.0 and below, the limit is 1,000 attributes.
+HarperDB limits number of attributes to 10,000 per table.
