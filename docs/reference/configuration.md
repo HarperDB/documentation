@@ -591,13 +591,13 @@ Path to the private key file.
 
 ### `http`
 
-`threads` - _Type_: ; _Default_: 
+`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
 
-The `threads` option 
+The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
 
 ```yaml
 http:
-  threads: 
+  threads: 11
 ```
 
 ---
