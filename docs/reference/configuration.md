@@ -153,30 +153,6 @@ The host of the remote instance you are creating the connection with.
 The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.leafNodes.network.port` on the remote instance. 
 </div>
 
-`clustering.leafServer.streams`
-
-```yaml
-clustering:
-  leafServer:
-    streams:
-      maxAge: 
-      maxBytes:
-      maxMsgs:
-```
-
-`maxAge` - _Type_: ; _Default_: 
-
-
-
-`maxBytes` - _Type_: ; _Default_: 
-
-
-
-`maxMsgs` - _Type_: ; _Default_:
-
-
-
-
 ---
 
 `nodeName` - _Type_: string; _Default_: null
@@ -304,7 +280,6 @@ Allows you to specify the node environment in which application will run.
 customFunctions:
   nodeEnv: production
 ```
-
 
 - `production` native node logging is kept to a minimum; more caching to optimize performance. This is the default value.
 - `development` more native node logging; less caching.
@@ -650,9 +625,9 @@ storage:
   writeAsync: false
 ```
 
-caching - Type: boolean; Default: true
+`caching` - _Type_: boolean; _Default_: true
 
-The caching option enables in-memory caching of records, providing faster access to frequently accessed objects. This can incur some extra overhead for situations where reads extremely random and don't benefit from caching.
+The `caching` option enables in-memory caching of records, providing faster access to frequently accessed objects. This can incur some extra overhead for situations where reads are extremely random and don't benefit from caching.
 
 ```yaml
 storage:
@@ -660,9 +635,9 @@ storage:
 ```
 
 
-compression - Type: boolean; Default: false
+`compression` - _Type_: boolean; _Default_: false
 
-The compression option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
+The `compression` option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
 
 ```yaml
 storage:
@@ -670,9 +645,9 @@ storage:
 ```
 
 
-noReadAhead - Type: boolean; Default: true
+`noReadAhead` - _Type_: boolean; _Default_: true
 
-The noReadAhead option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
+The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
 
 ```yaml
 storage:
@@ -680,9 +655,9 @@ storage:
 ```
 
 
-prefetchWrites - Type: boolean; Default: true
+`prefetchWrites` - _Type_: boolean; _Default_: true
 
-The prefetchWrites option loads data prior to write transactions. This should be enabled for databases that are larger than memory (although it can be faster to disable this for smaller databases).
+The `prefetchWrites` option loads data prior to write transactions. This should be enabled for databases that are larger than memory (although it can be faster to disable this for smaller databases).
 
 ```yaml
 storage:
