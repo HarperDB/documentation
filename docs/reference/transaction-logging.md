@@ -6,15 +6,17 @@ HarperDB offers two options for logging transactions executed against a table. B
 
 The transaction log is built upon clustering streams. Clustering streams are per-table message stores that enable data to be propagated across a cluster. HarperDB leverages streams for use with the transaction log. When clustering is enabled all transactions that occur against a table are pushed to its stream, and thus make up the transaction log.
 
-To use the transaction log, clustering must be enabled. You can enable clustering by setting `clustering.enabled` to `true` in the config file, `harperdb-config.yaml`.
+To use the transaction log, you will need to enable clustering. You will also need to add a cluster user and set the node name. The best way to do that is to install HarperDB using command line variables.
 
-_Note: Streams are used for catchup if a node goes down. If you delete messages from a stream there is a chance catchup won't work._
+```
+harperdb install --CLUSTERING_ENABLED true --CLUSTERING_NODENAME Node1 --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsCluster123!
+```
 
 ## Transaction Log Operations
 
 ### read_transaction_log
 
-The `read_transaction_log` operation returns a prescribed set of records, based on given parameters. The example below will give a maximum of 10 records within the timestamps provided.
+The `read_transaction_log` operation returns a prescribed set of records, based on given parameters. The example below will give a maximum of 2 records within the timestamps provided.
 
 ```json
 {
@@ -70,7 +72,7 @@ _See example request above._
 
 ### delete_transaction_logs_before
 
-To free up space, the `delete_transaction_logs_before` operation will delete transaction log data according to the given parameters. The example below will delete records older than the timestamp provided.
+The `delete_transaction_logs_before` operation will delete transaction log data according to the given parameters. The example below will delete records older than the timestamp provided.
 
 ```json
 {
@@ -81,13 +83,15 @@ To free up space, the `delete_transaction_logs_before` operation will delete tra
 }
 ```
 
+_Note: Streams are used for catchup if a node goes down. If you delete messages from a stream there is a chance catchup won't work._
+
 ---
 
 ## Audit log
 
 The audit log uses a standard HarperDB table to track transactions. For each table a user creates, a corresponding table will be created to track transactions against that table.
 
-Audit log is disabled by default. To use the audit log, set `logging.auditLog` to true in the config file, `harperdb-config.yaml`.
+Audit log is disabled by default. To use the audit log, set `logging.auditLog` to true in the config file, `harperdb-config.yaml`. Then restart HarperDB for those changes to take place.
 
 ## Audit Log Operations
 

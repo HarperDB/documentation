@@ -115,7 +115,7 @@ CLUSTERING_NODENAME=Node1
 
 ### Enabling Clustering
 
-Clustering does not run by default, so it needs to be enabled.
+Clustering does not run by default; it needs to be enabled.
 
 To enable clustering the `clustering.enabled` configuration element in the `harperdb-config.yaml` file must be set to `true`.
 
@@ -127,14 +127,14 @@ clustering:
   enabled: true
 ```
 
-_Note: when making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
+_Note: When making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
 
 2) Calling `set_configuration` through the operations API
 
 ```json
 {
     "operation": "set_configuration",
-    "clustering_enabled":"test_server"
+    "clustering_enabled": true
 }
 ```
 
