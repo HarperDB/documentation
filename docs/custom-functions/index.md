@@ -1,6 +1,6 @@
 # Custom Functions
 
-Custom functions are a key part of building a complete HarperDB application. It is highly recommended that you use custom functions as the primary mechanism for your application to access your HarperDB database. Using custom functions gives you complete control over the accessible endpoints, how users are authenticated and authorized, what data is accessed from the database, and how it is aggregated and returned to users.
+Custom functions are a key part of building a complete HarperDB application. It is highly recommended that you use Custom Functions as the primary mechanism for your application to access your HarperDB database. Using Custom Functions gives you complete control over the accessible endpoints, how users are authenticated and authorized, what data is accessed from the database, and how it is aggregated and returned to users.
 
 * Add your own API endpoints to a standalone API server inside HarperDB
 
