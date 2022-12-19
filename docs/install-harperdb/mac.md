@@ -4,7 +4,7 @@ MacOS is not recommended as a production operating system, but it is great for d
 
 
 
-Please note, HarperDB suggests Node.js v18.12.0 as a prerequisite to installation, but we allow Node.js versions 14.0.0 & higher. [Learn more here](https://harperdb.io/docs/install-harperdb/node-version/).
+Please note, HarperDB suggests Node.js v18.12.0 as a prerequisite to installation, but we allow Node.js versions 14.0.0 & higher. [Learn more here](node-ver-requirement.md).
 
 ---
 
