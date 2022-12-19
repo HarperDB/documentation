@@ -7,6 +7,6 @@ This section contains technical details and reference materials for HarperDB.
 * [Configuration File](configuration.md) 
 * [Logging](logging.md)
 * [Job Logs](job-logs.md) 
-* [Transaction Logs]() 
+* [Transaction Logging](transaction-logging.md) 
 * [Headers](headers.md)
 * [Limitations](limits.md)
