@@ -8,7 +8,7 @@ HarperDB on Verizon 5G Wavelength brings HarperDB closer to the end user exclusi
 
 
 
-Instances are built via AWS Wavelength. You can read more about AWS Wavelength here: https://aws.amazon.com/wavelength/
+Instances are built via AWS Wavelength. You can read more about [AWS Wavelength here](https://aws.amazon.com/wavelength/).
 
 HarperDB 5G Wavelength Instance Specs
 While HarperDB 5G Wavelength bills by RAM, each instance has other specifications associated with the RAM selection. The following table describes each instance size in detail*.
@@ -23,8 +23,10 @@ While HarperDB 5G Wavelength bills by RAM, each instance has other specification
 
 
 
-*Specifications are subject to change. For the most up to date information, please refer to AWS documentation: https://aws.amazon.com/ec2/instance-types/.
-HarperDB 5G Wavelength Storage
+*Specifications are subject to change. For the most up to date information, please refer to [AWS documentation](https://aws.amazon.com/ec2/instance-types/).
+
+## HarperDB 5G Wavelength Storage
+
 HarperDB 5G Wavelength utilizes AWS Elastic Block Storage (EBS) General Purpose SSD (gp2) volumes. This is the most common storage type used in AWS, as it provides reasonable performance for most workloads, at a reasonable price.
 
 
@@ -37,4 +39,4 @@ Smaller gp2 volumes are perfect for trying out the functionality of HarperDB, an
 
 
 
-You can read more about AWS EBS gp2 volume IOPS here: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2.
+You can read more about [AWS EBS gp2 volume IOPS here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).
