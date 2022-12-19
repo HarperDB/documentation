@@ -7,7 +7,7 @@
 The HarperDB Google Data Studio Connector is subject to our [Terms of Use](https://harperdb.io/legal/harperdb-cloud-terms-of-service/) and [Privacy Policy](https://harperdb.io/legal/privacy-policy/).
 
 ## Requirements
-The HarperDB database must be accessible through the Internet in order for Google Data Studio servers to access it. The database may be hosted by you or via [HarperDB Cloud](https://harperdb.io/docs/harperdb-cloud/).
+The HarperDB database must be accessible through the Internet in order for Google Data Studio servers to access it. The database may be hosted by you or via [HarperDB Cloud](../harperdb-cloud/index.md).
 
 ## Get Started
 
@@ -23,7 +23,7 @@ Get started by selecting the HarperDB connector from the [Google Data Studio Par
 
 5. Check the box for “Secure Connections Only” if you want to always use HTTPS connections for this data source; entering a Web URL that starts with https:// will do the same thing, if you prefer.
 
-6. Check the box for “Allow Bad Certs” if your HarperDB instance does not have a valid SSL certificate. [HarperDB Cloud](https://harperdb.io/docs/harperdb-cloud/) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [HarperDB Cloud](https://harperdb.io/docs/harperdb-cloud/) or another instance you know should always have valid SSL certificates, do not check this box.
+6. Check the box for “Allow Bad Certs” if your HarperDB instance does not have a valid SSL certificate. [HarperDB Cloud](../harperdb-cloud/index.md) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [HarperDB Cloud](../harperdb-cloud/index.md) or another instance you know should always have valid SSL certificates, do not check this box.
 
 7. Choose your Query Type. This determines what information the configuration will ask for after pressing the Next button.
 
@@ -37,7 +37,7 @@ Get started by selecting the HarperDB connector from the [Google Data Studio Par
    
 ## Considerations
 
-* Both Postman and the [HarperDB Studio](https://harperdb.io/docs/harperdb-studio/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
+* Both Postman and the [HarperDB Studio](../harperdb-studio/index.md) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
 
   * You may sign out of your current user by going to the instances tab in HarperDB Studio, then clicking on the lock icon at the top-right of a given instance’s box. Click the lock again to sign in as any user. The Basic Auth token will be visible in the Authorization header portion of any code created in the Sample Code tab.
 
