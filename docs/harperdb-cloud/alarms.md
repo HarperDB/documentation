@@ -1,6 +1,6 @@
 # HarperDB Cloud Alarms
 
-HarperDB Cloud instance alarms are triggered when certain conditions are met. Once alarms are triggered organization owners will immediately receive an email alert and the alert will be available on the [Instance Configuration](https://harperdb.io/docs/harperdb-studio/instance-config/) page. The below table describes each alert and their evaluation metrics.
+HarperDB Cloud instance alarms are triggered when certain conditions are met. Once alarms are triggered organization owners will immediately receive an email alert and the alert will be available on the [Instance Configuration](../harperdb-studio/instance-configuration.md) page. The below table describes each alert and their evaluation metrics.
 
 
 
@@ -15,9 +15,9 @@ HarperDB Cloud instance alarms are triggered when certain conditions are met. On
 * **Proposed Remedy**: Recommended solution to avoid the alert in the future.
 
 
-| Alarm   | Threshold  | Intervals | Proposed Remedy                                |
-|---------|------------|-----------|------------------------------------------------|
-| Storage | > 90% Disk | 1 x 5min  | [Increased storage volume](https://harperdb.io/docs/harperdb-studio/instance-config/#update-instance-storage)                   |
-| CPU     | > 90% Avg  | 2 x 5min  | [Increase instance size for additional CPUs](https://harperdb.io/docs/harperdb-studio/instance-config/#update-instance-ram) |
-| Memory  | > 90% RAM  | 2 x 5min  | [Increase instance size](https://harperdb.io/docs/harperdb-studio/instance-config/#update-instance-ram)                     |
+| Alarm   | Threshold  | Intervals | Proposed Remedy                                                                                                |
+|---------|------------|-----------|----------------------------------------------------------------------------------------------------------------|
+| Storage | > 90% Disk | 1 x 5min  | [Increased storage volume](../harperdb-studio/instance-configuration.md#update-instance-storage)               |
+| CPU     | > 90% Avg  | 2 x 5min  | [Increase instance size for additional CPUs](../harperdb-studio/instance-configuration.md#update-instance-ram) |
+| Memory  | > 90% RAM  | 2 x 5min  | [Increase instance size](../harperdb-studio/instance-configuration.md#update-instance-ram)                     |
 

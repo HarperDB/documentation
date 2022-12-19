@@ -1,4 +1,5 @@
-Verizon 5G Wavelength Instances
+# Verizon 5G Wavelength Instances
+
 These instances are only accessible from the Verizon network. When accessing your HarperDB instance please ensure you are connected to the Verizon network, examples include Verizon 5G Internet, Verizon Hotspots, or Verizon mobile devices.
 
 
@@ -32,7 +33,7 @@ AWS EBS gp2 volumes have a baseline performance level, which determines the numb
 
 
 
-Smaller gp2 volumes are perfect for trying out the functionality of HarperDB, and might also work well for applications that don’t perform many database transactions. For applications that perform a moderate or high number of transactions, we recommend that you use a larger HarperDB volume. Learn more about the impact of IOPS on performance here: https://harperdb.io/docs/harperdb-cloud/iops-impact-on-performance/.
+Smaller gp2 volumes are perfect for trying out the functionality of HarperDB, and might also work well for applications that don’t perform many database transactions. For applications that perform a moderate or high number of transactions, we recommend that you use a larger HarperDB volume. Learn more about the [impact of IOPS on performance here](../harperdb-cloud/iops-impact.md).
 
 
 
