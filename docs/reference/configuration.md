@@ -6,7 +6,7 @@ All available configuration will be populated by default in the config file on i
 
 ---
 
-## Using the configuration file and naming conventions
+## Using the Configuration File and Naming Conventions
 
 The configuration elements in `harperdb-config.yaml` use camelcase: `operationsApi`.
 

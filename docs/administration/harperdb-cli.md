@@ -1,6 +1,6 @@
 # HarperDB CLI
 
-The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](https://harperdb.io/docs/install-harperdb/).
+The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](../install-harperdb/index.md).
 
 ## Installing HarperDB
 To install HarperDB with CLI prompts, run the following command:
@@ -9,7 +9,7 @@ To install HarperDB with CLI prompts, run the following command:
 harperdb install
 ```
 
-Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](https://harperdb.io/docs/reference/configuration-file/). Note, when used in conjunction, command line arguments will override environment variables.
+Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](../reference/configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
 
 #### Environment Variables
 ```bash
