@@ -8,7 +8,7 @@ When parsing date values passed to SQL date functions in HDB, we first check for
 
 Returns the current date in UTC in `YYYY-MM-DD` String format.
 
-```bash
+```
 "SELECT CURRENT_DATE() AS current_date_result" returns
     {
       "current_date_result": "2020-04-22"
@@ -19,7 +19,7 @@ Returns the current date in UTC in `YYYY-MM-DD` String format.
 
 Returns the current time in UTC in `HH:mm:ss.SSS` String format.
 
-```bash
+```
 "SELECT CURRENT_TIME() AS current_time_result" returns
     {
       "current_time_result": "15:18:14.639"
@@ -30,7 +30,7 @@ Returns the current time in UTC in `HH:mm:ss.SSS` String format.
 
 Referencing this variable will evaluate as the current Unix Timestamp in milliseconds.
 
-```bash
+```
 "SELECT CURRENT_TIMESTAMP AS current_timestamp_result" returns
     {
       "current_timestamp_result": 1587568845765
@@ -42,14 +42,14 @@ Formats and returns the date_string argument in UTC in `YYYY-MM-DDTHH:mm:ss.SSSZ
 
 If a date_string is not provided, the function will return the current UTC date/time value in the return format defined above.
 
-```bash
+```
 "SELECT DATE(1587568845765) AS date_result" returns
     {
       "date_result": "2020-04-22T15:20:45.765+0000"
     }
 ```
 
-```bash
+```
 "SELECT DATE(CURRENT_TIMESTAMP) AS date_result2" returns
     {
       "date_result2": "2020-04-22T15:20:45.765+0000"
@@ -74,7 +74,7 @@ Adds the defined amount of time to the date provided in UTC and returns the resu
 | milliseconds | ms        |
 
 
-```bash
+```
 "SELECT DATE_ADD(1587568845765, 1, 'days') AS date_add_result" AND
 "SELECT DATE_ADD(1587568845765, 1, 'd') AS date_add_result" both return
     {
@@ -82,7 +82,7 @@ Adds the defined amount of time to the date provided in UTC and returns the resu
     }
 ```
 
-```bash
+```
 "SELECT DATE_ADD(CURRENT_TIMESTAMP, 2, 'years')
 AS date_add_result2" returns
     {
@@ -103,7 +103,7 @@ Accepted interval values:
 * minutes 
 * seconds
 
-```bash
+```
 "SELECT DATE_DIFF(CURRENT_TIMESTAMP, 1650643129017, 'hours')
 AS date_diff_result" returns
     {
@@ -115,7 +115,7 @@ AS date_diff_result" returns
 
 Formats and returns a date value in the String format provided. Find more details on accepted format values in the [moment.js docs](https://momentjs.com/docs/#/displaying/format/).
 
-```bash
+```
 "SELECT DATE_FORMAT(1524412627973, 'YYYY-MM-DD HH:mm:ss')
 AS date_format_result" returns
     {
@@ -140,7 +140,7 @@ Subtracts the defined amount of time from the date provided in UTC and returns t
 | milliseconds | ms        |
 
 
-```bash
+```
 "SELECT DATE_SUB(1587568845765, 2, 'years') AS date_sub_result" returns
     {
       "date_sub_result": 1524410445765
@@ -151,16 +151,17 @@ Subtracts the defined amount of time from the date provided in UTC and returns t
 
 Extracts and returns the date_part requested as a String value. Accepted date_part values below show value returned for date = “2020-03-26T15:13:02.041+000”
 
-date_part	Example return value*
-year	“2020”
-month	“3”
-day	“26”
-hour	“15”
-minute	“13”
-second	“2”
-millisecond	“41”
+| date_part    | 	Example return value* |
+|--------------|------------------------|
+| year	        | “2020”                 |
+| month	       | “3”                    |
+| day	         | “26”                   |
+ | hour	        | “15”                   |
+| minute	      | “13”                   |
+| second	      | “2”                    |
+|  millisecond | 	“41”                  |
 
-```bash
+```
 "SELECT EXTRACT(1587568845765, 'year') AS extract_result" returns
     {
       "extract_result": "2020"
@@ -171,7 +172,7 @@ millisecond	“41”
 
 Returns the current Unix Timestamp in milliseconds.
 
-```bash
+```
 "SELECT GETDATE() AS getdate_result" returns
     {
       "getdate_result": 1587568845765
@@ -181,7 +182,7 @@ Returns the current Unix Timestamp in milliseconds.
 ### GET_SERVER_TIME()
 Returns the current date/time value based on the server’s timezone in `YYYY-MM-DDTHH:mm:ss.SSSZZ` String format.
 
-```bash
+```
 "SELECT GET_SERVER_TIME() AS get_server_time_result" returns
     {
       "get_server_time_result": "2020-04-22T15:20:45.765+0000"
@@ -191,14 +192,14 @@ Returns the current date/time value based on the server’s timezone in `YYYY-MM
 ### OFFSET_UTC(date, offset)
 Returns the UTC date time value with the offset provided included in the return String value formatted as `YYYY-MM-DDTHH:mm:ss.SSSZZ`. The offset argument will be added as minutes unless the value is less than 16 and greater than -16, in which case it will be treated as hours.
 
-```bash
+```
 "SELECT OFFSET_UTC(1587568845765, 240) AS offset_utc_result" returns
     {
       "offset_utc_result": "2020-04-22T19:20:45.765+0400"
     }
 ```
 
-```bash
+```
 "SELECT OFFSET_UTC(1587568845765, 10) AS offset_utc_result2" returns
     {
       "offset_utc_result2": "2020-04-23T01:20:45.765+1000"
@@ -208,7 +209,7 @@ Returns the UTC date time value with the offset provided included in the return 
 ### NOW()
 Returns the current Unix Timestamp in milliseconds.
 
-```bash
+```
 "SELECT NOW() AS now_result" returns
     {
       "now_result": 1587568845765

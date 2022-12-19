@@ -13,7 +13,7 @@ geoEqual(_geo1_, _geo2_)
 ### Example
 Find HarperDB Headquarters within all locations within the database.
 
-```bash
+```
 SELECT *
 FROM dev.locations
 WHERE geoEqual(geo_data, '{

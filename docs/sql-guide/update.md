@@ -4,7 +4,7 @@ HarperDB supports updating existing table row(s) via UPDATE statements. Multiple
 
 
 
-```bash
+```
 UPDATE dev.dog
     SET owner_name = 'Kyle'
     WHERE id IN (1, 2)

@@ -13,7 +13,7 @@ geoArea(_geoJSON_)
 #### Example 1
 Calculate the area, in square meters, of a manually passed GeoJSON polygon.
 
-```bash
+```
 SELECT geoArea('{
     "type":"Feature",
     "geometry":{
@@ -31,7 +31,7 @@ SELECT geoArea('{
 #### Example 2
 Find all records that have an area less than 1 square mile (or 2589988 square meters).
 
-```bash
+```
 SELECT * FROM dev.locations
 WHERE geoArea(geo_data) < 2589988
 ```
