@@ -6,7 +6,6 @@ This section contains technical details and reference materials for HarperDB.
 * [Dynamic Schema](dynamic-schema.md)
 * [Configuration File](configuration.md) 
 * [Logging](logging.md)
-* [Job Logs](job-logs.md) 
 * [Transaction Logging](transaction-logging.md) 
 * [Headers](headers.md)
 * [Limitations](limits.md)
