@@ -17,7 +17,7 @@ The purpose of this query is to give us every movie where at least two of our fa
 
 Both function calls evaluate the credits.cast attribute, this attribute is an object array of every cast member in a movie.
 
-```bash
+```
 SELECT m.title,
     m.overview,
     m.release_date,
@@ -29,7 +29,7 @@ WHERE SEARCH_JSON($count($[name in ["Robert Downey Jr.", "Chris Evans", "Scarlet
 ```
 A sample of this data from the movie The Avengers looks like
 
-```bash
+```json
 [
     {
     "cast_id": 46,
@@ -62,7 +62,7 @@ A sample of this data from the movie The Avengers looks like
 ```
 Let’s break down the SEARCH_JSON function call in the SELECT:
 
-```bash
+```
 SEARCH_JSON(
     $[name in [
         "Robert Downey Jr.",
@@ -88,7 +88,7 @@ The first argument passed to SEARCH_JSON is the expression to execute against th
 
 Then the expression tells the function to only return entries where the name attribute matches any of the actors defined in the array:
 
-```bash
+```
 name in ["Robert Downey Jr.", "Chris Evans", "Scarlett Johansson", "Mark Ruffalo", "Chris Hemsworth", "Jeremy Renner", "Clark Gregg", "Samuel L. Jackson", "Gwyneth Paltrow", "Don Cheadle"]
 ```
 
@@ -99,7 +99,7 @@ So far, we’ve iterated the array and filtered out rows, but we also want the r
 
 ##### Sample Result
 
-```bash
+```json
 [
     {
     "actor": "Robert Downey Jr.",
@@ -122,7 +122,7 @@ Just having the SEARCH_JSON function in our SELECT is powerful, but given our cr
 
 This function call in the WHERE clause is similar, but we don’t need to perform the same transformation as occurred in the SELECT:
 
-```bash
+```
 SEARCH_JSON(
     $count(
     $[name in [

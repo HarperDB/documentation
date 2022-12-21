@@ -28,7 +28,7 @@ HarperDB instance users can be added with the following instructions.
    
    * Select a role.
    
-      *Learn more about role management here: [Manage Instance Roles](https://harperdb.io/docs/harperdb-studio/manage-instance-roles/).*
+      *Learn more about role management here: [Manage Instance Roles](manage-instance-roles.md).*
    
 2) Click **Add User**.
    

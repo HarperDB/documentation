@@ -65,7 +65,7 @@ The following section assumes you have selected the appropriate table from the s
 2) To import a CSV by URL:
    1) Enter the URL in the **CSV file URL** textbox. 
    2) Click **Import From URL**. 
-   3) The CSV will load and you will be redirected back to browse table data. 
+   3) The CSV will load, and you will be redirected back to browse table data. 
 3) To upload a CSV file:
    1) Click **Click or Drag to select a .csv file** (or drag your CSV file from your file browser). 
    2) Navigate to your desired CSV file and select it. 

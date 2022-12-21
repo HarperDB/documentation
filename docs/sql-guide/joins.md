@@ -11,7 +11,7 @@ Here’s a basic example joining two tables from our Get Started example- joinin
 
 
 
-```bash
+```
 SELECT d.id, d.dog_name, d.owner_name, b.name, b.section
     FROM dev.dog AS d
     INNER JOIN dev.breed AS b ON d.breed_id = b.id

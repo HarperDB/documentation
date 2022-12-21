@@ -4,13 +4,13 @@ This is a list of reserved words in the SQL Parser.  Use of these words or symbo
 
 For Example, for a table called ASSERT in the dev schema, a SQL select on that table would look like:
 
-```bash
+```
 SELECT * from dev.`ASSERT`
 ```
 
 Alternatively:
 
-```bash
+```
 SELECT * from dev.[ASSERT]
 ```
 

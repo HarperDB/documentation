@@ -13,7 +13,7 @@ geoDifference(_polygon1, polygon2_)
 ### Example
 Return a GeoJSON Polygon that removes City Park (_polygon2_) from Colorado (_polygon1_).
 
-```bash
+```
 SELECT geoDifference('{
     "type": "Feature",
     "properties": {

@@ -21,7 +21,7 @@ Role permissions in HarperDB are broken into two categories – permissions arou
 
 **Built-In Roles**
 
-There are three built-in roles within HarperDB. See full breakdown of operations restricted to only super_user roles [here](https://harperdb.io/docs/security/users-roles/).
+There are three built-in roles within HarperDB. See full breakdown of operations restricted to only super_user roles [here](#Role-Based-Operation-Restrictions).
 
 * `super_user` - This role provides full access to all operations and methods within a HarperDB instance, this can be considered the admin role.
 
@@ -159,7 +159,7 @@ Each table that a role should be given some level of CRUD permissions to must be
    
    * The practical approach to deleting an individual attribute of a row would be to set that attribute to null via an update statement.
 
-## Role-Based Operation Restrictions
+## <a id="Role-Based-Operation-Restrictions"></a> Role-Based Operation Restrictions
 
 The table below includes all API operations available in HarperDB and indicates whether or not the operation is restricted to super_user roles.
 
@@ -277,7 +277,7 @@ The table below includes all API operations available in HarperDB and indicates 
 
 **You may have gotten an error like,**  `Error: Must execute as <<username>>`.
 
-This means that you installed HarperDB as <<user>>.  Because HarperDB stores files natively on the operating system, we only allow the HarperDB executable to be run by a single user.  This prevents permissions issues on files.
+This means that you installed HarperDB as `<<user>>`.  Because HarperDB stores files natively on the operating system, we only allow the HarperDB executable to be run by a single user.  This prevents permissions issues on files.
 
 
 

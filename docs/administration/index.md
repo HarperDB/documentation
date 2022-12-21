@@ -2,6 +2,6 @@
 
 This section contains details regarding the administration of HarperDB.
 
-* [Command Line Interface](https://harperdb.io/docs/administration/harperdb-cli/)
+* [Command Line Interface](harperdb-cli.md)
 
-* [Upgrade HarperDB](https://harperdb.io/docs/administration/upgrade-a-harperdb-instance/)
+* [Upgrade HarperDB](upgrade-hdb-instance.md)

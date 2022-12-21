@@ -13,7 +13,7 @@ geoContains(_geo1, geo2_)
 ### Example 1
 Return all locations within the state of Colorado (passed as a GeoJSON string).
 
-```bash
+```
 SELECT *
 FROM dev.locations
 WHERE geoContains('{
@@ -37,7 +37,7 @@ WHERE geoContains('{
 ### Example 2
 Return all locations which contain HarperDB Headquarters.
 
-```bash
+```
 SELECT *
 FROM dev.locations
 WHERE geoContains(geo_data, '{

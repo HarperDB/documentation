@@ -15,7 +15,7 @@ geoNear(_point1, point2, distance_[_, units_])
 ### Example 1
 Return all locations within 50 miles of a given point.
 
-```bash
+```
 SELECT *
 FROM dev.locations
 WHERE geoNear('[-104.979127,39.761563]', geo_data, 50, 'miles')
@@ -24,7 +24,7 @@ WHERE geoNear('[-104.979127,39.761563]', geo_data, 50, 'miles')
 ### Example 2
 Return all locations within 2 degrees of the earth of a given point. (Each degree lat/long is about 69 miles [111 kilometers]). Return all data and the distance in miles, sorted by ascending distance.
 
-```bash
+```
 SELECT *, geoDistance('[-104.979127,39.761563]', geo_data, 'miles') as distance
 FROM dev.locations
 WHERE geoNear('[-104.979127,39.761563]', geo_data, 2, 'degrees')

@@ -13,7 +13,7 @@ geoLength(_geoJSON_[_, units_])
 ### Example 1
 Calculate the length, in kilometers, of a manually passed GeoJSON linestring.
 
-```bash
+```
 SELECT geoLength('{
     "type": "Feature",
     "geometry": {
@@ -30,7 +30,7 @@ SELECT geoLength('{
 ### Example 2
 Find all data plus the calculated length in miles of the GeoJSON, restrict the response to only lengths less than 5 miles, and return the data in order of lengths smallest to largest.
 
-```bash
+```
 SELECT *, geoLength(geo_data, 'miles') as length
 FROM dev.locations
 WHERE geoLength(geo_data, 'miles') < 5

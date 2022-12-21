@@ -10,4 +10,4 @@ Install HarperDB on Windows
 npm install -g harperdb
 harperdb 
 ````
-HarperDB will automatically start after installation. For more information visit the [HarperDB Command Line Interface guide](https://harperdb.io/docs/administration/harperdb-cli/).
+HarperDB will automatically start after installation. For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).

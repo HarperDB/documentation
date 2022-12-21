@@ -11,4 +11,4 @@ Once you’ve downloaded the .tgz file, run the following command from the direc
 npm install -g harperdb-X.X.X.tgz harperdb install
 ```
 
-For more information visit the [HarperDB Command Line Interface](https://harperdb.io/docs/administration/harperdb-cli/) guide.
+For more information visit the [HarperDB Command Line Interface](../administration/harperdb-cli.md) guide.

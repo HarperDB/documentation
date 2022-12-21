@@ -58,7 +58,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](https://harperdb.io/app/webp-express/webp-images/doc-root/app/uploads/2021/04/dynamic_schema_2_create_table.png.webp)
+![](../../images/reference/dynamic_schema_2_create_table.png.webp)
 
 3) **Insert Record**
 
@@ -79,7 +79,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](https://harperdb.io/app/webp-express/webp-images/doc-root/app/uploads/2021/04/dynamic_schema_3_insert_record.png.webp)
+![](../../images/reference/dynamic_schema_3_insert_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
@@ -103,7 +103,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](https://harperdb.io/app/webp-express/webp-images/doc-root/app/uploads/2021/04/dynamic_schema_4_insert_additional_record.png.webp)
+![](../../images/reference/dynamic_schema_4_insert_additional_record.png.webp)
 
 5) **Update Existing Record**
 
@@ -124,7 +124,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](https://harperdb.io/app/webp-express/webp-images/doc-root/app/uploads/2021/04/dynamic_schema_5_update_existing_record.png.webp)
+![](../../images/reference/dynamic_schema_5_update_existing_record.png.webp)
 
 6) **Query Table with SQL**
 
@@ -139,4 +139,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](https://harperdb.io/app/webp-express/webp-images/doc-root/app/uploads/2021/04/dynamic_schema_6_query_table_with_sql.png.webp)
+![](../../images/reference/dynamic_schema_6_query_table_with_sql.png.webp)

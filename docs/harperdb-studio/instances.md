@@ -3,13 +3,13 @@
 The HarperDB Studio allows you to administer all of your HarperDB instances in one place. HarperDB currently offers the following instance types:
 
 * **HarperDB Cloud Instance**
-Managed installations of HarperDB, what we call [HarperDB Cloud](https://harperdb.io/docs/harperdb-cloud/).
+Managed installations of HarperDB, what we call [HarperDB Cloud](../harperdb-cloud).
 * **5G Wavelength Instance**
-Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](https://harperdb.io/docs/harperdb-cloud/verizon-5g-wavelength/). *Note, these instances are only accessible via the Verizon network.*
+Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../harperdb-cloud/verizon-5g-wavelength-instances.md). *Note, these instances are only accessible via the Verizon network.*
 * **User-Installed Instance**
 Any HarperDB installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
-All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you login. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](https://harperdb.io/docs/harperdb-api/).
+All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](https://api.harperdb.io/).
 
 ## Organization Instance List
 A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and user-installed instances are listed together.
@@ -41,11 +41,11 @@ A new instance can be created as follows:
 
        1) Select Instance RAM
 
-          *HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance. [More on instance specs](https://harperdb.io/docs/harperdb-cloud/instance-size-hardware-specs/).*
+          *HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance. [More on instance specs](../harperdb-cloud/instance-size-hardware-specs.md).*
 
        2) Select Storage Size
 
-          *Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS. [More on IOPS Impact on Performance](https://harperdb.io/docs/harperdb-cloud/iops-impact-on-performance/).*
+          *Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS. [More on IOPS Impact on Performance](../harperdb-cloud/iops-impact.md).*
 
        3) Select Instance Region
 
@@ -112,7 +112,7 @@ An instance can be deleted as follows:
 
 ## Upgrade an Instance
 
-HarperDB instances can be resized on the [Instance Configuration](https://harperdb.io/docs/harperdb-studio/instance-config/) page.
+HarperDB instances can be resized on the [Instance Configuration](instance-configuration.md) page.
 
 ## Instance Log In/Log Out
 

@@ -15,7 +15,7 @@ geoConvert(_coordinates, geo_type_[, _properties_])
 ### Example
 Convert a given coordinate into a GeoJSON point with specified properties.
 
-```bash
+```
 SELECT geoConvert(
     '[-104.979127,39.761563]',
     'point',

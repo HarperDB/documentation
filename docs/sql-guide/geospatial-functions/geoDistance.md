@@ -14,14 +14,14 @@ geoDistance(_point1, point2_[_, units_])
 ### Example 1
 Calculate the distance, in miles, between HarperDB’s headquarters and the Washington Monument.
 
-```bash
+```
 SELECT geoDistance('[-104.979127,39.761563]', '[-77.035248,38.889475]', 'miles')
 ```
 
 ### Example 2
 Find all locations that are within 40 kilometers of a given point, return that distance in miles, and sort by distance in an ascending order.
 
-```bash
+```
 SELECT *, geoDistance('[-104.979127,39.761563]', geo_data, 'miles') as distance
 FROM dev.locations
 WHERE geoDistance('[-104.979127,39.761563]', geo_data, 'kilometers') < 40

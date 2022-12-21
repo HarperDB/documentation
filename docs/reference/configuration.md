@@ -2,11 +2,11 @@
 
 HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
-All available configuration will be populated by default in the config file on install, regardless of whether or not it is used.
+All available configuration will be populated by default in the config file on install, regardless of whether it is used.
 
 ---
 
-## Using the configuration file and naming conventions
+## Using the Configuration File and Naming Conventions
 
 The configuration elements in `harperdb-config.yaml` use camelcase: `operationsApi`.
 

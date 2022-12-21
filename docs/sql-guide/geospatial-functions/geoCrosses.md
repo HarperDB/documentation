@@ -13,7 +13,7 @@ geoCrosses(_geo1, geo2_)
 ### Example
 Find all locations that cross over a highway.
 
-```bash
+```
 SELECT *
 FROM dev.locations
 WHERE geoCrosses(
