@@ -191,7 +191,7 @@ clustering:
             port: 9932
 ```
 
-![figure 1](/Users/terraroush/documentation/images/clustering/figure1.png "diagram displaying a three node cluster")
+![figure 1](../../images/clustering/figure1.png "diagram displaying a three node cluster")
 
 This diagram shows one way of using routes to connect a network of nodes. Node2 and Node3 do not reference any routes in their config. Node1 contains routes for Node2 and Node3, which is enough to establish a network between all three nodes.
 
@@ -246,7 +246,7 @@ A subscription consists of:
 
 #### Publish subscription
 
-![figure 2](/Users/terraroush/documentation/images/clustering/figure2.png "diagram example of a publish subscription from the perspective of Node1")
+![figure 2](../../images/clustering/figure2.png "diagram example of a publish subscription from the perspective of Node1")
 
 This diagram is an example of a `publish` subscription from the perspective of Node1.
 
@@ -254,7 +254,7 @@ The record with id 2 has been inserted in the dog table on Node1, after it has c
 
 #### Subscribe subscription
 
-![figure 3](/Users/terraroush/documentation/images/clustering/figure3.png "diagram example of a subscribe subscription from the perspective of Node1")
+![figure 3](../../images/clustering/figure3.png "diagram example of a subscribe subscription from the perspective of Node1")
 
 This diagram is an example of a `subscribe` subscription from the perspective of Node1.
 
@@ -262,11 +262,11 @@ The record with id 3 has been inserted in the dog table on Node2, after it has c
 
 #### Subscribe and Publish
 
-![figure 4](/Users/terraroush/documentation/images/clustering/figure4.png "diagram shows both subscribe and publish but publish is set to false")
+![figure 4](../../images/clustering/figure4.png "diagram shows both subscribe and publish but publish is set to false")
 
 This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is **_not_** being replicated on Node2.
 
-![figure 5](/Users/terraroush/documentation/images/clustering/figure5.png "shows both subscribe and publish set to true")
+![figure 5](../../images/clustering/figure5.png "shows both subscribe and publish set to true")
 
 This shows both subscribe and publish set to true. The insert on Node1 is replicated on Node2 and the update on Node2 is replicated on Node1.
 
@@ -470,4 +470,4 @@ HarperDB has built-in resiliency for when network connectivity is lost within a 
 
 HarperDB clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
-![figure 6](/Users/terraroush/documentation/images/clustering/figure6.png "example topology of mesh network")
+![figure 6](../../images/clustering/figure6.png "example topology of mesh network")
