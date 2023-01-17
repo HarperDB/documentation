@@ -134,7 +134,7 @@ export NVM_DIR="$HOME/.nvm"
 Install Node.js using nvm ([read more about specific Node version requirements here](node-ver-requirement.md))
 
 ```bash
-nvm install 14.19.1
+nvm install 18.13.0
 ```
 
 ### <a id="install"></a> Install and Start HarperDB
@@ -148,7 +148,7 @@ harperdb install --TC_AGREEMENT "yes" --HDB_ROOT "/home/ubuntu/hdb" --SERVER_POR
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you can add a crontab entry
 
 ```bash
-(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v14.91.1/bin:$PATH\" && harperdb run") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb run") | crontab -
 ```
 
 For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
