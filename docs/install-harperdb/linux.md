@@ -134,7 +134,7 @@ export NVM_DIR="$HOME/.nvm"
 Install Node.js using nvm ([read more about specific Node version requirements here](node-ver-requirement.md))
 
 ```bash
-nvm install 14.19.1
+nvm install 18.13.0
 ```
 
 ### <a id="install"></a> Install and Start HarperDB
