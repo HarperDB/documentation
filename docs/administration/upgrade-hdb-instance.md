@@ -18,16 +18,15 @@ Upgrading HarperDB is a two-step process. First the latest version of HarperDB m
 
 [Node Version Manager (nvm)](http://nvm.sh/) is an easy way to install, remove, and switch between different versions of Node.js as required by various applications. More information, including directions on installing nvm can be found here: https://nvm.sh/.
 
-HarperDB suggests Node version 18.12.0, but will support Node versions 14.0.0 and higher. To install a different version of Node with nvm, run the command:
-
+HarperDB will support Node.js versions 14.0.0 and higher, however, please check our [NPM page](https://www.npmjs.com/package/harperdb) for our recommended Node.js version. To install a different version of Node.js with nvm, run the command:
 ```bash
-nvm install 18.12.0
+nvm install <the node version>
 ```
 
 To switch to a version of Node run:
 
 ```bash
-nvm use 18.12.0
+nvm use <the node version>
 ```
 
 To see the current running version of Node run:
@@ -65,7 +64,7 @@ npm uninstall -g harperdb
 Switch to the newer version of Node:
 
 ```bash
-nvm use 18.12.0
+nvm use <the node version>
 ```
 
 Install HarperDB globally
