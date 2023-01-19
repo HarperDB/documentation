@@ -24,7 +24,7 @@ SELECT * from dev.[ASSERT]
 * ALTER 
 * AND 
 * ANTI 
-* IANY 
+* ANY 
 * APPLY 
 * ARRAY 
 * AS 
