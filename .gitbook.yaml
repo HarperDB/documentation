@@ -1,1 +1,4 @@
 root: ./docs/
+
+redirects:
+  developer-documentation: index.md
