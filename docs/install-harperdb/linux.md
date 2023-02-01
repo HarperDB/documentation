@@ -1,8 +1,8 @@
-# Linux Installation and Configuration
+# On Linux
 
 The following is a recommended way to configure Linux and install HarperDB. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
 
----
+***
 
 These instructions assume that the following has already been completed:
 
@@ -14,11 +14,12 @@ These instructions assume that the following has already been completed:
 
 For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
----
+***
 
-If you wish to install locally or already have a configured server, skip to [Install and Start HarperDB](#install)
+If you wish to install locally or already have a configured server, skip to [Install and Start HarperDB](linux.md#install)
 
 ### (Optional) LVM Configuration
+
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
 
 Find disk that already has a partition
@@ -78,7 +79,7 @@ Run `lsblk` and note the device name of the additional volume
 lsblk
 ```
 
-Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb_vg/hdb_lv)
+Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb\_vg/hdb\_lv)
 
 ```bash
 sudo mkfs.ext4 -L hdb_data /dev/nvme1n1
@@ -100,6 +101,7 @@ echo "LABEL=hdb_data /home/ubuntu/hdb ext4 defaults,noatime 0 1" | sudo tee -a /
 ```
 
 ### Configure Linux and Install Prerequisites
+
 If a swap file or partition does not already exist, create and enable a 2GB swap file
 
 ```bash
@@ -137,7 +139,8 @@ Install Node.js using nvm ([read more about specific Node version requirements h
 nvm install <the node version>
 ```
 
-### <a id="install"></a> Install and Start HarperDB
+### Install and Start HarperDB <a href="#install" id="install"></a>
+
 Install HarperDB
 
 ```bash
@@ -151,4 +154,4 @@ HarperDB will automatically start after installation. If you wish HarperDB to st
 (crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb run") | crontab -
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
+For more information visit the [HarperDB Command Line Interface guide](../index-7/harperdb-cli.md).
