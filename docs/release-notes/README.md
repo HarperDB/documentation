@@ -6,6 +6,14 @@
 
 [4.0.0 Tucker](4.tucker/4.0.0.md)
 
+[4.0.1 Tucker](4.tucker/4.0.1.md)
+
+[4.0.2 Tucker](4.tucker/4.0.2.md)
+
+[4.0.3 Tucker](4.tucker/4.0.3.md)
+
+[4.0.4 Tucker](4.tucker/4.0.4.md)
+
 ### Past Releases
 
 [Meet Monkey](3.monkey/) Our 3rd Release Pup
