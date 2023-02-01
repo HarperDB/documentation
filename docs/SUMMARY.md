@@ -85,7 +85,7 @@
   * [Transaction Logging](reference/transaction-logging.md)
   * [HarperDB Headers](reference/headers.md)
   * [HarperDB Limits](reference/limits.md)
-* [Support](support.md)
+* [Support](index.md)
 * [Release Notes](release-notes/README.md)
   * [HarperDB Tucker (Version 4)](release-notes/4.tucker/README.md)
     * [4.0.0](release-notes/4.tucker/4.0.0.md)
