@@ -5,8 +5,8 @@ HarperDB was built by developers, for developers. And since developers usually j
 ***
 
 * [API Reference](https://api.harperdb.io)
-* [HarperDB Studio](index/)
+* [HarperDB Studio](harperdb-studio/)
 * [Install HarperDB Locally](install-harperdb/)
-* [Use HarperDB Cloud](index-1/)
+* [Use HarperDB Cloud](harperdb-cloud/)
 * [Developer Project Examples](https://github.com/search?q=harperdb)
-* [Support](index-9.md)
+* [Support](index.md)

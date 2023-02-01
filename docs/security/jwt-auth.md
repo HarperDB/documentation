@@ -61,7 +61,7 @@ curl --location --request POST 'http://localhost:9925' \
 
 ## Token Expiration
 
-`operation_token` expires at a set interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to one day, and is configurable in [harperdb-config.yaml](../index-8/configuration.md). To generate a new `operation_token`, the `refresh_operation_token` operation is used, passing the `refresh_token` in the Bearer Token Authorization Header. A full cURL example can be seen here:
+`operation_token` expires at a set interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to one day, and is configurable in [harperdb-config.yaml](../reference/configuration.md). To generate a new `operation_token`, the `refresh_operation_token` operation is used, passing the `refresh_token` in the Bearer Token Authorization Header. A full cURL example can be seen here:
 
 ```bash
 curl --location --request POST 'http://localhost:9925' \
@@ -80,11 +80,11 @@ This will return a new `operation_token`. An example expected return object is:
 }
 ```
 
-The `refresh_token` also expires at a set interval, but a longer interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to thirty days, and is configurable in [harperdb-config.yaml](../index-8/configuration.md). To generate a new `operation_token` and a new `refresh_token` the `create_authentication_tokensoperation` is called.
+The `refresh_token` also expires at a set interval, but a longer interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to thirty days, and is configurable in [harperdb-config.yaml](../reference/configuration.md). To generate a new `operation_token` and a new `refresh_token` the `create_authentication_tokensoperation` is called.
 
 ## Configuration
 
-Token timeouts are configurable in [harperdb-config.yaml](../index-8/configuration.md) with the following parameters:
+Token timeouts are configurable in [harperdb-config.yaml](../reference/configuration.md) with the following parameters:
 
 * `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation\_token expires (default 1d).
 * `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh\_token expires (default 30d).

@@ -11,4 +11,4 @@ npm install -g harperdb
 harperdb 
 ```
 
-HarperDB will automatically start after installation. For more information visit the [HarperDB Command Line Interface guide](../index-7/harperdb-cli.md).
+HarperDB will automatically start after installation. For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
