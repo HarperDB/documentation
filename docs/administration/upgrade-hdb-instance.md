@@ -1,25 +1,24 @@
 # Upgrade a HarperDB Instance
 
-This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts.  Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first.
-Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](../harperdb-cloud/index.md) will be upgraded by the HarperDB Cloud team.
+This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](../harperdb-cloud/) will be upgraded by the HarperDB Cloud team.
 
 ## Upgrading
+
 Upgrading HarperDB is a two-step process. First the latest version of HarperDB must be downloaded from npm, then the HarperDB upgrade scripts will be utilized to ensure the newest features are available on the system.
 
-1) Install the latest version of HarperDB using `npm install -g harperdb`.
+1.  Install the latest version of HarperDB using `npm install -g harperdb`.
 
-   Note `-g` should only be used if you installed HarperDB globally (which is recommended). 
-2) Run `harperdb` to initiate the upgrade process.
+    Note `-g` should only be used if you installed HarperDB globally (which is recommended).
+2.  Run `harperdb` to initiate the upgrade process.
 
-   HarperDB will then prompt you for all appropriate inputs and then run the upgrade directives.
-
+    HarperDB will then prompt you for all appropriate inputs and then run the upgrade directives.
 
 ## Node Version Manager (nvm)
 
 [Node Version Manager (nvm)](http://nvm.sh/) is an easy way to install, remove, and switch between different versions of Node.js as required by various applications. More information, including directions on installing nvm can be found here: https://nvm.sh/.
 
-HarperDB supports Node.js versions 14.0.0 and higher, however, **please check our [NPM page](https://www.npmjs.com/package/harperdb) for our recommended Node.js version.**
- To install a different version of Node.js with nvm, run the command:
+HarperDB supports Node.js versions 14.0.0 and higher, however, **please check our** [**NPM page**](https://www.npmjs.com/package/harperdb) **for our recommended Node.js version.** To install a different version of Node.js with nvm, run the command:
+
 ```bash
 nvm install <the node version>
 ```

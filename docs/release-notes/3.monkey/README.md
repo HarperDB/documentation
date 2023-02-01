@@ -1,7 +1,7 @@
-### Monkey 3.0 Release
+# HarperDB Monkey (Version 3)
 
 Did you know our release names are dedicated to employee pups? For our third release, we have Monkey.
 
-<img src="../../images/dogs/monkey.webp" alt="picture of tan dog" width="50%"/>
+![picture of tan dog](../../../images/dogs/monkey.webp)
 
 _Hi, I am Monkey, a.k.a. Monk, a.k.a. Monchichi. My dad is Aron Johnson, the Director of DevOps at HarperDB. I am an eight-year-old Australian Cattle dog mutt whose favorite pastime is hunting and collecting tennis balls from the park next to her home. I love burrowing in the Colorado snow, rolling in the cool grass on warm days, and cheese!_

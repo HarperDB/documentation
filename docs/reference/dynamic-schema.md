@@ -1,17 +1,18 @@
 # Dynamic Schema
+
 HarperDB is built to make data ingestion simple. A primary driver of that is the Dynamic Schema. The purpose of this document is to provide a detailed explanation of the dynamic schema specifically related to schema definition and data ingestion.
-
-
 
 The dynamic schema provides the structure of schema and table namespaces while simultaneously providing the flexibility of a data-defined schema. Individual attributes are reflexively created as data is ingested, meaning the table will adapt to the structure of data ingested. HarperDB tracks the metadata around schemas, tables, and attributes allowing for describe table, describe schema, and describe all operations.
 
 ### Schemas
+
 HarperDB schemas are analogous to a namespace that groups tables together. A schema is required to create a table.
 
 ### Tables
+
 HarperDB tables group records together with a common data pattern. To create a table users must provide a table name and a primary key.
 
-* **Table Name**: Used to identify the table. 
+* **Table Name**: Used to identify the table.
 * **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB.
 
 Primary Key
@@ -30,9 +31,10 @@ HarperDB automatically creates two audit attributes used on each record.
 * `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
 
 ### Dynamic Schema Example
+
 To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](https://api.harperdb.io/).
 
-1) **Create a Schema**
+1. **Create a Schema**
 
 ```bash
 {
@@ -41,7 +43,7 @@ To better understand the behavior let’s take a look at an example. This exampl
 }
 ```
 
-2) **Create a Table**
+1. **Create a Table**
 
 Notice the schema name, table name, and hash attribute name are the only required parameters.
 
@@ -58,9 +60,9 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](../../images/reference/dynamic_schema_2_create_table.png.webp)
+![](../../images/reference/dynamic\_schema\_2\_create\_table.png.webp)
 
-3) **Insert Record**
+1. **Insert Record**
 
 To define attributes we do not need to do anything beyond sending them in with an insert operation.
 
@@ -79,11 +81,11 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](../../images/reference/dynamic_schema_3_insert_record.png.webp)
+![](../../images/reference/dynamic\_schema\_3\_insert\_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
-4) **Insert Additional Record**
+1. **Insert Additional Record**
 
 If we continue inserting records with the same data schema no schema updates are required. One record will omit the hash attribute from the insert to demonstrate GUID generation.
 
@@ -103,9 +105,9 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](../../images/reference/dynamic_schema_4_insert_additional_record.png.webp)
+![](../../images/reference/dynamic\_schema\_4\_insert\_additional\_record.png.webp)
 
-5) **Update Existing Record**
+1. **Update Existing Record**
 
 In this case, we will update a record with a new attribute not previously defined on the table.
 
@@ -124,9 +126,9 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](../../images/reference/dynamic_schema_5_update_existing_record.png.webp)
+![](../../images/reference/dynamic\_schema\_5\_update\_existing\_record.png.webp)
 
-6) **Query Table with SQL**
+1. **Query Table with SQL**
 
 Now if we query for all records where `weight_lbs` is `null` we expect to get back two records.
 
@@ -139,4 +141,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](../../images/reference/dynamic_schema_6_query_table_with_sql.png.webp)
+![](../../images/reference/dynamic\_schema\_6\_query\_table\_with\_sql.png.webp)

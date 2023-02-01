@@ -1,8 +1,7 @@
-### Tucker 4.0 Release
+# HarperDB Tucker (Version 4)
 
 Did you know our release names are dedicated to employee pups? For our fourth release, we have Tucker.
 
-
-<img src="../../images/dogs/tucker.png" alt="picture of grey and white dog" width="50%"/>
+![picture of grey and white dog](../../../images/dogs/tucker.png)
 
 _G’day, I’m Tucker. My dad is David Cockerill, a software engineer here at HarperDB. I am a 3-year-old Labrador Husky mix. I love to protect my dad from all the squirrels and rabbits we have in our yard. I have very ticklish feet and love belly rubs!_

@@ -1,13 +1,12 @@
 # How to Cluster
 
-To create a cluster you must have two or more nodes* (aka instances) of HarperDB running.
+To create a cluster you must have two or more nodes\* (aka instances) of HarperDB running.
 
-**A node is a single instance/installation of HarperDB. A node of HarperDB can operate independently with clustering on or off.*
-
+\*_A node is a single instance/installation of HarperDB. A node of HarperDB can operate independently with clustering on or off._
 
 Below are the steps, in order, that should be taken to set up a HarperDB cluster.
 
----
+***
 
 ### Creating a Cluster User
 
@@ -19,7 +18,7 @@ All nodes that are intended to be clustered together need to share the same `clu
 
 There are multiple ways a `cluster_user` can be created, they are:
 
-1) Through the operations API by calling `add_user`
+1. Through the operations API by calling `add_user`
 
 ```json
 {
@@ -30,7 +29,6 @@ There are multiple ways a `cluster_user` can be created, they are:
     "active": true
 }
 ```
-
 
 When using the API to create a cluster user the `harperdb-config.yaml` file must be updated with the username of the new cluster user.
 
@@ -43,7 +41,6 @@ This can be done through the API by calling `set_configuration` or by editing th
 }
 ```
 
-
 In the `harperdb-config.yaml` file under the top-level `clustering` element there will be a user element. Set this to the name of the cluster user.
 
 ```yaml
@@ -51,10 +48,9 @@ clustering:
   user: cluster_account
 ```
 
-
 _Note: When making any changes to the `harperdb-config.yaml` file, HarperDB must be restarted for the changes to take effect._
 
-2) Upon installation using **command line variables**. This will automatically set the user in the `harperdb-config.yaml` file.
+1. Upon installation using **command line variables**. This will automatically set the user in the `harperdb-config.yaml` file.
 
 _Note: Using command line or environment variables for setting the cluster user only works on install._
 
@@ -62,15 +58,16 @@ _Note: Using command line or environment variables for setting the cluster user 
 harperdb install --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsCluster123!
 ```
 
-3) Upon installation using **environment variables**. This will automatically set the user in the `harperdb-config.yaml` file.
+1. Upon installation using **environment variables**. This will automatically set the user in the `harperdb-config.yaml` file.
 
 ```
 CLUSTERING_USER=cluster_account CLUSTERING_PASSWORD=letsCluster123
 ```
 
----
+***
 
 ### Naming a Node
+
 Node name is the name given to a node. It is how nodes are identified within the cluster and must be unique to the cluster.
 
 The name cannot contain any of the following characters: `.,*>` . Dot, comma, asterisk, greater than, or whitespace.
@@ -81,7 +78,7 @@ _Note: If you want to change the node name make sure there are no subscriptions 
 
 There are multiple ways to update this element, they are:
 
-1) Directly editing the `harperdb-config.yaml` file.
+1. Directly editing the `harperdb-config.yaml` file.
 
 ```yaml
 clustering:
@@ -90,7 +87,7 @@ clustering:
 
 _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
 
-2) Calling `set_configuration` through the operations API
+1. Calling `set_configuration` through the operations API
 
 ```json
 {
@@ -99,19 +96,19 @@ _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must 
 }
 ```
 
-3) Using command line variables.
+1. Using command line variables.
 
 ```
 harperdb --CLUSTERING_NODENAME Node1
 ```
 
-4) Using environment variables.
+1. Using environment variables.
 
 ```
 CLUSTERING_NODENAME=Node1
 ```
 
----
+***
 
 ### Enabling Clustering
 
@@ -121,7 +118,8 @@ To enable clustering the `clustering.enabled` configuration element in the `harp
 
 There are multiple ways to update this element, they are:
 
-1) Directly editing the `harperdb-config.yaml` file and setting enabled to `true`
+1. Directly editing the `harperdb-config.yaml` file and setting enabled to `true`
+
 ```yaml
 clustering:
   enabled: true
@@ -129,7 +127,7 @@ clustering:
 
 _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
 
-2) Calling `set_configuration` through the operations API
+1. Calling `set_configuration` through the operations API
 
 ```json
 {
@@ -140,14 +138,13 @@ _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must 
 
 _Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
 
-
-3) Using **command line variables**.
+1. Using **command line variables**.
 
 ```
 harperdb --CLUSTERING_ENABLED true
 ```
 
-4) Using **environment variables**.
+1. Using **environment variables**.
 
 ```
 CLUSTERING_ENABLED=true
@@ -159,7 +156,7 @@ An efficient way to **install HarperDB**, **create the cluster user**, **set the
 harperdb install --CLUSTERING_ENABLED true --CLUSTERING_NODENAME Node1 --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsCluster123!
 ```
 
----
+***
 
 ### Understanding Routes
 
@@ -191,14 +188,14 @@ clustering:
             port: 9932
 ```
 
-![figure 1](../../images/clustering/figure1.png "diagram displaying a three node cluster")
+![figure 1](../../images/clustering/figure1.png)
 
 This diagram shows one way of using routes to connect a network of nodes. Node2 and Node3 do not reference any routes in their config. Node1 contains routes for Node2 and Node3, which is enough to establish a network between all three nodes.
 
 There are multiple ways to set routes, they are:
 
-1) Directly editing the `harperdb-config.yaml` file (refer to code snippet above). 
-2) Calling `cluster_set_routes` through the API.
+1. Directly editing the `harperdb-config.yaml` file (refer to code snippet above).
+2. Calling `cluster_set_routes` through the API.
 
 ```json
 {
@@ -210,18 +207,20 @@ There are multiple ways to set routes, they are:
 
 _Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
 
-3) From the command line.
+1. From the command line.
+
 ```bash
 --CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES "[{\"host\": \"3.735.184.8\", \"port\": 9932}]"
 ```
 
-4) Using environment variables.
+1. Using environment variables.
 
 ```bash
 CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES=[{"host": "3.735.184.8", "port": 9932}]
 ```
 
 The API also has `cluster_get_routes` for getting all routes in the config and `cluster_delete_routes` for deleting routes.
+
 ```json
 {
     "operation": "cluster_delete_routes",
@@ -229,7 +228,7 @@ The API also has `cluster_get_routes` for getting all routes in the config and `
 }
 ```
 
----
+***
 
 ### Subscriptions
 
@@ -239,14 +238,11 @@ _Note: ‘local’ and ‘remote’ will often be referred to. In the context of
 
 A subscription consists of:
 
-`schema` - the name of the schema that the table you are creating the subscription for belongs to.
-`table` - the name of the table the subscription will apply to.
-`publish` - a boolean which determines if transactions on the local table should be replicated on the remote table.
-`subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table.
+`schema` - the name of the schema that the table you are creating the subscription for belongs to. `table` - the name of the table the subscription will apply to. `publish` - a boolean which determines if transactions on the local table should be replicated on the remote table. `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table.
 
 #### Publish subscription
 
-![figure 2](../../images/clustering/figure2.png "diagram example of a publish subscription from the perspective of Node1")
+![figure 2](../../images/clustering/figure2.png)
 
 This diagram is an example of a `publish` subscription from the perspective of Node1.
 
@@ -254,7 +250,7 @@ The record with id 2 has been inserted in the dog table on Node1, after it has c
 
 #### Subscribe subscription
 
-![figure 3](../../images/clustering/figure3.png "diagram example of a subscribe subscription from the perspective of Node1")
+![figure 3](../../images/clustering/figure3.png)
 
 This diagram is an example of a `subscribe` subscription from the perspective of Node1.
 
@@ -262,11 +258,11 @@ The record with id 3 has been inserted in the dog table on Node2, after it has c
 
 #### Subscribe and Publish
 
-![figure 4](../../images/clustering/figure4.png "diagram shows both subscribe and publish but publish is set to false")
+![figure 4](../../images/clustering/figure4.png)
 
-This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is **_not_** being replicated on Node2.
+This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is _**not**_ being replicated on Node2.
 
-![figure 5](../../images/clustering/figure5.png "shows both subscribe and publish set to true")
+![figure 5](../../images/clustering/figure5.png)
 
 This shows both subscribe and publish set to true. The insert on Node1 is replicated on Node2 and the update on Node2 is replicated on Node1.
 
@@ -322,7 +318,6 @@ This call will update the subscription with the dog table. Any other subscriptio
 
 To add or update subscriptions with one or more nodes in one API call use `configure_cluster`.
 
-
 ```json
 {
     "operation": "configure_cluster",
@@ -359,7 +354,7 @@ To add or update subscriptions with one or more nodes in one API call use `confi
 }
 ```
 
-_Note: `configure_cluster`  will override **any and all** existing subscriptions defined on the local node. This means that before going through the connections in the request and adding the subscriptions, it will first go through **all existing subscriptions the local node has** and remove them. To get all existing subscriptions use `cluster_status`._
+_Note: `configure_cluster` will override **any and all** existing subscriptions defined on the local node. This means that before going through the connections in the request and adding the subscriptions, it will first go through **all existing subscriptions the local node has** and remove them. To get all existing subscriptions use `cluster_status`._
 
 #### Start time
 
@@ -439,17 +434,15 @@ To get the status of all connected nodes and see their subscriptions use `cluste
 #### Transactions
 
 Transactions that are replicated across the cluster are:
-* Insert 
-* Update 
-* Upsert 
-* Delete 
-* Bulk loads 
+
+* Insert
+* Update
+* Upsert
+* Delete
+* Bulk loads
   * CSV data load
-
   * CSV file load
-
   * CSV URL load
-
   * Import from S3
 
 When adding or updating a node any schemas and tables in the subscription that don’t exist on the remote node will be automatically created.
@@ -458,16 +451,16 @@ When adding or updating a node any schemas and tables in the subscription that d
 
 Users and roles are not replicated across the cluster.
 
----
+***
 
 ### Queueing
 
 HarperDB has built-in resiliency for when network connectivity is lost within a subscription. When connections are reestablished, a catchup routine is executed to ensure data that was missed, specific to the subscription, is sent/received as defined.
 
----
+***
 
 ### Topologies
 
 HarperDB clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
-![figure 6](../../images/clustering/figure6.png "example topology of mesh network")
+![figure 6](../../images/clustering/figure6.png)
