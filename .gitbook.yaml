@@ -1,4 +1,4 @@
-root: ./docs/
+root: ./copy-of-harperdb/
 
 redirects:
-  install-harperdb: index.md
+  install-harperdb: ./index.md
