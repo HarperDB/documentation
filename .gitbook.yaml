@@ -1,1 +1,4 @@
 root: ./docs/
+
+redirects:
+  install-harperdb: ./index.md
