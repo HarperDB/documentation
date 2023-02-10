@@ -15,7 +15,7 @@ To manually create a project, you have three options:
 }
 ```
 
-1.  **clone our public gitHub project template**
+2. **clone our public gitHub project template**
 
     _This requires a local installation. Remove the .git directory for a clean slate of git history._
 
@@ -23,7 +23,7 @@ To manually create a project, you have three options:
 > git clone https://github.com/HarperDB/harperdb-custom-functions-template.git ~/hdb/custom_functions/dogs
 ```
 
-1.  **create a project folder in your Custom Functions root directory** and **initialize**
+3. **create a project folder in your Custom Functions root directory** and **initialize**
 
     _This requires a local installation._
 
