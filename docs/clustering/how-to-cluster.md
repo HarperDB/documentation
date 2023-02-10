@@ -50,7 +50,7 @@ clustering:
 
 _Note: When making any changes to the `harperdb-config.yaml` file, HarperDB must be restarted for the changes to take effect._
 
-1. Upon installation using **command line variables**. This will automatically set the user in the `harperdb-config.yaml` file.
+2. Upon installation using **command line variables**. This will automatically set the user in the `harperdb-config.yaml` file.
 
 _Note: Using command line or environment variables for setting the cluster user only works on install._
 
@@ -58,7 +58,7 @@ _Note: Using command line or environment variables for setting the cluster user 
 harperdb install --CLUSTERING_USER cluster_account --CLUSTERING_PASSWORD letsCluster123!
 ```
 
-1. Upon installation using **environment variables**. This will automatically set the user in the `harperdb-config.yaml` file.
+3. Upon installation using **environment variables**. This will automatically set the user in the `harperdb-config.yaml` file.
 
 ```
 CLUSTERING_USER=cluster_account CLUSTERING_PASSWORD=letsCluster123
@@ -87,7 +87,7 @@ clustering:
 
 _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
 
-1. Calling `set_configuration` through the operations API
+2. Calling `set_configuration` through the operations API
 
 ```json
 {
@@ -96,13 +96,13 @@ _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must 
 }
 ```
 
-1. Using command line variables.
+3. Using command line variables.
 
 ```
 harperdb --CLUSTERING_NODENAME Node1
 ```
 
-1. Using environment variables.
+4. Using environment variables.
 
 ```
 CLUSTERING_NODENAME=Node1
@@ -138,13 +138,13 @@ _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must 
 
 _Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
 
-1. Using **command line variables**.
+2. Using **command line variables**.
 
 ```
 harperdb --CLUSTERING_ENABLED true
 ```
 
-1. Using **environment variables**.
+3. Using **environment variables**.
 
 ```
 CLUSTERING_ENABLED=true
@@ -207,13 +207,13 @@ There are multiple ways to set routes, they are:
 
 _Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
 
-1. From the command line.
+3. From the command line.
 
 ```bash
 --CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES "[{\"host\": \"3.735.184.8\", \"port\": 9932}]"
 ```
 
-1. Using environment variables.
+4. Using environment variables.
 
 ```bash
 CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES=[{"host": "3.735.184.8", "port": 9932}]
