@@ -10,7 +10,7 @@ To install HarperDB with CLI prompts, run the following command:
 harperdb install
 ```
 
-Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](../reference/configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
+Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](reference/configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
 
 #### Environment Variables
 
