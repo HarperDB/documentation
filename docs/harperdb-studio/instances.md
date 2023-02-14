@@ -3,7 +3,7 @@
 The HarperDB Studio allows you to administer all of your HarperDB instances in one place. HarperDB currently offers the following instance types:
 
 * **HarperDB Cloud Instance**
-Managed installations of HarperDB, what we call [HarperDB Cloud](../harperdb-cloud).
+Managed installations of HarperDB, what we call [HarperDB Cloud](../harperdb-cloud/README.md).
 * **5G Wavelength Instance**
 Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../harperdb-cloud/verizon-5g-wavelength-instances.md). *Note, these instances are only accessible via the Verizon network.*
 * **User-Installed Instance**

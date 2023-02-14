@@ -2,11 +2,11 @@
 
 HarperDB was built by developers for developers, which means getting started should be simple.
 
-The quickest way to get up and running with HarperDB is with [HarperDB Cloud](../harperdb-cloud/), our database-as-a-service offering, which this guide will utilize.
+The quickest way to get up and running with HarperDB is with [HarperDB Cloud](../harperdb-cloud/README.md), our database-as-a-service offering, which this guide will utilize.
 
 ### Set Up a HarperDB Instance
 
-Before you can start using HarperDB you need to set up an instance. Note, if you would prefer to install HarperDB locally, [check out the installation guides including Linux, Mac, and many other options](../install-harperdb/).
+Before you can start using HarperDB you need to set up an instance. Note, if you would prefer to install HarperDB locally, [check out the installation guides including Linux, Mac, and many other options](../install-harperdb/README.md).
 
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
 2. [Create a new HarperDB Cloud instance](../harperdb-studio/instances.md#Create-a-New-Instance)

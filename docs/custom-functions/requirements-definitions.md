@@ -43,7 +43,7 @@ The name of the folder that holds your project files serves as the root prefix f
 
 **/routes folder**
 
-Files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
+Files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {
