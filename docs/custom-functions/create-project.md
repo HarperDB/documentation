@@ -1,8 +1,8 @@
 # Create a Project
 
-One easy way to manage Custom Functions is through [HarperDB Studio](../harperdb-studio/manage-functions.md). You can read more about [managing Custom Functions through the HarperDB Studio here](../harperdb-studio/manage-functions.md).
+To create a project using our web-based GUI, HarperDB Studio, checkout out how to manage Custom Functions [here](../harperdb-studio/manage-functions.md).
 
-To manually create a project, you have three options:
+Otherwise, to create a project, you have the following options:
 
 1.  **Use the add\_custom\_function\_project operation**
 
