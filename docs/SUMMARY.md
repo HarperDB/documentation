@@ -50,6 +50,7 @@
   * [Custom Functions Operations](custom-functions/custom-functions-operations.md)
   * [Restarting the Server](custom-functions/restarting-server.md)
   * [Debugging a Custom Function](custom-functions/debugging-custom-function.md)
+  * [Custom Functions Templates](custom-functions/templates.md)
   * [Example Projects](custom-functions/example-projects.md)
 * [Add-ons and SDKs](add-ons-and-sdks/README.md)
   * [Google Data Studio](add-ons-and-sdks/google-data-studio.md)
