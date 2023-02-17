@@ -4,4 +4,4 @@ Enabling mixed content is required in cases where you would like to connect the 
 
 
 
-A comprehensive guide is provided by Adobe here: https://experienceleague.adobe.com/docs/target/using/experiences/vec/troubleshoot-composer/mixed-content.html.
+A comprehensive guide is provided by Adobe [here](https://experienceleague.adobe.com/docs/target/using/experiences/vec/troubleshoot-composer/mixed-content.html).
