@@ -8,7 +8,7 @@ HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests.
 
 
 
-A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <<your username and password buffer token>>”**
+A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <\<your username and password buffer token>\>”**
 
 
 
