@@ -35,10 +35,10 @@ harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_P
 
 ## Starting HarperDB
 
-To run HarperDB after it is installed, run the following command:
+To start HarperDB after it is installed, run the following command:
 
 ```bash
-harperdb run
+harperdb start
 ```
 
 ***
@@ -65,10 +65,10 @@ harperdb restart
 
 ## Managing HarperDB Service(s)
 
-The following commands are used to run, restart, or stop one or more HarperDB service without restarting the full application:
+The following commands are used to start, restart, or stop one or more HarperDB service without restarting the full application:
 
 ```bash
-harperdb run --service harperdb,"custom functions",ipc
+harperdb start --service harperdb,"custom functions",ipc
 harperdb stop --service harperdb
 harperdb restart --service "custom functions"
 ```

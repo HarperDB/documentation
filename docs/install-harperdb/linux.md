@@ -148,7 +148,7 @@ harperdb install --TC_AGREEMENT "yes" --HDB_ROOT "/home/ubuntu/hdb" --SERVER_POR
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you can add a crontab entry
 
 ```bash
-(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb run") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb start") | crontab -
 ```
 
 For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
