@@ -674,18 +674,7 @@ storage:
   path: /users/harperdb/storage
 ```
 
-**_Note:_** This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value it must be set during install. To set during install use command line variables or environment variables.
-
-_Command line variable:_
-```bash
-harperdb install --STORAGE_PATH /users/harperdb/storage
-```
-
-_Environment variable:_
-```bash
-STORAGE_PATH=/users/harperdb/storage
-```
-
+**_Note:_** This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
 ---
 
