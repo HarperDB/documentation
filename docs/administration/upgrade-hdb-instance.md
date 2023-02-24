@@ -82,5 +82,5 @@ harperdb
 Start HarperDB
 
 ```bash
-harperdb run
+harperdb start
 ```
