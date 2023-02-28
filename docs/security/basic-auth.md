@@ -23,19 +23,44 @@ _Note: This function uses btoa. Learn about [btoa here](https://developer.mozill
 ```javascript
 function callHarperDB(call_object, operation, callback){
 
-    fetch(call_object.endpoint_url, {
+    const options = {
         "method": "POST",
+        "hostname": call_object.endpoint_url,
         "port": call_object.endpoint_port,
         "path": "/",
         "headers": {
             "content-type": "application/json",
             "authorization": "Basic " + btoa(call_object.username + ':' + call_object.password),
             "cache-control": "no-cache"
+
         }
-    })
-        .then((response) => response.json())
-    
-        .then((json) => callback(null, json))
-        .catch(err => callback("Failed to connect", null))
+    };
+
+    const http_req = http.request(options, function (hdb_res) {
+        let chunks = [];
+
+        hdb_res.on("data", function (chunk) {
+            chunks.push(chunk);
+        });
+
+        hdb_res.on("end", function () {
+            const body = Buffer.concat(chunks);
+            if (isJson(body)) {
+                return callback(null, JSON.parse(body));
+            } else {
+                return callback(body, null);
+
+            }
+
+        });
+    });
+
+    http_req.on("error", function (chunk) {
+        return callback("Failed to connect", null);
+    });
+
+    http_req.write(JSON.stringify(operation));
+    http_req.end();
+
 }
 ```
