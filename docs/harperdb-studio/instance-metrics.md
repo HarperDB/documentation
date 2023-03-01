@@ -10,6 +10,6 @@ The HarperDB Studio display instance status and metrics on the instance status p
 
 4) Click **status** in the instance control bar.
 
-Once on the instance browse page you can view host system information, [HarperDB logs](../reference/logging.md), and [HarperDB Cloud alarms](../harperdb-cloud/alarms.md) (if it is a cloud instance).
+Once on the instance browse page you can view host system information, [HarperDB logs](../logging.md), and [HarperDB Cloud alarms](../harperdb-cloud/alarms.md) (if it is a cloud instance).
 
 *Note, the **status** page will only be available to super users.*

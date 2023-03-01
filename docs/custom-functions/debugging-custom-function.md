@@ -4,7 +4,7 @@ HarperDB Custom Functions projects are managed by HarperDB’s process manager. 
 
 
 
-For local debugging and development, it is recommended that you use standard console log statements for logging. For production use, you may want to use HarperDB's logging facilities, so you aren't logging to the console. The [HarperDB Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](../reference/configuration.md).
+For local debugging and development, it is recommended that you use standard console log statements for logging. For production use, you may want to use HarperDB's logging facilities, so you aren't logging to the console. The [HarperDB Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](../configuration.md).
 
 HarperDB Logger Functions
 * `trace(message)`: Write a 'trace' level log, if the configured level allows for it.

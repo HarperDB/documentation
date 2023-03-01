@@ -142,7 +142,7 @@ Install HarperDB
 
 ```bash
 npm install -g harperdb
-harperdb install --TC_AGREEMENT "yes" --HDB_ROOT "/home/ubuntu/hdb" --SERVER_PORT "9925" --HDB_ADMIN_USERNAME "HDB_ADMIN" --HDB_ADMIN_PASSWORD "abc123!"
+harperdb install --TC_AGREEMENT "yes" --ROOTPATH "/home/ubuntu/hdb" --OPERATIONSAPI_NETWORK_PORT "9925" --HDB_ADMIN_USERNAME "HDB_ADMIN" --HDB_ADMIN_PASSWORD "abc123!"
 ```
 
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you can add a crontab entry
@@ -151,4 +151,4 @@ HarperDB will automatically start after installation. If you wish HarperDB to st
 (crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb run") | crontab -
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
+For more information visit the [HarperDB Command Line Interface guide](../harperdb-cli.md).
