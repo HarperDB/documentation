@@ -1,6 +1,6 @@
 # Getting Started
 
-HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and distributed database applications.
+HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
 You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get up and running with HarperDB is with [HarperDB Cloud](../harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a database application platform, and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use standard IDE tools, debugging, and version control.
 
@@ -89,7 +89,7 @@ See the documentation on security directives for more information on different l
 Querying is extremely easy through REST endpoints, simple queries can be crafted through URL query parameters. But first, we need to define properties that we want indexed (you don't want users querying your table through un-indexed properties as it would get much slower as your database grows in size). Let's define the name and breed as searchable/indexed properties:
 ```graphql
 type Dog @table {
-	id: ID @primaryKey
+    id: ID @primaryKey
     name: String @indexed
     breed: String @indexed
     age: Int

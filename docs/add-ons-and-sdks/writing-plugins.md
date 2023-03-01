@@ -43,8 +43,8 @@ interface Request {
 The returned `response` object should have the following structure (again, following a structural subset of the [WHATWG Response API](https://developer.mozilla.org/en-US/docs/Web/API/Response)):
 ```typescript
 interface Response {
-	status?: number
-	headers?: {} // an object with header name/values
+    status?: number
+    headers?: {} // an object with header name/values
     data?: any // object/value that will be serialized into the body
     body?: Stream
 }
@@ -66,7 +66,7 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 		return nextLayer(request);
 	});
 	// if you needed to add a login resource, could add it as well:
-   resources.set('/login', LoginResource);
+	resources.set('/login', LoginResource);
 }
 ```
 
@@ -112,6 +112,7 @@ Note that these hooks are not mutually exclusive. You can write a plugin that im
 Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. The Resource interface is below.
 
 ### Resource API
+```typescript
 export interface ResourceInterface<Key = any, Record = any> {
 get?(key: Key, options?: {}): Promise<UpdatableRecord<Record>>; // or use ResourceId instead of Key
 put?(key: Key, record: Record, options?: {}): void;
@@ -120,6 +121,7 @@ update?(key: Key): Promise<UpdatableRecord<Record>>;
 delete?(key: Key, options?: {}): boolean;
 search?(query, options?: {}): AsyncIterable<any>;
 subscribe?(query, options?: {}): Subscription;
+```
 
 ## Trusted/Untrusted
 Plugins will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted plugins for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
