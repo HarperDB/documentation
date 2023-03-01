@@ -12,9 +12,9 @@ npm install -g harperdb
 ```
 Here we installed HarperDB globally (and we recommend this) to make it easy to run a single HarperDB instance with multiple projects, but you can install it locally as well.
 
-Now we can create a new application folder:
+Or you can set up a new application with a single command:
 ```shell
-harperdb create-app --template dog-blog
+npm init harperdb
 ```
 
 And we go into our new application folder and start HarperDB running our new application:
@@ -62,13 +62,16 @@ type Dog @table @sealed {
 
 If you are using the studio, we can now [add records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio, or even [upload CSV data](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). Give it a try, and add some data to your table. And the table will also be available in our application code (we will get to that!).
 
+HarperDB's [operation API](https://api.harperdb.io/) is also available for full administrative control over your new HarperDB instance and tables. 
+
 Next, let's add an endpoint. This will make our table available through a standard RESTful URL. To do this, we add a new query to the `Query` type. The `Query` type is the standard way to define available entry points through a GraphQL schema: 
 ```graphql
 type Query {
 	Dog: Dog
 }
 ```
-This defines an entry point (and is not limited to GraphQL!) and now we have a full REST api for /dog ([http://localhost:9926/Dog](http://localhost:9926/Dog) by default. We can PUT or POST data into this table using this new path, and then GET (or DELETE) from it as well. You can even go directly to this URL in the browser (will ask you to login) to view data or modify data. If you added a record through the studio, trying visiting /Dog/<id> to see that record in your browser, for example.
+This defines an entry point (and is not limited to GraphQL!) and now we have a full REST api for /dog ([http://localhost:9926/Dog](http://localhost:9926/Dog) by default. We can PUT or POST data into this table using this new path, and then GET (or DELETE) from it as well. You can even go directly to this URL in the browser (will ask you to login) to view data or modify data. If you added a record through the studio, trying visiting /Dog/<id> to see that record in your browser, for example. Or try a curl command like:
+`curl http://localhost:9926/Dog/<id> --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass'`
 
 Additionally, these endpoints automatically support multiple forms of authentication like Basic, Cookie, and JWT, and content types including JSON, CBOR, MessagePack and CSV. Simply include an `Accept` header in your requests with the preferred content type. We recommend CBOR as a compact, efficient encoding with rich data types, but JSON is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
 ```javascript
