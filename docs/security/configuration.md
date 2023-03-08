@@ -30,7 +30,7 @@ HarperDB allows for managing [cross-origin HTTP requests](https://developer.mozi
      
 ## SSL
 
-HarperDB provides the option to use an HTTP or HTTPS interface. The default port for the server is 9925.
+HarperDB provides the option to use an HTTP or HTTPS and HTTP/2 interface. The default port for the server is 9925.
 
 
 
@@ -42,15 +42,22 @@ By default, HTTPS is turned off and HTTP is turned on. It is recommended that yo
 
 
 
-You can toggle HTTPS and HTTP in the settings file. By setting `operationsApi.network.https` to true/false. When `https` is set to `false`, the server will use HTTP.
+You can toggle HTTPS and HTTP in the settings file. By setting `operationsApi.network.https` to true/false. When `https` is set to `false`, the server will use HTTP (version 1.1). Enabling HTTPS will enable both HTTPS/1.1 and HTTPS/2.
 
 
 
-HarperDB automatically generates a certificate and a privateKey file which live at `<ROOTPATH>/keys/`.
+HarperDB automatically generates a certificate (certificate.pem), a certificate authority (ca.pem) and a private key file (privateKey.pem) which live at `<ROOTPATH>/keys/`.
 
 
 
-You can replace these with your own certificate and key.
+You can replace these with your own certificates and key.
+
+
+### Session Affinity
+
+HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions.
+
+Session affinity is controlled with `http.sessionAffinity`. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread. To enable this, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of "ip" (`http.sessionAffinity: ip`). However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of `sessionAffinity`. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores. 
 
 
 
