@@ -16,7 +16,7 @@ For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instan
 
 ---
 
-If you wish to install locally or already have a configured server, see the [Linux Quickstart](linux-quickstart.md)
+If you wish to install locally or already have a configured server, see the basic [Installation Guide](README.md)
 
 ### (Optional) LVM Configuration
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
