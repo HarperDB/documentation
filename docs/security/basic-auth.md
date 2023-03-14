@@ -8,7 +8,7 @@ HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests.
 
 
 
-A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <<your username and password buffer token>>”**
+A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <\<your username and password buffer token>\>”**
 
 
 
@@ -16,7 +16,7 @@ A header is added to each HTTP request.  The header key is **“Authorization”
 
 ## Authentication in HarperDB Studio
 
-Below is a code sample from HarperDB Studio.  On Line 14 you will see where we are adding the authorization header to each request. This needs to be added for each and every HTTP request for HarperDB.
+In the below code sample, you can see where we add the authorization header to the request. This needs to be added for each and every HTTP request for HarperDB.
 
 _Note: This function uses btoa. Learn about [btoa here](https://developer.mozilla.org/en-US/docs/Web/API/btoa)._
 
@@ -46,9 +46,9 @@ function callHarperDB(call_object, operation, callback){
         hdb_res.on("end", function () {
             const body = Buffer.concat(chunks);
             if (isJson(body)) {
-               return callback(null, JSON.parse(body));
+                return callback(null, JSON.parse(body));
             } else {
-               return callback(body, null);
+                return callback(body, null);
 
             }
 

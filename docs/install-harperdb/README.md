@@ -4,7 +4,8 @@ This section contains technical details and reference materials for installing H
 
 ---
 
-* [Linux](linux.md)
+* [Linux Quickstart](linux-quickstart.md)
+* [Linux Full Install](linux.md)
 * [Docker](docker.md)
 * [Mac](mac.md)
 * [Windows](windows.md)

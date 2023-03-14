@@ -34,7 +34,7 @@ HarperDB automatically creates two audit attributes used on each record.
 
 To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](https://api.harperdb.io/).
 
-1. **Create a Schema**
+**Create a Schema**
 
 ```bash
 {
@@ -43,7 +43,7 @@ To better understand the behavior let’s take a look at an example. This exampl
 }
 ```
 
-1. **Create a Table**
+**Create a Table**
 
 Notice the schema name, table name, and hash attribute name are the only required parameters.
 
@@ -62,7 +62,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 ![](../../images/reference/dynamic\_schema\_2\_create\_table.png.webp)
 
-1. **Insert Record**
+**Insert Record**
 
 To define attributes we do not need to do anything beyond sending them in with an insert operation.
 
@@ -85,7 +85,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
-1. **Insert Additional Record**
+**Insert Additional Record**
 
 If we continue inserting records with the same data schema no schema updates are required. One record will omit the hash attribute from the insert to demonstrate GUID generation.
 
@@ -107,7 +107,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 ![](../../images/reference/dynamic\_schema\_4\_insert\_additional\_record.png.webp)
 
-1. **Update Existing Record**
+**Update Existing Record**
 
 In this case, we will update a record with a new attribute not previously defined on the table.
 
@@ -128,7 +128,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 ![](../../images/reference/dynamic\_schema\_5\_update\_existing\_record.png.webp)
 
-1. **Query Table with SQL**
+**Query Table with SQL**
 
 Now if we query for all records where `weight_lbs` is `null` we expect to get back two records.
 

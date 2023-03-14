@@ -257,16 +257,16 @@ The table below includes all API operations available in HarperDB and indicates 
 | read_audit_log                 |              X              |
 | delete_audit_logs_before       |              X              |
 
-| Utilities             |  Restricted to Super_Users  |
-|-----------------------|:---------------------------:|
-| delete_records_before |              X              |
-| export_local          |                             |
-| export_to_s3          |                             |
-| system_information    |              X              |
-| restart               |              X              |
-| restart_service       |              X              |
-| get_configuration     |              X              |
-| configure_cluster     |              X              |
+| Utilities             | Restricted to Super_Users |
+|-----------------------|:-------------------------:|
+| delete_records_before |             X             |
+| export_local          |             X             |
+| export_to_s3          |             X             |
+| system_information    |             X             |
+| restart               |             X             |
+| restart_service       |             X             |
+| get_configuration     |             X             |
+| configure_cluster     |             X             |
 
 | Token Authentication	        |  Restricted to Super_Users  |
 |------------------------------|:---------------------------:|
