@@ -90,7 +90,8 @@
 * [Reference](reference/README.md)
   * [Storage Algorithm](reference/storage-algorithm.md)
   * [Dynamic Schema](reference/dynamic-schema.md)
-  
+  * [Data Types](reference/data-types.md)
+  * [Content Types/Data Formats](reference/content-types.md)
   * [HarperDB Headers](reference/headers.md)
   * [HarperDB Limits](reference/limits.md)
 * [Support](support.md)
