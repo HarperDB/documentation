@@ -27,6 +27,12 @@ We try to keep logging to a minimum by default, to do this the default log level
 
 The log level can be changed by modifying `logging.level` in the config file `harperdb-config.yaml`.
 
+## Clustering Logging
+
+HarperDB clustering utilizes two [Nats](https://nats.io/) servers, named Hub and Leaf. The Hub server is responsible for establishing the mesh network that connects instances of HarperDB
+and the Leaf server is responsible for managing the message stores (streams) that replicates and store messages between instances. Due to the verbosity of these servers logs there is a separate
+log level configuration for them. To adjust their log verbosity set `clustering.logLevel` in the config file `harperdb-config.yaml`. Valid log levels from least verbose are 
+`error`, `warn`, `info`, `debug` and `trace`.
 
 ## Log File vs Standard Streams
 

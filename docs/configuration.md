@@ -118,7 +118,7 @@ clustering:
 
 Use this port to connect a client to the hub server, for example using the NATs SDK to interact with the server.
 
-`clustering.leafServer.network`
+`clustering.leafServer`
 
 Manages streams, streams are ‘message stores’ that store table transactions.
 
@@ -130,8 +130,13 @@ clustering:
       routes:
         - host: 3.62.184.22
           port: 9931
-        - host: 3.735.184.8
+        - host: node3.example.com
           port: 9931
+    streams:
+      maxAge: 3600
+      maxBytes: 10000000
+      maxMsgs: 500
+      path: /user/hdb/clustering/leaf
 ```
 
 `port` - _Type_: integer; _Default_: 9940
@@ -150,8 +155,28 @@ The host of the remote instance you are creating the connection with.
 
 `port` - _Type_: integer
 
-The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.leafNodes.network.port` on the remote instance. 
+The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
 </div>
+
+<br/>
+
+`clustering.leafServer.streams`
+
+`maxAge` - _Type_: integer; _Default_: null
+
+The maximum age of any messages in the stream, expressed in seconds.
+
+`maxBytes` - _Type_: integer; _Default_: null
+
+The maximum size of the stream in bytes. Oldest messages are removed if the stream exceeds this size.
+
+`maxMsgs` - _Type_: integer; _Default_: null
+
+How many messages may be in a stream. Oldest messages are removed if the stream exceeds this number.
+
+`path` - _Type_: string; _Default_: &lt;ROOTPATH>/clustering/leaf
+
+The directory where all the streams are kept.
 
 ---
 
@@ -405,58 +430,41 @@ logging:
 
 `rotation`
 
-Logging rotation is managed by a pm2 module called [logrotate](https://www.npmjs.com/package/log-rotate). In order to enable rotation you must set `rotate` to true.
+Rotation provides the ability for a user to systematically rotate and archive the `hdb.log` file. To enabled `interval` and/or `maxSize` must be set.
+
+**_Note:_** `interval` and `maxSize` are approximates only. It is possible that the log file will exceed these values slightly before it is rotated.
 
 ```yaml
 logging:
   rotation:
+    enabled: true
     compress: false
-    dateFormat: YYYY-MM-DD_HH-mm-ss
-    maxSize: 10M
-    retain: 30
-    rotate: false
-    rotateInterval: 0 0 * * *
-    rotateModule: true
-    timezone: GMT
-    workerInterval: 30
+    interval: 1D
+    maxSize: 100K
+    path: /user/hdb/log
 ```
 <div style="padding-left: 30px;">
+
+`enabled` - _Type_: boolean; _Default_: false
+
+Enables logging rotation.
 
 `compress` - _Type_: boolean; _Default_: false
 
 Enables compression via gzip when logs are rotated.
 
-`dateFormat` - _Type_: string; _Default_: YYY-MM-DD_HH-mm-ss
+`interval` - _Type_: string; _Default_: null
 
-Format of the date used to name the log file.
+The time that should elapse between rotations. Acceptable units are D(ays), H(ours) or M(inutes).
 
-`maxSize` - _Type_: string; _Default_: 10M
+`maxSize` - _Type_: string; _Default_: null
 
-Sets the value for when the logging file will rotate when it exceeds this set value. Must use units M(egabyte), G(igabyte), or K(ilobyte).
+The maximum size the log file can reach before it is rotated. Must use units M(egabyte), G(igabyte), or K(ilobyte).
 
-`retain` - _Type_: integer; _Default_: 30
+`path` - _Type_: string; _Default_: &lt;ROOTPATH>/log
 
-Sets the number of rotated logs that are kept at any one time. For example, if set at 30, there will be 30 rotated logs plus your current one.
+Where to store the rotated log file. File naming convention is `HDB-YYYY-MM-DDT-HH-MM-SSSZ.log`.
 
-`rotate` - _Type_: boolean; _Default_: false
-
-Enables logging rotation.
-
-`rotateInterval` - _Type_: string; _Default_: 0 0 * * *
-
-A cron that used to schedule log rotation. See [node-schedule](https://github.com/node-schedule/node-schedule) for valid cron features.
-
-`rotateModule` - _Type_: boolean; _Default_: true
-
-Will rotate the pm2 module.
-
-`timezone` - _Type_: string; _Default_: GMT
-
-Sets the timezone for logging rotation.
-
-`workerInterval` - _Type_: integer; _Default_: 30
-
-Sets the interval at which the worker checks log size in seconds.
 </div>
 
 
