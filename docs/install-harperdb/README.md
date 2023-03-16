@@ -1,8 +1,8 @@
 # Install HarperDB
 
-This documentation contains information for installing HarperDB locally. Note that if you’d like to get up and running quickly, you can try a managed instance with HarperDB Cloud. HarperDB is a cross-platform database; we recommend Linux for production use, but HarperDB can run on Windows and Mac as well, for development purposes. Installation is usually very simple and just takes a few steps, but there are a few different options documented here.
+This documentation contains information for installing HarperDB locally. Note that if you’d like to get up and running quickly, you can try a [managed instance with HarperDB Cloud](https://studio.harperdb.io/sign-up). HarperDB is a cross-platform database; we recommend Linux for production use, but HarperDB can run on Windows and Mac as well, for development purposes. Installation is usually very simple and just takes a few steps, but there are a few different options documented here.
 
-HarperDB runs on Node.js, so if you do not have it installed, you need to do that first (if you have installed, you can skip to installing to HarperDB, itself). Node.js can be downloaded and installed from [their site](https://nodejs.org/). For Linux and Mac, we recommend installing and managing Node versions with [NVM, which has instructions for installation](https://github.com/nvm-sh/nvm), but generally NVM can be installed with:
+HarperDB runs on Node.js, so if you do not have it installed, you need to do that first (if you have installed, you can skip to installing HarperDB, itself). Node.js can be downloaded and installed from [their site](https://nodejs.org/). For Linux and Mac, we recommend installing and managing Node versions with [NVM, which has instructions for installation](https://github.com/nvm-sh/nvm), but generally NVM can be installed with:
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
