@@ -1,6 +1,6 @@
 # HarperDB Supported Data Types
 
-HarperDB supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (HarperDB’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. In v4.0, HarperDB introduced support for MessagePack, and v4.1 will also include CBOR, which allows for all of HarperDB supported data types. This includes:
+HarperDB supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (HarperDB’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. As of v4.1, HarperDB supports [MessagePack and CBOR](content-types.md), which allows for all of HarperDB supported data types. This includes:
 
 ## Boolean
 true or false.
