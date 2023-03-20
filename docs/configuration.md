@@ -430,7 +430,7 @@ logging:
 
 `rotation`
 
-Rotation provides the ability for a user to systematically rotate and archive the `hdb.log` file. To enabled `interval` and/or `maxSize` must be set.
+Rotation provides the ability for a user to systematically rotate and archive the `hdb.log` file. To enable `interval` and/or `maxSize` must be set.
 
 **_Note:_** `interval` and `maxSize` are approximates only. It is possible that the log file will exceed these values slightly before it is rotated.
 
