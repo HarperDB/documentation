@@ -26,7 +26,7 @@ At this point the Studio will restart your HarperDB Instance, required for the c
 
 ## Manage Projects
 
-Once initial Custom Functions configuration is completed you a presented with a functions management screen with the following properties:
+Once initial Custom Functions configuration is completed you are presented with a functions management screen with the following properties:
 
 * **projects**
 
