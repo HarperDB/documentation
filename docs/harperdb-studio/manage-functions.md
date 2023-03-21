@@ -1,6 +1,6 @@
 # Manage Functions
 
-HarperDB Custom Functions can be configured directly through the HarperDB Studio. It is recommended to read through the Custom Functions documentation first to gain a strong understanding of HarperDB Custom Functions behavior.
+HarperDB Custom Functions are enabled by default and can be configured further through the HarperDB Studio. It is recommended to read through the Custom Functions documentation first to gain a strong understanding of HarperDB Custom Functions behavior.
 
 
 
@@ -16,17 +16,9 @@ All Custom Functions configuration is handled through the **functions** page of 
 
 *Note, the **functions** page will only be available to super users.*
 
-## Initial Configuration
-
-HarperDB instances do not have Custom Functions configured by default. The HarperDB Studio will walk you through the initial configuration. Upon entering the **functions** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable custom functions** panel on the left while actions are described in the middle of the screen.
-
-1) Click **Enable Custom Functions**.
-
-At this point the Studio will restart your HarperDB Instance, required for the configuration changes to take effect.
-
 ## Manage Projects
 
-Once initial Custom Functions configuration is completed you are presented with a functions management screen with the following properties:
+On the **functions** page of the HarperDB Studio you are presented with a functions management screen with the following properties:
 
 * **projects**
 
