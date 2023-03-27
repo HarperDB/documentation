@@ -202,6 +202,7 @@ clustering:
     certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
     insecure: true
+    verify: true
 ```
 
 `certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
@@ -219,6 +220,10 @@ Path to the private key file.
 `insecure` - _Type_: boolean; _Default_: true
 
 When true, will skip certificate verification. For use only with self-signed certs.
+
+`verify` - _Type_: boolean; _Default_: true
+
+When true, hub server will verify client certificate using the CA certificate.
 
 ---
 
