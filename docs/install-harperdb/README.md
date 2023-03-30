@@ -22,7 +22,7 @@ harperdb
 
 HarperDB will automatically start after installation.
 
-If you are setting a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, configure your operating system for use a database server in our linux installation guide](linux.md).
+If you are setting up a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, configure your operating system for use a database server in our linux installation guide](linux.md).
 
 
 
