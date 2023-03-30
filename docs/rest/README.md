@@ -12,11 +12,11 @@ This can be used to retrieve a record by its primary key. The response will incl
 This is handled by the Resource's `getById` method.
 
 #### Caching/Conditional Requests
-A `GET` response for a record will include the data of the last modification to this record in the `Last-Modified` request header. On subsequent requests, a client (that has a cached copy) may include an `If-Modified-Since` request header with this date. If the record has not been updated since this date, the response will have a 304 status and no body. 
+A `GET` response for a record will include the date of the last modification to this record in the `Last-Modified` and `ETag` request headers. On subsequent requests, a client (that has a cached copy) may include an `If-Match` request header with this date tag. If the record has not been updated since this date, the response will have a 304 status and no body. 
 
 ### `GET /my-resource/?property=value`
 
-This can be used to search for records by the specified property name and value.
+This can be used to search for records by the specified property name and value. See the querying section for more information.
 
 ### `GET /my-resource/<record-id>/property`
 
@@ -49,6 +49,23 @@ This is handled by the Resource `static` method `post(recordId, request)`.
 ### `POST /my-resource`
 This can be used to create a new record in this table or resource.
 
+
+## Querying through URL query parameters
+URL query parameters provides a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records with provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
+`GET /my-resource?property=value`
+
+We can specify multiple properties that must match:
+`GET /my-resource?property=value&property2=another-value`
+
+We can also specify less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
+
+`GET /my-resource?age=gt=20`
+
+Or less than or equal to 20:
+
+`GET /my-resource?age=lte=20`
+
+The comparison operators include `lt`, `lte`, `gt`, and `gte`.
 
 ### Content Types and Negotiation
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:

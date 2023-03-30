@@ -1,4 +1,4 @@
-# Create a Project
+# Create an in-place Project
 
 One easy way to manage Custom Functions is through [HarperDB Studio](../harperdb-studio/manage-functions.md). You can read more about [managing Custom Functions through the HarperDB Studio here](../harperdb-studio/manage-functions.md).
 
