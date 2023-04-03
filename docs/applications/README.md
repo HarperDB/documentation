@@ -220,11 +220,9 @@ import { tables } from 'harperdb'; // the tables holds all our database tables
 const { Dog } = tables; // get the Dog table
 
 export class DogWithHumanAge extends Dog {
-	async get() {
-		let dog = await super.get(); // get the original record
-		dog = Object.assign({}, dog); // make a copy of it (we don't want to modify the original)
-		dog.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
-		return dog;
+	get(property) {
+		this.set('humanAge', 15 + dog.age * 5); // silly calculation of human age equivalent
+		return super.get(property);
 	}
 }
 ```
@@ -244,11 +242,10 @@ And next we will use this table in our `get()` method. To do this correctly, we 
 ```javascript
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get() {
-		let dog = await super.get(); // get the original record
-		let breedName = dog.breed;
-		let breed = await this.use(Breed).get(breed_name);
-		return Object.assign({ breedDescription: breed }, dog);
+	async get(property) {
+		let breedDescription = await this.use(Breed).get(this.breed);
+		this.set('breadDescription', breedDescription);
+		return super.get(property);
 	}
 ```
 
