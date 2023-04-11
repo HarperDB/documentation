@@ -1,4 +1,4 @@
-HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, you can simply create a new empty project folder (if you plan to use git, you can initialize it).
+HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, you can simply create a new empty project folder (if you plan to use git, you can initialize it).  
 
 And we go into our new application folder and start HarperDB running our new application (you don't need anything in it to get started!):
 ```shell
@@ -94,11 +94,9 @@ import { tables } from 'harperdb'; // the tables holds all our database tables
 const { Dog } = tables; // get the Dog table
 
 export class DogWithHumanAge extends Dog {
-	async getById(id) {
-		let dog = await super.getById(id); // get the original record
-		dog = Object.assign({}, dog); // make a copy of it (we don't want to modify the original)
-		dog.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
-		return dog;
+	get() {
+		this.set('humanAge', 15 + this.age * 5); // silly calculation of human age equivalent
+		return super.get();
 	}
 }
 ```
@@ -239,14 +237,18 @@ type Breed @table {
 ```
 And next we will use this table in our `get()` method. To do this correctly, we specify that we want use this table in our resource. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). With our own snapshot of the breed table we can then access data from it:
 
+
+resource.js:
 ```javascript
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get(property) {
+	async get() {
 		let breedDescription = await this.use(Breed).get(this.breed);
-		this.set('breadDescription', breedDescription);
-		return super.get(property);
+		// since breedDescription is not defined on the schema, we need to use set() to add the property 
+		this.set('breedDescription', breedDescription);
+		return super.get();
 	}
+}
 ```
 
 Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific definition (replace current record), a common method for custom actions is through the HTTP POST method, which is handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks`  array. We might do it like this, and specify an action to be able to differentiate actions:
@@ -280,7 +282,7 @@ class BreedSource extends Resource { // define a data source
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
-Breed.cachedFrom(BreedSource, { expiration: 3600 }); 
+Breed.sourcedFrom(BreedSource, { expiration: 3600 }); 
 ```
 
 HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a getting started guide. See our documentation for more information.
