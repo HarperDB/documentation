@@ -61,4 +61,4 @@ Session affinity is controlled with `http.sessionAffinity`. Enabling session aff
 
 
 
-**If any of these settings are changed please make sure to run `harperdb restart` as they will not take effect until a restart.**
+**Changes to these settings require a restart. Use operation `harperdb restart` from HarperDB Operations API.**

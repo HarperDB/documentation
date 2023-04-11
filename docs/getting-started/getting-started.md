@@ -1,6 +1,6 @@
 # Getting Started
 
-HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
+HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications. Getting started with HarperDB is easy and fast.
 
 You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get up and running with HarperDB is with [HarperDB Cloud](../harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a database application platform, and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use standard IDE tools, debugging, and version control.
 

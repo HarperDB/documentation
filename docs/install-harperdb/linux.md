@@ -16,7 +16,7 @@ For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instan
 
 ---
 
-If you wish to install locally or already have a configured server, skip to [Install and Start HarperDB](#install)
+If you wish to install locally or already have a configured server, see the basic [Installation Guide](README.md)
 
 ### (Optional) LVM Configuration
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
@@ -142,13 +142,42 @@ Install HarperDB
 
 ```bash
 npm install -g harperdb
-harperdb install --TC_AGREEMENT "yes" --HDB_ROOT "/home/ubuntu/hdb" --SERVER_PORT "9925" --HDB_ADMIN_USERNAME "HDB_ADMIN" --HDB_ADMIN_PASSWORD "abc123!"
+harperdb install --TC_AGREEMENT "yes" --ROOTPATH "/home/ubuntu/hdb" --OPERATIONSAPI_NETWORK_PORT "9925" --HDB_ADMIN_USERNAME "HDB_ADMIN" --HDB_ADMIN_PASSWORD "abc123!"
 ```
 
-HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you can add a crontab entry
+HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options
+
+You can set up a crontab:
 
 ```bash
 (crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb start") | crontab -
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../administration/harperdb-cli.md).
+Or you can create a systemd script at `/etc/systemd/system/harperdb.service`
+
+Pasting the following contents into the file:
+
+```
+[Unit]
+Description=HarperDB
+
+[Service]
+Type=forking
+Restart=always
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu
+ExecStart=/bin/bash -c 'PATH="/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH"; harperdb'
+
+[Install]
+WantedBy=multi-user.target
+```
+
+And then running the following:
+
+```
+systemctl daemon-reload
+systemctl enable harperdb
+```
+
+For more information visit the [HarperDB Command Line Interface guide](../harperdb-cli.md).

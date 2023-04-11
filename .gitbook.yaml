@@ -1,1 +1,10 @@
 root: ./docs/
+
+redirects:
+  install-harperdb/other: install-harperdb#installation-on-less-common-platforms
+  install-harperdb/docker: install-harperdb#with-docker
+  install-harperdb/mac: install-harperdb
+  install-harperdb/windows: install-harperdb
+  install-harperdb/linux-quickstart: install-harperdb/linux
+  install-harperdb/offline: install-harperdb#offline-install
+  install-harperdb/node-ver-requirement: install-harperdb
