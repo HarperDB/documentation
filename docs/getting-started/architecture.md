@@ -36,3 +36,12 @@ HarperDB's architecture consists of resources, which includes tables and user de
    └────────────────────────────────────────┘
 ```
 
+
+
+```mermaid
+  graph TD;
+      A-->B;
+      A-->C;
+      B-->D;
+      C-->D;
+```

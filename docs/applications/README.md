@@ -193,9 +193,9 @@ type Dog @table {
 ```
 Now we can start querying. Again, we just simply access the endpoint with query parameters (basic GET requests), like:
 ```
-http://localhost:9926/Dog?name=Harper
-http://localhost:9926/Dog?breed=Labrador
-http://localhost:9926/Dog?breed=Husky&name=Balto&sort(name)&select(id,name,breed)
+http://localhost:9926/Dog/?name=Harper
+http://localhost:9926/Dog/?breed=Labrador
+http://localhost:9926/Dog/?breed=Husky&name=Balto&sort(name)&select(id,name,breed)
 ```
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities!
@@ -211,9 +211,12 @@ npm run deploy
 Now that you have deployed to your cloud instance, you can start scaling and expanding your application by choosing to expand your HarperDB cluster/mesh to more regions. Simply choose to add additional instances on other regions, and expand your deployed mesh. Provide your registered URL/hostname as the entry URL, and the global traffic manager/load balancer will distribute incoming requests to the appropriate server. Your application will be deployed and distributed to all the nodes in your mesh. Your application is ready to horizontally and globally scale!
 
 ## Custom Functionality with JavaScript
-So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ JavaScript custom functions/modules to implement more specific features and interactions. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our Resource API, a standard interface to access data sources, tables, and make them available to endpoints. Database tables are Resource classes, and so extending the function of a table is as simple as extending their class. And when we export a Resource (like a table) this is automatically added as an endpoint (this can be done in lieu of, or in addition to, the endpoints defined in the `Query` type in the schema.graphql). Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we import the table class, extend it, and export it:
+So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ JavaScript custom functions/modules to implement more specific features and interactions. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our Resource API, a standard interface to access data sources, tables, and make them available to endpoints. Database tables are Resource classes, and so extending the function of a table is as simple as extending their class.
+
+To define as resources as endpoints, we need to create a `resources.js` module and then any exported Resource classes are added as an endpoint (this can be done in lieu of, or in addition to, the endpoints defined in the `Query` type in the schema.graphql). Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we import the table class, extend it, and export it:
 
 ```javascript
+// resources.js:
 import { tables } from 'harperdb'; // the tables holds all our database tables 
 const { Dog } = tables; // get the Dog table
 
@@ -251,7 +254,7 @@ export class DogWithBreed extends Dog {
 }
 ```
 
-Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific definition (replace current record), a common method for custom actions is through the HTTP POST method, which is handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks`  array. We might do it like this, and specify an action to be able to differentiate actions:
+Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific definition (replace current record, although you can override it), a common method for custom actions is through the HTTP POST method, which is handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks`  array. We might do it like this, and specify an action to be able to differentiate actions:
 ```javascript
 export class CustomDog extends Dog {
 	async post(content) {
@@ -269,7 +272,7 @@ export class CustomDog extends Dog {
 	}
 }
 ```
-Any methods that are not defined will fallback to HarperDB's default authorization procedure based on users' roles.
+Any methods that are not defined will fall back to HarperDB's default authorization procedure based on users' roles.
 
 ## Define Custom Data Sources
 We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
@@ -277,8 +280,8 @@ We can also directly implement the Resource class and use it to create new data 
 import { tables, Resource } from 'harperdb';
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
-	get() {
-		return this.fetch(`http://best-dog-site.com/${this.id}`);
+	async get() {
+		return (await this.fetch(`http://best-dog-site.com/${this.id}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
