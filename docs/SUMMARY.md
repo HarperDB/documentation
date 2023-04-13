@@ -1,15 +1,9 @@
 # Table of contents
 
 * [Developer Documentation](README.md)
-* [Getting Started](getting-started/getting-started.md)
 * [Install HarperDB](install-harperdb/README.md)
   * [On Linux](install-harperdb/linux.md)
-  * [With Docker](install-harperdb/docker.md)
-  * [On Mac](install-harperdb/mac.md)
-  * [On Windows 10](install-harperdb/windows.md)
-  * [Offline Install](install-harperdb/offline.md)
-  * [Other Install](install-harperdb/other.md)
-  * [Node Version Requirement](install-harperdb/node-ver-requirement.md)
+* [Getting Started](getting-started/getting-started.md)
 * [Full API Documentation](https://api.harperdb.io)
 * [HarperDB Studio](harperdb-studio/README.md)
   * [Create an Account](harperdb-studio/create-account.md)
