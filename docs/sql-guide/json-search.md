@@ -9,9 +9,33 @@ SEARCH_JSON(*expression, attribute*)
 
 
 Executes the supplied string _expression_ against data of the defined top level _attribute_ for each row. The expression both filters and defines output from the JSON document.
+### Example 1
+#### Search a string array
 
-### Example
-The purpose of this query is to give us every movie where at least two of our favorite actors from Marvel films have acted together. The results will return the movie title, the overview, release date & an object array of the actor’s name and their character name in the movie.
+Here are two records in the database:
+
+```json
+[
+    {
+      "id": 1,
+      "name": ["Harper", "Penny"]
+    },
+    {
+      "id": 2,
+      "name": ["Penny"]
+    }
+]
+```
+Here is a simple query that gets any record with "Harper" found in the name.
+
+```
+SELECT *
+FROM dev.dog
+WHERE search_json('"Harper" in *', name)
+```
+
+### Example 2
+The purpose of this query is to give us every movie where at least two of our favorite actors from Marvel films have acted together. The results will return the movie title, the overview, release date and an object array of the actor’s name and their character name in the movie.
 
 
 
@@ -32,31 +56,31 @@ A sample of this data from the movie The Avengers looks like
 ```json
 [
     {
-    "cast_id": 46,
-    "character": "Tony Stark / Iron Man",
-    "credit_id": "52fe4495c3a368484e02b251",
-    "gender": "male",
-    "id": 3223,
-    "name": "Robert Downey Jr.",
-    "order": 0
+        "cast_id": 46,
+        "character": "Tony Stark / Iron Man",
+        "credit_id": "52fe4495c3a368484e02b251",
+        "gender": "male",
+        "id": 3223,
+        "name": "Robert Downey Jr.",
+        "order": 0
     },
     {
-    "cast_id": 2,
-    "character": "Steve Rogers / Captain America",
-    "credit_id": "52fe4495c3a368484e02b19b",
-    "gender": "male",
-    "id": 16828,
-    "name": "Chris Evans",
-    "order": 1
+        "cast_id": 2,
+        "character": "Steve Rogers / Captain America",
+        "credit_id": "52fe4495c3a368484e02b19b",
+        "gender": "male",
+        "id": 16828,
+        "name": "Chris Evans",
+        "order": 1
     },
     {
-    "cast_id": 307,
-    "character": "Bruce Banner / The Hulk",
-    "credit_id": "5e85e8083344c60015411cfa",
-    "gender": "male",
-    "id": 103,
-    "name": "Mark Ruffalo",
-    "order": 2
+        "cast_id": 307,
+        "character": "Bruce Banner / The Hulk",
+        "credit_id": "5e85e8083344c60015411cfa",
+        "gender": "male",
+        "id": 103,
+        "name": "Mark Ruffalo",
+        "order": 2
     }
 ]
 ```
@@ -102,16 +126,16 @@ So far, we’ve iterated the array and filtered out rows, but we also want the r
 ```json
 [
     {
-    "actor": "Robert Downey Jr.",
-    "character": "Tony Stark / Iron Man"
+        "actor": "Robert Downey Jr.",
+        "character": "Tony Stark / Iron Man"
     },
     {
-    "actor": "Chris Evans",
-    "character": "Steve Rogers / Captain America"
+        "actor": "Chris Evans",
+        "character": "Steve Rogers / Captain America"
     },
     {
-    "actor": "Mark Ruffalo",
-    "character": "Bruce Banner / The Hulk"
+        "actor": "Mark Ruffalo",
+        "character": "Bruce Banner / The Hulk"
     }
 ]
 ```
@@ -126,17 +150,17 @@ This function call in the WHERE clause is similar, but we don’t need to perfor
 SEARCH_JSON(
     $count(
     $[name in [
-    "Robert Downey Jr.",
-    "Chris Evans",
-    "Scarlett Johansson",
-    "Mark Ruffalo",
-    "Chris Hemsworth",
-    "Jeremy Renner",
-    "Clark Gregg",
-    "Samuel L. Jackson",
-    "Gwyneth Paltrow",
-    "Don Cheadle"
-    ]]
+            "Robert Downey Jr.",
+            "Chris Evans",
+            "Scarlett Johansson",
+            "Mark Ruffalo",
+            "Chris Hemsworth",
+            "Jeremy Renner",
+            "Clark Gregg",
+            "Samuel L. Jackson",
+            "Gwyneth Paltrow",
+            "Don Cheadle"
+        ]]
     ),
     c.`cast`
 ) >= 2

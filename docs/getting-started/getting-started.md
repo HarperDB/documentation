@@ -1,6 +1,6 @@
 # Getting Started
 
-HarperDB was built by developers for developers, which means getting started should be simple.
+Getting started with HarperDB is easy and fast.
 
 The quickest way to get up and running with HarperDB is with [HarperDB Cloud](../harperdb-cloud/README.md), our database-as-a-service offering, which this guide will utilize.
 
