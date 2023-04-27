@@ -98,7 +98,7 @@ hdbCore contains three functions that allow you to authenticate an inbound reque
 
 * **preValidation**
 
-   This takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API. It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
+   This is an array of functions used for fastify authentication. The second function takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API (for example, `hdbCore.preValidation[1](req, resp, callback)`). It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
 
 * **request**
 
