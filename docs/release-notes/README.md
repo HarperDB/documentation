@@ -14,6 +14,10 @@
 
 [4.0.4 Tucker](4.tucker/4.0.4.md)
 
+[4.0.5 Tucker](4.tucker/4.0.5.md)
+
+[4.0.6 Tucker](4.tucker/4.0.6.md)
+
 [4.1.0 Tucker](4.tucker/4.1.0.md)
 
 ### Past Releases
