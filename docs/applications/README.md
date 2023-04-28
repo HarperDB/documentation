@@ -166,6 +166,6 @@ class BreedSource extends Resource { // define a data source
 Breed.sourcedFrom(BreedSource, { expiration: 3600 }); 
 ```
 
-HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a getting started guide. See our documentation for more information.
+HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a getting started guide. See our documentation for more information on using the [`harperdb` module](../reference/harperdb.md) and the [Resource interface](../reference/resource.md).
 
 
