@@ -1,4 +1,8 @@
-# Getting Started
+# Documentation
+
+HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
+
+## Getting Started
 
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications. Getting started with HarperDB is easy and fast.
 
@@ -42,9 +46,15 @@ Now that you have a HarperDB instance, if you want to use HarperDB as a standalo
 4. [Load CSV data](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
 5. [Query data via SQL](../harperdb-studio/query-instance-data.md)
 
+## Administering HarperDB
+
+If you are deploying and administering HarperDB, you may want to look at our [configuration documentation](../configuration.md), [security documentation](../security), [clustering documentation](../clustering), and our [administrative operations API](https://api.harperdb.io/).
+
 ### Using the HarperDB Operations API
 
-The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface described in the [database application development guide](../applications/README.md) for building applications, and the operations API for administrative purposes. The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
+The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface described in the [database application development guide](../applications/README.md) as your primary interface for scalable and performant data interaction for building production applications, and the operations API for administrative purposes.
+
+The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
 
 ```
 curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
@@ -55,6 +65,9 @@ curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 "schema": "dev"
 }'
 ```
+
+## Support and Learning More
+See our [support documentation](../support.md) for more information on getting help, and you can also learn more about available HarperDB projects by searching [Github](https://github.com/search?q=harperdb). 
 
 ### Video Tutorials
 

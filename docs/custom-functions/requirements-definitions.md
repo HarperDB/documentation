@@ -28,7 +28,7 @@ customFunctions:
   A boolean value that tells HarperDB to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable. `enabled` is `true` by default.
 
 * **`network.port`**
-  This is the port HarperDB will use to start a standalone Fastify Server dedicated to serving your Custom Functions’ routes.
+  This is the port HarperDB will use to start the HTTP server dedicated to serving your Custom Functions’ routes.
 
 * **`root`**
   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your \<ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
@@ -43,7 +43,7 @@ The name of the folder that holds your project files serves as the root prefix f
 
 **/routes folder**
 
-Files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
+By default, files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {

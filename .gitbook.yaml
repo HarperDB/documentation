@@ -8,3 +8,5 @@ redirects:
   install-harperdb/linux-quickstart: install-harperdb/linux
   install-harperdb/offline: install-harperdb#offline-install
   install-harperdb/node-ver-requirement: install-harperdb
+  getting-started: .
+  custom-functions/using-npm-git: custom-functions/create-project

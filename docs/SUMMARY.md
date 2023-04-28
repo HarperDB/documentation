@@ -1,9 +1,9 @@
 # Table of contents
 
-* [Developer Documentation](README.md)
+* [Documentation](README.md)
 * [Install HarperDB](install-harperdb/README.md)
   * [On Linux](install-harperdb/linux.md)
-* [Getting Started](getting-started/getting-started.md)
+* [Applications](applications/README.md)
 * [Full API Documentation](https://api.harperdb.io)
 * [HarperDB Studio](harperdb-studio/README.md)
   * [Create an Account](harperdb-studio/create-account.md)
@@ -47,7 +47,6 @@
   * [Define Routes](custom-functions/define-routes.md)
   * [Define Helpers](custom-functions/define-helpers.md)
   * [Host A Static Web UI](custom-functions/host-static.md)
-  * [Using NPM and GIT](custom-functions/using-npm-git.md)
   * [Custom Functions Operations](custom-functions/custom-functions-operations.md)
   * [Restarting the Server](custom-functions/restarting-server.md)
   * [Debugging a Custom Function](custom-functions/debugging-custom-function.md)
@@ -83,6 +82,7 @@
 * [Upgrade a HarperDB Instance](upgrade-hdb-instance.md)
 * [Reference](reference/README.md)
   * [Storage Algorithm](reference/storage-algorithm.md)
+  * [Defining Schemas](reference/defining-schemas.md)
   * [Dynamic Schema](reference/dynamic-schema.md)
   * [Data Types](reference/data-types.md)
   * [Content Types/Data Formats](reference/content-types.md)

@@ -39,7 +39,7 @@ type Query {
 	Dog: Dog
 }
 ```
-This defines an entry point (and is not limited to GraphQL!) and now we have a full REST api for /dog ([http://localhost:9926/Dog](http://localhost:9926/Dog) by default. We can PUT or POST data into this table using this new path, and then GET (or DELETE) from it as well. You can even go directly to this URL in the browser (will ask you to login) to view data or modify data. If you added a record through the studio, trying visiting /Dog/<id> to see that record in your browser, for example. Or try a curl command like:
+This defines an entry point (and is not limited to GraphQL!) and now we have a full REST api for /dog. By default the application server port is 9926, so the local URL would be ([http://localhost:9926/Dog](http://localhost:9926/Dog). We can PUT or POST data into this table using this new path, and then GET (or DELETE) from it as well. You can even go directly to this URL in the browser (will ask you to login) to view data or modify data. If you added a record through the studio, trying visiting /Dog/<id> to see that record in your browser, for example. Or try a curl command like:
 `curl http://localhost:9926/Dog/<id> --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass'`
 
 Additionally, these endpoints automatically support multiple forms of authentication like Basic, Cookie, and JWT, and content types including JSON, CBOR, MessagePack and CSV. Simply include an `Accept` header in your requests with the preferred content type. We recommend CBOR as a compact, efficient encoding with rich data types, but JSON is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
@@ -168,4 +168,9 @@ Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 
 HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a getting started guide. See our documentation for more information on using the [`harperdb` module](../reference/harperdb.md) and the [Resource interface](../reference/resource.md).
 
+## Define Fastify Routes
+Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. HarperDB includes a resource plugin for defining routes with the Fastify web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
 
+By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](../custom-functions/define-routes.md) for more information on how to create Fastify routes.
+
+However, (despite its name), fastify is not nearly as fast as HarperDB's RESTful endpoints, nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the HarperDB's REST interface is recommended for high-performance large-scale applications.
