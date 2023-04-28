@@ -1,31 +1,30 @@
-# Dynamic Schema
+# Dynamic Schema Tables
+When tables are created without any schema, through the operations API (without specifying attributes) or studio, the tables follow "dynamic-schema" behavior. Generally it is best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity and precise control over indexing, without dependency on data itself. However, it can often be simpler and quicker to simply create a table and let the data auto-generate the schema dynamically with everything being auto-indexed for broad querying.
 
-HarperDB is built to make data ingestion simple. A primary driver of that is the Dynamic Schema. The purpose of this document is to provide a detailed explanation of the dynamic schema specifically related to schema definition and data ingestion.
+With dynamic schemas individual attributes are reflexively created as data is ingested, meaning the table will adapt to the structure of data ingested. HarperDB tracks the metadata around schemas, tables, and attributes allowing for describe table, describe schema, and describe all operations.
 
-The dynamic schema provides the structure of schema and table namespaces while simultaneously providing the flexibility of a data-defined schema. Individual attributes are reflexively created as data is ingested, meaning the table will adapt to the structure of data ingested. HarperDB tracks the metadata around schemas, tables, and attributes allowing for describe table, describe schema, and describe all operations.
+### Databases
 
-### Schemas
-
-HarperDB schemas are analogous to a namespace that groups tables together. A schema is required to create a table.
+HarperDB databases hold a collection of tables together in a single file that are transactionally connecting meaning that operations across tables within a database can be performed in a single atomic transaction. By default tables are added to the default database called "data", but other databases can be created and specified for tables.
 
 ### Tables
 
 HarperDB tables group records together with a common data pattern. To create a table users must provide a table name and a primary key.
 
 * **Table Name**: Used to identify the table.
-* **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB.
+* **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB operations API.
 
-Primary Key
+## Primary Key
 
 The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](storage-algorithm.md) utilizes this value for indexing.
 
 **Standard Attributes**
 
-Additional attributes are reflexively added via insert and update operations (in both SQL and NoSQL) when new attributes are included in the data structure provided to HarperDB. As a result, schemas are additive, meaning new attributes are created in the underlying storage algorithm as additional data structures are provided. HarperDB offers `create_attribute` and `drop_attribute` operations for users who prefer to manually define their data model independent of data ingestion. When new attributes are added to tables with existing data the value of that new attribute will be assumed `null` for all existing records.
+With tables that are using dynamic schemas, additional attributes are reflexively added via insert and update operations (in both SQL and NoSQL) when new attributes are included in the data structure provided to HarperDB. As a result, schemas are additive, meaning new attributes are created in the underlying storage algorithm as additional data structures are provided. HarperDB offers `create_attribute` and `drop_attribute` operations for users who prefer to manually define their data model independent of data ingestion. When new attributes are added to tables with existing data the value of that new attribute will be assumed `null` for all existing records.
 
 **Audit Attributes**
 
-HarperDB automatically creates two audit attributes used on each record.
+HarperDB automatically creates two audit attributes used on each record if the table is created without a schema.
 
 * `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
 * `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
@@ -34,7 +33,7 @@ HarperDB automatically creates two audit attributes used on each record.
 
 To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](https://api.harperdb.io/).
 
-**Create a Schema**
+**Create a Database**
 
 ```bash
 {
