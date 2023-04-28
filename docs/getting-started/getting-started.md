@@ -42,7 +42,21 @@ Now that you have a HarperDB instance, if you want to use HarperDB as a standalo
 4. [Load CSV data](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
 5. [Query data via SQL](../harperdb-studio/query-instance-data.md)
 
-#### Video Tutorials
+### Using the HarperDB Operations API
+
+The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface described in the [database application development guide](../applications/README.md) for building applications, and the operations API for administrative purposes. The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
+
+```
+curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
+--header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"operation": "create_schema",
+"schema": "dev"
+}'
+```
+
+### Video Tutorials
 
 [HarperDB video tutorials are available within the HarperDB Studio](../harperdb-studio/resources.md#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
 
