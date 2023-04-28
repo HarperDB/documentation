@@ -150,7 +150,7 @@ HarperDB will automatically start after installation. If you wish HarperDB to st
 You can set up a crontab:
 
 ```bash
-(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb run") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb start") | crontab -
 ```
 
 Or you can create a systemd script at `/etc/systemd/system/harperdb.service`

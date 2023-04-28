@@ -35,10 +35,10 @@ harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_P
 
 ## Starting HarperDB
 
-To run HarperDB after it is installed, run the following command:
+To start HarperDB after it is installed, run the following command:
 
 ```bash
-harperdb run
+harperdb start
 ```
 
 ***
@@ -65,10 +65,10 @@ harperdb restart
 
 ## Managing HarperDB Service(s)
 
-The following commands are used to run, restart, or stop one or more HarperDB service without restarting the full application:
+The following commands are used to start, restart, or stop one or more HarperDB service without restarting the full application:
 
 ```bash
-harperdb run --service harperdb,"custom functions",ipc
+harperdb start --service harperdb,"custom functions",ipc
 harperdb stop --service harperdb
 harperdb restart --service "custom functions"
 ```
@@ -89,3 +89,6 @@ To check the version of HarperDB that is installed run the following command:
 ```bash
 harperdb version
 ```
+
+## Backups
+HarperDB uses a transactional commit process that ensures that data on disk is always transactionally consistent with storage. This means that HarperDB maintains safety of database integrity in the event of a crash. It also means that you can use any standard volume snapshot tool to make a backup of a HarperDB database. Database files are stored in the hdb/schemas directory (organized schema directories). As long as the snapshot is an atomic snapshot of these database files, the data can be copied/movied back into the schemas directory to restore a previous backup (with HarperDB shut down) , and database integrity will be preserved. Note that simply copying an in-use database file (using `cp`, for example) is _not_ a snapshot, and this would progressively read data from the database at different points in time, which yields unreliable copy that likely will not be usable. Standard copying is only reliable for a database file that is not in use.
