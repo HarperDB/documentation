@@ -4,7 +4,7 @@
 * [Install HarperDB](install-harperdb/README.md)
   * [On Linux](install-harperdb/linux.md)
 * [Applications](applications/README.md)
-* [Full API Documentation](https://api.harperdb.io)
+* [Operations API Documentation](https://api.harperdb.io)
 * [HarperDB Studio](harperdb-studio/README.md)
   * [Create an Account](harperdb-studio/create-account.md)
   * [Log In & Password Reset](harperdb-studio/login-password-reset.md)

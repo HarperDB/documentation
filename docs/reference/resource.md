@@ -81,6 +81,9 @@ This is called for HTTP POST requests. You can define this method to provide you
 ## `subscribe(options)`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
 
+## `connect(incomingMessages?: AsyncIterable<any>): AsyncIterable<any>`
+This is called when a connection is received through WebSockets or Server Sent Events (SSE) to this resource path. This is called with `incomingMessages` as an iterable stream of incoming messages when the connection is from WebSockets, and is called with no arguments when the connection is from a SSE connection. This can return an asynchronous iterable representing the stream of messages to be sent to the client. 
+
 ## `set(property, value)`
 This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be returned by a `get()`.
 

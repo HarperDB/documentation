@@ -118,9 +118,8 @@ type Breed @table {
 ```
 And next we will use this table in our `get()` method. To do this correctly, we specify that we want use this table in our resource. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). With our own snapshot of the breed table we can then access data from it:
 
-
-resource.js:
 ```javascript
+//resource.js:
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
 	async get() {
@@ -152,6 +151,14 @@ export class CustomDog extends Dog {
 ```
 Any methods that are not defined will fall back to HarperDB's default authorization procedure based on users' roles.
 
+You can also use the `default` export to define the root path resource handler. For example:
+```javascript
+// resources.json
+export default class CustomDog extends Dog {
+	...
+```
+This will allow requests to url like /<record-id> to be directly resolved to this resource.
+
 ## Define Custom Data Sources
 We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 ```javascript
@@ -173,4 +180,4 @@ Exporting resource will generate full RESTful endpoints. But, you may prefer to 
 
 By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](../custom-functions/define-routes.md) for more information on how to create Fastify routes.
 
-However, (despite its name), fastify is not nearly as fast as HarperDB's RESTful endpoints, nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the HarperDB's REST interface is recommended for high-performance large-scale applications.
+However, (despite its name), Fastify is not as fast as HarperDB's RESTful endpoints (about 10%-20% slower/more-overhead), nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the HarperDB's REST interface is recommended for optimum performance and ease of use.
