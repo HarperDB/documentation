@@ -7,7 +7,7 @@ You can define create classes that extend Resource to define your own data sourc
 export class MyExternalData extends Resource {
 	get() {
 		// fetch data from an external source, using our primary key
-	   this.fetch(this.id)
+		this.fetch(this.id)
 	}
 	put(data) {
 		// send the data into the external source
@@ -31,20 +31,20 @@ const { MyTable } = tables;
 export class MyCustomTableInterface extends MyTable {
 	get() {
 		// we can add properties or change properties before returning data, by using set():
-	   this.set('newProperty', 'newValue');
+		this.set('newProperty', 'newValue');
 		this.existingProperty = 44 // any attributes declared in the schema will exist as first-class properties
-	   return super.get(); // returns the record, modified with the changes above
+		return super.get(); // returns the record, modified with the changes above
 	}
 	put(data, options) {
 		// can change data any way we want
-	   super.put(data, options);
+		super.put(data, options);
 	}
 	delete() {
 		super.delete(); 
 	}
 	post(data) {
 		// providing a post handler (for HTTP POST requests) is a common way to create additional
-	   // actions that aren't well described with just PUT or DELETE
+		// actions that aren't well described with just PUT or DELETE
 	}
 }
 
@@ -105,7 +105,7 @@ When implementing a resource that uses another resource to fulfill requests, it 
 * Any timestamps that are accessed during resolution will be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching).
 * Request and user information will be communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
 
-Calling this with another resource or table class will return a version of the class (actually subclass) that will operate in the context of the current resource with the behavior described above.
+Calling this with another resource or table class will return a version of the class (a subclass) that will operate in the context of the current resource with the behavior described above.
 
 For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment ids on the blog record, but then add the comment to the a separate comment table. We might do this:
 ```javascript
@@ -117,13 +117,26 @@ export class BlogPost extends tables.BlogPost {
 		let Comment = this.use(tables.Comment);
 		Comment.put(comment); // add a comment record the comment table
 		this.comments.push(comment.id); // add the id for the record to our array of comment ids
-	   // Both of these actions will be committed atomically as part of the same transaction (assuming
-	   // they are part of the same database)
+		// Both of these actions will be committed atomically as part of the same transaction (assuming
+		// they are part of the same database)
 	}	
 }
 ```
 
-The Resource class also has static methods that mirror the instance methods and by default call the instance methods. Generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on user Resource classes and tables.
+The Resource class also has static methods that mirror the instance methods. These static methods are called when a request is made to the resource path with no identifer in the path. For example `POST /MyResource/133` will be handled by the Resource instance `post()` method, but `POST /MyResource/` will be handled by the Resource `static post()` method:
+```javascript
+export MyResource extends Resource {
+	post() {
+		// handles requests like POST /MyResource/133 where 133 is this.id
+	}
+	static post() {
+		// handles requests like POST /MyResource/
+	}
+}
+```
+Likewise the get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling `static get()` with query parameters.
+
+The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the resource instance to act on, and and by default call the instance methods. Generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on user Resource classes and tables.
 
 ## `transact(callback: (transactionalTable) => any): Promise`
 This executes the callback in a transaction, passing a transactional version of the table, where all the interactions with the table will be accessed or written through a transaction. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
