@@ -43,7 +43,7 @@ This defines an entry point (and is not limited to GraphQL!) and now we have a f
 `curl http://localhost:9926/Dog/<id> --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass'`
 
 Additionally, these endpoints automatically support multiple forms of authentication like Basic, Cookie, and JWT, and content types including JSON, CBOR, MessagePack and CSV. Simply include an `Accept` header in your requests with the preferred content type. We recommend CBOR as a compact, efficient encoding with rich data types, but JSON is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
-```javascript
+```
 Authorization: Basic <base64 encoded user:pass>
 Accept: application/cbor
 If-Modified-Since: Wed, 01 Mar 2023 14:45:49 GMT # browsers can automatically provide this

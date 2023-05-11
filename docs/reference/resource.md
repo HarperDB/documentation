@@ -1,6 +1,10 @@
-The Resource class is designed to model different data resources within HarperDB. The Resource class be extended to create new data sources. Resources can exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users. Generally a Resource class represents a collection of entities or records, and has static methods available for interacting with the collection, like querying a database table. Instances of a Resource class generally represent a single record or entity at a given point in time; that is Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction.
+The Resource class is designed to model different data resources within HarperDB. The Resource class be extended to create new data sources. Resources can exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
+
+Conceptually, a Resource class represents a collection of entities or records, and has static methods available for interacting with the collection, like querying a database table. One class represents one collection of records like a table. Instances of a Resource class generally represent a single record or entity at a given point in time. That is Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are a distinct resource instances created for every record that is accessed, and the instance methods are used for interaction with individual records.
 
 The RESTful HTTP server and other server interfaces will instantiate/load resources to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in transaction and the access checks will be performed before the method is executed.
+
+There are paths that map to the class collection and to individual records. Using a path that does not specify an id like `/MyResource/` is mapped to the Resource class itself, and interactions will use the static methods like `static get()`, `static put()`, `static post()`, etc. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance (where the instance `id` property will be `3492`) and interactions will use the instance methods like `get()`, `put()`, and `post()`.
 
 You can define create classes that extend Resource to define your own data sources, typically to interface with external data sources. In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 ```javascript
@@ -49,6 +53,8 @@ export class MyCustomTableInterface extends MyTable {
 }
 
 ```
+
+# Resource (Instance) Methods
 
 A Resource class has the following instance methods and properties:
 ## `id`
@@ -122,6 +128,8 @@ export class BlogPost extends tables.BlogPost {
 	}	
 }
 ```
+
+# Resource Static Methods
 
 The Resource class also has static methods that mirror the instance methods. These static methods are called when a request is made to the resource path with no identifer in the path. For example `POST /MyResource/133` will be handled by the Resource instance `post()` method, but `POST /MyResource/` will be handled by the Resource `static post()` method:
 ```javascript
