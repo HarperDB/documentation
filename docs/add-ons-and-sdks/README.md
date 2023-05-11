@@ -1,7 +1,14 @@
 # Add-ons & SDKs
 
-HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and plugins that can be used and combined to build applications and add functionality to existing applications. HarperDB Plugins and Add-Ons can be found in our [Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) and SDKs can be found in the [HarperDB Marketplace](../harperdb-studio/resources.md#harperdb-marketplace).
+HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and plugins that can be used and combined to build applications and add functionality to existing applications. HarperDB tools, plugins, and add-ons can be found in a few places:
 
+* [SDK libraries](https://studio.harperdb.io/resources/sdks/active) are available for connecting to HarperDB from different languages.
+* [Drivers](https://studio.harperdb.io/resources/drivers) are available for connecting to HarperDB from different products and tools.
+* [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
+* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) includes additional tools for HarperDB.
+* You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb&type=repositories)
+
+## Components/Plugins
 There are three general categories of components for HarperDB: Server protocol plugins that provide and define ways for clients to access data, resource plugins that handle and interpret different types of files, and consumer data sources that provide a way to access and retrieve data from other sources.
 
 Server resource plugins implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource plugins may add support for different file types like HTML templates (like JSX), CSV data, and more.
