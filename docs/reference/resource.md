@@ -131,7 +131,7 @@ export class BlogPost extends tables.BlogPost {
 
 # Resource Static Methods
 
-The Resource class also has static methods that mirror the instance methods. These static methods are called when a request is made to the resource path with no identifer in the path. For example `POST /MyResource/133` will be handled by the Resource instance `post()` method, but `POST /MyResource/` will be handled by the Resource `static post()` method:
+The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the recrod act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. These static methods are also called when a request is made to the resource path with no identifer in the path. For example `POST /MyResource/133` will be handled by the Resource instance `post()` method, but `POST /MyResource/` will be handled by the Resource `static post()` method:
 ```javascript
 export MyResource extends Resource {
 	post() {
@@ -142,9 +142,7 @@ export MyResource extends Resource {
 	}
 }
 ```
-Likewise the get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling `static get()` with query parameters.
-
-The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the resource instance to act on, and and by default call the instance methods. Generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on user Resource classes and tables.
+Likewise the get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling `static get()` with query parameters. By default, these mirrored Resource static methods default call the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
 ## `transact(callback: (transactionalTable) => any): Promise`
 This executes the callback in a transaction, passing a transactional version of the table, where all the interactions with the table will be accessed or written through a transaction. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
@@ -183,10 +181,16 @@ This will assign the provided record or data to this resource.
 Deletes this resources record or data.
 
 ## `publish(id: string|number, message, options?)`
-Publishes a message to this record.
+Publishes the given message to the record entry specified by the id.
 
-## `subscribe(id: string|number, options)`
+## `subscribe(options)`
 Subscribes to the record/resource.
+
+## `search(query: Search)`
+This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
+
+## `primaryKey`
+This property indicates the name of the primary key attribute for a table.
 
 There are additional methods that are only available on table classes (which are a type of resource).
 
