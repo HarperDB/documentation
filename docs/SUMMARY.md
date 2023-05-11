@@ -53,7 +53,6 @@
   * [Custom Functions Templates](custom-functions/templates.md)
   * [Example Projects](custom-functions/example-projects.md)
 * [Add-ons and SDKs](add-ons-and-sdks/README.md)
-  * [Google Data Studio](add-ons-and-sdks/google-data-studio.md)
 * [SQL Guide](sql-guide/README.md)
   * [SQL Features Matrix](sql-guide/features-matrix.md)
   * [Insert](sql-guide/insert.md)

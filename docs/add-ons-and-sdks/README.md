@@ -7,6 +7,7 @@ HarperDB is highly extensible database application platform with support for a r
 * [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
 * [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) includes additional tools for HarperDB.
 * You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb&type=repositories)
+* [Google Data Studio](google-data-studio.md) is a visualization tool for building charts and tables from HarperDB data. 
 
 ## Components/Plugins
 There are three general categories of components for HarperDB: Server protocol plugins that provide and define ways for clients to access data, resource plugins that handle and interpret different types of files, and consumer data sources that provide a way to access and retrieve data from other sources.
