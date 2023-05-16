@@ -49,5 +49,8 @@ If you are having TLS issues with clustering, use the following steps to verify 
 ~~~
 openssl x509 -in <certificate>.pem -noout -text`
 ~~~
-2. Make sure the cert validates with the CA: `openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
+2. Make sure the certificate validates with the CA:
+~~~
+openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
+~~~
 3. Makes sure the cert and private key are valid pair. Run the following and the outputs should match: `openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5` and `openssl x509 -modulus -noout -in <certificate>.pem | openssl md5`

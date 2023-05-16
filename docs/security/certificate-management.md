@@ -30,14 +30,12 @@ This option involves installing nginx and using it to manage certificates, termi
 
 In this case you will leave HTTPS disabled within the HarperDB confiruation.
 
-### Load Balancer
+### Option: External Reverse Proxy
 
-This option involves using an external load balancer such as an ELB in AWS or a LoadBalancer in Kubernetes and use it to manage certificates, terminate TLS, and proxy the traffic to your HarperDB node.
+Instead of enabling HTTPS for HarperDB, a number of different external services can be used as a reverse proxy for HarperDB. These services typically have integrated certificate management. Configure the service to listen for HTTPS requests and forward (over a private network) to HarperDB as HTTP requests.
 
-In this case you will leave HTTPS disabled within the HarperDB confiruation.
+Examples of these types of services include an AWS Application Load Balancer or a GCP external HTTP(S) load balancer.
 
 ### Additional Considerations
 
-* If your certificates expire you will need a way to issue new certificates to the nodes and then restart HarperDB.
-    * If you are using a public CA such as LetsEncrypt, a tool like `certbot` can be used to renew certificates
-* It is possible to use different certificates for the Operations API and the Custom Functions API. You may want to use an internal private CA to issue certs for the Operations API and a public CA for the Custom Functions API if you want to expose your Custom Functions endpoints to the broader internet.
+It is possible to use different certificates for the Operations API and the Custom Functions API. In scenarios where only your Custom Functions endpoints need to be exposed to the Internet and the Operations API is reserved for HarperDB administration, you may want to use a private CA to issue certificates for the Operations API and a public CA for the Custom Functions API certificates.
