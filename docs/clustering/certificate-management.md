@@ -46,15 +46,15 @@ X509v3 Extended Key Usage:
 If you are having TLS issues with clustering, use the following steps to verify that your certificates are valid.
 
 1. Make sure certificates can be parsed and that you can view the contents:
-~~~
+```
 openssl x509 -in <certificate>.pem -noout -text`
-~~~
+```
 2. Make sure the certificate validates with the CA:
-~~~
+```
 openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
-~~~
+```
 3. Make sure the certificate and private key are a valid pair by verifying that the output of the following commands match:
-~~~
+```
 openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5
 openssl x509 -modulus -noout -in <certificate>.pem | openssl md5
-~~~
+```
