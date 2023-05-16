@@ -2,7 +2,7 @@
 
 ## Development
 
-Out of the box harperdb generates certificates that are used when HarperDB nodes are clustered together to securely share data between nodes. These certificates are meant for development/testing purposes. Because these certificates do not have CNs (Common Names) that will match the DNS/IP of the HarperDB node, the following settings (see the full [configuration file](../configuration.md) docs for more details) are defaulted & recommended for ease of development:
+Out of the box HarperDB generates certificates that are used when HarperDB nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the HarperDB node, the following settings (see the full [configuration file](../configuration.md) docs for more details) are defaulted & recommended for ease of development:
 
 ```
 clustering:
@@ -14,11 +14,11 @@ clustering:
     verify: true
 ```
 
-The certificates that HarperDB generates are stored in your `HDB_ROOT/keys/`.
+The certificates that HarperDB generates are stored in your `<ROOTPATH>/keys/`.
 
-Insecure is set to `true` to accept the certificate CN mismatch due to development certificates.
+`insecure` is set to `true` to accept the certificate CN mismatch due to development certificates.
 
-Verify is set to `true` to enable mutual TLS between the nodes.
+`verify` is set to `true` to enable mutual TLS between the nodes.
 
 ## Production
 
