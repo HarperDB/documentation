@@ -36,11 +36,13 @@ customFunctions:
     privateKey: ~/hdb/keys/privateKey.pem
 ~~~
 
-### nginx
+### Option: Nginx Reverse Proxy
 
-This option involves installing nginx and using it to manage certificates, terminate TLS, and proxy the traffic to HarperDB.
+Instead of enabling HTTPS for HarperDB, Nginx can be used as a reverse proxy for HarperDB.  
 
-In this case you will leave HTTPS disabled within the HarperDB confiruation.
+Install Nginx, configure Nginx to use certificates issued from your own CA or a public CA, then configure Nginx to listen for HTTPS requests and forward to HarperDB as HTTP requests.
+
+[Certbot](https://certbot.eff.org/) is a great tool for automatically requesting and renewing Let’s Encrypt certificates used by Nginx.
 
 ### Option: External Reverse Proxy
 
