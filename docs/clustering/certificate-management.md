@@ -53,4 +53,8 @@ openssl x509 -in <certificate>.pem -noout -text`
 ~~~
 openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
 ~~~
-3. Makes sure the cert and private key are valid pair. Run the following and the outputs should match: `openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5` and `openssl x509 -modulus -noout -in <certificate>.pem | openssl md5`
+3. Make sure the certificate and private key are a valid pair by verifying that the output of the following commands match:
+~~~
+openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5
+openssl x509 -modulus -noout -in <certificate>.pem | openssl md5
+~~~

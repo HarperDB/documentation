@@ -4,25 +4,37 @@ This document is information on managing certificates for the Operations API and
 
 ## Development
 
-An out of the box install of HarperDB does not have HTTPS enabled for the Operations API (See [configuration](../configuration.md) for relevant configuration file settings). This is great for local development. If you are developing using a remote server and your requests are traversing the internet, we recommend that you enable HTTPS.
+An out of the box install of HarperDB does not have HTTPS enabled for the Operations API or the Custom Functions API (see [configuration](../configuration.md) for relevant configuration file settings.) This is great for local development. If you are developing using a remote server and your requests are traversing the Internet, we recommend that you enable HTTPS.
 
-To enable HTTPS, set the `clustering.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
+To enable HTTPS, set the `operationsApi.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
 
-By default HarperDB will generate certificates and place them at `HDB_ROOT/keys`. These certificates will not have a valid CN (Common Name) for your HarperDB node, so you will be able to use HTTPS but you will need to accept the invalid certificate due to this.
+By default HarperDB will generate certificates and place them at `<ROOTPATH>/keys/`. These certificates will not have a valid Common Name (CN) for your HarperDB node, so you will be able to use HTTPS, but your HTTPS client must be configured to accept the invalid certificate.
 
 ## Production
 
-In a production environment, we recommend using your own Certificate Authority, or a public Certificate Authority such as LetsEncrypt to generate certs for your HarperDB cluster. This will let you generate certificates with CNs that match the DNS of your nodes.
+For production deployments, in addition to using HTTPS, we recommend using your own certificate authority (CA) or a public CA such as Let's Encrypt, to generate certificates with CNs that match the Fully Qualified Domain Name (FQDN) of your HarperDB node.
 
-We have a few recommended options for enabling HTTPS for HarperDB in a production setting.
+We have a few recommended options for enabling HTTPS in a production setting.
 
-### HarperDB HTTPS
+### Option: Enable HarperDB HTTPS and Replace Certificates
 
-This option is having HarperDB itself listen only for HTTPS requests. HarperDB will continue to listen on the ports that you specify in your configuration.
+To enable HTTPS, set the `operationsApi.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
 
-To enable HTTPs, set the `clustering.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
-
-Once you generate new certificates, to make HarperDB start using them you can either replace the generated files with your own, or update the configuration to point to your new certificates, and then restart HarperDB.
+To replace the certificates, either replace the contents of the existing certificate files at `<ROOTPATH>/keys/`, or update the HarperDB configuration with the path of your new certificate files, and then restart HarperDB.
+~~~yaml
+operationsApi:
+  tls:
+    certificate: ~/hdb/keys/certificate.pem
+    certificateAuthority: ~/hdb/keys/ca.pem
+    privateKey: ~/hdb/keys/privateKey.pem
+~~~
+~~~yaml
+customFunctions:
+  tls:
+    certificate: ~/hdb/keys/certificate.pem
+    certificateAuthority: ~/hdb/keys/ca.pem
+    privateKey: ~/hdb/keys/privateKey.pem
+~~~
 
 ### nginx
 
