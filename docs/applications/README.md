@@ -99,9 +99,9 @@ import { tables } from 'harperdb'; // the tables holds all our database tables
 const { Dog } = tables; // get the Dog table
 
 export class DogWithHumanAge extends Dog {
-	get(property) {
-		this.set('humanAge', 15 + dog.age * 5); // silly calculation of human age equivalent
-		return super.get(property);
+	get(query) {
+		this.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
+		return super.get(query);
 	}
 }
 ```
@@ -122,11 +122,11 @@ And next we will use this table in our `get()` method. To do this correctly, we 
 //resource.js:
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get() {
+	async get(query) {
 		let breedDescription = await this.use(Breed).get(this.breed);
 		// since breedDescription is not defined on the schema, we need to use set() to add the property 
-		this.set('breedDescription', breedDescription);
-		return super.get();
+		this.breedDescription = breedDescription;
+		return super.get(query);
 	}
 }
 ```
