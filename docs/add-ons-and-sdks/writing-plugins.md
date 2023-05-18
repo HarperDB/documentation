@@ -107,6 +107,25 @@ Note that these hooks are not mutually exclusive. You can write a plugin that im
 ## Data Source Components
 Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../reference/resource.md) for more information on implementing new resources.
 
+## Content Type Plugins
+HarperDB uses content negotiation to determine how to deserialize content incoming data from HTTP requests (and any other protocols that support content negotiation) and to serialize data into responses. This negotiation is performed by comparing the `Content-Type` header with registered content type handler to determine how to deserialize content into structured data that is processed and stored, and comparing the `Accept` header with registered content type handlers to determine how to serialize structured data. HarperDB comes with a rich set of content type handlers including JSON, CBOR, MessagePack, CSV, Event-Stream, and more. However, you can also add your own content type handlers by adding new entries (or even replacing existing entries) to the `contentType` exported map from `harperdb`. This map is keyed by the MIME type, and the value is an object with properties (all optional):
+`serialize(data): Buffer|Uint8Array|string`: If defined, this will be called with the data structure and should return the data serialized as binary data (NodeJS Buffer or Uint8Array) or a string, for the response.
+`serializeStream(data): ReadableStream`: If defined, this will be called with the data structure and should return the data serialized as a ReadableStream. This is generally necessary for handling asynchronous iteratables.
+`deserialize(Buffer|string): any`: If defined (and deserializeStream is not defined), this will be called with the raw data received from the incoming request and should return the deserialized data structure. This will be called with a string for text MIME types ("text/..."), and a Buffer for all others.
+`deserializeStream(ReadableStream): any`: If defined (and deserializeStream is not defined), this will be called with the raw data stream received from the incoming request and should return the deserialized data structure (potentially as an asynchronous iterable).
+`q: number`: This is an indication of this serialization quality between 0 and 1, and if omitted, defaults to 1. It is called "content negotiation" instead of "content demanding" because both client and server may have multiple supported content types, and the server needs to choose the best for both. This is determined by finding the content type (of all supported) with the highest product of client q and server q (1 is a perfect representation of the data, 0 is worst, 0.5 is medium quality).
+
+For example, if you wanted to define an XML serializer (that can respond with XML to requests with `Accept: text/xml`) you could write:
+```javascript
+import { contentTypes } from 'harperdb';
+contentTypes.set('text/xml', {
+	serialize(data) {
+		return '<root>' ... some serialization '</root>';
+	},
+	q: 0.8,
+});
+```
+
 ## Trusted/Untrusted
 Plugins will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted plugins for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
 
