@@ -5,15 +5,18 @@ This SQL keywords reference contains the SQL functions available in HarperDB.
 ## Functions
 ### Aggregate
 
-| Keyword      | Syntax                                                             | Description                                                                                                                                             |
-|--------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| AVG          | AVG(_expression_)                                                  | Returns the average of a given numeric expression.                                                                                                      |
-| COUNT        | SELECT COUNT(_column_name_) FROM _schema.table_ WHERE _condition_; | Returns the number records that match the given criteria. Nulls are not counted.                                                                        |
-| GROUP_CONCAT | GROUP_CONCAT(_expression_)                                         | Returns a string with concatenated values that are comma separated and that are non-null from a group. Will return null when there are non-null values. |
-| MAX          | SELECT MAX(_column_name_) FROM _schema.table_ WHERE _condition_;   | Returns largest value in a specified column.                                                                                                            |
-| MIN          | SELECT MIN(_column_name_) FROM _schema.table_ WHERE _condition_;   | Returns smallest value in a specified column.                                                                                                           |
-| SUM          | SUM(_column_name_)                                                 | Returns the sum of the numeric values provided.                                                                                                         |
+| Keyword         | Syntax                                                             | Description                                                                                                                                             |
+|-----------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AVG             | AVG(_expression_)                                                  | Returns the average of a given numeric expression.                                                                                                      |
+| COUNT           | SELECT COUNT(_column_name_) FROM _schema.table_ WHERE _condition_; | Returns the number records that match the given criteria. Nulls are not counted.                                                                        |
+| GROUP_CONCAT    | GROUP_CONCAT(_expression_)                                         | Returns a string with concatenated values that are comma separated and that are non-null from a group. Will return null when there are non-null values. |
+| MAX             | SELECT MAX(_column_name_) FROM _schema.table_ WHERE _condition_;   | Returns largest value in a specified column.                                                                                                            |
+| MIN             | SELECT MIN(_column_name_) FROM _schema.table_ WHERE _condition_;   | Returns smallest value in a specified column.                                                                                                           |
+| SUM             | SUM(_column_name_)                                                 | Returns the sum of the numeric values provided.                                                                                                         |
+| ARRAY*          | ARRAY(_expression_)                                                | Returns a list of data as a field.                                                                                                                      |
+| DISTINCT_ARRAY* | DISTINCT_ARRAY(_expression_)                                       | When placed around a standard ARRAY() function, returns a distinct (deduplicated) results set.                                                          |
 
+*For more information on ARRAY() and DISTINCT_ARRAY() see [this blog](https://www.harperdb.io/post/sql-queries-to-complex-objects).
 
 ### Conversion
 
