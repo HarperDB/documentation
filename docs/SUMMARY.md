@@ -80,6 +80,7 @@
 * [Configuration File](configuration.md)
 * [Logging](logging.md)
 * [Transaction Logging](transaction-logging.md)
+* [Jobs](jobs.md)
 * [Upgrade a HarperDB Instance](upgrade-hdb-instance.md)
 * [Reference](reference/README.md)
   * [Storage Algorithm](reference/storage-algorithm.md)
