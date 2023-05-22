@@ -6,3 +6,5 @@ This section contains technical details and reference materials for HarperDB.
 * [Dynamic Schema](dynamic-schema.md)
 * [Headers](headers.md)
 * [Limitations](limits.md)
+* [Content Types](content-types.md)
+* [Data Types](data-types.md)
