@@ -34,9 +34,9 @@ import { tables } from 'harperdb';
 const { MyTable } = tables;
 export class MyCustomTableInterface extends MyTable {
 	get() {
-		// we can add properties or change properties before returning data, by using set():
-		this.set('newProperty', 'newValue');
-		this.existingProperty = 44 // any attributes declared in the schema will exist as first-class properties
+		// we can add properties or change properties before returning data:
+		this.newProperty = 'newValue';
+		this.existingProperty = 44;
 		return super.get(); // returns the record, modified with the changes above
 	}
 	put(data, options) {
@@ -69,8 +69,8 @@ This is a user object for the user that initiated the interaction with this reso
 ## Properties/attributes declared in schema
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
 
-## `get(property?: string)`
-This is called to return the record or data for this resource, and is called by HTTP GET requests. This can be optionally called with a `property` to return the specified property value. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
+## `get(query?)`
+This is called to return the record or data for this resource, and is called by HTTP GET requests. This can be optionally called with a `query` to return specified property values. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
 ## `put(record: object, options?: object)`
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(record)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
@@ -198,3 +198,11 @@ There are additional methods that are only available on table classes (which are
 This defines the source for a table. This allows a table to function as a cache for an external resource. When a table is configured to have a source, any request for a record that is not found in the table will be delegated to the source resource to retrieve and the result will be cached/stored in the table. All writes to the table will also first be delegated to the source (if the source defines write functions like `put`, `delete`, etc.). The options parameter can include an `expiration` property that will configure the table with a time-to-live expiration window for automatic deletion or invalidation of older entries.
 
 If the source resource implements subscription support, real-time invalidation can be performed to ensure the cache is guaranteed to be fresh (and this can eliminate or reduce the need for time-based expiration of data).
+
+Table level permissions can also be defined:
+
+## `allowRead()`
+Determine if queries on a table are allowed.
+
+## `allowUpdate()`, `allowCreate()`, `allowDelete`
+Determine if table level update operations are allowed.

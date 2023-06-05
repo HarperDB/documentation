@@ -11,8 +11,7 @@ HarperDB supports MQTT as an interface to this real-time data delivery. It is im
 ### Configuration
 HarperDB supports MQTT with its `mqtt` server module and HarperDB supports MQTT over standard TCP sockets or over WebSockets. This is enabled by default, but can be configured in your `harperdb-config.yaml` configuration, allowing you to change which ports it listens on, if secure TSL connections are used, and MQTT is accepted over WebSockets:
 ```yaml
-serverModules:
-- module: mqtt
+mqtt:
   port: 1883
   securePort: 8883 # for TSL
   webSocket: true # will also enable WS support through the default HTTP interface/port
@@ -30,7 +29,7 @@ Similarly, publishing a message to a "topic" also interacts with the database. P
 
 If a message is published without a `retain` flag, the message will not alter the record at all, but will still be published to any subscribers to that record.
 
-TODO: Documentation about queries and QoS. 
+HarperDB supports QoS 0 and 1 for publishing and subscribing.
 
 ## WebSockets
 WebSockets are supported through the REST interface and go through the `connect(incomingMessages)` method on resources. By default, making a WebSockets connection to a URL will subscribe to the referenced resource. For example, making a WebSocket connection to `new WebSocket('wss://server/my-resource/341')` will access the resource defined for 'my-resource' and the resource id of 341 and connect to it. On the web platform this could be:

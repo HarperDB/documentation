@@ -91,12 +91,11 @@ Now that you have deployed to your cloud instance, you can start scaling and exp
 ## Custom Functionality with JavaScript
 So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ JavaScript custom functions/modules to implement more specific features and interactions. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our Resource API, a standard interface to access data sources, tables, and make them available to endpoints. Database tables are Resource classes, and so extending the function of a table is as simple as extending their class.
 
-To define as resources as endpoints, we need to create a `resources.js` module and then any exported Resource classes are added as an endpoint (this can be done in lieu of, or in addition to, the endpoints defined in the `Query` type in the schema.graphql). Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we import the table class, extend it, and export it:
+To define as resources as endpoints, we need to create a `resources.js` module and then any exported Resource classes are added as an endpoint (this can be done in lieu of, or in addition to, the endpoints defined in the `Query` type in the schema.graphql). Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the Dog class from the defined tables, extend it, and export it:
 
 ```javascript
 // resources.js:
-import { tables } from 'harperdb'; // the tables holds all our database tables 
-const { Dog } = tables; // get the Dog table
+const { Dog } = tables; // get the Dog table from the HarperDB provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
 	get(query) {
@@ -162,7 +161,6 @@ This will allow requests to url like /<record-id> to be directly resolved to thi
 ## Define Custom Data Sources
 We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 ```javascript
-import { tables, Resource } from 'harperdb';
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
 	async get() {
