@@ -221,6 +221,10 @@ Path to the private key file.
 
 When true, will skip certificate verification. For use only with self-signed certs.
 
+`republishMessages` - _Type_: boolean; _Default_: true
+
+When true, all transactions that are received from other nodes are republished to this node's stream. When pub/sub routes are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better clustering performance. When false, you need to ensure all pub/sub routes are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.  
+
 `verify` - _Type_: boolean; _Default_: true
 
 When true, hub server will verify client certificate using the CA certificate.
