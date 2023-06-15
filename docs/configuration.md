@@ -179,6 +179,17 @@ How many messages may be in a stream. Oldest messages are removed if the stream 
 The directory where all the streams are kept.
 
 ---
+`logLevel` - _Type_: string; _Default_: error
+
+Control the verbosity of clustering logs.
+
+```yaml
+clustering:
+  logLevel: error
+```
+
+There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, and `error`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `warn`, the only entries logged will be `warn` and `error`. The default value is `error`.
+
 
 `nodeName` - _Type_: string; _Default_: null
 
@@ -422,7 +433,7 @@ Control the verbosity of logs.
 logging:
   level: error
 ```
-There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.
+There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, and `error`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `warn`, the only entries logged will be `warn` and `error`. The default value is `error`.
 
 `root` - _Type_: string; _Default_: &lt;ROOTPATH>/log
 
