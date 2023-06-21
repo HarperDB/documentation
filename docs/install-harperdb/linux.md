@@ -142,8 +142,8 @@ Here is an example of installing HarperDB with minimal configuration.
 npm install -g harperdb
 harperdb start \
   --TC_AGREEMENT "yes" \
-  --OPERATIONSAPI_NETWORK_PORT 9925 \
   --ROOTPATH "/home/ubuntu/hdb" \
+  --OPERATIONSAPI_NETWORK_PORT "9925" \
   --HDB_ADMIN_USERNAME "HDB_ADMIN" \
   --HDB_ADMIN_PASSWORD "password"
 ```
@@ -154,8 +154,8 @@ Here is an example of installing HarperDB with commonly used additional configur
 npm install -g harperdb
 harperdb start \
   --TC_AGREEMENT "yes" \
-  --OPERATIONSAPI_NETWORK_PORT 9925 \
   --ROOTPATH "/home/ubuntu/hdb" \
+  --OPERATIONSAPI_NETWORK_PORT "9925" \
   --HDB_ADMIN_USERNAME "HDB_ADMIN" \
   --HDB_ADMIN_PASSWORD "password" \
   --OPERATIONSAPI_NETWORK_HTTPS "true" \
