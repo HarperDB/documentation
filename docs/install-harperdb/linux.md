@@ -145,8 +145,7 @@ harperdb start \
   --OPERATIONSAPI_NETWORK_PORT 9925 \
   --ROOTPATH "/home/ubuntu/hdb" \
   --HDB_ADMIN_USERNAME "HDB_ADMIN" \
-  --HDB_ADMIN_PASSWORD "password" \
-  --OPERATIONSAPI_NETWORK_HTTPS "true"
+  --HDB_ADMIN_PASSWORD "password"
 ```
 
 Here is an example of installing HarperDB with commonly used additional configuration.
