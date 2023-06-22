@@ -51,6 +51,12 @@ The `@primaryKey` directive specifies that an attribute is the primary key for a
 ### `@indexed`
 The `@primaryKey` directive specifies that an attribute should be indexed. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
 
+### `@createdTime`
+The `@createdTime` directive indicates that this property should be assigned a timestamp of the creation time of the record (in epoch milliseconds).
+
+### `@updatedTime`
+The `@updatedTime` directive indicates that this property should be assigned a timestamp of each updated time of the record (in epoch milliseconds).
+
 ## `type Query`
 GraphQL defines a special type for defining the types that are queryable, or accessible as externally available endpoints. You can specifically define which tables are available through the REST interface by using this type. For example, if we wanted to make both the `Dog` and `Breed` tables available through the REST interface through the paths `/dog` and `/breed`, we could do so:
 

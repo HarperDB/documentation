@@ -1,10 +1,10 @@
 The Resource class is designed to model different data resources within HarperDB. The Resource class be extended to create new data sources. Resources can exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
 
-Conceptually, a Resource class represents a collection of entities or records, and has static methods available for interacting with the collection, like querying a database table. One class represents one collection of records like a table. Instances of a Resource class generally represent a single record or entity at a given point in time. That is Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are a distinct resource instances created for every record that is accessed, and the instance methods are used for interaction with individual records.
+Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. A Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are a distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
 The RESTful HTTP server and other server interfaces will instantiate/load resources to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in transaction and the access checks will be performed before the method is executed.
 
-There are paths that map to the class collection and to individual records. Using a path that does not specify an id like `/MyResource/` is mapped to the Resource class itself, and interactions will use the static methods like `static get()`, `static put()`, `static post()`, etc. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance (where the instance `id` property will be `3492`) and interactions will use the instance methods like `get()`, `put()`, and `post()`.
+There are paths that map to resource instances with different identities. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance where the instance's id will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with id of `null`.
 
 You can define create classes that extend Resource to define your own data sources, typically to interface with external data sources. In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 ```javascript
@@ -84,8 +84,10 @@ This will publish a message to this resource, and is called for MQTT publish com
 ## `post(data, options?)`
 This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally this provides a generic mechanism for various types of data updates.
 
-## `subscribe(options)`
+## `subscribe(options): Promise<Subscription>`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
+
+The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a retained message, these may be immediately returned).
 
 ## `connect(incomingMessages?: AsyncIterable<any>): AsyncIterable<any>`
 This is called when a connection is received through WebSockets or Server Sent Events (SSE) to this resource path. This is called with `incomingMessages` as an iterable stream of incoming messages when the connection is from WebSockets, and is called with no arguments when the connection is from a SSE connection. This can return an asynchronous iterable representing the stream of messages to be sent to the client. 
@@ -131,18 +133,9 @@ export class BlogPost extends tables.BlogPost {
 
 # Resource Static Methods
 
-The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the recrod act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. These static methods are also called when a request is made to the resource path with no identifer in the path. For example `POST /MyResource/133` will be handled by the Resource instance `post()` method, but `POST /MyResource/` will be handled by the Resource `static post()` method:
-```javascript
-export MyResource extends Resource {
-	post() {
-		// handles requests like POST /MyResource/133 where 133 is this.id
-	}
-	static post() {
-		// handles requests like POST /MyResource/
-	}
-}
-```
-Likewise the get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling `static get()` with query parameters. By default, these mirrored Resource static methods default call the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
+The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. 
+
+The get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
 ## `transact(callback: (transactionalTable) => any): Promise`
 This executes the callback in a transaction, passing a transactional version of the table, where all the interactions with the table will be accessed or written through a transaction. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
@@ -183,14 +176,18 @@ Deletes this resources record or data.
 ## `publish(id: string|number, message, options?)`
 Publishes the given message to the record entry specified by the id.
 
-## `subscribe(options)`
+## `subscribe(options): Promise<Subscription>`
 Subscribes to the record/resource.
 
 ## `search(query: Search)`
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
 ## `primaryKey`
-This property indicates the name of the primary key attribute for a table.
+This property indicates the name of the primary key attribute for a table. You can get the primary key for a record using this property name. For example:
+```
+let record34 = await Table.get(34);
+record34[Table.primaryKey] -> 34
+```
 
 There are additional methods that are only available on table classes (which are a type of resource).
 
@@ -198,11 +195,3 @@ There are additional methods that are only available on table classes (which are
 This defines the source for a table. This allows a table to function as a cache for an external resource. When a table is configured to have a source, any request for a record that is not found in the table will be delegated to the source resource to retrieve and the result will be cached/stored in the table. All writes to the table will also first be delegated to the source (if the source defines write functions like `put`, `delete`, etc.). The options parameter can include an `expiration` property that will configure the table with a time-to-live expiration window for automatic deletion or invalidation of older entries.
 
 If the source resource implements subscription support, real-time invalidation can be performed to ensure the cache is guaranteed to be fresh (and this can eliminate or reduce the need for time-based expiration of data).
-
-Table level permissions can also be defined:
-
-## `allowRead()`
-Determine if queries on a table are allowed.
-
-## `allowUpdate()`, `allowCreate()`, `allowDelete`
-Determine if table level update operations are allowed.
