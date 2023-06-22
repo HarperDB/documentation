@@ -1,5 +1,7 @@
 # Linux Installation and Configuration
 
+If you wish to install locally or already have a configured server, see the basic [Installation Guide](README.md)
+
 The following is a recommended way to configure Linux and install HarperDB. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
 
 ---
@@ -10,13 +12,11 @@ These instructions assume that the following has already been completed:
 2. Basic networking is configured
 3. A non-root user account dedicated to HarperDB with sudo privileges exists
 4. An additional volume for storing HarperDB files is attached to the Linux instance
-5. Traffic to ports 22 (SSH), 9925 (HarperDB HTTP or HTTPS), and 9926 (HarperDB Custom Functions) is permitted
+5. Traffic to ports 9925 (HarperDB Operations API,) 9926 (HarperDB Custom Functions,) and 9932 (HarperDB Clustering) is permitted
 
-For this example, we will use an AWS Ubuntu Server 18.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
+For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
 ---
-
-If you wish to install locally or already have a configured server, see the basic [Installation Guide](README.md)
 
 ### (Optional) LVM Configuration
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
@@ -54,20 +54,20 @@ Initialize disks for use by LVM
 
 ```bash
 pvcreate_cmd="pvcreate $cmd_string"
-$pvcreate_cmd
+sudo $pvcreate_cmd
 ```
 
 Create volume group
 
 ```bash
 vgcreate_cmd="vgcreate hdb_vg $cmd_string"
-$vgcreate_cmd
+sudo $vgcreate_cmd
 ```
 
 Create logical volume
 
 ```bash
-lvcreate -n hdb_lv -i $free_disks_qty -l 100%FREE hdb_vg
+sudo lvcreate -n hdb_lv -i $free_disks_qty -l 100%FREE hdb_vg
 ```
 
 ### Configure Data Volume
@@ -120,29 +120,50 @@ echo "ubuntu hard nofile 1000000" | sudo tee -a /etc/security/limits.conf
 Install Node Version Manager (nvm)
 
 ```bash
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
 
 Load nvm (or logout and then login)
 
 ```bash
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+. ~/.nvm/nvm.sh
 ```
 
-Install Node.js using nvm ([read more about specific Node version requirements here](node-ver-requirement.md))
+Install Node.js using nvm ([read more about specific Node version requirements](https://www.npmjs.com/package/harperdb#prerequisites))
 
 ```bash
 nvm install <the node version>
 ```
 
 ### <a id="install"></a> Install and Start HarperDB
-Install HarperDB
+Here is an example of installing HarperDB with minimal configuration.
 
 ```bash
 npm install -g harperdb
-harperdb install --TC_AGREEMENT "yes" --ROOTPATH "/home/ubuntu/hdb" --OPERATIONSAPI_NETWORK_PORT "9925" --HDB_ADMIN_USERNAME "HDB_ADMIN" --HDB_ADMIN_PASSWORD "abc123!"
+harperdb start \
+  --TC_AGREEMENT "yes" \
+  --ROOTPATH "/home/ubuntu/hdb" \
+  --OPERATIONSAPI_NETWORK_PORT "9925" \
+  --HDB_ADMIN_USERNAME "HDB_ADMIN" \
+  --HDB_ADMIN_PASSWORD "password"
+```
+
+Here is an example of installing HarperDB with commonly used additional configuration.
+
+```bash
+npm install -g harperdb
+harperdb start \
+  --TC_AGREEMENT "yes" \
+  --ROOTPATH "/home/ubuntu/hdb" \
+  --OPERATIONSAPI_NETWORK_PORT "9925" \
+  --HDB_ADMIN_USERNAME "HDB_ADMIN" \
+  --HDB_ADMIN_PASSWORD "password" \
+  --OPERATIONSAPI_NETWORK_HTTPS "true" \
+  --CUSTOMFUNCTIONS_NETWORK_HTTPS "true" \
+  --CLUSTERING_ENABLED "true" \
+  --CLUSTERING_USER "cluster_user" \
+  --CLUSTERING_PASSWORD "password" \
+  --CLUSTERING_NODENAME "hdb1"
 ```
 
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options
@@ -150,7 +171,7 @@ HarperDB will automatically start after installation. If you wish HarperDB to st
 You can set up a crontab:
 
 ```bash
-(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH\" && harperdb start") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot PATH=\"/home/ubuntu/.nvm/versions/node/v18.15.0/bin:$PATH\" && harperdb start") | crontab -
 ```
 
 Or you can create a systemd script at `/etc/systemd/system/harperdb.service`
@@ -162,12 +183,12 @@ Pasting the following contents into the file:
 Description=HarperDB
 
 [Service]
-Type=forking
+Type=simple
 Restart=always
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu
-ExecStart=/bin/bash -c 'PATH="/home/ubuntu/.nvm/versions/node/v18.13.0/bin:$PATH"; harperdb'
+ExecStart=/bin/bash -c 'PATH="/home/ubuntu/.nvm/versions/node/v18.15.0/bin:$PATH"; harperdb'
 
 [Install]
 WantedBy=multi-user.target
@@ -180,4 +201,4 @@ systemctl daemon-reload
 systemctl enable harperdb
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../harperdb-cli.md).
+For more information visit the [HarperDB Command Line Interface guide](../harperdb-cli.md) and the [HarperDB Configuration File guide](../configuration.md).
