@@ -16,6 +16,8 @@
 
 [4.1.0 Tucker](4.tucker/4.1.0.md)
 
+[4.2.0 Tucker](4.tucker/4.2.0.md)
+
 ### Past Releases
 
 [Meet Monkey](3.monkey/README.md) Our 3rd Release Pup
