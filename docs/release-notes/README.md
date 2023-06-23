@@ -4,6 +4,10 @@
 
 [Meet Tucker](4.tucker/README.md) Our 4th Release Pup
 
+[4.1.2 Tucker](4.tucker/4.1.2.md)
+
+[4.1.1 Tucker](4.tucker/4.1.1.md)
+
 [4.1.0 Tucker](4.tucker/4.1.0.md)
 
 [4.0.6 Tucker](4.tucker/4.0.6.md)
