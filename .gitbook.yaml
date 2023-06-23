@@ -8,5 +8,7 @@ redirects:
   install-harperdb/linux-quickstart: install-harperdb/linux
   install-harperdb/offline: install-harperdb#offline-install
   install-harperdb/node-ver-requirement: install-harperdb
+  add-ons-and-sdks: components
+  add-ons-and-sdks/google-data-studio: components/google-data-studio
   getting-started: .
   custom-functions/using-npm-git: custom-functions/create-project
