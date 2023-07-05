@@ -3,13 +3,11 @@ Resources, including tables, can be configured as RESTful endpoints. The name of
 Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
 ## GET
-These can be used to retrieve individual records or perform searches. This handled by the Resource static method `get(recordId, request)`. 
+These can be used to retrieve individual records or perform searches. This handled by the Resource method `get()`. 
 
 ### `GET /my-resource/<record-id>`
 
 This can be used to retrieve a record by its primary key. The response will include the record as the body.
-
-This is handled by the Resource's `getById` method.
 
 #### Caching/Conditional Requests
 A `GET` response for a record will include the date of the last modification to this record in the `Last-Modified` and `ETag` request headers. On subsequent requests, a client (that has a cached copy) may include an `If-Match` request header with this date tag. If the record has not been updated since this date, the response will have a 304 status and no body. 
@@ -24,7 +22,7 @@ This can be used to retrieve the specified property of the specified record.
 
 ## PUT
 
-This can be used to update a record with a provided record. This is handled by the Resource `static` method `put(recordId, request)`.
+This can be used to update a record with a provided record. This is handled by the Resource method `put(record)`.
 
 ### `PUT /my-resource/<record-id>`
 
@@ -32,7 +30,7 @@ This will update the record with the specified primary key, with the contents of
 
 ## DELETE
 This can be used to delete a record or records.
-This is handled by the Resource `static` method `delete(recordId, request)`.
+This is handled by the Resource method `delete()`.
 
 ## `DELETE /my-resource/<record-id>`
 
@@ -44,7 +42,7 @@ This will delete all the records that match the provided query.
 
 ## POST
 This can be used to create new records and make various other types of modifications.
-This is handled by the Resource `static` method `post(recordId, request)`.
+This is handled by the Resource method `post(data)`.
 
 ### `POST /my-resource`
 This can be used to create a new record in this table or resource.
@@ -63,9 +61,9 @@ We can also specify less than and greater than queries using [FIQL](https://data
 
 Or less than or equal to 20:
 
-`GET /my-resource?age=lte=20`
+`GET /my-resource?age=le=20`
 
-The comparison operators include `lt`, `lte`, `gt`, and `gte`.
+The comparison operators include `lt`, `le`, `gt`, and `ge`.
 
 ### Content Types and Negotiation
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:

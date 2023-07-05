@@ -98,9 +98,9 @@ To define as resources as endpoints, we need to create a `resources.js` module a
 const { Dog } = tables; // get the Dog table from the HarperDB provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
-	get(query) {
+	get(request) {
 		this.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
-		return super.get(query);
+		return super.get(request);
 	}
 }
 ```
@@ -115,17 +115,17 @@ type Breed @table {
 	averageWeight: Int
 }
 ```
-And next we will use this table in our `get()` method. To do this correctly, we specify that we want use this table in our resource. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). With our own snapshot of the breed table we can then access data from it:
+And next we will use this table in our `get()` method. To do this correctly, we access the table using the same request object. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). With our own snapshot of the breed table we can then access data from it:
 
 ```javascript
 //resource.js:
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get(query) {
-		let breedDescription = await this.use(Breed).get(this.breed);
+	async get(request) {
+		let breedDescription = await Breed.get(this.breed, request);
 		// since breedDescription is not defined on the schema, we need to use set() to add the property 
 		this.breedDescription = breedDescription;
-		return super.get(query);
+		return super.get(request);
 	}
 }
 ```
@@ -133,9 +133,9 @@ export class DogWithBreed extends Dog {
 Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific definition (replace current record, although you can override it), a common method for custom actions is through the HTTP POST method, which is handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks`  array. We might do it like this, and specify an action to be able to differentiate actions:
 ```javascript
 export class CustomDog extends Dog {
-	async post(content) {
-		if (content.action === 'add-trick')
-			this.tricks.push(content.trick);
+	async post({ data }) {
+		if (data.action === 'add-trick')
+			this.tricks.push(data.trick);
 	}
 }
 ```
@@ -164,7 +164,7 @@ We can also directly implement the Resource class and use it to create new data 
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
 	async get() {
-		return (await this.fetch(`http://best-dog-site.com/${this.id}`)).json();
+		return (await fetch(`http://best-dog-site.com/${this.id}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
