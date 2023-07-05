@@ -121,11 +121,11 @@ And next we will use this table in our `get()` method. To do this correctly, we 
 //resource.js:
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get(request) {
-		let breedDescription = await Breed.get(this.breed, request);
+	async get(query) {
+		let breedDescription = await Breed.get(this.breed, query);
 		// since breedDescription is not defined on the schema, we need to use set() to add the property 
 		this.breedDescription = breedDescription;
-		return super.get(request);
+		return super.get(query);
 	}
 }
 ```

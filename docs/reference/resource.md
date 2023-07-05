@@ -56,35 +56,28 @@ export class MyCustomTableInterface extends MyTable {
 
 # Resource (Instance) Methods
 
-A Resource class has the following instance methods and properties:
-## `id`
-This is the primary key associated with this resource
-
-## `request`
-This is the request object (if instantiated from an HTTP request) that initiated the interaction with this resource
-
-## `user`
-This is a user object for the user that initiated the interaction with this resource.
-
 ## Properties/attributes declared in schema
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
 
 ## `get(query?)`
 This is called to return the record or data for this resource, and is called by HTTP GET requests. This can be optionally called with a `query` to return specified property values. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
-## `put(record: object, options?: object)`
+## `getId(): string|number`
+Returns the primary key value for this resource.
+
+## `put(record: object)`
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(record)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
 
-## `delete(options?)`
+## `delete(query?)`
 This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.put(record)`) deletes the record from the table as part of the current transaction.
 
-## `publish(message, options?)`
+## `publish(message)`
 This will publish a message to this resource, and is called for MQTT publish commands. You can define or override this method to define how messages should be published. The default `publish` method on tables (`super.publish(message)`) records the published message as part of the current transaction; this will not change the data in the record but will notify any subscribers to the record/topic.
 
-## `post(data, options?)`
+## `post(data)`
 This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally this provides a generic mechanism for various types of data updates.
 
-## `subscribe(options): Promise<Subscription>`
+## `subscribe(subscriptionRequest): Promise<Subscription>`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
 
 The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a retained message, these may be immediately returned).
@@ -95,17 +88,20 @@ This is called when a connection is received through WebSockets or Server Sent E
 ## `set(property, value)`
 This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be returned by a `get()`.
 
-## `allowCreate()`
+## `allowCreate(user)`
 This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table.
 
-## `allowRead()`
+## `allowRead(user)`
 This is called to determine if the user has permission to read from the current resource. This is called as part of external incoming requests (HTTP GET). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's read permission to the table.
 
-## `allowUpdate()`
+## `allowUpdate(user)`
 This is called to determine if the user has permission to update the current resource. This is called as part of external incoming requests (HTTP PUT). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's update permission to the table.
 
-## `allowDelete()`
+## `allowDelete(user)`
 This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
+
+## `getContext(): Context`
+Returns the primary key value for this resource.
 
 ## `use(Resource): Resource`
 When implementing a resource that uses another resource to fulfill requests, it is recommended that you use that resource by calling the `use` method. This allows a secondary resource to be accessed such that:
@@ -141,12 +137,13 @@ The get, put, delete, subscribe, and connect methods all have static equivalents
 This executes the callback in a transaction, passing a transactional version of the table, where all the interactions with the table will be accessed or written through a transaction. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
 ```javascript
 import { tables } from 'harperdb';
+const { MyTable } = tables; 
 if (isMainThread) // only on main thread
 	setInterval(async () => {
-		let someData = fetch(... some URL ...)
-		tables.MyTable.transact((MyTable) => {
+		let someData = await (await fetch(... some URL ...)).json();
+		transaction((context) => {
 			for (let item in someData) {
-				MyTable.put(item);
+				MyTable.put(item, context);
 			}
 		});
 	}, 3600000); // every hour
@@ -155,31 +152,33 @@ if (isMainThread) // only on main thread
 ## `getResource(path: string): Resource`
 This returns the resource instance for the given path or identifier.
 
-## `get(id: string|number)`
+## `get(id: string|number, context?: Resource|Context)`
 This will retrieve a record by id.  For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 ```javascript
+const { MyTable } = tables; 
+...
+// in class:
 	async get() {
-		let Comment = this.use(tables.Comment);
 		for (let commentId of this.commentIds) {
-			let comment = await Comment.get(commentId);
+			let comment = await Comment.get(commentId, this);
 			// now you can do something with the comment record
 		}
 	}
 ```
 
-## `put(id: string|number, record: object, options?: object)`
-This will assign the provided record or data to this resource.
+## `put(record: object, context?: Resource|Context)`
+This will save the provided record or data to this resource.
 
-## `delete(id: string|number, options?)`
+## `delete(id: string|number, context?: Resource|Context)`
 Deletes this resources record or data.
 
-## `publish(id: string|number, message, options?)`
+## `publish(message, context?: Resource|Context)`
 Publishes the given message to the record entry specified by the id.
 
-## `subscribe(options): Promise<Subscription>`
+## `subscribe(subscriptionRequest, context?: Resource|Context): Promise<Subscription>`
 Subscribes to the record/resource.
 
-## `search(query: Search)`
+## `search(query: Search, context?: Resource|Context)`
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
 ## `primaryKey`
