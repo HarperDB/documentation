@@ -39,9 +39,9 @@ export class MyCustomTableInterface extends MyTable {
 		this.existingProperty = 44;
 		return super.get(); // returns the record, modified with the changes above
 	}
-	put(data, options) {
+	put(data) {
 		// can change data any way we want
-		super.put(data, options);
+		super.put(data);
 	}
 	delete() {
 		super.delete(); 
@@ -101,31 +101,7 @@ This is called to determine if the user has permission to update the current res
 This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
 
 ## `getContext(): Context`
-Returns the primary key value for this resource.
-
-## `use(Resource): Resource`
-When implementing a resource that uses another resource to fulfill requests, it is recommended that you use that resource by calling the `use` method. This allows a secondary resource to be accessed such that:
-* If the resource is a table in the same database, it will be accessed through the same transaction.
-* Any timestamps that are accessed during resolution will be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching).
-* Request and user information will be communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
-
-Calling this with another resource or table class will return a version of the class (a subclass) that will operate in the context of the current resource with the behavior described above.
-
-For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment ids on the blog record, but then add the comment to the a separate comment table. We might do this:
-```javascript
-import { tables } from 'harperdb';
-
-export class BlogPost extends tables.BlogPost {
-	post(comment) {
-		 // returns the Comments table collection resource for this transaction
-		let Comment = this.use(tables.Comment);
-		Comment.put(comment); // add a comment record the comment table
-		this.comments.push(comment.id); // add the id for the record to our array of comment ids
-		// Both of these actions will be committed atomically as part of the same transaction (assuming
-		// they are part of the same database)
-	}	
-}
-```
+Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
 
 # Resource Static Methods
 
@@ -133,24 +109,6 @@ The Resource class also has static methods that mirror the instance methods with
 
 The get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
-## `transact(callback: (transactionalTable) => any): Promise`
-This executes the callback in a transaction, passing a transactional version of the table, where all the interactions with the table will be accessed or written through a transaction. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
-```javascript
-import { tables } from 'harperdb';
-const { MyTable } = tables; 
-if (isMainThread) // only on main thread
-	setInterval(async () => {
-		let someData = await (await fetch(... some URL ...)).json();
-		transaction((context) => {
-			for (let item in someData) {
-				MyTable.put(item, context);
-			}
-		});
-	}, 3600000); // every hour
-```
-
-## `getResource(path: string): Resource`
-This returns the resource instance for the given path or identifier.
 
 ## `get(id: string|number, context?: Resource|Context)`
 This will retrieve a record by id.  For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
@@ -172,7 +130,7 @@ This will save the provided record or data to this resource.
 ## `delete(id: string|number, context?: Resource|Context)`
 Deletes this resources record or data.
 
-## `publish(message, context?: Resource|Context)`
+## `publish(message: object, context?: Resource|Context)`
 Publishes the given message to the record entry specified by the id.
 
 ## `subscribe(subscriptionRequest, context?: Resource|Context): Promise<Subscription>`
@@ -194,3 +152,44 @@ There are additional methods that are only available on table classes (which are
 This defines the source for a table. This allows a table to function as a cache for an external resource. When a table is configured to have a source, any request for a record that is not found in the table will be delegated to the source resource to retrieve and the result will be cached/stored in the table. All writes to the table will also first be delegated to the source (if the source defines write functions like `put`, `delete`, etc.). The options parameter can include an `expiration` property that will configure the table with a time-to-live expiration window for automatic deletion or invalidation of older entries.
 
 If the source resource implements subscription support, real-time invalidation can be performed to ensure the cache is guaranteed to be fresh (and this can eliminate or reduce the need for time-based expiration of data).
+
+
+## Context and Transactions
+Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed such in accessed through the same transaction, preserving atomicity and isolation.
+This also allows timestamps that are accessed during resolution will be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
+
+When using an export resource class, the REST interface will automatically create a context for you with a transaction and request metadata, and you can pass this to other actions by simply including `this` as the source argument (second argument) to the static methods.
+
+For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment ids on the blog record, but then add the comment to the a separate comment table. We might do this:
+```javascript
+const { Comment } = tables;
+
+export class BlogPost extends tables.BlogPost {
+	post(comment) {
+		// add a comment record to the comment table, using this resource as the source for the context
+		Comment.put(comment, this); 
+		this.comments.push(comment.id); // add the id for the record to our array of comment ids
+		// Both of these actions will be committed atomically as part of the same transaction
+	}	
+}
+```
+
+## `transaction(context?, callback: (context) => any): Promise<any>`
+This executes the callback in a transaction, providing a context that can be used for any resource methods that are called. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
+```javascript
+import { tables } from 'harperdb';
+const { MyTable } = tables; 
+if (isMainThread) // only on main thread
+	setInterval(async () => {
+		let someData = await (await fetch(... some URL ...)).json();
+		transaction((context) => {
+			for (let item in someData) {
+				MyTable.put(item, context);
+			}
+		});
+	}, 3600000); // every hour
+```
+You can provide your own context object for the transaction to attach to. If you call `transaction` with a context that already has a transaction started, it will simply use the current transaction, execute the callback and immediately return (this can be useful for ensuring that a transaction has started).
+
+## `getResource(path: string): Resource`
+This returns the resource instance for the given path or identifier.
