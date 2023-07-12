@@ -4,9 +4,9 @@ Conceptually, a Resource class provides an interface for accessing, querying, mo
 
 The RESTful HTTP server and other server interfaces will instantiate/load resources to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in transaction and the access checks will be performed before the method is executed.
 
-There are paths that map to resource instances with different identities. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance where the instance's id will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with id of `null`.
+Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance where the instance's id will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with id of `null`.
 
-You can define create classes that extend Resource to define your own data sources, typically to interface with external data sources. In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
+You can define create classes that extend Resource to define your own data sources, typically to interface with external data sources (the Resource base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 ```javascript
 export class MyExternalData extends Resource {
 	get() {
@@ -25,12 +25,10 @@ export class MyExternalData extends Resource {
 }
 // we can export this class from resources.json as our own endpoint, or use this as the source for
 // a HarperDB data to store and cache the data coming from this data source:
-import { tables } from 'harperdb';
 tables.MyCache.sourcedFrom(MyExternalData);
 ```
-You can also extend table classes in the same way, overriding the instance methods for custom functionality:
+You can also extend table classes in the same way, overriding the instance methods for custom functionality. The `tables` object is a global variable in the HarperDB JavaScript environment, along with `Resource`:
 ```javascript
-import { tables } from 'harperdb';
 const { MyTable } = tables;
 export class MyCustomTableInterface extends MyTable {
 	get() {
@@ -54,7 +52,38 @@ export class MyCustomTableInterface extends MyTable {
 
 ```
 
-# Resource (Instance) Methods
+# Global Variables
+
+## `tables`
+This is an object with all the tables in the default database (the default database is "data"). Each table that has been declared or created will be available as a (standard) property on this object, and the value will be the table class that can be used to interact with that table. The table classes implement the Resource API.
+
+## `databases`
+This is an object with all the databases that have been defined in HarperDB (in the running instance). Each database that has been declared or created will be available as a (standard) property on this object. The property values are an object with the tables in that database, where each property is a table, like the `tables` object. In fact, `databases.data === tables` should always be true.
+
+## `Resource`
+This is the Resource base class. This can be directly extended for custom resources, and is the base class for all tables.
+
+## `server`
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../components/writing-extensions.md).
+
+## `transaction`
+This provides a function for starting transactions. See the transactions section below for more information.
+
+## `contentTypes`
+This provides an interface for defining new content type handlers. See the [content type documentation](./content-types.md) for more information.
+
+## TypeScript Support
+While these objects/methods are all available as global variables, it is easier to get TypeScript support (code assistance, type checking) for these interfaces by explicitly `import`ing them. This can be done by setting up a package link to the main HarperDB package in your app:
+```
+# you may need to go to your harperdb directory and set it up as a link first
+npm link harperdb
+```
+And then you can import any of the main HarperDB APIs you will use, and your IDE should understand the full typings associated with them:
+```
+import { databases, tables, Resource } from 'harperdb';
+```
+
+# Resource Class (Instance) Methods
 
 ## Properties/attributes declared in schema
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
@@ -193,3 +222,7 @@ You can provide your own context object for the transaction to attach to. If you
 
 ## `getResource(path: string): Resource`
 This returns the resource instance for the given path or identifier.
+
+
+## TypeScript
+The main interface 
