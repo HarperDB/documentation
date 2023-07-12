@@ -1,5 +1,7 @@
 # Documentation
 
+*This is an alpha release, please be aware that we are actively testing and refining this release. See [release notes](4.tucker/4.2.0.md) for more information on the current progress.*
+
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
 ## Getting Started
