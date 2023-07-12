@@ -2,6 +2,14 @@
 
 **Library of example projects and tutorials using Custom Functions:**
 
+* [Authorization in HarperDB using Okta Customer Identity Cloud](https://www.harperdb.io/post/authorization-in-harperdb-using-okta-customer-identity-cloud), by Yitaek Hwang
+
+* [How to Speed Up your Applications by Caching at the Edge with HarperDB](https://dev.to/doabledanny/how-to-speed-up-your-applications-by-caching-at-the-edge-with-harperdb-3o2l), by Danny Adams
+
+* [OAuth Authentication in HarperDB using Auth0 & Node.js](https://www.harperdb.io/post/oauth-authentication-in-harperdb-using-auth0-and-node-js), by Lucas Santos
+
+* [How To Create a CRUD API with Next.js & HarperDB Custom Functions](https://www.harperdb.io/post/create-a-crud-api-w-next-js-harperdb), by Colby Fayock
+
 * [Build a Dynamic REST API with Custom Functions](https://harperdb.io/blog/build-a-dynamic-rest-api-with-custom-functions/), by Terra Roush
 
 * [How to use HarperDB Custom Functions to Build your Entire Backend](https://dev.to/andrewbaisden/how-to-use-harperdb-custom-functions-to-build-your-entire-backend-a2m), by Andrew Baisden

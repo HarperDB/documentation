@@ -23,7 +23,7 @@ You can read more about AWS EBS volume IOPS here: https://docs.aws.amazon.com/AW
 
 ## Estimating IOPS for HarperDB Instance
 
-The number of IOPS required for a particular workload is influenced by many factors. Testing your particular application is the best way to determine the number of IOPS required. Estimate 30 IOPS for every database transaction per second that your application performs, then test your application and adjust as needed.
+The number of IOPS required for a particular workload is influenced by many factors. Testing your particular application is the best way to determine the number of IOPS required. A reliable method is to estimate about two IOPS for every index, including the primary key itself. So if a table has two indices besides primary key, estimate that an insert or update will require about six IOPS. Note that that can often be closer to one IOPS per index under load due to internal batching of writes, and sometimes even better when doing sequential inserts. Again it is best to test to verify this with application specific data and write patterns.
 
 
 
