@@ -91,6 +91,9 @@ Properties that have been defined in your table's schema can be accessed and mod
 ## `get(query?)`
 This is called to return the record or data for this resource, and is called by HTTP GET requests. This can be optionally called with a `query` to return specified property values. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
+## `search(query: Query)`
+By default this is called by `get(query)` from a collection resource.
+
 ## `getId(): string|number`
 Returns the primary key value for this resource.
 
@@ -165,7 +168,7 @@ Publishes the given message to the record entry specified by the id.
 ## `subscribe(subscriptionRequest, context?: Resource|Context): Promise<Subscription>`
 Subscribes to the record/resource.
 
-## `search(query: Search, context?: Resource|Context)`
+## `search(query: Query, context?: Resource|Context)`
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
 ## `primaryKey`
