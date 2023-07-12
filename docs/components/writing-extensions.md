@@ -117,7 +117,6 @@ HarperDB uses content negotiation to determine how to deserialize content incomi
 
 For example, if you wanted to define an XML serializer (that can respond with XML to requests with `Accept: text/xml`) you could write:
 ```javascript
-import { contentTypes } from 'harperdb';
 contentTypes.set('text/xml', {
 	serialize(data) {
 		return '<root>' ... some serialization '</root>';

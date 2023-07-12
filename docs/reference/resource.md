@@ -72,7 +72,7 @@ This object provides extension points for extension components that wish to impl
 This provides a function for starting transactions. See the transactions section below for more information.
 
 ## `contentTypes`
-This provides an interface for defining new content type handlers. See the [content type documentation](./content-types.md) for more information.
+This provides an interface for defining new content type handlers. See the [content type extensions documentation](../components/writing-extensions.md) for more information.
 
 ## TypeScript Support
 While these objects/methods are all available as global variables, it is easier to get TypeScript support (code assistance, type checking) for these interfaces by explicitly `import`ing them. This can be done by setting up a package link to the main HarperDB package in your app:
@@ -165,10 +165,10 @@ This will save the provided record or data to this resource.
 Deletes this resources record or data.
 
 ## `publish(message: object, context?: Resource|Context)`
-Publishes the given message to the record entry specified by the id.
+Publishes the given message to the record entry specified by the id in the context.
 
 ## `subscribe(subscriptionRequest, context?: Resource|Context): Promise<Subscription>`
-Subscribes to the record/resource.
+Subscribes to a record/resource.
 
 ## `search(query: Query, context?: Resource|Context)`
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
@@ -229,5 +229,27 @@ You can provide your own context object for the transaction to attach to. If you
 This returns the resource instance for the given path or identifier.
 
 
-## TypeScript
-The main interface 
+## Query
+The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
+* `conditions`: This is an array of object that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
+	* `attribute`: Name of the property/attribute to match on.
+	* `value`: The value to match.
+	* `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater_than", "great_than_equal", "less_than", "less_than_equal", "starts_with", "contains", "ends_with", "between".
+* `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
+* `limit`: This specifies the limit of the number of records that should be returned from the query.
+* `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with limit to implement "paging" of records.
+* `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be array to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
+
+For example, we could do a query like:
+```javascript
+let { Product } = tables;
+Product.search({
+	conditions: [
+		{ attribute: 'rating', value: 4.5, comparator: 'greater_than' },
+		{ attribute: 'price', value: 100, comparator: 'less_than' },
+	],
+	offset: 20,
+	limit: 10,
+	select: ['id', 'name', 'price', 'rating'],
+})
+```
