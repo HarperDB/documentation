@@ -1,3 +1,5 @@
+# REST
+
 Resources, including tables, can be configured as RESTful endpoints. The name of the query or the exported name of the resource defines the beginning of the endpoint path. From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
 The default path structure provides access to resources at several different levels:
