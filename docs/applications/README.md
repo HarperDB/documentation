@@ -18,15 +18,15 @@ Next, let's add some attributes. This can be helpful to ensure the integrity of 
 ```graphql
 type Dog @table {
 	id: ID @primaryKey
-    name: String
-    breed: String
-    age: Int
+	name: String
+	breed: String
+	age: Int
 }
 ```
 This will ensure that new records must have these properties (with these types). Note that this is does _not_ preclude the flexibility of having other properties. As a NoSQL database, HarperDB supports flexible, heterogeneous records, and you can freely add additional properties on any record. If you want to restrict the records to _only_ defined properties, you can do so by adding the `sealed` directive:
 ```graphql
 type Dog @table @sealed {
-    ...
+	...
 ```
 
 If you are using the studio, we can now [add records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio, or even [upload CSV data](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). Give it a try, and add some data to your table. And the table will also be available in our application code (we will get to that!).
@@ -61,11 +61,11 @@ See the documentation on security directives for more information on different l
 Querying is extremely easy through REST endpoints, simple queries can be crafted through URL query parameters. But first, we need to define properties that we want indexed (you don't want users querying your table through un-indexed properties as it would get much slower as your database grows in size). Let's define the name and breed as searchable/indexed properties:
 ```graphql
 type Dog @table {
-    id: ID @primaryKey
-    name: String @indexed
-    breed: String @indexed
+	id: ID @primaryKey
+	name: String @indexed
+	breed: String @indexed
 	owner: String
-    age: Int
+	age: Int
 	tricks: [String]
 }
 ```
@@ -109,9 +109,9 @@ And now we have a /DogWithHumanAge endpoint just like /Dog, but with the compute
 Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
 ```graphql
 type Breed @table {
-    name: String @primaryKey
-    description: String @indexed
-    lifespan: Int
+	name: String @primaryKey
+	description: String @indexed
+	lifespan: Int
 	averageWeight: Int
 }
 ```
