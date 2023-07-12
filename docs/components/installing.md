@@ -2,7 +2,7 @@
 
 Components can be easily added by adding a new top level element to your harperdb-config.yaml file.
 
-The configuration comprises of two values:
+The configuration comprises two values:
 * component name - can be anything, as long as it follows valid YAML syntax.
 * package - a reference to your component. 
 
