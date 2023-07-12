@@ -100,6 +100,7 @@
 * [Support](support.md)
 * [Release Notes](release-notes/README.md)
   * [HarperDB Tucker (Version 4)](release-notes/4.tucker/README.md)
+    * [4.2.0 Alpha](release-notes/4.tucker/4.2.0.md)
     * [4.1.0](release-notes/4.tucker/4.1.0.md)
     * [4.0.6](release-notes/4.tucker/4.0.6.md)
     * [4.0.5](release-notes/4.tucker/4.0.5.md)
