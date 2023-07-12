@@ -1,3 +1,5 @@
+# Resource Class
+
 The Resource class is designed to model different data resources within HarperDB. The Resource class be extended to create new data sources. Resources can exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
 
 Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. A Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are a distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
