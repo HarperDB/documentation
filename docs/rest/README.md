@@ -72,6 +72,20 @@ Or less than or equal to 20:
 
 The comparison operators include `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal).
 
+HarperDB has several special query parameters. These include:
+### `select`
+This allows you to specify which properties should be included in the responses. This takes several forms:
+* `?select=property`: This will return the values of the specified property directly in the response (will not be put in an object).
+* `?select={property1,property2,...}`: This return the records as objects, but limited to the specified properties.
+* `?select=[property1,property2,...]`: This return the records as arrays of the property values in the specified properties.
+* `?select=property1,property2`: This is shorthand for the {...} syntax and will return objects if more than one property is specified (otherwise behaves like the first option).
+
+### 'limit'
+Specifies a limit on the number of records returned.
+
+### 'offset'
+Specifies the number of records to be skipped before returning results.
+
 ### Content Types and Negotiation
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:
 `application/json` - Common format, easy to read, with great tooling support.
