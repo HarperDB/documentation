@@ -57,8 +57,12 @@ A new instance can be created as follows:
     7) Click **Add Instance**. 
     8) Your HarperDB Cloud instance will be provisioned in the background. Provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
    
-6) For a user-installed instance, click **Register User-Installed Instance**.
+## Register User-Installed Instance
 
+1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
+2) Click the appropriate organization for the instance to be created under.
+3) Click the **Create New HarperDB Cloud Instance + Register User-Installed Instance** card.
+4) Select **Register User-Installed Instance**.
    1) Fill out Instance Info.
    
       1) Enter Instance Name
@@ -75,7 +79,7 @@ A new instance can be created as follows:
          *The host to access the HarperDB instance. For example, `harperdb.myhost.com` or `localhost`.* 
       5) Enter Port
       
-         *The port to access the HarperDB instance. HarperDB defaults `9925` for HTTP and `31283` for HTTPS.*
+         *The port to access the HarperDB instance. HarperDB defaults `9925`.*
       6) Select SSL
       
          *If your instance is running over SSL, select the SSL checkbox. If not, you will need to enable mixed content in your browser to allow the HTTPS Studio to access the HTTP instance. If there are issues connecting to the instance, the Studio will display a red error message.*
