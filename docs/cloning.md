@@ -48,5 +48,22 @@ operationsApi:
     port: 9925
 ```
 Clone node makes http requests to the leader node, `httpsRejectUnauthorized` is used to set if https requests should be verified.<br>
-`rootPath` the location of the clone nodes `hdb` directory. By default this is the users home directory.<br>
+`rootPath` the location of the clone nodes `hdb` directory. By default, this is the users home directory.<br>
 `port` the port the operations API serve should run on.
+
+### Custom database and table pathing
+Currently clone node will not clone a table if it has custom pathing configured. In this situation the full database that the table is 
+located in will not be cloned. 
+
+If a database has custom pathing (no individual table pathing) it will be cloned, however if no custom pathing is provided in the clone 
+config the database will be stored in the default database directory.
+
+To provide custom pathing for a database in the clone config follow this configuration:
+
+```yaml
+databases: 
+  <name-of-db>:
+    path: /Users/harper/hdb
+```
+`<name-of-db>` the name of the database which will be located at the custom path. <br>
+`path` the path where the database will reside.
