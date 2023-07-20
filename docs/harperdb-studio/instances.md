@@ -15,7 +15,6 @@ All interactions between the Studio and your instances take place directly from 
 A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and user-installed instances are listed together.
 
 ## Create a New Instance
-A new instance can be created as follows:
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. 
 2) Click the appropriate organization for the instance to be created under. 
