@@ -2,6 +2,9 @@
 
 Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone it.
 
+The file is located in the harperdb repo at `harperdb/utility/devops/cloneNode/cloneNode.js`. To start it run `node cloneNode.js`
+
+
 **Leader node** - the instance of HarperDB you are cloning.<br>
 **Clone node** - the new node which will be a clone of the leader node.
 
