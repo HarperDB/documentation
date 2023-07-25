@@ -90,13 +90,13 @@ import { databases, tables, Resource } from 'harperdb';
 ## Properties/attributes declared in schema
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
 
-## `get(query?)`
-This is called to return the record or data for this resource, and is called by HTTP GET requests. This can be optionally called with a `query` to return specified property values. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
+## `get(queryOrProperty?)`
+This is called to return the record or data for this resource, and is called by HTTP GET requests. This may be optionally called with a `query` object to specify a query should be performed, or a string to indicate that the specified property value should be returned. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
 ## `search(query: Query)`
 By default this is called by `get(query)` from a collection resource.
 
-## `getId(): string|number`
+## `getId(): string|number|Array<string|number>`
 Returns the primary key value for this resource.
 
 ## `put(record: object)`
@@ -190,7 +190,8 @@ If the source resource implements subscription support, real-time invalidation c
 
 ## Context and Transactions
 Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed such in accessed through the same transaction, preserving atomicity and isolation.
-This also allows timestamps that are accessed during resolution will be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
+
+This also allows timestamps that are accessed during resolution to be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
 
 When using an export resource class, the REST interface will automatically create a context for you with a transaction and request metadata, and you can pass this to other actions by simply including `this` as the source argument (second argument) to the static methods.
 
@@ -208,26 +209,10 @@ export class BlogPost extends tables.BlogPost {
 }
 ```
 
-## `transaction(context?, callback: (context) => any): Promise<any>`
-This executes the callback in a transaction, providing a context that can be used for any resource methods that are called. This returns a promise for when the transaction has committed. The callback itself may be asynchronous (return a promise), allowing for asynchronous activity within the transaction. This is useful for starting a transaction when your code is not already running with a transaction (from an HTTP request handlers, a transaction will typically already be started). For example, if we wanted to run an action on a timer that periodically loads data, we could ensure that the data is loaded in single transactions like this (note that HDB is multi-threaded and if we do a timer-based job, we very likely want it to only run in one thread):
-```javascript
-import { tables } from 'harperdb';
-const { MyTable } = tables; 
-if (isMainThread) // only on main thread
-	setInterval(async () => {
-		let someData = await (await fetch(... some URL ...)).json();
-		transaction((context) => {
-			for (let item in someData) {
-				MyTable.put(item, context);
-			}
-		});
-	}, 3600000); // every hour
-```
-You can provide your own context object for the transaction to attach to. If you call `transaction` with a context that already has a transaction started, it will simply use the current transaction, execute the callback and immediately return (this can be useful for ensuring that a transaction has started).
+Please see the [transaction documentation](./transactions.md) for more information on how transactions work in HarperDB.
 
 ## `getResource(path: string): Resource`
 This returns the resource instance for the given path or identifier.
-
 
 ## Query
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:

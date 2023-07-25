@@ -37,6 +37,9 @@ The common convention for types in GraphQL is CamelCase. These names are convert
 * `@table(compression: true)` - Enables compression on the table.
 * `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables).
 
+### `@export`
+This indicates that the specified table should be exported as a resource that is accessible as an externally available endpoints, through REST, MQTT, or any of the external resource APIs.
+
 ### `@sealed`
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
 
@@ -69,3 +72,11 @@ type Query {
 The field names defined the paths and the field types refer to the tables that should be exported.
 
 If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](./dynamic-schema.md), although generally it is best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+
+## Field Types
+HarperDB supports the following field types in addition to user defined (object) types:
+* String: String/text
+* Int: Integer
+* Float: Any number
+* ID: String or integer
+* Any: Any primitive, object, or array is allowed

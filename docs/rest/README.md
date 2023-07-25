@@ -76,9 +76,10 @@ HarperDB has several special query parameters. These include:
 ### `select`
 This allows you to specify which properties should be included in the responses. This takes several forms:
 * `?select=property`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select={property1,property2,...}`: This return the records as objects, but limited to the specified properties.
+* `?select=property1,property2`:  This return the records as objects, but limited to the specified properties.
 * `?select=[property1,property2,...]`: This return the records as arrays of the property values in the specified properties.
-* `?select=property1,property2`: This is shorthand for the {...} syntax and will return objects if more than one property is specified (otherwise behaves like the first option).
+* `?select=property1,`: This can be used to specify that objects should be returned with the single specified property.
+
 
 ### 'limit'
 Specifies a limit on the number of records returned.

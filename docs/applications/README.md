@@ -91,9 +91,9 @@ To define as resources as endpoints, we need to create a `resources.js` module a
 const { Dog } = tables; // get the Dog table from the HarperDB provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
-	get(request) {
+	get(query) {
 		this.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
-		return super.get(request);
+		return super.get(query);
 	}
 }
 ```
@@ -158,14 +158,14 @@ We can also directly implement the Resource class and use it to create new data 
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
 	async get() {
-		return (await fetch(`http://best-dog-site.com/${this.id}`)).json();
+		return (await fetch(`http://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
-Breed.sourcedFrom(BreedSource, { expiration: 3600 }); 
+Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 ```
 
-HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a getting started guide. See our documentation for more information on using the [`harperdb` module](../reference/harperdb.md) and the [Resource interface](../reference/resource.md).
+HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`harperdb` module](../reference/harperdb.md) and the [Resource interface](../reference/resource.md).
 
 ## Define Fastify Routes
 Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. HarperDB includes a resource plugin for defining routes with the Fastify web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
