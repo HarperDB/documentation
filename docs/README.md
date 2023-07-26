@@ -52,9 +52,11 @@ Now that you have a HarperDB instance, if you want to use HarperDB as a standalo
 
 If you are deploying and administering HarperDB, you may want to look at our [configuration documentation](./configuration.md) and our administrative operations API below.
 
-### Using the HarperDB Operations API
+### HarperDB APIs
 
-The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface described in the [database application development guide](./applications/README.md) as your primary interface for scalable and performant data interaction for building production applications, and the operations API for administrative purposes.
+The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](./rest/README.md).
+
+The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface as your primary interface for scalable and performant data interaction for building production applications, and the operations API (and SQL) for administrative purposes.
 
 The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
 

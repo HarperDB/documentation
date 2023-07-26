@@ -97,6 +97,7 @@
   * [HarperDB Limits](reference/limits.md)
   * [HarperDB Module](reference/harperdb.md)
   * [Resource Class](reference/resource.md)
+  * [Transactions](reference/transactions.md)
   * [Storage Algorithm](reference/storage-algorithm.md)
 * [Support](support.md)
 * [Release Notes](release-notes/README.md)

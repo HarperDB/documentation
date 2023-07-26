@@ -211,9 +211,6 @@ export class BlogPost extends tables.BlogPost {
 
 Please see the [transaction documentation](./transactions.md) for more information on how transactions work in HarperDB.
 
-## `getResource(path: string): Resource`
-This returns the resource instance for the given path or identifier.
-
 ## Query
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
 * `conditions`: This is an array of object that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
