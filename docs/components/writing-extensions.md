@@ -7,7 +7,7 @@ There are three general categories of components for HarperDB:
 - **resource plugins** that handle and interpret different types of files
 - **consumer data sources** that provide a way to access and retrieve data from other sources.
 
-Server plugins can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
+Server protocol plugins can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
 
 Server resource plugins implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource plugins could be added to support different file types like HTML templates (like JSX), CSV data, and more.
 
