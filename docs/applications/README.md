@@ -51,7 +51,7 @@ If-Modified-Since: Wed, 01 Mar 2023 14:45:49 GMT # browsers can automatically pr
 See the documentation on security directives for more information on different levels of access.
 
 ## Querying
-Querying is extremely easy through REST endpoints, simple queries can be crafted through URL query parameters. But first, we need to define properties that we want indexed (you don't want users querying your table through un-indexed properties as it would get much slower as your database grows in size). Let's define the name and breed as searchable/indexed properties:
+Querying is extremely easy through [REST endpoints](../rest/README.md), simple queries can be crafted through URL query parameters. But first, we need to define properties that we want indexed (you don't want users querying your table through un-indexed properties as it would get much slower as your database grows in size). Let's define the name and breed as searchable/indexed properties:
 ```graphql
 type Dog @table {
 	id: ID @primaryKey
@@ -69,7 +69,7 @@ http://localhost:9926/Dog/?breed=Labrador
 http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities!
+Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information](../rest/README.md).
 
 ## Deploy
 Next, if you have created this locally and have a cloud instance as well, we could deploy our local app to the cloud:
