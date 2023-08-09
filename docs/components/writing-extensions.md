@@ -58,7 +58,6 @@ interface Response {
 
 If you were implementing an authentication plugin, you could get authentication information from the request and use it to add the `user` property to the request:
 ```javascript
-import { getUser } from 'harperdb';
 export function start(options: { port: number, server: {}, resources: Map}) {
 	options.server.http((request, nextLayer) => {
 		let authorization = request.headers.authorization;
@@ -78,7 +77,6 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 
 If you were implementing a new protocol, you can directly interact with the sockets and listen for new incoming TCP connections:
 ```javascript
-import { getUser } from 'harperdb';
 export function start(options: { port: number, server: {}}) {
 	options.server.socket((socket) => {
 	});
@@ -86,17 +84,17 @@ export function start(options: { port: number, server: {}}) {
 ```
 
 ### Resource Handling
-Typically, servers not only communicate with clients, but serve up meaningful data based on the resources within the server. While resource plugins typically handle defining resources, once resources are defined, they can be consumed by server plugins. The `resources` argument provides access to the set of all the resources that have been defined. A server can call `resources.getResource(path)` to get the resource associated with the URL path.
+Typically, servers not only communicate with clients, but serve up meaningful data based on the resources within the server. While resource plugins typically handle defining resources, once resources are defined, they can be consumed by server plugins. The `resources` argument provides access to the set of all the resources that have been defined. A server can call `resources.getMatch(path)` to get the resource associated with the URL path.
 
 ## Resource Plugins
-Resource plugins allow us to handle different files and make them accessible to servers as resources, following the common Resource API. To implement a resource plugin, you export a function called `handleFile`. Users can then configure which files that should be handled by your plugin. For example, if we had implemented an EJS handler, it could be configured as:
+Resource plugins allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../reference/resource.md). To implement a resource plugin, you export a function called `handleFile`. Users can then configure which files that should be handled by your plugin. For example, if we had implemented an EJS handler, it could be configured as:
 ```yaml
     module: 'ejs-plugin',
     path: '/templates/*.ejs'
 ```
 And in our plugin module, we could implement `handleFile`:
 ```javascript
-export function handleFile?(contents, relative_path, path, resources) {
+export function handleFile?(contents, relative_path, file_path, resources) {
 	// will be called for each .ejs file.
    // We can then add the generate resource:
    resources.set(relative_path, GeneratedResource);
