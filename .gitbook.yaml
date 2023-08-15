@@ -12,3 +12,7 @@ redirects:
   add-ons-and-sdks/google-data-studio: components/google-data-studio
   getting-started: .
   custom-functions/using-npm-git: custom-functions/create-project
+  custom-functions/debugging-custom-function: applications/debugging
+  custom-functions/example-projects: applications/example-projects
+  custom-functions/define-routes: applications/define-routes
+  custom-functions/custom-functions-operations: components/operations

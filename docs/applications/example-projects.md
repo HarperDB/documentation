@@ -1,6 +1,6 @@
 # Example Projects
 
-**Library of example projects and tutorials using Custom Functions:**
+**Library of example HarperDB applications and components:**
 
 * [Authorization in HarperDB using Okta Customer Identity Cloud](https://www.harperdb.io/post/authorization-in-harperdb-using-okta-customer-identity-cloud), by Yitaek Hwang
 

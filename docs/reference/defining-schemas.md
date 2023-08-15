@@ -34,8 +34,8 @@ The common convention for types in GraphQL is CamelCase. These names are convert
 
 * `@table(table: "table_name")` - This allows you to explicitly specify the table name.
 * `@table(database: "table_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
-* `@table(compression: true)` - Enables compression on the table.
-* `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables).
+* `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
+* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded.
 
 ### `@export`
 This indicates that the specified table should be exported as a resource that is accessible as an externally available endpoints, through REST, MQTT, or any of the external resource APIs.

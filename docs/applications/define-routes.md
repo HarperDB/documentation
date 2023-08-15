@@ -1,19 +1,23 @@
 # Define Routes
 
-HarperDB’s Custom Functions is built on top of [Fastify](https://www.fastify.io/), so our route definitions follow their specifications. Below is a very simple example of a route declaration.
+HarperDB’s applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with HarperDB's [REST interface](../rest/README.md) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
 
+The fastify route handler can be configured in your application's config.yaml (this is the default config if you used the [application template](https://github.com/HarperDB/application-template)):
+```yaml
+fastifyRoutes: # This loads files that define fastify routes using fastify's auto-loader
+  files: routes/*.js # specify the location of route definition modules
+  path: . # relative to the app-name, like  http://server/app-name/route-name
+```
 
-
-Route URLs are resolved in the following manner:
+By default, route URLs are configured to be:
 
 * [**Instance URL**]:[**Custom Functions Port**]/[**Project Name**]/[**Route URL**]
 
-* The route below, within the **dogs** project, with a route of **breeds** would be available at **http://localhost:9926/dogs/breeds**.
+However, you can specify the path to be `/` if you wish to have your routes handling the root path of incoming URLs.
 
+* The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http://localhost:9926/dogs/breeds**.
 
 In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
-
-
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {
@@ -113,7 +117,7 @@ hdbCore contains three functions that allow you to authenticate an inbound reque
 
 **logger**
 
-This helper allows you to write directly to the Custom Functions log file, custom_functions.log. It’s useful for debugging during development, although you may also use the console logger. There are 5 functions contained within logger, each of which pertains to a different **logging.level** configuration in your harperdb-config.yaml file.
+This helper allows you to write directly to the log file, hdb.log. It’s useful for debugging during development, although you may also use the console logger. There are 5 functions contained within logger, each of which pertains to a different **logging.level** configuration in your harperdb-config.yaml file.
 
 
 * logger.trace(‘Starting the handler for /dogs’)
