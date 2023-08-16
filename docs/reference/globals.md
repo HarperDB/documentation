@@ -1,4 +1,6 @@
-The primary way that JavaScript code can interact with HarperDB is through the `harperdb` module. This module exports several objects and classes that provide access to the tables, server hooks, and resources that HarperDB provides for building applications. If you are using EcmaScript modules you can import function from `harperdb` like:
+The primary way that JavaScript code can interact with HarperDB is through the global variables, which has several objects and classes that provide access to the tables, server hooks, and resources that HarperDB provides for building applications. As global variables, these can be directly accessed in any module.
+
+These global variables are also available through the `harperdb` module, which can provide better typing in TypeScript. If you are using EcmaScript modules you can import function from `harperdb` like:
 ```javascript
 import { tables, Resource } from 'harperdb';
 ```
@@ -7,7 +9,7 @@ Or if you are using CommonJS format for your modules:
 const { tables, Resource } = require('harperdb');
 ```
 
-The `harperdb` has several exports that you can import including:
+The global variables include:
 
 ## `tables`
 This is an object that holds all the tables for the default database (called `data`) as properties. Each of these property values is a table class that subclasses the Resource interface and provides access to the table through the Resource interface. For example, you can get a record from a table (in the default database) called 'my-table' with:
@@ -33,3 +35,6 @@ This is the base class for all resources, including tables and external data sou
 
 ## `auth(username, password?): Promise<User>`
 This returns the user object with permissions/authorization information based on the provided username. If a password is provided, the password will be verified before returning the user object (if the password is incorrect, an error will be thrown).
+
+## `logger`
+This provides methods  `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documention](../logging.md) for more information.
