@@ -44,7 +44,7 @@ This directive also accepts a `name` parameter to specify the name that should b
 ```
 type MyTable @table @export(name: "my-table")
 ```
-This table would be available at the URL path `/my-table/`.
+This table would be available at the URL path `/my-table/`. Without the `name` parameter, the exported name defaults to the name of the table type ("MyTable" in this example).
 
 ### `@sealed`
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
