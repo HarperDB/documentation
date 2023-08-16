@@ -40,6 +40,12 @@ The common convention for types in GraphQL is CamelCase. These names are convert
 ### `@export`
 This indicates that the specified table should be exported as a resource that is accessible as an externally available endpoints, through REST, MQTT, or any of the external resource APIs.
 
+This directive also accepts a `name` parameter to specify the name that should be used for the exported resource (how it will appear in the URL path). For example:
+```
+type MyTable @table @export(name: "my-table")
+```
+This table would be available at the URL path `/my-table/`.
+
 ### `@sealed`
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
 

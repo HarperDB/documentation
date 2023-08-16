@@ -63,7 +63,7 @@ type Dog @table {
 }
 ```
 Now we can start querying. Again, we just simply access the endpoint with query parameters (basic GET requests), like:
-```
+```http
 http://localhost:9926/Dog/?name=Harper
 http://localhost:9926/Dog/?breed=Labrador
 http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed

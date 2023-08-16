@@ -401,7 +401,9 @@ localStudio:
 
 ### `logging`
 
-The `logging` section configures HarperDB logging across all HarperDB functionality. HarperDB leverages pm2 for logging. Each process group gets their own log file which is located in `logging.root`.
+The `logging` section configures HarperDB logging across all HarperDB functionality. This includes standard text logging of application and database events as well as structured data logs of record changes. Logging of application/database events are logged in text format to the `~/hdb/log/hdb.log` file (or location specified by `logging.root`).
+
+In addition, structured logging of data changes are also available:
 
 `auditLog` - _Type_: boolean; _Default_: false
 
@@ -429,9 +431,13 @@ logging:
   file: true
 ```
 
+`auditRetention` - _Type_: string|number; _Default_: 3d
+
+This specifies how long audit logs should be retained.
+
 `level` - _Type_: string; _Default_: error
 
-Control the verbosity of logs.
+Control the verbosity of text event logs.
 
 ```yaml
 logging:
