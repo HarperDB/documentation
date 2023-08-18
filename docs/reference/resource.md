@@ -134,6 +134,9 @@ This is called to determine if the user has permission to update the current res
 ## `allowDelete(user)`
 This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
 
+## `getUpdatedTime(): number`
+This returns the last updated time of the resource (timestamp of last commit). This is returned as milliseconds from epoch.
+
 ## `getContext(): Context`
 Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
 

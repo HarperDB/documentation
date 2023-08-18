@@ -27,7 +27,7 @@ You can now use as HarperDB as a standalone database. You can also create a clou
 
 #### Database Application Platform
 
-HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, take a look at our [database application development guide](./applications/README.md), it quick and easy to get started.
+HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, take a look at our [database application development guide](./applications/README.md), it is quick and easy to get started.
 
 ### Setting up a Cloud Instance
 To set up a HarperDB cloud instance, simply sign up and create a new instance:
@@ -56,7 +56,7 @@ If you are deploying and administering HarperDB, you may want to look at our [co
 
 The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](./rest/README.md).
 
-The complete HarperDB Operations API documentation is available at api.harperdb.io, and provides important administrative functions. Generally it is recommended that use the RESTful interface as your primary interface for scalable and performant data interaction for building production applications, and the operations API (and SQL) for administrative purposes.
+The Operations API provides extensive administrative capabilities for HarperDB and the complete [HarperDB Operations API documentation is available at https://api.harperdb.io/](https://api.harperdb.io), with usage and examples. Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and maniulation (DML) for building production applications, and the operations API (and SQL) for data definition (DDL) and administrative purposes.
 
 The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
 
