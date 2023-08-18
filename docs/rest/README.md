@@ -1,5 +1,7 @@
 # REST
 
+HarperDB provides a powerful, efficient, and standard-compliant HTTP REST interface for interacting with tables and other resources. The REST interface is the recommended interface for data access, querying, and manipulation (for HTTP interactions), providing the best performance and HTTP interoperability with different clients.
+
 Resources, including tables, can be configured as RESTful endpoints. The name of the query or the [exported](../reference/defining-schemas.md#export) name of the resource defines the beginning of the endpoint path. From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
 The default path structure provides access to resources at several different levels:
@@ -107,9 +109,21 @@ GET /product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
 ### Content Types and Negotiation
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:
 `application/json` - Common format, easy to read, with great tooling support.
-`application/cbor` - Recommended binary format for optimal encoding efficiency.
-`application/x-msgpack` - This is also an efficient format, but CBOR is preferable.
+`application/cbor` - Recommended binary format for optimal encoding efficiency and performance.
+`application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as has better streaming capabilities and faster time-to-first-byte.
 `text/csv` - CSV, inefficient, but good for moving data to and from a spreadsheet.
+
+CBOR is generally the most efficient and powerful encoding format, with the best performance, most compact encoding, and most expansive ability to encode different data types like Dates, Maps, and Sets. MessagePack is very similar and tends to have broader adoption. However, JSON can be easier to work with and may have better tooling. Also, if you are using compression for data transfer (gzip or brotli), JSON will often result in more compact compressed data due to character frequencies that better align with Huffman coding, making JSON a good choice for web applications that do not require specific data types beyond the standard JSON types.
+
+Requesting a specific content type can also be done in a URL by suffixing the path with extension for the content type. If you want to retrieve a record in CSV format, you could request:
+```http
+GET /product/some-id.csv
+```
+Or you could request a query response in MessagePack:
+```http
+GET /product/.msgpack?category=software
+```
+However, generally it is not recommended that you use extensions in paths and it is best practice to use the `Accept` header to specify acceptable content types.
 
 ### Specific Content Objects
 You can specify other content types, and the data will be stored as an record or object that hold the type and contents of the data. For example, if you do:
