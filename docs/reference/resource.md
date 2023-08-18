@@ -120,7 +120,7 @@ The returned (promise resolves to) Subscription object is an `AsyncIterable` tha
 This is called when a connection is received through WebSockets or Server Sent Events (SSE) to this resource path. This is called with `incomingMessages` as an iterable stream of incoming messages when the connection is from WebSockets, and is called with no arguments when the connection is from a SSE connection. This can return an asynchronous iterable representing the stream of messages to be sent to the client. 
 
 ## `set(property, value)`
-This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be returned by a `get()`.
+This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be serialized during serialization (converted to the output format of JSON, MessagePack, etc.).
 
 ## `allowCreate(user)`
 This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table.
@@ -137,7 +137,7 @@ This is called to determine if the user has permission to delete the current res
 ## `getContext(): Context`
 Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
 
-# Resource Static Methods
+# Resource Static Methods and Properties
 
 The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. 
 
@@ -145,7 +145,7 @@ The get, put, delete, subscribe, and connect methods all have static equivalents
 
 
 ## `get(id: string|number, context?: Resource|Context)`
-This will retrieve a record by id.  For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
+This will retrieve a resource instance by id.  For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 ```javascript
 const { MyTable } = tables; 
 ...
@@ -234,4 +234,125 @@ Product.search({
 	limit: 10,
 	select: ['id', 'name', 'price', 'rating'],
 })
+```
+
+
+## Interacting with the Resource Data Model
+When extending or interacting with table resources, when a resource instance is retrieved and instantiated, it will be loaded with the record data from its table. You can interact with this record through the resource instance. For any properties that have been defined in the table's schema, you can direct access or modify properties through standard property syntax. For example, let's say we defined a product schema:
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	name: String
+	rating: Int
+	price: Float
+}
+```   
+
+If we have extended this table class with our get() we can interact with any these specified attributes/properties:
+```javascript
+class CustomProduct extends Product {
+	get(query) {
+		let name = this.name; // this is the name of the current product
+		let rating = this.rating; // this is the rating of the current product
+		this.rating = 3 // we can also modify the rating for the current instance
+		// (with a get this won't be saved by default, but will be used when serialized)
+		return super.get(query);
+	}
+}
+```
+Likewise, we can interact with resource instances in the same way when retrieving them through the static methods:
+```javascript
+let product1 = await Product.get(1);
+let name = product1.name; // this is the name of the product with a primary key of 1
+let rating = product1.rating; // this is the rating of the product with a primary key of 1
+product1.rating = 3 // modify the rating for this instance (this will be saved without a call to update())
+
+```
+
+If there are additional properties on (some) products that aren't defined in the schema, we can still access them through the resouce instance, but since they aren't declared, there won't be getter/setter definition for direct property access, but we can access properties with the `get(propertyName)` method and modify properties with the `set(propertyName, value)` method:
+```javascript
+let product1 = await Product.get(1);
+let additionalInformation = product1.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
+product1.set('newProperty', 'some value'); // we can assign any properties we want with set 
+```
+
+And likewise, we can do this in an instance method, although you will probably want to use super.get()/set() so you don't have to write extra logic to avoid recursion: 
+```javascript
+class CustomProduct extends Product {
+	get(query) {
+		let additionalInformation = super.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
+		super.set('newProperty', 'some value'); // we can assign any properties we want with set 
+	}
+}
+```
+Note that you may also need to use `get`/`set` for properties that conflict with existing method names. For example, your schema define an attribute called `getId` (not recommend), you would need to access that property through `get('getId')` and `set('getId', value)`.
+
+If you want to save the changes you make, you can call the `update()`` method:
+```javascript
+let product1 = await Product.get(1);
+product1.rating = 3;
+product1.set('newProperty', 'some value');
+product1.update(); // save both of these property changes
+```
+
+Updates are automatically saved inside modifying methods like put and post:
+```javascript
+class CustomProduct extends Product {
+	post(data) {
+		this.name = data.name;
+		this.set('description', data.description);
+		// both of these changes will be saved automatically as this transaction commits
+	}
+}
+```
+
+We can also interact with properties in nested objects and arrays, following the same patterns. For example we could define more complex types on our product:
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	name: String
+	rating: Int
+	price: Float
+	brand: Brand;
+	variations: [Variation];
+}
+type Brand {
+	name: String
+}
+type Variation {
+	name: String
+	price: Float
+}
+```   
+
+We can interact with these nested properties:
+```javascript
+class CustomProduct extends Product {
+	post(data) {
+		let brandName = this.brand.name;
+		let firstVariationPrice = this.variations[0].price;
+		let additionalInfoOnBrand = this.brand.get('additionalInfo'); // not defined in schema, but can still try to access property
+		// make some changes
+		this.variations.splice(0, 1); // remove first variation
+		this.variations.push({ name: 'new variation', price: 9.99 }); // add a new variation
+		this.brand.name = 'new brand name';
+		// all these change will be saved
+	}
+}
+```
+
+If you need to delete a property, you can do with the `delete` method:
+```javascript
+let product1 = await Product.get(1);
+product1.delete('additionalInformation');
+product1.update();
+```
+
+You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple object with all the properties (whether defined in the schema) as direct normal properties:
+```javascript
+let product1 = await Product.get(1);
+let plainObject = product1.toJSON();
+for (let key in plainObject) {
+	// can iterate through the properties of this record
+}
 ```
