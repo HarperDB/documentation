@@ -102,7 +102,7 @@ Returns the primary key value for this resource.
 ## `put(record: object)`
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(record)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
 
-## `delete(query?)`
+## `delete(queryOrProperty?)`
 This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.put(record)`) deletes the record from the table as part of the current transaction.
 
 ## `publish(message)`
@@ -136,6 +136,10 @@ This is called to determine if the user has permission to delete the current res
 
 ## `getContext(): Context`
 Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
+
+## `operation(operationObject: Object, authorize?: boolean): Promise<any>`
+This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](https://api.harperdb.io/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
+
 
 # Resource Static Methods and Properties
 

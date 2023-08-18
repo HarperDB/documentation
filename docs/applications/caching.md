@@ -82,7 +82,8 @@ class ThirdPartyAPI extends Resource {
         ....
 ```
 
-Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest/README.md). This facilitates downstream caching. Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in HarperDB. Caching tables also have [subscription capabilities](#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of HarperDB, both as passive or active caches.
+## Downstream Caching
+It is highly recommended that utilize the [REST interface](../rest/README.md) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest/README.md#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in HarperDB. Caching tables also have [subscription capabilities](#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of HarperDB, both as passive or active caches.
 
 ## Write-Through Caching
 The cache we have defined so far only has data flowing from the data source to the cache. However, you may wish to support write methods, so that writes to the cache table can flow through to underlying canonical data source, as well as populate the cache. This can be accomplished by implementing the standard write methods, like `put` and `delete`. If you were using an API with standard RESTful methods, you can pass writes through to the data source like this:

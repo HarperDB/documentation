@@ -17,7 +17,7 @@ These can be used to retrieve individual records or perform searches. This handl
 This can be used to retrieve a record by its primary key. The response will include the record as the body.
 
 #### Caching/Conditional Requests
-A `GET` response for a record will include an encoded timestamp of the last modification to this record in the `ETag` request headers. On subsequent requests, a client (that has a cached copy) may include an `If-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. 
+A `GET` response for a record will include an encoded timestamp of the last modification to this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to serialized and transferred over the network.
 
 ### `GET /my-resource/?property=value`
 
@@ -57,22 +57,33 @@ This can be used to create a new record in this table or resource.
 
 ## Querying through URL query parameters
 URL query parameters provides a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records with provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
-`GET /my-resource/?property=value`
+```http
+GET /my-resource/?property=value
+```
 
 We can specify multiple properties that must match:
-`GET /my-resource/?property=value&property2=another-value`
+```http
+GET /my-resource/?property=value&property2=another-value
+```
 
 We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
-`GET /my-resource?age=gt=20`
+```http
+GET /my-resource/?age=gt=20
+```
 
 Or less than or equal to 20:
 
-`GET /my-resource?age=le=20`
+```http
+GET /my-resource/?age=le=20
+```
 
-The comparison operators include `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal). These comparison operators can also be combined with other query parameters with `&`.
+The comparison operators include `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal). These comparison operators can also be combined with other query parameters with `&`. For example, if we wanted products with a category of software and price between 100 and 200, we could write:
+```http
+GET /product/?category=software&price=gt=100&price=lt=200
+```
 
-HarperDB has several special query parameters, that use "call" syntax. These include:
+HarperDB has several special query functions, that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
 ### `select(properties)`
 This allows you to specify which properties should be included in the responses. This takes several forms:
 * `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
@@ -80,12 +91,18 @@ This allows you to specify which properties should be included in the responses.
 * `?select([property1,property2,...])`: This return the records as arrays of the property values in the specified properties.
 * `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
 
+To get a list of product names with a category of software:
+```http
+GET /product/?category=software&select(name)
+```
 
 ### `limit(start,end)` or `limit(end)`
 Specifies a limit on the number of records returned, optionally providing a starting offset.
 
-For example, to find the first twenty records with a `rating` greater than 3, `inStock` equal to true, only returning the `rating` and `name`` properties, you could use:
-`GET /my-resource?rating=gt=3&inStock=true&select(rating,name)&limit(3)`
+For example, to find the first twenty records with a `rating` greater than 3, `inStock` equal to true, only returning the `rating` and `name` properties, you could use:
+```http
+GET /product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
+```
 
 ### Content Types and Negotiation
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:
