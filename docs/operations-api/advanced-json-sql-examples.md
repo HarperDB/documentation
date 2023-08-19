@@ -3,6 +3,7 @@
 
 ## End-point: Create movies Schema
 Create a new schema called "movies" using the 'create_schema' operation.
+
 ### Method: POST
 
 ### Headers
@@ -33,6 +34,7 @@ Create a new schema called "movies" using the 'create_schema' operation.
 
 ## End-point: Create movie Table
 Creates a new table called "movie" inside the schema "movies" using the ‘create_table’ operation.
+
 ### Method: POST
 
 ### Headers
@@ -65,6 +67,7 @@ Creates a new table called "movie" inside the schema "movies" using the ‘creat
 
 ## End-point: Create credits Table
 Creates a new table called "credits" inside the schema "movies" using the ‘create_table’ operation.
+
 ### Method: POST
 
 ### Headers
@@ -97,6 +100,7 @@ Creates a new table called "credits" inside the schema "movies" using the ‘cre
 
 ## End-point: Bulk Insert movie Via CSV
 Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_load' operation.
+
 ### Method: POST
 
 ### Headers
@@ -129,6 +133,7 @@ Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_lo
 
 ## End-point: Bulk Insert credits Via CSV
 Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_load' operation.
+
 ### Method: POST
 
 ### Headers
@@ -161,6 +166,7 @@ Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_
 
 ## End-point: View raw data
 In the following example we will be running expressions on the keywords & production_companies attributes, so for context we are displaying what the raw data looks like.
+
 ### Method: POST
 
 ### Headers
@@ -766,6 +772,7 @@ In the following example we will be running expressions on the keywords & produc
 
 ## End-point: Simple search_json call
 This query uses search_json to convert the keywords object array to a simple string array.  The expression '[name]' tells the function to extract all values for the name attribute and wrap them in an array.
+
 ### Method: POST
 
 ### Headers
@@ -923,6 +930,7 @@ This query uses search_json to convert the keywords object array to a simple str
 
 ## End-point: Use search_json in a where clause
 This example shows how we can use SEARCH_JSON to filter out records in a WHERE clause. The production_companies attribute holds an object array of companies that produced each movie, we want to only see movies which were produced by Marvel Studios.  Our expression is a filter '$[name="Marvel Studios"]' this tells the function to iterate the production_companies array and only return entries where the name is "Marvel Studios".
+
 ### Method: POST
 
 ### Headers
@@ -1096,6 +1104,7 @@ This example shows how we can use SEARCH_JSON to filter out records in a WHERE c
 
 ## End-point: Use search_json to show the movies with the largest casts
 This example shows how we can use SEARCH_JSON to perform a simple calculation on JSON and order by the results.  The cast attribute holds an object array of details around the cast of a movie. We use the expression '$count(id)' that counts each id and returns the value back which we alias in SQL as cast_size which in turn gets used to sort the rows.
+
 ### Method: POST
 
 ### Headers
@@ -1165,6 +1174,7 @@ This example shows how we can use SEARCH_JSON to perform a simple calculation on
 
 ## End-point: search_json as a condition, in a select with a table join
 This example shows how we can use SEARCH_JSON to find movies where at least of 2 our favorite actors from Marvel films have acted together then list the movie, its overview, release date, and the actors names and their characters.  The WHERE clause performs a count on credits.cast attribute that have the matching actors. The SELECT performs the same filter on the cast attribute and performs a transform on each object to just return the actor's name and their character.
+
 ### Method: POST
 
 ### Headers
