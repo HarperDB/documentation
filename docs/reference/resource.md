@@ -140,6 +140,19 @@ This returns the last updated time of the resource (timestamp of last commit). T
 ## `getContext(): Context`
 Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
 
+### `Context`
+The `Context` object has the following (potential) properties:
+* `user` - This is the user object, which includes information about the username, role, and authorizations.
+* `transaction` - The current transaction
+If the current method was triggered by an HTTP request, the following properties are available:
+* `url` - The local path/URL of the request (this will not include the protocol or host name, but will start at the path and includes the query string).
+* `headers` - This is an object with the headers that were included in the HTTP request. You can access headers by calling `context.headers.get(headerName)`.
+* `responseHeaders` - This is an object with the headers that will be included in the HTTP response. You can set headers by calling `context.responseHeaders.set(headerName, value)`.
+* `pathname` - This provides the path part of the URL (no querystring).
+* `host` - This provides the host name of the request (from the `Host` header).
+* `ip` - This provides the ip address of the client that made the request.
+
+
 ## `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](https://api.harperdb.io/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
 
