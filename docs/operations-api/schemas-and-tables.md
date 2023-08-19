@@ -1,7 +1,7 @@
-# � Collection: Schemas and Tables 
+# Collection: Schemas and Tables 
 
 
-## End-point: Describe All
+## Operation: Describe All
 Returns the definitions of all schemas and tables within the database.
 
 <ul>
@@ -14,16 +14,7 @@ Returns the definitions of all schemas and tables within the database.
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -66,7 +57,7 @@ Returns the definitions of all schemas and tables within the database.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Describe Schema
+## Operation: Describe Schema
 Returns the definitions of all tables within the specified schema.
 
 <ul>
@@ -82,16 +73,7 @@ Returns the definitions of all tables within the specified schema.
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -133,7 +115,7 @@ Returns the definitions of all tables within the specified schema.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Describe Table
+## Operation: Describe Table
 Returns the definition of the specified table.
 
 <ul>
@@ -152,16 +134,7 @@ Returns the definition of the specified table.
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -202,7 +175,7 @@ Returns the definition of the specified table.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Create Schema
+## Operation: Create Schema
 Create a new database schema.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -214,16 +187,7 @@ Create a new database schema.
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -242,7 +206,7 @@ Create a new database schema.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Drop Schema
+## Operation: Drop Schema
 Drop an existing database schema. NOTE: Dropping a schema will delete all tables and all of their records in that schema.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -252,16 +216,7 @@ Drop an existing database schema. NOTE: Dropping a schema will delete all tables
 <li><b>schema</b><i> (required)</i> - name of the schema you are dropping. </li>
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -280,23 +235,14 @@ Drop an existing database schema. NOTE: Dropping a schema will delete all tables
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Create  Table
+## Operation: Create  Table
 Create a new database table within the specified schema.
 
 _**Operation is restricted to super_user roles only**_
 
 <ul><li><p><b>operation </b><i>(required)</i> - must always be create_table</p></li><li><p><b>schema</b><i> (required)</i> - name of the schema where you want your table to live</p></li><li><p><b>table </b><i>(required)</i> - name of the table you are creating</p></li><li><p><b>hash_attribute</b><i> (required)</i> - primary key for the table</p></li><li><p><b>attributes</b> <i>(optional)</i> - An array of attributes that specifies the schema for the table, that is the set of attributes for the table. When attributes are supplied the table will not be considered a "dynamic schema" table, and attributes will not be auto-added when records with new properties are inserted. Each attribute is specified as:</p><ul><li><p><b>name </b><i>(required)</i> - The name of the attribute</p></li><li><p><b>indexed </b><i>(optional)</i> - Indicates if the attribute should be indexed</p></li><li><p><b>type </b><i>(optional)</i> - Specifies the data type of the attribute (can be String, Int, Float, Date, ID, Any).</p></li></ul></li><li><p><b>expiration </b><i>(optional)</i> - Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified)</p></li></ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -317,7 +263,7 @@ _**Operation is restricted to super_user roles only**_
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Drop Table
+## Operation: Drop Table
 Drop an existing database table. NOTE: Dropping a table will delete all associated records in that table.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -330,16 +276,7 @@ Drop an existing database table. NOTE: Dropping a table will delete all associat
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -359,23 +296,14 @@ Drop an existing database table. NOTE: Dropping a table will delete all associat
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Create  Attribute
+## Operation: Create  Attribute
 Create a new attribute within the specified table. **The create_attribute operation can be used for admins wishing to pre-define schema values for setting role-based permissions or for any other reason.**
 
 _Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the schema._
 
 <ul><li><p><b>operation </b><i>(required)</i> - must always be create_attribute</p></li><li><p><b>schema</b><i> (required)</i> - name of the schema of the table you want to add your attribute</p></li><li><p><b>table </b><i>(required)</i> - name of the table where you want to add your attribute to live</p></li><li><p><b>attribute</b><i> (required)</i> - name for the attribute</p></li></ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
@@ -400,7 +328,7 @@ _Note: HarperDB will automatically create new attributes on insert and update if
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## End-point: Drop Attribute
+## Operation: Drop Attribute
 Drop an existing attribute from the specified table. NOTE: Dropping an attribute will delete all associated attribute values in that table.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -415,16 +343,7 @@ Drop an existing attribute from the specified table. NOTE: Dropping an attribute
 
 </ul>
 
-### Method: POST
-
-### Headers
-
-|Content-Type|Value|
-|---|---|
-|Content-Type|application/json|
-
-
-### Body (**raw**)
+### Body
 
 ```json
 {
