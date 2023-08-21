@@ -52,6 +52,8 @@
   * [Writing Extensions](components/writing-extensions.md)
   * [Operations](components/operations.md)
   * [Google Data Studio](components/google-data-studio.md)
+* [Operations API](operations-api/README.md)
+
 * [SQL Guide](sql-guide/README.md)
   * [SQL Features Matrix](sql-guide/features-matrix.md)
   * [Insert](sql-guide/insert.md)

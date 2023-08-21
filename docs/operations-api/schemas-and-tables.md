@@ -1,7 +1,7 @@
-# Collection: Schemas and Tables 
+# Schemas and Tables 
 
 
-## Operation: Describe All
+## Describe All
 Returns the definitions of all schemas and tables within the database.
 
 <ul>
@@ -57,7 +57,7 @@ Returns the definitions of all schemas and tables within the database.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Describe Schema
+## Describe Schema
 Returns the definitions of all tables within the specified schema.
 
 <ul>
@@ -115,7 +115,7 @@ Returns the definitions of all tables within the specified schema.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Describe Table
+## Describe Table
 Returns the definition of the specified table.
 
 <ul>
@@ -175,7 +175,7 @@ Returns the definition of the specified table.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Create Schema
+## Create Schema
 Create a new database schema.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -206,7 +206,7 @@ Create a new database schema.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Drop Schema
+## Drop Schema
 Drop an existing database schema. NOTE: Dropping a schema will delete all tables and all of their records in that schema.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -235,7 +235,7 @@ Drop an existing database schema. NOTE: Dropping a schema will delete all tables
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Create  Table
+## Create  Table
 Create a new database table within the specified schema.
 
 _**Operation is restricted to super_user roles only**_
@@ -263,7 +263,7 @@ _**Operation is restricted to super_user roles only**_
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Drop Table
+## Drop Table
 Drop an existing database table. NOTE: Dropping a table will delete all associated records in that table.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -296,7 +296,7 @@ Drop an existing database table. NOTE: Dropping a table will delete all associat
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Create  Attribute
+## Create  Attribute
 Create a new attribute within the specified table. **The create_attribute operation can be used for admins wishing to pre-define schema values for setting role-based permissions or for any other reason.**
 
 _Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the schema._
@@ -328,7 +328,7 @@ _Note: HarperDB will automatically create new attributes on insert and update if
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Operation: Drop Attribute
+## Drop Attribute
 Drop an existing attribute from the specified table. NOTE: Dropping an attribute will delete all associated attribute values in that table.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
@@ -360,4 +360,3 @@ Drop an existing attribute from the specified table. NOTE: Dropping an attribute
     "message": "successfully deleted attribute 'is_adorable'"
 }
 ```
-
