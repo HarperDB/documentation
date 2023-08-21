@@ -30,7 +30,7 @@ MyTable.sourcedFrom(ThirdPartyAPI);
 Now we have a fully configured and connected cache. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), HarperDB will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
 
 ```mermaid
-  graph TD;
+  graph TD
       Client1(Client 1)-->Cache(Caching Table);
       Client2(Client 2)-->Cache;
       Cache-->Resource(Data Source Connector);
