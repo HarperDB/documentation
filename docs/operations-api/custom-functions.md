@@ -56,7 +56,6 @@ Returns an array of projects within the Custom Functions root project directory.
         "routes": ["examples"],
         "helpers":["example"],
         "static":3
-        }
     }
 }
 ```
