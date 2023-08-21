@@ -12,7 +12,9 @@ These instructions assume that the following has already been completed:
 2. Basic networking is configured
 3. A non-root user account dedicated to HarperDB with sudo privileges exists
 4. An additional volume for storing HarperDB files is attached to the Linux instance
-5. Traffic to ports 9925 (HarperDB Operations API,) 9926 (HarperDB Custom Functions,) and 9932 (HarperDB Clustering) is permitted
+5. Traffic to ports 9925 (HarperDB Operations API) 9926 (HarperDB Application Interface) and 9932 (HarperDB Clustering) is permitted
+
+While you will need to access HarperDB through port 9925 for the administration through the operations API, and port 9932 for clustering, for higher level of security, you may want to consider keeping both of these ports restricted to a VPN or VPC, and only have the application interface (9926 by default) exposed to the public Internet.
 
 For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 

@@ -93,6 +93,16 @@ Properties that have been defined in your table's schema can be accessed and mod
 ## `get(queryOrProperty?)`
 This is called to return the record or data for this resource, and is called by HTTP GET requests. This may be optionally called with a `query` object to specify a query should be performed, or a string to indicate that the specified property value should be returned. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
+The query object can be used to access any query parameters that were included in the URL. For example, with a request to `/my-resource/some-id?param1=value`, we can access URL/request information:
+```javascript
+get(query) {
+	// note that query will only exist (as an object) if there is a query string
+	let param1 = query?.get?.('param1'); // returns 'value'
+	let id = this.getId(); // returns 'some-id'
+	...
+}
+```
+
 ## `search(query: Query)`
 By default this is called by `get(query)` from a collection resource.
 
@@ -151,7 +161,6 @@ If the current method was triggered by an HTTP request, the following properties
 * `pathname` - This provides the path part of the URL (no querystring).
 * `host` - This provides the host name of the request (from the `Host` header).
 * `ip` - This provides the ip address of the client that made the request.
-
 
 ## `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](https://api.harperdb.io/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
