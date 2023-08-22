@@ -1,10 +1,12 @@
+# Application Development Guide
+
 HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, we recommend starting with the [application template](https://github.com/HarperDB/application-template) which you can download or clone. However you can also simply create a new empty project folder. (If you plan to use git, you can initialize you new project).
 
 And we go into our new application folder and start HarperDB running our new application (you don't need anything in it to get started!):
 ```shell
 harperdb run .
 ```
-### Create a Table
+## Create a Table
 This is a database application, so naturally a first step is create a table. The easiest way to do that is through a GraphQL Schema (GraphQL Schemas are the quickest way to define tables in HarperDB, but does not mean you are required to, or even necessarily should, use GraphQL to query). Create a `schema.graphql` in your editor in the root of the application directory, and add a type for a table; the one thing we need in the table definition is a primary key:
 ```graphql
 type Dog @table {
