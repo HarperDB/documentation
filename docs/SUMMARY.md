@@ -59,7 +59,7 @@
   * [Bulk Operations](bulk-operations.md)
   * [Users and Roles](users-and-roles.md)
   * [Clustering](clustering.md)
-  * [Custom Functions](custom-functions.md)
+  * [Components](components.md)
   * [Registration](registration.md)
   * [Jobs](jobs.md)
   * [Logs](logs.md)
