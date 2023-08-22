@@ -8,7 +8,7 @@ Audit log is disabled by default. To use the audit log, set `logging.auditLog` t
 
 ### read_audit_log
 
-The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [HarperDB API documentation](https://api.harperdb.io/).
+The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [HarperDB API documentation](operations-api/logs.md).
 
 **Search by Timestamp**
 

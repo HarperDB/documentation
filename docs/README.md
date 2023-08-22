@@ -56,7 +56,7 @@ If you are deploying and administering HarperDB, you may want to look at our [co
 
 The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](./rest/README.md).
 
-The Operations API provides extensive administrative capabilities for HarperDB and the complete [HarperDB Operations API documentation is available at https://api.harperdb.io/](https://api.harperdb.io), with usage and examples. Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and maniulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
+The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](operations-api/README.md). Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and maniulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
 
 The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
 

@@ -170,7 +170,7 @@ As seen above we execute the same name filter against the cast array, the primar
 
 
 
-To see further SEARCH_JSON examples in action view our Postman Collection that provides a sample schema & data with query examples: https://api.harperdb.io/
+To see further SEARCH_JSON examples in action view our Postman Collection that provides a [sample schema & data with query examples](../operations-api/advanced-json-sql-examples.md).
 
 
 
