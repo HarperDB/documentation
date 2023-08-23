@@ -95,6 +95,7 @@
 * [Audit Logging](audit-logging.md)
 * [Jobs](jobs.md)
 * [Upgrade a HarperDB Instance](upgrade-hdb-instance.md)
+* [Cloning](cloning.md)
 * [Reference](reference/README.md)
   * [Analytics](reference/analytics.md)
   * [Architecture](reference/architecture.md)
