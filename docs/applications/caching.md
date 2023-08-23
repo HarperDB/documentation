@@ -106,3 +106,9 @@ When doing an insert or update to the MyCache table, the data will be sent to th
 
 ### Subscribing to Caching Tables
 You can subscribe to a caching table just like any other table. The one difference is that normal tables do not usually have `invalidate` events, but an active caching table may have `invalidate` events. Again, this event type gives listeners an opportunity to choose whether or not to actually retrieve the value that changed.
+
+### Caching with Replication
+Caching tables can be configured to replicate in HarperDB clusters. When replicating caching tables, there are a couple of options. If each node will be separately connecting to the data source and you do not need the subscription data notification events to replicate, you can set the `replicationSource` to `false`. In this case, only data requests (that come through standard requests like REST interface or operations API), will be replicated. However, if you data notification will only be delivered to a single node (at once) and you need the subscription data notification events to replicate, you can set the `replicationSource` to `true` and the incoming events from the subscription will be replicated to all other nodes:
+```javascript
+MyTable.sourcedFrom(ThirdPartyAPI, { replicationSource: true });
+```
