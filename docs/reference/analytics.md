@@ -59,7 +59,7 @@ And a typical response looks like:
 }
 ```
 
-The second level of analytics recording is aggregate data. The aggregate records are recorded once a minute, and aggregate the results from all the per-second entries from all the threads, creating a summary of statistics once a minute. The ids for these milliseconds since epoch and are prefixed with "min-". You can query these with an operation like:
+The second level of analytics recording is aggregate data. The aggregate records are recorded once a minute, and aggregate the results from all the per-second entries from all the threads, creating a summary of statistics once a minute. The ids for these milliseconds since epoch and are prefixed with "sum-". You can query these with an operation like:
 ```
 POST http://localhost:9925
 Content-Type: application/json
@@ -71,7 +71,7 @@ Content-Type: application/json
     "conditions": [{
         "search_attribute": "id",
         "search_type": "between",
-        "search_value": ["min-1688194100000", "min-1688594990000"]
+        "search_value": ["sum-1688194100000", "sum-1688594990000"]
     }]
 }
 ```
@@ -87,7 +87,7 @@ And a summary record looks like:
     "p95": 4,
     "p90": 4,
     "count": 1,
-    "id": "min-1688589569646.6375-bytes-sent-connack"
+    "id": "sum-1688589569646.6375-bytes-sent-connack"
 }
 ```
 The following are general resource usage statistics that are tracked:
