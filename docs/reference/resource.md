@@ -124,7 +124,14 @@ This is called for HTTP POST requests. You can define this method to provide you
 ## `subscribe(subscriptionRequest): Promise<Subscription>`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
 
-The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a retained message, these may be immediately returned).
+The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a message for the current or "retained" record, these may be immediately returned).
+
+The `subscriptionRequest` object supports the following properties (all optional):
+* `id` - The primary key of the record (or topic) that you want to subscribe to. If omitted, this will be a subscription to the whole table.
+* `isCollection` - If this is enabled and the `id` was included, this will create a subscription to all the record updates/messages that are prefixed with the id. For example, a subscription request of `{id:'sub', isCollection: true}` would return events for any update with an id/topic of the form sub/* (like `sub/1`).
+* `startTime` - This will begin the subscription at a past point in time, returning all updates/messages since the start time (a catch-up of historical messages). This can be used to resume a subscription, getting all messages since the last subscription.
+* `previousCount` - This specifies the number of previous updates/messages to deliver. For example, `previousCount: 10` would return the last ten messages. Note that `previousCount` can not be used in conjunction with `startTime`.
+* `omitCurrent` - Indicates that the current (or retained) record should _not_ be immediately sent as the first update in the subscription (if no `startTime` or `previousCount` was used). By default, the current record is sent as the first update.
 
 ## `connect(incomingMessages?: AsyncIterable<any>): AsyncIterable<any>`
 This is called when a connection is received through WebSockets or Server Sent Events (SSE) to this resource path. This is called with `incomingMessages` as an iterable stream of incoming messages when the connection is from WebSockets, and is called with no arguments when the connection is from a SSE connection. This can return an asynchronous iterable representing the stream of messages to be sent to the client. 
