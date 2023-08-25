@@ -41,6 +41,21 @@ HarperDB handles waiting for an existing cache resolution to finish and use its 
 
 Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
+### Eviction with Indexing
+Eviction is the removal of a locally cached copy of data, but it does not (semantically) represent a "deletion" of the actual data. If a caching table uses expiration (and eviction), and has indexing on certain attributes, the indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). If a search query is performed that matches this evicted record, the record will be requested on-demand to fufill the search query.
+
+### Specifying a Timestamp
+In the example above, we simply retrieved data to fulfill a cache request. We may want to supply the timestamp of the record we are fulfilling as well. This can be set on the context for the request:
+```javascript
+class ThirdPartyAPI extends Resource {
+	async get() {
+		let response = await fetch(`http://some-api.com/${this.getId()}`);
+        this.getContext().lastModified = response.headers.get('Last-Modified');
+        return response.json();
+	}
+}
+```
+
 ## Active Caching and Invalidation
 The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
 
