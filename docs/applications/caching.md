@@ -97,6 +97,19 @@ class ThirdPartyAPI extends Resource {
         ....
 ```
 
+An alternative to using asynchronous generators is to use a subscription stream and send events to it. A default subscription stream (that doesn't generate its own events) is availabe from the Resource's default subscribe method:
+```javascript
+class ThirdPartyAPI extends Resource {
+    subscribe() {
+        const subscription = super.subscribe();
+        setupListeningToRemoteService().on('update', (event) => {
+            subscription.send(event);
+        });
+        return subscription;
+    }
+}
+```
+
 ## Downstream Caching
 It is highly recommended that utilize the [REST interface](../rest/README.md) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest/README.md#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in HarperDB. Caching tables also have [subscription capabilities](#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of HarperDB, both as passive or active caches.
 
