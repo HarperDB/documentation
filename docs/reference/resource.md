@@ -121,6 +121,9 @@ This will publish a message to this resource, and is called for MQTT publish com
 ## `post(data)`
 This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally this provides a generic mechanism for various types of data updates.
 
+## `invalidate()`
+This will invalidate the current resource. This can be used with caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
+
 ## `subscribe(subscriptionRequest): Promise<Subscription>`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
 
