@@ -38,3 +38,18 @@ This returns the user object with permissions/authorization information based on
 
 ## `logger`
 This provides methods  `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documention](../logging.md) for more information.
+
+## `server`
+This provides a number of functions and objects to interact with the server including:
+
+### `server.config`
+This provides access to the HarperDB configuration object. This comes from the [harperdb-config.yaml](../configuration.md) (parsed into object form).
+
+### `server.recordAnalytics(value, metric, path?, method?, type?)`
+This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](../reference/analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of level for useful aggregation. The parameters are:
+* `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
+* `metric` - This is the name of the metric.
+* `path` - This is an optional path (like a URL path). For a URL like /my-resource/<id>, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
+* `method` - Optional method to group by.
+* `type` - Optional type to group by.
+

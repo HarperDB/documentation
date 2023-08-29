@@ -154,6 +154,9 @@ This is called to determine if the user has permission to delete the current res
 ## `getUpdatedTime(): number`
 This returns the last updated time of the resource (timestamp of last commit). This is returned as milliseconds from epoch.
 
+## `wasLoadedFromSource(): boolean`
+Indicates if the record had been loaded from source. When using caching tables, this indicates that there was a cache miss and the data had to be loaded from the source (or waiting on an inflight request from the source to finish).
+
 ## `getContext(): Context`
 Returns the context for this resource. The context contains information about the current transaction, the user that initiated this action, and other metadata that should be retained through the life of an action.
 
@@ -168,6 +171,7 @@ If the current method was triggered by an HTTP request, the following properties
 * `pathname` - This provides the path part of the URL (no querystring).
 * `host` - This provides the host name of the request (from the `Host` header).
 * `ip` - This provides the ip address of the client that made the request.
+* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that the a more modification should cause this to timestamp to be updated.
 
 ## `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](https://api.harperdb.io/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
