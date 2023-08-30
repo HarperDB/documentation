@@ -2,18 +2,18 @@ root: ./docs/
 
 redirects:
   install-harperdb/other: install-harperdb/README.md
-  install-harperdb/docker: install-harperdb#with-docker
-  install-harperdb/mac: install-harperdb
-  install-harperdb/windows: install-harperdb
-  install-harperdb/linux-quickstart: install-harperdb/linux
-  install-harperdb/offline: install-harperdb#offline-install
-  install-harperdb/node-ver-requirement: install-harperdb
-  add-ons-and-sdks: components
-  add-ons-and-sdks/google-data-studio: components/google-data-studio
-  getting-started: .
-  custom-functions/using-npm-git: custom-functions/create-project
-  custom-functions/debugging-custom-function: applications/debugging
-  custom-functions/example-projects: applications/example-projects
-  custom-functions/define-routes: applications/define-routes
-  custom-functions/custom-functions-operations: components/operations
+  install-harperdb/docker: install-harperdb/README.md
+  install-harperdb/mac: install-harperdb/README.md
+  install-harperdb/windows: install-harperdb/README.md
+  install-harperdb/linux-quickstart: install-harperdb/linux.md
+  install-harperdb/offline: install-harperdb/README.md
+  install-harperdb/node-ver-requirement: install-harperdb/README.md
+  add-ons-and-sdks: components/README.md
+  add-ons-and-sdks/google-data-studio: components/google-data-studio.md
+  getting-started: getting-started.md
+  custom-functions/using-npm-git: custom-functions/create-project.md
+  custom-functions/debugging-custom-function: applications/debugging.md
+  custom-functions/example-projects: applications/example-projects.md
+  custom-functions/define-routes: applications/define-routes.md
+  custom-functions/custom-functions-operations: components/operations.md
   custom-functions: applications/README.md
