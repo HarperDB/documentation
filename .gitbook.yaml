@@ -1,7 +1,7 @@
 root: ./docs/
 
 redirects:
-  install-harperdb/other: install-harperdb#installation-on-less-common-platforms
+  install-harperdb/other: install-harperdb/README.md#installation-on-less-common-platforms
   install-harperdb/docker: install-harperdb#with-docker
   install-harperdb/mac: install-harperdb
   install-harperdb/windows: install-harperdb
