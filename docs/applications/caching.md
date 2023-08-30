@@ -56,7 +56,19 @@ class ThirdPartyAPI extends Resource {
 }
 ```
 
-## Active Caching and Invalidation
+### Invalidation
+You may also wish to specifically invalidate individual records. Invalidation is useful when you know the source data has changed, and the cache needs to re-retrieve data from the source the next time that record is accessed. This can be done by executing the `invalidate()`. For example, you could extend a table and provide a custom POST handler that does invalidation:
+```javascript
+const { MyTable } = tables;
+export class MyTableEndpoint extends MyTable {
+	async post(data) {
+        if (data.invalidate) // use this flag as a marker
+            this.invalidate();
+    }
+}
+```
+
+## Active Caching
 The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
 
 If there is a way to receive notifications from the external data source, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable, that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes, we could implement this like:
