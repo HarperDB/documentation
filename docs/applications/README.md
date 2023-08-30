@@ -74,12 +74,7 @@ http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information of HTTP access](../rest/README.md) and see the [Schema reference](../reference/defining-schemas.md) for more defining schemas.
 
 ## Deploy
-Next, if you have created this locally and have a cloud instance as well, we could deploy our local app to the cloud:
-```shell
-harperdb deploy .
-#
-npm run deploy
-```
+Next, if you have created this locally and have a cloud instance as well, you can commit this to a Github repository and then go to studio and deploy from your repository.
 
 Now that you have deployed to your cloud instance, you can start scaling and expanding your application by choosing to expand your HarperDB cluster/mesh to more regions. Simply choose to add additional instances on other regions, and expand your deployed mesh. Provide your registered URL/hostname as the entry URL, and the global traffic manager/load balancer will distribute incoming requests to the appropriate server. Your application will be deployed and distributed to all the nodes in your mesh. Your application is ready to horizontally and globally scale!
 
