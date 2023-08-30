@@ -16,3 +16,4 @@ redirects:
   custom-functions/example-projects: applications/example-projects
   custom-functions/define-routes: applications/define-routes
   custom-functions/custom-functions-operations: components/operations
+  custom-functions: applications/README.md
