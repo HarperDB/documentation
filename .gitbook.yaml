@@ -10,7 +10,7 @@ redirects:
   install-harperdb/node-ver-requirement: install-harperdb/README.md
   add-ons-and-sdks: components/README.md
   add-ons-and-sdks/google-data-studio: components/google-data-studio.md
-  getting-started: getting-started.md
+  getting-started: README.md
   custom-functions/using-npm-git: custom-functions/create-project.md
   custom-functions/debugging-custom-function: applications/debugging.md
   custom-functions/example-projects: applications/example-projects.md
