@@ -8,7 +8,7 @@ HarperDB's documentation covers installation, getting started, administrative op
 
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications. Getting started with HarperDB is easy and fast.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get up and running with HarperDB is with [HarperDB Cloud](./harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a database application platform, and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use standard IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get up and running with HarperDB is with [HarperDB Cloud](./harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a [database application platform](./applications/README.md), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use standard IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -25,9 +25,11 @@ harperdb
 
 You can now use as HarperDB as a standalone database. You can also create a cloud instance (see below), which is an extremely quick and easy way to get started.
 
-#### Database Application Platform
+#### Developing Database Applications with HarperDB
 
-HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data. To create a HarperDB application, take a look at our [database application development guide](./applications/README.md), it is quick and easy to get started.
+HarperDB is more than just a database, with HarperDB you build "database applications" which package your schema, endpoints, and application logic together. You can then deploy your application to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data and application endpoints directly to your users. To get started with HarperDB, take a look at our application development guide, with quick and easy examples:
+
+[Database application development guide](./applications/README.md)
 
 ### Setting up a Cloud Instance
 To set up a HarperDB cloud instance, simply sign up and create a new instance:
