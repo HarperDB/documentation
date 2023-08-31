@@ -20,7 +20,7 @@ However, you can specify the path to be `/` if you wish to have your routes hand
 In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
 
 ```javascript
-module.exports = async (server, { hdbCore, logger }) => {
+export default async (server, { hdbCore, logger }) => {
     server.route({
         url: '/',
         method: 'POST',
@@ -42,7 +42,7 @@ For endpoints where you want to execute multiple operations against HarperDB, or
 
 
 ```javascript
-module.exports = async (server, { hdbCore, logger }) => {
+export default async (server, { hdbCore, logger }) => {
     server.route({
         url: '/:id',
         method: 'GET',
@@ -67,9 +67,9 @@ The simple example above was just a pass-through to HarperDB- the exact same res
 Below is an example of a route that uses a custom validation hook:
 
 ```javascript
-const customValidation = require('../helpers/customValidation');
+import customValidation from '../helpers/customValidation';
 
-module.exports = async (server, { hdbCore, logger }) => {
+export default async (server, { hdbCore, logger }) => {
     server.route({
         url: '/:id',
         method: 'GET',
