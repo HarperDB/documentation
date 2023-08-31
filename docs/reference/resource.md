@@ -399,3 +399,13 @@ for (let key in plainObject) {
 	// can iterate through the properties of this record
 }
 ```
+
+## Throwing Errors
+You may throw errors (and leave them uncaught) from the response methods and these should be caught handled by protocol handler. For REST requests/responses, this will result in an error response. By default the status code will be 500. You can assign a property of `statusCode` to errors to indicate the HTTP status code that should be returned. For example:
+```javascript
+if (notAuthorized()) {
+	let error = new Error('You are not authorized to access this');
+	error.statusCode = 403;
+	throw error;
+}
+```
