@@ -15,11 +15,11 @@ HarperDB can host multiple applications and extensions. Any package that is adde
 flowchart LR
 	subgraph HarperDB
 	Applications(Applications)-->Schemas(Schemas)
-	Schemas->Tables[(Tables)]
+	Schemas-->Tables[(Tables)]
 	Applications-->Endpoints[/Custom Endpoints/]
-	Endpoints->Tables
-	HTTP(REST/HTTP)->Tables
-	Extensions->Tables
+	Endpoints-->Tables
+	HTTP(REST/HTTP)-->Tables
+	Extensions-->Tables
 	end
 	Client(Client)-->Endpoints
 	Client(Client)-->HTTP
