@@ -3,7 +3,7 @@
 HarperDB has integrated support for caching data. With built-in caching capabilities and distributed high-performance low-latency responsiveness, HarperDB makes an ideal data caching server. HarperDB can store cached data as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. HarperDB also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, HarperDB is an extremely fast, interoperable, flexible, and customizable caching server.
 
 ## Configuring Caching
-To setup caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](../applications/README.md) for more information on setting up the application (and the [defining schemas documentation](../reference/defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
+To setup caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](../applications/README.md) for more information on setting up the application (and the [defining schemas documentation](../applications/defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
 ```graphql
 type MyCache @table(expiration: 3600) @export {
     id: ID @primaryKey
