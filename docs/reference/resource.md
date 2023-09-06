@@ -109,8 +109,8 @@ By default this is called by `get(query)` from a collection resource.
 ## `getId(): string|number|Array<string|number>`
 Returns the primary key value for this resource.
 
-## `put(record: object)`
-This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(record)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
+## `put(data: object)`
+This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
 
 ## `delete(queryOrProperty?)`
 This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.put(record)`) deletes the record from the table as part of the current transaction.
@@ -122,7 +122,7 @@ This will publish a message to this resource, and is called for MQTT publish com
 This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally this provides a generic mechanism for various types of data updates.
 
 ## `invalidate()`
-This will invalidate the current resource. This can be used with caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
+This method is available on tables. This will invalidate the current record in the table. This can be used with caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
 
 ## `subscribe(subscriptionRequest): Promise<Subscription>`
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
@@ -168,13 +168,19 @@ The `Context` object has the following (potential) properties:
 * `user` - This is the user object, which includes information about the username, role, and authorizations.
 * `transaction` - The current transaction
 If the current method was triggered by an HTTP request, the following properties are available:
+* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that the a more modification should cause this to timestamp to be updated.
+
+When a resource gets a request through HTTP, the request object is the context, which has the following properties:
 * `url` - The local path/URL of the request (this will not include the protocol or host name, but will start at the path and includes the query string).
+* `method` - The method of the HTTP request.
 * `headers` - This is an object with the headers that were included in the HTTP request. You can access headers by calling `context.headers.get(headerName)`.
 * `responseHeaders` - This is an object with the headers that will be included in the HTTP response. You can set headers by calling `context.responseHeaders.set(headerName, value)`.
 * `pathname` - This provides the path part of the URL (no querystring).
 * `host` - This provides the host name of the request (from the `Host` header).
 * `ip` - This provides the ip address of the client that made the request.
-* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that the a more modification should cause this to timestamp to be updated.
+
+When a resource is accessed as a data source:
+* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource this is making a request for data from the data source resource.
 
 ## `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](https://api.harperdb.io/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
@@ -230,6 +236,13 @@ This defines the source for a table. This allows a table to function as a cache 
 
 If the source resource implements subscription support, real-time invalidation can be performed to ensure the cache is guaranteed to be fresh (and this can eliminate or reduce the need for time-based expiration of data).
 
+## `parsePath(path, context, query) {`
+This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will convert a multi-segment path to multipart id (an array), which facilitates hierarchical id-based data access, and also parses `.property` suffixes for accessing properties and specifying preferred content type in the URL. However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
+```javascript
+	static parsePath(path) {
+		return path; // return the path as the id
+	}
+```
 
 ## Context and Transactions
 Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed such in accessed through the same transaction, preserving atomicity and isolation.
