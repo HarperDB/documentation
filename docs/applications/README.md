@@ -11,6 +11,21 @@ harperdb run .
 
 HarperDB can host multiple applications and extensions. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the your hdb/components directory, and all such components will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to hdb/components).
 
+```mermaid
+flowchart LR
+	subgraph HarperDB
+	Applications(Applications)-->Schemas(Schemas)
+	Schemas->Tables[(Tables)]
+	Applications-->Endpoints[/Custom Endpoints/]
+	Endpoints->Tables
+	HTTP(REST/HTTP)->Tables
+	Extensions->Tables
+	end
+	Client(Client)-->Endpoints
+	Client(Client)-->HTTP
+	Client(Client)-->Extensions
+```
+
 ## Create a Table
 This is a database application, so naturally a first step is create a table. The easiest way to do that is through a GraphQL Schema (GraphQL Schemas are the quickest way to define tables in HarperDB, but does not mean you are required to, or even necessarily should, use GraphQL to query). Create a `schema.graphql` in your editor in the root of the application directory, and add a type for a table. Normally the first thing we add to a table definition is a primary key:
 ```graphql
