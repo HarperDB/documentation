@@ -18,10 +18,12 @@ flowchart LR
 	direction TB
 	Applications(Applications)-->Schemas(Schemas)
 	Schemas-->Tables[(Tables)]
+	subgraph Incoming-Requests
 	Applications-->Endpoints[/Custom Endpoints/]
 	Endpoints-->Tables
 	HTTP[/REST/HTTP/]-->Tables
 	Extensions[/Extensions/]-->Tables
+	end
 	end
 ```
 
