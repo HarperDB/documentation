@@ -14,12 +14,13 @@ HarperDB can host multiple applications and extensions. Any package that is adde
 ```mermaid
 flowchart LR
 	subgraph HarperDB
+	direction TB
 	Applications(Applications)-->Schemas(Schemas)
 	Schemas-->Tables[(Tables)]
 	Applications-->Endpoints[/Custom Endpoints/]
 	Endpoints-->Tables
-	HTTP(REST/HTTP)-->Tables
-	Extensions-->Tables
+	HTTP[/REST/HTTP/]-->Tables
+	Extensions[/Extensions/]-->Tables
 	end
 	Client(Client)-->Endpoints
 	Client(Client)-->HTTP
