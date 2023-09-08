@@ -75,7 +75,6 @@ class ThirdPartyAPI extends Resource {
         ...
 ```
 
-
 ## Active Caching and Invalidation
 The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
 
@@ -118,6 +117,14 @@ Notification events should always include an `id` to indicate the primary key of
 * `delete` - This indicates that the record has been deleted.
 * `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time/).
 * `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
+
+And the following properties can be defined on event objects:
+* `type`: The event type as described above.
+* `id`: The primary key of the record that updated
+* `value`: The new value of the record that updated (for put and message)
+* `writes`: An array of event properties that are part of a transaction (used in conjunction with the transaction event type).
+* `table`: The name of the table with the record that was updated. This can be used with events within a transaction to specify events across multiple tables.
+* `timestamp`: The timestamp of when the data change occurred
 
 With an active external data source with a `subscribe` method, the data source will proactively notify the cache, ensuring a fresh and efficient active cache. Note that with an active data source, we still use the `sourcedFrom` method to register the source for a caching table, and the table will automatically detect and call the subscribe method on the data source.
 
