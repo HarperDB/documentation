@@ -56,6 +56,26 @@ class ThirdPartyAPI extends Resource {
 }
 ```
 
+#### Specifying an Expiration
+In addition, we can also specify when a cached record "expires". When a cached record expires, this means that a request for that record will trigger a request to the data source again. This does not necessarily mean that the cached record has been evicted (removed), although expired records will be periodically evicted. If the cached record still exists, the data source can revalidate it and return it. For example:
+```javascript
+class ThirdPartyAPI extends Resource {
+	async get() {
+        const context = this.getContext();
+        let headers = new Headers();
+        if (context.replacingVersion) // this is the existing cached record
+            headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
+		let response = await fetch(`http://some-api.com/${this.getId()}`, { headers });
+        let cacheInfo = response.headers.get('Cache-Control');
+        let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
+        if (maxAge) // we can set a specific expiration time by setting context.expiresAt
+            context.expiresAt = Date.now() + maxAge * 1000; // convert from seconds to milliseconds and add to current time
+        // we can just revalidate and return the record if the origin has confirmed that it has the same version:
+        if (response.status === 304) return context.replacingRecord;
+        ...
+```
+
+
 ## Active Caching and Invalidation
 The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
 
@@ -154,3 +174,20 @@ Caching tables can be configured to replicate in HarperDB clusters. When replica
 ```javascript
 MyTable.sourcedFrom(ThirdPartyAPI, { replicationSource: true });
 ```
+
+### Passive-Active Updates
+With our passive update examples, we have provided a data source handler with a `get()` method that returns the specific requested record as the response. However, we can also actively update other records in our response handler (if our data source provides data that should be propagate to other related records). This can be done transactionally, to ensure that all updates occur atomically. The context that is provided to the data source holds the transaction information, so we can simply pass the context to any update/write methods that we call. For example, let's say we are loading a blog post, which should also includes comment records:
+```javascript
+const { Post, Comment } = tables;
+class BlogSource extends Resource {
+    get() {
+        let post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
+        for (let comment of comments) {
+            Comment.put(comment, this); // save this comment as part of our current context and transaction
+        }
+        return post;
+    }
+}
+Post.sourcedFrom(BlogSource);
+```
+Here both the update to the post and the update to the comments will be atomically/transactionally committed together with the same timestamp.
