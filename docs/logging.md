@@ -41,7 +41,7 @@ To log to standard streams effectively, make sure to directly run `harperdb` and
 
 ## Logging Rotation
 
-Log rotation allows for managing log files, such as compressing rotated log files, archiving old log files, determining when to rotate, and the like. This will allow for organized storage and efficient use of disk space. For more information see “logging” in our [config docs](configuration.md).
+Log rotation allows for managing log files, such as compressing rotated log files, archiving old log files, determining when to rotate, and the like. This will allow for organized storage and efficient use of disk space. For more information see our [config docs](configuration/logging-config.md).
 
 ## Read Logs via the API
 
