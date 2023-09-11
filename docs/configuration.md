@@ -506,18 +506,29 @@ logging:
 ---
 
 
-### `operationsApi`
-
-The `operationsApi` section configures the HarperDB Operations API.
-
-`authentication`
+### `authentication`
+The authentication section defines the configuration for the default authentication mechanism in HarperDB.
 
 ```yaml
-operationsApi:
-  authentication:
-    operationTokenTimeout: 1d
-    refreshTokenTimeout: 30d
+authentication:
+  authorizeLocal: true
+  cacheTTL: 30000
+  enableSessions: true
+  operationTokenTimeout: 1d
+  refreshTokenTimeout: 30d
 ```
+
+`authorizeLocal` - _Type_: boolean; _Default_: true
+
+This will automatically authorize any requests from the loopback IP address as the superuser. This should be disabled for any HarperDB servers that may be accessed by untrusted users from the same instance. For example, this should be disabled if you are using a local proxy, or for general server hardening.
+
+`cacheTTL` - _Type_: number; _Default_: 30000
+
+This defines the length of time (in milliseconds) that an authentication (a particular Authorization header or token) can be cached.
+
+`enableSessions` - _Type_: boolean; _Default_: true
+
+This will enable cookie-based sessions to maintain an authenticated session. This is generally the preferred mechanism for maintaining authentication in web browsers as it allows cookies to hold an authentication token securely without giving JavaScript code access to token/credentials that may open up XSS vulnerabilities.
 
 <div style="padding-left: 30px;">
 
@@ -529,6 +540,10 @@ Defines the length of time an operation token will be valid until it expires. Ex
 
 Defines the length of time a refresh token will be valid until it expires. Example values: https://github.com/vercel/ms.
 </div>
+
+### `operationsApi`
+
+The `operationsApi` section configures the HarperDB Operations API.
 
 `foreground` - _Type_: boolean; _Default_: false
 

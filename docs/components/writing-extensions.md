@@ -64,7 +64,7 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 		if (authorization) {
 			// get some token for the user and determine the user
 			// if we want to use harperdb's user database
-			let user = getUser(username, password);
+			let user = server.getUser(username, password);
 			request.user = user; // authenticate user object goes on the request	
 		}
 		// continue on to the next layer
