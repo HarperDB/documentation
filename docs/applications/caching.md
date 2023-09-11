@@ -6,7 +6,7 @@ HarperDB has integrated support for caching data. With built-in caching capabili
 To setup caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](../applications/README.md) for more information on setting up the application (and the [defining schemas documentation](../applications/defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
 ```graphql
 type MyCache @table(expiration: 3600) @export {
-    id: ID @primaryKey
+	id: ID @primaryKey
 }
 ```
 
@@ -31,10 +31,10 @@ Now we have a fully configured and connected cache. If you access data from `MyC
 
 ```mermaid
   flowchart TD
-      Client1(Client 1)-->Cache(Caching Table);
-      Client2(Client 2)-->Cache;
-      Cache-->Resource(Data Source Connector);
-      Resource-->API(Remote Data Source API);
+	  Client1(Client 1)-->Cache(Caching Table);
+	  Client2(Client 2)-->Cache;
+	  Cache-->Resource(Data Source Connector);
+	  Resource-->API(Remote Data Source API);
 ```
 
 HarperDB handles waiting for an existing cache resolution to finish and use its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source (note that HarperDB uses a very fast non-locking method which improves the performance of caching, but occassionaly this may allow multiple concurrent requests for one entry, but this is rare and amortizes to negligible extra requests in most situations).
@@ -50,8 +50,8 @@ In the example above, we simply retrieved data to fulfill a cache request. We ma
 class ThirdPartyAPI extends Resource {
 	async get() {
 		let response = await fetch(`http://some-api.com/${this.getId()}`);
-        this.getContext().lastModified = response.headers.get('Last-Modified');
-        return response.json();
+		this.getContext().lastModified = response.headers.get('Last-Modified');
+		return response.json();
 	}
 }
 ```
@@ -61,18 +61,18 @@ In addition, we can also specify when a cached record "expires". When a cached r
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-        const context = this.getContext();
-        let headers = new Headers();
-        if (context.replacingVersion) // this is the existing cached record
-            headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
+		const context = this.getContext();
+		let headers = new Headers();
+		if (context.replacingVersion) // this is the existing cached record
+			headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
 		let response = await fetch(`http://some-api.com/${this.getId()}`, { headers });
-        let cacheInfo = response.headers.get('Cache-Control');
-        let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
-        if (maxAge) // we can set a specific expiration time by setting context.expiresAt
-            context.expiresAt = Date.now() + maxAge * 1000; // convert from seconds to milliseconds and add to current time
-        // we can just revalidate and return the record if the origin has confirmed that it has the same version:
-        if (response.status === 304) return context.replacingRecord;
-        ...
+		let cacheInfo = response.headers.get('Cache-Control');
+		let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
+		if (maxAge) // we can set a specific expiration time by setting context.expiresAt
+			context.expiresAt = Date.now() + maxAge * 1000; // convert from seconds to milliseconds and add to current time
+		// we can just revalidate and return the record if the origin has confirmed that it has the same version:
+		if (response.status === 304) return context.replacingRecord;
+		...
 ```
 
 ## Active Caching and Invalidation
@@ -83,10 +83,10 @@ One way to provide more active caching is to specifically invalidate individual 
 ```javascript
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
-    async post(data) {
-        if (data.invalidate) // use this flag as a marker
-            this.invalidate();
-    }
+	async post(data) {
+		if (data.invalidate) // use this flag as a marker
+			this.invalidate();
+	}
 }
 ```
 (Note that if you are now exporting this endpoint through resources.js, you don't necessarily need to directly export the table separately in your schema.graphql).
@@ -95,19 +95,19 @@ export class MyTableEndpoint extends MyTable {
 We can provide more control of an active cache with subscriptions. If there is a way to receive notifications from the external data source of data hcnages, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable, that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes, we could implement this like:
 ```javascript
 class ThirdPartyAPI extends Resource {
-    async *subscribe() {
-        do {
-            // get the next data change event from the source
-            let update = (await fetch(`http://some-api.com/latest-update`)).json();
-            const event = { // define the change event (which will update the cache)
-                type: 'put', // this would indicate that the event includes the new data value
-                id: // the primary key of the record that updated
-                value: // the new value of the record that updated
-                timestamp: // the timestamp of when the data change occurred
-            };
-            yield event; // this returns this event, notifying the cache of the change
-        } while(true);
-    }
+	async *subscribe() {
+		do {
+			// get the next data change event from the source
+			let update = (await fetch(`http://some-api.com/latest-update`)).json();
+			const event = { // define the change event (which will update the cache)
+				type: 'put', // this would indicate that the event includes the new data value
+				id: // the primary key of the record that updated
+				value: // the new value of the record that updated
+				timestamp: // the timestamp of when the data change occurred
+			};
+			yield event; // this returns this event, notifying the cache of the change
+		} while(true);
+	}
 	async get() {
 ...
 ```
@@ -131,23 +131,23 @@ With an active external data source with a `subscribe` method, the data source w
 By default, HarperDB will only run the subscribe method on one thread. HarperDB is multi-threaded and normally runs many concurrent worker threads, but typically running a subscription on multiple threads can introduce overlap in notifications and race conditions and running on a subscription on a single thread is preferable. However, if you want to enable subscribe on multiple threads, you can define a `static subscribeOnThisThread` method to specify if the subscription should run on the current thread:
 ```javascript
 class ThirdPartyAPI extends Resource {
-    static subscribeOnThisThread(threadIndex) {
-        return threadIndex < 2; // run on two threads (the first two threads)
-    }
-    async *subscribe() {
-        ....
+	static subscribeOnThisThread(threadIndex) {
+		return threadIndex < 2; // run on two threads (the first two threads)
+	}
+	async *subscribe() {
+		....
 ```
 
 An alternative to using asynchronous generators is to use a subscription stream and send events to it. A default subscription stream (that doesn't generate its own events) is availabe from the Resource's default subscribe method:
 ```javascript
 class ThirdPartyAPI extends Resource {
-    subscribe() {
-        const subscription = super.subscribe();
-        setupListeningToRemoteService().on('update', (event) => {
-            subscription.send(event);
-        });
-        return subscription;
-    }
+	subscribe() {
+		const subscription = super.subscribe();
+		setupListeningToRemoteService().on('update', (event) => {
+			subscription.send(event);
+		});
+		return subscription;
+	}
 }
 ```
 
@@ -158,18 +158,18 @@ It is highly recommended that you utilize the [REST interface](../rest/README.md
 The cache we have defined so far only has data flowing from the data source to the cache. However, you may wish to support write methods, so that writes to the cache table can flow through to underlying canonical data source, as well as populate the cache. This can be accomplished by implementing the standard write methods, like `put` and `delete`. If you were using an API with standard RESTful methods, you can pass writes through to the data source like this:
 ```javascript
 class ThirdPartyAPI extends Resource {
-    async put(data) {
-        await fetch(`http://some-api.com/${this.getId()}`, {
-            method: 'PUT',
-            body: JSON.stringify(data)
-        });
-    }
-    async delete() {
-        await fetch(`http://some-api.com/${this.getId()}`, {
-            method: 'DELETE',
-        });
-    }
-    ...
+	async put(data) {
+		await fetch(`http://some-api.com/${this.getId()}`, {
+			method: 'PUT',
+			body: JSON.stringify(data)
+		});
+	}
+	async delete() {
+		await fetch(`http://some-api.com/${this.getId()}`, {
+			method: 'DELETE',
+		});
+	}
+	...
 ```
 When doing an insert or update to the MyCache table, the data will be sent to the underlying data source through the `put` method and the new record value will be stored in the cache as well.
 
@@ -187,13 +187,13 @@ With our passive update examples, we have provided a data source handler with a 
 ```javascript
 const { Post, Comment } = tables;
 class BlogSource extends Resource {
-    get() {
-        let post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
-        for (let comment of comments) {
-            Comment.put(comment, this); // save this comment as part of our current context and transaction
-        }
-        return post;
-    }
+	get() {
+		let post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
+		for (let comment of comments) {
+			Comment.put(comment, this); // save this comment as part of our current context and transaction
+		}
+		return post;
+	}
 }
 Post.sourcedFrom(BlogSource);
 ```

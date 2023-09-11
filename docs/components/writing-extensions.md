@@ -20,7 +20,7 @@ Server Plugins are implemented as JavaScript packages/modules and interact with 
 ```yaml
 serverPlugins:
   - package: 'org/package-name'
-    port: 4321
+	port: 4321
 ```
 
 ### Module Initialization
@@ -31,8 +31,8 @@ If defined, this will be called on the initialization of the plugin. The provide
 ```javascript
 export function start(options: { port: number, server: {}}) {
 	options.server.http(async (request, nextLayer) => {
-	    // we can directly return a response here, or do some processing on the request and delegate to the next layer
-        let response = await nextLayer(request);
+		// we can directly return a response here, or do some processing on the request and delegate to the next layer
+		let response = await nextLayer(request);
 		return response;
 	});
 }
@@ -49,10 +49,10 @@ interface Request {
 The returned `response` object should have the following structure (again, following a structural subset of the [WHATWG Response API](https://developer.mozilla.org/en-US/docs/Web/API/Response)):
 ```typescript
 interface Response {
-    status?: number
-    headers?: {} // an object with header name/values
-    data?: any // object/value that will be serialized into the body
-    body?: Stream
+	status?: number
+	headers?: {} // an object with header name/values
+	data?: any // object/value that will be serialized into the body
+	body?: Stream
 }
 ```
 
@@ -89,8 +89,8 @@ Typically, servers not only communicate with clients, but serve up meaningful da
 ## Resource Plugins
 Resource plugins allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../reference/resource.md). To implement a resource plugin, you export a function called `handleFile`. Users can then configure which files that should be handled by your plugin. For example, if we had implemented an EJS handler, it could be configured as:
 ```yaml
-    module: 'ejs-plugin',
-    path: '/templates/*.ejs'
+	module: 'ejs-plugin',
+	path: '/templates/*.ejs'
 ```
 And in our plugin module, we could implement `handleFile`:
 ```javascript
