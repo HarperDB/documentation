@@ -37,7 +37,7 @@ Now we have a fully configured and connected cache. If you access data from `MyC
 	  Resource-->API(Remote Data Source API);
 ```
 
-HarperDB handles waiting for an existing cache resolution to finish and use its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source (note that HarperDB uses a very fast non-locking method which improves the performance of caching, but occassionaly this may allow multiple concurrent requests for one entry, but this is rare and amortizes to negligible extra requests in most situations).
+HarperDB handles waiting for an existing cache resolution to finish and use its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
 
 Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
@@ -190,7 +190,7 @@ class BlogSource extends Resource {
 	get() {
 		let post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
 		for (let comment of comments) {
-			Comment.put(comment, this); // save this comment as part of our current context and transaction
+			await Comment.put(comment, this); // save this comment as part of our current context and transaction
 		}
 		return post;
 	}
