@@ -66,9 +66,11 @@ logging:
 *Note: any required configuration needed to install/run HarperDB will be default values or auto-generated unless it is provided in the config file.* 
 
 #### Fully connected clone
-A fully connected clone is when in addition to setting up replication between the leader and the clone, 
-any nodes the leader is replicating with will also be added to the clone. For example, if the leader
-is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.<br>
+A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. 
+A fully connected clone maintains this topology with addition of the new node. When a clone is created, 
+replication is added between the leader and the clone and any nodes the leader is replicating with. 
+For example, if the leader is replicating with node-a and node-b, the clone will replicate with the leader, 
+node-a and node-b.<br>
 
 To run clone node with the fully connected option simply pass the environment variable `HDB_FULLY_CONNECTED=true`
 
