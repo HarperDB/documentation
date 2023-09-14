@@ -173,6 +173,20 @@ class ThirdPartyAPI extends Resource {
 ```
 When doing an insert or update to the MyCache table, the data will be sent to the underlying data source through the `put` method and the new record value will be stored in the cache as well.
 
+### Loading from Source in Methods
+When you are using a caching table, it is important to remember that any resource methods besides `get()`, will not automatically load data from the source. If you have defined a `put()`, `post()`, or `delete()` method and you need the source data, you can ensure it is loaded by calling the `ensureLoaded()` method. For example, if you want to modify the existing record from the source, adding a property to it:
+
+```javascript
+class MyCache extends tables.MyCache {
+	async post(data) {
+        // if the data is not cached locally, retrieves from source:
+        await this.ensuredLoaded();
+        // now we can be sure that the data is loaded, and can access properties
+        this.quantity = this.quantity - data.purchases;
+	}
+}
+```
+
 ### Subscribing to Caching Tables
 You can subscribe to a caching table just like any other table. The one difference is that normal tables do not usually have `invalidate` events, but an active caching table may have `invalidate` events. Again, this event type gives listeners an opportunity to choose whether or not to actually retrieve the value that changed.
 
