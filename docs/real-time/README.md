@@ -18,6 +18,9 @@ mqtt:
 ```
 Note that if you are using WebSockets for MQTT, the sub-protocol should be set to "mqtt" (this is required by the MQTT specification, and should be included by any conformant client): `Sec-WebSocket-Protocol: mqtt`.
 
+### Capabilities
+HarperDB's MQTT capabilities includes support for MQTT versions v3.1 and v5 with standard publish and subscription capabilities with multi-level topics, QoS 0 and 1 levels, and durable (non-clean) sessions. MQTT supports QoS 2 interaction, but doesn't guarantee exactly once delivery (although any guarantees of exactly once over unstable networks is a fictional aspiration). MQTT doesn't currently support last will and testament, nor single-level wildcards (only multi-level wildcards).
+
 ## Topics
 In MQTT, messages are published to, and subscribed from, topics. In HarperDB topics are aligned with resource endpoint paths in exactly the same way as the REST endpoints. If you define a table or resource in your schema, with an path/endpoint of "my-resource", that means that this can be addressed as a topic just like a URL path. So a topic of "my-resource/some-id" would correspond to the record in the my-resource table (or custom resource) with a record id of "some-id".
 
@@ -56,7 +59,7 @@ ws.onmessage = (event) => {
 By default, the resources will make a subscription to that resource, monitoring any changes to the records or messages published to it, and will return events on the WebSockets connection. You can also override `connect(incomingMessages)` with your own handler. The `connect` method simply needs to return an iterable (asynchronous iterable) that represents the stream of messages to be sent to the client. One easy way to create an iterable stream is to define the `connect` method as a generator and `yield` messages as they become available. For example, a simple WebSockets echo server for a resource could be written:
 ```javascript
 export class Echo extends Resource {
-	static async *connect(incomingMessages) {
+	async *connect(incomingMessages) {
 		for await (let message of incomingMessages) { // wait for each incoming message from the client
 			// and send the message back to the client
 			yield message;
@@ -66,7 +69,7 @@ export class Echo extends Resource {
 You can also call the default `connect` and it will provide a convenient streaming iterable with events for the outgoing messages, with a `send` method that you can call to send messages on the iterable, and a `close` event for determining when the connection is closed. The incoming messages iterable is also an event emitter, and you can listen for `data` events to get the incoming messages using event style:
 ```javascript
 export class Example extends Resource {
-	static connect(incomingMessages) {
+	connect(incomingMessages) {
 		let outgoingMessages = super.connect();
 		let timer = setInterval(() => {
 			  outgoingMessages.send({greeting: 'hi again!'});
