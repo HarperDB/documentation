@@ -22,6 +22,82 @@ Alternately, configuration can be changed via environment and/or command line va
 
 ## Configuration Options
 
+### `http`
+
+`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+
+The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
+
+```yaml
+http:
+  threads: 11
+```
+
+`sessionAffinity` - _Type_:  string; _Default_: null
+
+HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
+
+To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
+```yaml
+http:
+  sessionAffinity: ip
+```
+
+`compressionThreshold` - _Type_: number; _Default_: 1200 (bytes)
+
+For HTTP clients that support (Brotli) compression encoding, responses that are larger than than this threshold will be compressed (also note that for clients that accept compression, any streaming responses from queries are compressed as well, since the size is not known beforehand).
+```yaml
+http:
+  compressionThreshold:  1200
+```
+
+
+```yaml
+http:
+    cors: true
+    corsAccessList:
+      - null
+    headersTimeout: 60000
+    https: false
+    keepAliveTimeout: 30000
+    port: 9926
+    securePort: null
+    timeout: 120000 
+```
+
+<div style="padding-left: 30px;">
+
+`cors` - _Type_: boolean; _Default_: true
+
+Enable Cross Origin Resource Sharing, which allows requests across a domain.
+
+`corsAccessList` - _Type_: array; _Default_: null
+
+An array of allowable domains with CORS
+
+`headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
+
+Limit the amount of time the parser will wait to receive the complete HTTP headers with.
+
+`keepAliveTimeout` - _Type_: integer; _Default_: 30,000 milliseconds (30 seconds)
+
+Sets the number of milliseconds of inactivity the server needs to wait for additional incoming data after it has finished processing the last response.
+
+`port` - _Type_: integer; _Default_: 9926
+
+The port used to access the component server.
+
+`securePort` - _Type_: integer; _Default_: null
+
+The port the HarperDB component server uses for HTTPS connections. This requires a valid certificate and key.
+
+`timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
+
+The length of time in milliseconds after which a request will timeout.
+</div>
+
+---
+
 ### `clustering`
 
 The `clustering` section configures the clustering engine, this is used to replicate data between instances of HarperDB.
@@ -232,7 +308,7 @@ Path to the private key file.
 
 When true, will skip certificate verification. For use only with self-signed certs.
 
-`republishMessages` - _Type_: boolean; _Default_: true
+`republishMessages` - _Type_: boolean; _Default_: false
 
 When true, all transactions that are received from other nodes are republished to this node's stream. When subscriptions are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better data replication performance. When false, you need to ensure all subscriptions are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.  
 
@@ -256,132 +332,6 @@ clustering:
 ```
 
 ---
-
-
-### `customFunctions`
-
-The `customFunctions` section configures HarperDB Custom Functions.
-
-`enabled` - _Type_: boolean; _Default_: true
-
-Enable the Custom Function server or not.
-
-```yaml
-customFunctions:
-  enabled: true  
-```
-
-`customFunctions.network`
-
-```yaml
-customFunctions:
-  network:
-    cors: true
-    corsAccessList:
-      - null
-    headersTimeout: 60000
-    https: false
-    keepAliveTimeout: 5000
-    port: 9926
-    timeout: 120000 
-```
-
-<div style="padding-left: 30px;">
-
-`cors` - _Type_: boolean; _Default_: true
-
-Enable Cross Origin Resource Sharing, which allows requests across a domain.
-
-`corsAccessList` - _Type_: array; _Default_: null
-
-An array of allowable domains with CORS
-
-`headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
-
-Limit the amount of time the parser will wait to receive the complete HTTP headers with.
-
-`https` - _Type_: boolean; _Default_: false
-
-Enables HTTPS on the Custom Functions API. This requires a valid certificate and key. If `false`, Custom Functions will run using standard HTTP.
-
-`keepAliveTimeout` - _Type_: integer; _Default_: 5,000 milliseconds (5 seconds)
-
-Sets the number of milliseconds of inactivity the server needs to wait for additional incoming data after it has finished processing the last response.
-
-`port` - _Type_: integer; _Default_: 9926
-
-The port used to access the Custom Functions server.
-
-`timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
-
-The length of time in milliseconds after which a request will timeout.
-</div>
-
-`nodeEnv` - _Type_: string; _Default_: production
-
-Allows you to specify the node environment in which application will run.
-
-```yaml
-customFunctions:
-  nodeEnv: production
-```
-
-- `production` native node logging is kept to a minimum; more caching to optimize performance. This is the default value.
-- `development` more native node logging; less caching.
-
-`root` - _Type_: string; _Default_: &lt;ROOTPATH>/custom_functions
-
-The path to the folder containing Custom Function files.
-
-```yaml
-customFunctions:
-  root: ~/hdb/custom_functions
-```
-
-`tls`
-Transport Layer Security
-
-```yaml
-customFunctions:
-  tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
-```
-
-`certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
-
-Path to the certificate file.
-
-`certificateAuthority` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/ca.pem
-
-Path to the certificate authority file.
-
-`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
-
-Path to the private key file.
-
-
----
-
-
-### `ipc`
-
-The `ipc` section configures the HarperDB Inter-Process Communication interface.
-
-```yaml
-ipc:
-  network:
-    port: 9383
-```
-
-`port` - _Type_: integer; _Default_: 9383
-
-The port the IPC server runs on. The default is `9383`.
-
-
----
-
 
 ### `localStudio`
 
@@ -496,7 +446,7 @@ Where to store the rotated log file. File naming convention is `HDB-YYYY-MM-DDT-
 
 `stdStreams` - _Type_: boolean; _Default_: false
 
-Log HarperDB logs to the standard output and error streams. The `operationsApi.foreground` flag must be enabled in order to receive the stream.
+Log HarperDB logs to the standard output and error streams.
 
 ```yaml
 logging:
@@ -543,16 +493,8 @@ Defines the length of time a refresh token will be valid until it expires. Examp
 
 ### `operationsApi`
 
-The `operationsApi` section configures the HarperDB Operations API.
-
-`foreground` - _Type_: boolean; _Default_: false
-
-Determines whether or not HarperDB runs in the foreground.
-
-```yaml
-operationsApi:
-  foreground: false
-```
+The `operationsApi` section configures the HarperDB Operations API. <br>
+All the `operationsApi` configuration is optional. Any configuration that is not provided under this section will default to the `http` configuration element.
 
 `network`
 
@@ -563,9 +505,9 @@ operationsApi:
     corsAccessList:
       - null
     headersTimeout: 60000
-    https: false
     keepAliveTimeout: 5000
     port: 9925
+    securePort: null
     timeout: 120000
 ```
 <div style="padding-left: 30px;">
@@ -582,10 +524,6 @@ An array of allowable domains with CORS
 
 Limit the amount of time the parser will wait to receive the complete HTTP headers with.
 
-`https` - _Type_: boolean; _Default_: false
-
-Enable HTTPS on the HarperDB operations endpoint. This requires a valid certificate and key. If `false`, HarperDB will run using standard HTTP.
-
 `keepAliveTimeout` - _Type_: integer; _Default_: 5,000 milliseconds (5 seconds)
 
 Sets the number of milliseconds of inactivity the server needs to wait for additional incoming data after it has finished processing the last response.
@@ -594,23 +532,13 @@ Sets the number of milliseconds of inactivity the server needs to wait for addit
 
 The port the HarperDB operations API interface will listen on.
 
+`securePort` - _Type_: integer; _Default_: null
+
+The port the HarperDB operations API uses for HTTPS connections. This requires a valid certificate and key.
+
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
-
-</div>
-
-`nodeEnv` - _Type_: string; _Default_: production
-
-Allows you to specify the node environment in which application will run.
-
-```yaml
-operationsApi:
-  nodeEnv: production
-```
-
-- `production` native node logging is kept to a minimum; more caching to optimize performance. This is the default value.
-- `development` more native node logging; less caching.
 
 `tls`
 
@@ -635,28 +563,16 @@ Path to the certificate authority file.
 `privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
 
 Path to the private key file.
-
 ---
 
-### `http`
+### `componentsRoot`
 
-`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+`componentsRoot` - _Type_: string; _Default_: &lt;ROOTPATH>/components
 
-The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
+The path to the folder containing the local component files.
 
 ```yaml
-http:
-  threads: 11
-```
-
-`sessionAffinity` - _Type_:  string; _Default_: null
-
-HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
-
-To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
-```yaml
-http:
-  sessionAffinity: ip
+componentsRoot: ~/hdb/components
 ```
 
 ---
@@ -736,27 +652,51 @@ storage:
 **_Note:_** This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
 ---
+### `tls`
 
-### `schemas`
+Transport Layer Security
 
-The `schemas` section is an optional configuration that can be used to define where database files should reside down to the table level. 
-<br/><br/>This configuration should be set before the schema and table have been created.
+```yaml
+tls:
+    certificate: ~/hdb/keys/certificate.pem
+    certificateAuthority: ~/hdb/keys/ca.pem
+    privateKey: ~/hdb/keys/privateKey.pem
+```
+
+`certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
+
+Path to the certificate file.
+
+`certificateAuthority` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/ca.pem
+
+Path to the certificate authority file.
+
+`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
+
+Path to the private key file.
+
+---
+
+### `databases`
+
+The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level. 
+<br/><br/>This configuration should be set before the database and table have been created.
 <br/><br/>The configuration will not create the directories in the path, that must be done by the user.
 <br/>
 
-To define where a schema and all its tables should reside use the name of your schema and the `path` parameter.
+To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
 ```yaml
-schemas:
-  nameOfSchema:
-    path: /path/to/schema
+databases:
+  nameOfDatabase:
+    path: /path/to/database
 ```
 
-To define where specific tables within a schema should reside use the name of your schema, the `tables` parameter, the name of your table and the `path` parameter.
+To define where specific tables within a database should reside use the name of your database, the `tables` parameter, the name of your table and the `path` parameter.
 
 ```yaml
-schemas:
-  nameOfSchema:
+databases:
+  nameOfDatabase:
     tables:
       nameOfTable:
         path: /path/to/table
@@ -765,32 +705,32 @@ schemas:
 This same pattern can be used to define where the audit log database files should reside. To do this use the `auditPath` parameter.
 
 ```yaml
-schemas:
-  nameOfSchema:
-    auditPath: /path/to/schema
+databases:
+  nameOfDatabase:
+    auditPath: /path/to/database
 ```
 <br/>
 
-**Setting the schemas section through the command line, environment variables or API**
+**Setting the database section through the command line, environment variables or API**
 
-When using command line variables,environment variables or the API to configure the schemas section a slightly different convention from the regular one should be used. To add one or more configurations use a JSON object array.
+When using command line variables,environment variables or the API to configure the databases section a slightly different convention from the regular one should be used. To add one or more configurations use a JSON object array.
 
 Using command line variables:
 ```bash
---SCHEMAS [{\"nameOfSchema\":{\"tables\":{\"nameOfTable\":{\"path\":\"\/path\/to\/table\"}}}}]
+--DATABASES [{\"nameOfSchema\":{\"tables\":{\"nameOfTable\":{\"path\":\"\/path\/to\/table\"}}}}]
 ```
 
 Using environment variables:
 ```bash
-SCHEMAS=[{"nameOfSchema":{"tables":{"nameOfTable":{"path":"/path/to/table"}}}}]
+DATABASES=[{"nameOfSchema":{"tables":{"nameOfTable":{"path":"/path/to/table"}}}}]
 ```
 
 Using the API:
 ```json
 {
   "operation": "set_configuration",
-  "schemas": [{
-    "nameOfSchema": {
+  "databases": [{
+    "nameOfDatabase": {
       "tables": {
         "nameOfTable": {
           "path": "/path/to/table"
