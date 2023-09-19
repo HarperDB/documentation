@@ -2,29 +2,11 @@
 
 HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data through endpoints.
 
-To create a HarperDB application, we recommend starting with the [application template](https://github.com/HarperDB/application-template) which you can download or clone. However you can also simply create a new empty project folder. (If you plan to use git, you can initialize you new project).
+To create a HarperDB application, we recommend starting with the [application template](https://github.com/HarperDB/application-template) which you can download or clone. However you can also simply create a new empty application folder. (If you plan to use git, you can initialize you new project).
 
 And we go into our new application folder and start HarperDB running our new application (you don't need anything in it to get started!):
 ```shell
 harperdb run .
-```
-
-HarperDB can host multiple applications and extensions. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the your hdb/components directory, and all such components will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to hdb/components).
-
-```mermaid
-flowchart LR
-	Client(Client)-->Endpoints
-	Client(Client)-->HTTP
-	Client(Client)-->Extensions
-	subgraph HarperDB
-	direction TB
-	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
-	Applications-->Endpoints[/Custom Endpoints/]
-	Applications-->Extensions
-	Endpoints-->Tables
-	HTTP[/REST/HTTP/]-->Tables
-	Extensions[/Extensions/]-->Tables
-	end
 ```
 
 ## Create a Table
@@ -34,7 +16,7 @@ type Dog @table {
 	id: ID @primaryKey
 }
 ```
-Once we save this, HarperDB will automatically reload our application, and read this schema and create the necessary tables and attributes. Not only is this an easy way to get create a table, but this configuration is included in our application to ensure that this table exists where ever (any HarperDB instance) that we deploy this application.
+Once we save this, HarperDB will automatically reload our application, and read this schema and create the necessary tables and attributes. Not only is this an easy way to get create a table, but this configuration is included in our application to ensure that this table exists wherever (any HarperDB instance)  we deploy this application.
 
 Next, let's add some attributes. This can be helpful to ensure the integrity of our records. Here we define that a dog post will need to have `id` as a primary key, and name, breed, and an age as properties, with appropriate types:
 
@@ -98,6 +80,26 @@ Congratulations, you now have created a secure database application backend with
 Next, if you have created this locally and have a cloud instance as well, you can commit this to a Github repository and then go to studio and deploy from your repository.
 
 Now that you have deployed to your cloud instance, you can start scaling and expanding your application by adding more HarperDB instances. Simply choose to add additional instances on other regions, and expand your deployed mesh. You can configure a global traffic manager/load balancer that will distribute incoming requests to the appropriate server. You can deploy your application to all the nodes in your mesh. Your application is ready to horizontally and globally scale!
+
+## Understanding the Component Application Architecture
+HarperDB can host multiple applications and extensions. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the your hdb/components directory, and all such components will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to hdb/components).
+
+```mermaid
+flowchart LR
+	Client(Client)-->Endpoints
+	Client(Client)-->HTTP
+	Client(Client)-->Extensions
+	subgraph HarperDB
+	direction TB
+	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
+	Applications-->Endpoints[/Custom Endpoints/]
+	Applications-->Extensions
+	Endpoints-->Tables
+	HTTP[/REST/HTTP/]-->Tables
+	Extensions[/Extensions/]-->Tables
+	end
+```
+
 
 ## Custom Functionality with JavaScript
 So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in HarperDB. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our Resource API, a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.

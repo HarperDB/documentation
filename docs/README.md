@@ -1,14 +1,14 @@
 # Documentation
 
-*This is an alpha release, please be aware that we are actively testing and refining this release. See [release notes](./release-notes/4.tucker/4.2.0.md) for more information on the current progress.*
+*This is an beta release, please be aware that we are actively testing and refining this release. See [release notes](./release-notes/4.tucker/4.2.0.md) for more information on the current progress.*
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
 ## Getting Started
 
-HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications. Getting started with HarperDB is easy and fast.
+HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get up and running with HarperDB is with [HarperDB Cloud](./harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a [database application platform](./applications/README.md), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use standard IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](./harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a [database application platform](./applications/README.md), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -23,7 +23,7 @@ You can run HarperDB by running:
 harperdb
 ```
 
-You can now use as HarperDB as a standalone database. You can also create a cloud instance (see below), which is an extremely quick and easy way to get started.
+You can now use as HarperDB as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.
 
 #### Developing Database Applications with HarperDB
 
