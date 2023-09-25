@@ -1,6 +1,6 @@
 # HarperDB Application Development Guide
 
-+ [Overview](##overview-of-harperdb-applications)
++ [Overview Of HarperDB Applications](#overview-of-harperdb-applications)
 + [Getting Up and Running](#getting-up-and-running)
 + [Creating Our First Table](#creating-our-first-table)
 + [Adding Attributes to our Table](#adding-attributes-to-our-table)
