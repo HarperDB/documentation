@@ -1,24 +1,62 @@
-# Application Development Guide
+# HarperDB Application Development Guide
 
-HarperDB is more than just a database, developing database applications allows you package your schema, endpoints, and application logic together and deploy to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data through endpoints.
++ [Overview](#overview-of-harperdb-applications)
 
-To create a HarperDB application, we recommend starting with the [application template](https://github.com/HarperDB/application-template) which you can download or clone. However you can also simply create a new empty application folder. (If you plan to use git, you can initialize you new project).
 
-And we go into our new application folder and start HarperDB running our new application (you don't need anything in it to get started!):
+## Overview of HarperDB Applications
+
+HarperDB is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of HarperDB instances optimized for on-the-edge scalable data delivery.
+
+In this guide, we are going to explore the evermore extensible architecture that HarperDB 4.2 and greater provides by building a HarperDB component, a fundamental building-block of the HarperDB ecosystem.
+
+When working through this guide, we recommend you use the [HarperDB Application Template](https://github.com/HarperDB/application-template) repo as a reference.
+
+
+## Getting up and Running
+
+### Pre-Requisites
+
+We assume you are running HarperDB version 4.2 or greater, which supports HarperDB Application architecture (in previous versions, this is 'custom functions').  
+
+### Scaffolding our Application Directory
+Let's create and initialize a new directory for our application, and tell HarperDB to run this as an application.
+
 ```shell
-harperdb run .
+$ mkdir my-app && cd my-app  # create directory and step into it
+$ git init && npm init -y    # init app as git repo and npm package
+$ harperdb run .             # tell HarperDB cli to run current directory as an application
 ```
 
-## Create a Table
-This is a database application, so naturally a first step is create a table. The easiest way to do that is through a GraphQL Schema (GraphQL Schemas are the quickest way to define tables in HarperDB, but does not mean you are required to, or even necessarily should, use GraphQL to query). Create a `schema.graphql` in your editor in the root of the application directory, and add a type for a table. Normally the first thing we add to a table definition is a primary key:
+## Creating our first Table
+
+The core of a HarperDB application is the database, so let's create a database table!
+
+A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, create a new file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog`: 
+
+```graphql
+type Dog @table {
+    # properties will go here soon
+}
+```
+
+And then we'll add a primary key named `id` of type `ID`:
+
+*(Note: A GraphQL schema is a fast method to define tables in HarperDB, but you are by no means required to use GraphQL to query your application, nor should you necessarily do so)*
+
 ```graphql
 type Dog @table {
 	id: ID @primaryKey
 }
 ```
-Once we save this, HarperDB will automatically reload our application, and read this schema and create the necessary tables and attributes. Not only is this an easy way to get create a table, but this configuration is included in our application to ensure that this table exists wherever (any HarperDB instance)  we deploy this application.
 
-Next, let's add some attributes. This can be helpful to ensure the integrity of our records. Here we define that a dog post will need to have `id` as a primary key, and name, breed, and an age as properties, with appropriate types:
+Because we ran `harperdb run .` earlier, HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with this new `Dog` table defined, HarperDB will automatically reload our application, read `my-app/schema.graphql` and create the `Dog` table and its `id` attribute we just defined. 
+
+This not only creates our table, it also updates our application configuration file `config.yaml` so that the application structure is replicated to each HarperDB instance on deployment. (question: what exactly happens here?)
+
+
+## Adding Attributes to our Table
+
+Next, let's expand our `Dog` table by adding additional typed attributes for dog `name`, `breed` and `age`.
 
 ```graphql
 type Dog @table {
@@ -28,25 +66,40 @@ type Dog @table {
 	age: Int
 }
 ```
-This will ensure that new records must have these properties (with these types). Note that this is does _not_ preclude the flexibility of having other properties. As a NoSQL database, HarperDB supports flexible, heterogeneous records (or "documents"), with an open schema, and you can freely add additional properties on any record. If you want to restrict the records to _only_ defined properties, you can do so by adding the `sealed` directive:
+
+This will ensure that new records must have these properties with these types. However, as a NoSQL database, HarperDB supports heterogeneous records (also referred to as documents), so you can freely specify additional properties on any record. If you do want to restrict the records to only defined properties, you can always do that by adding the `sealed` directive:
+
 ```graphql
 type Dog @table @sealed {
-	...
+    id: ID @primaryKey
+    name: String
+    breed: String
+    age: Int
+}
 ```
 
-If you are using the studio, we can now [add records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio, or even [upload CSV data](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). Give it a try, and add some data to your table. And the table will also be available in our application code (we will get to that!).
+If you are using HarperDB Studio, we can now [add JSON-formatted records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](https://api.harperdb.io/), which provides full administrative control over your new HarperDB instance and tables.
 
-HarperDB's [operation API](https://api.harperdb.io/) is also available for full administrative control over your new HarperDB instance and tables.
+## Adding an Endpoint
 
-Next, let's add an endpoint. This will make our table available through a standard RESTful URL. To do this, we simply add the `@export` directive to our table:
+Now that we have a running application containing a database populated with data, let's make this data accessible from a RESTful URL by adding an endpoint. To do this, we simply add the `@export` directive to our `Dog` table:
+
 ```graphql
 type Dog @table @export {
-	...
+    id: ID @primaryKey
+    name: String
+    breed: String
+    age: Int
+}
 ```
-This defines an entry point and now we have a full REST api for /Dog. By default the application server port is 9926, so the local URL would be [http://localhost:9926/Dog](http://localhost:9926/Dog). We can PUT or POST data into this table using this new path, and then GET (or DELETE) from it as well. You can even go directly to this URL in the browser (will ask you to login if you are connecting remotely) to view data or modify data. If you added a record through the studio, trying visiting /Dog/<id> to see that record in your browser, for example. Or try a curl command like:
-`curl http://localhost:9926/Dog/<id>`
 
-Additionally, these endpoints automatically support multiple forms of authentication like Basic, Cookie, and JWT, and content types including JSON, CBOR, MessagePack and CSV. Simply include an `Accept` header in your requests with the preferred content type. We recommend CBOR as a compact, efficient encoding with rich data types, but JSON is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
+By default the application server port is `9926`, so the local URL would be [http://localhost:9926/Dog](http://localhost:9926/Dog). We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well. You can even log into your instance and view or modify data directly from the browser. If you added a record through the studio, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
+
+## Authenticating Endpoints
+
+These endpoints automatically support multiple forms of authentication like `Basic`, `Cookie`, and `JWT`, as well as the content types `JSON`, `CBOR`, `MessagePack` and `CSV`.
+
+Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
 ```
 Authorization: Basic <base64 encoded user:pass>
 Accept: application/cbor
@@ -56,7 +109,11 @@ If-None-Match: "etag-id" GMT # browsers can automatically provide this
 See the documentation on [security](../security/README.md) for more information on different levels of access.
 
 ## Querying
-Querying is extremely easy through [REST endpoints](../rest/README.md), simple queries can be crafted through URL query parameters. But first, we need to define properties that we want indexed (you don't want users querying your table through un-indexed properties as it would get much slower as your database grows in size). Let's define the name and breed as searchable/indexed properties:
+
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via REST [endpoints](../rest/README.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
+
+As you may know, in order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing.  We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
+
 ```graphql
 type Dog @table {
 	id: ID @primaryKey
@@ -67,6 +124,20 @@ type Dog @table {
 	tricks: [String]
 }
 ```
+
+And finally, we'll add the `@export` directive to expose the table as a RESTful endpoint
+
+```graphql
+type Dog @table @export {
+	id: ID @primaryKey
+	name: String @indexed
+	breed: String @indexed
+	owner: String
+	age: Int
+	tricks: [String]
+}
+```
+
 Now we can start querying. Again, we just simply access the endpoint with query parameters (basic GET requests), like:
 ```http
 http://localhost:9926/Dog/?name=Harper
@@ -77,11 +148,22 @@ http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest/README.md) and see the [Schema reference](./defining-schemas.md) for more options for defining schemas.
 
 ## Deploy
-Next, if you have created this locally and have a cloud instance as well, you can commit this to a Github repository and then go to studio and deploy from your repository.
 
-Now that you have deployed to your cloud instance, you can start scaling and expanding your application by adding more HarperDB instances. Simply choose to add additional instances on other regions, and expand your deployed mesh. You can configure a global traffic manager/load balancer that will distribute incoming requests to the appropriate server. You can deploy your application to all the nodes in your mesh. Your application is ready to horizontally and globally scale!
+This guide assumes that you're building a HarperDB application locally.  If you have a cloud instance available, you can deploy it by doing the following:
+
+- commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo
+- go to the applications section of your target cloud instance in the [HarperDB Studio](studio.harperdb.io)
+- in the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
+
+Once have deployed your application to a HarperDB cloud instance, you can start scaling and expanding your application by adding additional instances in other regions, and expand your deployed mesh.
+
+With the help of a global traffic manager/load balancer configured, you can distribute incoming requests to the appropriate server.
+You can deploy and re-deploy your application to all the nodes in your mesh.
+
+Now, with an application that you can deploy, update, and re-deploy, you have an application that is horizontally and globally scalable!
 
 ## Understanding the Component Application Architecture
+
 HarperDB can host multiple applications and extensions. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the your hdb/components directory, and all such components will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to hdb/components).
 
 ```mermaid
