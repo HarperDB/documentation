@@ -11,7 +11,7 @@
 + [Understanding the Component Architecture](#understanding-the-component-application-architecture)
 + [Custom Functionality with JavaScript](#custom-functionality-with-javascript)
 + [Define Custom Data Sources](#define-custom-data-sources)
-+ [Defining Applications / Components](##configuring-applicationscomponents)
++ [Configuring Applications / Components](#configuring-applicationscomponents)
 + [Define Fastify Routes](#define-fastify-routes)
 + [Restarting Your Instance](#restarting-your-instance)
 
