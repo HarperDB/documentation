@@ -1,6 +1,19 @@
 # HarperDB Application Development Guide
 
-+ [Overview](#overview-of-harperdb-applications)
++ [Overview](##overview-of-harperdb-applications)
++ [Getting Up and Running](#getting-up-and-running)
++ [Creating Our First Table](#creating-our-first-table)
++ [Adding Attributes to our Table](#adding-attributes-to-our-table)
++ [Adding an Endpoint](#adding-an-endpoint)
++ [Authenticating Endpoints](#authenticating-endpoints)
++ [Querying](#querying)
++ [Deploying your Application](#deploying-your-application)
++ [Understanding the Component Architecture](#understanding-the-component-application-architecture)
++ [Custom Functionality with JavaScript](#custom-functionality-with-javascript)
++ [Define Custom Data Sources](#define-custom-data-sources)
++ [Defining Applications / Components](##configuring-applicationscomponents)
++ [Define Fastify Routes](#define-fastify-routes)
++ [Restarting Your Instance](#restarting-your-instance)
 
 
 ## Overview of HarperDB Applications
@@ -147,7 +160,7 @@ http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest/README.md) and see the [Schema reference](./defining-schemas.md) for more options for defining schemas.
 
-## Deploy
+## Deploying your Application
 
 This guide assumes that you're building a HarperDB application locally.  If you have a cloud instance available, you can deploy it by doing the following:
 
@@ -289,7 +302,7 @@ By default, applications are configured to load any modules in the `routes` dire
 
 However, Fastify is not as fast as HarperDB's RESTful endpoints (about 10%-20% slower/more-overhead), nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the HarperDB's REST interface is recommended for optimum performance and ease of use.
 
-## Restarting
+## Restarting Your Instance
 
 Generally, HarperDB will auto-detect when files change and auto-restart the appropriate threads. However, if there are changes that aren't detected, you may manually restart, with the `restart_service` operation:
 
