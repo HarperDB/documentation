@@ -167,7 +167,7 @@ Executes npm install against specified custom function projects
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Audit Node Modules
-Executes command npm audit against specified custom function projects.
+Executes command npm audit against specified components.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 
@@ -775,7 +775,26 @@ Returns detailed metrics on the host system. A deeper dive into the return objec
                 "path": "/usr/bin"
             }
         ]
-    }
+    },
+      "replication": {
+        "ingest": {
+          "stream": {
+            "messages": 0,
+            "bytes": 0,
+            "first_seq": 0,
+            "first_ts": "0001-01-01T00:00:00Z",
+            "last_seq": 0,
+            "last_ts": "0001-01-01T00:00:00Z",
+            "consumer_count": 1
+          },
+          "consumer": {
+            "num_ack_pending": 0,
+            "num_redelivered": 0,
+            "num_waiting": 0,
+            "num_pending": 0
+          }
+      }
+  }
 }
 ```
 
@@ -829,14 +848,14 @@ Restarts servers for the specified HarperDB service. Returns a restarting messag
 ```json
 {
     "operation": "restart_service",
-    "service": "custom_functions"
+    "service": "http_workers"
 }
 ```
 
 ### Response: 200
 ```json
 {
-    "message": "Restarting custom_functions"
+    "message": "Restarting http_workers"
 }
 ```
 
@@ -865,123 +884,128 @@ Returns the HarperDB configuration parameters. Read more about the configuration
 ### Response: 200
 ```json
 {
-    "clustering": {
-        "enabled": true,
-        "hubServer": {
-            "cluster": {
-                "name": "harperdb",
-                "network": {
-                    "port": 12345,
-                    "routes": null
-                }
-            },
-            "leafNodes": {
-                "network": {
-                    "port": 9931
-                }
-            },
-            "network": {
-                "port": 9930
-            }
-        },
-        "ingestService": {
-            "processes": 1
-        },
-        "leafServer": {
-            "network": {
-                "port": 9940,
-                "routes": null
-            }
-        },
-        "nodeName": "node1",
-        "replyService": {
-            "processes": 1
-        },
-        "tls": {
-            "certificate": "/Users/terraroush/hdb/keys/certificate.pem",
-            "certificateAuthority": "/Users/terraroush/hdb/keys/ca.pem",
-            "privateKey": "/Users/terraroush/hdb/keys/privateKey.pem",
-            "insecure": true
-        },
-        "user": "cluster_user"
-    },
-    "customFunctions": {
-        "enabled": true,
+  "http": {
+    "compressionThreshold": 1200,
+    "cors": false,
+    "corsAccessList": [
+      null
+    ],
+    "keepAliveTimeout": 30000,
+    "port": 9926,
+    "securePort": null,
+    "sessionAffinity": null,
+    "timeout": 120000
+  },
+  "threads": 11,
+  "authentication": {
+    "authorizeLocal": true,
+    "cacheTTL": 30000,
+    "enableSessions": true,
+    "operationTokenTimeout": "1d",
+    "refreshTokenTimeout": "30d"
+  },
+  "analytics": {
+    "aggregatePeriod": 60
+  },
+  "clustering": {
+    "enabled": true,
+    "hubServer": {
+      "cluster": {
+        "name": "harperdb",
         "network": {
-            "cors": true,
-            "corsWhitelist": [
-                null
-            ],
-            "headersTimeout": 60000,
-            "https": false,
-            "keepAliveTimeout": 5000,
-            "port": 9926,
-            "timeout": 120000
-        },
-        "nodeEnv": "production",
-        "processes": 12,
-        "root": "/Users/terraroush/hdb/custom_functions",
-        "tls": {
-            "certificate": "/Users/terraroush/hdb/keys/certificate.pem",
-            "certificateAuthority": "/Users/terraroush/hdb/keys/ca.pem",
-            "privateKey": "/Users/terraroush/hdb/keys/privateKey.pem"
+          "port": 12345,
+          "routes": null
         }
-    },
-    "ipc": {
+      },
+      "leafNodes": {
         "network": {
-            "port": 9383
+          "port": 9931
         }
+      },
+      "network": {
+        "port": 9930
+      }
     },
-    "localStudio": {
-        "enabled": false
+    "leafServer": {
+      "network": {
+        "port": 9940,
+        "routes": null
+      },
+      "streams": {
+        "maxAge": null,
+        "maxBytes": null,
+        "maxMsgs": null,
+        "path": "/Users/david/hdb/clustering/leaf"
+      }
     },
-    "logging": {
-        "auditLog": false,
-        "file": true,
-        "level": "error",
-        "root": "/Users/terraroush/hdb/log",
-        "rotation": {
-            "compress": false,
-            "dateFormat": "YYYY-MM-DD_HH-mm-ss",
-            "maxSize": "10M",
-            "retain": 30,
-            "rotate": false,
-            "rotateInterval": "0 0 * * *",
-            "rotateModule": true,
-            "timezone": "GMT",
-            "workerInterval": 30
-        },
-        "stdStreams": false
+    "logLevel": "error",
+    "nodeName": "local",
+    "republishMessages": false,
+    "databaseLevel": false,
+    "tls": {
+      "certificate": "/Users/david/hdb/keys/certificate.pem",
+      "certificateAuthority": "/Users/david/hdb/keys/ca.pem",
+      "privateKey": "/Users/david/hdb/keys/privateKey.pem",
+      "insecure": true,
+      "verify": true
     },
-    "operationsApi": {
-        "authentication": {
-            "operationTokenTimeout": "1d",
-            "refreshTokenTimeout": "30d"
-        },
-        "foreground": false,
-        "network": {
-            "cors": true,
-            "corsWhitelist": [
-                null
-            ],
-            "headersTimeout": 60000,
-            "https": false,
-            "keepAliveTimeout": 5000,
-            "port": 9925,
-            "timeout": 120000
-        },
-        "nodeEnv": "production",
-        "processes": 12,
-        "root": "/Users/terraroush/hdb",
-        "storage": {
-            "writeAsync": false
-        },
-        "tls": {
-            "certificate": "/Users/terraroush/hdb/keys/certificate.pem",
-            "certificateAuthority": "/Users/terraroush/hdb/keys/ca.pem",
-            "privateKey": "/Users/terraroush/hdb/keys/privateKey.pem"
-        }
+    "user": "cluster_user"
+  },
+  "componentsRoot": "/Users/david/hdb/components",
+  "localStudio": {
+    "enabled": false
+  },
+  "logging": {
+    "auditAuthEvents": {
+      "logFailed": false,
+      "logSuccessful": false
+    },
+    "auditLog": true,
+    "auditRetention": "3d",
+    "file": true,
+    "level": "warn",
+    "root": "/Users/david/hdb/log",
+    "rotation": {
+      "enabled": false,
+      "compress": false,
+      "interval": null,
+      "maxSize": null,
+      "path": "/Users/david/hdb/log"
+    },
+    "stdStreams": false
+  },
+  "mqtt": {
+    "network": {
+      "port": 1883,
+      "securePort": 8883
+    },
+    "webSocket": true,
+    "requireAuthentication": true
+  },
+  "operationsApi": {
+    "network": {
+      "cors": true,
+      "corsAccessList": [
+        "*"
+      ],
+      "port": 9925,
+      "securePort": null
     }
+  },
+  "rootPath": "/Users/david/hdb",
+  "storage": {
+    "writeAsync": false,
+    "caching": true,
+    "compression": false,
+    "noReadAhead": true,
+    "path": "/Users/david/hdb/database",
+    "prefetchWrites": true
+  },
+  "tls": {
+    "certificate": "/Users/david/hdb/keys/certificate.pem",
+    "certificateAuthority": "/Users/david/hdb/keys/ca.pem",
+    "privateKey": "/Users/david/hdb/keys/privateKey.pem"
+  }
 }
 ```
 

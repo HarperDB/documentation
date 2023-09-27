@@ -225,6 +225,15 @@ The table below includes all API operations available in HarperDB and indicates 
 | remove_node           |              X              |
 | configure_cluster     |              X              |
 
+| Components         | Restricted to Super_Users |
+|--------------------|:-------------------------:|
+| get_components     |             X             |
+| get_component_file |             X             |
+| set_component_file |             X             |
+| drop_component     |             X             |
+| add_component      |             X             |
+| package_component  |             X             |
+| deploy_component   |             X             |
 
 | Custom Functions                 |  Restricted to Super_Users  |
 |----------------------------------|:---------------------------:|

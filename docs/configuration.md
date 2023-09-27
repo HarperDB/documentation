@@ -24,15 +24,6 @@ Alternately, configuration can be changed via environment and/or command line va
 
 ### `http`
 
-`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
-
-The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
-
-```yaml
-http:
-  threads: 11
-```
-
 `sessionAffinity` - _Type_:  string; _Default_: null
 
 HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
@@ -50,22 +41,6 @@ For HTTP clients that support (Brotli) compression encoding, responses that are 
 http:
   compressionThreshold:  1200
 ```
-
-
-```yaml
-http:
-    cors: true
-    corsAccessList:
-      - null
-    headersTimeout: 60000
-    https: false
-    keepAliveTimeout: 30000
-    port: 9926
-    securePort: null
-    timeout: 120000 
-```
-
-<div style="padding-left: 30px;">
 
 `cors` - _Type_: boolean; _Default_: true
 
@@ -94,8 +69,31 @@ The port the HarperDB component server uses for HTTPS connections. This requires
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
-</div>
 
+```yaml
+http:
+    cors: true
+    corsAccessList:
+      - null
+    headersTimeout: 60000
+    https: false
+    keepAliveTimeout: 30000
+    port: 9926
+    securePort: null
+    timeout: 120000 
+```
+
+---
+
+### `threads`
+
+`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+
+The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
+
+```yaml
+threads: 11
+```
 ---
 
 ### `clustering`
@@ -494,7 +492,7 @@ Defines the length of time a refresh token will be valid until it expires. Examp
 ### `operationsApi`
 
 The `operationsApi` section configures the HarperDB Operations API. <br>
-All the `operationsApi` configuration is optional. Any configuration that is not provided under this section will default to the `http` configuration element.
+All the `operationsApi` configuration is optional. Any configuration that is not provided under this section will default to the `http` configuration section.
 
 `network`
 
@@ -560,9 +558,10 @@ Path to the certificate file.
 
 Path to the certificate authority file.
 
-`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
+`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem 
 
 Path to the private key file.
+
 ---
 
 ### `componentsRoot`
