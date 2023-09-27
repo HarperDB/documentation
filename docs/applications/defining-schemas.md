@@ -87,3 +87,6 @@ HarperDB supports the following field types in addition to user defined (object)
 * ID: A string (but indicates it is not intended to be legible)
 * Any: Any primitive, object, or array is allowed
 * Date: A Date object
+
+### Renaming Tables
+It is important to note that HarperDB does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.

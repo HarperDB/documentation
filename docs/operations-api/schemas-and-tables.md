@@ -360,3 +360,37 @@ Drop an existing attribute from the specified table. NOTE: Dropping an attribute
     "message": "successfully deleted attribute 'is_adorable'"
 }
 ```
+
+
+⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+
+## Get Backup
+This will return a snapshot of the requested database. This provides a means for backing up the database through the operations API. The response will be the raw database file (in binary format), which can later be restored as a database file by copying into the appropriate hdb/databases directory (with HarperDB not running). The returned file is a snapshot of the database at the moment in time that the get_backup operation begins. This also supports backing up individual tables in a database. However, this is a more expensive operation than backing up a database in whole, and will lose any transactional atomicity between writes across tables, so generally it is recommended that you backup the entire database.
+
+It is important to note that trying to copy a database file that is in use (HarperDB actively running and writing to the file) using standard file copying tools is not safe (the copied file will likely be corrupt), which is why using this snapshot operation is recommended for backups (volume snapshots are also a good way to backup HarperDB databases).
+
+<i><b>Operation is restricted to super_user roles only</b></i>
+<ul>
+<li><b>operation</b><i> (required)</i> - this should always be "get_backup"</li>
+
+<li><b>database</b><i> (required)</i> - this is the database that will be snapshotted and returned. </li>
+
+<li><b>table</b><i> (optional)</i> - this will specify a specific table to backup.</li>
+
+<li><b>tables</b><i> (optional)</i> - this will specify a specific set of tables to backup.</li>
+
+</ul>
+
+### Body
+
+```json
+{
+    "operation": "get_backup",
+    "schema": "dev"
+}
+```
+
+### Response: 200
+```
+The database in raw binary data format
+```
