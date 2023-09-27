@@ -25,6 +25,27 @@ In this guide, we are going to explore the evermore extensible architecture that
 When working through this guide, we recommend you use the [HarperDB Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 
+## Understanding the Component Application Architecture
+
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions" which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to `hdb/components`).
+
+```mermaid
+flowchart LR
+	Client(Client)-->Endpoints
+	Client(Client)-->HTTP
+	Client(Client)-->Extensions
+	subgraph HarperDB
+	direction TB
+	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
+	Applications-->Endpoints[/Custom Endpoints/]
+	Applications-->Extensions
+	Endpoints-->Tables
+	HTTP[/REST/HTTP/]-->Tables
+	Extensions[/Extensions/]-->Tables
+	end
+```
+
+
 ## Getting up and Running
 
 ### Pre-Requisites
@@ -174,26 +195,6 @@ With the help of a global traffic manager/load balancer configured, you can dist
 You can deploy and re-deploy your application to all the nodes in your mesh.
 
 Now, with an application that you can deploy, update, and re-deploy, you have an application that is horizontally and globally scalable!
-
-## Understanding the Component Application Architecture
-
-HarperDB can host multiple applications and extensions. Any package that is added to HarperDB is called a "component", and components are generally categorized as "applications", which deliver a set of endpoints for users, and "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the your hdb/components directory, and all such components will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to hdb/components).
-
-```mermaid
-flowchart LR
-	Client(Client)-->Endpoints
-	Client(Client)-->HTTP
-	Client(Client)-->Extensions
-	subgraph HarperDB
-	direction TB
-	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
-	Applications-->Endpoints[/Custom Endpoints/]
-	Applications-->Extensions
-	Endpoints-->Tables
-	HTTP[/REST/HTTP/]-->Tables
-	Extensions[/Extensions/]-->Tables
-	end
-```
 
 
 ## Custom Functionality with JavaScript
