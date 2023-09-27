@@ -168,7 +168,7 @@ This guide assumes that you're building a HarperDB application locally.  If you 
 - go to the applications section of your target cloud instance in the [HarperDB Studio](studio.harperdb.io)
 - in the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
-Once have deployed your application to a HarperDB cloud instance, you can start scaling and expanding your application by adding additional instances in other regions, and expand your deployed mesh.
+Once you have deployed your application to a HarperDB cloud instance, you can start scaling your application by adding additional instances in other regions.
 
 With the help of a global traffic manager/load balancer configured, you can distribute incoming requests to the appropriate server.
 You can deploy and re-deploy your application to all the nodes in your mesh.
