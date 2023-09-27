@@ -110,7 +110,7 @@ By default the application server port is `9926`, so the local URL would be [htt
 
 ## Authenticating Endpoints
 
-These endpoints automatically support multiple forms of authentication like `Basic`, `Cookie`, and `JWT`, as well as the content types `JSON`, `CBOR`, `MessagePack` and `CSV`.
+These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods, as well as the content types `JSON`, `CBOR`, `MessagePack` and `CSV`.
 
 Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
 ```
@@ -123,7 +123,7 @@ See the documentation on [security](../security/README.md) for more information 
 
 ## Querying
 
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via REST [endpoints](../rest/README.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest/README.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
 As you may know, in order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing.  We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 
