@@ -1,6 +1,10 @@
 The primary way that JavaScript code can interact with HarperDB is through the global variables, which has several objects and classes that provide access to the tables, server hooks, and resources that HarperDB provides for building applications. As global variables, these can be directly accessed in any module.
 
-These global variables are also available through the `harperdb` module, which can provide better typing in TypeScript. If you are using EcmaScript modules you can import function from `harperdb` like:
+These global variables are also available through the `harperdb` module/package, which can provide better typing in TypeScript. To use this with your own directory, make sure you link the package to your current `harperdb` installation:
+```bash
+npm link harperdb
+```
+The `harperdb` package is automatically linked for all installed components. Once linked, if you are using EcmaScript module syntax you can import function from `harperdb` like:
 ```javascript
 import { tables, Resource } from 'harperdb';
 ```

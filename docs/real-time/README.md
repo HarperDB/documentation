@@ -16,13 +16,13 @@ HarperDB supports MQTT as an interface to this real-time data delivery. It is im
 
 #### Configuration
 
-HarperDB supports MQTT with its `mqtt` server module and HarperDB supports MQTT over standard TCP sockets or over WebSockets. This is enabled by default, but can be configured in your `harperdb-config.yaml` configuration, allowing you to change which ports it listens on, if secure TSL connections are used, and MQTT is accepted over WebSockets:
+HarperDB supports MQTT with its `mqtt` server module and HarperDB supports MQTT over standard TCP sockets or over WebSockets. This is enabled by default, but can be configured in your `harperdb-config.yaml` configuration, allowing you to change which ports it listens on, if secure TLS connections are used, and MQTT is accepted over WebSockets:
 
 ```yaml
 mqtt:
   network:
     port: 1883
-    securePort: 8883 # for TSL
+    securePort: 8883 # for TLS
   webSocket: true # will also enable WS support through the default HTTP interface/port
   requireAuthentication: true
 ```
