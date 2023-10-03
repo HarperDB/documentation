@@ -12,6 +12,16 @@ type MyCache @table(expiration: 3600) @export {
 
 You may also note that we can define an time-to-live (TTL) expiration on the table, indicating when table records/entries should expire. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
 
+While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): 
+stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy)
+must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin.
+eviction expiration: The point when a record is actually removed from the caching table.
+
+ou can provide a single expiration and it define the behavior for all three. You can also provide three settings for expiration, through table directives:
+expiration - The amount of time until a record goes stale
+eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
+scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
+
 ## Define External Data Source
 Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the HarperDB environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
 ```javascript
@@ -42,7 +52,7 @@ HarperDB handles waiting for an existing cache resolution to finish and use its 
 Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
 ### Eviction with Indexing
-Eviction is the removal of a locally cached copy of data, but it does not (semantically) represent a "deletion" of the actual data. If a caching table uses expiration (and eviction), and has indexing on certain attributes, the indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). If a search query is performed that matches this evicted record, the record will be requested on-demand to fufill the search query.
+Eviction is the removal of a locally cached copy of data, but it does not (semantically) represent a "deletion" of the actual data. If a caching table uses expiration (and eviction), and has indexing on certain attributes, the indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). If a search query is performed that matches this evicted record, the record will be requested on-demand to fulfill the search query.
 
 ### Specifying a Timestamp
 In the example above, we simply retrieved data to fulfill a cache request. We may want to supply the timestamp of the record we are fulfilling as well. This can be set on the context for the request:
@@ -212,3 +222,18 @@ class BlogSource extends Resource {
 Post.sourcedFrom(BlogSource);
 ```
 Here both the update to the post and the update to the comments will be atomically/transactionally committed together with the same timestamp.
+
+
+## Cache-Control header
+When interacting with cached data, you can also use the `Cache-Control` request header to specify certain caching behaviors. When performing a PUT (or POST) method, you can use the `max-age` directive to indicate how long the resource should be cached (until stale):
+```http
+PUT /my-resource/id
+Cache-Control: max-age=86400
+```
+You can use the `only-if-cached` directive on GET requests to only return a resource if it is cached (otherwise will return 504). Note, that if the entry is not cached, this will still trigger a request the source data from the data source. If you do not want source data retrieved, you can add the `no-store` directive. You can also use the `no-cache` directive if you do not want to use the cached resource. If you wanted to check if there is a cached resource without triggering a request to the data source to resolve:
+```http
+GET /my-resource/id
+Cache-Control: only-if-cached, no-store
+```
+
+You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource if the data source returns an error (network connection error, 500, 502, 503, or 504), and `must-revalidate` to indicate a stale cached resource can not be returned when the data source has an error (by default stale cached resource is only returned when there is a network connection error).
