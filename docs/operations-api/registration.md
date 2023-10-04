@@ -16,8 +16,7 @@ Returns the registration data of the HarperDB instance.
 ```json
 {
     "registered": true,
-    "version": "2.3.0",
-    "storage_type": "lmdb",
+    "version": "4.2.0",
     "ram_allocation": 2048,
     "license_expiration_date": "2022-01-15"
 }

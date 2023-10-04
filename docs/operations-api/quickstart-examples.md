@@ -1,8 +1,12 @@
 # QuickStart Examples 
 
+## Create dog Table
+We first need to create a table.  Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
-## Create dev Schema
-We first need to create a Schema. A Schema in HarperDB is akin to a Database in a traditional RDMS like MSSQL or MySQL. Schemas hold logical groupings of tables, just like in those other products.
+Tables in HarperDB are schema-less, so we don't need to add any attributes other than a hash_attribute (also referred to as a primary key) to create this table.  A hash attribute is an attribute that defines the unique identifier for each row in your table.  In a traditional RDMS this would be called a primary key.
+
+HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. 
+The parameter is optional and if not provided the operation will default to using a database named `data`. 
 
 If you receive an error response, make sure your Basic Authentication user and password match those you entered during the installation process.
 
@@ -10,32 +14,7 @@ If you receive an error response, make sure your Basic Authentication user and p
 
 ```json
 {
-    "operation": "create_schema",
-    "schema": "dev"
-}
-```
-
-### Response: 200
-```json
-{
-    "message": "schema 'dev' successfully created"
-}
-```
-
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
-
-## Create dog Table
-Next, we'll create our first table.  Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, 'dogs'.
-
-Tables in HarperDB are schema-less, so we don't need to add any attributes other than a hash_attribute to create this table.  A hash attribute is an attribute that defines the unique identifier for each row in your table.  In a traditional RDMS this would be called a primary key.
-
-### Body
-
-```json
-{
     "operation": "create_table",
-    "schema": "dev",
     "table": "dog",
     "hash_attribute": "id"
 }
@@ -44,7 +23,7 @@ Tables in HarperDB are schema-less, so we don't need to add any attributes other
 ### Response: 200
 ```json
 {
-    "message": "table 'dev.dog' successfully created."
+    "message": "table 'data.dog' successfully created."
 }
 ```
 
@@ -59,7 +38,6 @@ Now that we have a table to store our dog data, we also want to create a table t
 ```json
 {
     "operation": "create_table",
-    "schema": "dev",
     "table": "breed",
     "hash_attribute": "id"
 }
@@ -68,7 +46,7 @@ Now that we have a table to store our dog data, we also want to create a table t
 ### Response: 200
 ```json
 {
-    "message": "table 'dev.breed' successfully created."
+    "message": "table 'data.breed' successfully created."
 }
 ```
 
@@ -83,7 +61,6 @@ We're ready to add some dog data.  Penny is our CTO's pup, so she gets ID 1 or w
 ```json
 {
     "operation": "insert",
-    "schema": "dev",
     "table": "dog",
     "records": [
         {
@@ -120,7 +97,6 @@ Lets add some more Harper doggies!  We can add as many dog objects as we want in
 ```json
 {
     "operation": "insert",
-    "schema": "dev",
     "table": "dog",
     "records": [
         {
@@ -263,14 +239,13 @@ Lets add some more Harper doggies!  We can add as many dog objects as we want in
 ## Bulk Insert Breeds Via CSV
 We need to populate the 'breed' table with some data so we can reference it later.  For larger data sets, we recommend using our CSV upload option.
 
-Each header in a column will be consisdered as an attribute, and each row in the file will be a row in the table.  Simply specify the file path and the table to upload to, and HarperDB will take care of the rest.  You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
+Each header in a column will be considered as an attribute, and each row in the file will be a row in the table.  Simply specify the file path and the table to upload to, and HarperDB will take care of the rest.  You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
 
 ### Body
 
 ```json
 {
     "operation": "csv_url_load",
-    "schema": "dev",
     "table": "breed",
     "csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
 }
@@ -279,7 +254,8 @@ Each header in a column will be consisdered as an attribute, and each row in the
 ### Response: 200
 ```json
 {
-    "message": "Starting job with id e77d63b9-70d5-499c-960f-6736718a4369"
+    "message": "Starting job with id e77d63b9-70d5-499c-960f-6736718a4369",
+    "job_id": "e77d63b9-70d5-499c-960f-6736718a4369"
 }
 ```
 
@@ -287,14 +263,13 @@ Each header in a column will be consisdered as an attribute, and each row in the
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Update 1 Dog Using NoSQL
-HarperDB supports NoSQL and SQL commands.  We're gonna update the dog table to show Penny's last initial using our NoSQL API.
+HarperDB supports NoSQL and SQL commands.  We're going to update the dog table to show Penny's last initial using our NoSQL API.
 
 ### Body
 
 ```json
 {
     "operation": "update",
-    "schema": "dev",
     "table": "dog",
     "records": [
         {
@@ -327,7 +302,7 @@ Now we're going to use a simple SQL SELECT call to pull Penny's updated data.  N
 ```json
 {
     "operation": "sql",
-    "sql": "SELECT * FROM dev.dog where id = 1"
+    "sql": "SELECT * FROM data.dog where id = 1"
 }
 ```
 
@@ -359,7 +334,7 @@ Here's a more complex SQL command joining the breed table with the dog table.  W
 ```json
 {
     "operation": "sql",
-    "sql": "SELECT d.id, d.dog_name, d.owner_name, b.name, b.section FROM dev.dog AS d INNER JOIN dev.breed AS b ON d.breed_id = b.id WHERE d.owner_name IN ('Kyle', 'Zach', 'Stephen') AND b.section = 'Mutt' ORDER BY d.dog_name"
+    "sql": "SELECT d.id, d.dog_name, d.owner_name, b.name, b.section FROM data.dog AS d INNER JOIN data.breed AS b ON d.breed_id = b.id WHERE d.owner_name IN ('Kyle', 'Zach', 'Stephen') AND b.section = 'Mutt' ORDER BY d.dog_name"
 }
 ```
 

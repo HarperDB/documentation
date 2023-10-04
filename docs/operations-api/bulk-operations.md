@@ -10,7 +10,7 @@ Ingests CSV data, provided directly in the operation, as an insert, update, or u
 
 <li><b>action </b><i>(optional)</i> - type of action you want to perform - 'insert', 'update', or 'upsert'. The default is 'insert'.</li>
 
-<li><b>schema</b><i> (required)</i> - name of the schema where you are loading your data </li>
+<li><b>database </b><i>(optional)</i> - name of the database where you are loading your data. The default is <code>data</code></li>
 
 <li><b>table </b><i>(required)</i> - name of the table where you are loading your data</li>
 
@@ -21,7 +21,7 @@ Ingests CSV data, provided directly in the operation, as an insert, update, or u
 ```json
 {
     "operation": "csv_data_load",
-    "schema": "dev",
+    "database": "dev",
     "action": "insert",
     "table": "breed",
     "data": "id,name,section,country,image\n1,ENGLISH POINTER,British and Irish Pointers and Setters,GREAT BRITAIN,http://www.fci.be/Nomenclature/Illustrations/001g07.jpg\n2,ENGLISH SETTER,British and Irish Pointers and Setters,GREAT BRITAIN,http://www.fci.be/Nomenclature/Illustrations/002g07.jpg\n3,KERRY BLUE TERRIER,Large and medium sized Terriers,IRELAND,\n"
@@ -47,7 +47,7 @@ Ingests CSV data, provided via a path on the local filesystem, as an insert, upd
 
 <li><b>action </b><i>(optional)</i> - type of action you want to perform - 'insert', 'update', or 'upsert'. The default is 'insert'.</li>
 
-<li><b>schema</b><i> (required)</i> - name of the schema where you are loading your data </li>
+<li><b>database </b><i>(optional)</i> - name of the database where you are loading your data. The default is <code>data</code></li>
 
 <li><b>table </b><i>(required)</i> - name of the table where you are loading your data</li>
 
@@ -59,7 +59,7 @@ Ingests CSV data, provided via a path on the local filesystem, as an insert, upd
 {
     "operation": "csv_file_load",
     "action": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "breed",
     "file_path": "/home/user/imports/breeds.csv"
 }
@@ -84,7 +84,7 @@ Ingests CSV data, provided via URL, as an insert, update, or upsert into the spe
 
 <li><b>action </b><i>(optional)</i> - type of action you want to perform - 'insert', 'update', or 'upsert'. The default is 'insert'.</li>
 
-<li><b>schema</b><i> (required)</i> - name of the schema where you are loading your data </li>
+<li><b>database</b><i> (optional)</i> - name of the database where you are loading your data. The default is <code>data</code></li>
 
 <li><b>table </b><i>(required)</i> - name of the table where you are loading your data</li>
 
@@ -96,7 +96,7 @@ Ingests CSV data, provided via URL, as an insert, update, or upsert into the spe
 {
     "operation": "csv_url_load",
     "action": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "breed",
     "csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
 }
@@ -115,7 +115,16 @@ Ingests CSV data, provided via URL, as an insert, update, or upsert into the spe
 ## Import from S3
 This operation allows users to import CSV or JSON files from an AWS S3 bucket as an insert, update, or upsert.
 
-<ul><li><p><b>operation </b><i>(required)</i> - must always be import_from_s3</p></li><li><p><b>action </b><i>(optional)</i> - type of action you want to perform - 'insert', 'update', or 'upsert'. The default is 'insert'.</p></li><li><p><b>schema</b><i> (required)</i> - name of the schema where you are loading your data</p></li><li><p><b>table </b><i>(required)</i> - name of the table where you are loading your data</p></li><li><p><b>s3</b><i> (required)</i> - object containing required AWS S3 bucket infor for operation<br></p><ul><li><p><b>aws_access_key_id</b> - AWS access key for authenticating into your S3 bucket</p></li><li><p><b>aws_secret_access_key</b> - AWS secret for authenticating into your S3 bucket</p></li><li><p><b>bucket</b> - AWS S3 bucket to import from</p></li><li><p><b>key</b> - the name of the file to import - <i>the file must include a valid file extension ('.csv' or '.json')</i></p></li><li><p><b>region</b> - the region of the bucket</p></li></ul></li></ul>
+<ul><li><p><b>operation </b><i>(required)</i> - must always be import_from_s3</p></li>
+<li><p><b>action </b><i>(optional)</i> - type of action you want to perform - 'insert', 'update', or 'upsert'. The default is 'insert'.</p></li>
+<li><p><b>database </b><i>(optional)</i> - name of the database where you are loading your data. The default is <code>data</code></p></li>
+<li><p><b>table </b><i>(required)</i> - name of the table where you are loading your data</p></li>
+<li><p><b>s3</b><i> (required)</i> - object containing required AWS S3 bucket infor for operation<br></p><ul>
+    <li><p><b>aws_access_key_id</b> - AWS access key for authenticating into your S3 bucket</p></li>
+    <li><p><b>aws_secret_access_key</b> - AWS secret for authenticating into your S3 bucket</p></li>
+    <li><p><b>bucket</b> - AWS S3 bucket to import from</p></li>
+    <li><p><b>key</b> - the name of the file to import - <i>the file must include a valid file extension ('.csv' or '.json')</i></p></li>
+    <li><p><b>region</b> - the region of the bucket</p></li></ul></li></ul>
 
 ### Body
 
@@ -123,7 +132,7 @@ This operation allows users to import CSV or JSON files from an AWS S3 bucket as
 {
     "operation": "import_from_s3",
     "action": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "s3": {
         "aws_access_key_id": "YOUR_KEY",

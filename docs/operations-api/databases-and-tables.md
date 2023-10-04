@@ -1,17 +1,13 @@
-# Schemas and Tables 
+# Databases and Tables 
 
 
 ## Describe All
-Returns the definitions of all schemas and tables within the database.
+Returns the definitions of all databases and tables within the database.
 
 <ul>
 <li>
-<b>operation</b> <i> (required) </i> - must always be 'describe_all'
+<b>operation</b> <i> (required) </i> - must always be <code>describe_all</code>
 </li>
-
-
-
-
 </ul>
 
 ### Body
@@ -57,17 +53,16 @@ Returns the definitions of all schemas and tables within the database.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Describe Schema
-Returns the definitions of all tables within the specified schema.
+## Describe database
+Returns the definitions of all tables within the specified database.
 
 <ul>
 <li>
-<b>operation</b> <i> (required) </i> - must always be 'describe_schema'
+<b>operation</b> <i> (required) </i> - must always be <code>describe_database</code>
 </li>
 
-
 <li>
-<b>schema </b><i>(required)</i> -schema where the table you wish to describe lives
+<b>database </b><i>(optional)</i> - database where the table you wish to describe lives. The default is <code>data</code>
 </li>
 
 
@@ -77,8 +72,8 @@ Returns the definitions of all tables within the specified schema.
 
 ```json
 {
-    "operation": "describe_schema",
-    "schema": "dev"
+    "operation": "describe_database",
+    "database": "dev"
 }
 ```
 
@@ -120,7 +115,7 @@ Returns the definition of the specified table.
 
 <ul>
 <li>
-<b>operation</b> <i> (required) </i> - must always be 'describe_table'
+<b>operation</b> <i> (required) </i> - must always be <code>describe_table</code>
 </li>
 
 <li>
@@ -128,7 +123,7 @@ Returns the definition of the specified table.
 </li>
 
 <li>
-<b>schema </b><i>(required)</i> -schema where the table you wish to describe lives
+<b>database </b><i>(optional)</i> - database where the table you wish to describe lives. The default is <code>data</code>.
 </li>
 
 
@@ -139,8 +134,7 @@ Returns the definition of the specified table.
 ```json
 {
     "operation": "describe_table",
-    "table": "dog",
-    "schema": "dev"
+    "table": "dog"
 }
 ```
 
@@ -153,7 +147,7 @@ Returns the definition of the specified table.
     "id": "b9cc7292-acf7-40fb-91ba-87012a6f5f84",
     "name": "dog",
     "residence": null,
-    "schema": "dev",
+    "schema": "data",
     "attributes": [
         {
             "attribute": "is_adorable"
@@ -175,15 +169,15 @@ Returns the definition of the specified table.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Create Schema
-Create a new database schema.
+## Create database
+Create a new database.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 <ul>
 
-<li><b>operation</b><i> (required)</i> - must always be create_schema</li>
+<li><b>operation</b><i> (required)</i> - must always be <code>create_database</code>.</li>
 
-<li><b>schema</b><i> (required)</i> - name of the schema you are creating</li>
+<li><b>database</b><i> (optional)</i> - name of the database you are creating. The default is <code>data</code>.</li>
 
 </ul>
 
@@ -191,44 +185,43 @@ Create a new database schema.
 
 ```json
 {
-    "operation": "create_schema",
-    "schema": "dev"
+    "operation": "create_database",
+    "database": "dev"
 }
 ```
 
 ### Response: 200
 ```json
 {
-    "message": "schema 'dev' successfully created"
+    "message": "database 'dev' successfully created"
 }
 ```
-
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Drop Schema
-Drop an existing database schema. NOTE: Dropping a schema will delete all tables and all of their records in that schema.
+## Drop database
+Drop an existing database. NOTE: Dropping a database will delete all tables and all of their records in that database.
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 <ul>
-<li><b>operation</b><i> (required)</i> - this should always be "drop_schema"</li>
+<li><b>operation</b><i> (required)</i> - this should always be <code>drop_database</code>.</li>
 
-<li><b>schema</b><i> (required)</i> - name of the schema you are dropping. </li>
+<li><b>database</b><i> (required)</i> - name of the database you are dropping.</li>
 </ul>
 
 ### Body
 
 ```json
 {
-    "operation": "drop_schema",
-    "schema": "dev"
+    "operation": "drop_database",
+    "database": "dev"
 }
 ```
 
 ### Response: 200
 ```json
 {
-    "message": "successfully deleted schema 'dev'"
+    "message": "successfully deleted 'dev'"
 }
 ```
 
@@ -236,18 +229,23 @@ Drop an existing database schema. NOTE: Dropping a schema will delete all tables
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Create  Table
-Create a new database table within the specified schema.
+Create a new table within a database.
 
 _**Operation is restricted to super_user roles only**_
 
-<ul><li><p><b>operation </b><i>(required)</i> - must always be create_table</p></li><li><p><b>schema</b><i> (required)</i> - name of the schema where you want your table to live</p></li><li><p><b>table </b><i>(required)</i> - name of the table you are creating</p></li><li><p><b>hash_attribute</b><i> (required)</i> - primary key for the table</p></li><li><p><b>attributes</b> <i>(optional)</i> - An array of attributes that specifies the schema for the table, that is the set of attributes for the table. When attributes are supplied the table will not be considered a "dynamic schema" table, and attributes will not be auto-added when records with new properties are inserted. Each attribute is specified as:</p><ul><li><p><b>name </b><i>(required)</i> - The name of the attribute</p></li><li><p><b>indexed </b><i>(optional)</i> - Indicates if the attribute should be indexed</p></li><li><p><b>type </b><i>(optional)</i> - Specifies the data type of the attribute (can be String, Int, Float, Date, ID, Any).</p></li></ul></li><li><p><b>expiration </b><i>(optional)</i> - Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified). This is specified in seconds.</p></li></ul>
+<ul>
+<li><p><b>operation </b><i>(required)</i> - must always be <code>create_table</code></p></li>
+<li><p><b>database</b><i> (optional)</i> - name of the database where you want your table to live. If the database does not exist, it will be created. If the <code>database</code> property is not provided it will default to <code>data</code>.</p></li>
+<li><p><b>table </b><i>(required)</i> - name of the table you are creating</p></li>
+<li><p><b>hash_attribute</b><i> (required)</i> - primary key for the table</p></li>
+<li><p><b>attributes</b> <i>(optional)</i> - An array of attributes that specifies the schema for the table, that is the set of attributes for the table. When attributes are supplied the table will not be considered a "dynamic schema" table, and attributes will not be auto-added when records with new properties are inserted. Each attribute is specified as:</p><ul><li><p><b>name </b><i>(required)</i> - The name of the attribute</p></li><li><p><b>indexed </b><i>(optional)</i> - Indicates if the attribute should be indexed</p></li><li><p><b>type </b><i>(optional)</i> - Specifies the data type of the attribute (can be String, Int, Float, Date, ID, Any).</p></li></ul></li><li><p><b>expiration </b><i>(optional)</i> - Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified). This is specified in seconds.</p></li></ul>
 
 ### Body
 
 ```json
 {
     "operation": "create_table",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "hash_attribute": "id"
 }
@@ -268,9 +266,9 @@ Drop an existing database table. NOTE: Dropping a table will delete all associat
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 <ul>
-<li><b>operation</b><i> (required)</i> - this should always be "drop_table"</li>
+<li><b>operation</b><i> (required)</i> - this should always be <code>drop_table</code></li>
 
-<li><b>schema</b><i> (required)</i> - schema where the table you are dropping lives. </li>
+<li><b>database</b><i> (optional)</i> - database where the table you are dropping lives. The default is <code>data</code>.</li>
 
 <li><b>table</b><i> (required)</i> - name of the table you are dropping.  </li>
 
@@ -281,7 +279,7 @@ Drop an existing database table. NOTE: Dropping a table will delete all associat
 ```json
 {
     "operation": "drop_table",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog"
 }
 ```
@@ -301,14 +299,19 @@ Create a new attribute within the specified table. **The create_attribute operat
 
 _Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the schema._
 
-<ul><li><p><b>operation </b><i>(required)</i> - must always be create_attribute</p></li><li><p><b>schema</b><i> (required)</i> - name of the schema of the table you want to add your attribute</p></li><li><p><b>table </b><i>(required)</i> - name of the table where you want to add your attribute to live</p></li><li><p><b>attribute</b><i> (required)</i> - name for the attribute</p></li></ul>
+<ul>
+<li><p><b>operation </b><i>(required)</i> - must always be <code>create_attribute</code>.</p></li>
+<li><p><b>database</b><i> (optional)</i> - name of the database of the table you want to add your attribute. The default is <code>data</code>.</p></li>
+<li><p><b>table </b><i>(required)</i> - name of the table where you want to add your attribute to live.</p></li>
+<li><p><b>attribute</b><i> (required)</i> - name for the attribute.</p></li>
+</ul>
 
 ### Body
 
 ```json
 {
     "operation": "create_attribute",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "attribute": "is_adorable"
 }
@@ -333,9 +336,9 @@ Drop an existing attribute from the specified table. NOTE: Dropping an attribute
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 <ul>
-<li><b>operation</b><i> (required)</i> - this should always be "drop_attribute"</li>
+<li><b>operation</b><i> (required)</i> - this should always be <code>drop_attribute</code>.</li>
 
-<li><b>schema</b><i> (required)</i> - schema where the table you are dropping lives. </li>
+<li><b>database</b><i> (optional)</i> - database where the table you are dropping lives. The default is <code>data</code>.</li>
 
 <li><b>table</b><i> (required)</i> - table where the attribute you are dropping lives.</li>
 
@@ -348,7 +351,7 @@ Drop an existing attribute from the specified table. NOTE: Dropping an attribute
 ```json
 {
     "operation": "drop_attribute",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "attribute": "is_adorable"
 }
@@ -371,7 +374,7 @@ It is important to note that trying to copy a database file that is in use (Harp
 
 <i><b>Operation is restricted to super_user roles only</b></i>
 <ul>
-<li><b>operation</b><i> (required)</i> - this should always be "get_backup"</li>
+<li><b>operation</b><i> (required)</i> - this should always be <code>get_backup</code></li>
 
 <li><b>database</b><i> (required)</i> - this is the database that will be snapshotted and returned. </li>
 
@@ -386,7 +389,7 @@ It is important to note that trying to copy a database file that is in use (Harp
 ```json
 {
     "operation": "get_backup",
-    "schema": "dev"
+    "database": "dev"
 }
 ```
 
