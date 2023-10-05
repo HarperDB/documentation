@@ -56,10 +56,11 @@ We assume you are running HarperDB version 4.2 or greater, which supports Harper
 Let's create and initialize a new directory for our application, and tell HarperDB to run this as an application.
 
 ```shell
-$ mkdir my-app && cd my-app  # create directory and step into it
-$ git init && npm init -y    # init app as git repo and npm package
-$ harperdb run .             # tell HarperDB cli to run current directory as an application
+> mkdir my-app # create directory
+> cd my-app # step into it
+> harperdb run . # tell HarperDB cli to run current directory as an application
 ```
+(you can also run `git init` and/or `npm init` to initialize the directory for Git or NPM if you wish to commit or publish through these).
 
 ## Creating our first Table
 
@@ -83,9 +84,7 @@ type Dog @table {
 }
 ```
 
-Because we ran `harperdb run .` earlier, HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with this new `Dog` table defined, HarperDB will automatically reload our application, read `my-app/schema.graphql` and create the `Dog` table and its `id` attribute we just defined. 
-
-This not only creates our table, it also updates our application configuration file `config.yaml` so that the application structure is replicated to each HarperDB instance on deployment. (question: what exactly happens here?)
+Because we ran `harperdb run .` earlier, HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with this new `Dog` table defined, HarperDB will automatically reload our application, read `my-app/schema.graphql` and create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to get create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any HarperDB instance).
 
 
 ## Adding Attributes to our Table
@@ -127,26 +126,28 @@ type Dog @table @export {
 }
 ```
 
-By default the application server port is `9926`, so the local URL would be [http://localhost:9926/Dog](http://localhost:9926/Dog). We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well. You can even log into your instance and view or modify data directly from the browser. If you added a record through the studio, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
+By default the application server port is `9926`, so the local URL would be [http://localhost:9926/Dog](http://localhost:9926/Dog) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well. You can even log into your instance and view or modify data directly from the browser. If you added a record through the studio, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
 
 ## Authenticating Endpoints
 
-These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods, as well as the content types `JSON`, `CBOR`, `MessagePack` and `CSV`.
+These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security/README.md) for more information on different levels of access.
 
-Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development. HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
+### Content Negotiation
+
+These endpoints support various content types, including `JSON`, `CBOR`, `MessagePack` and `CSV`. Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development, and `CSV` can be useful for exporting data to spreadsheets or other processing.
+
+HarperDB works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
 ```
 Authorization: Basic <base64 encoded user:pass>
 Accept: application/cbor
 If-None-Match: "etag-id" GMT # browsers can automatically provide this
 ```
 
-See the documentation on [security](../security/README.md) for more information on different levels of access.
-
 ## Querying
 
 Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest/README.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
-As you may know, in order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing.  We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
+In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing.  We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 
 ```graphql
 type Dog @table {
@@ -221,7 +222,7 @@ type Breed @table {
 	name: String @primaryKey
 	description: String @indexed
 	lifespan: Int
-	averageWeight: Int
+	averageWeight: Float
 }
 ```
 And next we will use this table in our `get()` method. To do this correctly, we access the table using our current context by passing in `this` as the second argument. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilitize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
