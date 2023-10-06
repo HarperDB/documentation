@@ -53,14 +53,18 @@ flowchart LR
 We assume you are running HarperDB version 4.2 or greater, which supports HarperDB Application architecture (in previous versions, this is 'custom functions').  
 
 ### Scaffolding our Application Directory
-Let's create and initialize a new directory for our application, and tell HarperDB to run this as an application.
+Let's create and initialize a new directory for our application. It is recommended that you start by using the [HarperDB application template](https://github.com/HarperDB/application-template). Make sure you have `git` installed, and you can create your project directory by cloning:
 
 ```shell
-> mkdir my-app # create directory
+> git clone https://github.com/HarperDB/application-template my-app
 > cd my-app # step into it
+```
+*(Note: You will want to change the repository origin if and when you create your own repository for your project)*
+Now we tell HarperDB to run this as an application:
+```shell
 > harperdb run . # tell HarperDB cli to run current directory as an application
 ```
-(you can also run `git init` and/or `npm init` to initialize the directory for Git or NPM if you wish to commit or publish through these).
+*(Note: You can start an application directory with just an empty directory, but the application template provides a good default configuration for your package. If you do use an empty directory, you should run `npm init -y esnext` to initialize the directory for ESM format used in this tutorial).*
 
 ## Creating our first Table
 
@@ -186,9 +190,9 @@ Congratulations, you now have created a secure database application backend with
 
 This guide assumes that you're building a HarperDB application locally.  If you have a cloud instance available, you can deploy it by doing the following:
 
-- commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo
-- go to the applications section of your target cloud instance in the [HarperDB Studio](studio.harperdb.io)
-- in the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
+- Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
+- Go to the applications section of your target cloud instance in the [HarperDB Studio](studio.harperdb.io)
+- In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 Once you have deployed your application to a HarperDB cloud instance, you can start scaling your application by adding additional instances in other regions.
 
