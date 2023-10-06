@@ -59,7 +59,13 @@ Let's create and initialize a new directory for our application. It is recommend
 > git clone https://github.com/HarperDB/application-template my-app
 > cd my-app # step into it
 ```
-*(Note: You will want to change the repository origin if and when you create your own repository for your project)*
+
+Optionally, if you want to version control your application code a repository that you control, you can adjust the remote url to point there.  Here's an example for a github repo.
+ 
+```shell
+> git remote set-url origin git@github.com:/<github-user>/<github-repo> 
+```
+
 Now we tell HarperDB to run this as an application:
 ```shell
 > harperdb run . # tell HarperDB cli to run current directory as an application
