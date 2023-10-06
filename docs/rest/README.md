@@ -31,11 +31,11 @@ This can be used to retrieve the specified property of the specified record.
 
 ## PUT
 
-This can be used to update a record with a provided record. This is handled by the Resource method `put(record)`.
+This can be used to create or update a record with the provided object/data (similar to an "upsert"). This is handled by the Resource method `put(record)`.
 
 ### `PUT /my-resource/<record-id>`
 
-This will update the record with the specified primary key, with the contents of the record in the request body. The new record should exactly match the provided record (removing any properties that are present in the provided record).
+This will create or update the record with the specified primary key, with the contents of the data in the request body. The new record should exactly match the data (this will remove any properties that are present in the previous record). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET).
 
 ## DELETE
 This can be used to delete a record or records.

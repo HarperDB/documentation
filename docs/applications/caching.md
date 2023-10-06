@@ -230,10 +230,10 @@ When interacting with cached data, you can also use the `Cache-Control` request 
 PUT /my-resource/id
 Cache-Control: max-age=86400
 ```
-You can use the `only-if-cached` directive on GET requests to only return a resource if it is cached (otherwise will return 504). Note, that if the entry is not cached, this will still trigger a request the source data from the data source. If you do not want source data retrieved, you can add the `no-store` directive. You can also use the `no-cache` directive if you do not want to use the cached resource. If you wanted to check if there is a cached resource without triggering a request to the data source to resolve:
+You can use the `only-if-cached` directive on GET requests to only return a resource if it is cached (otherwise will return 504). Note, that if the entry is not cached, this will still trigger a request for the source data from the data source. If you do not want source data retrieved, you can add the `no-store` directive. You can also use the `no-cache` directive if you do not want to use the cached resource. If you wanted to check if there is a cached resource without triggering a request to the data source:
 ```http
 GET /my-resource/id
 Cache-Control: only-if-cached, no-store
 ```
 
-You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource if the data source returns an error (network connection error, 500, 502, 503, or 504), and `must-revalidate` to indicate a stale cached resource can not be returned when the data source has an error (by default stale cached resource is only returned when there is a network connection error).
+You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource, if the data source returns an error (network connection error, 500, 502, 503, or 504). The `must-revalidate` directive can indicate a stale cached resource can not be returned, even when the data source has an error (by default a stale cached resource is returned when there is a network connection error).

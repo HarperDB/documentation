@@ -59,21 +59,24 @@ Let's create and initialize a new directory for our application. It is recommend
 > git clone https://github.com/HarperDB/application-template my-app
 > cd my-app
 ```
-
-Of course, if you'd prefer to create your own application from scratch, you'll need to initialize it as an npm package with the `type` field set to `module` in the `package.json` so that harperdb can load it correctly:
+<details>
+<summary>You can also start with an empty application directory if you'd prefer.</summary>
+To create your own application from scratch, you'll may want to initialize it as an npm package with the `type` field set to `module` in the `package.json` so that you can use the EcmaScript module syntax used in this tutorial:
 
 ```shell
 > mkdir my-app
 > cd my-app
 > npm init -y esnext
 ```
-
-If you want to version control your application code at a remote repository that you control, you can adjust the remote url to point there.  Here's an example for a github repo:
+</details>
+<details>
+<summary>
+If you want to version control your application code, you can adjust the remote URL to your repository.</summary> Here's an example for a github repo:
  
 ```shell
 > git remote set-url origin git@github.com:/<github-user>/<github-repo> 
 ```
-
+</details>
 Now we tell HarperDB to run this as an application:
 ```shell
 > harperdb run . # tell HarperDB cli to run current directory as an application
@@ -226,12 +229,12 @@ const { Dog } = tables; // get the Dog table from the HarperDB provided set of t
 
 export class DogWithHumanAge extends Dog {
 	get(query) {
-		this.humanAge = 15 + dog.age * 5; // silly calculation of human age equivalent
+		this.humanAge = 15 + this.age * 5; // silly calculation of human age equivalent
 		return super.get(query);
 	}
 }
 ```
-And now we have a /DogWithHumanAge endpoint just like /Dog, but with the computed `humanAge` property.
+And now we have a /DogWithHumanAge/<dog-id> endpoint just like /Dog/<dog-id>, but with the computed `humanAge` property.
 
 Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
 ```graphql
@@ -250,23 +253,22 @@ const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
 	async get(query) {
 		let breedDescription = await Breed.get(this.breed, this);
-		// since breedDescription is not defined on the schema, we need to use set() to add the property 
 		this.breedDescription = breedDescription;
 		return super.get(query);
 	}
 }
 ```
 
-Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method, which is handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks`  array. We might do it like this, and specify an action to be able to differentiate actions:
+Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method. the POST method has much more open-ended semantics and is a good choice for custom actions. POST requests are handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks` array to a specific instance. We might do it like this, and specify an action to be able to differentiate actions:
 ```javascript
 export class CustomDog extends Dog {
-	async post({ data }) {
+	async post(data) {
 		if (data.action === 'add-trick')
 			this.tricks.push(data.trick);
 	}
 }
 ```
-The Resource class automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
+And a POST request to /CustomDog/<dog-id> would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
 
 We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The Resource API defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
 ```javascript
