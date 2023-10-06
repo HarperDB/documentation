@@ -53,14 +53,22 @@ flowchart LR
 We assume you are running HarperDB version 4.2 or greater, which supports HarperDB Application architecture (in previous versions, this is 'custom functions').  
 
 ### Scaffolding our Application Directory
-Let's create and initialize a new directory for our application. It is recommended that you start by using the [HarperDB application template](https://github.com/HarperDB/application-template). Make sure you have `git` installed, and you can create your project directory by cloning:
+Let's create and initialize a new directory for our application. It is recommended that you start by using the [HarperDB application template](https://github.com/HarperDB/application-template). Assuming you have `git` installed, you can create your project directory by cloning:
 
 ```shell
 > git clone https://github.com/HarperDB/application-template my-app
-> cd my-app # step into it
+> cd my-app
 ```
 
-Optionally, if you want to version control your application code a repository that you control, you can adjust the remote url to point there.  Here's an example for a github repo.
+Of course, if you'd prefer to create your own application from scratch, you'll need to initialize it as an npm package with the `type` field set to `module` in the `package.json` so that harperdb can load it correctly:
+
+```shell
+> mkdir my-app
+> cd my-app
+> npm init -y esnext
+```
+
+If you want to version control your application code at a remote repository that you control, you can adjust the remote url to point there.  Here's an example for a github repo:
  
 ```shell
 > git remote set-url origin git@github.com:/<github-user>/<github-repo> 
@@ -70,7 +78,6 @@ Now we tell HarperDB to run this as an application:
 ```shell
 > harperdb run . # tell HarperDB cli to run current directory as an application
 ```
-*(Note: You can start an application directory with just an empty directory, but the application template provides a good default configuration for your package. If you do use an empty directory, you should run `npm init -y esnext` to initialize the directory for ESM format used in this tutorial).*
 
 ## Creating our first Table
 
