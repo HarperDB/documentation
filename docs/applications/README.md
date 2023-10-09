@@ -27,7 +27,7 @@ When working through this guide, we recommend you use the [HarperDB Application 
 
 ## Understanding the Component Application Architecture
 
-HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts (using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to `hdb/components`).
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are "deployed" to HarperDB are installed into the hdb/node_modules directory. Using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to `hdb/components` or installed in `node_modules`. 
 
 ```mermaid
 flowchart LR
@@ -251,7 +251,7 @@ type Breed @table {
 	averageWeight: Float
 }
 ```
-And next we will use this table in our `get()` method. To do this correctly, we access the table using our current context by passing in `this` as the second argument. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables, it provides automatically tracking of most recently updated timestamps across resources for caching purposes, allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilitize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
+And next we will use this table in our `get()` method. We will call the new table's (static) get() method to retrieve a breed by id. To do this correctly, we access the table using our current context by passing in `this` as the second argument. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables. This provides automatically tracking of most recently updated timestamps across resources for caching purposes. This allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilitize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
 ```javascript
 //resource.js:

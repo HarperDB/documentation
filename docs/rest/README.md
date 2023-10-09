@@ -50,19 +50,31 @@ This is handled by the Resource method `delete()`.
 
 ## `DELETE /my-resource/<record-id>`
 
-This will delete a record with the given primary key. This is handled by the Resource's `delete` method.
+This will delete a record with the given primary key. This is handled by the Resource's `delete` method. For example:
+```http
+DELETE /MyTable/123
+```
+This will delete the record with the primary key of "123".
 
 ## `DELETE /my-resource/?property=value`
 
 This will delete all the records that match the provided query.
 
 ## POST
-This can be used to create new records and make various other types of modifications.
-This is handled by the Resource method `post(data)`.
+
+Generally the POST method can be used for custom actions since POST has the broadest semantics. For tables that are exposted as endpoints, this also can be used to create new records.
 
 ### `POST /my-resource/`
-This can be used to create a new record in this table or resource.
 
+This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
+
+```http
+```http
+PUT /MyTable/
+
+{ "name": "some data" }
+```
+This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
 ## Querying through URL query parameters
 URL query parameters provides a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records with provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:

@@ -236,4 +236,4 @@ GET /my-resource/id
 Cache-Control: only-if-cached, no-store
 ```
 
-You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource, if the data source returns an error (network connection error, 500, 502, 503, or 504). The `must-revalidate` directive can indicate a stale cached resource can not be returned, even when the data source has an error (by default a stale cached resource is returned when there is a network connection error).
+You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource when the data source returns an error (network connection error, 500, 502, 503, or 504). The `must-revalidate` directive can indicate a stale cached resource can not be returned, even when the data source has an error (by default a stale cached resource is returned when there is a network connection error).
