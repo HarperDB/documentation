@@ -31,11 +31,18 @@ This can be used to retrieve the specified property of the specified record.
 
 ## PUT
 
-This can be used to create or update a record with the provided object/data (similar to an "upsert"). This is handled by the Resource method `put(record)`.
+This can be used to create or update a record with the provided object/data (similar to an "upsert") with a specified key. This is handled by the Resource method `put(record)`.
 
 ### `PUT /my-resource/<record-id>`
 
-This will create or update the record with the specified primary key, with the contents of the data in the request body. The new record should exactly match the data (this will remove any properties that are present in the previous record). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET).
+This will create or update the record with at the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record should exactly match the data (this will remove any properties that are present in the previous record). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
+
+```http
+PUT /MyTable/123
+
+{ "name": "some data" }
+```
+This will create or replace the record with a primary key of "123" with the object defined by the JSON in the body.
 
 ## DELETE
 This can be used to delete a record or records.
