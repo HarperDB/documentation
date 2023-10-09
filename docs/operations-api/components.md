@@ -39,7 +39,7 @@ If deploying with the `payload` option, HarperDB will decrypt the base64-encoded
 your project folder, and extract it to the component root project directory.<br>
 
 If deploying with the `package` option, the package value will be written to `harperdb-config.yaml` and when restart
-is run npm install will be utilized to install the component in `node_moduels` directory located in the hdb root.
+is run npm install will be utilized to install the component in `node_modules` directory located in the hdb root.
 
 _Note: After deploying a component a restart may be required_
 
