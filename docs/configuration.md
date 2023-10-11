@@ -18,6 +18,8 @@ Alternately, configuration can be changed via environment and/or command line va
     - Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
     - Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
 
+_Note: Component configuration cannot be added or updated via CLI or ENV variables.
+
 ## Importing installation configuration
 
 To use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your custom configuration file.
