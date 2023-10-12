@@ -31,11 +31,18 @@ This can be used to retrieve the specified property of the specified record.
 
 ## PUT
 
-This can be used to update a record with a provided record. This is handled by the Resource method `put(record)`.
+This can be used to create or update a record with the provided object/data (similar to an "upsert") with a specified key. This is handled by the Resource method `put(record)`.
 
 ### `PUT /my-resource/<record-id>`
 
-This will update the record with the specified primary key, with the contents of the record in the request body. The new record should exactly match the provided record (removing any properties that are present in the provided record).
+This will create or update the record with at the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record should exactly match the data (this will remove any properties that are present in the previous record). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
+
+```http
+PUT /MyTable/123
+
+{ "name": "some data" }
+```
+This will create or replace the record with a primary key of "123" with the object defined by the JSON in the body.
 
 ## DELETE
 This can be used to delete a record or records.
@@ -43,19 +50,31 @@ This is handled by the Resource method `delete()`.
 
 ## `DELETE /my-resource/<record-id>`
 
-This will delete a record with the given primary key. This is handled by the Resource's `delete` method.
+This will delete a record with the given primary key. This is handled by the Resource's `delete` method. For example:
+```http
+DELETE /MyTable/123
+```
+This will delete the record with the primary key of "123".
 
 ## `DELETE /my-resource/?property=value`
 
 This will delete all the records that match the provided query.
 
 ## POST
-This can be used to create new records and make various other types of modifications.
-This is handled by the Resource method `post(data)`.
+
+Generally the POST method can be used for custom actions since POST has the broadest semantics. For tables that are exposted as endpoints, this also can be used to create new records.
 
 ### `POST /my-resource/`
-This can be used to create a new record in this table or resource.
 
+This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
+
+```http
+```http
+PUT /MyTable/
+
+{ "name": "some data" }
+```
+This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
 ## Querying through URL query parameters
 URL query parameters provides a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records with provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:

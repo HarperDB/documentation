@@ -94,7 +94,7 @@
 * [Logging](logging.md)
 * [Audit Logging](audit-logging.md)
 * [Administration](administration/README.md)
-  * [Cloning](cloning.md)
+  * [Cloning](administration/cloning.md)
   * [Transaction Logging](transaction-logging.md)
 * [Jobs](jobs.md)
 * [Upgrade a HarperDB Instance](upgrade-hdb-instance.md)

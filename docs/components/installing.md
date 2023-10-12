@@ -1,6 +1,6 @@
 # Installing Components
 
-Components can be easily added by adding a new top level element to your harperdb-config.yaml file.
+Components can be easily added by adding a new top level element to your `harperdb-config.yaml` file.
 
 The configuration comprises two values:
 * component name - can be anything, as long as it follows valid YAML syntax.
@@ -12,11 +12,11 @@ myComponentName:
 ```
 
 Under the hood HarperDB is calling npm install on all components, this means that the package value can be any valid npm 
-reference such as a github repo, an npm package, a tarball, a local directory or a website.
+reference such as a GitHub repo, an NPM package, a tarball, a local directory or a website.
 
 ```yaml
 myGithubComponent:
-  package: HarperDB-Add-Ons/package#v2.2.0 # install from github 
+  package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub 
 myNPMComponent:
   package: harperdb # install from NPM
 myTarBall:
@@ -62,18 +62,15 @@ To add a component using the operations API use the `deploy_component` operation
 }
 ```
 
-Another option is to pass `deploy_component` a base64-encoded string representation of your component as a .tar file.
-HarperDB can generate this via the `package_component` operation.
-
-`bypass_config` is an optional boolean that defaults to `false`. If `true` it will not add the component to harperdb-config.yaml
-and will deploy the component to your `<ROOTPATH>/components` directory.
+Another option is to pass `deploy_component` a base64-encoded string representation of your component as a `.tar` file.
+HarperDB can generate this via the `package_component` operation. When deploying with a payload, your component will 
+be deployed to your `<ROOTPATH>/components` directory. Any components in this directory will be automatically picked up by HarperDB.
 
 
 ```json
 {
   "operation": "deploy_component",
   "project": "my-cool-component",
-  "bypass_config": true,
   "payload": "NzY1IAAwMDAwMjQgADAwMDAwMDAwMDAwIDE0NDIwMDQ3...."
 }
 ```
