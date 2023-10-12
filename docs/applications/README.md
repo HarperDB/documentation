@@ -27,7 +27,7 @@ When working through this guide, we recommend you use the [HarperDB Application 
 
 ## Understanding the Component Application Architecture
 
-HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are "deployed" to HarperDB are installed into the hdb/node_modules directory. Using `harperdb run .` allows us to specifically load a certain application in addition to any that have been added to `hdb/components` or installed in `node_modules`. 
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are "deployed" to HarperDB are installed into the hdb/node_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been added to `hdb/components` or installed in `node_modules`.
 
 ```mermaid
 flowchart LR
@@ -103,7 +103,7 @@ type Dog @table {
 
 Now we tell HarperDB to run this as an application:
 ```shell
-> harperdb run . # tell HarperDB cli to run current directory as an application
+> harperdb dev . # tell HarperDB cli to run current directory as an application in dev mode
 ```
 HarperDB will now create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to get create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any HarperDB instance).
 
@@ -122,7 +122,7 @@ type Dog @table {
 
 This will ensure that new records must have these properties with these types.
 
-Because we ran `harperdb run .` earlier, HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with these new attributes, HarperDB will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined.
+Because we ran `harperdb dev .` earlier (dev mode), HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with these new attributes, HarperDB will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined.
 
 As a NoSQL database, HarperDB supports heterogeneous records (also referred to as documents), so you can freely specify additional properties on any record. If you do want to restrict the records to only defined properties, you can always do that by adding the `sealed` directive:
 
