@@ -57,3 +57,11 @@ This records the provided value as a metric into HarperDB's analytics. HarperDB 
 * `method` - Optional method to group by.
 * `type` - Optional type to group by.
 
+## `threads`
+The `threads` global object has methods for communicating with other threads. Because HarperDB is a multi-threaded server, JavaScript code will be distributed across multiple worker threads. This API can be useful for cross-thread interaction.
+
+### `threads.sendToThread(threadId, message)`
+This will send a message to the thread with the specified thread id. If you are coordinating with other threads, and you may want to have other threads send this thread messages. You can do this by creating a record with your thread id, so other threads can read it and send messages to the appropriate thread id. The message should at least have a `type` property so that it can be received by the listening function below:
+
+### `threads.onMessageByType(type, (message, thread) => any)`
+This sets up listener for incoming messages to the current thread. The messages are filtered by the provided `type`; only messages where the `message.type` matches the provided `type` will be delivered. The callback function will be called with the `message` and a thread object, which has a `threadId` property identifying the source thread.
