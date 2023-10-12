@@ -1,22 +1,24 @@
 # Advanced JSON SQL Examples 
 
 
-## Create movies Schema
-Create a new schema called "movies" using the 'create_schema' operation.
+## Create movies database
+Create a new database called "movies" using the 'create_database' operation.
+
+_Note: Creating a database is optional, if one is not created HarperDB will default to using a database named `data`_
 
 ### Body
 
 ```json
 {
-    "operation": "create_schema",
-    "schema": "movies"
+    "operation": "create_database",
+    "database": "movies"
 }
 ```
 
 ### Response: 200
 ```json
 {
-    "message": "schema 'movies' successfully created"
+    "message": "database 'movies' successfully created"
 }
 ```
 
@@ -24,14 +26,14 @@ Create a new schema called "movies" using the 'create_schema' operation.
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Create movie Table
-Creates a new table called "movie" inside the schema "movies" using the ‘create_table’ operation.
+Creates a new table called "movie" inside the database "movies" using the ‘create_table’ operation.
 
 ### Body
 
 ```json
 {
     "operation": "create_table",
-    "schema": "movies",
+    "database": "movies",
     "table": "movie",
     "hash_attribute": "id"
 }
@@ -48,14 +50,14 @@ Creates a new table called "movie" inside the schema "movies" using the ‘creat
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Create credits Table
-Creates a new table called "credits" inside the schema "movies" using the ‘create_table’ operation.
+Creates a new table called "credits" inside the database "movies" using the ‘create_table’ operation.
 
 ### Body
 
 ```json
 {
     "operation": "create_table",
-    "schema": "movies",
+    "database": "movies",
     "table": "credits",
     "hash_attribute": "movie_id"
 }
@@ -79,7 +81,7 @@ Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_lo
 ```json
 {
     "operation": "csv_url_load",
-    "schema": "movies",
+    "database": "movies",
     "table": "movie",
     "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/movie.csv"
 }
@@ -103,7 +105,7 @@ Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_
 ```json
 {
     "operation": "csv_url_load",
-    "schema": "movies",
+    "database": "movies",
     "table": "credits",
     "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/credits.csv"
 }
@@ -112,7 +114,8 @@ Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_
 ### Response: 200
 ```json
 {
-    "message": "Starting job with id 3a14cd74-67f3-41e9-8ccd-45ffd0addc2c"
+    "message": "Starting job with id 3a14cd74-67f3-41e9-8ccd-45ffd0addc2c",
+    "job_id": "3a14cd74-67f3-41e9-8ccd-45ffd0addc2c"
 }
 ```
 

@@ -2,15 +2,15 @@
 
 This document outlines limitations of HarperDB.
 
-## Schema Naming Restrictions
+## Database Naming Restrictions
 
 **Case Sensitivity**
 
-HarperDB schema metadata (schema names, table names, and attribute/column names) are case sensitive. Meaning schemas, tables, and attributes can differ only by the case of their characters.
+HarperDB database metadata (database names, table names, and attribute/column names) are case sensitive. Meaning databases, tables, and attributes can differ only by the case of their characters.
 
-**Restrictions on Schema Metadata Names**
+**Restrictions on Database Metadata Names**
 
-HarperDB schema metadata (schema names, table names, and attribute names) cannot contain the following UTF-8 characters:
+HarperDB database metadata (database names, table names, and attribute names) cannot contain the following UTF-8 characters:
 
 ```
 /`¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ

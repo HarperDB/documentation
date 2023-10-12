@@ -38,8 +38,8 @@ a tarball, a local directory or a website.<br>
 If deploying with the `payload` option, HarperDB will decrypt the base64-encoded string, reconstitute the .tar file of 
 your project folder, and extract it to the component root project directory.<br>
 
-If deploying with the `package` option, the package value will be written to `harperdb-config.yaml` and when restart
-is run npm install will be utilized to install the component in `node_modules` directory located in the hdb root.
+If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. When restart
+is run, npm install will be utilized to install the component in the `node_modules` directory located in the hdb root.
 
 _Note: After deploying a component a restart may be required_
 

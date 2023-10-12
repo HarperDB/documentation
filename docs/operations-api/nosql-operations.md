@@ -2,12 +2,12 @@
 
 
 ## Insert
-Adds one or more rows of data to a database table. Hash value(s) of the inserted JSON record may be supplied on insert. If a hash value is not provided, then a GUID will be generated for each record.
+Adds one or more rows of data to a database table. Primary keys of the inserted JSON record may be supplied on insert. If a primary key is not provided, then a GUID will be generated for each record.
 
 <ul>
 <li><b>operation</b><i> (required)</i> - must always be 'insert'</li>
 
-<li><b>schema</b><i> (required)</i> - schema where the table you are inserting records into lives</li>
+<li><b>database</b><i> (optional)</i> - database where the table you are inserting records into lives. The default is <code>data</code></li>
 
 <li><b>table</b><i> (required)</i> - table where you want to insert records </li>
 
@@ -19,7 +19,7 @@ Adds one or more rows of data to a database table. Hash value(s) of the inserted
 ```json
 {
     "operation": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
         {
@@ -54,12 +54,12 @@ Adds one or more rows of data to a database table. Hash value(s) of the inserted
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Update
-Changes the values of specified attributes in one or more rows in a database table as identified by the hash attribute. NOTE: Hash value of the updated JSON record(s) MUST be supplied on update.
+Changes the values of specified attributes in one or more rows in a database table as identified by the primary key. NOTE: Primary key of the updated JSON record(s) MUST be supplied on update.
 
 <ul>
 <li><b>operation</b><i> (required)</i> - must always be 'update'</li>
 
-<li><b>schema</b><i> (required)</i> - schema of the table you are updating records into </li>
+<li><b>database</b><i> (optional)</i> - database of the table you are updating records in. The default is <code>data</code></li>
 
 <li><b>table</b><i> (required)</i> - table where you want to update records </li>
 
@@ -71,7 +71,7 @@ Changes the values of specified attributes in one or more rows in a database tab
 ```json
 {
     "operation": "update",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
         {
@@ -103,12 +103,12 @@ Changes the values of specified attributes in one or more rows in a database tab
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Upsert
-Changes the values of specified attributes for rows with matching hash attributes that exist in the table. Adds rows to the database table for hash attributes that do not exist or are not provided.
+Changes the values of specified attributes for rows with matching primary keys that exist in the table. Adds rows to the database table for primary keys that do not exist or are not provided.
 
 <ul>
 <li><b>operation</b><i> (required)</i> - must always be 'update'</li>
 
-<li><b>schema</b><i> (required)</i> - schema of the table you are updating records into </li>
+<li><b>database</b><i> (optional)</i> - database of the table you are updating records in. The default is <code>data</code></li>
 
 <li><b>table</b><i> (required)</i> - table where you want to update records </li>
 
@@ -120,7 +120,7 @@ Changes the values of specified attributes for rows with matching hash attribute
 ```json
 {
     "operation": "upsert",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
         {
@@ -165,12 +165,12 @@ Removes one or more rows of data from a specified table.
 <ul>
 <li><b>operation</b><i> (required)</i> - must always be 'delete'</li>
 
-<li><b>schema</b><i> (required)</i> - schema where the table you are deleting records into lives</li>
+<li><b>database</b><i> (optional)</i> - database where the table you are deleting records lives. The default is <code>data</code></li>
 
 <li><b>table</b><i> (required)</i> - table where you want to deleting records </li>
 
 
-<li><b>hash_values</b><i> (required)</i> - array of one or more hash attribute (primary key) values, which identifies records to delete</li>
+<li><b>ids</b><i> (required)</i> - array of one or more primary key values, which identifies records to delete</li>
 </ul>
 
 ### Body
@@ -178,9 +178,9 @@ Removes one or more rows of data from a specified table.
 ```json
 {
     "operation": "delete",
+    "database": "dev",
     "table": "dog",
-    "schema": "dev",
-    "hash_values": [
+    "ids": [
         1,
         2
     ]
@@ -202,19 +202,25 @@ Removes one or more rows of data from a specified table.
 
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
-## Search By Hash
-Returns data from a table for one or more hash values.
+## Search By ID
+Returns data from a table for one or more primary keys.
 
-<ul><li><p><b>operation</b><i> (required)</i> - must always be 'search_by_hash'</p></li><li><p><b>schema</b> <i>(required)</i> - schema where the table you are searching lives</p></li><li><p><b>table</b> <i>(required)</i> - table you wish to search</p></li><li><p><b>hash_values</b><i> (required) </i>- array of hashes to retrieve</p></li><li><p><b>get_attributes</b><i> (required)</i> - define which attributes you want returned. <i>Use ['*'] to return all attributes</i></p></li></ul>
+<ul>
+<li><p><b>operation</b><i> (required)</i> - must always be 'search_by_id'</p></li>
+<li><p><b>database</b> <i> (optional)</i> - database where the table you are searching lives. The default is <code>data</code></p></li>
+<li><p><b>table</b> <i> (required)</i> - table you wish to search</p></li>
+<li><p><b>ids</b><i> (required) </i>- array of primary keys to retrieve</p></li>
+<li><p><b>get_attributes</b><i> (required)</i> - define which attributes you want returned. <i>Use <code>['*']</code> to return all attributes</i></p></li>
+</ul>
 
 ### Body
 
 ```json
 {
-    "operation": "search_by_hash",
-    "schema": "dev",
+    "operation": "search_by_id",
+    "database": "dev",
     "table": "dog",
-    "hash_values": [
+    "ids": [
         1,
         2
     ],
@@ -245,14 +251,21 @@ Returns data from a table for one or more hash values.
 ## Search By Value
 Returns data from a table for a matching value.
 
-<ul><li><p><b>operation </b><i>(required) </i>- must always be 'search_by_value'<br></p></li><li><p><b>schema </b><i>(required) </i>- schema where the table you are searching lives<br></p></li><li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li><li><p><b>search_attribute </b><i>(required) </i>- attribute you wish to search can be any attribute<br></p></li><li><p><b>search_value </b><i>(required) </i>- value you wish to search - wild cards are allowed.<br></p></li><li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use ['*'] to return all attributes.</p></li></ul>
+<ul>
+<li><p><b>operation </b><i>(required) </i>- must always be 'search_by_value'<br></p></li>
+<li><p><b>database </b><i>(optional) </i>- database where the table you are searching lives. The default is <code>data</code><br></p></li>
+<li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li>
+<li><p><b>search_attribute </b><i>(required) </i>- attribute you wish to search can be any attribute<br></p></li>
+<li><p><b>search_value </b><i>(required) </i>- value you wish to search - wild cards are allowed.<br></p></li>
+<li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use <code>['*']</code> to return all attributes.</p></li>
+</ul>
 
 ### Body
 
 ```json
 {
     "operation": "search_by_value",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "search_attribute": "owner_name",
     "search_value": "Ky*",
@@ -281,14 +294,22 @@ Returns data from a table for a matching value.
 ## Search By Conditions
 Returns data from a table for one or more matching conditions.
 
-<ul><li><p><b>operation </b><i>(required) </i>- must always be 'search_by_conditions'<br></p></li><li><p><b>schema </b><i>(required) </i>- schema where the table you are searching lives<br></p></li><li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li><li><p><b>operator </b><i>(optional) </i>- the operator used between each condition - 'and', 'or'. The default is 'and'.<br></p></li><li><p><b>offset </b><i>(optional) </i>- the number of records that the query results will skip. The default is 0.<br></p></li><li><p><b>limit </b><i>(optional) </i>- the number of records that the query results will include. The default is null, resulting in no limit.<br></p></li><li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use ['*'] to return all attributes.<br></p></li><li><p><b>conditions </b><i>(required) </i>- the array of conditions objects, specified below, to filter by. Must include one or more object in the array.<br></p><ul><li><p><b>search_attribute </b><i>(required) </i>- the attribute you wish to search, can be any attribute.<br></p></li><li><p><b>search_type </b><i>(required) </i>- the type of search to perform - 'equals', 'contains', 'starts_with', 'ends_with', 'greater_than', 'greater_than_equal', 'less_than', 'less_than_equal', 'between'.<br></p></li><li><p><b>search_value </b><i>(required) </i>- case-sensitive value you wish to search. If the search_type is 'between' then use an array of two values to search between.</p></li></ul></li></ul>
+<ul>
+<li><p><b>operation </b><i>(required) </i>- must always be 'search_by_conditions'<br></p></li>
+<li><p><b>database </b><i>(optional) </i>- database where the table you are searching lives. The default is <code>data</code><br></p></li>
+<li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li>
+<li><p><b>operator </b><i>(optional) </i>- the operator used between each condition - 'and', 'or'. The default is 'and'.<br></p></li>
+<li><p><b>offset </b><i>(optional) </i>- the number of records that the query results will skip. The default is 0.<br></p></li>
+<li><p><b>limit </b><i>(optional) </i>- the number of records that the query results will include. The default is null, resulting in no limit.<br></p></li>
+<li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use ['*'] to return all attributes.<br></p></li>
+<li><p><b>conditions </b><i>(required) </i>- the array of conditions objects, specified below, to filter by. Must include one or more object in the array.<br></p><ul><li><p><b>search_attribute </b><i>(required) </i>- the attribute you wish to search, can be any attribute.<br></p></li><li><p><b>search_type </b><i>(required) </i>- the type of search to perform - 'equals', 'contains', 'starts_with', 'ends_with', 'greater_than', 'greater_than_equal', 'less_than', 'less_than_equal', 'between'.<br></p></li><li><p><b>search_value </b><i>(required) </i>- case-sensitive value you wish to search. If the search_type is 'between' then use an array of two values to search between.</p></li></ul></li></ul>
 
 ### Body
 
 ```json
 {
     "operation": "search_by_conditions",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "operator": "and",
     "offset": 0,
