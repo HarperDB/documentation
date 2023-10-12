@@ -4,9 +4,9 @@ This document is information on managing certificates for the Operations API and
 
 ## Development
 
-An out of the box install of HarperDB does not have HTTPS enabled for the Operations API or the Custom Functions API (see [configuration](../configuration.md) for relevant configuration file settings.) This is great for local development. If you are developing using a remote server and your requests are traversing the Internet, we recommend that you enable HTTPS.
+An out of the box install of HarperDB does not have HTTPS enabled (see [configuration](../configuration.md) for relevant configuration file settings.) This is great for local development. If you are developing using a remote server and your requests are traversing the Internet, we recommend that you enable HTTPS.
 
-To enable HTTPS, set the `operationsApi.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
+To enable HTTPS, set `http.securePort` in `harperdb-config.yaml` to the port you wish to use for HTTPS connections and restart HarperDB.
 
 By default HarperDB will generate certificates and place them at `<ROOTPATH>/keys/`. These certificates will not have a valid Common Name (CN) for your HarperDB node, so you will be able to use HTTPS, but your HTTPS client must be configured to accept the invalid certificate.
 
@@ -18,9 +18,18 @@ We have a few recommended options for enabling HTTPS in a production setting.
 
 ### Option: Enable HarperDB HTTPS and Replace Certificates
 
-To enable HTTPS, set the `operationsApi.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
+To enable HTTPS, set `http.securePort` in `harperdb-config.yaml` to the port you wish to use for HTTPS connections and restart HarperDB.
 
 To replace the certificates, either replace the contents of the existing certificate files at `<ROOTPATH>/keys/`, or update the HarperDB configuration with the path of your new certificate files, and then restart HarperDB.
+
+```yaml
+tls:
+    certificate: ~/hdb/keys/certificate.pem
+    certificateAuthority: ~/hdb/keys/ca.pem
+    privateKey: ~/hdb/keys/privateKey.pem
+```
+
+`operationsApi.tls` configuration is optional. If it is not set HarperDB will default to the values in the `tls` section.
 ```yaml
 operationsApi:
   tls:
@@ -28,13 +37,7 @@ operationsApi:
     certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
 ```
-```yaml
-customFunctions:
-  tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
-```
+
 
 ### Option: Nginx Reverse Proxy
 
