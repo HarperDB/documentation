@@ -58,7 +58,7 @@ The field directives can be used to information about each attribute in table ty
 The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated with a UUID if no primary key is provided.
 
 ### `@indexed`
-The `@primaryKey` directive specifies that an attribute should be indexed. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
+The `@indexed` directive specifies that an attribute should be indexed. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
 
 ### `@createdTime`
 The `@createdTime` directive indicates that this property should be assigned a timestamp of the creation time of the record (in epoch milliseconds).
@@ -66,18 +66,9 @@ The `@createdTime` directive indicates that this property should be assigned a t
 ### `@updatedTime`
 The `@updatedTime` directive indicates that this property should be assigned a timestamp of each updated time of the record (in epoch milliseconds).
 
-## `type Query`
-GraphQL defines a special type for defining the types that are queryable, or accessible as externally available endpoints. You can specifically define which tables are available through the REST interface by using this type. For example, if we wanted to make both the `Dog` and `Breed` tables available through the REST interface through the paths `/dog` and `/breed`, we could do so:
+## Defined vs Dynamic Schemas
 
-```graphql
-type Query {
-	dog: Dog
-	breed: Breed
-}
-```
-The field names defined the paths and the field types refer to the tables that should be exported.
-
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](./dynamic-schema.md), although generally it is best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](./dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ## Field Types
 HarperDB supports the following field types in addition to user defined (object) types:

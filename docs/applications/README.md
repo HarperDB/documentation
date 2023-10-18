@@ -132,6 +132,7 @@ type Dog @table @sealed {
     name: String
     breed: String
     age: Int
+	tricks: [String]
 }
 ```
 
@@ -147,10 +148,23 @@ type Dog @table @export {
     name: String
     breed: String
     age: Int
+	tricks: [String]
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../configuration.md#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well. You can even log into your instance and view or modify data directly from the browser. If you added a record through the studio, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
+By default the application HTTP server port is `9926` (this can be [configured here](../configuration.md#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+```http
+POST /Dog/
+Content-Type: application/json
+
+{
+	"name": "Harper",
+	"breed": "Labrador",
+	"age": 3,
+	"tricks": ["sits"]
+}
+```
+With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
 
 ## Authenticating Endpoints
 
@@ -166,7 +180,7 @@ HarperDB works with other important standard HTTP headers as well, and these end
 ```
 Authorization: Basic <base64 encoded user:pass>
 Accept: application/cbor
-If-None-Match: "etag-id" GMT # browsers can automatically provide this
+If-None-Match: "etag-id" # browsers can automatically provide this
 ```
 
 ## Querying
