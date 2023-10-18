@@ -139,7 +139,7 @@ Each table that a role should be given some level of CRUD permissions to must be
 
 1) If there are attribute-specific CRUD permissions that need to be enforced on a table, those need to be explicitly described in the `attribute_permissions` array.
 
-2) If a non-hash attribute is given some level of CRUD access, that same access will be assigned to the table’s `hash_attribute`, even if it is not explicitly defined in the permissions JSON.
+2) If a non-hash attribute is given some level of CRUD access, that same access will be assigned to the table’s `hash_attribute` (also referred to as the `primary_key`), even if it is not explicitly defined in the permissions JSON.
 
    *See table_name1’s permission set for an example of this – even though the table’s hash attribute is not specifically defined in the attribute_permissions array, because the role has CRUD access to ‘attribute1’, the role will have the same access to the table’s hash attribute.*
 

@@ -23,28 +23,33 @@ Returns the definitions of all databases and tables within the database.
 {
     "dev": {
         "dog": {
-            "__createdtime__": 1598473228070,
-            "__updatedtime__": 1598473228070,
-            "hash_attribute": "id",
-            "id": "b9cc7292-acf7-40fb-91ba-87012a6f5f84",
-            "name": "dog",
-            "residence": null,
-            "schema": "dev",
-            "attributes": [
-                {
-                    "attribute": "is_adorable"
-                },
-                {
-                    "attribute": "__createdtime__"
-                },
-                {
-                    "attribute": "__updatedtime__"
-                },
-                {
-                    "attribute": "id"
-                }
-            ],
-            "record_count": 0
+          "schema": "dev",
+          "name": "dog",
+          "hash_attribute": "id",
+          "audit": true,
+          "schema_defined": false,
+          "attributes": [
+            {
+              "attribute": "id",
+              "indexed": true,
+              "is_primary_key": true
+            },
+            {
+              "attribute": "__createdtime__",
+              "indexed": true
+            },
+            {
+              "attribute": "__updatedtime__",
+              "indexed": true
+            },
+            {
+              "attribute": "type",
+              "indexed": true
+            }
+          ],
+          "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
+          "record_count": 4,
+          "last_updated_record": 1697658683698.4504
         }
     }
 }
@@ -81,28 +86,33 @@ Returns the definitions of all tables within the specified database.
 ```json
 {
     "dog": {
-        "__createdtime__": 1598473228070,
-        "__updatedtime__": 1598473228070,
-        "hash_attribute": "id",
-        "id": "b9cc7292-acf7-40fb-91ba-87012a6f5f84",
-        "name": "dog",
-        "residence": null,
-        "schema": "dev",
-        "attributes": [
-            {
-                "attribute": "is_adorable"
-            },
-            {
-                "attribute": "__createdtime__"
-            },
-            {
-                "attribute": "__updatedtime__"
-            },
-            {
-                "attribute": "id"
-            }
-        ],
-        "record_count": 0
+      "schema": "dev",
+      "name": "dog",
+      "hash_attribute": "id",
+      "audit": true,
+      "schema_defined": false,
+      "attributes": [
+        {
+          "attribute": "id",
+          "indexed": true,
+          "is_primary_key": true
+        },
+        {
+          "attribute": "__createdtime__",
+          "indexed": true
+        },
+        {
+          "attribute": "__updatedtime__",
+          "indexed": true
+        },
+        {
+          "attribute": "type",
+          "indexed": true
+        }
+      ],
+      "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
+      "record_count": 4,
+      "last_updated_record": 1697658683698.4504
     }
 }
 ```
@@ -141,28 +151,33 @@ Returns the definition of the specified table.
 ### Response: 200
 ```json
 {
-    "__createdtime__": 1598473228070,
-    "__updatedtime__": 1598473228070,
-    "hash_attribute": "id",
-    "id": "b9cc7292-acf7-40fb-91ba-87012a6f5f84",
-    "name": "dog",
-    "residence": null,
-    "schema": "data",
-    "attributes": [
-        {
-            "attribute": "is_adorable"
-        },
-        {
-            "attribute": "__createdtime__"
-        },
-        {
-            "attribute": "__updatedtime__"
-        },
-        {
-            "attribute": "id"
-        }
-    ],
-    "record_count": 0
+  "schema": "dev",
+  "name": "dog",
+  "hash_attribute": "id",
+  "audit": true,
+  "schema_defined": false,
+  "attributes": [
+    {
+      "attribute": "id",
+      "indexed": true,
+      "is_primary_key": true
+    },
+    {
+      "attribute": "__createdtime__",
+      "indexed": true
+    },
+    {
+      "attribute": "__updatedtime__",
+      "indexed": true
+    },
+    {
+      "attribute": "type",
+      "indexed": true
+    }
+  ],
+  "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
+  "record_count": 4,
+  "last_updated_record": 1697658683698.4504
 }
 ```
 
@@ -237,7 +252,7 @@ _**Operation is restricted to super_user roles only**_
 <li><p><b>operation </b><i>(required)</i> - must always be <code>create_table</code></p></li>
 <li><p><b>database</b><i> (optional)</i> - name of the database where you want your table to live. If the database does not exist, it will be created. If the <code>database</code> property is not provided it will default to <code>data</code>.</p></li>
 <li><p><b>table </b><i>(required)</i> - name of the table you are creating</p></li>
-<li><p><b>hash_attribute</b><i> (required)</i> - primary key for the table</p></li>
+<li><p><b>primary_key</b><i> (required)</i> - primary key for the table</p></li>
 <li><p><b>attributes</b> <i>(optional)</i> - An array of attributes that specifies the schema for the table, that is the set of attributes for the table. When attributes are supplied the table will not be considered a "dynamic schema" table, and attributes will not be auto-added when records with new properties are inserted. Each attribute is specified as:</p><ul><li><p><b>name </b><i>(required)</i> - The name of the attribute</p></li><li><p><b>indexed </b><i>(optional)</i> - Indicates if the attribute should be indexed</p></li><li><p><b>type </b><i>(optional)</i> - Specifies the data type of the attribute (can be String, Int, Float, Date, ID, Any).</p></li></ul></li><li><p><b>expiration </b><i>(optional)</i> - Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified). This is specified in seconds.</p></li></ul>
 
 ### Body
@@ -247,7 +262,7 @@ _**Operation is restricted to super_user roles only**_
     "operation": "create_table",
     "database": "dev",
     "table": "dog",
-    "hash_attribute": "id"
+    "primary_key": "id"
 }
 ```
 
