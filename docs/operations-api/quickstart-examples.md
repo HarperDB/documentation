@@ -2,8 +2,6 @@
 
 ## Create dog Table
 
-Test
-
 We first need to create a table. Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
 Tables in HarperDB are schema-less, so we don't need to add any attributes other than a hash\_attribute (also referred to as a primary key) to create this table. A hash attribute is an attribute that defines the unique identifier for each row in your table. In a traditional RDMS this would be called a primary key.
@@ -380,4 +378,11 @@ Here's a more complex SQL command joining the breed table with the dog table. We
         "section": "Mutt"
     }
 ]
+
 ```
+
+{% swagger src="../.gitbook/assets/david-test.yaml" path="/list" method="get" %}
+[david-test.yaml](../.gitbook/assets/david-test.yaml)
+{% endswagger %}
+
+\

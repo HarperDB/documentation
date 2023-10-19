@@ -4,17 +4,13 @@
 
 Creates a new component project in the component root directory using a predefined template.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'add_component'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project you wish to create.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'add\_component'.
+* project _(required)_ - The name of the project you wish to create.
 
 ### Body
+
 ```json
 {
     "operation": "add_component",
@@ -23,6 +19,7 @@ Creates a new component project in the component root directory using a predefin
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "Successfully added project: my-component"
@@ -31,36 +28,25 @@ Creates a new component project in the component root directory using a predefin
 
 ## Deploy Component
 
-Will deploy a component using either a base64-encoded string representation of a `.tar` file (the output from `package_component`) or a package value, 
-which can be any valid NPM reference, such as a GitHub repo, an NPM package, 
-a tarball, a local directory or a website.<br>
+Will deploy a component using either a base64-encoded string representation of a `.tar` file (the output from `package_component`) or a package value, which can be any valid NPM reference, such as a GitHub repo, an NPM package, a tarball, a local directory or a website.\
 
-If deploying with the `payload` option, HarperDB will decrypt the base64-encoded string, reconstitute the .tar file of 
-your project folder, and extract it to the component root project directory.<br>
 
-If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. When restart
-is run, npm install will be utilized to install the component in the `node_modules` directory located in the hdb root.
+If deploying with the `payload` option, HarperDB will decrypt the base64-encoded string, reconstitute the .tar file of your project folder, and extract it to the component root project directory.\
+
+
+If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. When restart is run, npm install will be utilized to install the component in the `node_modules` directory located in the hdb root.
 
 _Note: After deploying a component a restart may be required_
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'deploy_component'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project you wish to deploy.
-</li>
-<li>
-<b>package</b> <i> (optional) </i> - This can be any valid GitHub or NPM reference.
-</li>
-<li>
-<b>payload</b> <i> (optional) </i> - A base64-encoded string representation of the .tar file. Must be a string.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
 
+* operation _(required)_ - Must always be 'deploy\_component'.
+* project _(required)_ - The name of the project you wish to deploy.
+* package _(optional)_ - This can be any valid GitHub or NPM reference.
+* payload _(optional)_ - A base64-encoded string representation of the .tar file. Must be a string.
 
 ### Body
+
 ```json
 {
     "operation": "deploy_component",
@@ -68,6 +54,7 @@ _Note: After deploying a component a restart may be required_
     "payload": "A very large base64-encoded string representation of the .tar file"
 }
 ```
+
 ```json
 {
     "operation": "deploy_component",
@@ -77,6 +64,7 @@ _Note: After deploying a component a restart may be required_
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "Successfully deployed: my-component"
@@ -87,20 +75,14 @@ _Note: After deploying a component a restart may be required_
 
 Creates a temporary `.tar` file of the specified project folder, then reads it into a base64-encoded string and returns an object with the string and the payload.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'package_component'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project you wish to package.
-</li>
-<li>
-<b>skip_node_modules</b> <i> (optional) </i> - If true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'package\_component'.
+* project _(required)_ - The name of the project you wish to package.
+* skip\_node\_modules _(optional)_ - If true, creates option for tar module that will exclude the project's node\_modules directory. Must be a boolean.
 
 ### Body
+
 ```json
 {
   "operation": "package_component",
@@ -110,6 +92,7 @@ Creates a temporary `.tar` file of the specified project folder, then reads it i
 ```
 
 ### Response: 200
+
 ```json
 {
   "project": "my-component",
@@ -119,23 +102,18 @@ Creates a temporary `.tar` file of the specified project folder, then reads it i
 
 ## Drop Component
 
-Deletes a file from inside the component project or deletes the complete project.<br><br>
+Deletes a file from inside the component project or deletes the complete project.\
+\
 **If just `project` is provided it will delete all that projects local files and folders.**
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'drop_component'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project you wish to delete or to delete from if using the 'file' parameter.
-</li>
-<li>
-<b>file</b> <i> (optional) </i> - The path relative to your project folder of the file you wish to delete.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'drop\_component'.
+* project _(required)_ - The name of the project you wish to delete or to delete from if using the 'file' parameter.
+* file _(optional)_ - The path relative to your project folder of the file you wish to delete.
 
 ### Body
+
 ```json
 {
   "operation": "drop_component",
@@ -145,6 +123,7 @@ Deletes a file from inside the component project or deletes the complete project
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "Successfully dropped: my-component/utils/myUtils.js"
@@ -155,14 +134,12 @@ Deletes a file from inside the component project or deletes the complete project
 
 Gets all local component files and folders and any component config from `harperdb-config.yaml`
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'get_components'.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'get\_components'.
 
 ### Body
+
 ```json
 {
   "operation": "get_components"
@@ -170,6 +147,7 @@ Gets all local component files and folders and any component config from `harper
 ```
 
 ### Response: 200
+
 ```json
 {
   "name": "components",
@@ -235,23 +213,15 @@ Gets all local component files and folders and any component config from `harper
 
 Gets the contents of a file inside a component project.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'get_component_file'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project where the file is located.
-</li>
-<li>
-<b>file</b> <i> (required) </i> - The path relative to your project folder of the file you wish to view.
-</li>
-<li>
-<b>encoding</b> <i> (optional) </i> - The encoding that will be passed to the read file call. Defaults to 'utf8'.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'get\_component\_file'.
+* project _(required)_ - The name of the project where the file is located.
+* file _(required)_ - The path relative to your project folder of the file you wish to view.
+* encoding _(optional)_ - The encoding that will be passed to the read file call. Defaults to 'utf8'.
 
 ### Body
+
 ```json
 {
   "operation": "get_component_file",
@@ -261,6 +231,7 @@ Gets the contents of a file inside a component project.
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "/**export class MyCustomResource extends tables.TableName {\n\t// we can define our own custom POST handler\n\tpost(content) {\n\t\t// do something with the incoming content;\n\t\treturn super.post(content);\n\t}\n\t// or custom GET handler\n\tget() {\n\t\t// we can modify this resource before returning\n\t\treturn super.get();\n\t}\n}\n */\n// we can also define a custom resource without a specific table\nexport class Greeting extends Resource {\n\t// a \"Hello, world!\" handler\n\tget() {\n\t\treturn { greeting: 'Hello, world!' };\n\t}\n}"
@@ -271,26 +242,16 @@ Gets the contents of a file inside a component project.
 
 Creates or updates a file inside a component project.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - Must always be 'set_component_file'.
-</li>
-<li>
-<b>project</b> <i> (required) </i> - The name of the project the file is located in.
-</li>
-<li>
-<b>file</b> <i> (required) </i> - The path relative to your project folder of the file you wish to set.
-</li>
-<li>
-<b>payload</b> <i> (required) </i> - What will be written to the file.
-</li>
-<li>
-<b>encoding</b> <i> (optional) </i> - The encoding that will be passed to the write file call. Defaults to 'utf8'.
-</li>
-</ul>
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - Must always be 'set\_component\_file'.
+* project _(required)_ - The name of the project the file is located in.
+* file _(required)_ - The path relative to your project folder of the file you wish to set.
+* payload _(required)_ - What will be written to the file.
+* encoding _(optional)_ - The encoding that will be passed to the write file call. Defaults to 'utf8'.
 
 ### Body
+
 ```json
 {
   "operation": "set_component_file",
@@ -301,6 +262,7 @@ Creates or updates a file inside a component project.
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "Successfully set component: test.js"

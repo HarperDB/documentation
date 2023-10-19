@@ -2,7 +2,7 @@
 
 ### Current Release
 
-[Meet Tucker](4.tucker/README.md) Our 4th Release Pup
+[Meet Tucker](4.tucker/) Our 4th Release Pup
 
 [4.2.0 Tucker](4.tucker/4.2.0.md)
 
@@ -28,7 +28,7 @@
 
 ### Past Releases
 
-[Meet Monkey](3.monkey/README.md) Our 3rd Release Pup
+[Meet Monkey](3.monkey/) Our 3rd Release Pup
 
 [3.2.1 Monkey](3.monkey/3.2.1.md)
 
@@ -50,7 +50,7 @@
 
 ***
 
-[Meet Penny](2.penny/README.md) Our 2nd Release Pup
+[Meet Penny](2.penny/) Our 2nd Release Pup
 
 [2.3.1 Penny](2.penny/2.3.1.md)
 
@@ -66,7 +66,7 @@
 
 ***
 
-[Meet Alby](1.alby/README.md) Our 1st Release Pup
+[Meet Alby](1.alby/) Our 1st Release Pup
 
 [1.3.1 Alby](1.alby/1.3.1.md)
 
