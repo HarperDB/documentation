@@ -386,3 +386,10 @@ Here's a more complex SQL command joining the breed table with the dog table. We
 {% endswagger %}
 
 \
+
+
+{% swagger method="get" path="" baseUrl="" summary="" %}
+{% swagger-description %}
+
+{% endswagger-description %}
+{% endswagger %}
