@@ -381,12 +381,9 @@ Here's a more complex SQL command joining the breed table with the dog table. We
 
 ```
 
-{% swagger src="../.gitbook/assets/david-test.yaml" path="/list" method="get" %}
-[david-test.yaml](../.gitbook/assets/david-test.yaml)
+{% swagger src="../.gitbook/assets/result.yaml" path="/" method="post" %}
+[result.yaml](../.gitbook/assets/result.yaml)
 {% endswagger %}
-
-\
-
 
 {% swagger method="get" path="" baseUrl="" summary="" %}
 {% swagger-description %}
