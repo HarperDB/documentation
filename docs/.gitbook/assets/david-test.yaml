@@ -4,9 +4,19 @@ info:
   title: Sample API
   description: A sample API to illustrate OpenAPI concepts
 paths:
-  /list:
-    get:
-      description: Returns a list of stuff
+  /create_table:
+    post:
+      description: Create a new table within a database.
+      requestBody:
+        content:
+          application/json:
+            operation:
+              type: string
+              value: create_table
       responses:
         '200':
           description: Successful response
+          content:
+            application/json:
+              message: string
+              value: table 'dev.dog' successfully created.
