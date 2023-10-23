@@ -380,7 +380,3 @@ Here's a more complex SQL command joining the breed table with the dog table. We
 ]
 
 ```
-
-{% swagger src="../.gitbook/assets/result (2).yaml" path="/create_table" method="post" %}
-[result (2).yaml](<../.gitbook/assets/result (2).yaml>)
-{% endswagger %}
