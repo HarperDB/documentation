@@ -3,7 +3,7 @@ info:
   title: Swagger HarperDB - OpenAPI 3.0
   version: 1.0.0
 paths:
-  create_table:
+  /create_table:
     post:
       summary: Create a new table within a database.
       description: Create a new table within a database.
