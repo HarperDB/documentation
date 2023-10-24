@@ -1,18 +1,13 @@
-# NoSQL Operations 
-
+# NoSQL Operations
 
 ## Insert
+
 Adds one or more rows of data to a database table. Primary keys of the inserted JSON record may be supplied on insert. If a primary key is not provided, then a GUID will be generated for each record.
 
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be 'insert'</li>
-
-<li><b>database</b><i> (optional)</i> - database where the table you are inserting records into lives. The default is <code>data</code></li>
-
-<li><b>table</b><i> (required)</i> - table where you want to insert records </li>
-
-<li><b>records</b><i> (required)</i> - array of one or more records for insert</li>
-</ul>
+* operation _(required)_ - must always be 'insert'
+* database _(optional)_ - database where the table you are inserting records into lives. The default is `data`
+* table _(required)_ - table where you want to insert records
+* records _(required)_ - array of one or more records for insert
 
 ### Body
 
@@ -39,6 +34,7 @@ Adds one or more rows of data to a database table. Primary keys of the inserted 
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "inserted 2 of 2 records",
@@ -50,21 +46,16 @@ Adds one or more rows of data to a database table. Primary keys of the inserted 
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Update
+
 Changes the values of specified attributes in one or more rows in a database table as identified by the primary key. NOTE: Primary key of the updated JSON record(s) MUST be supplied on update.
 
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be 'update'</li>
-
-<li><b>database</b><i> (optional)</i> - database of the table you are updating records in. The default is <code>data</code></li>
-
-<li><b>table</b><i> (required)</i> - table where you want to update records </li>
-
-<li><b>records</b><i> (required)</i> - array of one or more records for update</li>
-</ul>
+* operation _(required)_ - must always be 'update'
+* database _(optional)_ - database of the table you are updating records in. The default is `data`
+* table _(required)_ - table where you want to update records
+* records _(required)_ - array of one or more records for update
 
 ### Body
 
@@ -88,6 +79,7 @@ Changes the values of specified attributes in one or more rows in a database tab
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "updated 2 of 2 records",
@@ -99,21 +91,16 @@ Changes the values of specified attributes in one or more rows in a database tab
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Upsert
+
 Changes the values of specified attributes for rows with matching primary keys that exist in the table. Adds rows to the database table for primary keys that do not exist or are not provided.
 
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be 'update'</li>
-
-<li><b>database</b><i> (optional)</i> - database of the table you are updating records in. The default is <code>data</code></li>
-
-<li><b>table</b><i> (required)</i> - table where you want to update records </li>
-
-<li><b>records</b><i> (required)</i> - array of one or more records for update</li>
-</ul>
+* operation _(required)_ - must always be 'update'
+* database _(optional)_ - database of the table you are updating records in. The default is `data`
+* table _(required)_ - table where you want to update records
+* records _(required)_ - array of one or more records for update
 
 ### Body
 
@@ -145,6 +132,7 @@ Changes the values of specified attributes for rows with matching primary keys t
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "upserted 3 of 3 records",
@@ -156,22 +144,16 @@ Changes the values of specified attributes for rows with matching primary keys t
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Delete
+
 Removes one or more rows of data from a specified table.
 
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be 'delete'</li>
-
-<li><b>database</b><i> (optional)</i> - database where the table you are deleting records lives. The default is <code>data</code></li>
-
-<li><b>table</b><i> (required)</i> - table where you want to deleting records </li>
-
-
-<li><b>ids</b><i> (required)</i> - array of one or more primary key values, which identifies records to delete</li>
-</ul>
+* operation _(required)_ - must always be 'delete'
+* database _(optional)_ - database where the table you are deleting records lives. The default is `data`
+* table _(required)_ - table where you want to deleting records
+* ids _(required)_ - array of one or more primary key values, which identifies records to delete
 
 ### Body
 
@@ -188,6 +170,7 @@ Removes one or more rows of data from a specified table.
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "2 of 2 records successfully deleted",
@@ -199,19 +182,17 @@ Removes one or more rows of data from a specified table.
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Search By ID
+
 Returns data from a table for one or more primary keys.
 
-<ul>
-<li><p><b>operation</b><i> (required)</i> - must always be 'search_by_id'</p></li>
-<li><p><b>database</b> <i> (optional)</i> - database where the table you are searching lives. The default is <code>data</code></p></li>
-<li><p><b>table</b> <i> (required)</i> - table you wish to search</p></li>
-<li><p><b>ids</b><i> (required) </i>- array of primary keys to retrieve</p></li>
-<li><p><b>get_attributes</b><i> (required)</i> - define which attributes you want returned. <i>Use <code>['*']</code> to return all attributes</i></p></li>
-</ul>
+* operation _(required)_ - must always be 'search\_by\_id'
+* database _(optional)_ - database where the table you are searching lives. The default is `data`
+* table _(required)_ - table you wish to search
+* ids _(required)_ - array of primary keys to retrieve
+* get\_attributes _(required)_ - define which attributes you want returned. _Use `['*']` to return all attributes_
 
 ### Body
 
@@ -232,6 +213,7 @@ Returns data from a table for one or more primary keys.
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -245,20 +227,23 @@ Returns data from a table for one or more primary keys.
 ]
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Search By Value
+
 Returns data from a table for a matching value.
 
-<ul>
-<li><p><b>operation </b><i>(required) </i>- must always be 'search_by_value'<br></p></li>
-<li><p><b>database </b><i>(optional) </i>- database where the table you are searching lives. The default is <code>data</code><br></p></li>
-<li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li>
-<li><p><b>search_attribute </b><i>(required) </i>- attribute you wish to search can be any attribute<br></p></li>
-<li><p><b>search_value </b><i>(required) </i>- value you wish to search - wild cards are allowed.<br></p></li>
-<li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use <code>['*']</code> to return all attributes.</p></li>
-</ul>
+* operation _(required)_ - must always be 'search\_by\_value'\
+
+* database _(optional)_ - database where the table you are searching lives. The default is `data`\
+
+* table _(required)_ - table you wish to search\
+
+* search\_attribute _(required)_ - attribute you wish to search can be any attribute\
+
+* search\_value _(required)_ - value you wish to search - wild cards are allowed.\
+
+* get\_attributes _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes.
 
 ### Body
 
@@ -277,6 +262,7 @@ Returns data from a table for a matching value.
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -288,21 +274,33 @@ Returns data from a table for a matching value.
 ]
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Search By Conditions
+
 Returns data from a table for one or more matching conditions.
 
-<ul>
-<li><p><b>operation </b><i>(required) </i>- must always be 'search_by_conditions'<br></p></li>
-<li><p><b>database </b><i>(optional) </i>- database where the table you are searching lives. The default is <code>data</code><br></p></li>
-<li><p><b>table </b><i>(required) </i>- table you wish to search<br></p></li>
-<li><p><b>operator </b><i>(optional) </i>- the operator used between each condition - 'and', 'or'. The default is 'and'.<br></p></li>
-<li><p><b>offset </b><i>(optional) </i>- the number of records that the query results will skip. The default is 0.<br></p></li>
-<li><p><b>limit </b><i>(optional) </i>- the number of records that the query results will include. The default is null, resulting in no limit.<br></p></li>
-<li><p><b>get_attributes </b><i>(required) </i>- define which attributes you want returned. Use ['*'] to return all attributes.<br></p></li>
-<li><p><b>conditions </b><i>(required) </i>- the array of conditions objects, specified below, to filter by. Must include one or more object in the array.<br></p><ul><li><p><b>search_attribute </b><i>(required) </i>- the attribute you wish to search, can be any attribute.<br></p></li><li><p><b>search_type </b><i>(required) </i>- the type of search to perform - 'equals', 'contains', 'starts_with', 'ends_with', 'greater_than', 'greater_than_equal', 'less_than', 'less_than_equal', 'between'.<br></p></li><li><p><b>search_value </b><i>(required) </i>- case-sensitive value you wish to search. If the search_type is 'between' then use an array of two values to search between.</p></li></ul></li></ul>
+* operation _(required)_ - must always be 'search\_by\_conditions'\
+
+* database _(optional)_ - database where the table you are searching lives. The default is `data`\
+
+* table _(required)_ - table you wish to search\
+
+* operator _(optional)_ - the operator used between each condition - 'and', 'or'. The default is 'and'.\
+
+* offset _(optional)_ - the number of records that the query results will skip. The default is 0.\
+
+* limit _(optional)_ - the number of records that the query results will include. The default is null, resulting in no limit.\
+
+* get\_attributes _(required)_ - define which attributes you want returned. Use \['\*'] to return all attributes.\
+
+* conditions _(required)_ - the array of conditions objects, specified below, to filter by. Must include one or more object in the array.\
+
+  * search\_attribute _(required)_ - the attribute you wish to search, can be any attribute.\
+
+  * search\_type _(required)_ - the type of search to perform - 'equals', 'contains', 'starts\_with', 'ends\_with', 'greater\_than', 'greater\_than\_equal', 'less\_than', 'less\_than\_equal', 'between'.\
+
+  * search\_value _(required)_ - case-sensitive value you wish to search. If the search\_type is 'between' then use an array of two values to search between.
 
 ### Body
 
@@ -341,6 +339,7 @@ Returns data from a table for one or more matching conditions.
 ```
 
 ### Response: 200
+
 ```json
 [
     {

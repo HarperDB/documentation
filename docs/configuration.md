@@ -4,7 +4,7 @@ HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb
 
 All available configuration will be populated by default in the config file on install, regardless of whether it is used.
 
----
+***
 
 ## Using the Configuration File and Naming Conventions
 
@@ -14,11 +14,13 @@ To change a configuration value edit the `harperdb-config.yaml` file and save an
 
 Alternately, configuration can be changed via environment and/or command line variables or via the API. To access lower level elements, use underscores to append parent/child elements (when used this way elements are case insensitive):
 
-    - Environment variables: `OPERATIONSAPI_NETWORK_PORT=9925`
-    - Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
-    - Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
+```
+- Environment variables: `OPERATIONSAPI_NETWORK_PORT=9925`
+- Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
+- Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
+```
 
-_Note: Component configuration cannot be added or updated via CLI or ENV variables.
+\_Note: Component configuration cannot be added or updated via CLI or ENV variables.
 
 ## Importing installation configuration
 
@@ -26,17 +28,18 @@ To use a custom configuration file to set values on install, use the CLI/ENV var
 
 To install HarperDB overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
 
----
+***
 
 ## Configuration Options
 
 ### `http`
 
-`sessionAffinity` - _Type_:  string; _Default_: null
+`sessionAffinity` - _Type_: string; _Default_: null
 
 HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
 
 To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
+
 ```yaml
 http:
   sessionAffinity: ip
@@ -45,6 +48,7 @@ http:
 `compressionThreshold` - _Type_: number; _Default_: 1200 (bytes)
 
 For HTTP clients that support (Brotli) compression encoding, responses that are larger than than this threshold will be compressed (also note that for clients that accept compression, any streaming responses from queries are compressed as well, since the size is not known beforehand).
+
 ```yaml
 http:
   compressionThreshold:  1200
@@ -91,7 +95,7 @@ http:
     timeout: 120000 
 ```
 
----
+***
 
 ### `threads`
 
@@ -102,7 +106,8 @@ The `threads` option specifies the number of threads that will be used to servic
 ```yaml
 threads: 11
 ```
----
+
+***
 
 ### `clustering`
 
@@ -110,12 +115,11 @@ The `clustering` section configures the clustering engine, this is used to repli
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
-- `clustering.enabled` Enable the clustering processes.
-- `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
-- `clustering.hubServer.cluster.network.routes`The connections to other instances.
-- `clustering.nodeName` The name of your node, must be unique within the cluster.
-- `clustering.user` The name of the user credentials used for Inter-node authentication.
-
+* `clustering.enabled` Enable the clustering processes.
+* `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
+* `clustering.hubServer.cluster.network.routes`The connections to other instances.
+* `clustering.nodeName` The name of your node, must be unique within the cluster.
+* `clustering.user` The name of the user credentials used for Inter-node authentication.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -150,8 +154,6 @@ clustering:
 
 The name of your cluster. This name needs to be consistent for all other nodes intended to be meshed in the same network.
 
-<div style="padding-left: 30px;">
-
 `port` - _Type_: integer, _Default_: 9932
 
 The port the hub server uses to accept cluster connections
@@ -159,9 +161,6 @@ The port the hub server uses to accept cluster connections
 `routes` - _Type_: array, _Default_: null
 
 An object array that represent the host and port this server will cluster to. Each object must have two properties `port` and `host`. Multiple entries can be added to create network resiliency in the event one server is unavailable. Routes can be added, updated and removed either by directly editing the `harperdb-config.yaml` file or by using the `cluster_set_routes` or `cluster_delete_routes` API endpoints.
-</div>
-
-<div style="padding-left: 60px;">
 
 `host` - _Type_: string
 
@@ -169,9 +168,7 @@ The host of the remote instance you are creating the connection with.
 
 `port` - _Type_: integer
 
-The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance. 
-
-</div>
+The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
 
 `clustering.hubServer.leafNodes`
 
@@ -229,8 +226,6 @@ Use this port to connect a client to the leaf server, for example using the NATs
 
 An object array that represent the host and port the leaf node will directly connect with. Each object must have two properties `port` and `host`. Unlike the hub server, the leaf server will establish connections to all listed hosts. Routes can be added, updated and removed either by directly editing the `harperdb-config.yaml` file or by using the `cluster_set_routes` or `cluster_delete_routes` API endpoints.
 
-<div style="padding-left: 30px;">
-
 `host` - _Type_: string
 
 The host of the remote instance you are creating the connection with.
@@ -238,9 +233,9 @@ The host of the remote instance you are creating the connection with.
 `port` - _Type_: integer
 
 The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
-</div>
 
-<br/>
+\
+
 
 `clustering.leafServer.streams`
 
@@ -256,11 +251,12 @@ The maximum size of the stream in bytes. Oldest messages are removed if the stre
 
 How many messages may be in a stream. Oldest messages are removed if the stream exceeds this number.
 
-`path` - _Type_: string; _Default_: &lt;ROOTPATH>/clustering/leaf
+`path` - _Type_: string; _Default_: \<ROOTPATH>/clustering/leaf
 
 The directory where all the streams are kept.
 
----
+***
+
 `logLevel` - _Type_: string; _Default_: error
 
 Control the verbosity of clustering logs.
@@ -271,7 +267,6 @@ clustering:
 ```
 
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, and `error`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `warn`, the only entries logged will be `warn` and `error`. The default value is `error`.
-
 
 `nodeName` - _Type_: string; _Default_: null
 
@@ -298,15 +293,15 @@ clustering:
     verify: true
 ```
 
-`certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
+`certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
 
 Path to the certificate file.
 
-`certificateAuthority` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/ca.pem
+`certificateAuthority` - _Type_: string; _Default_: \<ROOTPATH>/keys/ca.pem
 
 Path to the certificate authority file.
 
-`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
+`privateKey` - _Type_: string; _Default_: \<ROOTPATH>/keys/privateKey.pem
 
 Path to the private key file.
 
@@ -316,13 +311,13 @@ When true, will skip certificate verification. For use only with self-signed cer
 
 `republishMessages` - _Type_: boolean; _Default_: false
 
-When true, all transactions that are received from other nodes are republished to this node's stream. When subscriptions are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better data replication performance. When false, you need to ensure all subscriptions are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.  
+When true, all transactions that are received from other nodes are republished to this node's stream. When subscriptions are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better data replication performance. When false, you need to ensure all subscriptions are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.
 
 `verify` - _Type_: boolean; _Default_: true
 
 When true, hub server will verify client certificate using the CA certificate.
 
----
+***
 
 `user` - _Type_: string; _Default_: null
 
@@ -337,7 +332,7 @@ clustering:
   user: cluster_person    
 ```
 
----
+***
 
 ### `localStudio`
 
@@ -352,8 +347,7 @@ localStudio:
   enabled: false
 ```
 
----
-
+***
 
 ### `logging`
 
@@ -371,13 +365,15 @@ logging:
 ```
 
 To access the audit logs, use the API operation `read_audit_log`. It will provide a history of the data, including original records and changes made, in a specified table.
+
 ```json
 {
   "operation": "read_audit_log",
   "schema": "dev",
   "table": "dog"
 }
-````
+```
+
 `file` - _Type_: boolean; _Default_: true
 
 Defines whether or not to log to a file.
@@ -399,9 +395,10 @@ Control the verbosity of text event logs.
 logging:
   level: error
 ```
+
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.
 
-`root` - _Type_: string; _Default_: &lt;ROOTPATH>/log
+`root` - _Type_: string; _Default_: \<ROOTPATH>/log
 
 The path where the log files will be written.
 
@@ -414,7 +411,7 @@ logging:
 
 Rotation provides the ability for a user to systematically rotate and archive the `hdb.log` file. To enable `interval` and/or `maxSize` must be set.
 
-**_Note:_** `interval` and `maxSize` are approximates only. It is possible that the log file will exceed these values slightly before it is rotated.
+_**Note:**_ `interval` and `maxSize` are approximates only. It is possible that the log file will exceed these values slightly before it is rotated.
 
 ```yaml
 logging:
@@ -425,7 +422,6 @@ logging:
     maxSize: 100K
     path: /user/hdb/log
 ```
-<div style="padding-left: 30px;">
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -443,12 +439,9 @@ The time that should elapse between rotations. Acceptable units are D(ays), H(ou
 
 The maximum size the log file can reach before it is rotated. Must use units M(egabyte), G(igabyte), or K(ilobyte).
 
-`path` - _Type_: string; _Default_: &lt;ROOTPATH>/log
+`path` - _Type_: string; _Default_: \<ROOTPATH>/log
 
 Where to store the rotated log file. File naming convention is `HDB-YYYY-MM-DDT-HH-MM-SSSZ.log`.
-
-</div>
-
 
 `stdStreams` - _Type_: boolean; _Default_: false
 
@@ -459,10 +452,10 @@ logging:
   stdStreams: false
 ```
 
----
-
+***
 
 ### `authentication`
+
 The authentication section defines the configuration for the default authentication mechanism in HarperDB.
 
 ```yaml
@@ -486,8 +479,6 @@ This defines the length of time (in milliseconds) that an authentication (a part
 
 This will enable cookie-based sessions to maintain an authenticated session. This is generally the preferred mechanism for maintaining authentication in web browsers as it allows cookies to hold an authentication token securely without giving JavaScript code access to token/credentials that may open up XSS vulnerabilities.
 
-<div style="padding-left: 30px;">
-
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
 Defines the length of time an operation token will be valid until it expires. Example values: https://github.com/vercel/ms.
@@ -495,11 +486,10 @@ Defines the length of time an operation token will be valid until it expires. Ex
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
 Defines the length of time a refresh token will be valid until it expires. Example values: https://github.com/vercel/ms.
-</div>
 
 ### `operationsApi`
 
-The `operationsApi` section configures the HarperDB Operations API. <br>
+The `operationsApi` section configures the HarperDB Operations API.\
 All the `operationsApi` configuration is optional. Any configuration that is not provided under this section will default to the `http` configuration section.
 
 `network`
@@ -516,7 +506,6 @@ operationsApi:
     securePort: null
     timeout: 120000
 ```
-<div style="padding-left: 30px;">
 
 `cors` - _Type_: boolean; _Default_: true
 
@@ -558,23 +547,23 @@ operationsApi:
     privateKey: ~/hdb/keys/privateKey.pem
 ```
 
-`certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
+`certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
 
 Path to the certificate file.
 
-`certificateAuthority` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/ca.pem
+`certificateAuthority` - _Type_: string; _Default_: \<ROOTPATH>/keys/ca.pem
 
 Path to the certificate authority file.
 
-`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem 
+`privateKey` - _Type_: string; _Default_: \<ROOTPATH>/keys/privateKey.pem
 
 Path to the private key file.
 
----
+***
 
-### `componentsRoot`
+#### `componentsRoot`
 
-`componentsRoot` - _Type_: string; _Default_: &lt;ROOTPATH>/components
+`componentsRoot` - _Type_: string; _Default_: \<ROOTPATH>/components
 
 The path to the folder containing the local component files.
 
@@ -582,9 +571,9 @@ The path to the folder containing the local component files.
 componentsRoot: ~/hdb/components
 ```
 
----
+***
 
-### `rootPath`
+#### `rootPath`
 
 `rootPath` - _Type_: string; _Default_: home directory of the current user
 
@@ -594,9 +583,9 @@ The HarperDB database and applications/API/interface are decoupled from each oth
 rootPath: /Users/jonsnow/hdb
 ```
 
----
+***
 
-### `storage`
+#### `storage`
 
 `writeAsync` - _Type_: boolean; _Default_: false
 
@@ -616,7 +605,6 @@ storage:
   caching: true
 ```
 
-
 `compression` - _Type_: boolean; _Default_: false
 
 The `compression` option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
@@ -625,7 +613,6 @@ The `compression` option enables compression of records in the database. This ca
 storage:
   compression: false
 ```
-
 
 `noReadAhead` - _Type_: boolean; _Default_: true
 
@@ -636,7 +623,6 @@ storage:
   noReadAhead: true
 ```
 
-
 `prefetchWrites` - _Type_: boolean; _Default_: true
 
 The `prefetchWrites` option loads data prior to write transactions. This should be enabled for databases that are larger than memory (although it can be faster to disable this for smaller databases).
@@ -645,7 +631,6 @@ The `prefetchWrites` option loads data prior to write transactions. This should 
 storage:
   prefetchWrites: true
 ```
-
 
 `path` - _Type_: string; _Default_: `<rootPath>/schema`
 
@@ -656,10 +641,11 @@ storage:
   path: /users/harperdb/storage
 ```
 
-**_Note:_** This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
----
-### `tls`
+***
+
+#### `tls`
 
 Transport Layer Security
 
@@ -670,26 +656,28 @@ tls:
     privateKey: ~/hdb/keys/privateKey.pem
 ```
 
-`certificate` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/certificate.pem
+`certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
 
 Path to the certificate file.
 
-`certificateAuthority` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/ca.pem
+`certificateAuthority` - _Type_: string; _Default_: \<ROOTPATH>/keys/ca.pem
 
 Path to the certificate authority file.
 
-`privateKey` - _Type_: string; _Default_: &lt;ROOTPATH>/keys/privateKey.pem
+`privateKey` - _Type_: string; _Default_: \<ROOTPATH>/keys/privateKey.pem
 
 Path to the private key file.
 
----
+***
 
-### `databases`
+#### `databases`
 
-The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level. 
-<br/><br/>This configuration should be set before the database and table have been created.
-<br/><br/>The configuration will not create the directories in the path, that must be done by the user.
-<br/>
+The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.\
+\
+This configuration should be set before the database and table have been created.\
+\
+The configuration will not create the directories in the path, that must be done by the user.\
+
 
 To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
@@ -716,23 +704,28 @@ databases:
   nameOfDatabase:
     auditPath: /path/to/database
 ```
-<br/>
+
+\
+
 
 **Setting the database section through the command line, environment variables or API**
 
 When using command line variables,environment variables or the API to configure the databases section a slightly different convention from the regular one should be used. To add one or more configurations use a JSON object array.
 
 Using command line variables:
+
 ```bash
 --DATABASES [{\"nameOfSchema\":{\"tables\":{\"nameOfTable\":{\"path\":\"\/path\/to\/table\"}}}}]
 ```
 
 Using environment variables:
+
 ```bash
 DATABASES=[{"nameOfSchema":{"tables":{"nameOfTable":{"path":"/path/to/table"}}}}]
 ```
 
 Using the API:
+
 ```json
 {
   "operation": "set_configuration",

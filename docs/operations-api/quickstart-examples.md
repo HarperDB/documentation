@@ -1,12 +1,12 @@
-# QuickStart Examples 
+# Quick Start Examples
 
 ## Create dog Table
-We first need to create a table.  Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
+
+We first need to create a table. Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
 Tables in HarperDB are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  A hash attribute is an attribute that defines the unique identifier for each row in your table.  In a traditional RDMS this would be called a primary key.
 
-HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. 
-The parameter is optional and if not provided the operation will default to using a database named `data`. 
+HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. The parameter is optional and if not provided the operation will default to using a database named `data`.
 
 If you receive an error response, make sure your Basic Authentication user and password match those you entered during the installation process.
 
@@ -21,17 +21,17 @@ If you receive an error response, make sure your Basic Authentication user and p
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "table 'data.dog' successfully created."
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Create breed Table
-Now that we have a table to store our dog data, we also want to create a table to track known breeds.  Just as with the dog table, the only attribute we need to specify is the primary_key.
+Now that we have a table to store our dog data, we also want to create a table to track known breeds. Just as with the dog table, the only attribute we need to specify is the primary_key.
 
 ### Body
 
@@ -44,17 +44,18 @@ Now that we have a table to store our dog data, we also want to create a table t
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "table 'data.breed' successfully created."
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Insert 1 Dog
-We're ready to add some dog data.  Penny is our CTO's pup, so she gets ID 1 or we're all fired.  We are specifying attributes in this call, but this doesn't prevent us from specifying additional attributes in subsequent calls.
+
+We're ready to add some dog data. Penny is our CTO's pup, so she gets ID 1 or we're all fired. We are specifying attributes in this call, but this doesn't prevent us from specifying additional attributes in subsequent calls.
 
 ### Body
 
@@ -76,6 +77,7 @@ We're ready to add some dog data.  Penny is our CTO's pup, so she gets ID 1 or w
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "inserted 1 of 1 records",
@@ -86,11 +88,11 @@ We're ready to add some dog data.  Penny is our CTO's pup, so she gets ID 1 or w
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Insert Multiple Dogs
-Lets add some more Harper doggies!  We can add as many dog objects as we want into the records collection.  If you're adding a lot of objects, we would recommend using the .csv upload option (see the next section where we populate the breed table).
+
+Lets add some more Harper doggies! We can add as many dog objects as we want into the records collection. If you're adding a lot of objects, we would recommend using the .csv upload option (see the next section where we populate the breed table).
 
 ### Body
 
@@ -212,6 +214,7 @@ Lets add some more Harper doggies!  We can add as many dog objects as we want in
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "inserted 12 of 12 records",
@@ -233,13 +236,13 @@ Lets add some more Harper doggies!  We can add as many dog objects as we want in
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Bulk Insert Breeds Via CSV
-We need to populate the 'breed' table with some data so we can reference it later.  For larger data sets, we recommend using our CSV upload option.
 
-Each header in a column will be considered as an attribute, and each row in the file will be a row in the table.  Simply specify the file path and the table to upload to, and HarperDB will take care of the rest.  You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
+We need to populate the 'breed' table with some data so we can reference it later. For larger data sets, we recommend using our CSV upload option.
+
+Each header in a column will be considered as an attribute, and each row in the file will be a row in the table. Simply specify the file path and the table to upload to, and HarperDB will take care of the rest. You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
 
 ### Body
 
@@ -252,6 +255,7 @@ Each header in a column will be considered as an attribute, and each row in the 
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Starting job with id e77d63b9-70d5-499c-960f-6736718a4369",
@@ -259,11 +263,11 @@ Each header in a column will be considered as an attribute, and each row in the 
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Update 1 Dog Using NoSQL
-HarperDB supports NoSQL and SQL commands.  We're going to update the dog table to show Penny's last initial using our NoSQL API.
+
+HarperDB supports NoSQL and SQL commands. We're going to update the dog table to show Penny's last initial using our NoSQL API.
 
 ### Body
 
@@ -281,6 +285,7 @@ HarperDB supports NoSQL and SQL commands.  We're going to update the dog table t
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "updated 1 of 1 records",
@@ -291,11 +296,11 @@ HarperDB supports NoSQL and SQL commands.  We're going to update the dog table t
 }
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Select a Dog by ID Using SQL
-Now we're going to use a simple SQL SELECT call to pull Penny's updated data.  Note we now see Penny's last initial in the dog name.
+
+Now we're going to use a simple SQL SELECT call to pull Penny's updated data. Note we now see Penny's last initial in the dog name.
 
 ### Body
 
@@ -307,6 +312,7 @@ Now we're going to use a simple SQL SELECT call to pull Penny's updated data.  N
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -323,11 +329,11 @@ Now we're going to use a simple SQL SELECT call to pull Penny's updated data.  N
 ]
 ```
 
-
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Select Dogs and Join Breed
-Here's a more complex SQL command joining the breed table with the dog table.  We will also pull only the pups belonging to Kyle, Zach, and Stephen.
+
+Here's a more complex SQL command joining the breed table with the dog table. We will also pull only the pups belonging to Kyle, Zach, and Stephen.
 
 ### Body
 
@@ -339,6 +345,7 @@ Here's a more complex SQL command joining the breed table with the dog table.  W
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -370,4 +377,5 @@ Here's a more complex SQL command joining the breed table with the dog table.  W
         "section": "Mutt"
     }
 ]
+
 ```
