@@ -1,33 +1,33 @@
-# Writing HarperDB Components/Plugins
+# Writing HarperDB Components/Extensions
 
-HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and plugins that can be used and combined to build applications and add functionality to existing applications. Here we describe the different types of components/plugins that can be developed for HarperDB and how to create them.
+HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and extensions that can be used and combined to build applications and add functionality to existing applications. Here we describe the different types of components/extensions that can be developed for HarperDB and how to create them.
 
 There are three general categories of components for HarperDB: 
-- **protocol plugins** that provide and define ways for clients to access data
-- **resource plugins** that handle and interpret different types of files
+- **protocol extensions** that provide and define ways for clients to access data
+- **resource extensions** that handle and interpret different types of files
 - **consumer data sources** that provide a way to access and retrieve data from other sources.
 
-Server protocol plugins can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
+Server protocol extensions can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
 
-Server resource plugins implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource plugins could be added to support different file types like HTML templates (like JSX), CSV data, and more.
+Server resource extensions implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource extensions could be added to support different file types like HTML templates (like JSX), CSV data, and more.
 
 Consumer data source components are used to retrieve and access data from other sources, and can be very useful if you want to use HarperDB to cache or use data from other databases like MySQL, Postgres, or Oracle, or subscribe to data from messaging brokers (again possibly Kafka, NATS, etc.).
 
 These are not mutually exclusive, you may build components that fulfill any or all of these roles.
 
-## Server Plugins
-Server Plugins are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. Server plugins can be configured at an application (custom function) level or a global level (for all applications). The configuration will define and handle any network ports that the plugin can listen on. A plugin can be added by adding it to your harperdb-config.yaml:
+## Server Extensions
+Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. Server extensions can be configured at an application (custom function) level or a global level (for all applications). The configuration will define and handle any network ports that the extension can listen on. A extension can be added by adding it to your harperdb-config.yaml (here we are also defining a port, but any configuration would be dependent on the extension you are installing):
 ```yaml
-serverPlugins:
+serverExtensions:
   - package: 'org/package-name'
 	port: 4321
 ```
 
 ### Module Initialization
-Once a user has configured a plugin, HarperDB will attempt to load the plugin package specified by `module` property. Once loaded, there are several functions that can be exported that will be called by HarperDB:
+Once a user has configured a extension, HarperDB will attempt to load the extension package specified by `package` property. Once loaded, there are several functions that can be exported that will be called by HarperDB:
 
 `export function start(options: { port: number, server: {}})`
-If defined, this will be called on the initialization of the plugin. The provided `server` property object includes a set of additional entry points for utilizing or layering on top of other protocols (and when implementing a new protocol, you can add your own entry points). The most common entry is to provide an HTTP middleware layer. This looks like:
+If defined, this will be called on the initialization of the extension. The provided `server` property object includes a set of additional entry points for utilizing or layering on top of other protocols (and when implementing a new protocol, you can add your own entry points). The most common entry is to provide an HTTP middleware layer. This looks like:
 ```javascript
 export function start(options: { port: number, server: {}}) {
 	options.server.http(async (request, nextLayer) => {
@@ -56,7 +56,7 @@ interface Response {
 }
 ```
 
-If you were implementing an authentication plugin, you could get authentication information from the request and use it to add the `user` property to the request:
+If you were implementing an authentication extension, you could get authentication information from the request and use it to add the `user` property to the request:
 ```javascript
 export function start(options: { port: number, server: {}, resources: Map}) {
 	options.server.http((request, nextLayer) => {
@@ -84,15 +84,15 @@ export function start(options: { port: number, server: {}}) {
 ```
 
 ### Resource Handling
-Typically, servers not only communicate with clients, but serve up meaningful data based on the resources within the server. While resource plugins typically handle defining resources, once resources are defined, they can be consumed by server plugins. The `resources` argument provides access to the set of all the resources that have been defined. A server can call `resources.getMatch(path)` to get the resource associated with the URL path.
+Typically, servers not only communicate with clients, but serve up meaningful data based on the resources within the server. While resource extensions typically handle defining resources, once resources are defined, they can be consumed by server extensions. The `resources` argument provides access to the set of all the resources that have been defined. A server can call `resources.getMatch(path)` to get the resource associated with the URL path.
 
-## Resource Plugins
-Resource plugins allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../reference/resource.md). To implement a resource plugin, you export a function called `handleFile`. Users can then configure which files that should be handled by your plugin. For example, if we had implemented an EJS handler, it could be configured as:
+## Resource Extensions
+Resource extensions allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../reference/resource.md). To implement a resource extension, you export a function called `handleFile`. Users can then configure which files that should be handled by your extension. For example, if we had implemented an EJS handler, it could be configured as:
 ```yaml
-	module: 'ejs-plugin',
+	module: 'ejs-extension',
 	path: '/templates/*.ejs'
 ```
-And in our plugin module, we could implement `handleFile`:
+And in our extension module, we could implement `handleFile`:
 ```javascript
 export function handleFile?(contents, relative_path, file_path, resources) {
 	// will be called for each .ejs file.
@@ -100,17 +100,17 @@ export function handleFile?(contents, relative_path, file_path, resources) {
    resources.set(relative_path, GeneratedResource);
 }
 ```
-We can also implement a handler for directories. This can be useful for implementing a handler for broader frameworks that load their own files, like Next.js or Remix, or a static file handler. HarperDB includes such a plugin for fastify's auto-loader that loads a directory of route definitions. This hook looks like:
+We can also implement a handler for directories. This can be useful for implementing a handler for broader frameworks that load their own files, like Next.js or Remix, or a static file handler. HarperDB includes such a extension for fastify's auto-loader that loads a directory of route definitions. This hook looks like:
 ```javascript
 export function handleDirectory?(relative_path, path, resources) {
 }
 ```
-Note that these hooks are not mutually exclusive. You can write a plugin that implements any or all of these hooks, potentially implementing a custom protocol and file handling.
+Note that these hooks are not mutually exclusive. You can write a extension that implements any or all of these hooks, potentially implementing a custom protocol and file handling.
 
 ## Data Source Components
 Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../reference/resource.md) for more information on implementing new resources.
 
-## Content Type Plugins
+## Content Type Extensions
 HarperDB uses content negotiation to determine how to deserialize content incoming data from HTTP requests (and any other protocols that support content negotiation) and to serialize data into responses. This negotiation is performed by comparing the `Content-Type` header with registered content type handler to determine how to deserialize content into structured data that is processed and stored, and comparing the `Accept` header with registered content type handlers to determine how to serialize structured data. HarperDB comes with a rich set of content type handlers including JSON, CBOR, MessagePack, CSV, Event-Stream, and more. However, you can also add your own content type handlers by adding new entries (or even replacing existing entries) to the `contentTypes` exported map from the `server` global (or `harperdb` export). This map is keyed by the MIME type, and the value is an object with properties (all optional):
 `serialize(data): Buffer|Uint8Array|string`: If defined, this will be called with the data structure and should return the data serialized as binary data (NodeJS Buffer or Uint8Array) or a string, for the response.
 `serializeStream(data): ReadableStream`: If defined, this will be called with the data structure and should return the data serialized as a ReadableStream. This is generally necessary for handling asynchronous iteratables.
@@ -129,6 +129,6 @@ contentTypes.set('text/xml', {
 ```
 
 ## Trusted/Untrusted
-Plugins will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted plugins for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
+Extensions will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted extensions for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
 
-A plugin can be automatically considered trusted if it that conforms to the requirements of [Secure EcmaScript](https://www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted plugins/components. A plugin can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all plugins. Untrusted plugins can access any other packages/modules, and may have many additional capabilities.
+A extension can be automatically considered trusted if it that conforms to the requirements of [Secure EcmaScript](https://www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted extensions/components. A extension can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all extensions. Untrusted extensions can access any other packages/modules, and may have many additional capabilities.

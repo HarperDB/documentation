@@ -5,7 +5,7 @@ With dynamic schemas individual attributes are reflexively created as data is in
 
 ### Databases
 
-HarperDB databases hold a collection of tables together in a single file that are transactionally connecting meaning that operations across tables within a database can be performed in a single atomic transaction. By default tables are added to the default database called "data", but other databases can be created and specified for tables.
+HarperDB databases hold a collection of tables together in a single file that are transactionally connected. This means that operations across tables within a database can be performed in a single atomic transaction. By default tables are added to the default database called "data", but other databases can be created and specified for tables.
 
 ### Tables
 
