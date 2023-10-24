@@ -4,7 +4,7 @@
 
 We first need to create a table. Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
-Tables in HarperDB are schema-less, so we don't need to add any attributes other than a hash\_attribute (also referred to as a primary key) to create this table. A hash attribute is an attribute that defines the unique identifier for each row in your table. In a traditional RDMS this would be called a primary key.
+Tables in HarperDB are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  A hash attribute is an attribute that defines the unique identifier for each row in your table.  In a traditional RDMS this would be called a primary key.
 
 HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. The parameter is optional and if not provided the operation will default to using a database named `data`.
 
@@ -16,7 +16,7 @@ If you receive an error response, make sure your Basic Authentication user and p
 {
     "operation": "create_table",
     "table": "dog",
-    "hash_attribute": "id"
+    "primary_key": "id"
 }
 ```
 
@@ -31,8 +31,7 @@ If you receive an error response, make sure your Basic Authentication user and p
 ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 
 ## Create breed Table
-
-Now that we have a table to store our dog data, we also want to create a table to track known breeds. Just as with the dog table, the only attribute we need to specify is the hash\_attribute.
+Now that we have a table to store our dog data, we also want to create a table to track known breeds. Just as with the dog table, the only attribute we need to specify is the primary_key.
 
 ### Body
 
@@ -40,7 +39,7 @@ Now that we have a table to store our dog data, we also want to create a table t
 {
     "operation": "create_table",
     "table": "breed",
-    "hash_attribute": "id"
+    "primary_key": "id"
 }
 ```
 

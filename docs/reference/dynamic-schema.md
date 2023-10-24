@@ -37,21 +37,21 @@ To better understand the behavior let’s take a look at an example. This exampl
 
 ```bash
 {
-    "operation": "create_schema",
+    "operation": "create_database",
     "schema": "dev"
 }
 ```
 
 **Create a Table**
 
-Notice the schema name, table name, and hash attribute name are the only required parameters.
+Notice the schema name, table name, and primary key name are the only required parameters.
 
 ```bash
 {
     "operation": "create_table",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
-    "hash_attribute": "id"
+    "primary_key": "id"
 }
 ```
 
@@ -68,7 +68,7 @@ To define attributes we do not need to do anything beyond sending them in with a
 ```bash
 {
     "operation": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
       {"id": 1, "dog_name": "Penny", "owner_name": "Kyle"}
@@ -91,7 +91,7 @@ If we continue inserting records with the same data schema no schema updates are
 ```bash
 {
     "operation": "insert",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
         {"id": 2, "dog_name": "Monk", "owner_name": "Aron"},
@@ -113,7 +113,7 @@ In this case, we will update a record with a new attribute not previously define
 ```bash
 {
     "operation": "update",
-    "schema": "dev",
+    "database": "dev",
     "table": "dog",
     "records": [
       {"id": 2, "weight_lbs": 35}

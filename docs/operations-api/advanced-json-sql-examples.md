@@ -35,7 +35,7 @@ Creates a new table called "movie" inside the database "movies" using the ‘cre
     "operation": "create_table",
     "database": "movies",
     "table": "movie",
-    "hash_attribute": "id"
+    "primary_key": "id"
 }
 ```
 
@@ -59,7 +59,7 @@ Creates a new table called "credits" inside the database "movies" using the ‘c
     "operation": "create_table",
     "database": "movies",
     "table": "credits",
-    "hash_attribute": "movie_id"
+    "primary_key": "movie_id"
 }
 ```
 
