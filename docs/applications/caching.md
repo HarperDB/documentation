@@ -17,7 +17,7 @@ stale expiration: The point when a request for a record should trigger a request
 must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin.
 eviction expiration: The point when a record is actually removed from the caching table.
 
-ou can provide a single expiration and it define the behavior for all three. You can also provide three settings for expiration, through table directives:
+You can provide a single expiration and it define the behavior for all three. You can also provide three settings for expiration, through table directives:
 expiration - The amount of time until a record goes stale
 eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
 scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
@@ -52,7 +52,7 @@ HarperDB handles waiting for an existing cache resolution to finish and use its 
 Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
 ### Eviction with Indexing
-Eviction is the removal of a locally cached copy of data, but it does not (semantically) represent a "deletion" of the actual data. If a caching table uses expiration (and eviction), and has indexing on certain attributes, the indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). If a search query is performed that matches this evicted record, the record will be requested on-demand to fulfill the search query.
+Eviction is the removal of a locally cached copy of data, but it does not imply the deletion of the actual data from the canonical or origin data source. Because evicted records still exist (just not in the local cache), if a caching table uses expiration (and eviction), and has indexing on certain attributes, the data is not removed from the indexes. The indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). Eviction only removes the data that can be safely removed from a cache without effecting the integrity or behavior of the indexes. If a search query is performed that matches this evicted record, the record will be requested on-demand to fulfill the search query.
 
 ### Specifying a Timestamp
 In the example above, we simply retrieved data to fulfill a cache request. We may want to supply the timestamp of the record we are fulfilling as well. This can be set on the context for the request:
