@@ -35,15 +35,16 @@ paths:
                 expiration:
                   type: integer
                   example: 3600
-                  decription: Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified). This is specified in seconds.
+                  description: Specifies the time-to-live or expiration of records in the table before they are evicted (records are not evicted on any timer if not specified). This is specified in seconds.
                 attributes:
                   type: array
                   items:
                     type: object
+                    required:
+                      - name
                     properties:
                       name:
                         type: string
-                        required: true
                         description: The name of the attribute
                       indexed:
                         type: boolean
