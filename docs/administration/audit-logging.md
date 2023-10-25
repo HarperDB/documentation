@@ -1,14 +1,16 @@
-## Audit log
+# Audit Logging
+
+### Audit log
 
 The audit log uses a standard HarperDB table to track transactions. For each table a user creates, a corresponding table will be created to track transactions against that table.
 
 Audit log is disabled by default. To use the audit log, set `logging.auditLog` to true in the config file, `harperdb-config.yaml`. Then restart HarperDB for those changes to take place.
 
-## Audit Log Operations
+### Audit Log Operations
 
-### read_audit_log
+#### read\_audit\_log
 
-The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [HarperDB API documentation](operations-api/logs.md).
+The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [HarperDB API documentation](../developers/operations-api/logs.md).
 
 **Search by Timestamp**
 
@@ -25,11 +27,12 @@ The `read_audit_log` operation is flexible, enabling users to query with many pa
 ```
 
 There are three outcomes using timestamp.
+
 * `"search_values": []` - All records returned for specified table
 * `"search_values": [1660585740558]` - All records after provided timestamp
 * `"search_values": [1660585740558, 1760585759710]` - Records "from" and "to" provided timestamp
 
----
+***
 
 **Search by Username**
 
@@ -47,7 +50,7 @@ There are three outcomes using timestamp.
 
 The above example will return all records whose `username` is "admin."
 
----
+***
 
 **Search by Primary Key**
 
@@ -64,9 +67,10 @@ The above example will return all records whose `username` is "admin."
 ```
 
 The above example will return all records whose primary key (`hash_value`) is 318.
-___
 
-### read_audit_log Response
+***
+
+#### read\_audit\_log Response
 
 The example that follows provides records of operations performed on a table. One thing of note is that this the `read_audit_log` operation gives you the `original_records`.
 
@@ -112,7 +116,8 @@ The example that follows provides records of operations performed on a table. On
     ]
 }
 ```
-### delete_audit_logs_before
+
+#### delete\_audit\_logs\_before
 
 Just like with transaction logs, you can clean up your audit logs with the `delete_audit_logs_before` operation. It will delete audit log data according to the given parameters. The example below will delete records older than the timestamp provided.
 
