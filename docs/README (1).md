@@ -1,6 +1,6 @@
 # Getting Started
 
-_This is an beta release, please be aware that we are actively testing and refining this release. See_ [_release notes_](release-notes/4.tucker/4.2.0.md) _for more information on the current progress._
+_This is an beta release, please be aware that we are actively testing and refining this release. See_ [_release notes_](in-the-weeds/release-notes/4.tucker/4.2.0.md) _for more information on the current progress._
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
@@ -8,7 +8,7 @@ HarperDB's documentation covers installation, getting started, administrative op
 
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deployments/harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -39,7 +39,7 @@ HarperDB is more than just a database, with HarperDB you build "database applica
 To set up a HarperDB cloud instance, simply sign up and create a new instance:
 
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
-2. [Create a new HarperDB Cloud instance](harperdb-studio/instances.md#Create-a-New-Instance)
+2. [Create a new HarperDB Cloud instance](administration/harperdb-studio/instances.md#Create-a-New-Instance)
 
 Note that a local instance and cloud instance are not mutually exclusive. You can register you local instance in your cloud studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
 
@@ -49,11 +49,11 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a schema](harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
-2. [Create a table](harperdb-studio/manage-schemas-browse-data.md#create-a-table)
-3. [Add a record](harperdb-studio/manage-schemas-browse-data.md#add-a-record)
-4. [Load CSV data](harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
-5. [Query data via SQL](harperdb-studio/query-instance-data.md)
+1. [Create a schema](administration/harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
+2. [Create a table](administration/harperdb-studio/manage-schemas-browse-data.md#create-a-table)
+3. [Add a record](administration/harperdb-studio/manage-schemas-browse-data.md#add-a-record)
+4. [Load CSV data](administration/harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
+5. [Query data via SQL](administration/harperdb-studio/query-instance-data.md)
 
 ## Administering HarperDB
 
@@ -79,8 +79,8 @@ curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 
 ## Support and Learning More
 
-See our [support documentation](support.md) for more information on getting help, and you can also learn more about available HarperDB projects by searching [Github](https://github.com/search?q=harperdb).
+If you find yourself in need of additional support you can submit a [HarperDB support ticket](https://harperdbhelp.zendesk.com/hc/en-us/requests/new). You can also learn more about available HarperDB projects by searching [Github](https://github.com/search?q=harperdb).
 
 ### Video Tutorials
 
-[HarperDB video tutorials are available within the HarperDB Studio](harperdb-studio/resources.md#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[HarperDB video tutorials are available within the HarperDB Studio](administration/harperdb-studio/resources.md#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.

@@ -6,7 +6,7 @@ The HarperDB Google Data Studio Connector is subject to our [Terms of Use](https
 
 ## Requirements
 
-The HarperDB database must be accessible through the Internet in order for Google Data Studio servers to access it. The database may be hosted by you or via [HarperDB Cloud](../../harperdb-cloud/).
+The HarperDB database must be accessible through the Internet in order for Google Data Studio servers to access it. The database may be hosted by you or via [HarperDB Cloud](../../deployments/harperdb-cloud/).
 
 ## Get Started
 
@@ -17,7 +17,7 @@ Get started by selecting the HarperDB connector from the [Google Data Studio Par
 3. Authorize the connector to access other servers on your behalf (this allows the connector to contact your database).
 4. Enter the Web URL to access your database (preferably with HTTPS), as well as the Basic Auth key you use to access the database. Just include the key, not the word “Basic” at the start of it.
 5. Check the box for “Secure Connections Only” if you want to always use HTTPS connections for this data source; entering a Web URL that starts with https:// will do the same thing, if you prefer.
-6. Check the box for “Allow Bad Certs” if your HarperDB instance does not have a valid SSL certificate. [HarperDB Cloud](../../harperdb-cloud/) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [HarperDB Cloud](../../harperdb-cloud/) or another instance you know should always have valid SSL certificates, do not check this box.
+6. Check the box for “Allow Bad Certs” if your HarperDB instance does not have a valid SSL certificate. [HarperDB Cloud](../../deployments/harperdb-cloud/) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [HarperDB Cloud](../../deployments/harperdb-cloud/) or another instance you know should always have valid SSL certificates, do not check this box.
 7. Choose your Query Type. This determines what information the configuration will ask for after pressing the Next button.
    * Table will ask you for a Schema and a Table to return all fields of using `SELECT *`.
    * SQL will ask you for the SQL query you’re using to retrieve fields from the database. You may `JOIN` multiple tables together, and use HarperDB specific SQL functions, along with the usual power SQL grants.
@@ -26,7 +26,7 @@ Get started by selecting the HarperDB connector from the [Google Data Studio Par
 
 ## Considerations
 
-* Both Postman and the [HarperDB Studio](../../harperdb-studio/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
+* Both Postman and the [HarperDB Studio](../../administration/harperdb-studio/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
   * You may sign out of your current user by going to the instances tab in HarperDB Studio, then clicking on the lock icon at the top-right of a given instance’s box. Click the lock again to sign in as any user. The Basic Auth token will be visible in the Authorization header portion of any code created in the Sample Code tab.
 * It’s highly recommended that you create a read-only user role in HarperDB Studio, and create a user with that role for your data sources to use. This prevents that authorization token from being used to alter your database, should someone else ever get ahold of it.
 * The RecordCount field is intended for use as a metric, for counting how many instances of a given set of values appear in a report’s data set.

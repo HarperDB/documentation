@@ -32,4 +32,4 @@ If you want to ensure a message is logged, you can use `notify` as these message
 
 ## Viewing the Log
 
-The HarperDB Log can be found in your local `~/hdb/log/hdb.log` file (or in the log folder if you have specified an alternate hdb root), or in the [Studio Status page](../../harperdb-studio/instance-metrics.md). Additionally, you can use the [`read_log` operation](../operations-api/logs.md) to query the HarperDB log.
+The HarperDB Log can be found in your local `~/hdb/log/hdb.log` file (or in the log folder if you have specified an alternate hdb root), or in the [Studio Status page](../../administration/harperdb-studio/instance-metrics.md). Additionally, you can use the [`read_log` operation](../operations-api/logs.md) to query the HarperDB log.
