@@ -2,6 +2,20 @@
 
 * [HarperDB User Docs](README.md)
 * [Getting Started](<README (1).md>)
+* [Clustering](clustering/README.md)
+  * [Requirements and Definitions](clustering/requirements-and-definitions.md)
+  * [Creating A Cluster User](clustering/creating-a-cluster-user.md)
+  * [Naming A Node](clustering/naming-a-node.md)
+  * [Enabling Clustering](clustering/enabling-clustering.md)
+  * [Establishing Routes](clustering/establishing-routes.md)
+  * [Subscription Overview](clustering/subscription-overview.md)
+  * [Managing Subscriptions](clustering/managing-subscriptions.md)
+  * [Things Worth Knowing](clustering/things-worth-knowing.md)
+* [Security](security/README.md)
+  * [JWT Authentication](security/jwt-auth.md)
+  * [Basic Authentication](security/basic-auth.md)
+  * [Configuration](security/configuration.md)
+  * [Users & Roles](security/users-and-roles.md)
 
 ## Developers
 
@@ -55,15 +69,6 @@
     * [geoEqual](developers/sql-guide/sql-geospatial-functions/geoequal.md)
     * [geoCrosses](developers/sql-guide/sql-geospatial-functions/geocrosses.md)
     * [geoConvert](developers/sql-guide/sql-geospatial-functions/geoconvert.md)
-* [Clustering](developers/clustering/README.md)
-  * [Requirements and Definitions](developers/clustering/requirements-and-definitions.md)
-  * [Creating A Cluster User](developers/clustering/creating-a-cluster-user.md)
-  * [Naming A Node](developers/clustering/naming-a-node.md)
-  * [Enabling Clustering](developers/clustering/enabling-clustering.md)
-  * [Establishing Routes](developers/clustering/establishing-routes.md)
-  * [Subscription Overview](developers/clustering/subscription-overview.md)
-  * [Managing Subscriptions](developers/clustering/managing-subscriptions.md)
-  * [Things Worth Knowing](developers/clustering/things-worth-knowing.md)
 
 ## Administration
 
@@ -73,11 +78,6 @@
 * [Logging](administration/logging.md)
 * [Audit Logging](administration/audit-logging.md)
 * [Jobs](administration/jobs.md)
-* [Security](administration/security/README.md)
-  * [JWT Authentication](administration/security/jwt-auth.md)
-  * [Basic Authentication](administration/security/basic-auth.md)
-  * [Configuration](administration/security/configuration.md)
-  * [Users & Roles](administration/security/users-and-roles.md)
 * [HarperDB Studio](administration/harperdb-studio/README.md)
   * [Create an Account](administration/harperdb-studio/create-account.md)
   * [Log In & Password Reset](administration/harperdb-studio/login-password-reset.md)
