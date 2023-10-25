@@ -19,7 +19,7 @@ These can be used to retrieve individual records or perform searches. This handl
 This can be used to retrieve a record by its primary key. The response will include the record as the body.
 
 #### Caching/Conditional Requests
-A `GET` response for a record will include an encoded timestamp of the last modification to this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to serialized and transferred over the network.
+A `GET` response for a record will include an encoded version, a timestamp of the last modification, of this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to serialized and transferred over the network.
 
 ### `GET /my-resource/?property=value`
 
@@ -35,18 +35,18 @@ This can be used to create or update a record with the provided object/data (sim
 
 ### `PUT /my-resource/<record-id>`
 
-This will create or update the record with at the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record should exactly match the data (this will remove any properties that are present in the previous record). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
+This will create or update the record with at the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record will exactly match the data that was sent (this will remove any properties that were present in the previous record and not included in the body). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
 
 ```http
 PUT /MyTable/123
+Content-Type: application/json
 
 { "name": "some data" }
 ```
-This will create or replace the record with a primary key of "123" with the object defined by the JSON in the body.
+This will create or replace the record with a primary key of "123" with the object defined by the JSON in the body. This is handled by the Resource method `put()`.
 
 ## DELETE
 This can be used to delete a record or records.
-This is handled by the Resource method `delete()`.
 
 ## `DELETE /my-resource/<record-id>`
 
@@ -62,7 +62,7 @@ This will delete all the records that match the provided query.
 
 ## POST
 
-Generally the POST method can be used for custom actions since POST has the broadest semantics. For tables that are exposted as endpoints, this also can be used to create new records.
+Generally the POST method can be used for custom actions since POST has the broadest semantics. For tables that are expost\ed as endpoints, this also can be used to create new records.
 
 ### `POST /my-resource/`
 
@@ -71,6 +71,7 @@ This is handled by the Resource method `post(data)`, which is a good method to e
 ```http
 ```http
 PUT /MyTable/
+Content-Type: application/json
 
 { "name": "some data" }
 ```
@@ -86,6 +87,7 @@ We can specify multiple properties that must match:
 ```http
 GET /my-resource/?property=value&property2=another-value
 ```
+Note that only one of the properties needs to be indexed for this query to execute.
 
 We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
@@ -129,8 +131,8 @@ GET /product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
 HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types:
 `application/json` - Common format, easy to read, with great tooling support.
 `application/cbor` - Recommended binary format for optimal encoding efficiency and performance.
-`application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as has better streaming capabilities and faster time-to-first-byte.
-`text/csv` - CSV, inefficient, but good for moving data to and from a spreadsheet.
+`application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as it has better streaming capabilities and faster time-to-first-byte.
+`text/csv` - CSV, lacks explicit typing, not well suited for heterogenous data structures, but good for moving data to and from a spreadsheet.
 
 CBOR is generally the most efficient and powerful encoding format, with the best performance, most compact encoding, and most expansive ability to encode different data types like Dates, Maps, and Sets. MessagePack is very similar and tends to have broader adoption. However, JSON can be easier to work with and may have better tooling. Also, if you are using compression for data transfer (gzip or brotli), JSON will often result in more compact compressed data due to character frequencies that better align with Huffman coding, making JSON a good choice for web applications that do not require specific data types beyond the standard JSON types.
 
