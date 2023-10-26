@@ -2,20 +2,6 @@
 
 * [HarperDB User Docs](README.md)
 * [Getting Started](<README (1).md>)
-* [Clustering](clustering/README.md)
-  * [Requirements and Definitions](clustering/requirements-and-definitions.md)
-  * [Creating A Cluster User](clustering/creating-a-cluster-user.md)
-  * [Naming A Node](clustering/naming-a-node.md)
-  * [Enabling Clustering](clustering/enabling-clustering.md)
-  * [Establishing Routes](clustering/establishing-routes.md)
-  * [Subscription Overview](clustering/subscription-overview.md)
-  * [Managing Subscriptions](clustering/managing-subscriptions.md)
-  * [Things Worth Knowing](clustering/things-worth-knowing.md)
-* [Security](security/README.md)
-  * [JWT Authentication](security/jwt-auth.md)
-  * [Basic Authentication](security/basic-auth.md)
-  * [Configuration](security/configuration.md)
-  * [Users & Roles](security/users-and-roles.md)
 
 ## Developers
 
@@ -71,6 +57,20 @@
     * [geoEqual](developers/sql-guide/sql-geospatial-functions/geoequal.md)
     * [geoCrosses](developers/sql-guide/sql-geospatial-functions/geocrosses.md)
     * [geoConvert](developers/sql-guide/sql-geospatial-functions/geoconvert.md)
+* [Clustering](developers/clustering/README.md)
+  * [Requirements and Definitions](developers/clustering/requirements-and-definitions.md)
+  * [Creating A Cluster User](developers/clustering/creating-a-cluster-user.md)
+  * [Naming A Node](developers/clustering/naming-a-node.md)
+  * [Enabling Clustering](developers/clustering/enabling-clustering.md)
+  * [Establishing Routes](developers/clustering/establishing-routes.md)
+  * [Subscription Overview](developers/clustering/subscription-overview.md)
+  * [Managing Subscriptions](developers/clustering/managing-subscriptions.md)
+  * [Things Worth Knowing](developers/clustering/things-worth-knowing.md)
+* [Security](developers/security/README.md)
+  * [JWT Authentication](developers/security/jwt-auth.md)
+  * [Basic Authentication](developers/security/basic-auth.md)
+  * [Configuration](developers/security/configuration.md)
+  * [Users & Roles](developers/security/users-and-roles.md)
 
 ## Administration
 

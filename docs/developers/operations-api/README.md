@@ -1,6 +1,6 @@
 # Operations API
 
-The operations API provides a full set of capabilities for configuring, deploying, adminstering, and controlling HarperDB. To send operations to the operations API, you send a POST request to the operations API endpoint, which [defaults to port 9925](../../deployments/configuration.md), on the root path, where the body is the operations object. These requests need to authenticated, which can be done with [basic auth](../../security/basic-auth.md) or [JWT authentication](../../security/jwt-auth.md). For example, a request to create a table would be performed as:
+The operations API provides a full set of capabilities for configuring, deploying, adminstering, and controlling HarperDB. To send operations to the operations API, you send a POST request to the operations API endpoint, which [defaults to port 9925](../../deployments/configuration.md), on the root path, where the body is the operations object. These requests need to authenticated, which can be done with [basic auth](../security/basic-auth.md) or [JWT authentication](../security/jwt-auth.md). For example, a request to create a table would be performed as:
 
 ```http
 POST http://my-harperdb-server:9925/

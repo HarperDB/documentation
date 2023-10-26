@@ -177,7 +177,7 @@ With this a record will be created and the auto-assigned id will be available th
 
 ## Authenticating Endpoints
 
-These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../../security/) for more information on different levels of access.
+These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security/) for more information on different levels of access.
 
 By default, HarperDB also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../../deployments/configuration.md#authentication).
 
@@ -319,7 +319,7 @@ export class CustomDog extends Dog {
 }
 ```
 
-Any methods that are not defined will fall back to HarperDB's default authorization procedure based on users' roles. If you are using/extending a table, this is based on HarperDB's [role based access](../../security/users-and-roles.md). If you are extending the base `Resource` class, the default access requires super user permission.
+Any methods that are not defined will fall back to HarperDB's default authorization procedure based on users' roles. If you are using/extending a table, this is based on HarperDB's [role based access](../security/users-and-roles.md). If you are extending the base `Resource` class, the default access requires super user permission.
 
 You can also use the `default` export to define the root path resource handler. For example:
 
