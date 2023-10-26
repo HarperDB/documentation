@@ -108,6 +108,7 @@
   * [Instance Size Hardware Specs](deployments/harperdb-cloud/instance-size-hardware-specs.md)
   * [Alarms](deployments/harperdb-cloud/alarms.md)
   * [Verizon 5G Wavelength](deployments/harperdb-cloud/verizon-5g-wavelength-instances.md)
+* [Drivers](deployments/drivers.md)
 
 ## In the Weeds
 
