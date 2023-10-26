@@ -65,7 +65,17 @@ paths:
           content:
             application/json:
               schema:
-                properties:
-                  message:
-                    type: string
-                    example: table 'dev.dog' successfully created.
+                $ref: '#/components/schemas/CreateTableResponse'
+              # schema:
+              #   properties:
+              #     message:
+              #       type: string
+              #       example: table 'dev.dog' successfully created.
+components:
+  schemas:
+    CreateTableResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: table 'dev.dog' successfully created.
