@@ -1,6 +1,6 @@
 # Table of contents
 
-* [HarperDB User Docs](README.md)
+* [HarperDB Docs](README.md)
 * [Getting Started](<README (1).md>)
 
 ## Developers
@@ -18,7 +18,6 @@
   * [Google Data Studio](developers/components/google-data-studio.md)
   * [SDKs](developers/components/sdks.md)
   * [Drivers](developers/components/drivers.md)
-* [Real-Time](developers/real-time.md)
 * [REST](developers/rest.md)
 * [Operations API](developers/operations-api/README.md)
   * [Quick Start Examples](developers/operations-api/quickstart-examples.md)
@@ -36,13 +35,7 @@
   * [Token Authentication](developers/operations-api/token-authentication.md)
   * [SQL Operations](developers/operations-api/sql-operations.md)
   * [Advanced JSON SQL Examples](developers/operations-api/advanced-json-sql-examples.md)
-* [SQL Guide](developers/sql-guide/README.md)
-  * [SQL Features Matrix](developers/sql-guide/features-matrix.md)
-  * [SQL Date Functions](developers/sql-guide/date-functions.md)
-  * [SQL Reserved Word](developers/sql-guide/reserved-word.md)
-  * [SQL Functions](developers/sql-guide/functions.md)
-  * [SQL JSON Search](developers/sql-guide/json-search.md)
-  * [SQL Geospatial Functions](developers/sql-guide/sql-geospatial-functions.md)
+* [Real-Time](developers/real-time.md)
 * [Clustering](developers/clustering/README.md)
   * [Requirements and Definitions](developers/clustering/requirements-and-definitions.md)
   * [Creating A Cluster User](developers/clustering/creating-a-cluster-user.md)
@@ -57,6 +50,13 @@
   * [Basic Authentication](developers/security/basic-auth.md)
   * [Configuration](developers/security/configuration.md)
   * [Users & Roles](developers/security/users-and-roles.md)
+* [SQL Guide](developers/sql-guide/README.md)
+  * [SQL Features Matrix](developers/sql-guide/features-matrix.md)
+  * [SQL Date Functions](developers/sql-guide/date-functions.md)
+  * [SQL Reserved Word](developers/sql-guide/reserved-word.md)
+  * [SQL Functions](developers/sql-guide/functions.md)
+  * [SQL JSON Search](developers/sql-guide/json-search.md)
+  * [SQL Geospatial Functions](developers/sql-guide/sql-geospatial-functions.md)
 
 ## Administration
 
@@ -69,7 +69,6 @@
 * [HarperDB Studio](administration/harperdb-studio/README.md)
   * [Create an Account](administration/harperdb-studio/create-account.md)
   * [Log In & Password Reset](administration/harperdb-studio/login-password-reset.md)
-  * [Resources (Marketplace, Drivers, Tutorials, & Example Code)](administration/harperdb-studio/resources.md)
   * [Organizations](administration/harperdb-studio/organizations.md)
   * [Instances](administration/harperdb-studio/instances.md)
   * [Query Instance Data](administration/harperdb-studio/query-instance-data.md)

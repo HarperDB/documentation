@@ -1,11 +1,5 @@
 # Getting Started
 
-_This is an beta release, please be aware that we are actively testing and refining this release. See_ [_release notes_](in-the-weeds/release-notes/4.tucker/4.2.0.md) _for more information on the current progress._
-
-HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
-
-## Getting Started
-
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
 You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deployments/harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
@@ -67,15 +61,14 @@ The Operations API provides extensive administrative capabilities for HarperDB, 
 
 The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
 
-```
-curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
+<pre><code>curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-"operation": "create_schema",
-"schema": "dev"
-}'
-```
+  "operation": "create_schema",
+<strong>  "schema": "dev"
+</strong>}'
+</code></pre>
 
 ## Support and Learning More
 
@@ -83,4 +76,4 @@ If you find yourself in need of additional support you can submit a [HarperDB su
 
 ### Video Tutorials
 
-[HarperDB video tutorials are available within the HarperDB Studio](administration/harperdb-studio/resources.md#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[HarperDB video tutorials are available within the HarperDB Studio](broken-reference). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
