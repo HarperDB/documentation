@@ -30,6 +30,8 @@
   * [Writing Extensions](developers/components/writing-extensions.md)
   * [Operations](developers/components/operations.md)
   * [Google Data Studio](developers/components/google-data-studio.md)
+  * [SDKs](developers/components/sdks.md)
+  * [Drivers](developers/components/drivers.md)
 * [Real-Time](developers/real-time.md)
 * [REST](developers/rest.md)
 * [Operations API](developers/operations-api/README.md)
@@ -108,7 +110,6 @@
   * [Instance Size Hardware Specs](deployments/harperdb-cloud/instance-size-hardware-specs.md)
   * [Alarms](deployments/harperdb-cloud/alarms.md)
   * [Verizon 5G Wavelength](deployments/harperdb-cloud/verizon-5g-wavelength-instances.md)
-* [Drivers](deployments/drivers.md)
 
 ## In the Weeds
 
