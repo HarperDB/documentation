@@ -62,11 +62,11 @@
 
 ## Administration
 
-* [Administration](administration/administration/README.md)
-  * [Cloning](administration/administration/cloning.md)
-  * [Transaction Logging](administration/administration/transaction-logging.md)
+* [Best Practices and Recommendations](administration/administration.md)
 * [Logging](administration/logging.md)
 * [Audit Logging](administration/audit-logging.md)
+* [Transaction Logging](administration/transaction-logging.md)
+* [Cloning](administration/cloning.md)
 * [Jobs](administration/jobs.md)
 * [HarperDB Studio](harperdb-studio/README.md)
   * [Create an Account](harperdb-studio/create-account.md)

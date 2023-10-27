@@ -99,7 +99,7 @@ Typically, servers not only communicate with clients, but serve up meaningful da
 
 ## Resource Extensions
 
-Resource extensions allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../../technical-details/reference/resource.md). To implement a resource extension, you export a function called `handleFile`. Users can then configure which files that should be handled by your extension. For example, if we had implemented an EJS handler, it could be configured as:
+Resource extensions allow us to handle different files and make them accessible to servers as resources, following the common [Resource API](../../reference/resource.md). To implement a resource extension, you export a function called `handleFile`. Users can then configure which files that should be handled by your extension. For example, if we had implemented an EJS handler, it could be configured as:
 
 ```yaml
 	module: 'ejs-extension',
@@ -127,7 +127,7 @@ Note that these hooks are not mutually exclusive. You can write a extension that
 
 ## Data Source Components
 
-Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../technical-details/reference/resource.md) for more information on implementing new resources.
+Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../reference/resource.md) for more information on implementing new resources.
 
 ## Content Type Extensions
 

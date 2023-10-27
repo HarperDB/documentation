@@ -32,7 +32,7 @@ HarperDB automatically creates two audit attributes used on each record if the t
 
 ### Dynamic Schema Example
 
-To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../../developers/operations-api/databases-and-tables.md).
+To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../developers/operations-api/databases-and-tables.md).
 
 **Create a Database**
 
@@ -60,7 +60,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](../../../images/reference/dynamic\_schema\_2\_create\_table.png.webp)
+![](../../images/reference/dynamic\_schema\_2\_create\_table.png.webp)
 
 **Insert Record**
 
@@ -81,7 +81,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](../../../images/reference/dynamic\_schema\_3\_insert\_record.png.webp)
+![](../../images/reference/dynamic\_schema\_3\_insert\_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
@@ -105,7 +105,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](../../../images/reference/dynamic\_schema\_4\_insert\_additional\_record.png.webp)
+![](../../images/reference/dynamic\_schema\_4\_insert\_additional\_record.png.webp)
 
 **Update Existing Record**
 
@@ -126,7 +126,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](../../../images/reference/dynamic\_schema\_5\_update\_existing\_record.png.webp)
+![](../../images/reference/dynamic\_schema\_5\_update\_existing\_record.png.webp)
 
 **Query Table with SQL**
 
@@ -141,4 +141,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](../../../images/reference/dynamic\_schema\_6\_query\_table\_with\_sql.png.webp)
+![](../../images/reference/dynamic\_schema\_6\_query\_table\_with\_sql.png.webp)

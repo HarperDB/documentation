@@ -2,7 +2,7 @@
 
 ## Development
 
-Out of the box HarperDB generates certificates that are used when HarperDB nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the HarperDB node, the following settings (see the full [configuration file](../configuration.md) docs for more details) are defaulted & recommended for ease of development:
+Out of the box HarperDB generates certificates that are used when HarperDB nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the HarperDB node, the following settings (see the full [configuration file](../developers/configuration.md) docs for more details) are defaulted & recommended for ease of development:
 
 ```
 clustering:
@@ -43,17 +43,23 @@ X509v3 Extended Key Usage:
 * If your certificates expire you will need a way to issue new certificates to the nodes and then restart HarperDB. If you are using a public CA such as LetsEncrypt, a tool like `certbot` can be used to renew certificates.
 
 ### Certificate Troubleshooting
+
 If you are having TLS issues with clustering, use the following steps to verify that your certificates are valid.
 
 1. Make sure certificates can be parsed and that you can view the contents:
+
 ```
 openssl x509 -in <certificate>.pem -noout -text`
 ```
+
 2. Make sure the certificate validates with the CA:
+
 ```
 openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
 ```
+
 3. Make sure the certificate and private key are a valid pair by verifying that the output of the following commands match:
+
 ```
 openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5
 openssl x509 -modulus -noout -in <certificate>.pem | openssl md5
