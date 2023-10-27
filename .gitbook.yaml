@@ -11,17 +11,11 @@ redirects:
   add-ons-and-sdks: components/README.md
   add-ons-and-sdks/google-data-studio: components/google-data-studio.md
   custom-functions: applications/README.md
-  custom-functions/requirements-definitions: applications/README.md
-  custom-functions/create-project: applications/README.md
-  custom-functions/define-routes: applications/define-routes.md
-  custom-functions/define-helpers: applications/README.md
-  custom-functions/host-static: applications/README.md
   custom-functions/using-npm-git: custom-functions/create-project.md
-  custom-functions/custom-functions-operations: components/operations.md
-  custom-functions/restarting-server: applications/README.md
   custom-functions/debugging-custom-function: applications/debugging.md
-  custom-functions/templates: applications/README.md
   custom-functions/example-projects: applications/example-projects.md
+  custom-functions/define-routes: applications/define-routes.md
+  custom-functions/custom-functions-operations: components/operations.md
   sql-guide/insert: sql-guide/README.md
   sql-guide/update: sql-guide/README.md
   sql-guide/delete: sql-guide/README.md
