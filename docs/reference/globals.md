@@ -55,7 +55,7 @@ This returns the user object with permissions/authorization information based on
 
 ### `logger`
 
-This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documention](../administration/logging.md) for more information.
+This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documention](../administration/logging/logging.md) for more information.
 
 ### `server`
 

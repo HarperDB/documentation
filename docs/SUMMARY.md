@@ -63,10 +63,7 @@
 ## Administration
 
 * [Best Practices and Recommendations](administration/administration.md)
-* [Logging](administration/logging.md)
-* [Audit Logging](administration/audit-logging.md)
-* [Transaction Logging](administration/transaction-logging.md)
-* [Cloning](administration/cloning.md)
+* [Clone Node](administration/cloning.md)
 * [Jobs](administration/jobs.md)
 * [HarperDB Studio](harperdb-studio/README.md)
   * [Create an Account](harperdb-studio/create-account.md)
@@ -84,6 +81,10 @@
   * [Instance Configuration](harperdb-studio/instance-configuration.md)
   * [Instance Example Code](harperdb-studio/instance-example-code.md)
   * [Enable Mixed Content](harperdb-studio/enable-mixed-content.md)
+* [Logging](administration/logging/README.md)
+  * [Standard Logging](administration/logging/logging.md)
+  * [Audit Logging](administration/logging/audit-logging.md)
+  * [Transaction Logging](administration/logging/transaction-logging.md)
 
 ## Deployments
 

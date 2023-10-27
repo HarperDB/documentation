@@ -6,7 +6,7 @@ HarperDB offers two options for logging transactions executed against a table. T
 
 The first option is `read_transaction_log`. The transaction log is built upon clustering streams. Clustering streams are per-table message stores that enable data to be propagated across a cluster. HarperDB leverages streams for use with the transaction log. When clustering is enabled all transactions that occur against a table are pushed to its stream, and thus make up the transaction log.
 
-If you would like to use the transaction log, but have not set up clustering yet, please see ["How to Cluster"](../clustering/).
+If you would like to use the transaction log, but have not set up clustering yet, please see ["How to Cluster"](../../clustering/).
 
 ## Transaction Log Operations
 

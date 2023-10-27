@@ -1,4 +1,4 @@
-# Logging
+# Standard Logging
 
 HarperDB maintains a log of events that take place throughout operation. Log messages can be used for diagnostics purposes as well as monitoring.
 
@@ -42,7 +42,7 @@ HarperDB logs can optionally be streamed to standard streams. Logging to standar
 
 ## Logging Rotation
 
-Log rotation allows for managing log files, such as compressing rotated log files, archiving old log files, determining when to rotate, and the like. This will allow for organized storage and efficient use of disk space. For more information see “logging” in our [config docs](../deployments/configuration.md).
+Log rotation allows for managing log files, such as compressing rotated log files, archiving old log files, determining when to rotate, and the like. This will allow for organized storage and efficient use of disk space. For more information see “logging” in our [config docs](../../deployments/configuration.md).
 
 ## Read Logs via the API
 
