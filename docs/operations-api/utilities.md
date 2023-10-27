@@ -11,9 +11,19 @@ _Operation is restricted to super\_user roles only_
   "operation": "restart"
 }
 ```
+---
+### Restart Service
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+Restarts servers for the specified HarperDB service.
 
+_Operation is restricted to super\_user roles only_
+
+* operation _(required)_ - must always be `restart_service`.
+* service _(required)_ - service to restart, options are:
+  * `http_workers`
+  * `clustering`
+  * `clustering_config`
+---
 ### Delete Records Before
 
 Delete data before the specified timestamp on the specified database table exclusively on the node where it is executed. Any clustered nodes with replicated data will retain that data.
@@ -40,7 +50,7 @@ _Operation is restricted to super\_user roles only_
   "message": "Starting job with id d3aed926-e9fe-4ec1-aea7-0fb4451bd373"
 }
  ```
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 ### Export Local
 Exports data based on a given search operation to a local file in JSON or CSV format.
 
@@ -67,7 +77,8 @@ Exports data based on a given search operation to a local file in JSON or CSV fo
   "job_id": "6fc18eaa-3504-4374-815c-44840a12e7e5"
 }
 ```
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
+
 ### Export To S3
 Exports data based on a given search operation from table to AWS S3 in JSON or CSV format.
 
@@ -101,7 +112,7 @@ Exports data based on a given search operation from table to AWS S3 in JSON or C
   "job_id": "9fa85968-4cb1-4008-976e-506c4b13fc4a"
 }
 ```
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 ### Install Node Modules
 Executes npm install against specified custom function projects
 
@@ -123,7 +134,7 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 ### System Information
 
 Returns detailed metrics on the host system. A deeper dive into the return object can be found here: https://systeminformation.io/general.html.
@@ -442,8 +453,7 @@ _Operation is restricted to super\_user roles only_
   }
 }
 ```
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 ### Set Configuration
 
 Modifies the HarperDB configuration file parameters. Must follow with a restart or restart_service operation.
@@ -468,8 +478,8 @@ _Operation is restricted to super\_user roles only_
   "message": "Configuration successfully set. You must restart HarperDB for new config settings to take effect."
 }
 ```
+---
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
 ### Get Configuration
 
 Returns the HarperDB configuration parameters.
