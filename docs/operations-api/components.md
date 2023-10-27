@@ -25,7 +25,7 @@ _Operation is restricted to super\_user roles only_
   "message": "Successfully added project: my-component"
 }
 ```
-
+---
 ## Deploy Component
 
 Will deploy a component using either a base64-encoded string representation of a `.tar` file (the output from `package_component`) or a package value, which can be any valid NPM reference, such as a GitHub repo, an NPM package, a tarball, a local directory or a website.\
@@ -70,7 +70,7 @@ _Operation is restricted to super\_user roles only_
   "message": "Successfully deployed: my-component"
 }
 ```
-
+---
 ## Package Component
 
 Creates a temporary `.tar` file of the specified project folder, then reads it into a base64-encoded string and returns an object with the string and the payload.
@@ -99,7 +99,7 @@ _Operation is restricted to super\_user roles only_
   "payload": "LgAAAAAAAAAAAAAAAAAAA...AAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
 }
 ```
-
+---
 ## Drop Component
 
 Deletes a file from inside the component project or deletes the complete project.\
@@ -129,7 +129,7 @@ _Operation is restricted to super\_user roles only_
   "message": "Successfully dropped: my-component/utils/myUtils.js"
 }
 ```
-
+---
 ## Get Components
 
 Gets all local component files and folders and any component config from `harperdb-config.yaml`
@@ -208,7 +208,7 @@ _Operation is restricted to super\_user roles only_
   ]
 }
 ```
-
+---
 ## Get Component File
 
 Gets the contents of a file inside a component project.
@@ -237,7 +237,7 @@ _Operation is restricted to super\_user roles only_
   "message": "/**export class MyCustomResource extends tables.TableName {\n\t// we can define our own custom POST handler\n\tpost(content) {\n\t\t// do something with the incoming content;\n\t\treturn super.post(content);\n\t}\n\t// or custom GET handler\n\tget() {\n\t\t// we can modify this resource before returning\n\t\treturn super.get();\n\t}\n}\n */\n// we can also define a custom resource without a specific table\nexport class Greeting extends Resource {\n\t// a \"Hello, world!\" handler\n\tget() {\n\t\treturn { greeting: 'Hello, world!' };\n\t}\n}"
 }
 ```
-
+---
 ## Set Component File
 
 Creates or updates a file inside a component project.
