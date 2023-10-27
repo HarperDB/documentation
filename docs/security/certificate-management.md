@@ -1,6 +1,6 @@
 # Certificate Management
 
-This document is information on managing certificates for the Operations API and the Custom Functions API. For information on certificate managment for clustering see [clustering certificate management](../clustering/certificate-management.md).
+This document is information on managing certificates for HarperDB external facing APIs. For information on certificate management for clustering see [clustering certificate management](../clustering/certificate-management.md).
 
 ## Development
 

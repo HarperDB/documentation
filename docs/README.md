@@ -1,6 +1,6 @@
 # HarperDB Docs
 
-HarperDB is a globally-distributed edge application platform. It reduces complexity, increases performance, and lowers costs by combining user-defined applications, a high-performance database, and an enterprise-grade streaming broker into a single package. The platform offers unlimited horizontal scale at the click of a button, and syncs data across the cluster in milliseconds. HarperDB simplifies the process of delivering applications and the data that drives them to the edge, which dramatically improves both the user experience and total cost of ownership for large-scale applications. Deploying HarperDB on global infrastructure enables a CDN-like solution for enterprise data and applications.
+arperDB is a globally-distributed edge application platform. It reduces complexity, increases performance, and lowers costs by combining user-defined applications, a high-performance database, and an enterprise-grade streaming broker into a single package. The platform offers unlimited horizontal scale at the click of a button, and syncs data across the cluster in milliseconds. HarperDB simplifies the process of delivering applications and the data that drives them to the edge, which dramatically improves both the user experience and total cost of ownership for large-scale applications. Deploying HarperDB on global infrastructure enables a CDN-like solution for enterprise data and applications.
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
@@ -14,6 +14,10 @@ _<mark style="background-color:orange;">**TODO: Jake will continue building this
 
 | <p><a href="getting-started.md">Getting started</a><br>Get going with HarperDB</p> | <p><a href="install-harperdb/">Quick Install HarperDB</a><br>Run HarperDB on your hardware</p> | <p><a href="harperdb-cloud/">Try HarperDB Cloud</a><br>Spin up a test instance</p> |
 | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+
+
+
+<table data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th data-hidden></th></tr></thead><tbody><tr><td><a data-mention href="getting-started.md">getting-started.md</a></td><td>Get up and running with HarperDB</td><td></td></tr><tr><td><a data-mention href="install-harperdb/">install-harperdb</a>Quick Install HarperDB</td><td>Run HarperDB on your on hardware</td><td></td></tr><tr><td>Try HarperDB Cloud</td><td>Spin up an instance in minutes to going fast</td><td></td></tr></tbody></table>
 
 ## Building with HarperDB
 

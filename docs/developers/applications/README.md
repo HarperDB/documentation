@@ -1,20 +1,5 @@
 # Applications
 
-* [Overview Of HarperDB Applications](./#overview-of-harperdb-applications)
-* [Getting Up and Running](./#getting-up-and-running)
-* [Creating Our First Table](./#creating-our-first-table)
-* [Adding Attributes to our Table](./#adding-attributes-to-our-table)
-* [Adding an Endpoint](./#adding-an-endpoint)
-* [Authenticating Endpoints](./#authenticating-endpoints)
-* [Querying](./#querying)
-* [Deploying your Application](./#deploying-your-application)
-* [Understanding the Component Architecture](./#understanding-the-component-application-architecture)
-* [Custom Functionality with JavaScript](./#custom-functionality-with-javascript)
-* [Define Custom Data Sources](./#define-custom-data-sources)
-* [Configuring Applications / Components](./#configuring-applicationscomponents)
-* [Define Fastify Routes](./#define-fastify-routes)
-* [Restarting Your Instance](./#restarting-your-instance)
-
 ## Overview of HarperDB Applications
 
 HarperDB is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of HarperDB instances optimized for on-the-edge scalable data delivery.
