@@ -54,7 +54,7 @@
   * [Google Data Studio](components/google-data-studio.md)
 * [Operations API](operations-api/README.md)
   * [Quick Start Examples](operations-api/quickstart-examples.md)
-  * [Schemas and Tables](operations-api/databases-and-tables.md)
+  * [Databases and Tables](operations-api/databases-and-tables.md)
   * [NoSQL Operations](operations-api/nosql-operations.md)
   * [Bulk Operations](operations-api/bulk-operations.md)
   * [Users and Roles](operations-api/users-and-roles.md)

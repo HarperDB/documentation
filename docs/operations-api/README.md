@@ -15,7 +15,7 @@ Content-Type: application/json
 The operations API reference is available below and categorized by topic:
 
 * [Quick Start Examples](quickstart-examples.md)
-* [Schemas and Tables](databases-and-tables.md)
+* [Databases and Tables](databases-and-tables.md)
 * [NoSQL Operations](nosql-operations.md)
 * [Bulk Operations](bulk-operations.md)
 * [Users and Roles](users-and-roles.md)

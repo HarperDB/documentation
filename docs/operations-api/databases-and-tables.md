@@ -1,6 +1,5 @@
 # Databases and Tables 
 
-
 ## Describe All
 Returns the definitions of all databases and tables within the database.
 
