@@ -128,7 +128,7 @@ type Dog @table @sealed {
 }
 ```
 
-If you are using HarperDB Studio, we can now [add JSON-formatted records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](https://api.harperdb.io/), which provides full administrative control over your new HarperDB instance and tables.
+If you are using HarperDB Studio, we can now [add JSON-formatted records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api), which provides full administrative control over your new HarperDB instance and tables.
 
 ## Adding an Endpoint
 
