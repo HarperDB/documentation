@@ -2,10 +2,10 @@
 
 This section contains technical details and reference materials for HarperDB.
 
-* [Resource API](broken-reference)
+* [Resource API](resource.md)
 * [Transactions](transactions.md)
-* [Storage Algorithm](broken-reference)
-* [Dynamic Schema](broken-reference)
+* [Storage Algorithm](storage-algorithm.md)
+* [Dynamic Schema](dynamic-schema.md)
 * [Headers](headers.md)
 * [Limitations](limits.md)
 * [Content Types](content-types.md)

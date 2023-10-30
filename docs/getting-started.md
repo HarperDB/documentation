@@ -76,4 +76,4 @@ If you find yourself in need of additional support you can submit a [HarperDB su
 
 ### Video Tutorials
 
-[HarperDB video tutorials are available within the HarperDB Studio](broken-reference/). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[HarperDB video tutorials are available on our YouTube channel](https://www.youtube.com/@harperdbio). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
