@@ -1,10 +1,10 @@
 # JWT Authentication
+
 HarperDB uses token based authentication with JSON Web Tokens, JWTs.
 
 This consists of two primary operations `create_authentication_tokens` and `refresh_operation_token`. These generate two types of tokens, as follows:
 
 * The `operation_token` which is used to authenticate all HarperDB operations in the Bearer Token Authorization Header. The default expiry is one day.
-
 * The `refresh_token` which is used to generate a new `operation_token` upon expiry. This token is used in the Bearer Token Authorization Header for the `refresh_operation_token` operation only. The default expiry is thirty days.
 
 The `create_authentication_tokens` operation can be used at any time to refresh both tokens in the event that both have expired or been lost.
@@ -44,7 +44,7 @@ An example expected return object is:
 
 ## Using JWT Authentication Tokens
 
-The `operation_token` value is used to authenticate all operations in place of our standard Basic auth.  In order to pass the token you will need to create an Bearer Token Authorization Header like the following request:
+The `operation_token` value is used to authenticate all operations in place of our standard Basic auth. In order to pass the token you will need to create an Bearer Token Authorization Header like the following request:
 
 ```bash
 curl --location --request POST 'http://localhost:9925' \
@@ -61,7 +61,7 @@ curl --location --request POST 'http://localhost:9925' \
 
 ## Token Expiration
 
-`operation_token` expires at a set interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to one day, and is configurable in [harperdb-config.yaml](../configuration.md). To generate a new `operation_token`, the `refresh_operation_token` operation is used, passing the `refresh_token` in the Bearer Token Authorization Header. A full cURL example can be seen here:
+`operation_token` expires at a set interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to one day, and is configurable in [harperdb-config.yaml](../deployments/configuration.md). To generate a new `operation_token`, the `refresh_operation_token` operation is used, passing the `refresh_token` in the Bearer Token Authorization Header. A full cURL example can be seen here:
 
 ```bash
 curl --location --request POST 'http://localhost:9925' \
@@ -80,14 +80,13 @@ This will return a new `operation_token`. An example expected return object is:
 }
 ```
 
-The `refresh_token` also expires at a set interval, but a longer interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to thirty days, and is configurable in [harperdb-config.yaml](../configuration.md). To generate a new `operation_token` and a new `refresh_token` the `create_authentication_tokensoperation` is called.
+The `refresh_token` also expires at a set interval, but a longer interval. Once it expires it will no longer be accepted by HarperDB. This duration defaults to thirty days, and is configurable in [harperdb-config.yaml](../deployments/configuration.md). To generate a new `operation_token` and a new `refresh_token` the `create_authentication_tokensoperation` is called.
 
 ## Configuration
 
-Token timeouts are configurable in [harperdb-config.yaml](../configuration.md) with the following parameters:
+Token timeouts are configurable in [harperdb-config.yaml](../deployments/configuration.md) with the following parameters:
 
-* `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation_token expires (default 1d).
-
-* `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh_token expires (default 30d).
+* `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation\_token expires (default 1d).
+* `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh\_token expires (default 30d).
 
 A full list of valid values for both parameters can be found [here](https://github.com/vercel/ms).

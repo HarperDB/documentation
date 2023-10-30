@@ -1,81 +1,22 @@
-# Documentation
+# HarperDB Docs
 
-*This is an beta release, please be aware that we are actively testing and refining this release. See [release notes](./release-notes/4.tucker/4.2.0.md) for more information on the current progress.*
+HarperDB is a globally-distributed edge application platform. It reduces complexity, increases performance, and lowers costs by combining user-defined applications, a high-performance database, and an enterprise-grade streaming broker into a single package. The platform offers unlimited horizontal scale at the click of a button, and syncs data across the cluster in milliseconds. HarperDB simplifies the process of delivering applications and the data that drives them to the edge, which dramatically improves both the user experience and total cost of ownership for large-scale applications. Deploying HarperDB on global infrastructure enables a CDN-like solution for enterprise data and applications.
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
+{% hint style="info" %}
+Wondering what's new with HarperDB 4.2? Take a look at our latest [Release Notes](broken-reference).
+{% endhint %}
+
 ## Getting Started
 
-HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
+<table data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><a href="getting-started.md"><strong>Getting Started Guide</strong></a></td><td>Get up and running with HarperDB</td><td></td><td><a href="getting-started.md">getting-started.md</a></td></tr><tr><td><a href="install-harperdb/"><strong>Quick Install HarperDB</strong></a></td><td>Run HarperDB on your on hardware</td><td></td><td><a href="install-harperdb/">install-harperdb</a></td></tr><tr><td><a href="harperdb-cloud/"><strong>Try HarperDB Cloud</strong></a></td><td>Spin up an instance in minutes to going fast</td><td></td><td><a href="harperdb-cloud/">harperdb-cloud</a></td></tr></tbody></table>
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](./harperdb-cloud/README.md), our database-as-a-service offering. However, HarperDB is a [database application platform](./applications/README.md), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
+## Building with HarperDB
 
-### Installing a HarperDB Instance
+<table data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><a href="developers/applications/"><strong>HarperDB Applications</strong></a></td><td>Build your a fully featured HarperDB Component with custom functionality</td><td><a href="developers/applications/">applications</a></td></tr><tr><td><a href="developers/rest.md"><strong>REST Queries</strong></a></td><td>The recommended HTTP interface for data access, querying, and manipulation  </td><td><a href="developers/rest.md">rest.md</a></td></tr><tr><td><a href="developers/operations-api/"><strong>Operations API</strong></a></td><td>Configure, deploy, administer, and control your HarperDB instance</td><td><a href="developers/operations-api/">operations-api</a></td></tr></tbody></table>
 
-You can simply install HarperDB with npm (or yarn, or other package managers):
-```shell
-npm install -g harperdb
-```
-Here we installed HarperDB globally (and we recommend this) to make it easy to run a single HarperDB instance with multiple projects, but you can install it locally (not globally) as well.
 
-You can run HarperDB by running:
-```javascript
-harperdb
-```
 
-You can now use as HarperDB as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.
-
-#### Developing Database Applications with HarperDB
-
-HarperDB is more than just a database, with HarperDB you build "database applications" which package your schema, endpoints, and application logic together. You can then deploy your application to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data and application endpoints directly to your users. To get started with HarperDB, take a look at our application development guide, with quick and easy examples:
-
-[Database application development guide](./applications/README.md)
-
-### Setting up a Cloud Instance
-To set up a HarperDB cloud instance, simply sign up and create a new instance:
-1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
-2. [Create a new HarperDB Cloud instance](./harperdb-studio/instances.md#Create-a-New-Instance)
-
-Note that a local instance and cloud instance are not mutually exclusive. You can register you local instance in your cloud studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
-
-HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
-
-#### Using the HarperDB Studio
-
-Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
-
-1. [Create a schema](./harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
-2. [Create a table](./harperdb-studio/manage-schemas-browse-data.md#create-a-table)
-3. [Add a record](./harperdb-studio/manage-schemas-browse-data.md#add-a-record)
-4. [Load CSV data](./harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
-5. [Query data via SQL](./harperdb-studio/query-instance-data.md)
-
-## Administering HarperDB
-
-If you are deploying and administering HarperDB, you may want to look at our [configuration documentation](./configuration.md) and our administrative operations API below.
-
-### HarperDB APIs
-
-The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](./rest/README.md).
-
-The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](operations-api/README.md). Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and maniulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
-
-The HarperDB Studio features an example code builder that generates API calls in the programming language of your choice for operations. For example purposes, a basic cURL command is shown below to create a schema called dev.
-
-```
-curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
---header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass' \
---header 'Content-Type: application/json' \
---data-raw '{
-"operation": "create_schema",
-"schema": "dev"
-}'
-```
-
-## Support and Learning More
-See our [support documentation](./support.md) for more information on getting help, and you can also learn more about available HarperDB projects by searching [Github](https://github.com/search?q=harperdb).
-
-### Video Tutorials
-
-[HarperDB video tutorials are available within the HarperDB Studio](./harperdb-studio/resources.md#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+<table data-card-size="large" data-view="cards"><thead><tr><th></th><th></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><a href="clustering/"><strong>Clustering &#x26; Replication</strong></a></td><td>The process of connecting multiple HarperDB databases together to create a database mesh network that enables users to define data replication patterns.</td><td></td><td><a href="clustering/">clustering</a></td></tr><tr><td><a href="harperdb-studio/"><strong>Explore the HarperDB Studio</strong></a></td><td>The web-based GUI for HarperDB. Studio enables you to administer, navigate, and monitor all of your HarperDB instances in a simple, user friendly interface.</td><td></td><td><a href="harperdb-studio/">harperdb-studio</a></td></tr></tbody></table>
 

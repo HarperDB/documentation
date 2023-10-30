@@ -10,10 +10,23 @@ redirects:
   install-harperdb/node-ver-requirement: install-harperdb/README.md
   add-ons-and-sdks: components/README.md
   add-ons-and-sdks/google-data-studio: components/google-data-studio.md
-  getting-started: README.md
+  custom-functions: applications/README.md
   custom-functions/using-npm-git: custom-functions/create-project.md
   custom-functions/debugging-custom-function: applications/debugging.md
   custom-functions/example-projects: applications/example-projects.md
   custom-functions/define-routes: applications/define-routes.md
   custom-functions/custom-functions-operations: components/operations.md
-  custom-functions: applications/README.md
+  sql-guide/insert: sql-guide/README.md
+  sql-guide/update: sql-guide/README.md
+  sql-guide/delete: sql-guide/README.md
+  sql-guide/select: sql-guide/README.md
+  sql-guide/joins: sql-guide/README.md
+  sql-guide/sql-geospatial-functions/geoarea: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geolength: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geodifference: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geodistance: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geonear: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geocontains: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geoequal: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geocrosses: sql-guide/sql-geospatial-functions.md
+  sql-guide/sql-geospatial-functions/geoconvert: sql-guide/sql-geospatial-functions.md

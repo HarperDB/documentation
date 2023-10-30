@@ -12,6 +12,8 @@
 
 [4.1.0 Tucker](4.tucker/4.1.0.md)
 
+[4.0.7 Tucker](4.tucker/4.0.7.md)
+
 [4.0.6 Tucker](4.tucker/4.0.6.md)
 
 [4.0.5 Tucker](4.tucker/4.0.5.md)

@@ -1,6 +1,6 @@
 # Upgrade a HarperDB Instance
 
-This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](../harperdb-cloud/) will be upgraded by the HarperDB Cloud team.
+This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](./harperdb-cloud/) will be upgraded by the HarperDB Cloud team.
 
 ## Upgrading
 

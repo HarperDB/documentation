@@ -1,4 +1,5 @@
-# Dynamic Schema Tables
+# Dynamic Schema
+
 When tables are created without any schema, through the operations API (without specifying attributes) or studio, the tables follow "dynamic-schema" behavior. Generally it is best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity and precise control over indexing, without dependency on data itself. However, it can often be simpler and quicker to simply create a table and let the data auto-generate the schema dynamically with everything being auto-indexed for broad querying.
 
 With dynamic schemas individual attributes are reflexively created as data is ingested, meaning the table will adapt to the structure of data ingested. HarperDB tracks the metadata around schemas, tables, and attributes allowing for describe table, describe schema, and describe all operations.
@@ -31,7 +32,7 @@ HarperDB automatically creates two audit attributes used on each record if the t
 
 ### Dynamic Schema Example
 
-To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../operations-api/databases-and-tables.md).
+To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../developers/operations-api/databases-and-tables.md).
 
 **Create a Database**
 
