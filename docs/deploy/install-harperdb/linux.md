@@ -205,4 +205,4 @@ systemctl daemon-reload
 systemctl enable harperdb
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../deployments/harperdb-cli.md) and the [HarperDB Configuration File guide](../deployments/configuration.md).
+For more information visit the [HarperDB Command Line Interface guide](../../deployments/harperdb-cli.md) and the [HarperDB Configuration File guide](../../deployments/configuration.md).

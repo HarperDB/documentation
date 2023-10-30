@@ -2,11 +2,11 @@
 
 The HarperDB Studio allows you to administer all of your HarperDB instances in one place. HarperDB currently offers the following instance types:
 
-* **HarperDB Cloud Instance** Managed installations of HarperDB, what we call [HarperDB Cloud](../harperdb-cloud/).
-* **5G Wavelength Instance** Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../harperdb-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
+* **HarperDB Cloud Instance** Managed installations of HarperDB, what we call [HarperDB Cloud](../../deploy/harperdb-cloud/).
+* **5G Wavelength Instance** Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deploy/harperdb-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
 * **User-Installed Instance** Any HarperDB installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
-All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](../developers/operations-api/).
+All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](../../developers/operations-api/).
 
 ## Organization Instance List
 
@@ -35,10 +35,10 @@ A new instance can be created as follows:
    3. Select Instance Specs
       1.  Select Instance RAM
 
-          _HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../harperdb-cloud/instance-size-hardware-specs.md)_._
+          _HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../../deploy/harperdb-cloud/instance-size-hardware-specs.md)_._
       2.  Select Storage Size
 
-          _Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../harperdb-cloud/iops-impact.md)_._
+          _Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../../deploy/harperdb-cloud/iops-impact.md)_._
       3.  Select Instance Region
 
           _The geographic area where your instance will be provisioned._

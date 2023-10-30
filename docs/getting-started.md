@@ -2,7 +2,7 @@
 
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](dev/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deploy/harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](dev/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -33,7 +33,7 @@ HarperDB is more than just a database, with HarperDB you build "database applica
 To set up a HarperDB cloud instance, simply sign up and create a new instance:
 
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
-2. [Create a new HarperDB Cloud instance](harperdb-studio/instances.md#Create-a-New-Instance)
+2. [Create a new HarperDB Cloud instance](admin/harperdb-studio/instances.md#Create-a-New-Instance)
 
 Note that a local instance and cloud instance are not mutually exclusive. You can register you local instance in your cloud studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
 
@@ -43,15 +43,15 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a schema](harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
-2. [Create a table](harperdb-studio/manage-schemas-browse-data.md#create-a-table)
-3. [Add a record](harperdb-studio/manage-schemas-browse-data.md#add-a-record)
-4. [Load CSV data](harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
-5. [Query data via SQL](harperdb-studio/query-instance-data.md)
+1. [Create a schema](admin/harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
+2. [Create a table](admin/harperdb-studio/manage-schemas-browse-data.md#create-a-table)
+3. [Add a record](admin/harperdb-studio/manage-schemas-browse-data.md#add-a-record)
+4. [Load CSV data](admin/harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
+5. [Query data via SQL](admin/harperdb-studio/query-instance-data.md)
 
 ## Administering HarperDB
 
-If you are deploying and administering HarperDB, you may want to look at our [configuration documentation](configuration.md) and our administrative operations API below.
+If you are deploying and administering HarperDB, you may want to look at our [configuration documentation](deploy/configuration.md) and our administrative operations API below.
 
 ### HarperDB APIs
 
