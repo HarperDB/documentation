@@ -2,7 +2,7 @@
 
 HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](dev/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -26,7 +26,7 @@ You can now use as HarperDB as a standalone database. You can also create a clou
 
 HarperDB is more than just a database, with HarperDB you build "database applications" which package your schema, endpoints, and application logic together. You can then deploy your application to an entire cluster of HarperDB instances, ready to scale to on-the-edge delivery of data and application endpoints directly to your users. To get started with HarperDB, take a look at our application development guide, with quick and easy examples:
 
-[Database application development guide](applications/)
+[Database application development guide](dev/applications/)
 
 ### Setting up a Cloud Instance
 
@@ -55,9 +55,9 @@ If you are deploying and administering HarperDB, you may want to look at our [co
 
 ### HarperDB APIs
 
-The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](rest.md).
+The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](dev/rest.md).
 
-The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](operations-api/). Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and manipulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
+The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](dev/operations-api/). Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and manipulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
 
 The HarperDB Operations API is single endpoint, which means the only thing that needs to change across different calls is the body. For example purposes, a basic cURL command is shown below to create a schema called dev. To change this behavior, swap out the operation in the `data-raw` body parameter.
 
@@ -76,4 +76,4 @@ If you find yourself in need of additional support you can submit a [HarperDB su
 
 ### Video Tutorials
 
-[HarperDB video tutorials are available within the HarperDB Studio](broken-reference). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[HarperDB video tutorials are available within the HarperDB Studio](broken-reference/). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.

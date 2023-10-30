@@ -10,7 +10,7 @@ When working through this guide, we recommend you use the [HarperDB Application 
 
 ## Understanding the Component Application Architecture
 
-HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed in `node_modules`.
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node\_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed in `node_modules`.
 
 ```mermaid
 flowchart LR
@@ -114,7 +114,7 @@ type Dog @table {
 
 This will ensure that new records must have these properties with these types.
 
-Because we ran `harperdb dev .` earlier (dev mode), HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur.  This means that once we save our schema file with these new attributes, HarperDB will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined. The dev mode will also ensure that any logging or errors are immediately displayed in the console (rather only in the log file). 
+Because we ran `harperdb dev .` earlier (dev mode), HarperDB is now monitoring the contents of our application directory for changes and reloading when they occur. This means that once we save our schema file with these new attributes, HarperDB will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined. The dev mode will also ensure that any logging or errors are immediately displayed in the console (rather only in the log file).
 
 As a NoSQL database, HarperDB supports heterogeneous records (also referred to as documents), so you can freely specify additional properties on any record. If you do want to restrict the records to only defined properties, you can always do that by adding the `sealed` directive:
 
@@ -128,7 +128,7 @@ type Dog @table @sealed {
 }
 ```
 
-If you are using HarperDB Studio, we can now [add JSON-formatted records](../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api), which provides full administrative control over your new HarperDB instance and tables.
+If you are using HarperDB Studio, we can now [add JSON-formatted records](../../harperdb-studio/manage-schemas-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../harperdb-studio/manage-schemas-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api/), which provides full administrative control over your new HarperDB instance and tables.
 
 ## Adding an Endpoint
 
@@ -144,7 +144,7 @@ type Dog @table @export {
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../configuration.md#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+By default the application HTTP server port is `9926` (this can be [configured here](../../configuration.md#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```http
 POST /Dog/
@@ -164,7 +164,7 @@ With this a record will be created and the auto-assigned id will be available th
 
 These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security/) for more information on different levels of access.
 
-By default, HarperDB also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../configuration.md#authentication).
+By default, HarperDB also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../../configuration.md#authentication).
 
 ### Content Negotiation
 
@@ -223,7 +223,7 @@ Congratulations, you now have created a secure database application backend with
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
 * Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-* Go to the applications section of your target cloud instance in the [HarperDB Studio](../applications/studio.harperdb.io)
+* Go to the applications section of your target cloud instance in the [HarperDB Studio](../../applications/studio.harperdb.io)
 * In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 Once you have deployed your application to a HarperDB cloud instance, you can start scaling your application by adding additional instances in other regions.
@@ -234,7 +234,7 @@ Now, with an application that you can deploy, update, and re-deploy, you have an
 
 ## Custom Functionality with JavaScript
 
-So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in HarperDB. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our [Resource API](../reference/resource.md), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in HarperDB. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our [Resource API](../../reference/resource.md), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
 To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed (this can be done in lieu of, or in addition to, the endpoints defined in the `Query` type in the schema.graphql, but make sure you don't export the same table or resource to the same endpoint/path). Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
 
@@ -294,7 +294,7 @@ And a POST request to /CustomDog/ would call this `post` method. The Resource cl
 
 The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
 
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../reference/resource.md) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
+We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../../reference/resource.md) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
@@ -333,7 +333,7 @@ Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 
 The [caching documentation](caching.md) provides much more information on how to use HarperDB's powerful caching capabilities and set up data sources.
 
-HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../reference/globals.md) and the [Resource interface](../reference/resource.md).
+HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../reference/globals.md) and the [Resource interface](../../reference/resource.md).
 
 ## Configuring Applications/Components
 

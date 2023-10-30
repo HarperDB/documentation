@@ -39,7 +39,7 @@ By default the table name is inherited from the type name (in this case the tabl
 * `@table(table: "table_name")` - This allows you to explicitly specify the table name.
 * `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
 * `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
-* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../deployments/configuration.md#logging).
+* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
 
 #### `@export`
 
@@ -79,15 +79,16 @@ The `@updatedTime` directive indicates that this property should be assigned a t
 
 ### Defined vs Dynamic Schemas
 
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ### Field Types
 
 HarperDB supports the following field types in addition to user defined (object) types:
+
 * String: String/text.
 * Int: A 32-bit signed integer (from -2147483648 to 2147483647).
 * Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
-* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available).
+* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
 * Boolean: true or false.
 * ID: A string (but indicates it is not intended to be legible).
 * Any: Any primitive, object, or array is allowed.
