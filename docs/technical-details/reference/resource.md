@@ -75,7 +75,7 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../dev/components/writing-extensions.md).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/writing-extensions.md).
 
 ### `transaction`
 
@@ -83,7 +83,7 @@ This provides a function for starting transactions. See the transactions section
 
 ### `contentTypes`
 
-This provides an interface for defining new content type handlers. See the [content type extensions documentation](../../dev/components/writing-extensions.md) for more information.
+This provides an interface for defining new content type handlers. See the [content type extensions documentation](../../developers/components/writing-extensions.md) for more information.
 
 ### TypeScript Support
 
