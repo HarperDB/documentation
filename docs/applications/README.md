@@ -77,7 +77,7 @@ A quick and expressive way to define a table is through a [GraphQL Schema](https
 
 ```graphql
 type Dog @table {
-    # properties will go here soon
+	# properties will go here soon
 }
 ```
 
@@ -120,10 +120,10 @@ As a NoSQL database, HarperDB supports heterogeneous records (also referred to a
 
 ```graphql
 type Dog @table @sealed {
-    id: ID @primaryKey
-    name: String
-    breed: String
-    age: Int
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
 	tricks: [String]
 }
 ```
@@ -136,10 +136,10 @@ Now that we have a running application with a database (with data if you importe
 
 ```graphql
 type Dog @table @export {
-    id: ID @primaryKey
-    name: String
-    breed: String
-    age: Int
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
 	tricks: [String]
 }
 ```
@@ -362,7 +362,7 @@ Generally, HarperDB will auto-detect when files change and auto-restart the appr
 
 ```json
 {
-    "operation": "restart_service",
-    "service": "http_workers"
+	"operation": "restart_service",
+	"service": "http_workers"
 }
 ```
