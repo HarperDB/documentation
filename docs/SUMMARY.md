@@ -18,6 +18,7 @@
   * [Google Data Studio](components/google-data-studio.md)
   * [SDKs](components/sdks.md)
   * [Drivers](components/drivers.md)
+* [Real-Time](real-time.md)
 * [REST](rest.md)
 * [Operations API](operations-api/README.md)
   * [Quick Start Examples](operations-api/quickstart-examples.md)
@@ -35,7 +36,6 @@
   * [Token Authentication](operations-api/token-authentication.md)
   * [SQL Operations](operations-api/sql-operations.md)
   * [Advanced JSON SQL Examples](operations-api/advanced-json-sql-examples.md)
-* [Real-Time](real-time.md)
 * [Clustering](clustering/README.md)
   * [Requirements and Definitions](clustering/requirements-and-definitions.md)
   * [Creating A Cluster User](clustering/creating-a-cluster-user.md)
@@ -85,7 +85,6 @@
   * [Instance Configuration](harperdb-studio/instance-configuration.md)
   * [Instance Example Code](harperdb-studio/instance-example-code.md)
   * [Enable Mixed Content](harperdb-studio/enable-mixed-content.md)
-
 
 ## Deployments
 
