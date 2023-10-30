@@ -72,13 +72,14 @@ If you do not define a schema for a table and create a table through the operati
 
 ## Field Types
 HarperDB supports the following field types in addition to user defined (object) types:
-* String: String/text
+* String: String/text.
 * Int: A 32-bit signed integer (from -2147483648 to 2147483647).
 * Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
 * Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available).
-* ID: A string (but indicates it is not intended to be legible)
-* Any: Any primitive, object, or array is allowed
-* Date: A Date object
+* Boolean: true or false.
+* ID: A string (but indicates it is not intended to be legible).
+* Any: Any primitive, object, or array is allowed.
+* Date: A Date object.
 
 ### Renaming Tables
 It is important to note that HarperDB does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.
