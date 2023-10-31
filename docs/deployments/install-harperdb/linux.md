@@ -163,7 +163,7 @@ harperdb start \
   --OPERATIONSAPI_NETWORK_PORT "9925" \
   --HDB_ADMIN_USERNAME "HDB_ADMIN" \
   --HDB_ADMIN_PASSWORD "password" \
-  --HTTP_SECUREPORT "443" \
+  --HTTP_SECUREPORT "9926" \
   --CLUSTERING_ENABLED "true" \
   --CLUSTERING_USER "cluster_user" \
   --CLUSTERING_PASSWORD "password" \
