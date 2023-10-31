@@ -39,7 +39,7 @@ By default the table name is inherited from the type name (in this case the tabl
 * `@table(table: "table_name")` - This allows you to explicitly specify the table name.
 * `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
 * `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
-* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
+* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../../deployments/configuration.md#logging).
 
 #### `@export`
 
@@ -79,7 +79,7 @@ The `@updatedTime` directive indicates that this property should be assigned a t
 
 ### Defined vs Dynamic Schemas
 
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](../../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ### Field Types
 

@@ -81,7 +81,7 @@ export default async (server, { hdbCore, logger }) => {
 }
 ```
 
-Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](../../applications/define-helpers.md).
+Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](../../../applications/define-helpers.md).
 
 ## Helper Methods
 
