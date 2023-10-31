@@ -5,7 +5,6 @@
 
 ## Developers
 
-* [Test Page](developers/test-page.md)
 * [Applications](applications/README.md)
   * [Caching](applications/caching.md)
   * [Defining Schemas](applications/defining-schemas.md)
