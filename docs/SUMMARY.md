@@ -5,6 +5,7 @@
 
 ## Developers
 
+* [Test Page](developers/test-page.md)
 * [Applications](applications/README.md)
   * [Caching](applications/caching.md)
   * [Defining Schemas](applications/defining-schemas.md)
@@ -85,7 +86,6 @@
   * [Instance Configuration](harperdb-studio/instance-configuration.md)
   * [Instance Example Code](harperdb-studio/instance-example-code.md)
   * [Enable Mixed Content](harperdb-studio/enable-mixed-content.md)
-
 
 ## Deployments
 
