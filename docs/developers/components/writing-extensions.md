@@ -1,6 +1,6 @@
 # Writing Extensions
 
-HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and extensions that can be used and combined to build applications and add functionality to existing applications. Here we describe the different types of components/extensions that can be developed for HarperDB and how to create them.
+HarperDB is a highly extensible database application platform with support for a rich variety of composable modular components and extensions that can be used and combined to build applications and add functionality to existing applications. Here we describe the different types of components/extensions that can be developed for HarperDB and how to create them.
 
 There are three general categories of components for HarperDB:
 
@@ -18,7 +18,7 @@ These are not mutually exclusive, you may build components that fulfill any or a
 
 ## Server Extensions
 
-Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. Server extensions can be configured at an application (custom function) level or a global level (for all applications). The configuration will define and handle any network ports that the extension can listen on. A extension can be added by adding it to your harperdb-config.yaml (here we are also defining a port, but any configuration would be dependent on the extension you are installing):
+Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. Server extensions can be configured at an application (custom function) level or a global level (for all applications). The configuration will define and handle any network ports that the extension can listen on. An extension can be added by adding it to your harperdb-config.yaml (here we are also defining a port, but any configuration would be dependent on the extension you are installing):
 
 ```yaml
 serverExtensions:
@@ -28,7 +28,7 @@ serverExtensions:
 
 ### Module Initialization
 
-Once a user has configured a extension, HarperDB will attempt to load the extension package specified by `package` property. Once loaded, there are several functions that can be exported that will be called by HarperDB:
+Once a user has configured an extension, HarperDB will attempt to load the extension package specified by `package` property. Once loaded, there are several functions that can be exported that will be called by HarperDB:
 
 `export function start(options: { port: number, server: {}})` If defined, this will be called on the initialization of the extension. The provided `server` property object includes a set of additional entry points for utilizing or layering on top of other protocols (and when implementing a new protocol, you can add your own entry points). The most common entry is to provide an HTTP middleware layer. This looks like:
 
@@ -116,18 +116,18 @@ export function handleFile?(contents, relative_path, file_path, resources) {
 }
 ```
 
-We can also implement a handler for directories. This can be useful for implementing a handler for broader frameworks that load their own files, like Next.js or Remix, or a static file handler. HarperDB includes such a extension for fastify's auto-loader that loads a directory of route definitions. This hook looks like:
+We can also implement a handler for directories. This can be useful for implementing a handler for broader frameworks that load their own files, like Next.js or Remix, or a static file handler. HarperDB includes such an extension for fastify's auto-loader that loads a directory of route definitions. This hook looks like:
 
 ```javascript
 export function handleDirectory?(relative_path, path, resources) {
 }
 ```
 
-Note that these hooks are not mutually exclusive. You can write a extension that implements any or all of these hooks, potentially implementing a custom protocol and file handling.
+Note that these hooks are not mutually exclusive. You can write an extension that implements any or all of these hooks, potentially implementing a custom protocol and file handling.
 
 ## Data Source Components
 
-Data source component implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../../reference/resource.md) for more information on implementing new resources.
+Data source components implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../../reference/resource.md) for more information on implementing new resources.
 
 ## Content Type Extensions
 
@@ -148,4 +148,4 @@ contentTypes.set('text/xml', {
 
 Extensions will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted extensions for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
 
-A extension can be automatically considered trusted if it that conforms to the requirements of [Secure EcmaScript](https://www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted extensions/components. A extension can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all extensions. Untrusted extensions can access any other packages/modules, and may have many additional capabilities.
+An extension can be automatically considered trusted if it conforms to the requirements of [Secure EcmaScript](https://www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted extensions/components. An extension can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all extensions. Untrusted extensions can access any other packages/modules, and may have many additional capabilities.

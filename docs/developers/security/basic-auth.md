@@ -1,24 +1,16 @@
-# Authentication
+# Basic Authentication
 
-HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests.  In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a user name and password when making a request.
+HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests. In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a username and password when making a request.
 
+\*\* _**You do not need to log in separately. Basic Auth is added to each HTTP request like create\_schema, create\_table, insert etc… via headers.**_ \*\*
 
-
-** ***You do not need to log in separately. Basic Auth is added to each HTTP request like create_schema, create_table, insert etc… via headers.*** **
-
-
-
-A header is added to each HTTP request.  The header key is **“Authorization”** the header value is **“Basic <\<your username and password buffer token>\>”**
-
-
-
-
+A header is added to each HTTP request. The header key is **“Authorization”** the header value is **“Basic <\<your username and password buffer token>>”**
 
 ## Authentication in HarperDB Studio
 
 In the below code sample, you can see where we add the authorization header to the request. This needs to be added for each and every HTTP request for HarperDB.
 
-_Note: This function uses btoa. Learn about [btoa here](https://developer.mozilla.org/en-US/docs/Web/API/btoa)._
+_Note: This function uses btoa. Learn about_ [_btoa here_](https://developer.mozilla.org/en-US/docs/Web/API/btoa)_._
 
 ```javascript
 function callHarperDB(call_object, operation, callback){

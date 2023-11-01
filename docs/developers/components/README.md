@@ -1,17 +1,17 @@
 # Components
 
-HarperDB is highly extensible database application platform with support for a rich variety of composable modular components and components that can be used and combined to build applications and add functionality to existing applications. HarperDB tools, components, and add-ons can be found in a few places:
+HarperDB is a highly extensible database application platform with support for a rich variety of composable modular components and components that can be used and combined to build applications and add functionality to existing applications. HarperDB tools, components, and add-ons can be found in a few places:
 
 * [SDK libraries](sdks.md) are available for connecting to HarperDB from different languages.
 * [Drivers](drivers.md) are available for connecting to HarperDB from different products and tools.
 * [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
-* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) includes additional tools for HarperDB.
+* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
 * You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb\&type=repositories)
 * [Google Data Studio](google-data-studio.md) is a visualization tool for building charts and tables from HarperDB data.
 
 ## Components
 
-There are four general categories of components for HarperDB. The most common is applications. Applications are simply a component that delivers complete functionality through an external interface that it defines, and is usually composed of other components. See [our guide to building applications for getting starting](../applications/).
+There are four general categories of components for HarperDB. The most common is applications. Applications are simply a component that delivers complete functionality through an external interface that it defines, and is usually composed of other components. See [our guide to building applications for getting started](../applications/).
 
 A data source component can implement the Resource API to customize access to a table or provide access to an external data source. External data source components are used to retrieve and access data from other sources.
 

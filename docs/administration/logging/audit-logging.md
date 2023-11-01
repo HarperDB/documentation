@@ -72,7 +72,7 @@ The above example will return all records whose primary key (`hash_value`) is 31
 
 #### read\_audit\_log Response
 
-The example that follows provides records of operations performed on a table. One thing of note is that this the `read_audit_log` operation gives you the `original_records`.
+The example that follows provides records of operations performed on a table. One thing of note is that the `read_audit_log` operation gives you the `original_records`.
 
 ```json
 {

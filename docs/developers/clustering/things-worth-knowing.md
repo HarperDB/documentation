@@ -36,4 +36,4 @@ HarperDB has built-in resiliency for when network connectivity is lost within a 
 
 HarperDB clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
-![figure 6](../../../images/clustering/figure6.png)
+![](../../../images/clustering/figure6.png)

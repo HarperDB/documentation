@@ -27,7 +27,7 @@ HarperDB Studio manages your applications using nine HarperDB operations. You ma
     Deletes the specified project folder and all of its contents.
 *   **package\_component\_project**
 
-    Creates a .tar file of the specified project folder, then reads it into a base64-encoded string and returns that string the user.
+    Creates a .tar file of the specified project folder, then reads it into a base64-encoded string and returns that string to the user.
 *   **deploy\_component\_project**
 
     Takes the output of package\_component\_project, decrypts the base64-encoded string, reconstitutes the .tar file of your project folder, and extracts it to the applications root project directory.

@@ -20,7 +20,7 @@ The components of a log entry are:
 
 * timestamp - This is the date/time stamp when the event occurred
 * level - This is an associated log level that gives a rough guide to the importance and urgency of the message. The available log levels in order of least urgent (and more verbose) are: `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`.
-* thread/id - This reports the name of the thread and the thread id, that the event was reported on. Note that NATS logs are recorded by their process name and there is no thread id for them since they are a separate process. Key threads are:
+* thread/ID - This reports the name of the thread and the thread ID that the event was reported on. Note that NATS logs are recorded by their process name and there is no thread id for them since they are a separate process. Key threads are:
   * main - This is the thread that is responsible for managing all other threads and routes incoming requests to the other threads
   * http - These are the worker threads that handle the primary workload of incoming HTTP requests to the operations API and custom functions.
   * Clustering\* - These are threads and processes that handle replication.
@@ -34,7 +34,7 @@ The log level can be changed by modifying `logging.level` in the config file `ha
 
 ## Clustering Logging
 
-HarperDB clustering utilizes two [Nats](https://nats.io/) servers, named Hub and Leaf. The Hub server is responsible for establishing the mesh network that connects instances of HarperDB and the Leaf server is responsible for managing the message stores (streams) that replicate and store messages between instances. Due to the verbosity of these servers there is a separate log level configuration for them. To adjust their log verbosity set `clustering.logLevel` in the config file `harperdb-config.yaml`. Valid log levels from least verbose are `error`, `warn`, `info`, `debug` and `trace`.
+HarperDB clustering utilizes two [Nats](https://nats.io/) servers, named Hub and Leaf. The Hub server is responsible for establishing the mesh network that connects instances of HarperDB and the Leaf server is responsible for managing the message stores (streams) that replicate and store messages between instances. Due to the verbosity of these servers there is a separate log level configuration for them. To adjust their log verbosity, set `clustering.logLevel` in the config file `harperdb-config.yaml`. Valid log levels from least verbose are `error`, `warn`, `info`, `debug` and `trace`.
 
 ## Log File vs Standard Streams
 

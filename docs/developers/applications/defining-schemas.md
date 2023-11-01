@@ -2,7 +2,7 @@
 
 Schemas define tables and their attributes. Schemas can be declaratively defined in HarperDB's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
 
-Schemas can be used to define the expected structure of data, but are also highly flexible and supports heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
+Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
 
 An example schema that defines a couple tables might look like:
 
@@ -59,7 +59,7 @@ The `@sealed` directive specifies that no additional properties should be allowe
 
 ### Field Directives
 
-The field directives can be used to information about each attribute in table type definition.
+The field directives can be used for information about each attribute in table type definition.
 
 #### `@primaryKey`
 
@@ -79,7 +79,7 @@ The `@updatedTime` directive indicates that this property should be assigned a t
 
 ### Defined vs Dynamic Schemas
 
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ### Field Types
 

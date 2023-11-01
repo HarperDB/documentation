@@ -1,6 +1,6 @@
-# Cloning
+# Clone Node
 
-Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone it.
+Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone.
 
 To start clone node run `harperdb` as you would normally but have the clone node environment variables set (see below).
 
@@ -11,7 +11,7 @@ To run clone node the following environment variables must be set:
 * `HDB_LEADER_USERNAME` - The leader node admin username.
 * `HDB_LEADER_PASSWORD` - The leader node admin password.
 
-Clone node can be configured through `clone-node-config.yaml`, which should to be located in the `ROOTPATH` directory of your clone. If no configuration is supplied, default values will be used.
+Clone node can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. If no configuration is supplied, default values will be used.
 
 **Leader node** - the instance of HarperDB you are cloning.\
 **Clone node** - the new node which will be a clone of the leader node.
@@ -36,8 +36,7 @@ componentConfig:
     - name: my-cool-component
 ```
 
-`skipNodeModules` will not include the node\_modules directory when clone node is packaging components in `hdb/components`\
-
+`skipNodeModules` will not include the node\_modules directory when clone node is packaging components in `hdb/components`.
 
 `exclude` can be used to set any components that you do not want cloned.
 
@@ -53,9 +52,7 @@ clusteringConfig:
 httpsRejectUnauthorized: false
 ```
 
-Clone node makes http requests to the leader node, `httpsRejectUnauthorized` is used to set if https requests should be verified.\
-\
-
+Clone node makes http requests to the leader node, `httpsRejectUnauthorized` is used to set if https requests should be verified.
 
 Any HarperDB configuration can also be used in the `clone-node-config.yaml` file and will be applied to the cloned node, for example:
 
@@ -75,8 +72,7 @@ _Note: any required configuration needed to install/run HarperDB will be default
 
 ### Fully connected clone
 
-A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. A fully connected clone maintains this topology with addition of the new node. When a clone is created, replication is added between the leader and the clone and any nodes the leader is replicating with. For example, if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.\
-
+A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. A fully connected clone maintains this topology with addition of the new node. When a clone is created, replication is added between the leader and the clone and any nodes the leader is replicating with. For example, if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.
 
 To run clone node with the fully connected option simply pass the environment variable `HDB_FULLY_CONNECTED=true`
 
@@ -96,7 +92,7 @@ When run clone node will execute the following steps:
 
 ## Custom database and table pathing
 
-Currently clone node will not clone a table if it has custom pathing configured. In this situation the full database that the table is located in will not be cloned.
+Currently, clone node will not clone a table if it has custom pathing configured. In this situation the full database that the table is located in will not be cloned.
 
 If a database has custom pathing (no individual table pathing) it will be cloned, however if no custom pathing is provided in the clone config the database will be stored in the default database directory.
 

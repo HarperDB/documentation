@@ -4,7 +4,7 @@ HarperDB has integrated support for caching data. With built-in caching capabili
 
 ## Configuring Caching
 
-To setup caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](./) for more information on setting up the application (and the [defining schemas documentation](defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
+To set up caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](./) for more information on setting up the application (and the [defining schemas documentation](defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
 
 ```graphql
 type MyCache @table(expiration: 3600) @export {
@@ -12,18 +12,15 @@ type MyCache @table(expiration: 3600) @export {
 }
 ```
 
-You may also note that we can define an time-to-live (TTL) expiration on the table, indicating when table records/entries should expire. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
+You may also note that we can define a time-to-live (TTL) expiration on the table, indicating when table records/entries should expire. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
 
 While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy) must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin. eviction expiration: The point when a record is actually removed from the caching table.
 
-You can provide a single expiration and it define the behavior for all three. You can also provide three settings for expiration, through table directives:
-expiration - The amount of time until a record goes stale.
-eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
-scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
+You can provide a single expiration and it defines the behavior for all three. You can also provide three settings for expiration, through table directives: expiration - The amount of time until a record goes stale. eviction - The amount of time after expiration before a record can be evicted (defaults to zero). scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
 ## Define External Data Source
 
-Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the HarperDB environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
+Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as a resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the HarperDB environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
@@ -50,12 +47,13 @@ Now we have a fully configured and connected cache. If you access data from `MyC
 	  Resource-->API(Remote Data Source API);
 ```
 
-HarperDB handles waiting for an existing cache resolution to finish and use its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
+HarperDB handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
 
-Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
+Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when the record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
 ### Eviction with Indexing
-Eviction is the removal of a locally cached copy of data, but it does not imply the deletion of the actual data from the canonical or origin data source. Because evicted records still exist (just not in the local cache), if a caching table uses expiration (and eviction), and has indexing on certain attributes, the data is not removed from the indexes. The indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). Eviction only removes the data that can be safely removed from a cache without effecting the integrity or behavior of the indexes. If a search query is performed that matches this evicted record, the record will be requested on-demand to fulfill the search query.
+
+Eviction is the removal of a locally cached copy of data, but it does not imply the deletion of the actual data from the canonical or origin data source. Because evicted records still exist (just not in the local cache), if a caching table uses expiration (and eviction), and has indexing on certain attributes, the data is not removed from the indexes. The indexes that reference the evicted record are preserved, along with the attribute data necessary to maintain these indexes. Therefore eviction means the removal of non-indexed data (in this case evictions are stored as "partial" records). Eviction only removes the data that can be safely removed from a cache without affecting the integrity or behavior of the indexes. If a search query is performed that matches this evicted record, the record will be requested on-demand to fulfill the search query.
 
 ### Specifying a Timestamp
 
@@ -94,7 +92,7 @@ class ThirdPartyAPI extends Resource {
 
 ## Active Caching and Invalidation
 
-The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
+The cache we have created above is a "passive" cache; it only pulls data from the data source as needed, and has no knowledge of if and when data from the data source has actually changed, so it must rely on timer-based expiration to periodically retrieve possibly updated data. This means that it is possible that the cache may have stale data for a while (if the underlying data has changed, but the cached data hasn't expired), and the cache may have to refresh more than necessary if the data source data hasn't changed. Consequently it can be significantly more effective to implement an "active" cache, in which the data source is monitored and notifies the cache when any data changes. This ensures that when data changes, the cache can immediately load the updated data, and unchanged data can remain cached much longer (or indefinitely).
 
 ### Invalidate
 
@@ -114,7 +112,7 @@ export class MyTableEndpoint extends MyTable {
 
 ### Subscriptions
 
-We can provide more control of an active cache with subscriptions. If there is a way to receive notifications from the external data source of data hcnages, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable, that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes, we could implement this like:
+We can provide more control of an active cache with subscriptions. If there is a way to receive notifications from the external data source of data changes, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes, we could implement this like:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
@@ -165,7 +163,7 @@ class ThirdPartyAPI extends Resource {
 		....
 ```
 
-An alternative to using asynchronous generators is to use a subscription stream and send events to it. A default subscription stream (that doesn't generate its own events) is availabe from the Resource's default subscribe method:
+An alternative to using asynchronous generators is to use a subscription stream and send events to it. A default subscription stream (that doesn't generate its own events) is available from the Resource's default subscribe method:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
@@ -226,7 +224,7 @@ You can subscribe to a caching table just like any other table. The one differen
 
 ### Caching with Replication
 
-Caching tables can be configured to replicate in HarperDB clusters. When replicating caching tables, there are a couple of options. If each node will be separately connecting to the data source and you do not need the subscription data notification events to replicate, you can set the `replicationSource` to `false`. In this case, only data requests (that come through standard requests like REST interface or operations API), will be replicated. However, if you data notification will only be delivered to a single node (at once) and you need the subscription data notification events to replicate, you can set the `replicationSource` to `true` and the incoming events from the subscription will be replicated to all other nodes:
+Caching tables can be configured to replicate in HarperDB clusters. When replicating caching tables, there are a couple of options. If each node will be separately connected to the data source and you do not need the subscription data notification events to replicate, you can set the `replicationSource` to `false`. In this case, only data requests (that come through standard requests like REST interface or operations API), will be replicated. However, if you data notification will only be delivered to a single node (at once) and you need the subscription data notification events to replicate, you can set the `replicationSource` to `true` and the incoming events from the subscription will be replicated to all other nodes:
 
 ```javascript
 MyTable.sourcedFrom(ThirdPartyAPI, { replicationSource: true });
@@ -234,7 +232,7 @@ MyTable.sourcedFrom(ThirdPartyAPI, { replicationSource: true });
 
 ### Passive-Active Updates
 
-With our passive update examples, we have provided a data source handler with a `get()` method that returns the specific requested record as the response. However, we can also actively update other records in our response handler (if our data source provides data that should be propagate to other related records). This can be done transactionally, to ensure that all updates occur atomically. The context that is provided to the data source holds the transaction information, so we can simply pass the context to any update/write methods that we call. For example, let's say we are loading a blog post, which should also includes comment records:
+With our passive update examples, we have provided a data source handler with a `get()` method that returns the specific requested record as the response. However, we can also actively update other records in our response handler (if our data source provides data that should be propagated to other related records). This can be done transactionally, to ensure that all updates occur atomically. The context that is provided to the data source holds the transaction information, so we can simply pass the context to any update/write methods that we call. For example, let's say we are loading a blog post, which should also includes comment records:
 
 ```javascript
 const { Post, Comment } = tables;

@@ -55,7 +55,7 @@ This returns the user object with permissions/authorization information based on
 
 ### `logger`
 
-This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documention](../../administration/logging/logging.md) for more information.
+This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../../administration/logging/logging.md) for more information.
 
 ### `server`
 
@@ -67,7 +67,7 @@ This provides access to the HarperDB configuration object. This comes from the [
 
 #### `server.recordAnalytics(value, metric, path?, method?, type?)`
 
-This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of level for useful aggregation. The parameters are:
+This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
 * `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
 * `metric` - This is the name of the metric.

@@ -1,4 +1,4 @@
-# Asynchronous Jobs
+# Jobs
 
 HarperDB Jobs are asynchronous tasks performed by the Operations API.
 
@@ -6,7 +6,7 @@ HarperDB Jobs are asynchronous tasks performed by the Operations API.
 
 Jobs uses an asynchronous methodology to account for the potential of a long-running operation. For example, exporting millions of records to S3 could take some time, so that job is started and the id is provided to check on the status.
 
-The job status can be **COMPLETE** or **IN_PROGRESS**.
+The job status can be **COMPLETE** or **IN\_PROGRESS**.
 
 ## Example Job Operations
 
@@ -20,11 +20,11 @@ Example job operations include:
 
 [import from s3](https://api.harperdb.io/#820b3947-acbe-41f9-858b-2413cabc3a18)
 
-[delete_records_before](https://api.harperdb.io/#8de87e47-73a8-4298-b858-ca75dc5765c2)
+[delete\_records\_before](https://api.harperdb.io/#8de87e47-73a8-4298-b858-ca75dc5765c2)
 
-[export_local](https://api.harperdb.io/#49a02517-ada9-4198-b48d-8707db905be0)
+[export\_local](https://api.harperdb.io/#49a02517-ada9-4198-b48d-8707db905be0)
 
-[export_to_s3](https://api.harperdb.io/#f6393e9f-e272-4180-a42c-ff029d93ddd4)
+[export\_to\_s3](https://api.harperdb.io/#f6393e9f-e272-4180-a42c-ff029d93ddd4)
 
 Example Response from a Job Operation
 
@@ -34,11 +34,11 @@ Example Response from a Job Operation
 }
 ```
 
-Whenever one of these operations is initiated, an asynchronous job is created and the request contains the id of that job which can be used to check on its status.
+Whenever one of these operations is initiated, an asynchronous job is created and the request contains the ID of that job which can be used to check on its status.
 
 ## Managing Jobs
 
-To check on a job's status, use the [get_job](https://api.harperdb.io/#d501bef7-dbb7-4714-b535-e466f6583dce) operation.
+To check on a job's status, use the [get\_job](https://api.harperdb.io/#d501bef7-dbb7-4714-b535-e466f6583dce) operation.
 
 Get Job Request
 
@@ -73,7 +73,7 @@ Get Job Response
 
 ## Finding Jobs
 
-To find jobs (if the id is not know) use the [search_jobs_by_start_date](https://api.harperdb.io/#4474ca16-e4c2-4740-81b5-14ed98c5eeab) operation.
+To find jobs (if the ID is not known) use the [search\_jobs\_by\_start\_date](https://api.harperdb.io/#4474ca16-e4c2-4740-81b5-14ed98c5eeab) operation.
 
 Search Jobs Request
 

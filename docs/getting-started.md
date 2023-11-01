@@ -1,6 +1,6 @@
 # Getting Started
 
-HarperDB is designed for quick and simple set up and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
+HarperDB is designed for quick and simple setup and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
 You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deployments/harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
@@ -20,7 +20,7 @@ You can run HarperDB by running:
 harperdb
 ```
 
-You can now use as HarperDB as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.
+You can now use HarperDB as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.
 
 #### Developing Database Applications with HarperDB
 
@@ -35,7 +35,7 @@ To set up a HarperDB cloud instance, simply sign up and create a new instance:
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
 2. [Create a new HarperDB Cloud instance](administration/harperdb-studio/instances.md#Create-a-New-Instance)
 
-Note that a local instance and cloud instance are not mutually exclusive. You can register you local instance in your cloud studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
+Note that a local instance and cloud instance are not mutually exclusive. You can register your local instance in the HarperDB Studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
 
 HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
@@ -57,7 +57,7 @@ If you are deploying and administering HarperDB, you may want to look at our [co
 
 The preferred way to interact with HarperDB for typical querying, accessing, and updating data (CRUD) operations is through the REST interface, described in the [REST documentation](developers/rest.md).
 
-The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](developers/operations-api/). Generally it is recommended that use the RESTful interface as your primary interface for performant data access, querying, and manipulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
+The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](developers/operations-api/). Generally it is recommended that you use the RESTful interface as your primary interface for performant data access, querying, and manipulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
 
 The HarperDB Operations API is single endpoint, which means the only thing that needs to change across different calls is the body. For example purposes, a basic cURL command is shown below to create a schema called dev. To change this behavior, swap out the operation in the `data-raw` body parameter.
 

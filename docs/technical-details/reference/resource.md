@@ -2,15 +2,15 @@
 
 ## Resource Class
 
-The Resource class is designed to model different data resources within HarperDB. The Resource class be extended to create new data sources. Resources can exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
+The Resource class is designed to model different data resources within HarperDB. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
 
-Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. A Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are a distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
+Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. Therefore there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
 The RESTful HTTP server and other server interfaces will instantiate/load resources to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in transaction and the access checks will be performed before the method is executed.
 
-Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that does specify an id like `/MyResource/3492` will be mapped a Resource instance where the instance's id will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with id of `null`.
+Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that does specify an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`.
 
-You can define create classes that extend Resource to define your own data sources, typically to interface with external data sources (the Resource base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
+You can create classes that extend Resource to define your own data sources, typically to interface with external data sources (the Resource base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 
 ```javascript
 export class MyExternalData extends Resource {
@@ -147,13 +147,13 @@ This is called for HTTP POST requests. You can define this method to provide you
 
 ### `invalidate()`
 
-This method is available on tables. This will invalidate the current record in the table. This can be used with caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
+This method is available on tables. This will invalidate the current record in the table. This can be used with a caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
 
 ### `subscribe(subscriptionRequest): Promise<Subscription>`
 
-This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener to that will be called for any changes or published messages to this resource.
+This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener that will be called for any changes or published messages to this resource.
 
-The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a message for the current or "retained" record, these may be immediately returned).
+The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has a `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a message for the current or "retained" record, these may be immediately returned).
 
 The `subscriptionRequest` object supports the following properties (all optional):
 
@@ -205,7 +205,7 @@ The `Context` object has the following (potential) properties:
 
 * `user` - This is the user object, which includes information about the username, role, and authorizations.
 * `transaction` - The current transaction If the current method was triggered by an HTTP request, the following properties are available:
-* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that the a more modification should cause this to timestamp to be updated.
+* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that modification should cause this timestamp to be updated.
 
 When a resource gets a request through HTTP, the request object is the context, which has the following properties:
 
@@ -219,7 +219,7 @@ When a resource gets a request through HTTP, the request object is the context, 
 
 When a resource is accessed as a data source:
 
-* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource this is making a request for data from the data source resource.
+* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource.
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
@@ -257,7 +257,7 @@ This will save the provided record or data to this resource.
 
 ### `delete(id: string|number, context?: Resource|Context)`
 
-Deletes this resources record or data.
+Deletes this resource's record or data.
 
 ### `publish(message: object, context?: Resource|Context)`
 
@@ -300,13 +300,13 @@ This is called by static methods when they are responding to a URL (from HTTP re
 
 ### Context and Transactions
 
-Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed such in accessed through the same transaction, preserving atomicity and isolation.
+Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed through the same transaction, preserving atomicity and isolation.
 
 This also allows timestamps that are accessed during resolution to be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
 
 When using an export resource class, the REST interface will automatically create a context for you with a transaction and request metadata, and you can pass this to other actions by simply including `this` as the source argument (second argument) to the static methods.
 
-For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment ids on the blog record, but then add the comment to the a separate comment table. We might do this:
+For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment IDs on the blog record, but then add the comment to a separate comment table. We might do this:
 
 ```javascript
 const { Comment } = tables;
@@ -327,14 +327,14 @@ Please see the [transaction documentation](transactions.md) for more information
 
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
 
-* `conditions`: This is an array of object that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
+* `conditions`: This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
   * `attribute`: Name of the property/attribute to match on.
   * `value`: The value to match.
   * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between".
 * `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
 * `limit`: This specifies the limit of the number of records that should be returned from the query.
-* `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with limit to implement "paging" of records.
-* `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be array to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
+* `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
+* `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
 
 For example, we could do a query like:
 
@@ -388,7 +388,7 @@ product1.rating = 3 // modify the rating for this instance (this will be saved w
 
 ```
 
-If there are additional properties on (some) products that aren't defined in the schema, we can still access them through the resouce instance, but since they aren't declared, there won't be getter/setter definition for direct property access, but we can access properties with the `get(propertyName)` method and modify properties with the `set(propertyName, value)` method:
+If there are additional properties on (some) products that aren't defined in the schema, we can still access them through the resource instance, but since they aren't declared, there won't be getter/setter definition for direct property access, but we can access properties with the `get(propertyName)` method and modify properties with the `set(propertyName, value)` method:
 
 ```javascript
 let product1 = await Product.get(1);
@@ -407,7 +407,7 @@ class CustomProduct extends Product {
 }
 ```
 
-Note that you may also need to use `get`/`set` for properties that conflict with existing method names. For example, your schema define an attribute called `getId` (not recommend), you would need to access that property through `get('getId')` and `set('getId', value)`.
+Note that you may also need to use `get`/`set` for properties that conflict with existing method names. For example, your schema defines an attribute called `getId` (not recommended), you would need to access that property through `get('getId')` and `set('getId', value)`.
 
 If you want to save the changes you make, you can call the \`update()\`\` method:
 
@@ -487,7 +487,7 @@ for (let key in plainObject) {
 
 ### Throwing Errors
 
-You may throw errors (and leave them uncaught) from the response methods and these should be caught handled by protocol handler. For REST requests/responses, this will result in an error response. By default the status code will be 500. You can assign a property of `statusCode` to errors to indicate the HTTP status code that should be returned. For example:
+You may throw errors (and leave them uncaught) from the response methods and these should be caught and handled by protocol the handler. For REST requests/responses, this will result in an error response. By default the status code will be 500. You can assign a property of `statusCode` to errors to indicate the HTTP status code that should be returned. For example:
 
 ```javascript
 if (notAuthorized()) {

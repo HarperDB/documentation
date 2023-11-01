@@ -6,7 +6,7 @@ Resources, including tables, can be configured as RESTful endpoints. The name of
 
 The default path structure provides access to resources at several different levels:
 
-* `/my-resource` - The root path of a resource usually has a description of the the resource (like a describe operation for a table).
+* `/my-resource` - The root path of a resource usually has a description of the resource (like a describe operation for a table).
 * `/my-resource/` - The trailing slash in a path indicates it is a collection of the records. The root collection for a table represents all the records in a table, and usually you will append query parameters to query and search for more specific records.
 * `/my-resource/record-id` - This resource locator represents a specific record, referenced by its id. This is typically how you can retrieve, update, and delete individual records.
 * `/my-resource/record-id/` - Again, a trailing slash indicates a collection; here it is the collection of the records that begin with the specified id prefix.
@@ -14,7 +14,7 @@ The default path structure provides access to resources at several different lev
 
 ## GET
 
-These can be used to retrieve individual records or perform searches. This handled by the Resource method `get()` (and can be overriden).
+These can be used to retrieve individual records or perform searches. This is handled by the Resource method `get()` (and can be overridden).
 
 ### `GET /my-resource/<record-id>`
 
@@ -22,7 +22,7 @@ This can be used to retrieve a record by its primary key. The response will incl
 
 #### Caching/Conditional Requests
 
-A `GET` response for a record will include an encoded version, a timestamp of the last modification, of this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to serialized and transferred over the network.
+A `GET` response for a record will include an encoded version, a timestamp of the last modification, of this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to be serialized and transferred over the network.
 
 ### `GET /my-resource/?property=value`
 
@@ -38,7 +38,7 @@ This can be used to create or update a record with the provided object/data (sim
 
 ### `PUT /my-resource/<record-id>`
 
-This will create or update the record with at the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record will exactly match the data that was sent (this will remove any properties that were present in the previous record and not included in the body). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
+This will create or update the record with the URL path that maps to the record's primary key. The record will be replaced with the contents of the data in the request body. The new record will exactly match the data that was sent (this will remove any properties that were present in the previous record and not included in the body). Future GETs will return the exact data that was provided by PUT (what you PUT is what you GET). For example:
 
 ```http
 PUT /MyTable/123
@@ -87,7 +87,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 ## Querying through URL query parameters
 
-URL query parameters provides a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records with provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
+URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records which provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
 
 ```http
 GET /my-resource/?property=value
@@ -119,15 +119,15 @@ The comparison operators include `lt` (less than), `le` (less than or equal), `g
 GET /product/?category=software&price=gt=100&price=lt=200
 ```
 
-HarperDB has several special query functions, that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
+HarperDB has several special query functions that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
 
 ### `select(properties)`
 
 This allows you to specify which properties should be included in the responses. This takes several forms:
 
 * `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select(property1,property2)`: This return the records as objects, but limited to the specified properties.
-* `?select([property1,property2,...])`: This return the records as arrays of the property values in the specified properties.
+* `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
+* `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
 * `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
 
 To get a list of product names with a category of software:
@@ -148,7 +148,7 @@ GET /product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
 
 ### Content Types and Negotiation
 
-HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types: `application/json` - Common format, easy to read, with great tooling support. `application/cbor` - Recommended binary format for optimal encoding efficiency and performance. `application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as it has better streaming capabilities and faster time-to-first-byte. `text/csv` - CSV, lacks explicit typing, not well suited for heterogenous data structures, but good for moving data to and from a spreadsheet.
+HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types: `application/json` - Common format, easy to read, with great tooling support. `application/cbor` - Recommended binary format for optimal encoding efficiency and performance. `application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as it has better streaming capabilities and faster time-to-first-byte. `text/csv` - CSV, lacks explicit typing, not well suited for heterogeneous data structures, but good for moving data to and from a spreadsheet.
 
 CBOR is generally the most efficient and powerful encoding format, with the best performance, most compact encoding, and most expansive ability to encode different data types like Dates, Maps, and Sets. MessagePack is very similar and tends to have broader adoption. However, JSON can be easier to work with and may have better tooling. Also, if you are using compression for data transfer (gzip or brotli), JSON will often result in more compact compressed data due to character frequencies that better align with Huffman coding, making JSON a good choice for web applications that do not require specific data types beyond the standard JSON types.
 
@@ -168,7 +168,7 @@ However, generally it is not recommended that you use extensions in paths and it
 
 ### Specific Content Objects
 
-You can specify other content types, and the data will be stored as an record or object that hold the type and contents of the data. For example, if you do:
+You can specify other content types, and the data will be stored as a record or object that holds the type and contents of the data. For example, if you do:
 
 ```
 PUT /my-resource/33
