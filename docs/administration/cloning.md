@@ -6,10 +6,15 @@ To start clone node run `harperdb` as you would normally but have the clone node
 
 To run clone node the following environment variables must be set:
 
-* `HDB_LEADER_URL` - The URL of the leader node.
+* `HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
 * `HDB_LEADER_CLUSTERING_HOST` - The leader clustering host. This value will be added to the clustering routes on the clone node.
 * `HDB_LEADER_USERNAME` - The leader node admin username.
 * `HDB_LEADER_PASSWORD` - The leader node admin password.
+
+For example:
+```
+HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
+```
 
 Clone node can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. If no configuration is supplied, default values will be used.
 
