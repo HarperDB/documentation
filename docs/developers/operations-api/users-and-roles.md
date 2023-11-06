@@ -76,10 +76,9 @@ Creates a new role with the specified permissions. Learn more about HarperDB rol
 
 _**Operation is restricted to super\_user roles only**_
 
-* operation _(required)_ - must always be 'add\_role'\\
-* role _(required)_ - name of role you are defining\\
-* permission _(required)_ - object defining permissions for users associated with this role\\
-*
+* operation _(required)_ - must always be 'add\_role'
+* role _(required)_ - name of role you are defining
+* permission _(required)_ - object defining permissions for users associated with this role
   * permission.super\_user _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
   * permission.structure\_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
 
@@ -159,7 +158,6 @@ _**Operation is restricted to super\_user roles only**_
 * id _(required)_ - the id value for the role you are altering
 * role _(optional)_ - name value to update on the role you are altering
 * permission _(required)_ - object defining permissions for users associated with this role
-*
   * permission.super\_user _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
   * permission.structure\_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
 
@@ -273,7 +271,7 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-### Response: undefined
+### Response: 200
 
 ```json
 [
@@ -376,7 +374,8 @@ _Operation is restricted to super\_user roles only_
 Returns user data for the associated user credentials.
 
 * operation _(required)_ - must always be 'user\_info'
- **Body**
+
+**Body**
 ```json
   {
       "operation": "user_info"
@@ -410,6 +409,7 @@ _Operation is restricted to super\_user roles only_
   * username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
   * password _(required)_ - clear text for password. HarperDB will encrypt the password upon reciept.
   * active _(required)_ - boolean value for status of user's access to your HarperDB instance. If set to false, user will not be able to access your instance of HarperDB.
+
 **Body**
 ```json
   {
@@ -420,7 +420,7 @@ _Operation is restricted to super\_user roles only_
       "active": true
   }
   ```
-*Response: 200**
+**Response: 200**
 ```json
   {
       "message": "hdb_user successfully added"
@@ -436,6 +436,7 @@ _Operation is restricted to super\_user roles only_
   * password _(optional)_ - clear text for password. HarperDB will encrypt the password upon reciept.
   * role _(optional)_ - 'role' name value of the role you wish to assign to the user. See add\_role for more detail.
   * active _(optional)_ - status of user's access to your HarperDB instance. See add\_role for more detail.
+
 **Body**
 ```json
   {
@@ -465,6 +466,7 @@ _Operation is restricted to super\_user roles only_
 
   * operation _(required)_ - must always be 'drop\_user'
   * username _(required)_ - username assigned to the user.
+
 **Body**
 ```json
   {
