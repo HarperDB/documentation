@@ -60,26 +60,6 @@ To restart HarperDB once it is running, run the following command:
 ```bash
 harperdb restart
 ```
-
-***
-
-## Managing HarperDB Service(s)
-
-The following commands are used to start, restart, or stop one or more HarperDB service without restarting the full application:
-
-```bash
-harperdb start --service harperdb,"custom functions",ipc
-harperdb stop --service harperdb
-harperdb restart --service "custom functions"
-```
-
-The following services are managed via the above commands:
-
-* HarperDB
-* Custom Functions
-* IPC
-* Clustering
-
 ***
 
 ## Getting the HarperDB Version
