@@ -1,46 +1,17 @@
 # Logs 
 
-
 ## Read HarperDB Log
 Returns log outputs from the primary HarperDB log based on the provided search criteria. Read more about HarperDB logging here: https://docs.harperdb.io/docs/logging#read-logs-via-the-api. 
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'read_Log'
-</li>
+_Operation is restricted to super_user roles only_
 
-<li>
-<b>start </b><i>(optional)</i> -result to start with. Must be a number. 
-</li>
-
-
-<li>
-<b>limit </b><i>(optional)</i> -number of results returned. Default behavior is 100. Must be a number. 
-</li>
-
-<li>
-<b>level </b><i>(optional)</i> -error level to filter on. Default behavior is all levels. Must be "error", "info", or null.
-</li>
-
-<li>
-<b>from </b><i>(optional)</i> -date to begin showing log results. Must be "YYYY-MM-DD" or "YYYY-MM-DD hh:mm:ss"
-</li>
-
-<li>
-<b>until </b><i>(optional)</i> -date to end showing log results. Must be "YYYY-MM-DD" or "YYYY-MM-DD hh:mm:ss"
-
-</li>
-
-
-<li>
-<b>order </b><i>(optional)</i>  order to display logs desc or asc by timestamp
-
-</li>
-
-
-</ul>
-
+* operation _(required)_ - must always be `read_Log`
+* start _(optional)_ - result to start with. Must be a number
+* limit _(optional)_ - number of results returned. Default behavior is 100. Must be a number
+* level _(optional)_ - error level to filter on. Default behavior is all levels. Must be `error`, `info`, or `null`
+* from _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`
+* until _(optional)_ - date to end showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`
+* order _(optional)_ - order to display logs desc or asc by timestamp
 ### Body
 
 ```json
@@ -84,27 +55,19 @@ Returns log outputs from the primary HarperDB log based on the provided search c
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Read Transaction Log
 Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_transaction_log.
 
-***Operation is restricted to super_user roles only***
+_Operation is restricted to super_user roles only_
 
-<ul>
-<li><p><b>operation </b><i>(required)</i> - must always be read_transaction_log</p></li>
-
-<li><p><b>schema</b><i> (required)</i> - schema under which the transaction log resides</p></li>
-
-<li><p><b>table</b><i> (required)</i> - table under which the transaction log resides</p></li>
-
-<li><p><b>from</b> <i>(optional)</i> - time format must be millisecond-based epoch in UTC </p></li>
-
-<li><p><b>to</b> <i>(optional)</i> - time format must be millisecond-based epoch in UTC </p></li>
-
-<li><p><b>limit</b> <i>(optional)</i> - max number of logs you want to receive. Must be a number.</p></li>
-
-</ul>
+* operation _(required)_ - must always be `read_transaction_log`
+* schema _(required)_ - schema under which the transaction log resides
+* table _(required)_ - table under which the transaction log resides
+* from _(optional)_ - time format must be millisecond-based epoch in UTC
+* to _(optional)_ - time format must be millisecond-based epoch in UTC
+* limit _(optional)_ - max number of logs you want to receive. Must be a number
 
 ### Body
 
@@ -293,27 +256,19 @@ Returns all transactions logged for the specified database table. You may filter
 ]
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Delete Transaction Logs Before
 Deletes transaction log data for the specified database table that is older than the specified timestamp.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be delete_transaction_log_before</li>
-
-<li><b>schema</b><i> (required)</i> - schema under which the transaction log resides. Must be a string.</li>
-
-<li><b>table</b><i> (required)</i> - table under which the transaction log resides. Must be a string.</li>
-
-<li><b>timestamp</b><i> (required)</i> - records older than this date will be deleted. Format is millisecond-based epoch in UTC</li>
-</ul>
+* operation _(required)_ - must always be `delete_transaction_log_before`
+* schema _(required)_ - schema under which the transaction log resides. Must be a string
+* table _(required)_ - table under which the transaction log resides. Must be a string
+* timestamp _(required)_ - records older than this date will be deleted. Format is millisecond-based epoch in UTC
 
 ### Body
-
 ```json
 {
     "operation": "delete_transaction_logs_before",
@@ -330,25 +285,18 @@ Deletes transaction log data for the specified database table that is older than
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Read Audit Log
 AuditLog must be enabled in the HarperDB configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-***Operation is restricted to super_user roles only***
+_Operation is restricted to super_user roles only_
 
-<ul>
-<li><p><b>operation </b><i>(required)</i> - must always be read_audit_log</p></li>
-
-<li><p><b>schema</b><i> (required)</i> - schema under which the transaction log resides</p></li>
-
-<li><p><b>table</b><i> (required)</i> - table under which the transaction log resides</p></li>
-
-<li><p><b>search_type</b> <i>(optional)</i> - possibilities are hash_value, timestamp, and username</p></li>
-
-<li><p><b>search_values</b> <i>(optional)</i> - an array of string or numbers relating to search_type</p></li>
-</ul>
+* operation _(required)_ - must always be `read_audit_log`
+* schema _(required)_ - schema under which the transaction log resides
+* table _(required)_ - table under which the transaction log resides
+* search_type _(optional)_ - possibilities are `hash_value`, `timestamp` and `username`
+* search_values _(optional)_ - an array of string or numbers relating to search_type
 
 ### Body
 
@@ -439,32 +387,21 @@ AuditLog must be enabled in the HarperDB configuration file to make this request
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Read Audit Log by timestamp
 AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
+_Operation is restricted to super_user roles only_
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be read_audit_log</li>
-
-<li><b>schema</b><i> (required)</i> - schema under which the transaction log resides</li>
-
-<li><b>table</b><i> (required)</i> - table under which the transaction log resides</li>
-
-<li><b>search_type</b><i> (optional)</i> - timestamp
-
-<li><b>search_values</b><i> (optional)</i> - An array containing a maximum of two values [from_timestamp, to_timestamp] defining the range of transactions you would like to view. 
-<ul>
-<li>Timestamp format is millisecond-based epoch in UTC.</li>
-<li>If no items are supplied then all transactions are returned.</li>
-<li>If only one entry is supplied then all transactions after the supplied timestamp will be returned.</li>
-</ul>
-</li>
-</ul>
+* operation _(required)_ - must always be `read_audit_log`
+* schema _(required)_ - schema under which the transaction log resides
+* table _(required)_ - table under which the transaction log resides
+* search_type _(optional)_ - timestamp
+* search_values _(optional)_ - an array containing a maximum of two values [`from_timestamp`, `to_timestamp`] defining the range of transactions you would like to view.
+  * Timestamp format is millisecond-based epoch in UTC
+  * If no items are supplied then all transactions are returned
+  * If only one entry is supplied then all transactions after the supplied timestamp will be returned
 
 ### Body
 
@@ -583,27 +520,18 @@ AuditLog must be enabled in the HarperDB configuration file to make this request
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Read Audit Log by username
 AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be read_audit_log</li>
-
-<li><b>schema</b><i> (required)</i> - schema under which the transaction log resides</li>
-
-<li><b>table</b><i> (required)</i> - table under which the transaction log resides</li>
-
-<li><b>search_type</b><i> (optional)</i> - username</li>
-
-<li><b>search_values</b><i> (optional)</i> - The HarperDB user for whom you would like to view transactions.</li>
-
-
-</ul>
+* operation _(required)_ - must always be `read_audit_log`
+* schema _(required)_ - schema under which the transaction log resides
+* table _(required)_ - table under which the transaction log resides
+* search_type _(optional)_ - username
+* search_values _(optional)_ - the HarperDB user for whom you would like to view transactions
 
 ### Body
 
@@ -723,25 +651,18 @@ AuditLog must be enabled in the HarperDB configuration file to make this request
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Read Audit Log by hash_value
 AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be read_audit_log</li>
-
-<li><b>schema</b><i> (required)</i> - schema under which the transaction log resides</li>
-
-<li><b>table</b><i> (required)</i> - table under which the transaction log resides</li>
-
-<li><b>search_type</b><i> (optional)</i> - hash_value
-
-<li><b>search_values</b><i> (optional)</i> - An array of hash_attributes for which you wish to see transaction logs.</li>
-</ul>
+* operation _(required)_ - must always be `read_audit_log`
+* schema _(required)_ - schema under which the transaction log resides
+* table _(required)_ - table under which the transaction log resides
+* search_type _(optional)_ - hash_value
+* search_values _(optional)_ - an array of hash_attributes for which you wish to see transaction logs
 
 ### Body
 
@@ -798,27 +719,19 @@ AuditLog must be enabled in the HarperDB configuration file to make this request
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Delete Audit Logs Before
 AuditLog must be enabled in the HarperDB configuration file to make this request. Deletes audit log data for the specified database table that is older than the specified timestamp.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be delete_audit_logs_before</li>
-
-<li><b>schema</b><i> (required)</i> - schema under which the transaction log resides. Must be a string.</li>
-
-<li><b>table</b><i> (required)</i> - table under which the transaction log resides. Must be a string.</li>
-
-<li><b>timestamp</b><i> (required)</i> - records older than this date will be deleted. Format is millisecond-based epoch in UTC</li>
-</ul>
+* operation _(required)_ - must always be `delete_audit_logs_before`
+* schema _(required)_ - schema under which the transaction log resides. Must be a string
+* table _(required)_ - table under which the transaction log resides. Must be a string
+* timestamp _(required)_ - records older than this date will be deleted. Format is millisecond-based epoch in UTC
 
 ### Body
-
 ```json
 {
     "operation": "delete_audit_logs_before",

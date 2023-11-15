@@ -4,12 +4,11 @@
 
 Returns the state of the Custom functions server. This includes whether it is enabled, upon which port it is listening, and where its root project directory is located on the host machine.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'custom\_function\_status'
+* operation _(required)_ - must always be `custom_function_status`
 
 ### Body
-
 ```json
 {
     "operation": "custom_functions_status"
@@ -17,7 +16,6 @@ _Operation is restricted to super\_user roles only_
 ```
 
 ### Response: 200
-
 ```json
 {
     "is_enabled": true,
@@ -26,15 +24,15 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Get Custom Functions
 
 Returns an array of projects within the Custom Functions root project directory. Each project has details including each of the files in the routes and helpers directories, and the total file count in the static folder.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'get\_custom\_functions'
+* operation _(required)_ - must always be `get_custom_functions`
 
 ### Body
 
@@ -56,17 +54,17 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Get Custom Function
 
 Returns the content of the specified file as text. HarperDB Studio uses this call to render the file content in its built-in code editor.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'get\_custom\_function'
+* operation _(required)_ - must always be `get_custom_function`
 * project _(required)_ - the name of the project containing the file for which you wish to get content
-* type _(required)_ - the name of the subfolder containing the file for which you wish to get content - must be either routes or helpers
+* type _(required)_ - the name of the sub-folder containing the file for which you wish to get content - must be either routes or helpers
 * file _(required)_ - The name of the file for which you wish to get content - should not include the file extension (which is always .js)
 
 ### Body
@@ -88,19 +86,19 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Set Custom Function
 
 Updates the content of the specified file. HarperDB Studio uses this call to save any changes made through its built-in code editor.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'set\_custom\_function'
+* operation _(required)_ - must always be `set_custom_function`
 * project _(required)_ - the name of the project containing the file for which you wish to set content
-* type _(required)_ - the name of the subfolder containing the file for which you wish to set content - must be either routes or helpers
+* type _(required)_ - the name of the sub-folder containing the file for which you wish to set content - must be either routes or helpers
 * file _(required)_ - the name of the file for which you wish to set content - should not include the file extension (which is always .js)
-* function\_content _(required)_ - the content you wish to save into the specified file
+* function_content _(required)_ - the content you wish to save into the specified file
 
 ### Body
 
@@ -122,18 +120,18 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Drop Custom Function
 
 Deletes the specified file.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'drop\_custom\_function'
-* project _(required)_ - the name of the project containing the file you wish to delete.
-* type _(required)_ - the name of the subfolder containing the file you wish to delete. Must be either routes or helpers.
-* file _(required)_ - the name of the file you wish to delete. Should not include the file extension (which is always .js).
+* operation _(required)_ - must always be `drop_custom_function`
+* project _(required)_ - the name of the project containing the file you wish to delete
+* type _(required)_ - the name of the sub-folder containing the file you wish to delete. Must be either routes or helpers
+* file _(required)_ - the name of the file you wish to delete. Should not include the file extension (which is always .js)
 
 ### Body
 
@@ -154,15 +152,15 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Add Custom Function Project
 
 Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: https://github.com/HarperDB/harperdb-custom-functions-template.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'add\_custom\_function\_project'
+* operation _(required)_ - must always be `add_custom_function_project`
 * project _(required)_ - the name of the project you wish to create
 
 ### Body
@@ -182,16 +180,16 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Drop Custom Function Project
 
 Deletes the specified project folder and all of its contents.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'drop\_custom\_function\_project'
-* project _(required)_ - The name of the project you wish to delete
+* operation _(required)_ - must always be `drop_custom_function_project`
+* project _(required)_ - the name of the project you wish to delete
 
 ### Body
 
@@ -210,17 +208,17 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Package Custom Function Project
 
 Creates a .tar file of the specified project folder, then reads it into a base64-encoded string and returns an object with the string, the payload and the file.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'package\_custom\_function\_project'
+* operation _(required)_ - must always be `package_custom_function_project`
 * project _(required)_ - the name of the project you wish to package up for deployment
-* skip\_node\_modules _(optional)_ - If true, creates option for tar module that will exclude the project's node\_modules directory. Must be a boolean.
+* skip_node_modules _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean.
 
 ### Body
 
@@ -242,19 +240,17 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Deploy Custom Function Project
 
-Takes the output of package\_custom\_function\_project, decrypts the base64-encoded string, reconstitutes the .tar file of your project folder, and extracts it to the Custom Functions root project directory.
+Takes the output of package_custom_function_project, decrypts the base64-encoded string, reconstitutes the .tar file of your project folder, and extracts it to the Custom Functions root project directory.
 
-_**Operation is restricted to super\_user roles only**_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - must always be 'deploy\_custom\_function\_project'\
-
-* project _(required)_ - the name of the project you wish to deploy. Must be a string.\
-
-* payload _(required)_ - a base64-encoded string representation of the .tar file. Must be a string.\
+* operation _(required)_ - must always be `deploy_custom_function_project`
+* project _(required)_ - the name of the project you wish to deploy. Must be a string
+* payload _(required)_ - a base64-encoded string representation of the .tar file. Must be a string
 
 
 ### Body

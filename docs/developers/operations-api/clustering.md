@@ -1,27 +1,17 @@
 # Clustering 
 
-
 ## Cluster Set Routes
 Adds a route/routes to either the hub or leaf server cluster configuration.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'cluster_set_routes'
-</li>
-
-<li>
-<b>server</b> <i> (required) </i> - must always be 'hub', or 'leaf.'
-</li>
-
-<li>
-<b>routes</b> <i> (required) </i> - must always be an objects array with a host and port.
-</li>
-</ul>
+* operation _(required)_ - must always be `cluster_set_routes`
+* server _(required)_ - must always be `hub` or `leaf`, in most cases you should use `hub` here
+* routes _(required)_ - must always be an objects array with a host and port:
+  * host - the host of the remote instance you are clustering to
+  * port - the clustering port of the remote instance you are clustering to, in most cases this is the value in `clustering.hubServer.cluster.network.port` on the remote instance `harperdb-config.yaml`
 
 ### Body
-
 ```json
 {
     "operation": "cluster_set_routes",
@@ -73,22 +63,16 @@ Adds a route/routes to either the hub or leaf server cluster configuration.
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Cluster Get Routes
 Gets all the hub and leaf server routes from the config file.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'cluster_get_routes'
-</li>
+_Operation is restricted to super_user roles only_
 
-</ul>
+* operation _(required)_ - must always be `cluster_get_routes`
 
 ### Body
-
 ```json
 {
     "operation": "cluster_get_routes"
@@ -120,23 +104,15 @@ Gets all the hub and leaf server routes from the config file.
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Cluster Delete Routes
 Removes route(s) from hub and/or leaf server routes array in config file. Returns a deletion success message and arrays of deleted and skipped records.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'cluster_delete_routes'
-</li>
+_Operation is restricted to super_user roles only_
 
-<li>
-<b>routes </b><i>(required)</i> - Must be an array of route object(s). 
-</li>
-
-</ul>
+* operation _(required)_ - must always be `cluster_delete_routes`
+* routes _required_ - Must be an array of route object(s)
 
 ### Body
 
@@ -167,40 +143,34 @@ Removes route(s) from hub and/or leaf server routes array in config file. Return
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Add Node
 Registers an additional HarperDB instance with associated subscriptions. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'add_node'
-</li>
-<li>
-<b>node_name</b> <i> (required) </i> - The NODE_NAME of the remote node. Must match exactly. 
-</li>
-<li>
-<b>start_time</b> <i> (optional) </i> - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format.
-</li>
-<li>
-<b>subscriptions</b> <i> (required) </i> - The relationship created between nodes. Must be an object array and include 'schema,' 'table,' subscribe,' and 'publish.'
-</li>
-</ul>
+_Operation is restricted to super_user roles only_
 
+* operation _(required)_ - must always be `add_node`
+* node_name _(required)_ - the node name of the remote node
+* subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
+  * schema - the schema to replicate from
+  * table - the table to replicate from
+  * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
+  * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
+  * start_time _(optional)_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
+  
 ### Body
-
 ```json
 {
     "operation": "add_node",
     "node_name": "ec2-3-22-181-22",
-    "start_time": "2022-08-29T09:07:21-07:00",
     "subscriptions": [
         {
             "schema": "dev",
             "table": "dog",
             "subscribe": false,
-            "publish": true
+            "publish": true,
+            "start_time": "2022-09-02T20:06:35.993Z"
         }
     ]
 }
@@ -213,35 +183,26 @@ Registers an additional HarperDB instance with associated subscriptions. Learn m
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Update Node
 Modifies an existing HarperDB instance registration and associated subscriptions. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/. 
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'update_node'
-</li>
-<li>
-<b>node_name</b> <i> (required) </i> - The NODE_NAME of the remote node. Must match exactly. 
-</li>
-<li>
-<b>start_time</b> <i> (optional) </i> - How far back to go to get transactions from node being updated. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format.
-</li>
-<li>
-<b>subscriptions</b> <i> (required) </i> - The relationship created between nodes. Must be an object array and include 'schema,' 'table,' subscribe,' and 'publish.'
-</li>
-</ul>
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `update_node`
+* node_name _(required)_ - the node name of the remote node you are updating
+* subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
+  * schema - the schema to replicate from
+  * table - the table to replicate from
+  * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
+  * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
-
 ```json
 {
     "operation": "update_node",
     "node_name": "ec2-18-223-239-195",
-    "start_time": "2022-08-28T09:07:21-07:00",
     "subscriptions": [
         {
             "schema": "dev",
@@ -260,21 +221,16 @@ Modifies an existing HarperDB instance registration and associated subscriptions
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Cluster Status
 Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'cluster_status'
-</li>
-</ul>
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `cluster_status`
 
 ### Body
-
 ```json
 {
     "operation": "cluster_status"
@@ -310,14 +266,17 @@ Returns an array of status objects from a cluster. A status object will contain 
 ```
 
 
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Cluster Network
 Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
-_**Operation is restricted to super_user roles only**_
+_Operation is restricted to super_user roles only_
 
-<ul><li><p><b>operation</b> <i>(required) </i>- Must always be <code>cluster_network</code>.</p></li><li><p><b>timeout</b> (<i>optional</i>) - The amount of time in milliseconds to wait for a response from the network. Must be a number.</p></li><li><p><b>connected_nodes</b> (<i>optional</i>) - Omit <code>connected_nodes</code> from the response. Must be a boolean. Defaults to <code>false.</code></p></li><li><p><b>routes</b> (<i>optional</i>) - Omit <code>routes</code>from the response. Must be a boolean. Defaults to <code>false</code>.</p></li></ul>
+* operation _(required)_- must always be `cluster_network`
+* timeout (_optional_) - the amount of time in milliseconds to wait for a response from the network. Must be a number
+* connected_nodes (_optional_) - omit `connected_nodes` from the response. Must be a boolean. Defaults to `false`
+* routes (_optional_) - omit `routes` from the response. Must be a boolean. Defaults to `false`
 
 ### Body
 
@@ -352,24 +311,17 @@ _**Operation is restricted to super_user roles only**_
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Remove Node
-Unregisters a HarperDB instance and associated subscriptions. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
+Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'remove_node'
-</li>
-<li>
-<b>name</b> <i> (required) </i> - The name of the node you are de-registering.  Must match exactly. 
-</li>
-</ul>
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `remove_node`
+* name _(required)_ - The name of the node you are de-registering
 
 ### Body
-
 ```json
 {
     "operation": "remove_node",
@@ -384,26 +336,18 @@ Unregisters a HarperDB instance and associated subscriptions. Learn more about H
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Configure Cluster
 Bulk create/remove subscriptions for any number of remote nodes. Resets and replaces any existing clustering setup.
 Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-<li>
-<b>operation</b> <i> (required) </i> - must always be 'configure_cluster'
-</li>
-<li>
-<b>connections</b> <i> (required) </i> - must be an object array with each object containing node_name and subscriptions for that node
-</li>
-</ul>
+* operation _(required)_ - must always be `configure_cluster`
+* connections _(required)_ - must be an object array with each object containing `node_name` and `subscriptions` for that node
 
 ### Body
-
 ```json
 {
     "operation": "configure_cluster",

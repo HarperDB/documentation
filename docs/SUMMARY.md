@@ -21,7 +21,7 @@
 * [REST](developers/rest.md)
 * [Operations API](developers/operations-api/README.md)
   * [Quick Start Examples](developers/operations-api/quickstart-examples.md)
-  * [Schemas and Tables](developers/operations-api/databases-and-tables.md)
+  * [Databases and Tables](developers/operations-api/databases-and-tables.md)
   * [NoSQL Operations](developers/operations-api/nosql-operations.md)
   * [Bulk Operations](developers/operations-api/bulk-operations.md)
   * [Users and Roles](developers/operations-api/users-and-roles.md)
