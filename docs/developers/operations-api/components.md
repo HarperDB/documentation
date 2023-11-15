@@ -4,13 +4,12 @@
 
 Creates a new component project in the component root directory using a predefined template.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'add\_component'.
-* project _(required)_ - The name of the project you wish to create.
+* operation _(required)_ - must always be `add_component`
+* project _(required)_ - the name of the project you wish to create
 
 ### Body
-
 ```json
 {
     "operation": "add_component",
@@ -19,7 +18,6 @@ _Operation is restricted to super\_user roles only_
 ```
 
 ### Response: 200
-
 ```json
 {
   "message": "Successfully added project: my-component"
@@ -30,9 +28,7 @@ _Operation is restricted to super\_user roles only_
 
 Will deploy a component using either a base64-encoded string representation of a `.tar` file (the output from `package_component`) or a package value, which can be any valid NPM reference, such as a GitHub repo, an NPM package, a tarball, a local directory or a website.\
 
-
 If deploying with the `payload` option, HarperDB will decrypt the base64-encoded string, reconstitute the .tar file of your project folder, and extract it to the component root project directory.\
-
 
 If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. Then npm install will be utilized to install the component in the `node_modules` directory located in the hdb root. The value is a package reference, which should generally be a [URL reference, as described here](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#urls-as-dependencies) (it is also possible to include NPM registerd packages and file paths). URL package references can directly reference tarballs that can be installed as a package. However, the most common and recommended usage is to install from a Git repository, which can be combined with a tag to deploy a specific version directly from versioned source control. When using tags, we highly recommend that you use the `semver` directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers. Here is an example URL package reference to a (public) Git repository that doesn't require authentication:
 ```
@@ -55,12 +51,12 @@ Note that your component will be installed by NPM. If your component has depende
 
 _Note: After deploying a component a restart may be required_
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'deploy\_component'.
-* project _(required)_ - The name of the project you wish to deploy.
-* package _(optional)_ - This can be any valid GitHub or NPM reference.
-* payload _(optional)_ - A base64-encoded string representation of the .tar file. Must be a string.
+* operation _(required)_ - must always be `deploy_component`
+* project _(required)_ - the name of the project you wish to deploy
+* package _(optional)_ - this can be any valid GitHub or NPM reference
+* payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 
 ### Body
 
@@ -92,11 +88,11 @@ _Operation is restricted to super\_user roles only_
 
 Creates a temporary `.tar` file of the specified project folder, then reads it into a base64-encoded string and returns an object with the string and the payload.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'package\_component'.
-* project _(required)_ - The name of the project you wish to package.
-* skip\_node\_modules _(optional)_ - If true, creates option for tar module that will exclude the project's node\_modules directory. Must be a boolean.
+* operation _(required)_ - must always be `package_component`
+* project _(required)_ - the name of the project you wish to package
+* skip_node_modules _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
 
 ### Body
 
@@ -119,15 +115,15 @@ _Operation is restricted to super\_user roles only_
 ---
 ## Drop Component
 
-Deletes a file from inside the component project or deletes the complete project.\
-\
-**If just `project` is provided it will delete all that projects local files and folders.**
+Deletes a file from inside the component project or deletes the complete project.
 
-_Operation is restricted to super\_user roles only_
+**If just `project` is provided it will delete all that projects local files and folders**
 
-* operation _(required)_ - Must always be 'drop\_component'.
-* project _(required)_ - The name of the project you wish to delete or to delete from if using the 'file' parameter.
-* file _(optional)_ - The path relative to your project folder of the file you wish to delete.
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `drop_component`
+* project _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
+* file _(optional)_ - the path relative to your project folder of the file you wish to delete
 
 ### Body
 
@@ -151,9 +147,9 @@ _Operation is restricted to super\_user roles only_
 
 Gets all local component files and folders and any component config from `harperdb-config.yaml`
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'get\_components'.
+* operation _(required)_ - must always be `get_components`
 
 ### Body
 
@@ -230,12 +226,12 @@ _Operation is restricted to super\_user roles only_
 
 Gets the contents of a file inside a component project.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'get\_component\_file'.
-* project _(required)_ - The name of the project where the file is located.
-* file _(required)_ - The path relative to your project folder of the file you wish to view.
-* encoding _(optional)_ - The encoding that will be passed to the read file call. Defaults to 'utf8'.
+* operation _(required)_ - must always be `get_component_file`
+* project _(required)_ - the name of the project where the file is located
+* file _(required)_ - the path relative to your project folder of the file you wish to view
+* encoding _(optional)_ - the encoding that will be passed to the read file call. Defaults to `utf8`
 
 ### Body
 
@@ -259,13 +255,13 @@ _Operation is restricted to super\_user roles only_
 
 Creates or updates a file inside a component project.
 
-_Operation is restricted to super\_user roles only_
+_Operation is restricted to super_user roles only_
 
-* operation _(required)_ - Must always be 'set\_component\_file'.
-* project _(required)_ - The name of the project the file is located in.
-* file _(required)_ - The path relative to your project folder of the file you wish to set.
-* payload _(required)_ - What will be written to the file.
-* encoding _(optional)_ - The encoding that will be passed to the write file call. Defaults to 'utf8'.
+* operation _(required)_ - must always be `set_component_file`
+* project _(required)_ - the name of the project the file is located in
+* file _(required)_ - the path relative to your project folder of the file you wish to set
+* payload _(required)_ - what will be written to the file
+* encoding _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
 
 ### Body
 
