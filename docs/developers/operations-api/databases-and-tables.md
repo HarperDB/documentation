@@ -202,7 +202,7 @@ _Operation is restricted to super_user roles only_
 
 ---
 
-## Create  Table
+## Create Table
 Create a new table within a database.
 
 _Operation is restricted to super_user roles only_

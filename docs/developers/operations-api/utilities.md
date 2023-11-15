@@ -69,7 +69,7 @@ Exports data based on a given search operation from table to AWS S3 in JSON or C
 * s3 _(required)_ - details your access keys, bucket, bucket region and key for saving the data to S3
 * search_operation _(required)_ - search_operation of `search_by_hash`, `search_by_value` or `sql`
 
-#### Body
+### Body
 ```json
 {
     "operation": "export_to_s3",

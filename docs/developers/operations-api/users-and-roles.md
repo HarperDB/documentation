@@ -367,7 +367,7 @@ Returns user data for the associated user credentials.
 }
 ```
 
-## Response: 200
+### Response: 200
 ```json
 {
     "__createdtime__": 1610749235611,
@@ -430,7 +430,7 @@ _Operation is restricted to super\_user roles only_
   * role _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
   * active _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
 
-## Body
+### Body
 ```json
 {
   "operation": "alter_user",
@@ -441,7 +441,7 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
-## Response: 200
+### Response: 200
 ```json
 {
   "message": "updated 1 of 1 records",
