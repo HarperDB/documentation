@@ -66,6 +66,7 @@ Here's an example for a github repo:
 ```shell
 > git remote set-url origin git@github.com:/<github-user>/<github-repo> 
 ```
+Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](#deploying-your-application).
 
 </details>
 
@@ -225,6 +226,8 @@ This guide assumes that you're building a HarperDB application locally. If you h
 * Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
 * Go to the applications section of your target cloud instance in the [HarperDB Studio](../../applications/studio.harperdb.io)
 * In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
+
+You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components.md#deploy-component).
 
 Once you have deployed your application to a HarperDB cloud instance, you can start scaling your application by adding additional instances in other regions.
 
