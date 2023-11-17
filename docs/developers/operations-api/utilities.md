@@ -1,5 +1,68 @@
 # Utilities
 
+## Restart
+Restarts the HarperDB instance.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `restart`
+
+### Body
+```json
+{
+  "operation": "restart"
+}
+```
+
+### Response: 200
+```json
+{
+  "message": "Restarting HarperDB. This may take up to 60 seconds."
+}
+```
+---
+
+## Restart Service
+Restarts servers for the specified HarperDB service.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `restart_service`
+* service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
+
+### Body
+```json
+{
+  "operation": "restart_service",
+  "service": "http_workers"
+}
+```
+
+### Response: 200
+```json
+{
+  "message": "Restarting http_workers"
+}
+```
+
+---
+## System Information
+Returns detailed metrics on the host system.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `system_information`
+* attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'replication']
+
+### Body
+```json
+{
+  "operation": "system_information"
+}
+```
+
+---
+
 ## Delete Records Before
 
 Delete data before the specified timestamp on the specified database table exclusively on the node where it is executed. Any clustered nodes with replicated data will retain that data.
@@ -125,6 +188,8 @@ _Operation is restricted to super_user roles only_
 
 Modifies the HarperDB configuration file parameters. Must follow with a restart or restart_service operation.
 
+_Operation is restricted to super_user roles only_
+
 * operation _(required)_ - must always be `set_configuration`
 * logging_level _(example/optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
 * clustering_enabled _(example/optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
@@ -142,5 +207,148 @@ Modifies the HarperDB configuration file parameters. Must follow with a restart 
 ```json
 {
   "message": "Configuration successfully set. You must restart HarperDB for new config settings to take effect."
+}
+```
+
+---
+
+## Get Configuration
+Returns the HarperDB configuration parameters.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `get_configuration`
+
+### Body
+```json
+{
+  "operation": "get_configuration"
+}
+```
+
+### Response: 200
+```json
+{
+  "http": {
+    "compressionThreshold": 1200,
+    "cors": false,
+    "corsAccessList": [
+      null
+    ],
+    "keepAliveTimeout": 30000,
+    "port": 9926,
+    "securePort": null,
+    "timeout": 120000
+  },
+  "threads": 11,
+  "authentication": {
+    "cacheTTL": 30000,
+    "enableSessions": true,
+    "operationTokenTimeout": "1d",
+    "refreshTokenTimeout": "30d"
+  },
+  "analytics": {
+    "aggregatePeriod": 60
+  },
+  "clustering": {
+    "enabled": true,
+    "hubServer": {
+      "cluster": {
+        "name": "harperdb",
+        "network": {
+          "port": 12345,
+          "routes": null
+        }
+      },
+      "leafNodes": {
+        "network": {
+          "port": 9931
+        }
+      },
+      "network": {
+        "port": 9930
+      }
+    },
+    "leafServer": {
+      "network": {
+        "port": 9940,
+        "routes": null
+      },
+      "streams": {
+        "maxAge": null,
+        "maxBytes": null,
+        "maxMsgs": null,
+        "path": "/Users/hdb/clustering/leaf"
+      }
+    },
+    "logLevel": "info",
+    "nodeName": "node1",
+    "republishMessages": false,
+    "databaseLevel": false,
+    "tls": {
+      "certificate": "/Users/hdb/keys/certificate.pem",
+      "certificateAuthority": "/Users/hdb/keys/ca.pem",
+      "privateKey": "/Users/hdb/keys/privateKey.pem",
+      "insecure": true,
+      "verify": true
+    },
+    "user": "cluster_user"
+  },
+  "componentsRoot": "/Users/hdb/components",
+  "localStudio": {
+    "enabled": false
+  },
+  "logging": {
+    "auditAuthEvents": {
+      "logFailed": false,
+      "logSuccessful": false
+    },
+    "auditLog": true,
+    "auditRetention": "3d",
+    "file": true,
+    "level": "error",
+    "root": "/Users/hdb/log",
+    "rotation": {
+      "enabled": false,
+      "compress": false,
+      "interval": null,
+      "maxSize": null,
+      "path": "/Users/hdb/log"
+    },
+    "stdStreams": false
+  },
+  "mqtt": {
+    "network": {
+      "port": 1883,
+      "securePort": 8883
+    },
+    "webSocket": true,
+    "requireAuthentication": true
+  },
+  "operationsApi": {
+    "network": {
+      "cors": true,
+      "corsAccessList": [
+        "*"
+      ],
+      "domainSocket": "/Users/hdb/operations-server",
+      "port": 9925,
+      "securePort": null
+    }
+  },
+  "rootPath": "/Users/hdb",
+  "storage": {
+    "writeAsync": false,
+    "caching": true,
+    "compression": false,
+    "noReadAhead": true,
+    "path": "/Users/hdb/database",
+    "prefetchWrites": true
+  },
+  "tls": {
+    "certificate": "/Users/hdb/keys/certificate.pem",
+    "certificateAuthority": "/Users/hdb/keys/ca.pem",
+    "privateKey": "/Users/hdb/keys/privateKey.pem"
+  }
 }
 ```
