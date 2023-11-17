@@ -1,17 +1,15 @@
 # Token Authentication 
 
-
 ## Create Authentication Tokens
 Creates the tokens needed for authentication: operation & refresh token.
-<b>Note, this operation does not require authorization to be set.</b>
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be create_authentication_tokens</li>
-<li><b>username</b><i> (required)</i> - username of user to generate tokens for</li>
-<li><b>password</b><i> (required)</i> - password of user to generate tokens for</li>
-</ul>
+
+_Note - this operation does not require authorization to be set_
+
+* operation _(required)_ - must always be `create_authentication_tokens`
+* username _(required)_ - username of user to generate tokens for
+* password _(required)_ - password of user to generate tokens for
 
 ### Body
-
 ```json
 {
     "operation": "create_authentication_tokens",
@@ -19,12 +17,6 @@ Creates the tokens needed for authentication: operation & refresh token.
     "password": ""
 }
 ```
-
-### � Authentication noauth
-
-|Param|value|Type|
-|---|---|---|
-
 
 ### Response: 200
 ```json
@@ -34,17 +26,15 @@ Creates the tokens needed for authentication: operation & refresh token.
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Refresh Operation Token
 This operation creates a new operation token.
-<ul>
-<li><b>operation</b><i> (required)</i> - must always be refresh_operation_token</li>
-</ul>
+
+* operation _(required)_ - must always be `refresh_operation_token`
+* refresh_token _(required)_ - the refresh token that was provided when tokens were created
 
 ### Body
-
 ```json
 {
     "operation": "refresh_operation_token",
@@ -58,4 +48,3 @@ This operation creates a new operation token.
     "operation_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6eyJfX2NyZWF0ZWR0aW1lX18iOjE2MDQ1MTc4Nzk1MjMsIl9fdXBkYXRlZHRpbWVfXyI6MTYwNDUxNzg3OTUyMywiYWN0aXZlIjp0cnVlLCJhdXRoX3Rva2VuIjpudWxsLCJyb2xlIjp7Il9fY3JlYXRlZHRpbWVfXyI6MTYwNDUxNzg3OTUyMSwiX191cGRhdGVkdGltZV9fIjoxNjA0NTE3ODc5NTIxLCJpZCI6IjZhYmRjNGJhLWU5MjQtNDlhNi1iOGY0LWM1NWUxYmQ0OTYzZCIsInBlcm1pc3Npb24iOnsic3VwZXJfdXNlciI6dHJ1ZSwic3lzdGVtIjp7InRhYmxlcyI6eyJoZGJfdGFibGUiOnsicmVhZCI6dHJ1ZSwiaW5zZXJ0IjpmYWxzZSwidXBkYXRlIjpmYWxzZSwiZGVsZXRlIjpmYWxzZSwiYXR0cmlidXRlX3Blcm1pc3Npb25zIjpbXX0sImhkYl9hdHRyaWJ1dGUiOnsicmVhZCI6dHJ1ZSwiaW5zZXJ0IjpmYWxzZSwidXBkYXRlIjpmYWxzZSwiZGVsZXRlIjpmYWxzZSwiYXR0cmlidXRlX3Blcm1pc3Npb25zIjpbXX0sImhkYl9zY2hlbWEiOnsicmVhZCI6dHJ1ZSwiaW5zZXJ0IjpmYWxzZSwidXBkYXRlIjpmYWxzZSwiZGVsZXRlIjpmYWxzZSwiYXR0cmlidXRlX3Blcm1pc3Npb25zIjpbXX0sImhkYl91c2VyIjp7InJlYWQiOnRydWUsImluc2VydCI6ZmFsc2UsInVwZGF0ZSI6ZmFsc2UsImRlbGV0ZSI6ZmFsc2UsImF0dHJpYnV0ZV9wZXJtaXNzaW9ucyI6W119LCJoZGJfcm9sZSI6eyJyZWFkIjp0cnVlLCJpbnNlcnQiOmZhbHNlLCJ1cGRhdGUiOmZhbHNlLCJkZWxldGUiOmZhbHNlLCJhdHRyaWJ1dGVfcGVybWlzc2lvbnMiOltdfSwiaGRiX2pvYiI6eyJyZWFkIjp0cnVlLCJpbnNlcnQiOmZhbHNlLCJ1cGRhdGUiOmZhbHNlLCJkZWxldGUiOmZhbHNlLCJhdHRyaWJ1dGVfcGVybWlzc2lvbnMiOltdfSwiaGRiX2xpY2Vuc2UiOnsicmVhZCI6dHJ1ZSwiaW5zZXJ0IjpmYWxzZSwidXBkYXRlIjpmYWxzZSwiZGVsZXRlIjpmYWxzZSwiYXR0cmlidXRlX3Blcm1pc3Npb25zIjpbXX0sImhkYl9pbmZvIjp7InJlYWQiOnRydWUsImluc2VydCI6ZmFsc2UsInVwZGF0ZSI6ZmFsc2UsImRlbGV0ZSI6ZmFsc2UsImF0dHJpYnV0ZV9wZXJtaXNzaW9ucyI6W119LCJoZGJfbm9kZXMiOnsicmVhZCI6dHJ1ZSwiaW5zZXJ0IjpmYWxzZSwidXBkYXRlIjpmYWxzZSwiZGVsZXRlIjpmYWxzZSwiYXR0cmlidXRlX3Blcm1pc3Npb25zIjpbXX0sImhkYl90ZW1wIjp7InJlYWQiOnRydWUsImluc2VydCI6ZmFsc2UsInVwZGF0ZSI6ZmFsc2UsImRlbGV0ZSI6ZmFsc2UsImF0dHJpYnV0ZV9wZXJtaXNzaW9ucyI6W119fX19LCJyb2xlIjoic3VwZXJfdXNlciJ9LCJ1c2VybmFtZSI6IkhEQl9BRE1JTiJ9LCJpYXQiOjE2MDUwNjQ0MjMsImV4cCI6MTYwNTE1MDgyMywic3ViIjoib3BlcmF0aW9uIn0.VVZdhlh7_xFEaGPwhAh6VJ1d7eisiF3ok3ZwLTQAMWZB6umb2S7pPSTbXAmqAGHRlFAK3BYfnwT3YWt0gZbHvk24_0x3s_dej3PYJ8khIxzMjqpkR6qSjQIC2dhKqpwRPNtoqW_xnep9L-qf5iPtqkwsqWhF1c5VSN8nFouLWMZSuJ6Mag04soNhFvY0AF6QiTyzajMTb6uurRMWOnxk8hwMrY_5xtupabqtZheXP_0DV8l10B7GFi_oWf_lDLmwRmNbeUfW8ZyCIJMj36bjN3PsfVIxog87SWKKCwbWZWfJWw0KEph-HvU0ay35deyGWPIaDQmujuh2vtz-B0GoIAC58PJdXNyQRzES_nSb6Oqc_wGZsLM6EsNn_lrIp3mK_3a5jirZ8s6Z2SfcYKaLF2hCevdm05gRjFJ6ijxZrUSOR2S415wLxmqCCWCp_-sEUz8erUrf07_aj-Bv99GUub4b_znOsQF3uABKd4KKff2cNSMhAa-6sro5GDRRJg376dcLi2_9HOZbnSo90zrpVq8RNV900aydyzDdlXkZja8jdHBk4mxSSewYBvM7up6I0G4X-ZlzFOp30T7kjdLa6480Qp34iYRMMtq0Htpb5k2jPt8dNFnzW-Q2eRy1wNBbH3cCH0rd7_BIGuTCrl4hGU8QjlBiF7Gj0_-uJYhKnhg"
 }
 ```
-

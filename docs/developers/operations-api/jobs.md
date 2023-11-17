@@ -1,16 +1,10 @@
 # Jobs 
 
-
 ## Get Job
 Returns job status, metrics, and messages for the specified job ID.
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be get_job</li>
-
-<li><b>id </b><i>(required)</i> - the id of the job you wish to view</li>
-
-</ul>
+* operation _(required)_ - must always be `get_job`
+* id _(required)_ - the id of the job you wish to view
 
 ### Body
 
@@ -42,26 +36,18 @@ Returns job status, metrics, and messages for the specified job ID.
 ]
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Search Jobs By Start Date
 Returns a list of job statuses, metrics, and messages for all jobs executed within the specified time window.
 
-<i><b>Operation is restricted to super_user roles only</b></i>
+_Operation is restricted to super_user roles only_
 
-<ul>
-
-<li><b>operation </b><i>(required)</i> - must always be search_jobs_by_start_date</li>
-
-<li><b>from_date </b><i>(required)</i> - the date you wish to start the search</li>
-
-<li><b>to_date </b><i>(required)</i> - the date you wish to end the search</li>
-
-</ul>
+* operation _(required)_ - must always be `search_jobs_by_start_date`
+* from_date _(required)_ - the date you wish to start the search
+* to_date _(required)_ - the date you wish to end the search
 
 ### Body
-
 ```json
 {
     "operation": "search_jobs_by_start_date",
@@ -90,4 +76,3 @@ Returns a list of job statuses, metrics, and messages for all jobs executed with
     }
 ]
 ```
-

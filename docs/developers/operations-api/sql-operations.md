@@ -1,17 +1,10 @@
 # SQL Operations 
 
-
 ## Select
 Executes the provided SQL statement. The SELECT statement is used to query data from the database.
 
-<ul>
-<li>
-    <b> operation </b> <i> (required) </i> - must always be 'sql'
-</li>
-<li>
-    <b> sql </b> <i> (required) </i> - use standard SQL
-</li>
-</ul>
+* operation _(required)_ - must always be `sql`
+* sql _(required)_ - use standard SQL
 
 ### Body
 
@@ -39,20 +32,13 @@ Executes the provided SQL statement. The SELECT statement is used to query data 
 ]
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Insert
 Executes the provided SQL statement. The INSERT statement is used to add one or more rows to a database table.
 
-<ul>
-<li>
-    <b> operation </b> <i> (required) </i> - must always be 'sql'
-</li>
-<li>
-    <b> sql </b> <i> (required) </i> - use standard SQL
-</li>
-</ul>
+* operation _(required)_ - must always be `sql`
+* sql _(required)_ - use standard SQL
 
 ### Body
 
@@ -73,25 +59,15 @@ Executes the provided SQL statement. The INSERT statement is used to add one or 
     "skipped_hashes": []
 }
 ```
-
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Update
 Executes the provided SQL statement. The UPDATE statement is used to change the values of specified attributes in one or more rows in a database table.
 
-<ul>
-<li>
-    <b> operation </b> <i> (required) </i> - must always be 'sql' 
-</li>
-
-<li>
-    <b> sql </b> <i> (required) </i> - use standard SQL
-</li>
-</ul>
+* operation _(required)_ - must always be `sql`
+* sql _(required)_ - use standard SQL
 
 ### Body
-
 ```json
 {
     "operation": "sql",
@@ -110,24 +86,15 @@ Executes the provided SQL statement. The UPDATE statement is used to change the 
 }
 ```
 
-
-⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃ ⁃
+---
 
 ## Delete
 Executes the provided SQL statement. The DELETE statement is used to remove one or more rows of data from a database table.
 
-<ul>
-<li>
-    <b> operation </b>  <i> (required) </i> - must always be 'sql' 
-</li>
-
-<li>
-    <b> sql </b> <i> (required) </i> - use standard SQL
-</li>
-</ul>
+* operation _(required)_ - must always be `sql`
+* sql _(required)_ - use standard SQL
 
 ### Body
-
 ```json
 {
     "operation": "sql",
