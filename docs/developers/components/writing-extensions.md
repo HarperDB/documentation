@@ -18,12 +18,10 @@ These are not mutually exclusive, you may build components that fulfill any or a
 
 ## Server Extensions
 
-Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. Server extensions can be configured at an application (custom function) level or a global level (for all applications). The configuration will define and handle any network ports that the extension can listen on. An extension can be added by adding it to your harperdb-config.yaml (here we are also defining a port, but any configuration would be dependent on the extension you are installing):
+Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. A component can be defined as an extension by specifying the extensionModule in the config.yaml:
 
 ```yaml
-serverExtensions:
-  - package: 'org/package-name'
-	port: 4321
+extensionModule: 'entry-module-name'
 ```
 
 ### Module Initialization
