@@ -159,5 +159,4 @@
 
 * [Support](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
 * [Slack](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
-* [Feature Request](https://harperdb.featureupvote.com/)
 * [Contact Us](https://www.harperdb.io/contact)
