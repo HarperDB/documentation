@@ -1,7 +1,7 @@
 # Databases and Tables 
 
 ## Describe All
-Returns the definitions of all databases and tables within the database.
+Returns the definitions of all databases and tables within the database. Record counts about 5000 records are estimated, as determining the exact count can be expensive. When the record count is estimated, this is indicated by the inclusion of a confidence interval of `estimated_record_range`. If you need the exact count, you can include an `"exact_count": true` in the operation, but be aware that this requires a full table scan (may be expensive).
 
 * operation _(required)_ - must always be `describe_all`
 
@@ -42,7 +42,8 @@ Returns the definitions of all databases and tables within the database.
             }
           ],
           "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
-          "record_count": 4,
+          "record_count": 4000,
+          "estimated_record_range": [3976, 4033],
           "last_updated_record": 1697658683698.4504
         }
     }
@@ -94,7 +95,8 @@ Returns the definitions of all tables within the specified database.
         }
       ],
       "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
-      "record_count": 4,
+      "record_count": 4000,
+      "estimated_record_range": [3976, 4033],
       "last_updated_record": 1697658683698.4504
     }
 }
@@ -145,7 +147,8 @@ Returns the definition of the specified table.
     }
   ],
   "clustering_stream_name": "dd9e90c2689151ab812e0f2d98816bff",
-  "record_count": 4,
+  "record_count": 4000,
+  "estimated_record_range": [3976, 4033],
   "last_updated_record": 1697658683698.4504
 }
 ```
