@@ -2,7 +2,7 @@
 
 Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone.
 
-To start clone node run `harperdb` as you would normally but have the clone node environment variables set (see below).
+To start clone node install `harperdb` as you would normally but have the clone node environment variables set (see below).
 
 To run clone node the following environment variables must be set:
 
@@ -16,7 +16,20 @@ For example:
 HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
 ```
 
-Clone node can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. If no configuration is supplied, default values will be used.
+Clone node does not require any additional configuration apart from the environment variables referenced above. 
+However, it can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. 
+If no configuration is supplied, default values will be used.
+
+By default:
+* The HarperDB Terms and Conditions will be accepted
+* The Root path will be <home-dir>/hdb
+* The Operations API port will be set to 9925
+* The admin and clustering username and password will be the same as the leader node
+* A unique node name will be generated
+* All tables will be cloned and have replication added, the subscriptions will be `publish: true` and `subscribe: true`
+* The users and roles system tables will be cloned and have replication added both ways
+* All components will be cloned
+* All routes will be cloned
 
 **Leader node** - the instance of HarperDB you are cloning.\
 **Clone node** - the new node which will be a clone of the leader node.
