@@ -36,8 +36,7 @@ tables.MyCache.sourcedFrom(MyExternalData);
 You can also extend table classes in the same way, overriding the instance methods for custom functionality. The `tables` object is a global variable in the HarperDB JavaScript environment, along with `Resource`:
 
 ```javascript
-const { MyTable } = tables;
-export class MyCustomTableInterface extends MyTable {
+export class MyTable extends tables.MyTable {
 	get() {
 		// we can add properties or change properties before returning data:
 		this.newProperty = 'newValue';
@@ -56,8 +55,8 @@ export class MyCustomTableInterface extends MyTable {
 		// actions that aren't well described with just PUT or DELETE
 	}
 }
-
 ```
+Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in the your schema, so that you aren't exporting the same table/class twice.
 
 ## Global Variables
 
@@ -106,7 +105,7 @@ import { databases, tables, Resource } from 'harperdb';
 
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
 
-### `get(queryOrProperty?)`
+### `get(queryOrProperty?)`: Resource|AsyncIterable
 
 This is called to return the record or data for this resource, and is called by HTTP GET requests. This may be optionally called with a `query` object to specify a query should be performed, or a string to indicate that the specified property value should be returned. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
 
@@ -120,8 +119,9 @@ get(query) {
 	...
 }
 ```
+If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return `this` instance of the resource. If `get` is called on a collection (`/Table/?name=value`), the default action is to `search` and return an AsyncIterable of results.
 
-### `search(query: Query)`
+### `search(query: Query)`: AsyncIterable
 
 By default this is called by `get(query)` from a collection resource.
 
@@ -267,7 +267,7 @@ Publishes the given message to the record entry specified by the id in the conte
 
 Subscribes to a record/resource.
 
-### `search(query: Query, context?: Resource|Context)`
+### `search(query: Query, context?: Resource|Context): AsyncIterable`
 
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
@@ -297,6 +297,9 @@ This is called by static methods when they are responding to a URL (from HTTP re
 		return path; // return the path as the id
 	}
 ```
+
+### `isCollection(resource: Resource): boolean`
+This returns a boolean indicating if the provide resource instance represents a collection (can return a query result) or a single record/entity.
 
 ### Context and Transactions
 
@@ -336,11 +339,13 @@ The `get`/`search` methods accept a Query object that can be used to specify a q
 * `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
 * `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
 
+The query results are returned as an `AsyncIterable`. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
+
 For example, we could do a query like:
 
 ```javascript
 let { Product } = tables;
-Product.search({
+let results = Product.search({
 	conditions: [
 		{ attribute: 'rating', value: 4.5, comparator: 'greater_than' },
 		{ attribute: 'price', value: 100, comparator: 'less_than' },
@@ -349,7 +354,11 @@ Product.search({
 	limit: 10,
 	select: ['id', 'name', 'price', 'rating'],
 })
+for await (let record of results) {
+	// iterate through each record in the query results
+}
 ```
+`AsyncIterable`s can be returned from resource methods, and will be properly serialized in responses. When a query is performed, this will open/reserve a read transaction until the query results are iterated, either through your own `for await` loop or through serialization. Failing to iterate the results this will result in a long-lived read transaction which can degrade performance (including write performance), and may eventually be aborted.
 
 ### Interacting with the Resource Data Model
 
@@ -367,7 +376,7 @@ type Product @table {
 If we have extended this table class with our get() we can interact with any these specified attributes/properties:
 
 ```javascript
-class CustomProduct extends Product {
+export class CustomProduct extends Product {
 	get(query) {
 		let name = this.name; // this is the name of the current product
 		let rating = this.rating; // this is the rating of the current product
@@ -399,7 +408,7 @@ product1.set('newProperty', 'some value'); // we can assign any properties we wa
 And likewise, we can do this in an instance method, although you will probably want to use super.get()/set() so you don't have to write extra logic to avoid recursion:
 
 ```javascript
-class CustomProduct extends Product {
+export class CustomProduct extends Product {
 	get(query) {
 		let additionalInformation = super.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
 		super.set('newProperty', 'some value'); // we can assign any properties we want with set 
@@ -421,7 +430,7 @@ product1.update(); // save both of these property changes
 Updates are automatically saved inside modifying methods like put and post:
 
 ```javascript
-class CustomProduct extends Product {
+export class CustomProduct extends Product {
 	post(data) {
 		this.name = data.name;
 		this.set('description', data.description);
@@ -453,7 +462,7 @@ type Variation {
 We can interact with these nested properties:
 
 ```javascript
-class CustomProduct extends Product {
+export class CustomProduct extends Product {
 	post(data) {
 		let brandName = this.brand.name;
 		let firstVariationPrice = this.variations[0].price;
