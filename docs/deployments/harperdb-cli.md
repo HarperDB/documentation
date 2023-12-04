@@ -140,6 +140,6 @@ last_updated_record: 1724483231970.9949
 
 `harperdb search_by_id database=dev table=dog  ids='["1"]' get_attributes='["*"]' json=true`
 
-`search_by_value table=dog search_attribute=name search_value=harper get_attributes='["id", "name"]'`
+`harperdb search_by_value table=dog search_attribute=name search_value=harper get_attributes='["id", "name"]'`
 
 `harperdb sql sql='select * from dev.dog where id="1"'`
