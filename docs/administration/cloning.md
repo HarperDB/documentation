@@ -99,7 +99,7 @@ To run clone node with the fully connected option simply pass the environment va
 
 ### Cloning overtop of an existing HarperDB instance
 
-_Note: this will completely overwrite any system tables (user, roles, nodes, etc.) 
+_Note: this will completely overwrite any system tables (user, roles, nodes, etc.)_
 and any other databases that are named the same as ones that exist on the leader node. It will also do the same for any components.
 
 To create a clone over an existing install of HarperDB use the environment variable `HDB_CLONE_OVERTOP=true`
