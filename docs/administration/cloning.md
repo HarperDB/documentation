@@ -2,7 +2,7 @@
 
 Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone.
 
-To start clone node run `harperdb` as you would normally but have the clone node environment variables set (see below).
+To start clone node install `harperdb` as you would normally but have the clone node environment variables set (see below).
 
 To run clone node the following environment variables must be set:
 
@@ -16,7 +16,23 @@ For example:
 HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
 ```
 
-Clone node can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. If no configuration is supplied, default values will be used.
+If an instance already exists in the location you are cloning to, clone node will not run. It will instead proceed with starting HarperDB. 
+This is unless you are cloning overtop (see below) of an existing instance.
+
+Clone node does not require any additional configuration apart from the environment variables referenced above. 
+However, it can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. 
+If no configuration is supplied, default values will be used.
+
+By default:
+* The HarperDB Terms and Conditions will be accepted
+* The Root path will be <home-dir>/hdb
+* The Operations API port will be set to 9925
+* The admin and clustering username and password will be the same as the leader node
+* A unique node name will be generated
+* All tables will be cloned and have replication added, the subscriptions will be `publish: true` and `subscribe: true`
+* The users and roles system tables will be cloned and have replication added both ways
+* All components will be cloned
+* All routes will be cloned
 
 **Leader node** - the instance of HarperDB you are cloning.\
 **Clone node** - the new node which will be a clone of the leader node.
@@ -80,6 +96,13 @@ _Note: any required configuration needed to install/run HarperDB will be default
 A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. A fully connected clone maintains this topology with addition of the new node. When a clone is created, replication is added between the leader and the clone and any nodes the leader is replicating with. For example, if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.
 
 To run clone node with the fully connected option simply pass the environment variable `HDB_FULLY_CONNECTED=true`
+
+### Cloning overtop of an existing HarperDB instance
+
+_Note: this will completely overwrite any system tables (user, roles, nodes, etc.) 
+and any other databases that are named the same as ones that exist on the leader node. It will also do the same for any components.
+
+To create a clone over an existing install of HarperDB use the environment variable `HDB_CLONE_OVERTOP=true`
 
 ## Cloning steps
 
