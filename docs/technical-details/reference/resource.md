@@ -335,6 +335,8 @@ The `get`/`search` methods accept a Query object that can be used to specify a q
 * `limit`: This specifies the limit of the number of records that should be returned from the query.
 * `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
 * `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
+* `explain`: This will return the conditions re-ordered as HarperDB will execute them. HarperDB will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
+* `enforceExecutionOrder`: This will force the conditions to be executed in the order they were supplied, rather than using query estimation to re-order them.
 
 For example, we could do a query like:
 

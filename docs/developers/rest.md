@@ -87,7 +87,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 ## Querying through URL query parameters
 
-URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records which provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
+URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
 
 ```http
 GET /my-resource/?property=value
@@ -99,7 +99,7 @@ We can specify multiple properties that must match:
 GET /my-resource/?property=value&property2=another-value
 ```
 
-Note that only one of the properties needs to be indexed for this query to execute.
+Note that only one of the attributes needs to be indexed for this query to execute.
 
 We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
@@ -116,8 +116,10 @@ GET /my-resource/?age=le=20
 The comparison operators include `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal). These comparison operators can also be combined with other query parameters with `&`. For example, if we wanted products with a category of software and price between 100 and 200, we could write:
 
 ```http
-GET /product/?category=software&price=gt=100&price=lt=200
+GET /Product/?category=software&price=gt=100&price=lt=200
 ```
+
+## Query Calls
 
 HarperDB has several special query functions that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
 
@@ -129,11 +131,12 @@ This allows you to specify which properties should be included in the responses.
 * `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
 * `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
 * `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
+* `?select(property{subProperty1,subProperty2},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
 
 To get a list of product names with a category of software:
 
 ```http
-GET /product/?category=software&select(name)
+GET /Product/?category=software&select(name)
 ```
 
 ### `limit(start,end)` or `limit(end)`
@@ -143,8 +146,50 @@ Specifies a limit on the number of records returned, optionally providing a star
 For example, to find the first twenty records with a `rating` greater than 3, `inStock` equal to true, only returning the `rating` and `name` properties, you could use:
 
 ```http
-GET /product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
+GET /Product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
 ```
+
+## Nested Attributes and Joins
+In addition to querying on top-level attributes, you can also query on nested attributes. Most importantly, this provides "join" functionality, allowing related tables to be queried and joined in the results. Nested properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
+```graphql
+type Product @table @export {
+	id: ID @primaryKey
+	name: String
+	brandId: ID @indexed
+	brand: Brand @relationship(from: "brandId")
+}
+type Brand @table @export {
+	id: ID @primaryKey
+	name: String
+	products: [Product] @relationship(to: "brandId")
+}
+```
+And then you could query a product by brand name:
+```http
+GET /Product/?brand.name=Microsoft
+```
+This will query for products for which the `brandId` references a `Brand` record with a `name` of `"Microsoft"`.
+
+The `brand` attribute in `Product` is a "computed" attribute from the foreign key (`brandId`), for the many-to-one relationship to the `Brand`. In the schema above, we also defined the reverse one-to-many relationship from a `Brand` to a `Product`, and we could likewise query that:
+```http
+GET /Brand/?products.name=Keyboard
+```
+This would return any `Brand` with at least one product with a name `"Keyboard"`. Note, that both of these queries are effectively acting as an "INNER JOIN".
+
+### Nested Select
+Computed relationship attributes are not included by default in query results. However, we can include them by specifying them in a select:
+```http
+GET /Product/?brand.name=Microsoft&select(name,brand)
+```
+We can also do a "nested" select and specify which sub-attributes to include. For example, if we only wanted to include the name property from the brand, we could do so:
+```http
+GET /Product/?brand.name=Microsoft&select(name,brand{name})
+```
+Or to specify multiple sub-attributes, we can comma delimit them. Note that selects can "join" to another table without any constraint/filter on the related/joined table:
+```http
+GET /Product/?name=Keyboard&select(name,brand{name,id})
+```
+When selecting properties from a related table without any constraints on the related table, this effectively acts like a "LEFT JOIN" and will omit the `brand` property if the brandId is `null` or references a non-existent brand.
 
 ### Content Types and Negotiation
 

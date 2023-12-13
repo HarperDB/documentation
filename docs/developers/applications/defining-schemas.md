@@ -53,6 +53,34 @@ type MyTable @table @export(name: "my-table")
 
 This table would be available at the URL path `/my-table/`. Without the `name` parameter, the exported name defaults to the name of the table type ("MyTable" in this example).
 
+### Relationships: `@relationship`
+Defining relationships is the foundation of using "join" queries in HarperDB. A relationship defines how one table relates to another table using a foreign key. Using the `@relationship` directive will define a property as a computed property, which resolves to the an record/instance from a target type, based on the referenced attribute, which can be in this table or the target table. The `@relationship` directive must be used in combination with an attribute with a type that references another table.
+
+#### `@relationship(from: attribute)`
+This defines a relationship where the foreign key is defined in this table, and relates to the primary key of the target table. If the foreign key is single-valued, this establishes a many-to-one relationship with the target table. The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship.
+For example, we can define a foreign key that references another table and then define the relationship. Here we create a `brandId` attribute that will be our foreign key (it will hold an id that references the primary key of the Brand table), and we define a relationship to the `Brand` table through the `brand` attribute:
+```graphql
+type Product @table @export {
+	id: ID @primaryKey
+	brandId: ID @indexed
+	brand: Brand @relationship(from: brandId)
+}
+type Brand @table @export {
+```
+Once this is defined we can use the `brand` attribute as a property in our product instances and allow for querying by `brand` and selecting brand attributes as returned properties in query results.
+
+#### `@relationship(to: attribute)`
+This defines a relationship where the foreign key is defined in the target table and relates to primary key of this table. If the foreign key is single-valued, this establishes a one-to-many relationship with the target table. Note that the target table type must be an array element type (like `[Table]`). The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship.
+For example, we can define on a reciprocal relationship, from the example above, adding a relationship from brand back to product. Here we use continue to use the `brandId` attribute from the `Product` schema, and we define a relationship to the `Product` table through the `products` attribute:
+```graphql
+type Brand @table @export {
+	id: ID @primaryKey
+	name: String
+	products: [Product] @relationship(to: brandId)
+}
+```
+Once this is defined we can use the `products` attribute as a property in our brand instances and allow for querying by `products` and selecting product attributes as returned properties in query results.
+
 #### `@sealed`
 
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
