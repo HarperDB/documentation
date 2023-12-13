@@ -125,7 +125,7 @@ HarperDB has several special query functions that use "call" syntax. These can b
 
 ### `select(properties)`
 
-This allows you to specify which properties should be included in the responses. This takes several forms:
+This function allows you to specify which properties should be included in the responses. This takes several forms:
 
 * `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
 * `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
@@ -141,12 +141,25 @@ GET /Product/?category=software&select(name)
 
 ### `limit(start,end)` or `limit(end)`
 
-Specifies a limit on the number of records returned, optionally providing a starting offset.
+This function specifies a limit on the number of records returned, optionally providing a starting offset.
 
 For example, to find the first twenty records with a `rating` greater than 3, `inStock` equal to true, only returning the `rating` and `name` properties, you could use:
 
 ```http
-GET /Product?rating=gt=3&inStock=true&select(rating,name)&limit(20)
+GET /Product/?rating=gt=3&inStock=true&select(rating,name)&limit(20)
+```
+
+### `sort(property)`, `sort(+property,-property,...)`
+
+This function allows you to indicate the sort order for the returned results. The argument for `sort()` is one or more properties that should be used to sort. If the property is prefixed with '+' or no prefix, the sort will be performed in ascending order by the indicated attribute/property. If the property is prefixed with '-', it will be sorted in descending order. If the multiple properties are specified, the sort will be performed on the first property, and for records with the same value for that property, the next property will be used to break the tie and sort results. This tie breaking will continue through any provided properties.
+
+For example, to sort by product name (in ascending order):
+```http
+GET /Product?rating=gt=3sort(+name)
+```
+To sort by rating in ascending order, then by price in descending order for products with the same rating:
+```http
+GET /Product?sort(+rating,-price)
 ```
 
 ## Nested Attributes and Joins
