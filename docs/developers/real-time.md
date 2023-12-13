@@ -4,6 +4,12 @@
 
 HarperDB provides real-time access to data and messaging. This allows clients to monitor and subscribe to data for changes in real-time as well as handling data-oriented messaging. HarperDB supports multiple standardized protocols to facilitate diverse standards-based client interaction.
 
+HarperDB real-time communication is based around database tables. Declared tables are the basis for monitoring data, and defining "topics" for publishing and subscribing to messages. Declaring a table that establishes a topic can be as simple as adding a table with no attributes to your [schema.graphql in a HarperDB application folder](./applications/README.md):
+```
+type MyTopic @table @export
+```
+You can then subscribe to records or sub-topics in this topic/namespace, as well as save data and publish messages, with the protocols discussed below.
+
 ### Content Negotiation
 
 HarperDB is a database, not a generic broker, and therefore highly adept at handling _structured_ data. Data can be published and subscribed in all supported structured/object formats, including JSON, CBOR, and MessagePack, and the data will be stored and handled as structured data. This means that different clients can individually choose which format they prefer, both for inbound and outbound messages. One client could publish in JSON, and another client could choose to receive messages in CBOR.
@@ -31,7 +37,7 @@ Note that if you are using WebSockets for MQTT, the sub-protocol should be set t
 
 #### Capabilities
 
-HarperDB's MQTT capabilities includes support for MQTT versions v3.1 and v5 with standard publish and subscription capabilities with multi-level topics, QoS 0 and 1 levels, and durable (non-clean) sessions. MQTT supports QoS 2 interaction, but doesn't guarantee exactly once delivery (although any guarantees of exactly once over unstable networks is a fictional aspiration). MQTT doesn't currently support last will and testament, nor single-level wildcards (only multi-level wildcards).
+HarperDB's MQTT capabilities includes support for MQTT versions v3.1 and v5 with standard publish and subscription capabilities with multi-level topics, QoS 0 and 1 levels, and durable (non-clean) sessions. MQTT supports QoS 2 interaction, but doesn't guarantee exactly once delivery (although any guarantees of exactly once over unstable networks is a fictional aspiration). MQTT doesn't currently support last will, nor single-level wildcards (only multi-level wildcards).
 
 ### Topics
 
