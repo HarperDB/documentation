@@ -47,6 +47,10 @@ Or you can use a Github token:
 ```
 https://<my-token>@github.com/my-org/my-app#semver:v1.0.0
 ```
+Or you can use a GitLab Project Access Token:
+```
+https://my-project:<my-token>@gitlab.com/my-group/my-project#semver:v1.0.0
+```
 Note that your component will be installed by NPM. If your component has dependencies, NPM will attempt to download and install these as well. NPM normally uses the public registry.npmjs.org registry. If you are installing without network access to this, you may wish to define [custom registry locations](https://docs.npmjs.com/cli/v8/configuring-npm/npmrc) if you have any dependencies that need to be installed. NPM will install the deployed component and any dependencies in node_modules in the hdb root directory (typically `~/hdb/node_modules`).
 
 _Note: After deploying a component a restart may be required_
