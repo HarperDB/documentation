@@ -9,9 +9,9 @@ To run clone node either of the following variables must be set:
 #### Environment variables
 
 * `HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
-* `HDB_LEADER_CLUSTERING_HOST` - The leader clustering host. This value will be added to the clustering routes on the clone node.
 * `HDB_LEADER_USERNAME` - The leader node admin username.
 * `HDB_LEADER_PASSWORD` - The leader node admin password.
+* `HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be setup between the leader and clone.
 
 For example:
 ```
@@ -21,9 +21,9 @@ HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node
 #### Command line variables
 
 * `--HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
-* `--HDB_LEADER_CLUSTERING_HOST` - The leader clustering host. This value will be added to the clustering routes on the clone node.
 * `--HDB_LEADER_USERNAME` - The leader node admin username.
 * `--HDB_LEADER_PASSWORD` - The leader node admin password.
+* `--HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be setup between the leader and clone.
 
 For example:
 ```
