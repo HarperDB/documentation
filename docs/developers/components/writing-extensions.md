@@ -125,7 +125,7 @@ Note that these hooks are not mutually exclusive. You can write an extension tha
 
 ## Data Source Components
 
-Data source components implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../../reference/resource.md) for more information on implementing new resources.
+Data source components implement the Resource interface to provide access to various data sources, which may be other APIs, databases, or local storage. Components that implement this interface can then be used as a source for caching tables, can be accessed as part of endpoint implementations, or even used as endpoints themselves. See the [Resource documentation](../../technical-details/reference/resource.md) for more information on implementing new resources.
 
 ## Content Type Extensions
 
