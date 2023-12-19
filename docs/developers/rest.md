@@ -77,7 +77,7 @@ This is handled by the Resource method `post(data)`, which is a good method to e
 
 ````http
 ```http
-PUT /MyTable/
+POST /MyTable/
 Content-Type: application/json
 
 { "name": "some data" }
