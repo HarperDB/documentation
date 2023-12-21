@@ -4,7 +4,6 @@ While HarperDB Cloud bills by RAM, each instance has other specifications associ
 
 | AWS EC2 Instance Size | RAM (GiB) | # vCPUs | Network (Gbps) | Processor                              |
 | --------------------- | --------- | ------- | -------------- | -------------------------------------- |
-| t3.nano               | 0.5       | 2       | Up to 5        | 2.5 GHz Intel Xeon Platinum 8000       |
 | t3.micro              | 1         | 2       | Up to 5        | 2.5 GHz Intel Xeon Platinum 8000       |
 | t3.small              | 2         | 2       | Up to 5        | 2.5 GHz Intel Xeon Platinum 8000       |
 | t3.medium             | 4         | 2       | Up to 5        | 2.5 GHz Intel Xeon Platinum 8000       |

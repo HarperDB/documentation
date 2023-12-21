@@ -115,6 +115,11 @@
   * [Storage Algorithm](technical-details/reference/storage-algorithm.md)
 * [Release Notes](technical-details/release-notes/README.md)
   * [HarperDB Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+    * [4.2.7](technical-details/release-notes/4.tucker/4.2.7.md)
+    * [4.2.6](technical-details/release-notes/4.tucker/4.2.6.md)
+    * [4.2.5](technical-details/release-notes/4.tucker/4.2.5.md)
+    * [4.2.4](technical-details/release-notes/4.tucker/4.2.4.md)
+    * [4.2.3](technical-details/release-notes/4.tucker/4.2.3.md)
     * [4.2.2](technical-details/release-notes/4.tucker/4.2.2.md)
     * [4.2.1](technical-details/release-notes/4.tucker/4.2.1.md)
     * [4.2.0](technical-details/release-notes/4.tucker/4.2.0.md)
@@ -157,5 +162,4 @@
 
 * [Support](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
 * [Slack](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
-* [Feature Request](https://harperdb.featureupvote.com/)
 * [Contact Us](https://www.harperdb.io/contact)

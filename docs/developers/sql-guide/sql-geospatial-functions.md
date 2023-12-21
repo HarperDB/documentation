@@ -144,7 +144,7 @@ SELECT geoDifference('{
 )
 ```
 
-#geoDistance
+# geoDistance
 Calculates the distance between two points in units (default is kilometers).
 
 ## Syntax

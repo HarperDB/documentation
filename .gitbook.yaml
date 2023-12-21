@@ -92,4 +92,5 @@ redirects:
   release-notes: technical-details/release-notes/README.md
   operations-api: developers/operations-api/README.md
   rest: developers/rest.md
+  api: developers/operations-api/README.md
 
