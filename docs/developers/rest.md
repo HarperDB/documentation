@@ -119,6 +119,32 @@ The comparison operators include `lt` (less than), `le` (less than or equal), `g
 GET /Product/?category=software&price=gt=100&price=lt=200
 ```
 
+You can also search for attributes that start with a specific string, by appending a `*` to the attribute value.
+
+### Unions
+Conditions can also be applied with `OR` logic, returning the union of records that match either condition. This can be specified by using the `|` operator instead of `&`. For example, to return any product a rating of `5` _or_ a `featured` attribute that is `true`, we could write:
+```http
+GET /Product/?rating=5|featured=true
+```
+
+### Grouping of Operators
+Multiple conditions with different operators can be combined with grouping of conditions to indicate the order of operation. Grouping conditions can be done with parenthesis, with standard grouping conventions as used in query and mathematical expressions. For example, a query to find products with a rating of 5 OR a price between 100 and 200 could be written:
+```http
+GET /Product/?rating=5|(price=gt=100&price=lt=200)
+```
+Grouping conditions can also be done with square brackets, which function the same as parenthesis for grouping conditions. The advantage of using square brackets is that you can include user provided values that might have parenthesis in them, and use standard URI component encoding functionality, which will safely escape/encode square brackets, but not parenthesis. For example, if we were constructing a query for products with a rating of a 5 and matching one of a set of user provided tags, a query could be built like:
+```http
+GET /Product/?rating=5&[tag=fast|tag=scalable|tag=efficient]
+```
+And the tags could be safely generated from user inputs in a tag array like:
+```javascript
+let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`
+```
+More complex queries can be created by further nesting groups:
+```http
+GET /Product/?price=lt=100|[rating=5&[tag=fast|tag=scalable|tag=efficient]&inStock=true]
+```
+
 ## Query Calls
 
 HarperDB has several special query functions that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
@@ -131,7 +157,7 @@ This function allows you to specify which properties should be included in the r
 * `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
 * `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
 * `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
-* `?select(property{subProperty1,subProperty2},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
+* `?select(property{subProperty1,subProperty2{subSubProperty,..}},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
 
 To get a list of product names with a category of software:
 
@@ -155,7 +181,7 @@ This function allows you to indicate the sort order for the returned results. Th
 
 For example, to sort by product name (in ascending order):
 ```http
-GET /Product?rating=gt=3sort(+name)
+GET /Product?rating=gt=3&sort(+name)
 ```
 To sort by rating in ascending order, then by price in descending order for products with the same rating:
 ```http
