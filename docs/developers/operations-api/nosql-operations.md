@@ -273,7 +273,7 @@ Returns data from a table for a matching value.
 
 ## Search By Conditions
 
-Returns data from a table for one or more matching conditions.
+Returns data from a table for one or more matching conditions. This supports grouping of conditions to indicate order of operations as well.
 
 * operation _(required)_ - must always be `search_by_conditions`
 * database _(optional)_ - database where the table you are searching lives. The default is `data`
@@ -281,12 +281,18 @@ Returns data from a table for one or more matching conditions.
 * operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
 * offset _(optional)_ - the number of records that the query results will skip. The default is `0`
 * limit _(optional)_ - the number of records that the query results will include. The default is `null`, resulting in no limit
+* sort _optional_ - This is an object that indicates the sort order. It has the following properties:
+  * attribute _(required)_ - The attribute to sort by
+  * descending _(optional)_ - If true, will sort in descending order (defaults to ascending order)
+  * next _(optional)_ - This can define the next sort object that will be used to break ties for sorting when there are multiple records with the same value for the first attribute (follows the same structure as `sort`, and can recursive additional attributes).
 * get_attributes _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes
-* conditions _(required)_ - the array of conditions objects, specified below, to filter by. Must include one or more object in the array
+* conditions _(required)_ - the array of conditions objects, specified below, to filter by. Must include one or more object in the array that are a condition or a grouped set of conditions. A condition has the following properties:
   * search_attribute _(required)_ - the attribute you wish to search, can be any attribute
   * search_type _(required)_ - the type of search to perform - `equals`, `contains`, `starts_with`, `ends_with`, `greater_than`, `greater_than_equal`, `less_than`, `less_than_equal`, `between`
   * search_value _(required)_ - case-sensitive value you wish to search. If the `search_type` is `between` then use an array of two values to search between
-
+Or a set of grouped conditions has the following properties:
+* operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
+* conditions _(required)_ - the array of conditions objects as described above.
 ### Body
 
 ```json
@@ -297,6 +303,13 @@ Returns data from a table for one or more matching conditions.
     "operator": "and",
     "offset": 0,
     "limit": 10,
+    "sort": {
+        "attribute": "id",
+        "next": {
+            "dog_name": "age",
+            "descending": true
+        }
+    },
     "get_attributes": [
         "*"
     ],
@@ -315,9 +328,19 @@ Returns data from a table for one or more matching conditions.
             "search_value": 40
         },
         {
-            "search_attribute": "adorable",
-            "search_type": "equals",
-            "search_value": true
+            "operator": "or",
+            "conditions": [
+                {
+                    "search_attribute": "adorable",
+                    "search_type": "equals",
+                    "search_value": true
+                },
+                {
+                    "search_attribute": "lovable",
+                    "search_type": "equals",
+                    "search_value": true
+                }
+            ]
         }
     ]
 }
