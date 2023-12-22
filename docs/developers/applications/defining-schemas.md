@@ -66,6 +66,8 @@ type Product @table @export {
 	brand: Brand @relationship(from: brandId)
 }
 type Brand @table @export {
+	id: ID @primaryKey
+}
 ```
 Once this is defined we can use the `brand` attribute as a property in our product instances and allow for querying by `brand` and selecting brand attributes as returned properties in query results.
 
