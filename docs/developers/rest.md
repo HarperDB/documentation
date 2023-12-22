@@ -188,8 +188,8 @@ To sort by rating in ascending order, then by price in descending order for prod
 GET /Product?sort(+rating,-price)
 ```
 
-## Nested Attributes and Joins
-In addition to querying on top-level attributes, you can also query on nested attributes. Most importantly, this provides "join" functionality, allowing related tables to be queried and joined in the results. Nested properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
+## Chained Attributes and Joins
+In addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
 ```graphql
 type Product @table @export {
 	id: ID @primaryKey
