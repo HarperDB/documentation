@@ -668,6 +668,51 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
+`ciphers` - _Type_: string;
+
+Allows specific ciphers to be set.
+
+***
+
+#### `mqtt`
+
+The MQTT protocol can be configured in this section.
+
+```yaml
+mqtt:
+  network:
+    port: 1183
+    securePort: 8883
+    mtls: false
+  webSocket: true
+  requireAuthentication: true
+```
+
+`port` - _Type_: number; _Default_: 1883
+
+This is the port to use for listening for insecure MQTT connections.
+
+`securePort` - _Type_: number; _Default_: 8883
+
+This is the port to use for listening for secure MQTT connections. This will use the `tls` configuration for certificates.
+
+`mlts` - _Type_: boolean; _Default_: false
+
+This can be configured to enable mTLS based authentication for incoming connections. If enabled, the client certificate will be checked against the certificate authority specified in the `tls` section. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
+Alternately, you can define a specific username to authenticate as for mTLS connections with:
+```yaml
+    mtls:
+      user: user-name
+```
+
+`webSocket` - _Type_: boolean; _Default_: true
+
+This enables access to MQTT through WebSockets. This will handle WebSocket connections on the http port (defaults to 9926), that have specified a (sub) protocol of `mqtt`.
+
+`requireAuthentication` - _Type_: boolean; _Default_: true
+
+This indicates if authentication should be required for establishing an MQTT connection (whether through MQTT connection credentials or mTLS). Disabling this allows unauthenticated connections, which are then subject to authorization for publishing and subscribing (and by default tables/resources do not authorize such access, but that can be enabled at the resource level).
+
 ***
 
 #### `databases`
@@ -706,6 +751,15 @@ databases:
 ```
 
 \
+
+#### `maxHeapMemory`
+```yaml
+maxHeapMemory: 300
+```
+
+`maxHeapMemory` - _Type_: number;
+
+This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
 
 
 **Setting the database section through the command line, environment variables or API**

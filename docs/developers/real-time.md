@@ -30,10 +30,11 @@ mqtt:
     port: 1883
     securePort: 8883 # for TLS
   webSocket: true # will also enable WS support through the default HTTP interface/port
+  mTLS: false
   requireAuthentication: true
 ```
 
-Note that if you are using WebSockets for MQTT, the sub-protocol should be set to "mqtt" (this is required by the MQTT specification, and should be included by any conformant client): `Sec-WebSocket-Protocol: mqtt`.
+Note that if you are using WebSockets for MQTT, the sub-protocol should be set to "mqtt" (this is required by the MQTT specification, and should be included by any conformant client): `Sec-WebSocket-Protocol: mqtt`. mTLS is also supported by enabling it in the configuration and using the certificate authority from the TLS section of the configuration. See the [configuration documentation for more information](../deployments/configuration.md).
 
 #### Capabilities
 

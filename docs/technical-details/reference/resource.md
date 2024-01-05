@@ -187,6 +187,10 @@ This is called to determine if the user has permission to update the current res
 
 This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
 
+### `addTo(property, value)`
+
+This adds to provided value to the specified property using conflict-free data type (CRDT) incrementation. This ensures that even if multiple calls are simultaneously made to increment a value, the resulting merge of data changes from different threads and nodes will properly sum all the added values.
+
 ### `getUpdatedTime(): number`
 
 This returns the last updated time of the resource (timestamp of last commit). This is returned as milliseconds from epoch.
