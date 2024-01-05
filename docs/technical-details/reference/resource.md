@@ -334,16 +334,62 @@ Please see the [transaction documentation](transactions.md) for more information
 
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
 
-* `conditions`: This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
+#### `conditions`
+This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object can have the following properties:
   * `attribute`: Name of the property/attribute to match on.
   * `value`: The value to match.
-  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between".
-* `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
-* `limit`: This specifies the limit of the number of records that should be returned from the query.
-* `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
-* `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
-* `explain`: This will return the conditions re-ordered as HarperDB will execute them. HarperDB will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
-* `enforceExecutionOrder`: This will force the conditions to be executed in the order they were supplied, rather than using query estimation to re-order them.
+  * `comparator`: This can specify how the value is compared. This is optional and defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between".
+  Or the a condition may be a group of conditions that specifies order of operations. A condition may be a group of conditions with the following properties:
+  * `conditions`: An array of conditions, which follows the same structure as above.
+  * `operator`: Specifies the operator to apply to this set of conditions (`and` or `or`. This is optional and defaults to `and`).
+For example, a complex query might look like:
+```javascript
+Table.search({ conditions: [
+	{ attribute: 'price', comparator: 'less_than', value: 100 },
+	{ operator: 'or', conditions: [
+		{ attribute: 'rating', comparator: 'greater_than', value: 4 },
+		{ attribute: 'featured', value: true }
+	]}
+]});
+```
+
+#### `operator`
+Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This is optional and defaults to `"and"`.
+#### `limit`
+This specifies the limit of the number of records that should be returned from the query.
+
+#### `offset`
+This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
+
+#### `select`
+This specifies the specific properties that should be included in each record that is returned. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results. Each of the elements in the array can be a property name, or can be an object with a `name` and `select` array itself that specifies properties that should be returned by the referenced sub-object or related record. For example, a `select` can defined:
+```javascript
+Table.search({ select: [ 'name', 'age' ], conditions: ...})
+```
+Or nested/joined properties from referenced objects can be specified, here we are including the referenced `related` records, and returning the `description` and `id` from each of the related objects:
+```javascript
+Table.search({ select: [ 'name', { name: 'related', select: ['description', 'id'] } ], conditions: ...})
+```
+The select properties can also include certain special properties:
+* `$id` - This will specifically return the primary key of the record (regardless of name, even if there is no defined primary key attribute for the table).
+* `$updatedtime` - This will return the last updated timestamp/version of the record (regardless of whether there is an attribute for the updated time).
+
+Alternately, the select value can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. For example to just return an iterator of the `id`s of object:
+```javascript
+Table.search({ select: 'id', conditions: ...})
+```
+
+#### `sort`
+This defines the sort order, and should be an object that can have the following properties:
+  * `attributes`: The attribute to sort on.
+  * `descending`: If true, will sort in descending order (optional and defaults to `false`).
+  * `next`: Specifies the next sort order to resolve ties. This is an object that follows the same structure as `sort`.
+
+#### `explain`
+This will return the conditions re-ordered as HarperDB will execute them. HarperDB will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
+
+#### `enforceExecutionOrder`
+This will force the conditions to be executed in the order they were supplied, rather than using query estimation to re-order them.
 
 The query results are returned as an `AsyncIterable`. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
 
@@ -359,6 +405,7 @@ let results = Product.search({
 	offset: 20,
 	limit: 10,
 	select: ['id', 'name', 'price', 'rating'],
+	sort: { attribute: 'price' }
 })
 for await (let record of results) {
 	// iterate through each record in the query results
