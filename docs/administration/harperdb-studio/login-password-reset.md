@@ -36,3 +36,7 @@ If you are already logged into the Studio, you can change your password though t
     * New password. 
     * New password again *(for verification)*.
 4) Click the **Update Password** button.
+
+## Testing Changes
+
+This is for testing if changes snyc properly in Gitbook.
