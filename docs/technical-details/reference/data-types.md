@@ -14,7 +14,12 @@ Strings, or text, are a sequence of any unicode characters and are internally en
 
 ## Number
 
-Numbers can be stored as signed integers up to 64-bit or floating point with 64-bit floating point precision, and numbers are automatically stored using the most optimal type. JSON is parsed by JS, so the maximum safe (precise) integer is 9007199254740991 (larger numbers can be stored, but aren’t guaranteed integer precision). Custom Functions may use BigInt numbers to store/access larger 64-bit integers, but integers beyond 64-bit can’t be stored with integer precision (will be stored as standard double-precision numbers). The GraphQL schema type name is `Float` (`Int` can also be used to describe numbers that should fit into signed 32-bit integers).
+Numbers can be stored as signed integers up to a 1000 bits of precision (about 300 digits) or floating point with 64-bit floating point precision, and numbers are automatically stored using the most optimal type. With JSON, numbers are automatically parsed and stored in the most appropriate format. Custom components and applications may use BigInt numbers to store/access integers that are larger than 53-bit. The following GraphQL schema type name are supported:
+ `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format) ("double")
+ `Int` - Any integer between from -2147483648 to 2147483647
+ `Long` - Any integer between from -9007199254740992 to 9007199254740992
+ `BigInt` - Any integer (negative or positive) with less than 300 digits
+ Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.
 
 ## Object/Map
 

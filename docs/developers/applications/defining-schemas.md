@@ -115,14 +115,15 @@ If you do not define a schema for a table and create a table through the operati
 
 HarperDB supports the following field types in addition to user defined (object) types:
 
-* String: String/text.
-* Int: A 32-bit signed integer (from -2147483648 to 2147483647).
-* Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
-* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
-* Boolean: true or false.
-* ID: A string (but indicates it is not intended to be legible).
-* Any: Any primitive, object, or array is allowed.
-* Date: A Date object.
+* `String`: String/text.
+* `Int`: A 32-bit signed integer (from -2147483648 to 2147483647).
+* `Long`: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
+* `Float`: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
+* `BigInt`: Any integer (negative or positive) with less than 300 digits. (Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.)
+* `Boolean`: true or false.
+* `ID`: A string (but indicates it is not intended to be human readable).
+* `Any`: Any primitive, object, or array is allowed.
+* `Date`: A Date object.
 
 #### Renaming Tables
 
