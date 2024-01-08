@@ -215,7 +215,7 @@ GET /Brand/?products.name=Keyboard
 ```
 This would return any `Brand` with at least one product with a name `"Keyboard"`. Note, that both of these queries are effectively acting as an "INNER JOIN".
 
-### Nested Select
+### Chained/Nested Select
 Computed relationship attributes are not included by default in query results. However, we can include them by specifying them in a select:
 ```http
 GET /Product/?brand.name=Microsoft&select(name,brand)
@@ -229,6 +229,19 @@ Or to specify multiple sub-attributes, we can comma delimit them. Note that sele
 GET /Product/?name=Keyboard&select(name,brand{name,id})
 ```
 When selecting properties from a related table without any constraints on the related table, this effectively acts like a "LEFT JOIN" and will omit the `brand` property if the brandId is `null` or references a non-existent brand.
+
+### Type Conversion
+Queries parameters are simply text, so there are several features for converting parameter values to properly typed values for performing correct searches. The FIQL comparators, which includes `==`, `!=`, `=gt=`, `=lt=`, `=ge=`, `=gt=`, the parser will perform type conversion, according to the following rules:
+`name==null`: Will convert the value to `null` for searching.
+`name==123`: Will convert the value to a number _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+`name==true`: Will convert the value to a boolean _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+`name==number:123`: Will explicitly convert the value after "number:" to a number.
+`name==boolean:true`: Will explicitly convert the value after "boolean:" to a boolean.
+`name==string:some%20text`: Will explicitly keep the value after "string:" as a string (and perform URL component decoding)
+`name==date:2024-01-05T20%3A07%3A27.955Z`: Will explicitly convert the value after "date:" to a Date object.
+If the attribute specifies a type (like `Float`), the value will always be converted to the specified type before searching.
+
+For "strict" operators, which includes `=`, `===`, and `!==`, no automatic type conversion will be applied, the value will be decoded as string with URL component decoding, and have type conversion if the attribute specifies a type, in which case the attribute type will specify the type conversion.
 
 ### Content Types and Negotiation
 
