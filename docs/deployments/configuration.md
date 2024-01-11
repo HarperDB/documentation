@@ -696,15 +696,6 @@ This is the port to use for listening for insecure MQTT connections.
 
 This is the port to use for listening for secure MQTT connections. This will use the `tls` configuration for certificates.
 
-`mlts` - _Type_: boolean; _Default_: false
-
-This can be configured to enable mTLS based authentication for incoming connections. If enabled, the client certificate will be checked against the certificate authority specified in the `tls` section. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
-Alternately, you can define a specific username to authenticate as for mTLS connections with:
-```yaml
-    mtls:
-      user: user-name
-```
-
 `webSocket` - _Type_: boolean; _Default_: true
 
 This enables access to MQTT through WebSockets. This will handle WebSocket connections on the http port (defaults to 9926), that have specified a (sub) protocol of `mqtt`.
@@ -712,6 +703,31 @@ This enables access to MQTT through WebSockets. This will handle WebSocket conne
 `requireAuthentication` - _Type_: boolean; _Default_: true
 
 This indicates if authentication should be required for establishing an MQTT connection (whether through MQTT connection credentials or mTLS). Disabling this allows unauthenticated connections, which are then subject to authorization for publishing and subscribing (and by default tables/resources do not authorize such access, but that can be enabled at the resource level).
+
+`mlts` - _Type_: boolean | object; _Default_: false
+
+This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified in the `tls` section. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
+
+You can also define specific mTLS options by specifying an object for mtls with the following (optional) properties which may be included:
+
+`user` - _Type_: string; _Default_: Common Name
+
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
+
+`required` - _Type_: boolean; _Default_: false
+
+This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+
+`certificateAuthority` - _Type_: string; _Default_: Path from `tls.certificateAuthority`
+
+This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
+
+For example, you could specify that mTLS is required and will authenticate as "user-name":
+```yaml
+    mtls:
+      user: user-name
+      required: true
+```
 
 ***
 

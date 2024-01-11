@@ -69,7 +69,21 @@ type Brand @table @export {
 	id: ID @primaryKey
 }
 ```
-Once this is defined we can use the `brand` attribute as a property in our product instances and allow for querying by `brand` and selecting brand attributes as returned properties in query results.
+Once this is defined we can use the `brand` attribute as a [property in our product instances](../../technical-details/reference/resource.md) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest.md).
+
+Again, the foreign key may be a multi-valued array (array of keys referencing the target table records). For example, if we had a list of features that references a Feature table:
+
+```graphql
+type Product @table @export {
+	id: ID @primaryKey
+	featureIds: [ID] @indexed # array of ids
+	features: [Feature] @relationship(from: brandId) # array of referenced feature records
+}
+type Feature @table {
+	id: ID @primaryKey
+	...
+}
+```
 
 #### `@relationship(to: attribute)`
 This defines a relationship where the foreign key is defined in the target table and relates to primary key of this table. If the foreign key is single-valued, this establishes a one-to-many relationship with the target table. Note that the target table type must be an array element type (like `[Table]`). The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship.

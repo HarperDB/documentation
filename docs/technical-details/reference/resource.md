@@ -353,8 +353,19 @@ Table.search({ conditions: [
 ]});
 ```
 
+##### Chained Attributes/Properties
+Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
+```javascript
+Product.search({ conditions: [
+	{ attribute: ['brand', 'name'], value: 'HarperDB' }
+]});
+```
+This effectively executes a join, searching on the `Brand` table and joining results with matching records in the `Product` table. Chained array properties can be used in any condition, as well nested/grouped conditions. The chain of properties may also be more than two entries, allowing for multiple relationships to be traversed, effectively joining across multiple tables.
+An array of chained properties can also be used as the `attribute` in the `sort` property, allowing for sorting by an attribute in a referenced joined tables.
+
 #### `operator`
 Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This is optional and defaults to `"and"`.
+
 #### `limit`
 This specifies the limit of the number of records that should be returned from the query.
 
