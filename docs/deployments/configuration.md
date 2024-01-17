@@ -654,6 +654,7 @@ tls:
     certificate: ~/hdb/keys/certificate.pem
     certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
+    mtls: false
 ```
 
 `certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
@@ -671,6 +672,21 @@ Path to the private key file.
 `ciphers` - _Type_: string;
 
 Allows specific ciphers to be set.
+
+`mlts` - _Type_: boolean | object; _Default_: false
+
+This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified with `certificateAuthority`. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
+
+You can also define specific mTLS options by specifying an object for mtls with the following (optional) properties which may be included:
+
+`user` - _Type_: string; _Default_: Common Name
+
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
+This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+
+`required` - _Type_: boolean; _Default_: false
+
+This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
 
 ***
 
@@ -713,6 +729,7 @@ You can also define specific mTLS options by specifying an object for mtls with 
 `user` - _Type_: string; _Default_: Common Name
 
 This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
+This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
 `required` - _Type_: boolean; _Default_: false
 
