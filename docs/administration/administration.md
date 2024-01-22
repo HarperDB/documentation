@@ -14,6 +14,14 @@ As a distributed database, data protection and recovery can benefit from differe
 
 HarperDB provides rapid horizontal scaling capabilities through [node cloning functionality described here](cloning.md).
 
+### Monitoring
+
+HarperDB provides robust capabilities for analytics and observability to facilitate effective and informative monitoring:
+* Analytics provides statistics on usage, request counts, load, memory usage with historical tracking. The analytics data can be [accessed through querying](../technical-details/reference/analytics.md).
+* A large variety of real-time statistics about load, system information, database metrics, thread usage can be retrieved through the [`system_information` API](../developers/operations-api/utilities.md).
+* Information about the current cluster configuration and status can be found in the [cluster APIs](../developers/operations-api/clustering.md).
+* Analytics and system information can easily be exported to Prometheus with our [Prometheus exporter component](https://github.com/HarperDB-Add-Ons/prometheus_exporter), making it easy visualize and monitor HarperDB with Graphana.
+
 ### Replication Transaction Logging
 
 HarperDB utilizes NATS for replication, which maintains a transaction log. See the [transaction log documentation for information on how to query this log](logging/transaction-logging.md).
