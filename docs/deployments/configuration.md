@@ -99,13 +99,41 @@ http:
 
 ### `threads`
 
-`threads` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+The `threads` provides control over how many threads, how much heap memory they may use, and debugging of the threads:
 
-The `threads` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
+`count` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+
+The `threads.count` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
 
 ```yaml
-threads: 11
+threads:
+  count: 11
 ```
+
+`debug` - _Type_: boolean | object; _Default_: false
+
+This enables debugging. If simply set to true, this will enable debugging on the main thread on port 9229 with the 127.0.0.1 host interface. This can also be an object for more debugging control.
+
+`debug.port` - The port to use for debugging the main thread
+`debug.startingPort` - This will set up a separate port for debugging each thread. This is necessary for debugging individual threads with devtools.
+`debug.host` - Specify the host interface to listen on
+`debug.waitForDebugger` - Wait for debugger before starting
+
+```yaml
+threads:
+  debug:
+    port: 9249
+```
+
+`maxHeapMemory` - _Type_: number;
+
+```yaml
+threads:
+  maxHeapMemory: 300
+```
+
+This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
+
 
 ***
 
@@ -782,17 +810,7 @@ databases:
   nameOfDatabase:
     auditPath: /path/to/database
 ```
-
 \
-
-#### `maxHeapMemory`
-```yaml
-maxHeapMemory: 300
-```
-
-`maxHeapMemory` - _Type_: number;
-
-This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
 
 
 **Setting the database section through the command line, environment variables or API**
