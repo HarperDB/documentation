@@ -117,6 +117,26 @@ _Note: this will completely overwrite any system tables (user, roles, nodes, etc
 
 To create a clone over an existing install of HarperDB use the environment `HDB_CLONE_OVERTOP=true` or CLI variable `--HDB_CLONE_OVERTOP true`.
 
+### Cloning with Docker
+
+To run clone inside a container add the environment variables to your run command.
+
+For example:
+
+```
+docker run -d \
+  -v <host directory>:/home/harperdb/hdb \
+  -e HDB_LEADER_PASSWORD=password \
+  -e HDB_LEADER_USERNAME=admin \
+  -e HDB_LEADER_URL=https://1.123.45.6:9925 \
+  -e HDB_LEADER_CLUSTERING_HOST=1.123.45.6 \
+  -p 9925:9925 \
+  -p 9926:9926 \
+  harperdb/harperdb
+```
+
+Clone will only run once, when you first start the container. If the container restarts the environment variables will be ignored.
+
 ## Cloning steps
 
 When run clone node will execute the following steps:
