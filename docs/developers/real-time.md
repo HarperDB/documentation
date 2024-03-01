@@ -126,7 +126,7 @@ eventSource.onmessage = (event) => {
 ### MQTT Feature Support Matrix
 
 | Feature | Support |
-| _______ | _______ |
+| ------- | ------- |
 | Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark: |
 | Connections, protocol negotiation, and acknowledgement with v5 | :heavy_check_mark: |
 | Secure MQTTS | :heavy_check_mark: |
