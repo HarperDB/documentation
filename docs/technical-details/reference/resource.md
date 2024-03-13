@@ -353,7 +353,7 @@ The `get`/`search` methods accept a Query object that can be used to specify a q
 * `conditions`: This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
   * `attribute`: Name of the property/attribute to match on.
   * `value`: The value to match.
-  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between".
+  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between", and "not_equal".
 * `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
 * `limit`: This specifies the limit of the number of records that should be returned from the query.
 * `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
