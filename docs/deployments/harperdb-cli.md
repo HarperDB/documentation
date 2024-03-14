@@ -81,6 +81,21 @@ harperdb renew-certs
 
 ***
 
+## Copy a database with compaction
+
+To copy a HarperDB database with compaction (to eliminate free-space and fragmentation), use 
+
+```bash
+harperdb copy-db <source-database> <target-database-path>
+```
+For example, to copy the default database:
+```bash
+harperdb copy-db data /home/user/hdb/database/copy.mdb
+```
+
+
+***
+
 ## Get all available CLI commands
 
 To display all available HarperDB CLI commands along with a brief description run:
