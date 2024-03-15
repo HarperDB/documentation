@@ -41,10 +41,10 @@ Now we have a fully configured and connected cache. If you access data from `MyC
 
 ```mermaid
 flowchart TD
-	  Client1(Client 1)-->Cache(Caching Table);
-	  Client2(Client 2)-->Cache;
-	  Cache-->Resource(Data Source Connector);
-	  Resource-->API(Remote Data Source API);
+	  Client1(Client 1)-->Cache(Caching Table)
+	  Client2(Client 2)-->Cache
+	  Cache-->Resource(Data Source Connector)
+	  Resource-->API(Remote Data Source API)
 	  end
 ```
 
