@@ -45,7 +45,6 @@ flowchart TD
 	  Client2(Client 2)-->Cache
 	  Cache-->Resource(Data Source Connector)
 	  Resource-->API(Remote Data Source API)
-	  end
 ```
 
 HarperDB handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
