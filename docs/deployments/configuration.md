@@ -101,7 +101,7 @@ http:
 
 The `threads` provides control over how many threads, how much heap memory they may use, and debugging of the threads:
 
-`count` - _Type_: number; _Default_: One less than the number of logical cores/ processors
+`count` - _Type_: number; _Default_: One less than the number of logical cores/processors
 
 The `threads.count` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
 
@@ -779,11 +779,8 @@ For example, you could specify that mTLS is required and will authenticate as "u
 #### `databases`
 
 The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.\
-\
-This configuration should be set before the database and table have been created.\
-\
-The configuration will not create the directories in the path, that must be done by the user.\
-
+This configuration should be set before the database and table have been created.
+The configuration will not create the directories in the path, that must be done by the user.
 
 To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
