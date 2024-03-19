@@ -21,7 +21,7 @@ These are not mutually exclusive, you may build components that fulfill any or a
 Server Extensions are implemented as JavaScript packages/modules and interact with HarperDB through a number of possible hooks. A component can be defined as an extension by specifying the extensionModule in the config.yaml:
 
 ```yaml
-extensionModule: 'entry-module-name'
+extensionModule: './entry-module-name.js'
 ```
 
 ### Module Initialization

@@ -131,7 +131,15 @@ Returns the primary key value for this resource.
 
 ### `put(data: object)`
 
-This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction.
+This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
+
+### `patch(data: object)`
+
+This will update the existing record with the provided data's properties, and is called for HTTP PATCH requests. You can define or override this method to define how records should be updated. The default `patch` method on tables (`super.patch(data)`) updates the record. The properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `data` object. This is performed as part of the current transaction for the resource instance.
+
+### `update(data: object, fullUpdate: boolean?)`
+
+This is called by the default `put` and `patch` handlers to update a record. `put` calls with `fullUpdate` as `true` to indicate a full record replacement (`patch` calls it with the second argument as `false`). Any additional property changes that are made before the transaction commits will also be persisted.
 
 ### `delete(queryOrProperty?)`
 
@@ -239,7 +247,7 @@ The Resource class also has static methods that mirror the instance methods with
 
 The get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
-### `get(id: string|number, context?: Resource|Context)`
+### `get(id: Id, context?: Resource|Context)`
 
 This will retrieve a resource instance by id. For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 
@@ -255,17 +263,29 @@ const { MyTable } = tables;
 	}
 ```
 
-### `put(record: object, context?: Resource|Context)`
+Type definition for `Id`:
+```
+Id = string|number|array<string|number>
+```
 
-This will save the provided record or data to this resource.
+### `put(record: object, context?: Resource|Context): Promise<void>`
+### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
 
-### `delete(id: string|number, context?: Resource|Context)`
+This will save the provided record or data to this resource. This will fully replace the existing record. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-Deletes this resource's record or data.
+### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
+### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
 
-### `publish(message: object, context?: Resource|Context)`
+This will save the provided updates to the record. The `recordUpdate` object's properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `recordUpdate` object. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-Publishes the given message to the record entry specified by the id in the context.
+### `delete(id: Id, context?: Resource|Context): Promise<void>`
+
+Deletes this resource's record or data. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
+
+### `publish(message: object, context?: Resource|Context): Promise<void>`
+### `publish(topic: Id, message: object, context?: Resource|Context): Promise<void>`
+
+Publishes the given message to the record entry specified by the id in the context. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `subscribe(subscriptionRequest, context?: Resource|Context): Promise<Subscription>`
 
@@ -341,11 +361,12 @@ The `get`/`search` methods accept a Query object that can be used to specify a q
 This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object can have the following properties:
   * `attribute`: Name of the property/attribute to match on.
   * `value`: The value to match.
-  * `comparator`: This can specify how the value is compared. This is optional and defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between".
-  Or the a condition may be a group of conditions that specifies order of operations. A condition may be a group of conditions with the following properties:
+  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between", and "not_equal".
   * `conditions`: An array of conditions, which follows the same structure as above.
   * `operator`: Specifies the operator to apply to this set of conditions (`and` or `or`. This is optional and defaults to `and`).
-For example, a complex query might look like:
+    For example, a complex query might look like:
+
+For example, a more complex query might look like:
 ```javascript
 Table.search({ conditions: [
 	{ attribute: 'price', comparator: 'less_than', value: 100 },
