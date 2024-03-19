@@ -583,7 +583,7 @@ An array of allowable domains with CORS
 
 `domainSocket` - _Type_: string; _Default_: \<ROOTPATH>/hdb/operations-server
 
-The path to the Unix domain socket used to provide Operations API through the CLI 
+The path to the Unix domain socket used to provide the Operations API through the CLI 
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -735,13 +735,12 @@ storage:
 
 The `path` configuration sets where all database files should reside.
 
-_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
-
-
 ```yaml
 storage:
   path: /users/harperdb/storage
 ```
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
+
 
 `pageSize` - _Type_: number; _Default_: Defaults to the default page size of the OS
 
@@ -859,7 +858,7 @@ For example, you could specify that mTLS is required and will authenticate as "u
 
 #### `databases`
 
-The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.\
+The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.
 This configuration should be set before the database and table have been created.
 The configuration will not create the directories in the path, that must be done by the user.
 
