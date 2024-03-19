@@ -4,7 +4,7 @@
 
 The audit log uses a standard HarperDB table to track transactions. For each table a user creates, a corresponding table will be created to track transactions against that table.
 
-Audit log is enabled by default. To diable the audit log, set `logging.auditLog` to false in the config file, `harperdb-config.yaml`. Then restart HarperDB for those changes to take place. Note, the audit is required to be enabled for real-time messaging.
+Audit log is enabled by default. To disable the audit log, set `logging.auditLog` to false in the config file, `harperdb-config.yaml`. Then restart HarperDB for those changes to take place. Note, the audit is required to be enabled for real-time messaging.
 
 ### Audit Log Operations
 
