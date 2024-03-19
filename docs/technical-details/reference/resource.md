@@ -378,7 +378,7 @@ Table.search({ conditions: [
 ```
 
 ##### Chained Attributes/Properties
-Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
+Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md) (in addition to the [schema documentation](../../developers/applications/defining-schemas.md), see the [REST documentation](../../developers/rest.md) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
 ```javascript
 Product.search({ conditions: [
 	{ attribute: ['brand', 'name'], value: 'HarperDB' }

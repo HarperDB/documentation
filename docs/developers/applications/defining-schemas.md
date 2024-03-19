@@ -97,6 +97,8 @@ type Brand @table @export {
 ```
 Once this is defined we can use the `products` attribute as a property in our brand instances and allow for querying by `products` and selecting product attributes as returned properties in query results.
 
+Note that schemas can also reference themselves with relationships, allow records to define relationships like parent-child relationships between records in the same table.
+
 #### `@sealed`
 
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.

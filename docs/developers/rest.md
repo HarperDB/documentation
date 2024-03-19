@@ -188,8 +188,11 @@ To sort by rating in ascending order, then by price in descending order for prod
 GET /Product?sort(+rating,-price)
 ```
 
+# Relationships
+HarperDB supports relationships in its data models, allowing for tables to define a relationship with data from other tables (or even itself) through foreign keys. These relationships can be one-to-many, many-to-one, or many-to-many (and even with ordered relationships). These relationships are defined in the schema, and then can easily be queried through chained attributes that act as "join" queries, allowing related attributes to referenced in conditions and selected for returned results.
+
 ## Chained Attributes and Joins
-In addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
+To support relationships and hierarchical data structures, in addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides HarperDB's "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
 ```graphql
 type Product @table @export {
 	id: ID @primaryKey
@@ -229,6 +232,36 @@ Or to specify multiple sub-attributes, we can comma delimit them. Note that sele
 GET /Product/?name=Keyboard&select(name,brand{name,id})
 ```
 When selecting properties from a related table without any constraints on the related table, this effectively acts like a "LEFT JOIN" and will omit the `brand` property if the brandId is `null` or references a non-existent brand.
+
+
+### Many-to-many Relationships (Array of Foreign Keys)
+Many-to-many relationships are also supported, and can easily be created using an array of foreign key values, without requiring the traditional use of a junction table. This can be done by simply creating a relationship on an array-typed property that references a local array of foreign keys. For example, we could create a relationship to the resellers of a product (each product can have multiple resellers, each ) 
+
+```graphql
+type Product @table @export {
+	id: ID @primaryKey
+	name: String
+	resellerIds: [ID] @indexed
+	resellers: [Reseller] @relationship(from: "resellerId")
+}
+type Reseller @table {
+	id: ID @primaryKey
+	name: String
+	...
+}
+```
+The product record can then hold an array of the reseller ids. When the `reseller` property is accessed (either through code or through select, conditions), the array of ids is resolved to an array of reseller records. We can also query through the resellers relationships like with the other relationships. For example, to query the products that are available through the "Cool Shop":
+```http
+GET /Product/?resellers.name=Cool Shop&select(id,name,resellers{name,id})
+```
+One of the benefits of using an array of foreign key values is that the this can be manipulated using standard array methods (in JavaScript), and the array can dictate an order to keys and therefore to the resulting records. For example, you may wish to define a specific order to the resellers and how they are listed (which comes first, last):
+```http
+PUT /Product/123
+Content-Type: application/json
+
+{ "id": "123", "resellerIds": ["first-reseller-id", "second-reseller-id", "last-reseller-id"],
+...} 
+```
 
 ### Type Conversion
 Queries parameters are simply text, so there are several features for converting parameter values to properly typed values for performing correct searches. For the FIQL comparators, which includes `==`, `!=`, `=gt=`, `=lt=`, `=ge=`, `=gt=`, the parser will perform type conversion, according to the following rules:

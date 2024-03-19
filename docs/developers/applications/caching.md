@@ -133,9 +133,9 @@ class ThirdPartyAPI extends Resource {
 ...
 ```
 
-Notification events should always include an `id` to indicate the primary key of the updated record. The event should have a `value` for `put` and `message` event types. The `timestamp` is optional and can be used to indicate the exact timestamp of the change. The following event `type`s are supported:
+Notification events should always include an `id` property to indicate the primary key of the updated record. The event should have a `value` property for `put` and `message` event types. The `timestamp` is optional and can be used to indicate the exact timestamp of the change. The following event `type`s are supported:
 
-* `put` - This indicates that the record has been updated and provides the new value of the record
+* `put` - This indicates that the record has been updated and provides the new value of the record.
 * `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
 * `delete` - This indicates that the record has been deleted.
 * `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time.md).
@@ -221,14 +221,6 @@ class MyCache extends tables.MyCache {
 ### Subscribing to Caching Tables
 
 You can subscribe to a caching table just like any other table. The one difference is that normal tables do not usually have `invalidate` events, but an active caching table may have `invalidate` events. Again, this event type gives listeners an opportunity to choose whether or not to actually retrieve the value that changed.
-
-### Caching with Replication
-
-Caching tables can be configured to replicate in HarperDB clusters. When replicating caching tables, there are a couple of options. If each node will be separately connected to the data source and you do not need the subscription data notification events to replicate, you can set the `replicationSource` to `false`. In this case, only data requests (that come through standard requests like REST interface or operations API), will be replicated. However, if you data notification will only be delivered to a single node (at once) and you need the subscription data notification events to replicate, you can set the `replicationSource` to `true` and the incoming events from the subscription will be replicated to all other nodes:
-
-```javascript
-MyTable.sourcedFrom(ThirdPartyAPI, { replicationSource: true });
-```
 
 ### Passive-Active Updates
 

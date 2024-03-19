@@ -4,13 +4,13 @@
 
 HarperDB is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of HarperDB instances optimized for on-the-edge scalable data delivery.
 
-In this guide, we are going to explore the evermore extensible architecture that HarperDB 4.2 and greater provides by building a HarperDB component, a fundamental building-block of the HarperDB ecosystem.
+In this guide, we are going to explore the evermore extensible architecture that HarperDB provides by building a HarperDB component, a fundamental building-block of the HarperDB ecosystem.
 
 When working through this guide, we recommend you use the [HarperDB Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 ## Understanding the Component Application Architecture
 
-HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node\_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed in `node_modules`.
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node\_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed (in `node\_modules`).
 
 ```mermaid
 flowchart LR
