@@ -20,7 +20,7 @@ Alternately, configuration can be changed via environment and/or command line va
 - Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
 ```
 
-\_Note: Component configuration cannot be added or updated via CLI or ENV variables.
+_Note: Component configuration cannot be added or updated via CLI or ENV variables._
 
 ## Importing installation configuration
 
@@ -66,6 +66,10 @@ An array of allowable domains with CORS
 
 Limit the amount of time the parser will wait to receive the complete HTTP headers with.
 
+`maxHeaderSize` - _Type_: integer; _Default_: 16394
+
+The maximum allowed size of HTTP headers in bytes.
+
 `keepAliveTimeout` - _Type_: integer; _Default_: 30,000 milliseconds (30 seconds)
 
 Sets the number of milliseconds of inactivity the server needs to wait for additional incoming data after it has finished processing the last response.
@@ -88,11 +92,34 @@ http:
     corsAccessList:
       - null
     headersTimeout: 60000
+    maxHeaderSize: 8192 
     https: false
     keepAliveTimeout: 30000
     port: 9926
     securePort: null
     timeout: 120000 
+```
+
+`mlts` - _Type_: boolean | object; _Default_: false
+
+This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified with `tls.certificateAuthority`. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
+
+You can also define specific mTLS options by specifying an object for mtls with the following (optional) properties which may be included:
+
+`user` - _Type_: string; _Default_: Common Name
+
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
+This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+
+`required` - _Type_: boolean; _Default_: false
+
+This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+
+```yaml
+http:
+  mtls: true
+  required: true
+  user: user-name
 ```
 
 ***
@@ -262,9 +289,6 @@ The host of the remote instance you are creating the connection with.
 
 The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
 
-\
-
-
 `clustering.leafServer.streams`
 
 `maxAge` - _Type_: integer; _Default_: null
@@ -282,6 +306,19 @@ How many messages may be in a stream. Oldest messages are removed if the stream 
 `path` - _Type_: string; _Default_: \<ROOTPATH>/clustering/leaf
 
 The directory where all the streams are kept.
+
+```yaml
+clustering:
+  leafServer:
+    streams:
+      maxConsumeMsgs: 100
+      maxIngestThreads: 2
+```
+`maxConsumeMsgs` - _Type_: integer; _Default_: 100
+The maximum number of messages a consumer can process in one go.
+
+`maxIngestThreads` - _Type_: integer; _Default_: 2
+The number of HarperDB threads that are delegated to ingesting messages. 
 
 ***
 
@@ -404,7 +441,7 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 `file` - _Type_: boolean; _Default_: true
 
-Defines whether or not to log to a file.
+Defines whether to log to a file.
 
 ```yaml
 logging:
@@ -528,6 +565,7 @@ operationsApi:
     cors: true
     corsAccessList:
       - null
+    domainSocket: /user/hdb/operations-server
     headersTimeout: 60000
     keepAliveTimeout: 5000
     port: 9925
@@ -542,6 +580,10 @@ Enable Cross Origin Resource Sharing, which allows requests across a domain.
 `corsAccessList` - _Type_: array; _Default_: null
 
 An array of allowable domains with CORS
+
+`domainSocket` - _Type_: string; _Default_: \<ROOTPATH>/hdb/operations-server
+
+The path to the Unix domain socket used to provide Operations API through the CLI 
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -642,6 +684,35 @@ storage:
   compression: false
 ```
 
+`compression.dictionary` _Type_: number; _Default_: null
+
+Path to a compression dictionary file
+
+`compression.threshold` _Type_: number; _Default_: Either `4036` or if `storage.pageSize` provided `storage.pageSize - 60`
+
+Only entries that are larger than this value (in bytes) will be compressed.
+
+```yaml
+storage:
+  compression:
+    dictionary: /users/harperdb/dict.txt
+    threshold: 1000
+```
+
+`compactOnStart` - _Type_: boolean; _Default_: false
+
+When `true` all non-system databases will be compacted when starting HarperDB, read more [here](../administration/compact.md).
+
+`compactOnStartKeepBackup` - _Type_: boolean; _Default_: false
+
+Keep the backups made by compactOnStart.
+
+```yaml
+storage:
+  compactOnStart: true
+  compactOnStartKeepBackup: false
+```
+
 `noReadAhead` - _Type_: boolean; _Default_: true
 
 The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
@@ -664,12 +735,22 @@ storage:
 
 The `path` configuration sets where all database files should reside.
 
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
+
+
 ```yaml
 storage:
   path: /users/harperdb/storage
 ```
 
-_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
+`pageSize` - _Type_: number; _Default_: Defaults to the default page size of the OS
+
+Defines the page size of the database.
+
+```yaml
+storage:
+  pageSize: 4096
+```
 
 ***
 
@@ -807,8 +888,6 @@ databases:
   nameOfDatabase:
     auditPath: /path/to/database
 ```
-\
-
 
 **Setting the database section through the command line, environment variables or API**
 
@@ -841,4 +920,13 @@ Using the API:
     }
   }]
 }
+```
+
+***
+
+`serialization.bigInt` - _Type_: boolean | object; _Default_: true
+
+```yaml
+serialization:
+  bigInt: true
 ```
