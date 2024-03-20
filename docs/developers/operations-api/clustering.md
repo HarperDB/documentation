@@ -223,6 +223,27 @@ _Operation is restricted to super_user roles only_
 
 ---
 
+## Set Node Replication
+A more adeptly named alias for add and update node. Will set the replication if it doesn't already exist, if it
+does exist it will update it. The `database` (aka `schema`) parameter is optional, it will default to `database`.
+
+### Body
+```json
+{
+    "operation": "set_node_replication",
+    "node_name": "node1",
+    "subscriptions": [
+        {
+            "table": "dog",
+            "subscribe": true,
+            "publish": true
+        }
+    ]
+}
+```
+
+---
+
 ## Cluster Status
 Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
 
@@ -384,3 +405,32 @@ _Operation is restricted to super_user roles only_
     "message": "Cluster successfully configured."
 }
 ```
+
+---
+
+## Purge Stream
+
+Will purge messages from a stream
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `purge_stream`
+* database _(required)_ - the name of the database where the streams table resides
+* table _(required)_ - the name of the table that belongs to the stream
+* options _(optional)_ - control how many messages get purged. Options are: 
+  * `keep` - purge will keep this many most recent messages
+  * `seq` - purge all messages up to, but not including, this sequence
+
+### Body
+```json
+{
+    "operation": "purge_stream",
+    "database": "dev",
+    "table": "dog",
+    "options": {
+      "keep": 100
+    }
+}
+```
+
+---
