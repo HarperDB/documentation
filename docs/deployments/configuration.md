@@ -923,9 +923,22 @@ Using the API:
 
 ***
 
-`serialization.bigInt` - _Type_: boolean | object; _Default_: true
+#### Components
+
+`<name-of-component>` - _Type_: string
+The name of the component. This will be used to name the folder where the component is installed and must be unique.
+
+`package` - _Type_: string
+A reference to your [component](../developers/components/installing.md) package.This could be a remote git repo, a local folder/file or an NPM package. 
+HarperDB will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
+
+Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
+
+`port` - _Type_: number _Default_: whatever is set in `http.port`
+The port that your component should listen on. If no port is provided it will default to `http.port`
 
 ```yaml
-serialization:
-  bigInt: true
+<name-of-component>:
+  package: 'HarperDB-Add-Ons/package-name'
+  port: 4321
 ```
