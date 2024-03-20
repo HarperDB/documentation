@@ -144,3 +144,13 @@ HarperDB supports the following field types in addition to user defined (object)
 #### Renaming Tables
 
 It is important to note that HarperDB does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.
+
+### OpenAPI Specification
+
+_The [OpenAPI Specification](https://spec.openapis.org/oas/v3.1.0)  defines a standard, programming language-agnostic interface description for HTTP APIs, 
+which allows both humans and computers to discover and understand the capabilities of a service without requiring 
+access to source code, additional documentation, or inspection of network traffic._
+
+If a set of endpoints are configured through a HarperDB GraphQL schema, those endpoints can be described by using a default REST endpoint called `GET /openapi`.
+
+_Note: The `/openapi` endpoint should only be used as a starting guide, it may not cover all the elements of an endpoint._

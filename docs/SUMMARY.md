@@ -68,6 +68,7 @@
   * [Audit Logging](administration/logging/audit-logging.md)
   * [Transaction Logging](administration/logging/transaction-logging.md)
 * [Clone Node](administration/cloning.md)
+* [Compact](administration/compact.md)
 * [Jobs](administration/jobs.md)
 * [HarperDB Studio](administration/harperdb-studio/README.md)
   * [Create an Account](administration/harperdb-studio/create-account.md)
