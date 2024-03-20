@@ -40,6 +40,7 @@ Compact on start is initiated by config in harperdb-config.yaml
 _Note: Compact on start will switch `compactOnStart` to `false` after it has run_
 
 `compactOnStart` - _Type_: boolean; _Default_: false
+
 `compactOnStartKeepBackup` - _Type_: boolean; _Default_: false
 
 ```yaml
