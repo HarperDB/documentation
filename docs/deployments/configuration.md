@@ -807,7 +807,7 @@ The MQTT protocol can be configured in this section.
 ```yaml
 mqtt:
   network:
-    port: 1183
+    port: 1883
     securePort: 8883
     mtls: false
   webSocket: true
