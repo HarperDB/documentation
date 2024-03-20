@@ -28,6 +28,24 @@ flowchart LR
 	end
 ```
 
+##
+
+```mermaid
+flowchart LR
+	Client(Client)-->Endpoints
+	Client(Client)-->HTTP
+	Client(Client)-->Extensions
+	subgraph HarperDB
+	direction TB
+	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
+	Applications-->Endpoints[/Custom Endpoints/]
+	Applications-->Extensions
+	Endpoints-->Tables
+	HTTP[/REST/HTTP/]-->Tables
+	Extensions[/Extensions/]-->Tables
+	end
+```
+
 ## Getting up and Running
 
 ### Pre-Requisites
@@ -66,7 +84,8 @@ Here's an example for a github repo:
 ```shell
 > git remote set-url origin git@github.com:/<github-user>/<github-repo> 
 ```
-Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](#deploying-your-application).
+
+Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](./#deploying-your-application).
 
 </details>
 
