@@ -1,8 +1,8 @@
 # Configuration File
 
-HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the HarperDB root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
-All available configuration will be populated by default in the config file on install, regardless of whether it is used.
+Some configuration will be populated by default in the config file on install, regardless of whether it is used.
 
 ***
 
@@ -315,9 +315,11 @@ clustering:
       maxIngestThreads: 2
 ```
 `maxConsumeMsgs` - _Type_: integer; _Default_: 100
+
 The maximum number of messages a consumer can process in one go.
 
 `maxIngestThreads` - _Type_: integer; _Default_: 2
+
 The number of HarperDB threads that are delegated to ingesting messages. 
 
 ***
@@ -631,7 +633,7 @@ Path to the private key file.
 
 ***
 
-#### `componentsRoot`
+### `componentsRoot`
 
 `componentsRoot` - _Type_: string; _Default_: \<ROOTPATH>/components
 
@@ -643,7 +645,7 @@ componentsRoot: ~/hdb/components
 
 ***
 
-#### `rootPath`
+### `rootPath`
 
 `rootPath` - _Type_: string; _Default_: home directory of the current user
 
@@ -655,7 +657,7 @@ rootPath: /Users/jonsnow/hdb
 
 ***
 
-#### `storage`
+### `storage`
 
 `writeAsync` - _Type_: boolean; _Default_: false
 
@@ -753,7 +755,7 @@ storage:
 
 ***
 
-#### `tls`
+### `tls`
 
 Transport Layer Security
 
@@ -798,7 +800,7 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 
 ***
 
-#### `mqtt`
+### `mqtt`
 
 The MQTT protocol can be configured in this section.
 
@@ -856,7 +858,7 @@ For example, you could specify that mTLS is required and will authenticate as "u
 
 ***
 
-#### `databases`
+### `databases`
 
 The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.
 This configuration should be set before the database and table have been created.
@@ -923,18 +925,21 @@ Using the API:
 
 ***
 
-#### Components
+### Components
 
 `<name-of-component>` - _Type_: string
+
 The name of the component. This will be used to name the folder where the component is installed and must be unique.
 
 `package` - _Type_: string
+
 A reference to your [component](../developers/components/installing.md) package.This could be a remote git repo, a local folder/file or an NPM package. 
 HarperDB will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
 `port` - _Type_: number _Default_: whatever is set in `http.port`
+
 The port that your component should listen on. If no port is provided it will default to `http.port`
 
 ```yaml
