@@ -2,7 +2,7 @@
 
 HarperDB provides a powerful, efficient, and standard-compliant HTTP REST interface for interacting with tables and other resources. The REST interface is the recommended interface for data access, querying, and manipulation (for HTTP interactions), providing the best performance and HTTP interoperability with different clients.
 
-Resources, including tables, can be configured as RESTful endpoints. The name of the query or the [exported](applications/defining-schemas.md#export) name of the resource defines the beginning of the endpoint path. From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
+Resources, including tables, can be configured as RESTful endpoints. Make sure you review the [application introduction](applications/README.md) and [defining schemas](applications/defining-schemas.md) to properly define your schemas and select which tables are exported and available through REST interface, as tables are not exported by default. The name of the [exported](applications/defining-schemas.md#export) name of the resource defines the basis of the endpoint path. From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
 The default path structure provides access to resources at several different levels:
 

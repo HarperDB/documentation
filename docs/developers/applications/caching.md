@@ -1,6 +1,6 @@
 # Caching
 
-HarperDB has integrated support for caching data. With built-in caching capabilities and distributed high-performance low-latency responsiveness, HarperDB makes an ideal data caching server. HarperDB can store cached data as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. HarperDB also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, HarperDB is an extremely fast, interoperable, flexible, and customizable caching server.
+HarperDB has integrated support for caching data from external sources. With built-in caching capabilities and distributed high-performance low-latency responsiveness, HarperDB makes an ideal data caching server. HarperDB can store cached data in standard tables, as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. HarperDB also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, HarperDB is an extremely fast, interoperable, flexible, and customizable caching server.
 
 ## Configuring Caching
 
@@ -12,7 +12,7 @@ type MyCache @table(expiration: 3600) @export {
 }
 ```
 
-You may also note that we can define a time-to-live (TTL) expiration on the table, indicating when table records/entries should expire. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
+You may also note that we can define a time-to-live (TTL) expiration on the table, indicating when table records/entries should expire and be evicted from this table. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
 
 While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy) must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin. eviction expiration: The point when a record is actually removed from the caching table.
 
@@ -37,7 +37,7 @@ const { MyTable } = tables;
 MyTable.sourcedFrom(ThirdPartyAPI);
 ```
 
-Now we have a fully configured and connected cache. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), HarperDB will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
+Now we have a fully configured and connected caching table. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), HarperDB will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
 
 ```mermaid
 flowchart TD
