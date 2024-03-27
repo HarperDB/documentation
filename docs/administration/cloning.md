@@ -1,10 +1,16 @@
 # Clone Node
 
-Clone node is a configurable node script that can be pointed to another instance of HarperDB and create a full clone.
+Clone node is a configurable node script that when pointed to another instance of HarperDB will create a clone of that 
+instances config, databases and setup replication. If it is run in a location where there is no existing HarperDB install, 
+it will, along with cloning, install HarperDB. If it is run in a location where there is another HarperDB instance, it will
+only clone config, databases and replication that do not already exist. 
 
-To start clone node install `harperdb` as you would normally but have the clone node environment or command line (CLI) variables set (see below).
+Clone node is triggered when HarperDB is installed or started with certain environment or command line (CLI) variables set (see below).
 
-To run clone node either of the following variables must be set:
+**Leader node** - the instance of HarperDB you are cloning.\
+**Clone node** - the new node which will be a clone of the leader node.
+
+To start clone run `harperdb` in the CLI with either of the following variables set:
 
 #### Environment variables
 
@@ -30,92 +36,106 @@ For example:
 harperdb --HDB_LEADER_URL https://node-1.my-domain.com:9925 --HDB_LEADER_CLUSTERING_HOST node-1.my-domain.com --HDB_LEADER_USERNAME ... --HDB_LEADER_PASSWORD ...
 ```
 
-If an instance already exists in the location you are cloning to, clone node will not run. It will instead proceed with starting HarperDB. 
-This is unless you are cloning overtop (see below) of an existing instance.
+Each time clone is run it will set a value `cloned: true` in `harperdb-config.yaml`. This value will prevent clone from 
+running again. If you want to run clone again set this value to `false`. If HarperDB is started with the clone variables 
+still present and `cloned` is true, HarperDB will just start as normal.
 
 Clone node does not require any additional configuration apart from the variables referenced above. 
-However, it can be configured through `clone-node-config.yaml`, which should be located in the `ROOTPATH` directory of your clone. 
-If no configuration is supplied, default values will be used.
+However, if you wish to set any configuration during clone this can be done by passing the config as environment/CLI 
+variables or cloning overtop of an existing harperdb-config.yaml file.
 
-By default:
-* The HarperDB Terms and Conditions will be accepted
-* The Root path will be <home-dir>/hdb
-* The Operations API port will be set to 9925
-* The admin and clustering username and password will be the same as the leader node
-* A unique node name will be generated
-* All tables will be cloned and have replication added, the subscriptions will be `publish: true` and `subscribe: true`
-* The users and roles system tables will be cloned and have replication added both ways
-* All components will be cloned
-* All routes will be cloned
+More can be found on HarperDB config [here](../deployments/configuration.md).
 
-**Leader node** - the instance of HarperDB you are cloning.\
-**Clone node** - the new node which will be a clone of the leader node.
+_Note: because node name must be unique, clone will auto-generate one unless one is provided_
 
-The following configuration is used exclusively by clone node.
+### Excluding database, components and replication
+
+To set any specific (optional) clone config, including the exclusion of any database, components or replication, there is a file
+called `clone-node-config.yaml` that can be used.
+
+The file must be located in the `ROOTPATH` directory of your clone (the `hdb` directory where you clone will be installed. 
+If the directory does not exist, create one and add the file to it).
+
+The config available in `clone-node-config.yaml` is: 
 
 ```yaml
 databaseConfig:
   excludeDatabases:
-    - database: dev
+    - database: null
   excludeTables:
-    - database: prod
-      table: dog
-```
-
-Set any databases or tables that you wish to exclude from cloning.
-
-```yaml
+    - database: null
+      table: null
 componentConfig:
-  skipNodeModules: true
   exclude:
-    - name: my-cool-component
-```
-
-`skipNodeModules` will not include the node\_modules directory when clone node is packaging components in `hdb/components`.
-
-`exclude` can be used to set any components that you do not want cloned.
-
-```yaml
+    - name: null
 clusteringConfig:
   publishToLeaderNode: true
   subscribeToLeaderNode: true
+  excludeDatabases:
+     - database: null
+  excludeTables:
+     - database: null
+       table: null
 ```
 
-`publishToLeaderNode`, `subscribeToLeaderNode` the clustering subscription to set up with the leader node.
+_Note: only include the configuration that you are using. If no clone config file is provided nothing will be excluded, 
+unless it already exists on the clone._
 
-```yaml
-httpsRejectUnauthorized: false
-```
+`databaseConfig` - Set any databases or tables that you wish to exclude from cloning.
 
-Clone node makes http requests to the leader node, `httpsRejectUnauthorized` is used to set if https requests should be verified.
+`componentConfig` - Set any components that you do not want cloned. Clone node will not clone the component code, 
+it will only clone the component reference that exists in the leader harperdb-config file.
 
-Any HarperDB configuration can also be used in the `clone-node-config.yaml` file and will be applied to the cloned node, for example:
+`clusteringConfig` - Set the replication setup to establish with the other nodes (default is `true` & `true`) and
+set any databases or tables that you wish to exclude from clustering.
 
-```yaml
-rootPath: null
-operationsApi:
-  network:
-    port: 9925
-clustering:
-  nodeName: null
-  logLevel: info
-logging:
-  level: error
-```
+### Cloning configuration
 
-_Note: any required configuration needed to install/run HarperDB will be default values or auto-generated unless it is provided in the config file._
+Clone node will not clone any configuration that is classed as unique to the leader node. This includes `clustering.nodeName`, 
+`rootPath` and any other path related values, for example `storage.path`, `logging.root`, `componentsRoot`, 
+any authentication certificate/key paths. 
+
+### Cloning system database
+
+HarperDB uses a database called `system` to store operational information. Clone node will only clone the user and role 
+tables from this database. It will also set up replication on this table, which means that any existing and future user and roles
+that are added will be replicated throughout the cluster.
+
+Cloning the user and role tables means that once clone node is complete, the clone will share the same login credentials with 
+the leader.
 
 ### Fully connected clone
 
-A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. A fully connected clone maintains this topology with addition of the new node. When a clone is created, replication is added between the leader and the clone and any nodes the leader is replicating with. For example, if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.
+A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. 
+A fully connected clone maintains this topology with addition of the new node. When a clone is created, 
+replication is added between the leader and the clone and any nodes the leader is replicating with. For example, 
+if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.
 
 To run clone node with the fully connected option simply pass the environment variable `HDB_FULLY_CONNECTED=true` or CLI variable `--HDB_FULLY_CONNECTED true`.
 
 ### Cloning overtop of an existing HarperDB instance
 
-_Note: this will completely overwrite any system tables (user, roles, nodes, etc.) and any other databases that are named the same as ones that exist on the leader node. It will also do the same for any components._
+Clone node will not overwrite any existing config, database or replication. It will write/clone any config database or replication 
+that does not exist on the node it is running on. 
 
-To create a clone over an existing install of HarperDB use the environment `HDB_CLONE_OVERTOP=true` or CLI variable `--HDB_CLONE_OVERTOP true`.
+An example of how this can be useful is if you want to set HarperDB config before the clone is created. To do this you 
+would create a harperdb-config.yaml file in your local `hdb` root directory with the config you wish to set. Then 
+when clone is run it will append the missing config to the file and install HarperDB with the desired config.
+
+Another useful example could be retroactively adding another database to an existing instance. Running clone on 
+an existing instance could create a full clone of another database and setup replication between the database on the 
+leader and the clone.
+
+### Cloning steps
+
+Clone node will execute the following steps when ran:
+1. Look for an existing HarperDB install. It does this by using the default (or user provided) `ROOTPATH`.
+2. If an existing instance is found it will check for a `harperdb-config.yaml` file and search for the `cloned` value. If the value exists and is `true` clone will skip the clone logic and start HarperDB.
+3. Clone harperdb-config.yaml values that don't already exists (excluding values unique to the leader node).
+4. Fully clone any databases that don't already exist.
+5. If classed as a "fresh clone", install HarperDB. An instance is classed as a fresh clone if there is no system database.
+6. If clustering is enabled on the leader and the `HDB_LEADER_CLUSTERING_HOST` variable is provided, setup replication on all cloned database.
+7. Clone is complete, start HarperDB.
 
 ### Cloning with Docker
 
@@ -136,34 +156,3 @@ docker run -d \
 ```
 
 Clone will only run once, when you first start the container. If the container restarts the environment variables will be ignored.
-
-## Cloning steps
-
-When run clone node will execute the following steps:
-
-1. Clone any user defined tables and the hdb\_role and hdb\_user system tables.
-2. Install Harperdb overtop of the cloned tables.
-3. Clone the configuration, this includes:
-   * Copy the clustering routes and clustering user.
-   * Copy component references.
-   * Using any provided clone config to populate new cloud node harperdb-config.yaml
-4. Clone any components in the `hdb/component` directory.
-5. Start the cloned HarperDB Instance.
-6. Cluster all cloned tables.
-
-## Custom database and table pathing
-
-Currently, clone node will not clone a table if it has custom pathing configured. In this situation the full database that the table is located in will not be cloned.
-
-If a database has custom pathing (no individual table pathing) it will be cloned, however if no custom pathing is provided in the clone config the database will be stored in the default database directory.
-
-To provide custom pathing for a database in the clone config follow this configuration:
-
-```yaml
-databases: 
-  <name-of-db>:
-    path: /Users/harper/hdb
-```
-
-`<name-of-db>` the name of the database which will be located at the custom path.\
-`path` the path where the database will reside.
