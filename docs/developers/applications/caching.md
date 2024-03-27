@@ -16,7 +16,10 @@ You may also note that we can define a time-to-live (TTL) expiration on the tabl
 
 While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy) must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin. eviction expiration: The point when a record is actually removed from the caching table.
 
-You can provide a single expiration and it defines the behavior for all three. You can also provide three settings for expiration, through table directives: expiration - The amount of time until a record goes stale. eviction - The amount of time after expiration before a record can be evicted (defaults to zero). scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
+You can provide a single expiration and it defines the behavior for all three. You can also provide three settings for expiration, through table directives:
+* expiration - The amount of time until a record goes stale.
+* eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
+* scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
 ## Define External Data Source
 
