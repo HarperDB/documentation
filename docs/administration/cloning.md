@@ -1,7 +1,7 @@
 # Clone Node
 
 Clone node is a configurable node script that when pointed to another instance of HarperDB will create a clone of that 
-instances config, databases and setup replication. If it is run in a location where there is no existing HarperDB install, 
+instance's config, databases and setup replication. If it is run in a location where there is no existing HarperDB install, 
 it will, along with cloning, install HarperDB. If it is run in a location where there is another HarperDB instance, it will
 only clone config, databases and replication that do not already exist. 
 
@@ -17,7 +17,7 @@ To start clone run `harperdb` in the CLI with either of the following variables 
 * `HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
 * `HDB_LEADER_USERNAME` - The leader node admin username.
 * `HDB_LEADER_PASSWORD` - The leader node admin password.
-* `HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be setup between the leader and clone.
+* `HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be set up between the leader and clone.
 
 For example:
 ```
@@ -29,7 +29,7 @@ HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node
 * `--HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
 * `--HDB_LEADER_USERNAME` - The leader node admin username.
 * `--HDB_LEADER_PASSWORD` - The leader node admin password.
-* `--HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be setup between the leader and clone.
+* `--HDB_LEADER_CLUSTERING_HOST` - _(optional)_ The leader clustering host. This value will be added to the clustering routes on the clone node. If this value is not set, replication will not be set up between the leader and clone.
 
 For example:
 ```
@@ -44,7 +44,7 @@ Clone node does not require any additional configuration apart from the variable
 However, if you wish to set any configuration during clone this can be done by passing the config as environment/CLI 
 variables or cloning overtop of an existing harperdb-config.yaml file.
 
-More can be found on HarperDB config [here](../deployments/configuration.md).
+More can be found in the HarperDB config documentation [here](../deployments/configuration.md).
 
 _Note: because node name must be unique, clone will auto-generate one unless one is provided_
 
@@ -123,7 +123,7 @@ would create a harperdb-config.yaml file in your local `hdb` root directory with
 when clone is run it will append the missing config to the file and install HarperDB with the desired config.
 
 Another useful example could be retroactively adding another database to an existing instance. Running clone on 
-an existing instance could create a full clone of another database and setup replication between the database on the 
+an existing instance could create a full clone of another database and set up replication between the database on the 
 leader and the clone.
 
 ### Cloning steps
@@ -131,10 +131,10 @@ leader and the clone.
 Clone node will execute the following steps when ran:
 1. Look for an existing HarperDB install. It does this by using the default (or user provided) `ROOTPATH`.
 2. If an existing instance is found it will check for a `harperdb-config.yaml` file and search for the `cloned` value. If the value exists and is `true` clone will skip the clone logic and start HarperDB.
-3. Clone harperdb-config.yaml values that don't already exists (excluding values unique to the leader node).
+3. Clone harperdb-config.yaml values that don't already exist (excluding values unique to the leader node).
 4. Fully clone any databases that don't already exist.
 5. If classed as a "fresh clone", install HarperDB. An instance is classed as a fresh clone if there is no system database.
-6. If clustering is enabled on the leader and the `HDB_LEADER_CLUSTERING_HOST` variable is provided, setup replication on all cloned database.
+6. If clustering is enabled on the leader and the `HDB_LEADER_CLUSTERING_HOST` variable is provided, set up replication on all cloned database(s).
 7. Clone is complete, start HarperDB.
 
 ### Cloning with Docker
