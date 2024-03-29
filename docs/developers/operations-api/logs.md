@@ -6,12 +6,12 @@ Returns log outputs from the primary HarperDB log based on the provided search c
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `read_Log`
-* start _(optional)_ - result to start with. Must be a number
-* limit _(optional)_ - number of results returned. Default behavior is 100. Must be a number
-* level _(optional)_ - error level to filter on. Default behavior is all levels. Must be `error`, `info`, or `null`
-* from _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`
-* until _(optional)_ - date to end showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`
-* order _(optional)_ - order to display logs desc or asc by timestamp
+* start _(optional)_ - result to start with. Default is 0, the first log in `hdb.log`. Must be a number
+* limit _(optional)_ - number of results returned. Default behavior is 1000. Must be a number
+* level _(optional)_ - error level to filter on. Default behavior is all levels. Must be `notify`, `error`, `warn`, `info`, `debug` or `trace` 
+* from _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is first log in `hdb.log` 
+* until _(optional)_ - date to end showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is last log in `hdb.log`
+* order _(optional)_ - order to display logs desc or asc by timestamp. By default, will maintain `hdb.log` order
 ### Body
 
 ```json
