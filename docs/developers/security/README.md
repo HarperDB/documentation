@@ -4,5 +4,6 @@ HarperDB uses role-based, attribute-level security to ensure that users can only
 
 * [JWT Authentication](jwt-auth.md)
 * [Basic Authentication](basic-auth.md)
+* [mTLS Authentication](mtls-auth.md)
 * [Configuration](configuration.md)
 * [Users and Roles](users-and-roles.md)
