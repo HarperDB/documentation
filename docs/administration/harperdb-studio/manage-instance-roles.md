@@ -1,10 +1,8 @@
 # Manage Instance Roles
 
-HarperDB users can be managed directly through the HarperDB Studio. It is recommended to read through the users & roles documentation to gain a strong understanding of how they operate.
+HarperDB users and roles can be managed directly through the HarperDB Studio. It is recommended to read through the [users & roles documentation](../../developers/security/users-and-roles.md) to gain a strong understanding of how they operate.
 
-
-
-Instance role configuration is handled through the roles page of the HarperDB Studio, accessed with the following instructions:
+Instance role configuration is handled through the **roles** page of the HarperDB Studio, accessed with the following instructions:
 
 1) Navigate to the HarperDB Studio Organizations page.
 
@@ -12,7 +10,7 @@ Instance role configuration is handled through the roles page of the HarperDB St
 
 3) Select your desired instance.
 
-4) Click **rules** in the instance control bar.
+4) Click **roles** in the instance control bar.
 
 *Note, the **roles** page will only be available to super users.*
 
@@ -45,11 +43,13 @@ The *roles management* screen consists of the following panels:
 
 3) Click the green check mark.
 
-4) Configure the role permissions in the role permission editing panel.
+4) Optionally toggle the **manage databases/tables** switch to specify the `structure_user` config. 
+
+5) Configure the role permissions in the role permission editing panel.
 
     *Note, to have the Studio generate attribute permissions JSON, toggle **show all attributes** at the top right of the role permission editing panel.*
 
-5) Click **Update Role Permissions**.
+6) Click **Update Role Permissions**.
 
 #### Modify a Role
 

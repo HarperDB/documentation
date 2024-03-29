@@ -17,15 +17,14 @@ redirects:
   harperdb-studio/organizations: administration/harperdb-studio/organizations.md
   harperdb-studio/instances: administration/harperdb-studio/instances.md
   harperdb-studio/query-instance-data: administration/harperdb-studio/query-instance-data.md
-  harperdb-studio/manage-schemas-browse-data: administration/harperdb-studio/manage-schemas-browse-data.md
+  harperdb-studio/manage-schemas-browse-data: administration/harperdb-studio/manage-databases-browse-data.md
   harperdb-studio/manage-charts: administration/harperdb-studio/manage-charts.md
-  harperdb-studio/manage-clustering: administration/harperdb-studio/manage-clustering.md
+  harperdb-studio/manage-clustering: administration/harperdb-studio/manage-replication.md
   harperdb-studio/manage-instance-users: administration/harperdb-studio/manage-instance-users.md
   harperdb-studio/manage-instance-roles: administration/harperdb-studio/manage-instance-users.md
   harperdb-studio/manage-functions: administration/harperdb-studio/manage-functions.md
   harperdb-studio/instance-metrics: administration/harperdb-studio/instance-metrics.md
   harperdb-studio/instance-configuration: administration/harperdb-studio/instance-configuration.md
-  harperdb-studio/instance-example-code: administration/harperdb-studio/instance-example-code.md
   harperdb-studio/enable-mixed-content: administration/harperdb-studio/enable-mixed-content.md
   harperdb-cloud: deployments/harperdb-cloud/README.md
   harperdb-cloud/iops-impact: deployments/harperdb-cloud/iops-impact.md

@@ -4,19 +4,19 @@ The HarperDB Studio allows you to administer all of your HarperDB instances in o
 
 * **HarperDB Cloud Instance** Managed installations of HarperDB, what we call [HarperDB Cloud](../../deployments/harperdb-cloud/).
 * **5G Wavelength Instance** Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deployments/harperdb-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
-* **User-Installed Instance** Any HarperDB installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
+* **Enterprise Instance** Any HarperDB installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
 All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](../../developers/operations-api/).
 
 ## Organization Instance List
 
-A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and user-installed instances are listed together.
+A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and Enterprise instances are listed together.
 
 ## Create a New Instance
 
 1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 2. Click the appropriate organization for the instance to be created under.
-3. Click the **Create New HarperDB Cloud Instance + Register User-Installed Instance** card.
+3. Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
 4. Select your desired Instance Type.
 5. For a HarperDB Cloud Instance or a HarperDB 5G Wavelength Instance, click **Create HarperDB Cloud Instance**.
    1. Fill out Instance Info.
@@ -47,12 +47,12 @@ A summary view of all instances within an organization can be viewed by clicking
    8. Your HarperDB Cloud instance will be provisioned in the background. Provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
 
-## Register User-Installed Instance
+## Register Enterprise Instance
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 2) Click the appropriate organization for the instance to be created under.
-3) Click the **Create New HarperDB Cloud Instance + Register User-Installed Instance** card.
-4) Select **Register User-Installed Instance**.
+3) Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
+4) Select **Register Enterprise Instance**.
    1. Fill out Instance Info.
       1.  Enter Instance Name
 
@@ -88,7 +88,7 @@ A summary view of all instances within an organization can be viewed by clicking
 Instance deletion has two different behaviors depending on the instance type.
 
 * **HarperDB Cloud Instance** This instance will be permanently deleted, including all data. This process is irreversible and cannot be undone.
-* **User-Installed Instance** The instance will be removed from the HarperDB Studio only. This does not uninstall HarperDB from your system and your data will remain intact.
+* **Enterprise Instance** The instance will be removed from the HarperDB Studio only. This does not uninstall HarperDB from your system and your data will remain intact.
 
 An instance can be deleted as follows:
 

@@ -1,6 +1,6 @@
 # Instance Configuration
 
-HarperDB instance configuration can be viewed and managed directly through the HarperDB Studio. HarperDB Cloud instances can be resized in two different ways via this page, either by modifying machine RAM or by increasing drive storage. User-installed instances can have their licenses modified by modifying licensed RAM.
+HarperDB instance configuration can be viewed and managed directly through the HarperDB Studio. HarperDB Cloud instances can be resized in two different ways via this page, either by modifying machine RAM or by increasing drive storage. Enterprise instances can have their licenses modified by modifying licensed RAM.
 
 
 
@@ -21,6 +21,8 @@ All instance configuration is handled through the **config** page of the HarperD
 The **instance overview** panel displays the following instance specifications:
 
 * Instance URL
+
+* Applications URL
 
 * Instance Node Name (for clustering)
 
@@ -44,7 +46,7 @@ The **instance overview** panel displays the following instance specifications:
 
 ## Update Instance RAM
 
-HarperDB Cloud instance size and user-installed instance licenses can be modified with the following instructions. This option is only available to Studio organization owners.
+HarperDB Cloud instance size and Enterprise instance licenses can be modified with the following instructions. This option is only available to Studio organization owners.
 
 
 
@@ -113,3 +115,7 @@ The HarperDB Cloud instance can be restarted with the following instructions.
    * Click **Restart**.
    
 2) The instance will begin restarting immediately.
+
+## Instance Config (Read Only)
+
+A JSON preview of the instance config is available for reference at the bottom of the page. This is a read only visual and is not editable via the Studio. To make changes to the instance config, review the [configuration file documentation](../../deployments/configuration.md#using-the-configuration-file-and-naming-conventions).

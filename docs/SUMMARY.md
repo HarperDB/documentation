@@ -76,15 +76,14 @@
   * [Organizations](administration/harperdb-studio/organizations.md)
   * [Instances](administration/harperdb-studio/instances.md)
   * [Query Instance Data](administration/harperdb-studio/query-instance-data.md)
-  * [Manage Schemas / Browse Data](administration/harperdb-studio/manage-schemas-browse-data.md)
+  * [Manage Databases / Browse Data](administration/harperdb-studio/manage-databases-browse-data.md)
   * [Manage Charts](administration/harperdb-studio/manage-charts.md)
-  * [Manage Clustering](administration/harperdb-studio/manage-clustering.md)
+  * [Manage Clustering](administration/harperdb-studio/manage-replication.md)
   * [Manage Instance Users](administration/harperdb-studio/manage-instance-users.md)
   * [Manage Instance Roles](administration/harperdb-studio/manage-instance-roles.md)
   * [Manage Functions](administration/harperdb-studio/manage-functions.md)
   * [Instance Metrics](administration/harperdb-studio/instance-metrics.md)
   * [Instance Configuration](administration/harperdb-studio/instance-configuration.md)
-  * [Instance Example Code](administration/harperdb-studio/instance-example-code.md)
   * [Enable Mixed Content](administration/harperdb-studio/enable-mixed-content.md)
 
 ## Deployments

@@ -43,10 +43,10 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a schema](administration/harperdb-studio/manage-schemas-browse-data.md#Create-a-Schema)
-2. [Create a table](administration/harperdb-studio/manage-schemas-browse-data.md#create-a-table)
-3. [Add a record](administration/harperdb-studio/manage-schemas-browse-data.md#add-a-record)
-4. [Load CSV data](administration/harperdb-studio/manage-schemas-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
+1. [Create a schema](administration/harperdb-studio/manage-databases-browse-data.md#Create-a-Schema)
+2. [Create a table](administration/harperdb-studio/manage-databases-browse-data.md#create-a-table)
+3. [Add a record](administration/harperdb-studio/manage-databases-browse-data.md#add-a-record)
+4. [Load CSV data](administration/harperdb-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
 5. [Query data via SQL](administration/harperdb-studio/query-instance-data.md)
 
 ## Administering HarperDB

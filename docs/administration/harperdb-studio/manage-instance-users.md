@@ -1,8 +1,6 @@
 # Manage Instance Users
 
-HarperDB instance clustering and replication can be configured directly through the HarperDB Studio. It is recommended to read through the clustering documentation first to gain a strong understanding of HarperDB clustering behavior.
-
-
+HarperDB users and roles can be managed directly through the HarperDB Studio. It is recommended to read through the [users & roles documentation](../../developers/security/users-and-roles.md) to gain a strong understanding of how they operate.
 
 Instance user configuration is handled through the **users** page of the HarperDB Studio, accessed with the following instructions:
 

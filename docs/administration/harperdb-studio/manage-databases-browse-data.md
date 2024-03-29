@@ -1,35 +1,35 @@
-# Manage Schemas / Browse Data
+# Manage Databases / Browse Data
 
-Manage instance schemas/tables and browse data in tabular format with the following instructions:
+Manage instance databases/tables and browse data in tabular format with the following instructions:
 
 1) Navigate to the HarperDB Studio Organizations page. 
 2) Click the appropriate organization that the instance belongs to. 
 3) Select your desired instance. 
 4) Click **browse** in the instance control bar.
 
-Once on the instance browse page you can view data, manage schemas and tables, add new data, and more.
+Once on the instance browse page you can view data, manage databases and tables, add new data, and more.
 
-## Manage Schemas and Tables
+## Manage Databases and Tables
 
-#### Create a Schema
+#### Create a Database
 
-1) Click the plus icon at the top right of the schemas section. 
-2) Enter the schema name. 
+1) Click the plus icon at the top right of the databases section. 
+2) Enter the database name. 
 3) Click the green check mark.
 
 
-#### Delete a Schema
+#### Delete a Database
 
-Deleting a schema is permanent and irreversible. Deleting a schema removes all tables and data within it.
+Deleting a database is permanent and irreversible. Deleting a database removes all tables and data within it.
 
-1) Click the minus icon at the top right of the schemas section. 
-2) Identify the appropriate schema to delete and click the red minus sign in the same row. 
+1) Click the minus icon at the top right of the databases section. 
+2) Identify the appropriate database to delete and click the red minus sign in the same row. 
 3) Click the red check mark to confirm deletion.
 
 
 #### Create a Table
 
-1) Select the desired schema from the schemas section. 
+1) Select the desired database from the databases section. 
 2) Click the plus icon at the top right of the tables section. 
 3) Enter the table name. 
 4) Enter the primary key.
@@ -41,14 +41,14 @@ Deleting a schema is permanent and irreversible. Deleting a schema removes all t
 #### Delete a Table
 Deleting a table is permanent and irreversible. Deleting a table removes all data within it.
 
-1) Select the desired schema from the schemas section. 
+1) Select the desired database from the databases section. 
 2) Click the minus icon at the top right of the tables section. 
 3) Identify the appropriate table to delete and click the red minus sign in the same row. 
 4) Click the red check mark to confirm deletion.
 
 ## Manage Table Data
 
-The following section assumes you have selected the appropriate table from the schema/table browser.
+The following section assumes you have selected the appropriate table from the database/table browser.
 
 
 
@@ -105,7 +105,7 @@ Deleting a record is permanent and irreversible. If transaction logging is turne
 
 ## Browse Table Data
 
-The following section assumes you have selected the appropriate table from the schema/table browser.
+The following section assumes you have selected the appropriate table from the database/table browser.
 
 #### Browse Table Data
 

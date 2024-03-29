@@ -94,7 +94,7 @@ Here organization owners can view invoices, manage coupons, and manage the assoc
 
 ### Add a Coupon
 
-Coupons are applicable towards any paid tier or user-installed instance and you can change your subscription at any time. Coupons can be added to your Organization as follows:
+Coupons are applicable towards any paid tier or enterprise instance and you can change your subscription at any time. Coupons can be added to your Organization as follows:
 
 1) In the coupons panel of the **billing** page, enter your coupon code. 
 2) Click **Add Coupon**. 

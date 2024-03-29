@@ -1,10 +1,10 @@
-# Manage Clustering
+# Manage Replication
 
-HarperDB instance clustering and replication can be configured directly through the HarperDB Studio. It is recommended to read through the clustering documentation first to gain a strong understanding of HarperDB clustering behavior.
+HarperDB instance clustering and replication can be configured directly through the HarperDB Studio. It is recommended to read through the [clustering documentation](../../developers/clustering/README.md) first to gain a strong understanding of HarperDB clustering behavior.
 
 
 
-All clustering configuration is handled through the **cluster** page of the HarperDB Studio, accessed with the following instructions:
+All clustering configuration is handled through the **replication** page of the HarperDB Studio, accessed with the following instructions:
 
 1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 
@@ -12,24 +12,19 @@ All clustering configuration is handled through the **cluster** page of the Harp
 
 3) Select your desired instance.
 
-4) Click **cluster** in the instance control bar.
+4) Click **replication** in the instance control bar.
 
-Note, the **cluster** page will only be available to super users.
+Note, the **replication** page will only be available to super users.
 
 ---
 ## Initial Configuration
 
-HarperDB instances do not have clustering configured by default. The HarperDB Studio will walk you through the initial configuration. Upon entering the **cluster** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen.
+HarperDB instances do not have clustering configured by default. The HarperDB Studio will walk you through the initial configuration. Upon entering the **replication** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen. It is worth reviewing the [Creating a Cluster User](../../developers/clustering/creating-a-cluster-user.md) document before proceeding.
 
-1) Create a cluster user, read more about this here: Clustering Users and Roles.
-   * Enter username.
-   
-   * Enter password.
-   
-   * Click **Create Cluster User**.
-   
-2) Click **Set Cluster Node Name**.
-3) Click **Enable Instance Clustering**.
+1) Enter Cluster User username. (Defaults to `cluster_user`). 
+2) Enter Cluster Password. 
+3) Review and/or Set Cluster Node Name. 
+4) Click **Enable Clustering**.
    
 At this point the Studio will restart your HarperDB Instance, required for the configuration changes to take effect.
 
@@ -48,7 +43,7 @@ Once initial clustering configuration is completed you a presented with a cluste
 
 * **unregistered instances**
 
-    Displays all instances outside of the Studio Organization that this instance manages a connection with.
+    Displays all instances outside the Studio Organization that this instance manages a connection with.
 
 * **manage clustering**
 
@@ -65,7 +60,7 @@ HarperDB Instances can be clustered together with the following instructions.
 
 3) Click the plus icon next the appropriate instance.
 
-4) If configurations are correct, all schemas will sync across the cluster, then appear in the **manage clustering** panel. If there is a configuration issue, a red exclamation icon will appear, click it to learn more about what could be causing the issue.
+4) If configurations are correct, all databases will sync across the cluster, then appear in the **manage clustering** panel. If there is a configuration issue, a red exclamation icon will appear, click it to learn more about what could be causing the issue.
 
 ---
 
@@ -83,7 +78,7 @@ HarperDB Instances can be disconnected with the following instructions.
 
 Subscriptions must be configured in order to move data between connected instances. Read more about subscriptions here: Creating A Subscription. The **manage clustering** panel displays a table with each row representing an channel per instance. Cells are bolded to indicate a change in the column. Publish and subscribe replication can be configured per table with the following instructions:
 
-1) Identify the instance, schema, and table for replication to be configured.
+1) Identify the instance, database, and table for replication to be configured.
 
 2) For publish, click the toggle switch in the **publish** column.
 
