@@ -4,6 +4,9 @@
 
 [Meet Tucker](../../release-notes/4.tucker) Our 4th Release Pup
 
+[4.3.2 Tucker](4.tucker/4.3.2.md)
+
+[4.3.1 Tucker](4.tucker/4.3.1.md)
 
 [4.3.0 Tucker](4.tucker/4.3.0.md)
 
