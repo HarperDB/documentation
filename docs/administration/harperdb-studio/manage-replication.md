@@ -47,7 +47,7 @@ Once initial clustering configuration is completed you a presented with a cluste
 
 * **manage clustering**
 
-    Once instances are connected, this will display clustering management options for all connected instances and all schemas and tables.
+    Once instances are connected, this will display clustering management options for all connected instances and all databases and tables.
 ---
 
 ## Connect an Instance

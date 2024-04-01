@@ -65,7 +65,7 @@ The *roles management* screen consists of the following panels:
 
 Deleting a role is permanent and irreversible. A role cannot be remove if users are associated with it.
 
-1) Click the minus icon at the top right of the schemas section.
+1) Click the minus icon at the top right of the roles section.
 
 2) Identify the appropriate role to delete and click the red minus sign in the same row.
 
