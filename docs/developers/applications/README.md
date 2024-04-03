@@ -225,7 +225,7 @@ Congratulations, you now have created a secure database application backend with
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
 * Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-* Go to the applications section of your target cloud instance in the [HarperDB Studio](../../applications/studio.harperdb.io)
+* Go to the applications section of your target cloud instance in the [HarperDB Studio](../../administration/harperdb-studio/manage-applications.md).
 * In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components.md#deploy-component).
