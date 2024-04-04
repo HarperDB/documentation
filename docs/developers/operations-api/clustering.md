@@ -1,7 +1,7 @@
 # Clustering 
 
 ## Cluster Set Routes
-Adds a route/routes to either the hub or leaf server cluster configuration.
+Adds a route/routes to either the hub or leaf server cluster configuration. This operation behaves as a PATCH/upsert, meaning it will add new routes to the configuration while leaving existing routes untouched.
 
 _Operation is restricted to super_user roles only_
 
@@ -146,7 +146,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Add Node
-Registers an additional HarperDB instance with associated subscriptions. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
+Registers an additional HarperDB instance with associated subscriptions. Learn more about [HarperDB clustering here](../clustering/README.md).
 
 _Operation is restricted to super_user roles only_
 
@@ -186,7 +186,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Update Node
-Modifies an existing HarperDB instance registration and associated subscriptions. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/. 
+Modifies an existing HarperDB instance registration and associated subscriptions. This operation behaves as a PATCH/upsert, meaning it will insert or update the specified replication configurations while leaving other table replication configuration untouched. Learn more about [HarperDB clustering here](../clustering/README.md). 
 
 _Operation is restricted to super_user roles only_
 
@@ -224,9 +224,18 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Set Node Replication
-A more adeptly named alias for add and update node. Will set the replication if it doesn't already exist, if it
-does exist it will update it. The `database` (aka `schema`) parameter is optional, it will default to `database`.
+A more adeptly named alias for add and update node. This operation behaves as a PATCH/upsert, meaning it will insert or update the specified replication configurations while leaving other table replication configuration untouched. The `database` (aka `schema`) parameter is optional, it will default to `data`.
 
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `set_node_replication`
+* node_name _(required)_ - the node name of the remote node you are updating
+* subscriptions _(required)_ - The relationship created between nodes. Must be an object array and `table`, `subscribe` and `publish`:
+  * database *(optional)* - the database to replicate from
+  * table *(required)* - the table to replicate from
+  * subscribe *(required)* - a boolean which determines if transactions on the remote table should be replicated on the local table
+  * publish *(required)* - a boolean which determines if transactions on the local table should be replicated on the remote table
+* 
 ### Body
 ```json
 {
@@ -241,11 +250,17 @@ does exist it will update it. The `database` (aka `schema`) parameter is optiona
     ]
 }
 ```
+### Response: 200
+```json
+{
+    "message": "Successfully updated 'ec2-3-22-181-22'"
+}
+```
 
 ---
 
 ## Cluster Status
-Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
+Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about [HarperDB clustering here](../clustering/README.md).
 
 _Operation is restricted to super_user roles only_
 
@@ -290,7 +305,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Cluster Network
-Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
+Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about [HarperDB clustering here](../clustering/README.md).
 
 _Operation is restricted to super_user roles only_
 
@@ -335,7 +350,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Remove Node
-Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
+Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about [HarperDB clustering here](../clustering/README.md).
 
 _Operation is restricted to super_user roles only_
 
@@ -361,7 +376,7 @@ _Operation is restricted to super_user roles only_
 
 ## Configure Cluster
 Bulk create/remove subscriptions for any number of remote nodes. Resets and replaces any existing clustering setup.
-Learn more about HarperDB clustering here: https://harperdb.io/docs/clustering/.
+Learn more about [HarperDB clustering here](../clustering/README.md).
 
 _Operation is restricted to super_user roles only_
 
