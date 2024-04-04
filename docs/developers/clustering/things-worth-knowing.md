@@ -18,9 +18,9 @@ Transactions that are replicated across the cluster are:
   * CSV URL load
   * Import from S3
 
-When adding or updating a node any schemas and tables in the subscription that don’t exist on the remote node will be automatically created.
+When adding or updating a node any databases and tables in the subscription that don’t exist on the remote node will be automatically created.
 
-**Destructive schema operations do not replicate across a cluster**. Those operations include `drop_schema`, `drop_table`, and `drop_attribute`. If the desired outcome is to drop schema information from any nodes then the operation(s) will need to be run on each node independently.
+**Destructive database operations do not replicate across a cluster**. Those operations include `drop_database`, `drop_table`, and `drop_attribute`. If the desired outcome is to drop database information from any nodes then the operation(s) will need to be run on each node independently.
 
 Users and roles are not replicated across the cluster.
 

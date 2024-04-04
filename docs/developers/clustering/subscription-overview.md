@@ -1,12 +1,12 @@
 # Subscription Overview
 
-A subscription defines how data should move between two nodes. They are exclusively table level and operate independently. They connect a table on one node to a table on another node, the subscription will apply to a matching schema name and table name on both nodes.
+A subscription defines how data should move between two nodes. They are exclusively table level and operate independently. They connect a table on one node to a table on another node, the subscription will apply to a matching database name and table name on both nodes.
 
 _Note: ‘local’ and ‘remote’ will often be referred to. In the context of these docs ‘local’ is the node that is receiving the API request to create/update a subscription and remote is the other node that is referred to in the request, the node on the other end of the subscription._
 
 A subscription consists of:
 
-`schema` - the name of the schema that the table you are creating the subscription for belongs to.
+`database` - the name of the database that the table you are creating the subscription for belongs to. *Note, this was previously referred to as schema and may occasionally still be referenced that way.*
 
 `table` - the name of the table the subscription will apply to.
 

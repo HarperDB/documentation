@@ -76,7 +76,7 @@ _Operation is restricted to super_user roles only_
 * role _(required)_ - name of role you are defining
 * permission _(required)_ - object defining permissions for users associated with this role:
   * super_user _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
-  * structure_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
+  * structure_user (optional) - boolean OR array of database names (as strings). If boolean, user can create new databases and tables. If array of strings, users can only manage tables within the specified databases. This overrides any individual table permissions for specified databases, or for all databases if the value is true.
 
 ### Body
 ```json
@@ -152,7 +152,7 @@ _Operation is restricted to super_user roles only_
 * role _(optional)_ - name value to update on the role you are altering
 * permission _(required)_ - object defining permissions for users associated with this role:
   * super_user _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
-  * structure_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
+  * structure_user (optional) - boolean OR array of database names (as strings). If boolean, user can create new databases and tables. If array of strings, users can only manage tables within the specified databases. This overrides any individual table permissions for specified databases, or for all databases if the value is true.
 
 ### Body
 

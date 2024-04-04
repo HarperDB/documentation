@@ -2,23 +2,23 @@
 
 Subscriptions can be added, updated, or removed through the API.
 
-_Note: The schema and tables in the subscription must exist on either the local or the remote node. Any schema and tables that do not exist on one particular node, for example, the local node, will be automatically created on the local node._
+_Note: The databases and tables in the subscription must exist on either the local or the remote node. Any databases or tables that do not exist on one particular node, for example, the local node, will be automatically created on the local node._
 
-To add a single node and create one or more subscriptions use `add_node`.
+To add a single node and create one or more subscriptions use `set_node_replication`.
 
 ```json
 {
-    "operation": "add_node",
+    "operation": "set_node_replication",
     "node_name": "Node2",
     "subscriptions": [
         {
-            "schema": "dev",
+            "database": "data",
             "table": "dog",
             "publish": false,
             "subscribe": true
         },
         {
-            "schema": "dev",
+            "database": "data",
             "table": "chicken",
             "publish": true,
             "subscribe": true
@@ -29,11 +29,11 @@ To add a single node and create one or more subscriptions use `add_node`.
 
 This is an example of adding Node2 to your local node. Subscriptions are created for two tables, dog and chicken.
 
-To update one or more subscriptions with a single node use `update_node`.
+To update one or more subscriptions with a single node you can also use `set_node_replication`, however this will behave as a PATCH/upsert, where only the subscription(s) changing will be inserted/update while the others will be left untouched.
 
 ```json
 {
-    "operation": "update_node",
+    "operation": "set_node_replication",
     "node_name": "Node2",
     "subscriptions": [
         {
@@ -58,13 +58,13 @@ To add or update subscriptions with one or more nodes in one API call use `confi
             "node_name": "Node2",
             "subscriptions": [
                 {
-                    "schema": "dev",
+                    "database": "dev",
                     "table": "chicken",
                     "publish": false,
                     "subscribe": true
                 },
                 {
-                    "schema": "prod",
+                    "database": "prod",
                     "table": "dog",
                     "publish": true,
                     "subscribe": true
@@ -75,7 +75,7 @@ To add or update subscriptions with one or more nodes in one API call use `confi
             "node_name": "Node3",
             "subscriptions": [
                 {
-                    "schema": "dev",
+                    "database": "dev",
                     "table": "chicken",
                     "publish": true,
                     "subscribe": false
@@ -96,11 +96,11 @@ There is an optional property called `start_time` that can be passed in the subs
 
 ```json
 {
-    "operation": "add_node",
+    "operation": "set_node_replication",
     "node_name": "Node2",
     "subscriptions": [
         {
-            "schema": "dev",
+            "database": "dev",
             "table": "dog",
             "publish": false,
             "subscribe": true,

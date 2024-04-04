@@ -1,17 +1,17 @@
 # HarperDB SQL Reserved Words
 
-This is a list of reserved words in the SQL Parser.  Use of these words or symbols may result in unexpected behavior or inaccessible tables/attributes.  If any of these words must be used, any SQL call referencing a schema, table, or attribute must have backticks (`…`) or brackets ([…]) around the variable.
+This is a list of reserved words in the SQL Parser.  Use of these words or symbols may result in unexpected behavior or inaccessible tables/attributes.  If any of these words must be used, any SQL call referencing a database, table, or attribute must have backticks (`…`) or brackets ([…]) around the variable.
 
-For Example, for a table called ASSERT in the dev schema, a SQL select on that table would look like:
+For Example, for a table called `ASSERT` in the `data` database, a SQL select on that table would look like:
 
 ```
-SELECT * from dev.`ASSERT`
+SELECT * from data.`ASSERT`
 ```
 
 Alternatively:
 
 ```
-SELECT * from dev.[ASSERT]
+SELECT * from data.[ASSERT]
 ```
 
 ### RESERVED WORD LIST

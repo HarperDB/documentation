@@ -13,7 +13,7 @@ If you are new to GeoJSON you should check out the full specification here: http
 3) Note if you are using Postman for you testing. Due to limitations in the Postman client, you will need to escape quotes in your strings and your SQL will need to be passed on a single line.
 
 
-In the examples contained in the left-hand navigation, schema and table names may change, but all GeoJSON data will be stored in a column named geo_data.
+In the examples contained in the left-hand navigation, database and table names may change, but all GeoJSON data will be stored in a column named geo_data.
 
 # geoArea
 

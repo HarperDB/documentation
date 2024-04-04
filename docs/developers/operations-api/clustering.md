@@ -197,6 +197,7 @@ _Operation is restricted to super_user roles only_
   * table - the table to replicate from
   * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
   * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
+  * start_time _(optional)_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
 
 ### Body
 ```json
@@ -208,7 +209,8 @@ _Operation is restricted to super_user roles only_
             "schema": "dev",
             "table": "dog",
             "subscribe": true,
-            "publish": false
+            "publish": false,
+            "start_time": "2022-09-02T20:06:35.993Z"
         }
     ]
 }

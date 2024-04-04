@@ -43,7 +43,7 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a schema](administration/harperdb-studio/manage-databases-browse-data.md#Create-a-Schema)
+1. [Create a database](./administration/harperdb-studio/manage-databases-browse-data.md#create-a-database)
 2. [Create a table](administration/harperdb-studio/manage-databases-browse-data.md#create-a-table)
 3. [Add a record](administration/harperdb-studio/manage-databases-browse-data.md#add-a-record)
 4. [Load CSV data](administration/harperdb-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
@@ -59,16 +59,17 @@ The preferred way to interact with HarperDB for typical querying, accessing, and
 
 The Operations API provides extensive administrative capabilities for HarperDB, and the [Operations API documentation has usage and examples](developers/operations-api/). Generally it is recommended that you use the RESTful interface as your primary interface for performant data access, querying, and manipulation (DML) for building production applications (under heavy load), and the operations API (and SQL) for data definition (DDL) and administrative purposes.
 
-The HarperDB Operations API is single endpoint, which means the only thing that needs to change across different calls is the body. For example purposes, a basic cURL command is shown below to create a schema called dev. To change this behavior, swap out the operation in the `data-raw` body parameter.
+The HarperDB Operations API is single endpoint, which means the only thing that needs to change across different calls is the body. For example purposes, a basic cURL command is shown below to create a database called dev. To change this behavior, swap out the operation in the `data-raw` body parameter.
 
-<pre><code>curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
+```
+curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass' \
 --header 'Content-Type: application/json' \
 --data-raw '{
   "operation": "create_schema",
-<strong>  "schema": "dev"
-</strong>}'
-</code></pre>
+  "database": "dev"
+}'
+```
 
 ## Support and Learning More
 
