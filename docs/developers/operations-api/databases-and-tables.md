@@ -269,9 +269,9 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Create  Attribute
-Create a new attribute within the specified table. **The create_attribute operation can be used for admins wishing to pre-define schema values for setting role-based permissions or for any other reason.**
+Create a new attribute within the specified table. **The create_attribute operation can be used for admins wishing to pre-define database values for setting role-based permissions or for any other reason.**
 
-_Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the schema._
+_Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the database._
 
 * operation _(required)_ - must always be `create_attribute`
 * database _(optional)_ - name of the database of the table you want to add your attribute. The default is `data`

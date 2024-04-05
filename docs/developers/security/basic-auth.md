@@ -2,7 +2,7 @@
 
 HarperDB uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests. In the context of an HTTP transaction, **basic access authentication** is a method for an HTTP user agent to provide a username and password when making a request.
 
-\*\* _**You do not need to log in separately. Basic Auth is added to each HTTP request like create\_schema, create\_table, insert etc… via headers.**_ \*\*
+\*\* _**You do not need to log in separately. Basic Auth is added to each HTTP request like create\_database, create\_table, insert etc… via headers.**_ \*\*
 
 A header is added to each HTTP request. The header key is **“Authorization”** the header value is **“Basic <\<your username and password buffer token>>”**
 

@@ -164,6 +164,6 @@ SEARCH_JSON(
 
 As seen above we execute the same name filter against the cast array, the primary difference is we are wrapping the filtered results in $count(…). As it looks this returns a count of the results back which we then use against our SQL comparator of >= 2.
 
-To see further SEARCH\_JSON examples in action view our Postman Collection that provides a [sample schema & data with query examples](../operations-api/advanced-json-sql-examples.md).
+To see further SEARCH\_JSON examples in action view our Postman Collection that provides a [sample database & data with query examples](../operations-api/advanced-json-sql-examples.md).
 
 To learn more about how to build expressions check out the JSONata documentation: [http://docs.jsonata.org/overview](http://docs.jsonata.org/overview)

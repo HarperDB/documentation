@@ -1,10 +1,12 @@
 # Quick Start Examples
 
+HarperDB recommends utilizing [HarperDB Applications](../../developers/applications/README.md) for defining databases, tables, and other functionality. However, this guide is a great way to get started using on the HarperDB Operations API. 
+
 ## Create dog Table
 
 We first need to create a table. Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
-Tables in HarperDB are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  A hash attribute is an attribute that defines the unique identifier for each row in your table.  In a traditional RDMS this would be called a primary key.
+Tables in HarperDB are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  
 
 HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. The parameter is optional and if not provided the operation will default to using a database named `data`.
 

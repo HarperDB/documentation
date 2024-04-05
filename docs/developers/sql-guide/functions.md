@@ -5,16 +5,16 @@ This SQL keywords reference contains the SQL functions available in HarperDB.
 ## Functions
 ### Aggregate
 
-| Keyword         | Syntax                                                            | Description                                                                                                                                             |
-|-----------------|-------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
-| AVG             | AVG(_expression_)                                                 | Returns the average of a given numeric expression.                                                                                                      |
-| COUNT           | SELECT COUNT(_column_name_) FROM _schema.table_ WHERE _condition_ | Returns the number records that match the given criteria. Nulls are not counted.                                                                        |
-| GROUP_CONCAT    | GROUP_CONCAT(_expression_)                                        | Returns a string with concatenated values that are comma separated and that are non-null from a group. Will return null when there are non-null values. |
-| MAX             | SELECT MAX(_column_name_) FROM _schema.table_ WHERE _condition_   | Returns largest value in a specified column.                                                                                                            |
-| MIN             | SELECT MIN(_column_name_) FROM _schema.table_ WHERE _condition_   | Returns smallest value in a specified column.                                                                                                           |
-| SUM             | SUM(_column_name_)                                                | Returns the sum of the numeric values provided.                                                                                                         |
-| ARRAY*          | ARRAY(_expression_)                                               | Returns a list of data as a field.                                                                                                                      |
-| DISTINCT_ARRAY* | DISTINCT_ARRAY(_expression_)                                      | When placed around a standard ARRAY() function, returns a distinct (deduplicated) results set.                                                          |
+| Keyword         | Syntax                                                              | Description                                                                                                                                             |
+|-----------------|---------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| AVG             | AVG(_expression_)                                                   | Returns the average of a given numeric expression.                                                                                                      |
+| COUNT           | SELECT COUNT(_column_name_) FROM _database.table_ WHERE _condition_ | Returns the number records that match the given criteria. Nulls are not counted.                                                                        |
+| GROUP_CONCAT    | GROUP_CONCAT(_expression_)                                          | Returns a string with concatenated values that are comma separated and that are non-null from a group. Will return null when there are non-null values. |
+| MAX             | SELECT MAX(_column_name_) FROM _database.table_ WHERE _condition_   | Returns largest value in a specified column.                                                                                                            |
+| MIN             | SELECT MIN(_column_name_) FROM _database.table_ WHERE _condition_     | Returns smallest value in a specified column.                                                                                                           |
+| SUM             | SUM(_column_name_)                                                  | Returns the sum of the numeric values provided.                                                                                                         |
+| ARRAY*          | ARRAY(_expression_)                                                 | Returns a list of data as a field.                                                                                                                      |
+| DISTINCT_ARRAY* | DISTINCT_ARRAY(_expression_)                                        | When placed around a standard ARRAY() function, returns a distinct (deduplicated) results set.                                                          |
 
 *For more information on ARRAY() and DISTINCT_ARRAY() see [this blog](https://www.harperdb.io/post/sql-queries-to-complex-objects).
 
@@ -95,8 +95,8 @@ This SQL keywords reference contains the SQL functions available in HarperDB.
 | INSTR       | INSTR(_string_1, string_2_)	                                                       | Returns the first position, as an integer, of string_2 within string_1.                                                                                                  |
 | LEN	        | LEN(_string_)	                                                                     | Returns the length of a string.                                                                                                                                          |
 | LOWER	      | LOWER(_string_)	                                                                   | Converts a string to lower-case.                                                                                                                                         |
-| REGEXP	     | SELECT _column_name_ FROM _schema.table_ WHERE _column_name_ REGEXP _pattern_      | Searches column for matching string against a given regular expression pattern, provided as a string, and returns all matches. If no matches are found, it returns null. |
-| REGEXP_LIKE | SELECT _column_name_ FROM _schema.table_ WHERE REGEXP_LIKE(_column_name, pattern_) | Searches column for matching string against a given regular expression pattern, provided as a string, and returns all matches. If no matches are found, it returns null. |
+| REGEXP	     | SELECT _column_name_ FROM _database.table_ WHERE _column_name_ REGEXP _pattern_      | Searches column for matching string against a given regular expression pattern, provided as a string, and returns all matches. If no matches are found, it returns null. |
+| REGEXP_LIKE | SELECT _column_name_ FROM _database.table_ WHERE REGEXP_LIKE(_column_name, pattern_) | Searches column for matching string against a given regular expression pattern, provided as a string, and returns all matches. If no matches are found, it returns null. |
 | REPLACE	    | REPLACE(_string, old_string, new_string_)	                                         | Replaces all instances of old_string within new_string, with string.                                                                                                     |
 | SUBSTRING   | SUBSTRING(_string, string_position, length_of_substring_)	                         | Extracts a specified amount of characters from a string.                                                                                                                 |
 | TRIM        | TRIM([_character(s) FROM_] _string_)	                                              | Removes leading and trailing spaces, or specified character(s), from a string.                                                                                           |
@@ -107,43 +107,43 @@ This SQL keywords reference contains the SQL functions available in HarperDB.
 
 | Keyword  | Syntax                                                                                           | Description                                                               |
 |----------|--------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| BETWEEN	 | SELECT _column_name(s)_ FROM _schema.table_ WHERE _column_name_ BETWEEN _value_1_ AND _value_2_	 | (inclusive) Returns values(numbers, text, or dates) within a given range. |
-| IN       | SELECT _column_name(s)_ FROM _schema.table_ WHERE _column_name_ IN(_value(s)_)                   | Used to specify multiple values in a WHERE clause.                        |
-| LIKE     | SELECT _column_name(s)_ FROM _schema.table_ WHERE _column_n_ LIKE _pattern_                      | Searches for a specified pattern within a WHERE clause.                   |
+| BETWEEN	 | SELECT _column_name(s)_ FROM _database.table_ WHERE _column_name_ BETWEEN _value_1_ AND _value_2_	 | (inclusive) Returns values(numbers, text, or dates) within a given range. |
+| IN       | SELECT _column_name(s)_ FROM _database.table_ WHERE _column_name_ IN(_value(s)_)                   | Used to specify multiple values in a WHERE clause.                        |
+| LIKE     | SELECT _column_name(s)_ FROM _database.table_ WHERE _column_n_ LIKE _pattern_                      | Searches for a specified pattern within a WHERE clause.                   |
 
 ## Queries
 ### General
 
 | Keyword   | Syntax                                                                                                                               | Description                                                                       |
 |-----------|--------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| DISTINCT  | SELECT DISTINCT _column_name(s)_ FROM _schema.table_                                                                                 | Returns only unique values, eliminating duplicate records.                        |
-| FROM      | FROM _schema.table_	                                                                                                                 | Used to list the schema(s), table(s), and any joins required for a SQL statement. |
-| GROUP BY	 | SELECT _column_name(s)_ FROM _schema.table_ WHERE _condition_ GROUP BY _column_name(s)_ ORDER BY _column_name(s)_                    | Groups rows that have the same values into summary rows.                          |
-| HAVING    | SELECT _column_name(s)_ FROM _schema.table_ WHERE _condition_ GROUP BY _column_name(s)_ HAVING _condition_ ORDER BY _column_name(s)_ | Filters data based on a group or aggregate function.                              |
-| SELECT    | SELECT _column_name(s)_ FROM _schema.table_                                                                                          | Selects data from table.                                                          |
-| WHERE     | SELECT _column_name(s)_ FROM _schema.table_ WHERE _condition_                                                                        | Extracts records based on a defined condition.                                    |
+| DISTINCT  | SELECT DISTINCT _column_name(s)_ FROM _database.table_                                                                                 | Returns only unique values, eliminating duplicate records.                        |
+| FROM      | FROM _database.table_	                                                                                                                 | Used to list the database(s), table(s), and any joins required for a SQL statement. |
+| GROUP BY	 | SELECT _column_name(s)_ FROM _database.table_ WHERE _condition_ GROUP BY _column_name(s)_ ORDER BY _column_name(s)_                    | Groups rows that have the same values into summary rows.                          |
+| HAVING    | SELECT _column_name(s)_ FROM _database.table_ WHERE _condition_ GROUP BY _column_name(s)_ HAVING _condition_ ORDER BY _column_name(s)_ | Filters data based on a group or aggregate function.                              |
+| SELECT    | SELECT _column_name(s)_ FROM _database.table_                                                                                          | Selects data from table.                                                          |
+| WHERE     | SELECT _column_name(s)_ FROM _database.table_ WHERE _condition_                                                                        | Extracts records based on a defined condition.                                    |
 
 ### Joins
 
-| Keyword             | Syntax                                                                                                                                             | Description                                                                                                                                                                     |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CROSS JOIN	         | SELECT _column_name(s)_ FROM _schema.table_1_ CROSS JOIN _schema.table_2_	                                                                         | Returns a paired combination of each row from _table_1_ with row from _table_2_. _Note: CROSS JOIN can return very large result sets and is generally considered bad practice._ |
-| FULL OUTER	         | SELECT _column_name(s)_ FROM _schema.table_1_ FULL OUTER JOIN _schema.table_2_ ON _table_1.column_name_ _= table_2.column_name_ WHERE _condition_	 | Returns all records when there is a match in either _table_1_ (left table) or _table_2_ (right table).                                                                          |
-| [INNER] JOIN	       | SELECT _column_name(s)_ FROM _schema.table_1_ INNER JOIN _schema.table_2_ ON _table_1.column_name_ _= table_2.column_name_	                        | Return only matching records from _table_1_ (left table) and _table_2_ (right table). The INNER keyword is optional and does not affect the result.                             |
-| LEFT [OUTER] JOIN	  | SELECT _column_name(s)_ FROM _schema.table_1_ LEFT OUTER JOIN _schema.table_2_ ON _table_1.column_name_ _= table_2.column_name_                    | Return all records from _table_1_ (left table) and matching data from _table_2_ (right table). The OUTER keyword is optional and does not affect the result.                    |
-| RIGHT [OUTER] JOIN	 | SELECT _column_name(s)_ FROM _schema.table_1_ RIGHT OUTER JOIN _schema.table_2_ ON _table_1.column_name = table_2.column_name_                     | Return all records from _table_2_ (right table) and matching data from _table_1_ (left table). The OUTER keyword is optional and does not affect the result.                    |
+| Keyword             | Syntax                                                                                                                                                 | Description                                                                                                                                                                     |
+|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CROSS JOIN	         | SELECT _column_name(s)_ FROM _database.table_1_ CROSS JOIN _database.table_2_	                                                                         | Returns a paired combination of each row from _table_1_ with row from _table_2_. _Note: CROSS JOIN can return very large result sets and is generally considered bad practice._ |
+| FULL OUTER	         | SELECT _column_name(s)_ FROM _database.table_1_ FULL OUTER JOIN _database.table_2_ ON _table_1.column_name_ _= table_2.column_name_ WHERE _condition_	 | Returns all records when there is a match in either _table_1_ (left table) or _table_2_ (right table).                                                                          |
+| [INNER] JOIN	       | SELECT _column_name(s)_ FROM _database.table_1_ INNER JOIN _database.table_2_ ON _table_1.column_name_ _= table_2.column_name_	                          | Return only matching records from _table_1_ (left table) and _table_2_ (right table). The INNER keyword is optional and does not affect the result.                             |
+| LEFT [OUTER] JOIN	  | SELECT _column_name(s)_ FROM _database.table_1_ LEFT OUTER JOIN _database.table_2_ ON _table_1.column_name_ _= table_2.column_name_                        | Return all records from _table_1_ (left table) and matching data from _table_2_ (right table). The OUTER keyword is optional and does not affect the result.                    |
+| RIGHT [OUTER] JOIN	 | SELECT _column_name(s)_ FROM _database.table_1_ RIGHT OUTER JOIN _database.table_2_ ON _table_1.column_name = table_2.column_name_                         | Return all records from _table_2_ (right table) and matching data from _table_1_ (left table). The OUTER keyword is optional and does not affect the result.                    |
 
 ### Predicates
 
 | Keyword      | Syntax                                                                       | Description                |
 |--------------|------------------------------------------------------------------------------|----------------------------|
-| IS NOT NULL	 | SELECT _column_name(s)_ FROM _schema.table_ WHERE _column_name_ IS NOT NULL	 | Tests for non-null values. |
-| IS NULL	     | SELECT _column_name(s)_ FROM _schema.table_ WHERE _column_name_ IS NULL      | Tests for null values.     |
+| IS NOT NULL	 | SELECT _column_name(s)_ FROM _database.table_ WHERE _column_name_ IS NOT NULL	 | Tests for non-null values. |
+| IS NULL	     | SELECT _column_name(s)_ FROM _database.table_ WHERE _column_name_ IS NULL      | Tests for null values.     |
 
 ### Statements
 
 | Keyword | Syntax                                                                                      | Description                         |
 |---------|---------------------------------------------------------------------------------------------|-------------------------------------|
-| DELETE  | DELETE FROM _schema.table_ WHERE condition                                                  | Deletes existing data from a table. |
-| INSERT  | INSERT INTO _schema.table(column_name(s))_ VALUES(_value(s)_)                               | Inserts new records into a table.   |
-| UPDATE  | UPDATE _schema.table_ SET _column_1 = value_1, column_2 = value_2, ....,_ WHERE _condition_ | Alters existing records in a table. |
+| DELETE  | DELETE FROM _database.table_ WHERE condition                                                  | Deletes existing data from a table. |
+| INSERT  | INSERT INTO _database.table(column_name(s))_ VALUES(_value(s)_)                               | Inserts new records into a table.   |
+| UPDATE  | UPDATE _database.table_ SET _column_1 = value_1, column_2 = value_2, ....,_ WHERE _condition_ | Alters existing records in a table. |

@@ -11,7 +11,7 @@ Role permissions in HarperDB are broken into two categories – permissions arou
 1. At the table-level access, permissions must be explicitly defined when adding or altering a role – _i.e. HarperDB will assume CRUD access to be FALSE if not explicitly provided in the permissions JSON passed to the `add_role` and/or `alter_role` API operations._
 2. At the attribute-level, permissions for attributes in all tables included in the permissions set will be assigned based on either the specific attribute-level permissions defined in the table’s permission set or, if there are no attribute-level permissions defined, permissions will be based on the table’s CRUD set.
 
-**Database Definition**: Permissions related to managing schemas, tables, roles, users, and other system settings and operations are restricted to the built-in `super_user` role.
+**Database Definition**: Permissions related to managing databases, tables, roles, users, and other system settings and operations are restricted to the built-in `super_user` role.
 
 **Built-In Roles**
 
@@ -22,14 +22,14 @@ There are three built-in roles within HarperDB. See full breakdown of operations
 * `cluster_user` - This role is an internal system role type that is managed internally to allow clustered instances to communicate with one another.
   * This role is an internally managed role to facilitate communication between clustered instances.
 * `structure_user` - This role provides specific access for creation and deletion of data.
-  * When defining this role type you can either assign a value of true which will allow the role to create and drop schemas & tables. Alternatively the role type can be assigned a string array. The values in this array are schemas and allows the role to only create and drop tables in the designated schemas.
+  * When defining this role type you can either assign a value of true which will allow the role to create and drop databases & tables. Alternatively the role type can be assigned a string array. The values in this array are databases and allows the role to only create and drop tables in the designated databases.
 
 **User-Defined Roles**
 
 In addition to built-in roles, admins (i.e. users assigned to the super\_user role) can create customized roles for other users to interact with and manipulate the data within explicitly defined tables and attributes.
 
 * Unless the user-defined role is given `super_user` permissions, permissions must be defined explicitly within the request body JSON.
-* Describe operations will return metadata for all schemas, tables, and attributes that a user-defined role has CRUD permissions for.
+* Describe operations will return metadata for all databases, tables, and attributes that a user-defined role has CRUD permissions for.
 
 **Role Permissions**
 
@@ -48,7 +48,7 @@ Example JSON for `add_role` request
   "role":"software_developer",
   "permission":{
     "super_user":false,
-    "schema_name":{
+    "database_name":{
       "tables": {
         "table_name1": {
             "read":true,
@@ -83,14 +83,14 @@ There are two parts to a permissions set:
 
 *   `super_user` – boolean value indicating if role should be provided super\_user access.
 
-    _If `super_user` is set to true, there should be no additional schema-specific permissions values included since the role will have access to the entire database schema. If permissions are included in the body of the operation, they will be stored within HarperDB, but ignored, as super\_users have full access to the database._
-*   `permissions`: Schema tables that a role should have specific CRUD access to should be included in the final, schema-specific `permissions` JSON.
+    _If `super_user` is set to true, there should be no additional database-specific permissions values included since the role will have access to the entire database schema. If permissions are included in the body of the operation, they will be stored within HarperDB, but ignored, as super\_users have full access to the database._
+*   `permissions`: Database tables that a role should have specific CRUD access to should be included in the final, database-specific `permissions` JSON.
 
     _For user-defined roles (i.e. non-super\_user roles, blank permissions will result in the user being restricted from accessing any of the database schema._
 
 **Table Permissions JSON**
 
-Each table that a role should be given some level of CRUD permissions to must be included in the `tables` array for its schema in the roles permissions JSON passed to the API (_see example above_).
+Each table that a role should be given some level of CRUD permissions to must be included in the `tables` array for its database in the roles permissions JSON passed to the API (_see example above_).
 
 ```json
 {
@@ -112,7 +112,7 @@ Each table that a role should be given some level of CRUD permissions to must be
 
 **Important Notes About Table Permissions**
 
-1. If a schema and/or any of its tables are not included in the permissions JSON, the role will not have any CRUD access to the schema and/or tables.
+1. If a database and/or any of its tables are not included in the permissions JSON, the role will not have any CRUD access to the database and/or tables.
 2. If a table-level CRUD permission is set to false, any attribute-level with that same CRUD permission set to true will return an error.
 
 **Important Notes About Attribute Permissions**
@@ -136,19 +136,19 @@ Each table that a role should be given some level of CRUD permissions to must be
 
 The table below includes all API operations available in HarperDB and indicates whether or not the operation is restricted to super\_user roles.
 
-_Keep in mind that non-super\_user roles will also be restricted within the operations they do have access to by the schema-level CRUD permissions set for the roles._
+_Keep in mind that non-super\_user roles will also be restricted within the operations they do have access to by the database-level CRUD permissions set for the roles._
 
-| Schemas and Tables | Restricted to Super\_Users |
-| ------------------ | :------------------------: |
-| describe\_all      |                            |
-| describe\_schema   |                            |
-| describe\_table    |                            |
-| create\_schema     |              X             |
-| drop\_schema       |              X             |
-| create\_table      |              X             |
-| drop\_table        |              X             |
-| create\_attribute  |                            |
-| drop\_attribute    |              X             |
+| Databases and Tables | Restricted to Super\_Users |
+|----------------------| :------------------------: |
+| describe\_all        |                            |
+| describe\_database   |                            |
+| describe\_table      |                            |
+| create\_database     |              X             |
+| drop\_database       |              X             |
+| create\_table        |              X             |
+| drop\_table          |              X             |
+| create\_attribute    |                            |
+| drop\_attribute      |              X             |
 
 | NoSQL Operations       | Restricted to Super\_Users |
 | ---------------------- | :------------------------: |
