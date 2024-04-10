@@ -97,7 +97,7 @@ Changes the values of specified attributes in one or more rows in a database tab
 
 Changes the values of specified attributes for rows with matching primary keys that exist in the table. Adds rows to the database table for primary keys that do not exist or are not provided.
 
-* operation _(required)_ - must always be `update`
+* operation _(required)_ - must always be `upsert`
 * database _(optional)_ - database of the table you are updating records in. The default is `data`
 * table _(required)_ - table where you want to update records
 * records _(required)_ - array of one or more records for update
