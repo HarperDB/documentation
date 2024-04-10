@@ -119,7 +119,13 @@ The comparison operators include `lt` (less than), `le` (less than or equal), `g
 GET /Product/?category=software&price=gt=100&price=lt=200
 ```
 
-You can also search for attributes that start with a specific string, by appending a `*` to the attribute value.
+You can also search for attributes that start with a specific string, by using the == comparator and appending a `*` to the attribute value:
+
+```http
+GET /Product/?name==Keyboard*
+```
+
+Note that some HTTP clients may be overly aggressive in encoding query parameters, and you may need to disable extra encoding of query parameters, to ensure operators are passed through without manipulation. 
 
 ### Unions
 Conditions can also be applied with `OR` logic, returning the union of records that match either condition. This can be specified by using the `|` operator instead of `&`. For example, to return any product a rating of `5` _or_ a `featured` attribute that is `true`, we could write:

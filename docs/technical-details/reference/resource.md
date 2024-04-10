@@ -123,7 +123,8 @@ If `get` is called for a single record (for a request like `/Table/some-id`), th
 
 ### `search(query: Query)`: AsyncIterable
 
-By default this is called by `get(query)` from a collection resource.
+This performs a query on this resource, searching for records that are descendants. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. However, if you call search from an instance with a specific ID like `1` from a path like `Table/1`, it will only return records that are descendants of that record, like `[1, 1]` (path of Table/1/1) and `[1, 2]` (path of Table/1/2). If you want to do a standard search of the table, make you call the static method like `Table.search(...)`. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The query object can be used to specify the desired query.
+
 
 ### `getId(): string|number|Array<string|number>`
 
