@@ -12,7 +12,7 @@ fastifyRoutes: # This loads files that define fastify routes using fastify's aut
 
 By default, route URLs are configured to be:
 
-* \[**Instance URL**]:\[**Custom Functions Port**]/\[**Project Name**]/\[**Route URL**]
+* \[**Instance URL**]:\[**HTTP Port**]/\[**Project Name**]/\[**Route URL**]
 
 However, you can specify the path to be `/` if you wish to have your routes handling the root path of incoming URLs.
 

@@ -22,7 +22,7 @@ redirects:
   harperdb-studio/manage-clustering: administration/harperdb-studio/manage-replication.md
   harperdb-studio/manage-instance-users: administration/harperdb-studio/manage-instance-users.md
   harperdb-studio/manage-instance-roles: administration/harperdb-studio/manage-instance-users.md
-  harperdb-studio/manage-functions: administration/harperdb-studio/manage-functions.md
+  harperdb-studio/manage-functions: administration/harperdb-studio/manage-applications.md
   harperdb-studio/instance-metrics: administration/harperdb-studio/instance-metrics.md
   harperdb-studio/instance-configuration: administration/harperdb-studio/instance-configuration.md
   harperdb-studio/enable-mixed-content: administration/harperdb-studio/enable-mixed-content.md
