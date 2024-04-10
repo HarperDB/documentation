@@ -1,7 +1,7 @@
 # Users and Roles
 
 ## List Roles
-Returns a list of all roles. Learn more about HarperDB roles here: https://harperdb.io/docs/security/users-roles/.
+Returns a list of all roles. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -68,7 +68,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Add Role
-Creates a new role with the specified permissions. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
+Creates a new role with the specified permissions. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -143,7 +143,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter Role
-Modifies an existing role with the specified permissions. updates permissions from an existing role. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
+Modifies an existing role with the specified permissions. updates permissions from an existing role. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -220,7 +220,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Drop Role
-Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. Learn more about HarperDB roles here: https://harperdb.io/docs/security/users-roles/.
+Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -245,7 +245,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## List Users
-Returns a list of all users. Learn more about HarperDB users here: https://harperdb.io/docs/security/users-roles/.
+Returns a list of all users. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -389,7 +389,7 @@ Returns user data for the associated user credentials.
 ---
 
 ## Add User
-Creates a new user with the specified role and credentials. Learn more about HarperDB users here: https://harperdb.io/docs/security/users-roles/.
+Creates a new user with the specified role and credentials. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -420,7 +420,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter User
-Modifies an existing user's role and/or credentials. Learn more about HarperDB users here: https://harperdb.io/docs/security/users-roles/.
+Modifies an existing user's role and/or credentials. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super\_user roles only_
 
@@ -457,7 +457,7 @@ _Operation is restricted to super\_user roles only_
 ---
 
 ## Drop User
-Deletes an existing user by username. Learn more about HarperDB users here: https://harperdb.io/docs/security/users-roles/.
+Deletes an existing user by username. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
