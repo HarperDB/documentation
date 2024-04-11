@@ -119,6 +119,12 @@ The comparison operators include `lt` (less than), `le` (less than or equal), `g
 GET /Product/?category=software&price=gt=100&price=lt=200
 ```
 
+Comparison operators can also be used on Date fields, however, we have to ensure that the date format is properly escaped. For example, if we are looking for a listing date greater than `2017-03-08T09:00:00.000Z` we must escape the colons as  `%3A`:
+
+```
+GET /Product/?listDate=gt=2017-03-08T09%3A30%3A00.000Z
+```
+
 You can also search for attributes that start with a specific string, by using the == comparator and appending a `*` to the attribute value:
 
 ```http
