@@ -81,7 +81,7 @@
   * [Manage Clustering](administration/harperdb-studio/manage-replication.md)
   * [Manage Instance Users](administration/harperdb-studio/manage-instance-users.md)
   * [Manage Instance Roles](administration/harperdb-studio/manage-instance-roles.md)
-  * [Manage Functions](administration/harperdb-studio/manage-applications.md)
+  * [Manage Applications](administration/harperdb-studio/manage-applications.md)
   * [Instance Metrics](administration/harperdb-studio/instance-metrics.md)
   * [Instance Configuration](administration/harperdb-studio/instance-configuration.md)
   * [Enable Mixed Content](administration/harperdb-studio/enable-mixed-content.md)
