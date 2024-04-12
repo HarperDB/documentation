@@ -56,6 +56,20 @@ HarperDB supports QoS 0 and 1 for publishing and subscribing.
 
 HarperDB supports multi-level topics, both for subscribing and publishing. HarperDB also supports multi-level wildcards, so you can subscribe to /`my-resource/#` to receive notifications for `my-resource/some-id` as well as `my-resource/nested/id`, or you can subscribe to `my-resource/nested/#` and receive the latter, but not the former, topic messages. HarperDB currently only supports trailing multi-level wildcards (no single-level wildcards with '\*').
 
+#### Events
+JavaScript components can also listen for MQTT events. This is available on the server.mqtt.events object. For example, to set up a listener/callback for when MQTT clients connect and authorize, we can do:
+
+```javascript
+server.mqtt.events.on('connected', (session, socket) => {
+	console.log('client connected with id', session.clientId);
+});
+```
+The following MQTT events are available:
+* `connection` - When a client initially establishes a TCP or WS connection to the server
+* `connected` - When a client establishes an authorized MQTT connection
+* `auth-failed` - When a client fails to authenticate
+* `disconnected` - When a client disconnects from the server
+
 ### Ordering
 
 HarperDB is designed to be a distributed database, and an intrinsic characteristic of distributed servers is that messages may take different amounts of time to traverse the network and may arrive in a different order depending on server location and network topology. HarperDB is designed for distributed data with minimal latency, and so messages are delivered to subscribers immediately when they arrive, HarperDB does not delay messages for coordinating confirmation or consensus among other nodes, which would significantly increase latency, messages are delivered as quickly as possible.
@@ -125,31 +139,32 @@ eventSource.onmessage = (event) => {
 
 ### MQTT Feature Support Matrix
 
-| Feature | Support |
-| ------- | ------- |
-| Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark: |
-| Connections, protocol negotiation, and acknowledgement with v5 | :heavy_check_mark: |
-| Secure MQTTS | :heavy_check_mark: |
-| MQTTS over WebSockets | :heavy_check_mark: |
-| MQTT authentication via user/pass | :heavy_check_mark: |
-| MQTT authentication via mTLS | :heavy_check_mark: |
-| Publish | :heavy_check_mark: |
-| Subscribe | :heavy_check_mark: |
-| Multi-level wildcard | :heavy_check_mark: |
-| Single-level wildcard | :heavy_check_mark: |
-| QoS 0 | :heavy_check_mark: |
-| QoS 1 | :heavy_check_mark: |
-| QoS 2 | Not fully supported, can perform conversation but does persist |
-| Clean session | :heavy_check_mark: |
-| Durable session | :heavy_check_mark: |
-| Distributed durable session | |
-| Will | :heavy_check_mark: |
-| MQTT V5 User properties |  |
-| MQTT V5 Will properties |  |
-| MQTT V5 Connection properties |  |
-| MQTT V5 Connection acknowledgement properties | |
-| MQTT V5 Publish properties | |
-| MQTT V5 Subscribe properties | |
-| MQTT V5 Ack properties | |
-| MQTT V5 AUTH command | |
-| MQTT V5 Shared Subscriptions | |
+| Feature                                                            | Support                                                        |
+|--------------------------------------------------------------------|----------------------------------------------------------------|
+| Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark:                                             |
+| Connections, protocol negotiation, and acknowledgement with v5     | :heavy_check_mark:                                             |
+| Secure MQTTS                                                       | :heavy_check_mark:                                             |
+| MQTTS over WebSockets                                              | :heavy_check_mark:                                             |
+| MQTT authentication via user/pass                                  | :heavy_check_mark:                                             |
+| MQTT authentication via mTLS                                       | :heavy_check_mark:                                             |
+| Publish                                                            | :heavy_check_mark:                                             |
+| Subscribe                                                          | :heavy_check_mark:                                             |
+| Multi-level wildcard                                               | :heavy_check_mark:                                             |
+| Single-level wildcard                                              | :heavy_check_mark:                                             |
+| QoS 0                                                              | :heavy_check_mark:                                             |
+| QoS 1                                                              | :heavy_check_mark:                                             |
+| QoS 2                                                              | Not fully supported, can perform conversation but does persist |
+| Clean session                                                      | :heavy_check_mark:                                             |
+| Durable session                                                    | :heavy_check_mark:                                             |
+| Distributed durable session                                        |                                                                |
+| Will                                                               | :heavy_check_mark:                                             |
+| MQTT V5 User properties                                            |                                                                |
+| MQTT V5 Will properties                                            |                                                                |
+| MQTT V5 Connection properties                                      |                                                                |
+| MQTT V5 Connection acknowledgement properties                      |                                                                |
+| MQTT V5 Publish properties                                         |                                                                |
+| MQTT V5 Subscribe properties retain handling                       | :heavy_check_mark:                                             |
+| MQTT V5 Subscribe properties                                       |                                                                |
+| MQTT V5 Ack properties                                             |                                                                |
+| MQTT V5 AUTH command                                               |                                                                |
+| MQTT V5 Shared Subscriptions                                       |                                                                |
