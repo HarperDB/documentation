@@ -125,21 +125,22 @@ eventSource.onmessage = (event) => {
 
 ### MQTT Feature Support Matrix
 
-| Feature | Support |
-| ------- | ------- |
-| Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark: |
-| Connections, protocol negotiation, and acknowledgement with v5 | :heavy_check_mark: |
-| Secure MQTTS | :heavy_check_mark: |
-| MQTTS over WebSockets | :heavy_check_mark: |
-| MQTT authentication via user/pass | :heavy_check_mark: |
-| MQTT authentication via mTLS | :heavy_check_mark: |
-| Publish | :heavy_check_mark: |
-| Subscribe | :heavy_check_mark: |
-| Multi-level wildcard | :heavy_check_mark: |
-| Single-level wildcard | :heavy_check_mark: |
-| QoS 0 | :heavy_check_mark: |
-| QoS 1 | :heavy_check_mark: |
-| QoS 2 | Not fully supported, can perform conversation but does persist |
+| Feature                                                            | Support                                                        |
+|--------------------------------------------------------------------|----------------------------------------------------------------|
+| Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark:                                             |
+| Connections, protocol negotiation, and acknowledgement with v5     | :heavy_check_mark:                                             |
+| Secure MQTTS                                                       | :heavy_check_mark:                                             |
+| MQTTS over WebSockets                                              | :heavy_check_mark:                                             |
+| MQTT authentication via user/pass                                  | :heavy_check_mark:                                             |
+| MQTT authentication via mTLS                                       | :heavy_check_mark:                                             |
+| Publish                                                            | :heavy_check_mark:                                             |
+| Subscribe                                                          | :heavy_check_mark:                                             |
+| Multi-level wildcard                                               | :heavy_check_mark:                                             |
+| Single-level wildcard                                              | :heavy_check_mark:                                             |
+| QoS 0                                                              | :heavy_check_mark:                                             |
+| QoS 1                                                              | :heavy_check_mark:                                             |
+| QoS 2                                                              | Not fully supported, can perform conversation but does persist |
+| Keep-Alive monitoring                                              |                                              |
 | Clean session | :heavy_check_mark: |
 | Durable session | :heavy_check_mark: |
 | Distributed durable session | |
