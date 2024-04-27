@@ -715,6 +715,15 @@ storage:
   compactOnStartKeepBackup: false
 ```
 
+`maxTransactionQueueTime` - _Type_: time; _Default_: 45s
+
+The `maxTransactionQueueTime` specifies how long the write queue can get before write requests are rejected (with a 503).
+
+```yaml
+storage:
+  maxTransactionQueueTime: 2m
+```
+
 `noReadAhead` - _Type_: boolean; _Default_: true
 
 The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
