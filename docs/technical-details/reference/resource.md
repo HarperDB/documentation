@@ -229,6 +229,8 @@ When a resource gets a request through HTTP, the request object is the context, 
 * `pathname` - This provides the path part of the URL (no querystring).
 * `host` - This provides the host name of the request (from the `Host` header).
 * `ip` - This provides the ip address of the client that made the request.
+* `body` - This is the request body as a raw NodeJS Readable stream, if there is a request body.
+* `data` - If the HTTP request had a request body, this provides a promise to the deserialized data from the request body. (Note that for methods that normally have a request body like `POST` and `PUT`, the resolved deserialized data is passed in as the main argument, but accessing the data from the context provides access to this for requests that do not traditionally have a request body like `DELETE`).
 
 When a resource is accessed as a data source:
 
