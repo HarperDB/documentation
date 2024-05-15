@@ -797,14 +797,14 @@ Path to the private key file.
 
 Allows specific ciphers to be set.
 
-If you want to define multiple certificates that are applied based on the domain/host requested via SNI, you can define an array of TLS configurations. Each configuration can have the same properties as the root TLS configuration, but can (optionally) also have an additional `hostname` property to specify the domain/host that the certificate should be used for:
+If you want to define multiple certificates that are applied based on the domain/host requested via SNI, you can define an array of TLS configurations. Each configuration can have the same properties as the root TLS configuration, but can (optionally) also have an additional `host` property to specify the domain/host that the certificate should be used for:
 
 ```yaml
 tls:
   - certificate: ~/hdb/keys/certificate1.pem
     certificateAuthority: ~/hdb/keys/ca1.pem
     privateKey: ~/hdb/keys/privateKey1.pem
-    hostname: example.com # the hostname is optional, and if not provided, this certificate's common name will be used as the host name. 
+    host: example.com # the host is optional, and if not provided, this certificate's common name will be used as the host name. 
   - certificate: ~/hdb/keys/certificate2.pem
     certificateAuthority: ~/hdb/keys/ca2.pem
     privateKey: ~/hdb/keys/privateKey2.pem
