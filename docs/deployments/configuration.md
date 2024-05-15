@@ -118,9 +118,15 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 ```yaml
 http:
   mtls: true
-  required: true
-  user: user-name
 ```
+or
+```yaml
+http:
+  mtls:
+    required: true
+    user: user-name
+```
+
 
 ***
 
@@ -766,14 +772,13 @@ storage:
 
 ### `tls`
 
-Transport Layer Security
+The section defines the certificates, keys, and settings for Transport Layer Security (TLS) for HTTPS and TLS socket support. This is used for both the HTTP and MQTT protocols. The `tls` section can be a single object with the settings below, or it can be an array of objects, where each object is a separate TLS configuration. By using an array, the TLS configuration can be used to define multiple certificates for different domains/hosts (negotiated through SNI).
 
 ```yaml
 tls:
     certificate: ~/hdb/keys/certificate.pem
     certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
-    mtls: false
 ```
 
 `certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
@@ -792,20 +797,21 @@ Path to the private key file.
 
 Allows specific ciphers to be set.
 
-`mlts` - _Type_: boolean | object; _Default_: false
+If you want to define multiple certificates that are applied based on the domain/host requested via SNI, you can define an array of TLS configurations. Each configuration can have the same properties as the root TLS configuration, but can (optionally) also have an additional `hostname` property to specify the domain/host that the certificate should be used for:
 
-This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified with `certificateAuthority`. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
+```yaml
+tls:
+  - certificate: ~/hdb/keys/certificate1.pem
+	certificateAuthority: ~/hdb/keys/ca1.pem
+	privateKey: ~/hdb/keys/privateKey1.pem
+	hostname: example.com # the hostname is optional, and if not provided, this certificate's common name will be used as the host name. 
+  - certificate: ~/hdb/keys/certificate2.pem
+	certificateAuthority: ~/hdb/keys/ca2.pem
+	privateKey: ~/hdb/keys/privateKey2.pem
 
-You can also define specific mTLS options by specifying an object for mtls with the following (optional) properties which may be included:
+```
 
-`user` - _Type_: string; _Default_: Common Name
-
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
-This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
-
-`required` - _Type_: boolean; _Default_: false
-
-This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+Note that a `tls` section can also be defined in the `operationsApi` section, which will override the root `tls` section for the operations API.
 
 ***
 
@@ -860,6 +866,8 @@ This can define a specific path to use for the certificate authority. By default
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
 ```yaml
+mqtt:
+  network:
     mtls:
       user: user-name
       required: true
