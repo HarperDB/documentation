@@ -776,9 +776,9 @@ The section defines the certificates, keys, and settings for Transport Layer Sec
 
 ```yaml
 tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
+  certificate: ~/hdb/keys/certificate.pem
+  certificateAuthority: ~/hdb/keys/ca.pem
+  privateKey: ~/hdb/keys/privateKey.pem
 ```
 
 `certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
@@ -802,12 +802,12 @@ If you want to define multiple certificates that are applied based on the domain
 ```yaml
 tls:
   - certificate: ~/hdb/keys/certificate1.pem
-	certificateAuthority: ~/hdb/keys/ca1.pem
-	privateKey: ~/hdb/keys/privateKey1.pem
-	hostname: example.com # the hostname is optional, and if not provided, this certificate's common name will be used as the host name. 
+    certificateAuthority: ~/hdb/keys/ca1.pem
+    privateKey: ~/hdb/keys/privateKey1.pem
+    hostname: example.com # the hostname is optional, and if not provided, this certificate's common name will be used as the host name. 
   - certificate: ~/hdb/keys/certificate2.pem
-	certificateAuthority: ~/hdb/keys/ca2.pem
-	privateKey: ~/hdb/keys/privateKey2.pem
+    certificateAuthority: ~/hdb/keys/ca2.pem
+    privateKey: ~/hdb/keys/privateKey2.pem
 
 ```
 
