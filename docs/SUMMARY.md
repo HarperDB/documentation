@@ -49,6 +49,7 @@
 * [Security](developers/security/README.md)
   * [JWT Authentication](developers/security/jwt-auth.md)
   * [Basic Authentication](developers/security/basic-auth.md)
+  * [mTLS Authentication](developers/security/mtls-auth.md)
   * [Configuration](developers/security/configuration.md)
   * [Users & Roles](developers/security/users-and-roles.md)
   * [Certificate Management](developers/security/certificate-management.md)
