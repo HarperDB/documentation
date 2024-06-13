@@ -113,7 +113,7 @@ Or less than or equal to 20:
 GET /my-resource/?age=le=20
 ```
 
-The comparison operators include `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal). These comparison operators can also be combined with other query parameters with `&`. For example, if we wanted products with a category of software and price between 100 and 200, we could write:
+The comparison operators include standard FIQL operators, `lt` (less than), `le` (less than or equal), `gt` (greater than), `ge` (greater than or equal), and `ne` (not equal). These comparison operators can also be combined with other query parameters with `&`. For example, if we wanted products with a category of software and price between 100 and 200, we could write:
 
 ```http
 GET /Product/?category=software&price=gt=100&price=lt=200
@@ -131,7 +131,20 @@ You can also search for attributes that start with a specific string, by using t
 GET /Product/?name==Keyboard*
 ```
 
-Note that some HTTP clients may be overly aggressive in encoding query parameters, and you may need to disable extra encoding of query parameters, to ensure operators are passed through without manipulation. 
+Note that some HTTP clients may be overly aggressive in encoding query parameters, and you may need to disable extra encoding of query parameters, to ensure operators are passed through without manipulation.
+
+Here is a full list of the supported FIQL-style operators/comparators:
+* `==`: equal
+* `=lt=`: less than
+* `=le=`: less than or equal
+* `=gt=`: greater than
+* `=ge=`: greater than or equal
+* `=ne=`, !=: not equal
+* `=ct=`: contains the value (for strings)
+* `=sw=`, `==<value>*`: starts with the value (for strings)
+* `=ew=`: ends with the value (for strings)
+* `=`, `===`: strict equality (no type conversion)
+* `!==`: strict inequality (no type conversion)
 
 ### Unions
 Conditions can also be applied with `OR` logic, returning the union of records that match either condition. This can be specified by using the `|` operator instead of `&`. For example, to return any product a rating of `5` _or_ a `featured` attribute that is `true`, we could write:
