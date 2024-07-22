@@ -27,7 +27,7 @@ You can also use the operations API to dynamically add and remove nodes from the
 ```
 These operations can also be useful for dynamically generating certificates as needed.
 
-HarperDB will also automatically replicate node information to other nodes in a cluster (basically gossip). This means that you only need to connect to one node in an existing cluster, and HarperDB will automatically detect and connect to other nodes in the cluster (bidirectionally).
+HarperDB will also automatically replicate node information to other nodes in a cluster (gossip-style discovery). This means that you only need to connect to one node in an existing cluster, and HarperDB will automatically detect and connect to other nodes in the cluster (bidirectionally).
 
 By default, HarperDB will replicate all the data in all the databases. You can configure which databases are replicated, and then override this behavior on a per-table basis. For example, you can indicate which databases should be replicated by default, here indicating you want to replicate the `data` and `system` databases:
 
@@ -55,18 +55,6 @@ This will change the replication port to 9930 and the operations API port will b
 
 HarperDB supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure HarperDB in several different ways to build a connected cluster.
 
-### Insecure Connection IP-based Authentication
-You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by configuring the operations API to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
-
-```yaml
-replication:
-  port: 9930
-  routes:
-	- 127.0.0.2
-	- 127.0.0.3
-```
-Note that in this example, we are using loop back addresses, which can be a convenient way to run multiple nodes on a single machine for testing and development.
-
 ### Provide your own certificates
 You can provide your own certificates to secure connections. If you already have certificates for HarperDB server to handle incoming connections, whether they are signed by a public authority (like LetsEncrypt or Digicert) or through a corporate certificate authority, you can use these certificates to authenticate nodes with each other, providing a simple and highly secure way to configure HarperDB. These certificates simply need to have the subject common name (CN) that matches host name of the node. To configure HarperDB to use your own certificates, you can add the certificates through the `add_certificate` operation, or specify the paths to the certificates in the `replication` section of the `harperdb-config.yaml` file. You can specify the path to the certificate and private key if the certificate will verify against the publicly trusted certificate authority, or you can additionally specify a certificate authority if the certificate is self-signed or signed by a private certificate authority (and you have the public CA key). For example:
 
@@ -80,7 +68,7 @@ replication:
 With this in place, HarperDB will load the provided certificates into the certificate table and use these to secure and authenticate connections between nodes.
 
 ### Cross-generated certificates
-HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To create establish secure connections between nodes using cross-generated certificates, you simply use the `add_node` operation over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. For example:
+HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the `add_node` operation over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. For example:
 
 ```json
 {
@@ -94,7 +82,20 @@ HarperDB can also generate its own certificates for secure connections. This is 
     }
 }
 ```
-This will connect to server-two, with secure WebSockets, using the provided credentials. Note, that assuming you are working with a fresh install, you will need to set `rejectUnauthorized` to `false` to allow the self-signed certificate to be accepted. Once the connection is established, HarperDB will automatically create a certificate signing request, send that to server-two, which will then sign the certificate and return the CA and signed certificate. This will be stored and used for future connections between the nodes. The credentials will not be stored, and will be discarded as immediately.
+This will connect to `server-two`, with secure WebSockets, using the provided credentials. Note, that assuming you are working with a fresh install, you will need to set `rejectUnauthorized` to `false` to allow the self-signed certificate to be accepted. Once the connection is established, HarperDB will automatically create a certificate signing request, send that to server-two, which will then sign the certificate and return the CA and signed certificate. This will be stored and used for future connections between the nodes. The credentials will not be stored, and will be discarded as immediately.
+The `authorization` property can also be a string using HTTP `Authorization` style credentials, allowing the credentials to be in the form of `Basic` auth, or `Token` auth and can be used to provide a JWT token for authentication with the necessary permissions to generate and sign certificates.
+
+### Insecure Connection IP-based Authentication
+You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by configuring the operations API to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
+
+```yaml
+replication:
+  port: 9930
+  routes:
+	- 127.0.0.2
+	- 127.0.0.3
+```
+Note that in this example, we are using loop back addresses, which can be a convenient way to run multiple nodes on a single machine for testing and development.
 
 ### Explicit Subscriptions
 By default, HarperDB will automatically manage connections and subscriptions between nodes, creating the necessary subscriptions to ensure data consistency across the cluster, employing data routing as necessary to handle node failures. However, you can also explicitly subscribe to other nodes, and manage the connections and subscriptions yourself. This can be useful for advanced configurations, or for debugging and testing. However, using explicit subscriptions means that HarperDB will no longer be managing subscriptions to ensure data consistency. With explicit subscriptions, there is no guarantee of data consistency if the subscriptions do not fully replicate in all directions, or if a node goes down there is no guarantee that the same data was replicated to all nodes before a crash.
