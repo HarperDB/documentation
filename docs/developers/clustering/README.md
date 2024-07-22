@@ -1,6 +1,6 @@
-# Clustering
+# NATS Clustering
 
-HarperDB clustering is the process of connecting multiple HarperDB databases together to create a database mesh network that enables users to define data replication patterns.
+HarperDB 4.0 - 4.3 used a clustering system based on NATS for replication. In 4.4+, HarperDB has moved to a new native replication system that has better performance, reliability, and data consistency. This document describes the legacy NATS clustering system. HarperDB clustering is the process of connecting multiple HarperDB databases together to create a database mesh network that enables users to define data replication patterns.
 
 HarperDB’s clustering engine replicates data between instances of HarperDB using a highly performant, bi-directional pub/sub model on a per-table basis. Data replicates asynchronously with eventual consistency across the cluster following the defined pub/sub configuration. Individual transactions are sent in the order in which they were transacted, once received by the destination instance, they are processed in an ACID-compliant manner. Conflict resolution follows a last writer wins model based on recorded transaction time on the transaction and the timestamp on the record on the node.
 
