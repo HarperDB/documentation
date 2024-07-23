@@ -16,14 +16,14 @@ replication:
 
 In this example, the current node is `server-one`, and it will connect to `server-two` and `server-three`.
 
-You can also use the operations API to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example:
+You can also use the operations API to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
 
 ```json
 {
 	"operation": "add_node",
-	"node_name": "server-two",
-	"host": "server-two"
+	"hostname": "server-two"
 }
+
 ```
 These operations can also be useful for dynamically generating certificates as needed.
 
@@ -33,7 +33,9 @@ By default, HarperDB will replicate all the data in all the databases. You can c
 
 ```yaml
 replication:
-  databases: data, system
+  databases:
+    - data
+	- system
 ```
 
 By default, all tables within a replicated database will be replicated. Transactions are replicated atomically, which may involve data across multiple tables. However, you can also configure replication for individual tables, and disable and exclude replication for specific tables in a database by setting `replicate` to `false` in the table definition:
@@ -56,7 +58,7 @@ This will change the replication port to 9930 and the operations API port will b
 HarperDB supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure HarperDB in several different ways to build a connected cluster.
 
 ### Provide your own certificates
-You can provide your own certificates to secure connections. If you already have certificates for HarperDB server to handle incoming connections, whether they are signed by a public authority (like LetsEncrypt or Digicert) or through a corporate certificate authority, you can use these certificates to authenticate nodes with each other, providing a simple and highly secure way to configure HarperDB. These certificates simply need to have the subject common name (CN) that matches host name of the node. To configure HarperDB to use your own certificates, you can add the certificates through the `add_certificate` operation, or specify the paths to the certificates in the `replication` section of the `harperdb-config.yaml` file. You can specify the path to the certificate and private key if the certificate will verify against the publicly trusted certificate authority, or you can additionally specify a certificate authority if the certificate is self-signed or signed by a private certificate authority (and you have the public CA key). For example:
+You can provide your own signed certificates to secure connections. If you already have certificates for HarperDB server to handle incoming connections, whether they are signed by a public authority (like LetsEncrypt or Digicert) or through a corporate certificate authority, you can use these certificates to authenticate nodes with each other, providing a simple and highly secure way to configure HarperDB. These certificates simply need to have the subject common name (CN) that matches host name of the node. To configure HarperDB to use your own certificates, you can add the certificates through the `add_certificate` operation, or specify the paths to the certificates in the `replication` section of the `harperdb-config.yaml` file. You can specify the path to the certificate and private key if the certificate will verify against the publicly trusted certificate authority, or you can additionally specify a certificate authority if the certificate is self-signed or signed by a private certificate authority (and you have the public CA key). For example:
 
 ```yaml
 replication:
@@ -73,7 +75,6 @@ HarperDB can also generate its own certificates for secure connections. This is 
 ```json
 {
 	"operation": "add_node",
-	"url": "wss://server-two:9925",
 	"hostname": "server-two",
   	"rejectUnauthorized": false,
   	"authorization": {
