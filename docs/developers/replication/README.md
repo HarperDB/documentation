@@ -45,6 +45,8 @@ type LocalTableForNode @table(replicate: false) {
   name: String!
 }
 ```
+You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, HarperDB will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](./sharding.md).
+
 By default replication will connect on the operations API network interface/port (9925 by default). You can configure the replication port in the `replication` section. For example, to change the replication port to 9930:
 
 ```yaml
