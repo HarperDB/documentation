@@ -1,4 +1,3 @@
-NOTE: This is not fully implemented yet
 HarperDB's replication system supports various levels of replication or sharding. HarperDB can be configured or set up to replicate to different data to different subsets of nodes. This can be used facilitate horizontally scalability of storage and write performance, while maintaining optimal strategies of data locality and data consistency. When sharding is configured, HarperDB will replicate data to only a subset of nodes, based on the sharding configuration, and can then retrieve data from the appropriate nodes as needed to fulfill requests for data.
 
 ## Configuration
@@ -24,6 +23,40 @@ PUT /MyTable/3
 X-Replicate-To: node1,node2
 ```
 (This can also be used with the `confirm` parameter.)
+
+## Replication Control with Operations
+Likewise, you can specify replicateTo and confirm parameters in the operation object when using the HarperDB API. For example, to specify that data should be replicated to two other nodes, and the response should be returned once confirmation is received from one other node, you can use the following operation object:
+```json
+{
+  "operation": "update",
+  "schema": "dev",
+  "table": "MyTable",
+  "hashValues": [3],
+  "record": {
+	"name": "John Doe"
+  },
+  "replicateTo": 2,
+  "replicatedConfirmation": 1
+}
+```
+or you can specify nodes:
+```json
+...,
+  "replicateTo": ["node-1", "node-2"]
+...
+```
+## Programmatic Replication Control
+Additionally, you can specify `replicateTo` and `replicatedConfirmation` parameters programmatically in the context of a resource. For example, you can define a put method:
+```javascript
+class MyTable extends tables.MyTable {
+	put(record) {
+		const context = this.getContext();
+		context.replicateTo = 2; // or an array of node names
+		context.replicatedConfirmation = 1;
+		return super.put(record);
+	}
+}
+```
 
 ## Custom Sharding
 You can also define a custom sharding strategy by specifying a function to compute the "residency" or location of where records should be stored and reside. To do this we use the `setResidency` method, providing a function that will determine the residency of each record. The function you provide will be called with the record entry, and should return an array of nodes that the record should be replicated to (using their hostname). For example, to shard records based on the value of the `id` field, you can use the following code: 
