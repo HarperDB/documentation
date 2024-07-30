@@ -8,6 +8,8 @@ replication:
 ```
 This will ensure that data is replicated to two other nodes, so that each record will be stored on three nodes in total.
 
+With a sharding configuration (or customization below) in place, requests will for records that don't reside on the server handling requests will automatically be forwarded to the appropriate node. This will be done transparently, so that the client will not need to know where the data is stored.  
+
 ## Replication Control with Headers
 With the REST interface, replication levels and destinations can also specified with the `X-Replicate-To` header. This can be used to indicate the number of additional nodes that data should be replicated to, or to specify the nodes that data should be replicated to. The `X-Replicate-To` header can be used with the `POST` and `PUT` methods. This header can also specify if the response should wait for confirmation from other nodes, and how many, with the `confirm` parameter. For example, to specify that data should be replicated to two other nodes, and the response should be returned once confirmation is received from one other node, you can use the following header:  
 ```http
@@ -75,3 +77,5 @@ MyTable.setResidencyById((id) => {
   return id % 2 === 0 ? ['node1'] : ['node2'];
 });
 ```
+
+### Replication from Start Time
