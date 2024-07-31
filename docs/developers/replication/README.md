@@ -14,7 +14,15 @@ replication:
 	- server-three
 ```
 
-In this example, the current node is `server-one`, and it will connect to `server-two` and `server-three`.
+In this example, the current node is `server-one`, and it will connect to `server-two` and `server-three`. Routes to other nodes can also be configured with URLs or ports:
+```yaml
+replication:
+  hostname: server-one
+  routes:
+	- wss://server-two:9925 # URL based route
+	- hostname: server-three # define a hostname and port
+	  port: 9930
+```
 
 You can also use the operations API to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
 
