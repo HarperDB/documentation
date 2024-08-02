@@ -285,3 +285,170 @@ _Operation is restricted to super_user roles only_
   "message": "Successfully set component: test.js"
 }
 ```
+
+## Add SSH Key
+
+Adds an SSH key for deploying components from private repositories. This will also create an ssh config file that will be used when deploying the components.
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `add_ssh_key`
+- name _(required)_ - the name of the key
+- key _(required)_ - the private key contents. Line breaks must be delimited with `\n`
+- host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
+- hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
+- known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+
+### Body
+
+```json
+{
+  "operation": "add_ssh_key",
+  "name": "harperdb-private-component",
+  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nfake\nkey\n-----END OPENSSH PRIVATE KEY-----",
+  "host": "harperdb-private-component.github.com",
+  "hostname": "github.com"
+}
+```
+
+### Response: 200
+```json
+{
+  "message": "Added ssh key: harperdb-private-component"
+}
+```
+
+### Generated Config and Deploy Component "package" string examples
+```
+#harperdb-private-component
+Host harperdb-private-component.github.com
+        HostName github.com
+        User git
+        IdentityFile /hdbroot/ssh/harperdb-private-component.key
+        IdentitiesOnly yes
+```
+
+```
+"package": "git+ssh://git@<host>:<github-repo-path>.git#semver:v1.2.3"
+
+"package": "git+ssh://git@harperdb-private-component.github.com:HarperDB/harperdb-private-component.git#semver:v1.2.3"
+```
+
+Note that `deploy_component` with a package uses `npm install` so the url must be a valid npm format url. The above is an example of a url using a tag in the repo to install.
+
+## Update SSH Key
+Updates the private key contents of an existing SSH key.
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `update_ssh_key`
+- name _(required)_ - the name of the key to be updated
+- key _(required)_ - the private key contents. Line breaks must be delimited with `\n`
+
+### Body
+```json
+{
+  "operation": "update_ssh_key",
+  "name": "harperdb-private-component",
+  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nNEWFAKE\nkey\n-----END OPENSSH PRIVATE KEY-----",
+  "host": "harperdb-private-component.github.com",
+  "hostname": "github.com"
+}
+```
+
+### Response: 200
+```json
+{
+    "message": "Updated ssh key: harperdb-private-component"
+}
+```
+
+## Delete SSH Key
+Deletes a SSH key. This will also remove it from the generated SSH config.
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `delete_ssh_key`
+- name _(required)_ - the name of the key to be deleted
+
+### Body
+```json
+{
+  "name": "harperdb-private-component"
+}
+```
+
+### Response: 200
+```json
+{
+    "message": "Deleted ssh key: harperdb-private-component"
+}
+```
+
+## List SSH Keys
+List off the names of added SSH keys
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `list_ssh_keys`
+
+### Body
+```json
+{
+  "operation": "list_ssh_keys"
+}
+```
+
+### Response: 200
+```json
+[
+    {
+        "name": "harperdb-private-component.key"
+    },
+    ...
+]
+```
+
+## Set SSH Known Hosts
+Sets the SSH known_hosts file. This will overwrite the file.
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `set_ssh_known_hosts`
+- known_hosts _(required)_ - The contents to set the known_hosts to. Line breaks must be delimite d with `\n`
+
+### Body
+```json
+{
+    "operation": "set_ssh_known_hosts",
+    "known_hosts": "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=\ngithub.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\ngithub.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=\n"
+}
+```
+
+### Response: 200
+```json
+{
+    "message": "Known hosts successfully set"
+}
+```
+
+## Get SSH Known Hosts
+Gets the contents of the known_hosts file
+
+_Operation is restricted to super_user roles only_
+
+- operation _(required)_ - must always be `get_ssh_known_hosts`
+
+### Body
+```json
+{
+  "operation": "get_ssh_known_hosts"
+}
+```
+
+### Response: 200
+```json
+{
+    "known_hosts": "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=\ngithub.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\ngithub.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=\n"
+}
+```
