@@ -240,7 +240,7 @@ When a resource gets a request through HTTP, the request object is the context, 
 
 When a resource is accessed as a data source:
 
-* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource.
+* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource. Note that it is generally not recommended to rely on this context. The resolved data may be used fulfilled many different requests, and relying on this first request context may not be representative of future requests. Also, source resolution may be triggered by various actions, not just specified endpoints (for example queries, operations, studio, etc.), so make sure you are not relying on specific request context information.
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
