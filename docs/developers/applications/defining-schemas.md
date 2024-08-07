@@ -135,7 +135,7 @@ type Product @table {
 	totalPrice: Float @computed(version: 1) @indexed
 }
 ```
-If you were to update the `setComputedAttribute` function for the `totalPrice` attribute, to use a new formula, you should increment the `version` argument to ensure that the computed attribute is re-indexed (note that on a large database, re-indexing may be a lengthy operation).
+If you were to update the `setComputedAttribute` function for the `totalPrice` attribute, to use a new formula, you must increment the `version` argument to ensure that the computed attribute is re-indexed (note that on a large database, re-indexing may be a lengthy operation). Failing to increment the `version` argument with a modified function can result in an inconsistent index. The computed function must be deterministic, and should not have side effects, as it may be re-evaluated multiple times during indexing. 
 
 Note that computed properties will not be included by default in a query result, you must explicitly include them in query results using the `select` query function.
 
