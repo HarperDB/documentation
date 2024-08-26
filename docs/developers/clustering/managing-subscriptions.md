@@ -1,3 +1,34 @@
+Tables are replicated when the table is designated as replicating and there is subscription between the nodes.
+Tables designated as replicating by default, but can be changed by setting `replicate` to `false` in the table definition:
+```graphql
+type Product @table(replicate: false) {
+  id: ID!
+  name: String!
+}
+```
+Or in your harperdb-config.yaml, you can set the default replication behavior for databases, and indicate which databases
+should be replicated by default:
+
+```yaml
+replication:
+  databases: data
+```
+If a table is not in the list of databases to be replicated, it will not be replicated unless the table is specifically set to replicate:
+
+```graphql
+type Product @table(replicate: true) {
+  id: ID!
+  name: String!
+}
+```
+
+Reading hdb_nodes (what we do _to_ the node, not what the node does).
+
+The subscription can be set to publish, subscribe, or both.
+
+
+
+
 # Managing subscriptions
 
 Subscriptions can be added, updated, or removed through the API.
