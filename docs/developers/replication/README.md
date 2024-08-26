@@ -10,8 +10,8 @@ To connect your nodes, you need to provide hostnames or URLs for the nodes to co
 replication:
   hostname: server-one
   routes:
-	- server-two
-	- server-three
+    - server-two
+    - server-three
 ```
 
 In this example, the current node is `server-one`, and it will connect to `server-two` and `server-three`. Routes to other nodes can also be configured with URLs or ports:
@@ -19,17 +19,17 @@ In this example, the current node is `server-one`, and it will connect to `serve
 replication:
   hostname: server-one
   routes:
-	- wss://server-two:9925 # URL based route
-	- hostname: server-three # define a hostname and port
-	  port: 9930
+    - wss://server-two:9925 # URL based route
+    - hostname: server-three # define a hostname and port
+      port: 9930
 ```
 
 You can also use the operations API to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
 
 ```json
 {
-	"operation": "add_node",
-	"hostname": "server-two"
+  "operation": "add_node",
+  "hostname": "server-two"
 }
 
 ```
@@ -43,7 +43,7 @@ By default, HarperDB will replicate all the data in all the databases. You can c
 replication:
   databases:
     - data
-	- system
+    - system
 ```
 
 By default, all tables within a replicated database will be replicated. Transactions are replicated atomically, which may involve data across multiple tables. However, you can also configure replication for individual tables, and disable and exclude replication for specific tables in a database by setting `replicate` to `false` in the table definition:
@@ -84,17 +84,29 @@ HarperDB can also generate its own certificates for secure connections. This is 
 
 ```json
 {
-	"operation": "add_node",
-	"hostname": "server-two",
-  	"rejectUnauthorized": false,
-  	"authorization": {
-      "username": "admin",
-      "password": "password"
-    }
+  "operation": "add_node",
+  "hostname": "server-two",
+  "verify_tls": false,
+  "authorization": {
+    "username": "admin",
+    "password": "password"
+  }
 }
 ```
-This will connect to `server-two`, with secure WebSockets, using the provided credentials. Note, that assuming you are working with a fresh install, you will need to set `rejectUnauthorized` to `false` to allow the self-signed certificate to be accepted. Once the connection is established, HarperDB will automatically create a certificate signing request, send that to server-two, which will then sign the certificate and return the CA and signed certificate. This will be stored and used for future connections between the nodes. The credentials will not be stored, and will be discarded as immediately.
+This will connect to `server-two`, with secure WebSockets, using the provided credentials. Note, that assuming you are working with a fresh install, you will need to set `verify_tls` to `false` to allow the self-signed certificate to be accepted. Once the connection is established, HarperDB will automatically create a certificate signing request, send that to server-two, which will then sign the certificate and return the CA and signed certificate. This will be stored and used for future connections between the nodes. The credentials will not be stored, and will be discarded as immediately.
 The `authorization` property can also be a string using HTTP `Authorization` style credentials, allowing the credentials to be in the form of `Basic` auth, or `Token` auth and can be used to provide a JWT token for authentication with the necessary permissions to generate and sign certificates.
+
+Note that use may also use the `set_node` operation, which is an alias for `add_node`.
+
+### Removing Nodes
+Nodes can be removed from the cluster using the `remove_node` operation. This will remove the node from the cluster, and stop replication to and from the node. For example:
+
+```json
+{
+  "operation": "remove_node",
+  "hostname": "server-two"
+}
+```
 
 ### Insecure Connection IP-based Authentication
 You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by configuring the operations API to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
@@ -103,8 +115,8 @@ You can completely disable secure connections and use IP addresses to authentica
 replication:
   port: 9930
   routes:
-	- 127.0.0.2
-	- 127.0.0.3
+    - 127.0.0.2
+    - 127.0.0.3
 ```
 Note that in this example, we are using loop back addresses, which can be a convenient way to run multiple nodes on a single machine for testing and development.
 
@@ -115,14 +127,14 @@ To explicitly subscribe to another node, you can use the node operations like th
 
 ```json
 {
-	"operation": "add_node",
-	"node_name": "server-two", 
-	"subscriptions": [{
-      "database": "dev",
-      "table": "MyTable",
-      "publish": true,
-      "subscribe": false
-    }],
+  "operation": "add_node",
+  "node_name": "server-two", 
+  "subscriptions": [{
+    "database": "dev",
+    "table": "MyTable",
+    "publish": true,
+    "subscribe": false
+  }],
 }
 ```
 
@@ -131,9 +143,16 @@ You can monitor the status of replication through the operations API. You can us
 
 ```json
 {
-	"operation": "cluster_status"
+  "operation": "cluster_status"
 }
 ```
+
+### Database Initial Synchronization and Resynchronization
+When a new node is added to the cluster, if its database has not previously been synced, it will initially download the database from the first node it connects to. This will copy every record from the source database to the new node. Once the initial synchronization is complete, the new node enter replication mode, and receive records from each node as they are created, updated, or delete. If a node goes down and comes back up, it will also resynchronize with the other nodes in the cluster, to ensure that it has the most up-to-date data.
+
+The initial download can be a time-consuming process, depending on the size of the database and the network speed between the nodes. You may consider using the clone node functionality to perform fast cloning of a node, or using the backup and restore functionality to move data between nodes. With a cloned database, when the nodes connect, they will resume from the last transaction.
+
+You may also specify a `start_time` in the `add_node` to specify that when a database connects, that it does not download the entire database, but only data since a given starting time. 
 
 #### Advanced Configuration
 You can also check the configuration of the replication system, including the current known nodes and certificates, by querying the hdb_nodes and hdb_certificate table:
