@@ -61,6 +61,7 @@ _Operation is restricted to super_user roles only_
 * project _(required)_ - the name of the project you wish to deploy
 * package _(optional)_ - this can be any valid GitHub or NPM reference
 * payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
+* restart _(optional)_ - if true, HarperDB will restart after deploying the component. Must be a boolean
 
 ### Body
 
