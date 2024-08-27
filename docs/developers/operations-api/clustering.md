@@ -2,7 +2,7 @@
 
 The following operations are available for configuring and managing [HarperDB replication](../replication/README.md).<br>
 
-_If you are using Nats for clustering, please see the [Nats Clustering Operations](clustering-nats.md) documentation._
+___If you are using Nats for clustering, please see the [Nats Clustering Operations](clustering-nats.md) documentation.___
 
 ## Add Node
 Adds a new HarperDB instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. 
@@ -11,12 +11,12 @@ If they are not provided a fully replicating system will be created. [Learn more
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `add_node`
-* hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add, but not both
-* verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. Defaults to `true`
+* hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
+* verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the HarperDB default self-signed certificates to be accepted. Defaults to `true`
 * authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
-* subscriptions _(optional)_ - The relationship created between nodes. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
-  * database - the database to replicate from
-  * table - the table to replicate from
+* subscriptions _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
+  * database - the database to replicate
+  * table - the table to replicate
   * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
   * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
 
@@ -43,7 +43,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Update Node
-Modifies an existing HarperDB instance in the cluster and associated subscriptions.
+Modifies an existing HarperDB instance in the cluster.
 
 _Operation is restricted to super_user roles only_
 
@@ -83,12 +83,12 @@ _Note: will attempt to add the node if it does not exist_
 ---
 
 ## Remove Node
-Removes a HarperDB node from the cluster and stops replication. [Learn more about remove node here](../replication/README.md).
+Removes a HarperDB node from the cluster and stops replication, [Learn more about remove node here](../replication/README.md).
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `remove_node`
-* name _(required)_ - The name of the node you are de-registering
+* name _(required)_ - The name of the node you are removing
 
 ### Body
 ```json
@@ -107,7 +107,9 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Cluster Status
-Returns an array of status objects from a cluster. `database_sockets` shows the actual websocket connections that exist between nodes.
+Returns an array of status objects from a cluster. 
+
+`database_sockets` shows the actual websocket connections that exist between nodes.
 
 _Operation is restricted to super_user roles only_
 
