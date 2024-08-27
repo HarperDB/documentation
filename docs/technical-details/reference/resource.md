@@ -295,6 +295,26 @@ Subscribes to a record/resource.
 
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
+### `setComputedAttribute(name: string, computeFunction: (record: object) => any)`
+
+This will define the function to use for a computed attribute. To use this, the attribute must be defined in the schema as a computed attribute. The `computeFunction` will be called with the record as an argument and should return the computed value for the attribute. For example:
+    
+```javascript
+MyTable.setComputedAttribute('computedAttribute', (record) => {
+    return record.attribute1 + record.attribute2;
+});
+```
+For a schema like:
+```graphql
+type MyTable @table {
+    id: ID @primaryKey
+    attribute1: Int
+    attribute2: Int
+    computedAttribute: Int @computed
+}
+```
+See the [schema documentation](../../developers/applications/defining-schemas.md) for more information on computed attributes.
+
 ### `primaryKey`
 
 This property indicates the name of the primary key attribute for a table. You can get the primary key for a record using this property name. For example:

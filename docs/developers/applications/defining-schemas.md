@@ -99,6 +99,46 @@ Once this is defined we can use the `products` attribute as a property in our br
 
 Note that schemas can also reference themselves with relationships, allow records to define relationships like parent-child relationships between records in the same table.
 
+#### `@computed`
+
+The `@computed` directive specifies that a field is computed based on other fields in the record. This is useful for creating derived fields that are not stored in the database, but are computed when specific record fields is queried/accessed. The `@computed` directive must be used in combination with a field that is a function that computes the value of the field. For example:
+
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	price: Float
+	taxRate: Float
+	totalPrice: Float @computed(from: "price + (price * taxRate)")
+}
+```
+The `from` argument specifies the expression that computes the value of the field. The expression can reference other fields in the record. The expression is evaluated when the record is queried or indexed.
+
+The `computed` directive may also be defined in a JavaScript module, which is useful for more complex computations. You can specify a computed attribute, and then define the function with the `setComputedAttribute` method. For example:
+
+```graphql
+type Product @table {
+...
+	totalPrice: Float @computed
+}
+```
+
+```javascript
+tables.Product.setComputedAttribute('totalPrice', (record) => {
+  return record.price + (record.price * record.taxRate);
+});
+```
+Computed properties may also be indexed, which provides a powerful mechanism for creating indexes on derived fields with custom querying capabilities. This can provide a mechanism for composite indexes, custom full-text indexing, vector indexing, or other custom indexing strategies. A computed property can be indexed by adding the `@indexed` directive to the computed property. When using a JavaScript module for a computed property that is indexed, it is highly recommended that you specify a `version` argument to ensure that the computed attribute is re-evaluated when the function is updated. For example:
+
+```graphql
+type Product @table {
+...
+	totalPrice: Float @computed(version: 1) @indexed
+}
+```
+If you were to update the `setComputedAttribute` function for the `totalPrice` attribute, to use a new formula, you must increment the `version` argument to ensure that the computed attribute is re-indexed (note that on a large database, re-indexing may be a lengthy operation). Failing to increment the `version` argument with a modified function can result in an inconsistent index. The computed function must be deterministic, and should not have side effects, as it may be re-evaluated multiple times during indexing. 
+
+Note that computed properties will not be included by default in a query result, you must explicitly include them in query results using the `select` query function.
+
 #### `@sealed`
 
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
