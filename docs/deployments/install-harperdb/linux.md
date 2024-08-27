@@ -170,7 +170,18 @@ harperdb start \
   --CLUSTERING_NODENAME "hdb1"
 ```
 
-HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options
+You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../../deployments/configuration.md):
+```bash
+npm install -g harperdb
+harperdb start \
+  --TC_AGREEMENT "yes" \
+  --HDB_ADMIN_USERNAME "HDB_ADMIN" \
+  --HDB_ADMIN_PASSWORD "password" \
+  --HDB_CONFIG "/path/to/your/custom/harperdb-config.yaml"
+```
+
+#### Start HarperDB on Boot
+HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options:
 
 You can set up a crontab:
 

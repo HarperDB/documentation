@@ -95,6 +95,15 @@ Clone node will not clone any configuration that is classed as unique to the lea
 `rootPath` and any other path related values, for example `storage.path`, `logging.root`, `componentsRoot`, 
 any authentication certificate/key paths. 
 
+**Clustering Routes**
+
+By default, the clone will send a set routes request to the leader node. The default `host` used in this request will be the
+host name of the clone operating system.
+
+To manually set a host use the variable `HDB_CLONE_CLUSTERING_HOST`.
+
+To disable the setting of the route set `HDB_SET_CLUSTERING_HOST` to `false`. 
+
 ### Cloning system database
 
 HarperDB uses a database called `system` to store operational information. Clone node will only clone the user and role 

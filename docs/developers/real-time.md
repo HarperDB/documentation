@@ -154,6 +154,7 @@ eventSource.onmessage = (event) => {
 | QoS 0                                                              | :heavy_check_mark:                                             |
 | QoS 1                                                              | :heavy_check_mark:                                             |
 | QoS 2                                                              | Not fully supported, can perform conversation but does persist |
+| Keep-Alive monitoring                                              | :heavy_check_mark:                                             |
 | Clean session                                                      | :heavy_check_mark:                                             |
 | Durable session                                                    | :heavy_check_mark:                                             |
 | Distributed durable session                                        |                                                                |

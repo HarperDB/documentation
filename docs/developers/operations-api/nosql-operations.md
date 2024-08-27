@@ -290,9 +290,9 @@ Returns data from a table for one or more matching conditions. This supports gro
   * search_attribute _(required)_ - the attribute you wish to search, can be any attribute
   * search_type _(required)_ - the type of search to perform - `equals`, `contains`, `starts_with`, `ends_with`, `greater_than`, `greater_than_equal`, `less_than`, `less_than_equal`, `between`
   * search_value _(required)_ - case-sensitive value you wish to search. If the `search_type` is `between` then use an array of two values to search between
-Or a set of grouped conditions has the following properties:
-* operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
-* conditions _(required)_ - the array of conditions objects as described above.
+  Or a set of grouped conditions has the following properties:
+  * operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
+  * conditions _(required)_ - the array of conditions objects as described above.
 ### Body
 
 ```json

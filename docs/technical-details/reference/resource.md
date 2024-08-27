@@ -4,7 +4,7 @@
 
 The Resource class is designed to model different data resources within HarperDB. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
 
-Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
+Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
 The RESTful HTTP server and other server interfaces will instantiate/load resources to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in transaction and the access checks will be performed before the method is executed.
 
@@ -14,11 +14,12 @@ You can create classes that extend Resource to define your own data sources, typ
 
 ```javascript
 export class MyExternalData extends Resource {
-	get() {
-		// fetch data from an external source, using our primary key
-		this.fetch(this.id)
-	}
-	put(data) {
+    async get() {
+        // fetch data from an external source, using our id
+        let response = await this.fetch(this.id);
+        // do something with the response
+    }
+    put(data) {
 		// send the data into the external source
 	}
 	delete() {
@@ -121,9 +122,12 @@ get(query) {
 ```
 If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return `this` instance of the resource. If `get` is called on a collection (`/Table/?name=value`), the default action is to `search` and return an AsyncIterable of results.
 
+It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.get(query)` performs a `get` on this specific record/resource, not on the whole table. If you wish to access a _different_ record, you should use the static `get` method on the table class, like `Table.get(otherId, context)`.
+
 ### `search(query: Query)`: AsyncIterable
 
-By default this is called by `get(query)` from a collection resource.
+This performs a query on this resource, searching for records that are descendants. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. However, if you call search from an instance with a specific ID like `1` from a path like `Table/1`, it will only return records that are descendants of that record, like `[1, 1]` (path of Table/1/1) and `[1, 2]` (path of Table/1/2). If you want to do a standard search of the table, make you call the static method like `Table.search(...)`. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The query object can be used to specify the desired query.
+
 
 ### `getId(): string|number|Array<string|number>`
 
@@ -132,6 +136,9 @@ Returns the primary key value for this resource.
 ### `put(data: object)`
 
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
+
+It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.put(data)` updates this specific record/resource, not another records in teh table. If you wish to update a _different_ record, you should use the static `put` method on the table class, like `Table.put(data, context)`.
+
 
 ### `patch(data: object)`
 
@@ -151,7 +158,7 @@ This will publish a message to this resource, and is called for MQTT publish com
 
 ### `post(data)`
 
-This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally this provides a generic mechanism for various types of data updates.
+This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally `POST` provides a generic mechanism for various types of data updates, and is a good place to define custom functionality for updating records.
 
 ### `invalidate()`
 
@@ -228,10 +235,12 @@ When a resource gets a request through HTTP, the request object is the context, 
 * `pathname` - This provides the path part of the URL (no querystring).
 * `host` - This provides the host name of the request (from the `Host` header).
 * `ip` - This provides the ip address of the client that made the request.
+* `body` - This is the request body as a raw NodeJS Readable stream, if there is a request body.
+* `data` - If the HTTP request had a request body, this provides a promise to the deserialized data from the request body. (Note that for methods that normally have a request body like `POST` and `PUT`, the resolved deserialized data is passed in as the main argument, but accessing the data from the context provides access to this for requests that do not traditionally have a request body like `DELETE`).
 
 When a resource is accessed as a data source:
 
-* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource.
+* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource. Note that it is generally not recommended to rely on this context. The resolved data may be used fulfilled many different requests, and relying on this first request context may not be representative of future requests. Also, source resolution may be triggered by various actions, not just specified endpoints (for example queries, operations, studio, etc.), so make sure you are not relying on specific request context information.
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
@@ -243,16 +252,16 @@ For caching tables, this can be defined to allow stale entries to be returned wh
 
 ## Resource Static Methods and Properties
 
-The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table.
+The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. Whereas instances methods are bound to a specific record, the static methods allow you to specify any record in the table to act on. 
 
-The get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
+The get, put, delete, subscribe, and connect methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to creating an instance bound to the record specified by the arguments, and calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
 ### `get(id: Id, context?: Resource|Context)`
 
 This will retrieve a resource instance by id. For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 
 ```javascript
-const { MyTable } = tables; 
+const { MyTable, Comment } = tables; 
 ...
 // in class:
 	async get() {
@@ -267,6 +276,12 @@ Type definition for `Id`:
 ```
 Id = string|number|array<string|number>
 ```
+### `get(query: Query, context?: Resource|Context)`
+This can be used to retrieve a resource instance by a query. If the query can be used to specify a single/unique record by an `id` property, and can be combined with a `select`:
+```javascript
+MyTable.get({ id: 34, select: ['name', 'age'] });
+```
+This method may also be used to retrieve a collection of records by a query. If the query is not for a specific record id, this will call the `search` method, described above.
 
 ### `put(record: object, context?: Resource|Context): Promise<void>`
 ### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`

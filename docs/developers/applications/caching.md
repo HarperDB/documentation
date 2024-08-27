@@ -263,3 +263,22 @@ Cache-Control: only-if-cached, no-store
 ```
 
 You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource when the data source returns an error (network connection error, 500, 502, 503, or 504). The `must-revalidate` directive can indicate a stale cached resource can not be returned, even when the data source has an error (by default a stale cached resource is returned when there is a network connection error).
+
+
+## Caching Flow
+It may be helpful to understand the flow of a cache request. When a request is made to a caching table:
+* HarperDB will first create a resource instance to handle the process, and ensure that the data is loaded for the resource instance. To do this, it will first check if the record is in the table/cache.
+  * If the record is not in the cache, HarperDB will first check if there is a current request to get the record from the source. If there is, HarperDB will wait for the request to complete and return the record from the cache. 
+  * If not, HarperDB will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
+  * If the record is in the cache, HarperDB will check if the record is stale. If the record is not stale, HarperDB will immediately return the record from the cache. If the record is stale, HarperDB will call the `get()` method on the source to retrieve the record.
+  * The record will then be stored in the cache. This will write of the record to the cache will be done in a separate asynchronous/background write-behind transaction, so it does not block the current request, which will return the data immediately once it has it.
+* The `get()` method will be called on the resource instance to return the record to the client (or perform any querying on the record). If this is overriden, the method will be called at this time.
+
+### Caching Flow with Write-Through
+When a writes are performed on a caching table (in `put()` or `post()` method, for example), the flow is slightly different:
+* HarperDB will have first created a resource instance to handle the process, and this resource instance that will be the current `this` for a call to `put()` or `post()`.
+* If a `put()` or `update()` is called, for example, this action will be record in the current transaction.
+* Once the transaction is committed (which is done automatically as the request handler completes), the transaction write will be sent to the source to update the data.
+  * The local writes will wait for the source to confirm the writes have completed (note that this effectively allows you to perform a two-phase transactional write to the source, and the source can confirm the writes have completed before the transaction is committed locally).
+  * The transaction writes will then be written the local caching table.
+* The transaction handler will wait for the local commit to be written, then the transaction will be resolved and a response will be sent to the client.
