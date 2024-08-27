@@ -125,16 +125,34 @@ By default, HarperDB will automatically manage connections and subscriptions bet
 
 To explicitly subscribe to another node, you can use the node operations like the `add_node` operation, and specify a set of subscriptions.
 
+In this example we are adding a node named `server-two` and specifying that we want to publish (send) transactions on the `dev.my-table` table to the `server-two` node, but not receive any transactions on `dev.my-table` from `server-two`.
 ```json
 {
   "operation": "add_node",
-  "node_name": "server-two", 
+  "hostname": "server-two", 
   "subscriptions": [{
     "database": "dev",
-    "table": "MyTable",
+    "table": "my-table",
     "publish": true,
     "subscribe": false
-  }],
+  }]
+}
+```
+
+To update an explicit subscription you can use the `update_node` operation.
+
+Here we are updating the subscription to receive transactions on the `dev.my-table` table from the `server-two` node.
+
+```json
+{
+  "operation": "update_node",
+  "hostname": "server-two", 
+  "subscriptions": [{
+    "database": "dev",
+    "table": "my-table",
+    "publish": true,
+    "subscribe": true
+  }]
 }
 ```
 

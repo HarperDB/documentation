@@ -167,12 +167,71 @@ threads:
 
 This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
 
+***
+
+### `replication`
+
+The `replication` section configures [HarperDB replication](../developers/replication/README.md), which is used to create HarperDB clusters and replicate data between the instances.
+
+```yaml
+replication:
+  hostname: server-one
+  url: wss://server-one:9925
+  databases: "*"
+  routes:
+    - wss://server-two:9925
+  port: null
+  securePort: 9925
+```
+
+`hostname` - _Type_: string;
+
+The hostname of the current HarperDB instance.
+
+`url` - _Type_: string;
+
+The URL of the current HarperDB instance.
+
+`databases` - _Type_: string/array; _Default_: "*" (all databases)
+
+Configure which databases to replicate. This can be a string for all database or an array for specific databases.
+
+```yaml
+replication:
+  databases: 
+    - db1
+    - db2
+```
+
+`routes` - _Type_: array;
+
+An array of routes to connect to other nodes. Each element in the array can be either a string or an object with `hostname` and `port` properties.
+
+```yaml
+replication:
+  hostname: server-one
+  routes:
+    - wss://server-two:9925 # URL based route
+    - hostname: server-three # define a hostname and port
+      port: 9930
+```
+
+`port` - _Type_: integer; _Default_: 9925 (the operations API port `operationsApi.port`)
+
+The port to use for replication connections.
+
+`securePort` - _Type_: integer;
+
+The port to use for secure replication connections.
 
 ***
 
-### `clustering`
+### `clustering` using NATS
 
-The `clustering` section configures the clustering engine, this is used to replicate data between instances of HarperDB.
+The `clustering` section configures the NATS clustering engine, this is used to replicate data between instances of HarperDB.
+
+_Note: There exist two ways to create clusters and replicate data in HarperDB. One option is to use native HarperDB replication over Websockets. 
+The other option is to use [NATS](https://nats.io/about/) to facilitate the cluster._
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
@@ -460,13 +519,13 @@ logging:
 
 This specifies how long audit logs should be retained.
 
-`level` - _Type_: string; _Default_: error
+`level` - _Type_: string; _Default_: warn
 
 Control the verbosity of text event logs.
 
 ```yaml
 logging:
-  level: error
+  level: warn
 ```
 
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.

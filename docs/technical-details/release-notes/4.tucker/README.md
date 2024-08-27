@@ -18,7 +18,7 @@ HarperDB version 4 ([Tucker release](./tucker.md)) represents major step forward
 * Clone node functionality
 
 ## [4.3](./4.3.0.md)
-* Relationships, joins, and broad new querying capabilites for complex and nested conditions, sorting, joining, and selecting with significant query optimizations
+* Relationships, joins, and broad new querying capabilities for complex and nested conditions, sorting, joining, and selecting with significant query optimizations
 * More advanced transaction support for CRDTs and storage of large integers (with BigInt)
 * Better management with new upgraded local studio and new CLI features
 
