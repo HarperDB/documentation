@@ -181,7 +181,8 @@ replication:
   routes:
     - wss://server-two:9925
   port: null
-  securePort: 9925
+  securePort: 9925,
+  disableRootCAs: false
 ```
 
 `hostname` - _Type_: string;
@@ -223,6 +224,10 @@ The port to use for replication connections.
 `securePort` - _Type_: integer;
 
 The port to use for secure replication connections.
+
+`disableRootCAs` - _Type_: boolean; _Default_: false
+
+When true, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
 
 ***
 
