@@ -137,7 +137,7 @@ Returns the primary key value for this resource.
 
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
 
-It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.put(data)` updates this specific record/resource, not another records in teh table. If you wish to update a _different_ record, you should use the static `put` method on the table class, like `Table.put(data, context)`.
+It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.put(data)` updates this specific record/resource, not another records in the table. If you wish to update a _different_ record, you should use the static `put` method on the table class, like `Table.put(data, context)`.
 
 
 ### `patch(data: object)`
