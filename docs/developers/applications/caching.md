@@ -12,7 +12,7 @@ type MyCache @table(expiration: 3600) @export {
 }
 ```
 
-You may also note that we can define a time-to-live (TTL) expiration on the table, indicating when table records/entries should expire and be evicted from this table. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed.
+You may also note that we can define a time-to-live (TTL) expiration on the table, indicating when table records/entries should expire and be evicted from this table. This is generally necessary for "passive" caches where there is no active notification of when entries expire. However, this is not needed if you provide a means of notifying when data is invalidated and changed. The units for expiration, and other duration-based properties, are in seconds.
 
 While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy) must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin. eviction expiration: The point when a record is actually removed from the caching table.
 
