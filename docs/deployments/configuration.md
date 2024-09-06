@@ -225,9 +225,9 @@ The port to use for replication connections.
 
 The port to use for secure replication connections.
 
-`disableRootCAs` - _Type_: boolean; _Default_: false
+`enableRootCAs` - _Type_: boolean; _Default_: true
 
-When true, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+When false, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
 
 ***
 
