@@ -91,7 +91,7 @@ export function start(options: { port: number, server: {}}) {
 	options.server.socket((socket) => {
 		// called for each incoming socket
 	});
-})
+}
 ```
 #### WebSockets
 If you were implementing a protocol using WebSockets, you can define a listener for incoming WebSocket connections and indicate the WebSockets (sub)protocol to specifically handle (which will select your listener if the `Sec-WebSocket-Protocol` header matches your protocol):
@@ -101,7 +101,7 @@ export function start(options) {
 	server.ws((socket) => {
 			// called for each incoming WebSocket
 	}, Object.assign({ subProtocol: 'my-cool-protocol' }, options));
-})
+}
 ```
 
 ### Resource Handling
