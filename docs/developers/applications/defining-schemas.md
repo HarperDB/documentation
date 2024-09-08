@@ -139,6 +139,15 @@ If you were to update the `setComputedAttribute` function for the `totalPrice` a
 
 Note that computed properties will not be included by default in a query result, you must explicitly include them in query results using the `select` query function.
 
+Another example of using a computed custom index, is that we could index all the comma-separated words in a `tags` property by doing (similar techniques are used for full-text indexing):
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	tags: String # comma delimited set of tags
+	tagsSeparated: String[] @computed(from: "tags.split(/\\s*,\\s*/)") @indexed # split and index the tags
+}
+```
+
 #### `@sealed`
 
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.

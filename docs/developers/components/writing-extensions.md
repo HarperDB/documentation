@@ -31,13 +31,13 @@ Once a user has configured an extension, HarperDB will attempt to load the exten
 `export function start(options: { port: number, server: {}})` If defined, this will be called on the initialization of the extension. The provided `server` property object includes a set of additional entry points for utilizing or layering on top of other protocols (and when implementing a new protocol, you can add your own entry points). The most common entry is to provide an HTTP middleware layer. This looks like:
 
 ```javascript
-export function start(options: { port: number, server: {}}) {
+export function start(options) {
 	options.server.http(async (request, nextLayer) => {
 		// we can directly return a response here, or do some processing on the request and delegate to the next layer
 		let response = await nextLayer(request);
 		return response;
 	});
-}
+});
 ```
 
 Here, the `request` object will have the following structure (this is based on Node's request, but augmented to conform to a subset of the [WHATWG Request API](https://developer.mozilla.org/en-US/docs/Web/API/Request)):
