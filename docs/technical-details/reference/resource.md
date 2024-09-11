@@ -59,6 +59,8 @@ export class MyTable extends tables.MyTable {
 ```
 Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in the your schema, so that you aren't exporting the same table/class twice.
 
+All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
+
 ## Global Variables
 
 ### `tables`
@@ -133,14 +135,14 @@ This performs a query on this resource, searching for records that are descendan
 
 Returns the primary key value for this resource.
 
-### `put(data: object)`
+### `put(data: object): Resource|void|Response`
 
 This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
 
 It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.put(data)` updates this specific record/resource, not another records in the table. If you wish to update a _different_ record, you should use the static `put` method on the table class, like `Table.put(data, context)`.
 
 
-### `patch(data: object)`
+### `patch(data: object): Resource|void|Response`
 
 This will update the existing record with the provided data's properties, and is called for HTTP PATCH requests. You can define or override this method to define how records should be updated. The default `patch` method on tables (`super.patch(data)`) updates the record. The properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `data` object. This is performed as part of the current transaction for the resource instance.
 
@@ -148,15 +150,15 @@ This will update the existing record with the provided data's properties, and is
 
 This is called by the default `put` and `patch` handlers to update a record. `put` calls with `fullUpdate` as `true` to indicate a full record replacement (`patch` calls it with the second argument as `false`). Any additional property changes that are made before the transaction commits will also be persisted.
 
-### `delete(queryOrProperty?)`
+### `delete(queryOrProperty?): Resource|void|Response`
 
 This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.put(record)`) deletes the record from the table as part of the current transaction.
 
-### `publish(message)`
+### `publish(message): Resource|void|Response`
 
 This will publish a message to this resource, and is called for MQTT publish commands. You can define or override this method to define how messages should be published. The default `publish` method on tables (`super.publish(message)`) records the published message as part of the current transaction; this will not change the data in the record but will notify any subscribers to the record/topic.
 
-### `post(data)`
+### `post(data): Resource|void|Response`
 
 This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally `POST` provides a generic mechanism for various types of data updates, and is a good place to define custom functionality for updating records.
 
@@ -186,19 +188,19 @@ This is called when a connection is received through WebSockets or Server Sent E
 
 This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be serialized during serialization (converted to the output format of JSON, MessagePack, etc.).
 
-### `allowCreate(user)`
+### `allowCreate(user): boolean`
 
 This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table.
 
-### `allowRead(user)`
+### `allowRead(user): boolean`
 
 This is called to determine if the user has permission to read from the current resource. This is called as part of external incoming requests (HTTP GET). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's read permission to the table.
 
-### `allowUpdate(user)`
+### `allowUpdate(user): boolean`
 
 This is called to determine if the user has permission to update the current resource. This is called as part of external incoming requests (HTTP PUT). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's update permission to the table.
 
-### `allowDelete(user)`
+### `allowDelete(user): boolean`
 
 This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
 

@@ -8,6 +8,7 @@ _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `add_component`
 * project _(required)_ - the name of the project you wish to create
+* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
@@ -62,6 +63,7 @@ _Operation is restricted to super_user roles only_
 * package _(optional)_ - this can be any valid GitHub or NPM reference
 * payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 * restart _(optional)_ - if true, HarperDB will restart after deploying the component. Must be a boolean
+* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -77,7 +79,8 @@ _Operation is restricted to super_user roles only_
 {
     "operation": "deploy_component",
     "project": "my-component",
-    "package": "HarperDB/application-template"
+    "package": "HarperDB/application-template",
+    "replicated": true
 }
 ```
 
@@ -129,6 +132,7 @@ _Operation is restricted to super_user roles only_
 * operation _(required)_ - must always be `drop_component`
 * project _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
 * file _(optional)_ - the path relative to your project folder of the file you wish to delete
+* replicated _(optional)_ - if true, HarperDB will replicate the component deletion to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -267,6 +271,8 @@ _Operation is restricted to super_user roles only_
 * file _(required)_ - the path relative to your project folder of the file you wish to set
 * payload _(required)_ - what will be written to the file
 * encoding _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
+* replicated _(optional)_ - if true, HarperDB will replicate the component update to all nodes in the cluster. Must be a boolean.
+
 
 ### Body
 
@@ -299,6 +305,8 @@ _Operation is restricted to super_user roles only_
 - host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
 - hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
 - known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
+
 
 ### Body
 
@@ -345,6 +353,7 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `update_ssh_key`
 - name _(required)_ - the name of the key to be updated
 - key _(required)_ - the private key contents. Line breaks must be delimited with `\n`
+- replicated _(optional)_ - if true, HarperDB will replicate the key update to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
@@ -371,6 +380,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `delete_ssh_key`
 - name _(required)_ - the name of the key to be deleted
+- replicated _(optional)_ - if true, HarperDB will replicate the key deletion to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
@@ -417,6 +427,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `set_ssh_known_hosts`
 - known_hosts _(required)_ - The contents to set the known_hosts to. Line breaks must be delimite d with `\n`
+- replicated _(optional)_ - if true, HarperDB will replicate the known hosts to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
