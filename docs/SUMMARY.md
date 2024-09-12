@@ -119,6 +119,7 @@
   * [Storage Algorithm](technical-details/reference/storage-algorithm.md)
 * [Release Notes](technical-details/release-notes/README.md)
   * [HarperDB Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+    * [4.4.0](technical-details/release-notes/4.tucker/4.4.0.md)
     * [4.3.21](technical-details/release-notes/4.tucker/4.3.21.md)
     * [4.3.20](technical-details/release-notes/4.tucker/4.3.20.md)
     * [4.3.19](technical-details/release-notes/4.tucker/4.3.19.md)
