@@ -535,6 +535,15 @@ logging:
 
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.
 
+`console` - _Type_: boolean; _Default_: true
+
+Controls whether console.log and other console.* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.  
+
+```yaml
+logging:
+  console: true
+```
+
 `root` - _Type_: string; _Default_: \<ROOTPATH>/log
 
 The path where the log files will be written.
