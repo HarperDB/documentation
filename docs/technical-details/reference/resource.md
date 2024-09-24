@@ -394,7 +394,7 @@ Table.search({ conditions: [
 
 The `search method` will return an [`AsyncIterable`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator) that can be iterated through to access the results of the query. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
 ```javascript
-for (let record of Table.search({ conditions: [...]})) {
+for await (let record of Table.search({ conditions: [...]})) {
     // iterate through each record in the query results
 }
 ```
