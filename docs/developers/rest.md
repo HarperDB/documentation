@@ -101,6 +101,16 @@ GET /my-resource/?property=value&property2=another-value
 
 Note that only one of the attributes needs to be indexed for this query to execute.
 
+REST query parameters are designed so that you can easily and safely construct a set of name-value conditions using standard URL encoding. This allows you to easily construct queries in a URL, and also safely include user-provided values in a query. For example, in JavaScript, you can easily construct a query string from an object of conditions:
+
+```javascript
+let conditions = { category: "software", price: 100 } // these values can come from user input and will be safely encoded
+let url = `/my-resource/?${new URLSearchParams(conditions)}`
+```
+However, if you want to perform queries beyond basic name-value equality conditions, you can use a more advanced query language syntax that allows for comparison operators, unions, and grouping of conditions:
+
+### Comparison Operators
+
 We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
 ```http
@@ -168,6 +178,25 @@ let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`
 More complex queries can be created by further nesting groups:
 ```http
 GET /Product/?price=lt=100|[rating=5&[tag=fast|tag=scalable|tag=efficient]&inStock=true]
+```
+
+### Multi-part primary keys
+
+For tables with multi-part primary keys, the primary key values can be specified in the URL path, separated by slashes. This allows us to perform hierarchical searchs. For example, if we added a product:
+
+```http
+PUT /Product/electronics/123
+Content-Type: application/json
+
+{ "id": ["electronics", "123"], name": "An electronic product" }
+```
+We can query for products in the electronics category:
+```http
+GET /Product/electronics/
+```
+And this can be combined with other query parameters, for example to find products in the electronics category with a price less than 100:
+```http
+GET /Product/electronics/?price=lt=100
 ```
 
 ## Query Calls

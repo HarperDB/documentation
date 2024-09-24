@@ -524,7 +524,7 @@ Note that you may also need to use `get`/`set` for properties that conflict with
 If you want to save the changes you make, you can call the \`update()\`\` method:
 
 ```javascript
-let product1 = await Product.get(1);
+let product1 = await Product.get('1');
 product1.rating = 3;
 product1.set('newProperty', 'some value');
 product1.update(); // save both of these property changes
@@ -582,7 +582,7 @@ export class CustomProduct extends Product {
 If you need to delete a property, you can do with the `delete` method:
 
 ```javascript
-let product1 = await Product.get(1);
+let product1 = await Product.get('1');
 product1.delete('additionalInformation');
 product1.update();
 ```
@@ -596,6 +596,31 @@ for (let key in plainObject) {
 	// can iterate through the properties of this record
 }
 ```
+
+### Multi-part primary keys 
+HarperDB supports multi-part primary keys, which can be used to create hierarchical data organization of records within a table. Multi-part primary keys are stored and accessed as an array of values, and can be queried and accessed in a similar way to single-part primary keys, but with array values. And with multi-part primary keys, records can be queried by partial prefix. To continue with the product example, we could add products with a multi-part primary key that includes a category and product id:
+
+```javascript
+Product.put({ id: ['electronics', '1'], name: 'Alarm Clock', price: 9.99 });
+Product.put({ id: ['electronics', '2'], name: 'Tablet', price: 299.99 });
+```
+We can then query products by category:
+```javascript
+for await (let product of Product.search({ conditions: [{ attribute: 'id', value: 'electronics', comparator: 'prefix' }] })) {
+	// iterate through all electronics products
+}
+```
+We can create deeper hierarchy as well:
+```javascript
+Product.put({ id: ['electronics', 'laptops', '1'], name: 'Macbook', price: 1999.99 });
+```
+And query:
+```javascript
+for await (let product of Product.search({ conditions: [{ attribute: 'id', value: ['electronics', 'laptop'], comparator: 'prefix' }] })) {
+	// iterate through all laptops
+}
+```
+Multi-part primary keys work in conjunction with the REST and MQTT interfaces, where they can be accessed by URL or topic path. For example, if the `Product` table is exported, a product with an id of `['electronics', 1]` would be accessed by a URL like `/Product/electronics/1` or subscribed to through a topic like `Product/electronics/1`. And the URL `/Product/electronics/` will query all products in the electronics category (by using the `prefix` query above). And the MQTT topic `Product/electronics/#` would subscribe to all products in the electronics category. The parsing of REST and MQTT paths is performed by the `parsePath` method, described above, which can be overridden to customize the path parsing behavior.
 
 ### Throwing Errors
 
