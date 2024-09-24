@@ -392,6 +392,14 @@ Table.search({ conditions: [
 ]});
 ```
 
+The `search method` will return an `AsyncIterable` that can be iterated through to access the results of the query. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
+```javascript
+for (let record of Table.search({ conditions: [...]})) {
+    // iterate through each record in the query results
+}
+```
+HarperDB queries are performed progressively where possible. This means that the query results are incrementally loaded from the database as you iterate through the query results. This allows for more efficient use of resources and can be more performant, with faster initial response time, than loading all results into memory at once. This is especially useful when dealing with large datasets. If you break out of a query (with `return`, `break`, or an exception), the query will be stopped and the associated read transaction will be released. Note that if you use a sort operation, the query may still need to be loaded entirely into memory to perform the sort operation.
+
 ##### Chained Attributes/Properties
 Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md) (in addition to the [schema documentation](../../developers/applications/defining-schemas.md), see the [REST documentation](../../developers/rest.md) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
 ```javascript
@@ -597,14 +605,18 @@ for (let key in plainObject) {
 }
 ```
 
-### Multi-part primary keys 
-HarperDB supports multi-part primary keys, which can be used to create hierarchical data organization of records within a table. Multi-part primary keys are stored and accessed as an array of values, and can be queried and accessed in a similar way to single-part primary keys, but with array values. And with multi-part primary keys, records can be queried by partial prefix. To continue with the product example, we could add products with a multi-part primary key that includes a category and product id:
+### Multipart primary keys 
+HarperDB supports multipart primary keys, which can be used to create hierarchical data organization of records within a table. Multipart primary keys are stored and accessed as an array of values, and can be queried and accessed in a similar way to single-part primary keys, but with array values. And with multipart primary keys, records can be queried by partial prefix. To continue with the product example, we could add products with a multipart primary key that includes a category and product id:
 
 ```javascript
-Product.put({ id: ['electronics', '1'], name: 'Alarm Clock', price: 9.99 });
-Product.put({ id: ['electronics', '2'], name: 'Tablet', price: 299.99 });
+await Product.put({ id: ['electronics', '1'], name: 'Alarm Clock', price: 9.99 });
+await Product.put({ id: ['electronics', '2'], name: 'Tablet', price: 299.99 });
 ```
-We can then query products by category:
+You can retrieve a product by multipart id:
+```javascript
+let product = await Product.get(['electronics', '1']);
+```
+And we can also query products by category:
 ```javascript
 for await (let product of Product.search({ conditions: [{ attribute: 'id', value: 'electronics', comparator: 'prefix' }] })) {
 	// iterate through all electronics products
@@ -614,13 +626,15 @@ We can create deeper hierarchy as well:
 ```javascript
 Product.put({ id: ['electronics', 'laptops', '1'], name: 'Macbook', price: 1999.99 });
 ```
-And query:
+And query using a longer prefix:
 ```javascript
 for await (let product of Product.search({ conditions: [{ attribute: 'id', value: ['electronics', 'laptop'], comparator: 'prefix' }] })) {
 	// iterate through all laptops
 }
 ```
-Multi-part primary keys work in conjunction with the REST and MQTT interfaces, where they can be accessed by URL or topic path. For example, if the `Product` table is exported, a product with an id of `['electronics', 1]` would be accessed by a URL like `/Product/electronics/1` or subscribed to through a topic like `Product/electronics/1`. And the URL `/Product/electronics/` will query all products in the electronics category (by using the `prefix` query above). And the MQTT topic `Product/electronics/#` would subscribe to all products in the electronics category. The parsing of REST and MQTT paths is performed by the `parsePath` method, described above, which can be overridden to customize the path parsing behavior.
+Note that the query for `electronics` above will still return the `laptops` products, as the prefix query will match any records that start with the prefix.
+
+Multipart primary keys work in conjunction with the [REST](../../developers/rest.md) and [MQTT](../../developers/real-time.md) interfaces, where they can be accessed by URL or topic path. For example, if the `Product` table is exported, a product with an id of `['electronics', 1]` would be accessed by a URL like `/Product/electronics/1` or subscribed to through a topic like `Product/electronics/1`. And the URL `/Product/electronics/` will query all products in the electronics category (by using the `prefix` query above). And the MQTT topic `Product/electronics/#` would subscribe to all products in the electronics category. The parsing of REST and MQTT paths is performed by the `parsePath` method, described above, which can be overridden to customize the path parsing behavior.
 
 ### Throwing Errors
 

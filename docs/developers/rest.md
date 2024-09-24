@@ -180,9 +180,9 @@ More complex queries can be created by further nesting groups:
 GET /Product/?price=lt=100|[rating=5&[tag=fast|tag=scalable|tag=efficient]&inStock=true]
 ```
 
-### Multi-part primary keys
+### Multipart primary keys
 
-For tables with multi-part primary keys, the primary key values can be specified in the URL path, separated by slashes. This allows us to perform hierarchical searchs. For example, if we added a product:
+For tables with multipart primary keys, the primary key values can be specified in the URL path, separated by slashes. This allows us to perform hierarchical queries. For example, if we added a product:
 
 ```http
 PUT /Product/electronics/123
@@ -198,6 +198,8 @@ And this can be combined with other query parameters, for example to find produc
 ```http
 GET /Product/electronics/?price=lt=100
 ```
+
+See the [Resource API documentation](../technical-details/reference/resource.md) for how these paths are handled as multipart primary keys.
 
 ## Query Calls
 
