@@ -188,7 +188,7 @@ For tables with multipart primary keys, the primary key values can be specified 
 PUT /Product/electronics/123
 Content-Type: application/json
 
-{ "id": ["electronics", "123"], name": "An electronic product" }
+{ "id": ["electronics", "123"], "name": "An electronic product" }
 ```
 We can query for products in the electronics category:
 ```http

@@ -56,7 +56,7 @@ HarperDB supports QoS 0 and 1 for publishing and subscribing.
 
 HarperDB supports multi-level topics, both for subscribing and publishing. HarperDB also supports multi-level wildcards, so you can subscribe to /`my-resource/#` to receive notifications for `my-resource/some-id` as well as `my-resource/nested/id`, or you can subscribe to `my-resource/nested/#` and receive the latter, but not the former, topic messages. HarperDB currently only supports trailing multi-level wildcards (no single-level wildcards with '\*').
 
-When using nested topics, these are translated to multipart ids. The primary key/id for `my-resource/nested/id` would be `["nested","id]` in the database. This allows for a simple and effective way to manage nested topics and subscriptions. See the [Resource API](../technical-details/reference/resource.md) for more information about how define resources and interact with them and reference by primary keys.
+When using nested topics, these are translated to multipart ids. The primary key/id for `my-resource/nested/id` would be `["nested","id"]` in the database. This allows for a simple and effective way to manage nested topics and subscriptions. See the [Resource API](../technical-details/reference/resource.md) for more information about how define resources and interact with them and reference by primary keys.
 
 ### Ordering
 
