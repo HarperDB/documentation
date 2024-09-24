@@ -104,8 +104,10 @@ Note that only one of the attributes needs to be indexed for this query to execu
 REST query parameters are designed so that you can easily and safely construct a set of name-value conditions using standard URL encoding. This allows you to easily construct queries in a URL, and also safely include user-provided values in a query. For example, in JavaScript, you can easily construct a query string from an object of conditions:
 
 ```javascript
-let conditions = { category: "software", price: 100 } // these values can come from user input and will be safely encoded
-let url = `/my-resource/?${new URLSearchParams(conditions)}`
+const url = new URL(`http://host/my-resource`);
+url.searchParams.set(category, "software"); // these values can come from user input and will be safely encoded
+url.searchParams.set(price, 100);
+// url can be used in fetch(url) or converted to a string for other http clients
 ```
 However, if you want to perform queries beyond basic name-value equality conditions, you can use a more advanced query language syntax that allows for comparison operators, unions, and grouping of conditions:
 
