@@ -123,6 +123,7 @@ replication:
 ```json
 {
     "operation": "add_node",
+    "hostname:": "node-1",
     "url": "wss://my-cluster-node-1:9925",
     "verify_tls": false,
     "authorization": {
