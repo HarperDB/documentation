@@ -140,6 +140,7 @@ HarperDB supports the following field types in addition to user defined (object)
 * `ID`: A string (but indicates it is not intended to be human readable).
 * `Any`: Any primitive, object, or array is allowed.
 * `Date`: A Date object.
+* `Bytes`: Binary data (as a Buffer or Uint8Array).
 
 #### Renaming Tables
 
