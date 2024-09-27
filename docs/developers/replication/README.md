@@ -4,7 +4,7 @@ HarperDB's replication system is designed to provide fast and robust distributed
 HarperDB replication is a peer-to-peer system where each node in the cluster is capable of both sending and subscribing to data. HarperDB nodes connect to each other through WebSockets and can both send and receive data to and from other nodes in the cluster. By default, HarperDB will automatically manage these connections and subscriptions between nodes to ensure that data consistency is maintained across the cluster. HarperDB uses robust secure connections to ensure that data is transmitted securely between nodes.
 
 ## Replication Configuration
-To connect your nodes, you need to provide hostnames or URLs for the nodes to connect to each other. This can be done via configuration or through operations. To configure replication, you can specify connection information the `replication` section of the harperdb-config.yaml. Here, you can specify the host name of the current node, and routes to connect to other nodes, for example:
+To connect your nodes, you need to provide hostnames or URLs for the nodes to connect to each other. This can be done via configuration or through operations. To configure replication, you can specify connection information the `replication` section of the [harperdb-config.yaml](../../deployments/configuration.md). Here, you can specify the host name of the current node, and routes to connect to other nodes, for example:
 
 ```yaml
 replication:
@@ -80,7 +80,7 @@ replication:
 With this in place, HarperDB will load the provided certificates into the certificate table and use these to secure and authenticate connections between nodes.
 
 ### Cross-generated certificates
-HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the `add_node` operation over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. For example:
+HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](../operations-api/clustering.md) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. For example:
 
 ```json
 {
@@ -96,10 +96,10 @@ HarperDB can also generate its own certificates for secure connections. This is 
 This will connect to `server-two`, with secure WebSockets, using the provided credentials. Note, that assuming you are working with a fresh install, you will need to set `verify_tls` to `false` to allow the self-signed certificate to be accepted. Once the connection is established, HarperDB will automatically create a certificate signing request, send that to server-two, which will then sign the certificate and return the CA and signed certificate. This will be stored and used for future connections between the nodes. The credentials will not be stored, and will be discarded as immediately.
 The `authorization` property can also be a string using HTTP `Authorization` style credentials, allowing the credentials to be in the form of `Basic` auth, or `Token` auth and can be used to provide a JWT token for authentication with the necessary permissions to generate and sign certificates.
 
-Note that use may also use the `set_node` operation, which is an alias for `add_node`.
+Note that use may also use the [`set_node` operation](../operations-api/clustering.md), which is an alias for `add_node`.
 
 ### Removing Nodes
-Nodes can be removed from the cluster using the `remove_node` operation. This will remove the node from the cluster, and stop replication to and from the node. For example:
+Nodes can be removed from the cluster using the [`remove_node` operation](../operations-api/clustering.md). This will remove the node from the cluster, and stop replication to and from the node. For example:
 
 ```json
 {
@@ -109,7 +109,7 @@ Nodes can be removed from the cluster using the `remove_node` operation. This wi
 ```
 
 ### Insecure Connection IP-based Authentication
-You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by configuring the operations API to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
+You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by [configuring the operations API](../../deployments/configuration.md) to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
 
 ```yaml
 replication:
@@ -123,7 +123,7 @@ Note that in this example, we are using loop back addresses, which can be a conv
 ### Explicit Subscriptions
 By default, HarperDB will automatically manage connections and subscriptions between nodes, creating the necessary subscriptions to ensure data consistency across the cluster, employing data routing as necessary to handle node failures. However, you can also explicitly subscribe to other nodes, and manage the connections and subscriptions yourself. This can be useful for advanced configurations, or for debugging and testing. However, using explicit subscriptions means that HarperDB will no longer be managing subscriptions to ensure data consistency. With explicit subscriptions, there is no guarantee of data consistency if the subscriptions do not fully replicate in all directions, or if a node goes down there is no guarantee that the same data was replicated to all nodes before a crash.
 
-To explicitly subscribe to another node, you can use the node operations like the `add_node` operation, and specify a set of subscriptions.
+To explicitly subscribe to another node, you can use the node operations like the [`add_node` operation](../operations-api/clustering.md), and specify a set of subscriptions.
 
 In this example we are adding a node named `server-two` and specifying that we want to publish (send) transactions on the `dev.my-table` table to the `server-two` node, but not receive any transactions on `dev.my-table` from `server-two`.
 ```json
@@ -139,7 +139,7 @@ In this example we are adding a node named `server-two` and specifying that we w
 }
 ```
 
-To update an explicit subscription you can use the `update_node` operation.
+To update an explicit subscription you can use the [`update_node` operation](../operations-api/clustering.md).
 
 Here we are updating the subscription to receive transactions on the `dev.my-table` table from the `server-two` node.
 
@@ -157,7 +157,7 @@ Here we are updating the subscription to receive transactions on the `dev.my-tab
 ```
 
 ### Monitoring Replication
-You can monitor the status of replication through the operations API. You can use the `cluster_status` operation to get the status of replication. For example:
+You can monitor the status of replication through the operations API. You can use the [`cluster_status` operation](../operations-api/clustering.md) to get the status of replication. For example:
 
 ```json
 {
@@ -168,9 +168,7 @@ You can monitor the status of replication through the operations API. You can us
 ### Database Initial Synchronization and Resynchronization
 When a new node is added to the cluster, if its database has not previously been synced, it will initially download the database from the first node it connects to. This will copy every record from the source database to the new node. Once the initial synchronization is complete, the new node will enter replication mode and receive records from each node as they are created, updated, or deleted. If a node goes down and comes back up, it will also resynchronize with the other nodes in the cluster, to ensure that it has the most up-to-date data.
 
-The initial download can be a time-consuming process, depending on the size of the database and the network speed between the nodes. You may consider using the clone node functionality to perform fast cloning of a node, or using the backup and restore functionality to move data between nodes. With a cloned database, when the nodes connect, they will resume from the last transaction.
-
-You may also specify a `start_time` in the `add_node` to specify that when a database connects, that it does not download the entire database, but only data since a given starting time. 
+You may also specify a `start_time` in the `add_node` to specify that when a database connects, that it should not download the entire database, but only data since a given starting time. 
 
 #### Advanced Configuration
 You can also check the configuration of the replication system, including the current known nodes and certificates, by querying the hdb_nodes and hdb_certificate table:
