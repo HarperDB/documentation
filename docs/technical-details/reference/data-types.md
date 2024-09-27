@@ -1,6 +1,6 @@
 # Data Types
 
-HarperDB supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (HarperDB’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. As of v4.1, HarperDB supports [MessagePack and CBOR](content-types.md), which allows for all of HarperDB supported data types. This includes:
+HarperDB supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (HarperDB’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. HarperDB supports [MessagePack and CBOR](content-types.md), which allows for all of HarperDB supported data types. [Schema definitions can specify the expected types for fields, with GraphQL Schema Types](../../developers/applications/defining-schemas.md), which are used for validation of incoming typed data (JSON, MessagePack), and is used for auto-conversion of untyped data (CSV, [query parameters](../../developers/rest.md)). Available data types include:
 
 (Note that these labels are descriptive, they do not necessarily correspond to the GraphQL schema type names, but the schema type names are noted where possible)
 
@@ -15,11 +15,13 @@ Strings, or text, are a sequence of any unicode characters and are internally en
 ## Number
 
 Numbers can be stored as signed integers up to a 1000 bits of precision (about 300 digits) or floating point with 64-bit floating point precision, and numbers are automatically stored using the most optimal type. With JSON, numbers are automatically parsed and stored in the most appropriate format. Custom components and applications may use BigInt numbers to store/access integers that are larger than 53-bit. The following GraphQL schema type name are supported:
- `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format) ("double")
- `Int` - Any integer between from -2147483648 to 2147483647
- `Long` - Any integer between from -9007199254740992 to 9007199254740992
- `BigInt` - Any integer (negative or positive) with less than 300 digits
- Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.
+
+* `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format) ("double")
+* `Int` - Any integer between from -2147483648 to 2147483647
+* `Long` - Any integer between from -9007199254740992 to 9007199254740992
+* `BigInt` - Any integer (negative or positive) with less than 300 digits
+
+Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.
 
 ## Object/Map
 
