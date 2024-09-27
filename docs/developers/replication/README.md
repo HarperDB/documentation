@@ -24,7 +24,7 @@ replication:
       port: 9930
 ```
 
-You can also use the operations API to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
+You can also use the [operations API](../operations-api/clustering.md) to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
 
 ```json
 {
@@ -33,7 +33,7 @@ You can also use the operations API to dynamically add and remove nodes from the
 }
 
 ```
-These operations can also be useful for dynamically generating certificates as needed.
+These operations will also dynamically generating certificates as needed, if there are no existing signed certificates, or if the existing certificates are not valid for the new node.
 
 HarperDB will also automatically replicate node information to other nodes in a cluster (gossip-style discovery). This means that you only need to connect to one node in an existing cluster, and HarperDB will automatically detect and connect to other nodes in the cluster (bidirectionally).
 
@@ -166,7 +166,7 @@ You can monitor the status of replication through the operations API. You can us
 ```
 
 ### Database Initial Synchronization and Resynchronization
-When a new node is added to the cluster, if its database has not previously been synced, it will initially download the database from the first node it connects to. This will copy every record from the source database to the new node. Once the initial synchronization is complete, the new node enter replication mode, and receive records from each node as they are created, updated, or delete. If a node goes down and comes back up, it will also resynchronize with the other nodes in the cluster, to ensure that it has the most up-to-date data.
+When a new node is added to the cluster, if its database has not previously been synced, it will initially download the database from the first node it connects to. This will copy every record from the source database to the new node. Once the initial synchronization is complete, the new node will enter replication mode and receive records from each node as they are created, updated, or deleted. If a node goes down and comes back up, it will also resynchronize with the other nodes in the cluster, to ensure that it has the most up-to-date data.
 
 The initial download can be a time-consuming process, depending on the size of the database and the network speed between the nodes. You may consider using the clone node functionality to perform fast cloning of a node, or using the backup and restore functionality to move data between nodes. With a cloned database, when the nodes connect, they will resume from the last transaction.
 

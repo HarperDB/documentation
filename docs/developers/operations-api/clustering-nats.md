@@ -1,4 +1,4 @@
-# Clustering using Nats
+# Clustering using NATS
 
 ## Cluster Set Routes
 Adds a route/routes to either the hub or leaf server cluster configuration. This operation behaves as a PATCH/upsert, meaning it will add new routes to the configuration while leaving existing routes untouched.

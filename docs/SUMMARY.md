@@ -26,7 +26,7 @@
   * [Bulk Operations](developers/operations-api/bulk-operations.md)
   * [Users and Roles](developers/operations-api/users-and-roles.md)
   * [Clustering](developers/operations-api/clustering.md)
-    * [Clustering with Nats](developers/operations-api/clustering-nats.md)
+    * [Clustering with NATS](developers/operations-api/clustering-nats.md)
   * [Custom Functions](developers/operations-api/custom-functions.md)
   * [Components](developers/operations-api/components.md)
   * [Registration](developers/operations-api/registration.md)
