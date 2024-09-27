@@ -756,9 +756,9 @@ storage:
   caching: true
 ```
 
-`compression` - _Type_: boolean; _Default_: false
+`compression` - _Type_: boolean; _Default_: true
 
-The `compression` option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
+The `compression` option enables compression of records in the database. This can be helpful for very large records in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
 
 ```yaml
 storage:
@@ -803,9 +803,9 @@ storage:
   maxTransactionQueueTime: 2m
 ```
 
-`noReadAhead` - _Type_: boolean; _Default_: true
+`noReadAhead` - _Type_: boolean; _Default_: false
 
-The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
+The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization for databases with small records (less than one page), but can degrade performance in situations where large records are used or frequent range queries are used.
 
 ```yaml
 storage:
