@@ -354,7 +354,7 @@ If the source resource implements subscription support, real-time invalidation c
 
 ### `parsePath(path, context, query) {`
 
-This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will convert a multi-segment path to multipart id (an array), which facilitates hierarchical id-based data access, and also parses `.property` suffixes for accessing properties and specifying preferred content type in the URL. However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
+This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will parse `.property` suffixes for accessing properties and specifying preferred content type in the URL (and for older tables it will convert a multi-segment path to multipart an array id). However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
 
 ```javascript
 	static parsePath(path) {
