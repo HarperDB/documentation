@@ -119,17 +119,12 @@ replication:
     - Disable NATS by setting `clustering.enabled` to `false`.
     - Stop the instance and upgrade it.
     - Start the instance.
-    - Call [`add_node`](../developers/operations-api/clustering.md#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node.
+    - Call [`add_node`](../developers/operations-api/clustering.md#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node. _Note: depending on your setup, you may need to expand this `add_node` call to include [authorization and/or tls information](../developers/operations-api/clustering.md#add-node)._
 ```json
 {
     "operation": "add_node",
     "hostname:": "node-1",
-    "url": "wss://my-cluster-node-1:9925",
-    "verify_tls": false,
-    "authorization": {
-        "username": "admin",
-        "password": "my-password"
-    }
+    "url": "wss://my-cluster-node-1:9925"
 }
 ```
 3. Repeat Step 2 on all remaining nodes that need to be upgraded.
