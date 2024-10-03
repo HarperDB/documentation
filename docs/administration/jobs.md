@@ -38,7 +38,7 @@ Whenever one of these operations is initiated, an asynchronous job is created an
 
 ## Managing Jobs
 
-To check on a job's status, use the [get_job](../developers/operations-api/jobs#get-job) operation.
+To check on a job's status, use the [get_job](../developers/operations-api/jobs.md#get-job) operation.
 
 Get Job Request
 
@@ -73,7 +73,7 @@ Get Job Response
 
 ## Finding Jobs
 
-To find jobs (if the ID is not known) use the [search_jobs_by_start_date](../developers/operations-api/jobs#search-jobs-by-start-date) operation.
+To find jobs (if the ID is not known) use the [search_jobs_by_start_date](../developers/operations-api/jobs.md#search-jobs-by-start-date) operation.
 
 Search Jobs Request
 
