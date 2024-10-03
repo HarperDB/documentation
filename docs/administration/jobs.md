@@ -12,19 +12,19 @@ The job status can be **COMPLETE** or **IN\_PROGRESS**.
 
 Example job operations include:
 
-[csv data load](../developers/operations-api/bulk-operations#csv-data-load)
+[csv data load](../developers/operations-api/bulk-operations.md#csv-data-load)
 
-[csv file load](../developers/operations-api/bulk-operations#csv-file-load)
+[csv file load](../developers/operations-api/bulk-operations.md#csv-file-load)
 
-[csv url load](../developers/operations-api/bulk-operations#csv-url-load)
+[csv url load](../developers/operations-api/bulk-operations.md#csv-url-load)
 
-[import from s3](../developers/operations-api/bulk-operations#import-from-s3)
+[import from s3](../developers/operations-api/bulk-operations.md#import-from-s3)
 
-[delete_records_before](../developers/operations-api/utilities#delete-records-before)
+[delete_records_before](../developers/operations-api/utilities.md#delete-records-before)
 
-[export_local](../developers/operations-api/utilities#export-local)
+[export_local](../developers/operations-api/utilities.md#export-local)
 
-[export_to_s3](../developers/operations-api/utilities#export-to-s3)
+[export_to_s3](../developers/operations-api/utilities.md#export-to-s3)
 
 Example Response from a Job Operation
 
