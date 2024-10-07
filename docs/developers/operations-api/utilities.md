@@ -434,3 +434,29 @@ _Operation is restricted to super_user roles only_
   }
 ]
 ```
+
+---
+
+## Gey Key
+
+Retrieve a key by its name. This includes the JWT `.jwtPrivate` and `.jwtPublic` keys.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `get_key`
+* name _(required)_ - the name of the key. For JWT keys this is `jwtPrivate` or `jwtPublic`. For other keys this is the name of the key file relative to the `keys` directory. 
+
+### Body
+```json
+{
+  "operation": "get_key",
+  "name": "privateKey.pem"
+}
+```
+
+### Response: 200
+```json
+{
+    "message": "-----BEGIN RSA PRIVATE KEY-----MIIsf3SWF..."
+}
+```
