@@ -22,11 +22,11 @@ query GetDogs {
 }
 ```
 The `GET` request would look like:
-```
+```sh
 curl 'http://localhost:9926/graphql?query=query+GetDogs+%7B+Dog+%7B+id+name+%7D+%7D'
 ```
 And the `POST` request would look like:
-```
+```sh
 curl 'http://localhost:9926/graphql' \
 	-H 'Content-Type: application/json' \
 	-d '{ "query": "query GetDogs { Dog { id name } } }" '
@@ -55,9 +55,9 @@ query GetDogsAndOwners {
 This will return all dogs and owners in the database. And is equivalent to executing two REST queries:
 
 ```
-GET /Dog/&select(id,name,breed)
+GET /Dog/?select(id,name,breed)
 # and
-GET /Owner/&select(id,name,occupation)
+GET /Owner/?select(id,name,occupation)
 ```
 
 ### Request Parameters
@@ -150,7 +150,7 @@ fragment sharedFields on Any {
 
 Any Resource attribute can be used as an argument for a query. In this short form, multiple arguments is treated as multiple equivalency conditions with the default `and` operation.
 
-For example the following query requires an `id` variable to be provided, and the system will strictly search for a `Dog` record matching that id.
+For example, the following query requires an `id` variable to be provided, and the system will search for a `Dog` record matching that id.
 
 ```graphql
 query GetDog($id: ID!) {
@@ -164,19 +164,36 @@ query GetDog($id: ID!) {
 }
 ```
 
+And as a properly formed request:
+```js
+fetch("http://localhost:9926/graphql", {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		"query": "query GetDog($id: ID!) { Dog(id: $id) { name breed owner {name}}}",
+		"variables": {
+			"id": "0"
+		},
+	}),
+});
+```
+
 The REST equivalent would be:
 ```
-GET /Dog/id==0&select(name,breed,owner{name})
+GET /Dog/?id==0&select(name,breed,owner{name})
 # or
-GET /Dog/0&select(name,breed,owner{name})
+GET /Dog/0?select(name,breed,owner{name})
 ```
 
+Short form queries can handle nested attributes as well.
 
-Furthermore, if there were multiple variables, arguments as well as searching by a nested attribute
+For example, return all dogs who have an owner with the name `"John"`
 
 ```graphql
-query GetDog($name: String!, $ownerName: String!) {
-	Dog(name: $name, owner: { name: $ownerName }) {
+query GetDog {
+	Dog(owner: { name: "John" }) {
 		name
 		breed
 		owner {
@@ -188,7 +205,23 @@ query GetDog($name: String!, $ownerName: String!) {
 
 Would be equivalent to
 ```
-GET /Dog/name==Fido&owner.name==John&select(name,breed,owner{name})
+GET /Dog/?owner.name==John&select(name,breed,owner{name})
+```
+
+And finally, we can put all of these together to create semi-complex equality based queries!
+
+The following query has two variables and will return all dogs who have the specified name as well as the specified owner name.
+
+```graphql
+query GetDog($dogName: String!, $ownerName: String! ) {
+	Dog(name: $dogName, owner: { name: $ownerName }) {
+		name
+		breed
+		owner {
+			name
+		}
+	}
+}
 ```
 
 ### Long Form Querying
