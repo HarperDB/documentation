@@ -437,7 +437,7 @@ _Operation is restricted to super_user roles only_
 
 ---
 
-## Gey Key
+## Get Key
 
 Retrieve a key by its name. This includes the JWT `.jwtPrivate` and `.jwtPublic` keys.
 
