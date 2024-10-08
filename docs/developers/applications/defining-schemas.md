@@ -77,7 +77,7 @@ Again, the foreign key may be a multi-valued array (array of keys referencing th
 type Product @table @export {
 	id: ID @primaryKey
 	featureIds: [ID] @indexed # array of ids
-	features: [Feature] @relationship(from: brandId) # array of referenced feature records
+	features: [Feature] @relationship(from: featureIds) # array of referenced feature records
 }
 type Feature @table {
 	id: ID @primaryKey
