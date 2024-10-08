@@ -99,7 +99,7 @@ If any databases are excluded from the clone, replication will not be set up on 
 
 ### JWT Keys
 
-The leader's JWT private and public keys will be cloned by default. To disable this, include `CLONE_KEYS=false` in your clone variables.
+If cloning with replication, the leader's JWT private and public keys will be cloned. To disable this, include `CLONE_KEYS=false` in your clone variables.
 
 ### Cloning overtop of an existing HarperDB instance
 
