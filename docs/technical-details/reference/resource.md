@@ -619,6 +619,18 @@ for (let key in plainObject) {
 }
 ```
 
+## Response Object
+The resource methods can return an object that will be serialized and returned as the response to the client. However, these methods can also return a `Response` style object with `status`, `headers`, and optionally `body` or `data` properties. This allows you to have more control over the response, including setting custom headers and status codes. For example, you could return a redirect response like:
+
+```javascript
+return { status: 302, headers: { Location: '/new-location' } };
+```
+If you include a `body` property, this must be a string or buffer that will be returned as the response body. If you include a `data` property, this must be an object that will be serialized as the response body (using the standard content negotiation). For example, we could return an object with a custom header:
+    
+```javascript
+return { status: 200, headers: { 'X-Custom-Header': 'custom value' }, data: { message: 'Hello, World!' } };
+```
+
 ### Throwing Errors
 
 You may throw errors (and leave them uncaught) from the response methods and these should be caught and handled by protocol the handler. For REST requests/responses, this will result in an error response. By default the status code will be 500. You can assign a property of `statusCode` to errors to indicate the HTTP status code that should be returned. For example:
