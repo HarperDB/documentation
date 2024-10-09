@@ -1,8 +1,6 @@
-# GraphQL
+# GraphQL Querying
 
 HarperDB supports GraphQL in a variety of ways. It can be used for [defining schemas](../../developers/applications/defining-schemas.md), and for querying [Resources](./resource.md).
-
-## Querying
 
 Get started by setting `graphql: true` in `config.yaml`.
 
@@ -90,7 +88,7 @@ The only notable place the querying system will do some level of type analysis i
 - Objects will be transformed into properly nested attributes
 - Strings and Boolean values are passed through as their AST values
 - Float and Int values will be parsed using the JavaScript `parseFloat` and `parseInt` methods respectively.
-- Enums are not supported.
+- List and Enums are not supported.
 
 ### Fragments
 
@@ -104,11 +102,7 @@ query Get {
 		...DogFields
 	}
 }
-```
 
-The fragment can be defined as
-
-```graphql
 fragment DogFields on Dog {
 	name
 	breed
@@ -208,7 +202,7 @@ Would be equivalent to
 GET /Dog/?owner.name==John&select(name,breed,owner{name})
 ```
 
-And finally, we can put all of these together to create semi-complex equality based queries!
+And finally, we can put all of these together to create semi-complex, equality based queries!
 
 The following query has two variables and will return all dogs who have the specified name as well as the specified owner name.
 
