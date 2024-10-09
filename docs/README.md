@@ -3,7 +3,7 @@
 
 
 {% hint style="warning" %}
-HarperDB 4.4 is currently in Alpha and should not be used in production. For production-ready deployments, refer to [https://docs.harperdb.io/docs](https://docs.harperdb.io/docs) to learn more about version 4.3.
+HarperDB 4.4 is currently in beta and should not be used in production. For production-ready deployments, refer to [https://docs.harperdb.io/docs](https://docs.harperdb.io/docs) to learn more about version 4.3.
 {% endhint %}
 
 \
