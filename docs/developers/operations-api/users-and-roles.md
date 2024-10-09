@@ -111,7 +111,7 @@ _Operation is restricted to super_user roles only_
 ### Response: 200
 ```json
 {
-    "role": "develope3r",
+    "role": "developer",
     "permission": {
         "super_user": false,
         "structure_user": false,
