@@ -78,4 +78,18 @@ MyTable.setResidencyById((id) => {
 });
 ```
 
-### Replication from Start Time
+### Disabling Cross-Node Access
+Normally sharding allows data to be stored in specific nodes, but still allows access to the data from any node. However, you can also disable cross-node access so that data is only returned if is stored on the node where it is accessed. To do this, you can set the `replicateFrom` property on the context of operation to `false`: 
+```json
+{
+  "operation": "search_by_id",
+  "table": "MyTable",
+  "ids": [3],
+  "replicateFrom": false
+}
+```
+Or use a header with the REST API:
+```http
+GET /MyTable/3
+X-Replicate-From: none
+```
