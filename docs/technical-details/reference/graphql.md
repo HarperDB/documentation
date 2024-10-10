@@ -19,16 +19,27 @@ query GetDogs {
 	}
 }
 ```
+
 The `GET` request would look like:
-```sh
-curl 'http://localhost:9926/graphql?query=query+GetDogs+%7B+Dog+%7B+id+name+%7D+%7D'
+
+```http
+GET /graphql?query=query+GetDogs+%7B+Dog+%7B+id+name+%7D+%7D+%7D
+Accept: application/graphql-response+json
 ```
+
 And the `POST` request would look like:
-```sh
-curl 'http://localhost:9926/graphql' \
-	-H 'Content-Type: application/json' \
-	-d '{ "query": "query GetDogs { Dog { id name } } }" '
+
+```http
+POST /graphql/
+Content-Type: application/json
+Accept: application/graphql-response+json
+
+{
+	"query": "query GetDogs { Dog { id name } } }"
+}
 ```
+
+> Tip: For the best user experience, include the `Accept: application/graphql-response+json` header in your request. This provides better status codes for errors.
 
 The HarperDB GraphQL querying system is strictly limited to HarperDB Resources. Queries can only specify HarperDB Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. HarperDB provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource.md#query) for more complex queries.
 
@@ -52,7 +63,7 @@ query GetDogsAndOwners {
 
 This will return all dogs and owners in the database. And is equivalent to executing two REST queries:
 
-```
+```http
 GET /Dog/?select(id,name,breed)
 # and
 GET /Owner/?select(id,name,occupation)
@@ -159,23 +170,21 @@ query GetDog($id: ID!) {
 ```
 
 And as a properly formed request:
-```js
-fetch("http://localhost:9926/graphql", {
-	method: "POST",
-	headers: {
-		"Content-Type": "application/json"
-	},
-	body: JSON.stringify({
-		"query": "query GetDog($id: ID!) { Dog(id: $id) { name breed owner {name}}}",
-		"variables": {
-			"id": "0"
-		},
-	}),
-});
+```http
+POST /graphql/
+Content-Type: application/json
+Accept: application/graphql-response+json
+
+{
+	"query": "query GetDog($id: ID!) { Dog(id: $id) { name breed owner {name}}",
+	"variables: {
+		"id": "0"
+	}
+}
 ```
 
 The REST equivalent would be:
-```
+```http
 GET /Dog/?id==0&select(name,breed,owner{name})
 # or
 GET /Dog/0?select(name,breed,owner{name})
@@ -198,7 +207,7 @@ query GetDog {
 ```
 
 Would be equivalent to
-```
+```http
 GET /Dog/?owner.name==John&select(name,breed,owner{name})
 ```
 
