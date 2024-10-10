@@ -177,7 +177,7 @@ Accept: application/graphql-response+json
 
 {
 	"query": "query GetDog($id: ID!) { Dog(id: $id) { name breed owner {name}}",
-	"variables: {
+	"variables": {
 		"id": "0"
 	}
 }
