@@ -41,7 +41,7 @@ Accept: application/graphql-response+json
 
 > Tip: For the best user experience, include the `Accept: application/graphql-response+json` header in your request. This provides better status codes for errors.
 
-The HarperDB GraphQL querying system is strictly limited to HarperDB Resources. Queries can only specify HarperDB Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. HarperDB provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource.md#query) for more complex queries.
+The HarperDB GraphQL querying system is strictly limited to exported HarperDB Resources. For many users, this will typically be a table that uses the `@exported` directive in its schema. Queries can only specify HarperDB Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. HarperDB provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource.md#query) for more complex queries.
 
 Unlike REST queries, GraphQL queries can specify multiple resources simultaneously:
 
@@ -153,7 +153,7 @@ fragment sharedFields on Any {
 
 ### Short Form Querying
 
-Any Resource attribute can be used as an argument for a query. In this short form, multiple arguments is treated as multiple equivalency conditions with the default `and` operation.
+Any attribute can be used as an argument for a query. In this short form, multiple arguments is treated as multiple equivalency conditions with the default `and` operation.
 
 For example, the following query requires an `id` variable to be provided, and the system will search for a `Dog` record matching that id.
 
