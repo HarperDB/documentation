@@ -1,7 +1,7 @@
 # Clone Node
 
 Clone node is a configurable node script that when pointed to another instance of HarperDB will create a clone of that 
-instance's config, databases and setup replication. If it is run in a location where there is no existing HarperDB install, 
+instance's config, databases and setup full replication. If it is run in a location where there is no existing HarperDB install, 
 it will, along with cloning, install HarperDB. If it is run in a location where there is another HarperDB instance, it will
 only clone config, databases and replication that do not already exist. 
 
@@ -80,16 +80,7 @@ it will only clone the component reference that exists in the leader harperdb-co
 
 Clone node will not clone any configuration that is classed as unique to the leader node. This includes `replication.hostname`, `replication.url`,`clustering.nodeName`, 
 `rootPath` and any other path related values, for example `storage.path`, `logging.root`, `componentsRoot`, 
-any authentication certificate/key paths. 
-
-**Clustering Routes**
-
-By default, the clone will send a set routes request to the leader node. The default `host` used in this request will be the
-host name of the clone operating system.
-
-To manually set a host use the variable `HDB_CLONE_CLUSTERING_HOST`.
-
-To disable the setting of the route set `HDB_SET_CLUSTERING_HOST` to `false`. 
+any authentication certificate/key paths.
 
 ### Cloning system database
 
@@ -100,20 +91,15 @@ that are added will be replicated throughout the cluster.
 Cloning the user and role tables means that once clone node is complete, the clone will share the same login credentials with 
 the leader.
 
-### Fully connected clone
-
-A fully connected topology is when all nodes are replicating (publish and subscribing) with all other nodes. 
-A fully connected clone maintains this topology with addition of the new node. When a clone is created, 
-replication is added between the leader and the clone and any nodes the leader is replicating with. For example, 
-if the leader is replicating with node-a and node-b, the clone will replicate with the leader, node-a and node-b.
-
-To run clone node with the fully connected option simply pass the environment variable `HDB_FULLY_CONNECTED=true` or CLI variable `--HDB_FULLY_CONNECTED true`.
-
 ### Replication
 
 If clone is run with the `REPLICATION_HOSTNAME` variable set, a fully replicating clone will be created.
 
 If any databases are excluded from the clone, replication will not be set up on these databases.
+
+### JWT Keys
+
+If cloning with replication, the leader's JWT private and public keys will be cloned. To disable this, include `CLONE_KEYS=false` in your clone variables.
 
 ### Cloning overtop of an existing HarperDB instance
 
