@@ -157,8 +157,6 @@ type Product @table {
 }
 ```
 
-#### e itself.
-
 ### Field Directives
 
 The field directives can be used for information about each attribute in table type definition.
