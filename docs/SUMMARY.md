@@ -111,6 +111,7 @@
   * [Content Types](technical-details/reference/content-types.md)
   * [Data Types](technical-details/reference/data-types.md)
   * [Dynamic Schema](technical-details/reference/dynamic-schema.md)
+  * [GraphQL](technical-details/reference/graphql.md)
   * [HarperDB Headers](technical-details/reference/headers.md)
   * [HarperDB Limits](technical-details/reference/limits.md)
   * [Globals](technical-details/reference/globals.md)
