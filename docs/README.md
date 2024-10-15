@@ -5,6 +5,12 @@ HarperDB is a globally-distributed edge application platform. It reduces complex
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
+
+
+{% hint style="info" %}
+Wondering what's new with HarperDB 4.4? Take a look at our latest [Release Notes.](https://app.gitbook.com/s/0pMRJ31tjbV0AQDSNqbC/technical-details/release-notes/4.tucker/4.4.0)
+{% endhint %}
+
 ## Getting Started
 
 <table data-column-title-hidden data-view="cards"><thead><tr><th></th><th></th><th data-hidden></th><th data-hidden data-card-target data-type="content-ref"></th></tr></thead><tbody><tr><td><a href="getting-started.md"><strong>Getting Started Guide</strong></a></td><td>Get up and running with HarperDB</td><td></td><td><a href="getting-started.md">getting-started.md</a></td></tr><tr><td><a href="deployments/install-harperdb/"><strong>Quick Install HarperDB</strong></a></td><td>Run HarperDB on your on hardware</td><td></td><td><a href="deployments/install-harperdb/">install-harperdb</a></td></tr><tr><td><a href="deployments/harperdb-cloud/"><strong>Try HarperDB Cloud</strong></a></td><td>Spin up an instance in minutes to going fast</td><td></td><td><a href="deployments/harperdb-cloud/">harperdb-cloud</a></td></tr></tbody></table>
