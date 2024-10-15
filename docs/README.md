@@ -1,12 +1,5 @@
 # HarperDB Docs
 
-
-
-{% hint style="warning" %}
-HarperDB 4.4 is currently in beta and should not be used in production. For production-ready deployments, refer to [https://docs.harperdb.io/docs](https://docs.harperdb.io/docs) to learn more about version 4.3.
-{% endhint %}
-
-\
 \
 HarperDB is a globally-distributed edge application platform. It reduces complexity, increases performance, and lowers costs by combining user-defined applications, a high-performance database, and an enterprise-grade streaming broker into a single package. The platform offers unlimited horizontal scale at the click of a button, and syncs data across the cluster in milliseconds. HarperDB simplifies the process of delivering applications and the data that drives them to the edge, which dramatically improves both the user experience and total cost of ownership for large-scale applications. Deploying HarperDB on global infrastructure enables a CDN-like solution for enterprise data and applications.
 
