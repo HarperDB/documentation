@@ -8,7 +8,7 @@ HarperDB's documentation covers installation, getting started, administrative op
 
 
 {% hint style="info" %}
-Wondering what's new with HarperDB 4.4? Take a look at our latest [Release Notes.](https://app.gitbook.com/s/0pMRJ31tjbV0AQDSNqbC/technical-details/release-notes/4.tucker/4.4.0)
+Wondering what's new with HarperDB 4.4? Take a look at our latest [Release Notes](https://docs.harperdb.io/docs/technical-details/release-notes/4.tucker/4.4.0)
 {% endhint %}
 
 ## Getting Started
