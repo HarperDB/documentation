@@ -157,6 +157,8 @@ type Product @table {
 }
 ```
 
+For more in-depth information on computed properties, visit our blog [here](https://www.harperdb.io/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
+
 ### Field Directives
 
 The field directives can be used for information about each attribute in table type definition.
