@@ -288,6 +288,10 @@ This method may also be used to retrieve a collection of records by a query. If 
 
 This will save the provided record or data to this resource. This will fully replace the existing record. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
+### `create(record: object, context?: Resource|Context): Promise<void>`
+
+This will save the provided record, generating a new id for the record. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
+
 ### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
 ### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
 
