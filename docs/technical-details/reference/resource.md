@@ -7,12 +7,13 @@ The Resource class is designed to provide a unified API for modeling different d
 Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
 Resource classes also have static methods, which are generally the preferred way to externally interact with tables and resources. The static methods handle parsing paths and query strings, starting a transaction as necessary, performing access authorization checks (if required), creating a resource instance, and calling the instance methods. This general rule for how to interact with resources:
-* If you want to *act upon* a table or resource, querying or writing to it, then use the static methods. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
+* If you want to *act upon* a table or resource, querying or writing to it, then use the static methods to initial access or write data. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
+  * You can subsequently use the instance methods on the returned resource instance to perform additional actions on the record.
 * If you want to *define custom behavior* for a table or resource (to control how a resource responds to queries/writes), then extend the class and override/define instance methods. 
 
 The Resource API is heavily influenced by the REST/HTTP API, and the methods and properties of the Resource class are designed to map to and be used in a similar way to how you would interact with a RESTful API.
 
-The REST-based API might feel a little different from traditional Create-Read-Update-Delete (CRUD) APIs. Legacy CRUD APIs were typically designed with single-server interactions in mind, but semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database, and centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
+The REST-based API is a little different than traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind, but semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
 * Read - `get`
 * Create with a known primary key - `put`
 * Create with a generated primary key - `post`/`create`
@@ -20,7 +21,7 @@ The REST-based API might feel a little different from traditional Create-Read-Up
 * Update (Partial) - `patch`
 * Delete - `delete`
 
-The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, they will be executed in a transaction and the access checks will be performed before the method is executed.  Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`, and this represents the collection of all the records in the resource or table.
+The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`, and this represents the collection of all the records in the resource or table.
 
 You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 
@@ -69,7 +70,7 @@ export class MyTable extends tables.MyTable {
 	}
 }
 ```
-Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in your schema, so that you aren't exporting the same table/class twice.
+Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in your schema, so that you aren't exporting the same table/class name twice.
 
 ## Global Variables
 
@@ -184,16 +185,15 @@ This is called for HTTP POST requests. You can define this method to provide you
 
 This method is available on tables. This will invalidate the current record in the table. This can be used with a caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
 
-### `subscribe(subscriptionRequest): Promise<Subscription>`
+### `subscribe(subscriptionRequest: SubscriptionRequest): Promise<Subscription>`
 
 This will subscribe to the current resource, and is called for MQTT subscribe commands. You can define or override this method to define how subscriptions should be handled. The default `subscribe` method on tables (`super.publish(message)`) will set up a listener that will be called for any changes or published messages to this resource.
 
 The returned (promise resolves to) Subscription object is an `AsyncIterable` that you can use a `for await` to iterate through. It also has a `queue` property which holds (an array of) any messages that are ready to be delivered immediately (if you have specified a start time, previous count, or there is a message for the current or "retained" record, these may be immediately returned).
 
-The `subscriptionRequest` object supports the following properties (all optional):
+The `SubscriptionRequest` object supports the following properties (all optional):
 
-* `id` - The primary key of the record (or topic) that you want to subscribe to. If omitted, this will be a subscription to the whole table.
-* `isCollection` - If this is enabled and the `id` was included, this will create a subscription to all the record updates/messages that are prefixed with the id. For example, a subscription request of `{id:'sub', isCollection: true}` would return events for any update with an id/topic of the form sub/\* (like `sub/1`).
+* `includeDescendants` - If this is enabled, this will create a subscription to all the record updates/messages that are prefixed with the id. For example, a subscription request of `{id:'sub', includeDescendants: true}` would return events for any update with an id/topic of the form sub/\* (like `sub/1`).
 * `startTime` - This will begin the subscription at a past point in time, returning all updates/messages since the start time (a catch-up of historical messages). This can be used to resume a subscription, getting all messages since the last subscription.
 * `previousCount` - This specifies the number of previous updates/messages to deliver. For example, `previousCount: 10` would return the last ten messages. Note that `previousCount` can not be used in conjunction with `startTime`.
 * `omitCurrent` - Indicates that the current (or retained) record should _not_ be immediately sent as the first update in the subscription (if no `startTime` or `previousCount` was used). By default, the current record is sent as the first update.
@@ -297,6 +297,7 @@ Type definition for `Id`:
 Id = string|number|array<string|number>
 ```
 ### `get(query: Query, context?: Resource|Context)`
+
 This can be used to retrieve a resource instance by a query. The query can be used to specify a single/unique record by an `id` property, and can be combined with a `select`:
 ```javascript
 MyTable.get({ id: 34, select: ['name', 'age'] });
@@ -304,9 +305,11 @@ MyTable.get({ id: 34, select: ['name', 'age'] });
 This method may also be used to retrieve a collection of records by a query. If the query is not for a specific record id, this will call the `search` method, described above.
 
 ### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
+
 This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same `id` (primary key).
 
 ### `put(record: object, context?: Resource|Context): Promise<void>`
+
 This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same primary key provided in the record. If your table doesn't have a primary key attribute, you will need to use the method with the `id` argument.
 Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
@@ -378,7 +381,7 @@ This returns a boolean indicating if the provide resource instance represents a 
 
 Whenever you implement an action that is calling other resources, it is recommended that you provide the "context" for the action. This allows a secondary resource to be accessed through the same transaction, preserving atomicity and isolation.
 
-This also allows timestamps that are accessed during resolution to be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user.
+This also allows timestamps that are accessed during resolution to be used to determine the overall last updated timestamp, which informs the header timestamps (which facilitates accurate client-side caching). The context also maintains user, session, and request metadata information that is communicated so that contextual request information (like headers) can be accessed and any writes are properly attributed to the correct user, or any additional security checks to be applied to the user.
 
 When using an export resource class, the REST interface will automatically create a context for you with a transaction and request metadata, and you can pass this to other actions by simply including `this` as the source argument (second argument) to the static methods.
 
