@@ -163,6 +163,7 @@ Exports data based on a given search operation from table to AWS S3 in JSON or C
 ---
 
 ## Install Node Modules
+This operation is deprecated, as it is handled automatically by deploy_component and restart.
 Executes npm install against specified custom function projects.
 
 _Operation is restricted to super_user roles only_

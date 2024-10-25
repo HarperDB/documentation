@@ -21,7 +21,7 @@ The operations API reference is available below and categorized by topic:
 * [Bulk Operations](bulk-operations.md)
 * [Users and Roles](users-and-roles.md)
 * [Clustering](clustering.md)
-* [Clustering with Nats](clustering-nats.md)
+* [Clustering with NATS](clustering-nats.md)
 * [Components](components.md)
 * [Registration](registration.md)
 * [Jobs](jobs.md)

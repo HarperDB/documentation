@@ -2,7 +2,7 @@
 
 The following operations are available for configuring and managing [HarperDB replication](../replication/README.md).<br>
 
-___If you are using Nats for clustering, please see the [Nats Clustering Operations](clustering-nats.md) documentation.___
+___If you are using NATS for clustering, please see the [NATS Clustering Operations](clustering-nats.md) documentation.___
 
 ## Add Node
 Adds a new HarperDB instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. 

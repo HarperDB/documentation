@@ -225,9 +225,9 @@ The port to use for replication connections.
 
 The port to use for secure replication connections.
 
-`disableRootCAs` - _Type_: boolean; _Default_: false
+`enableRootCAs` - _Type_: boolean; _Default_: true
 
-When true, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+When false, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
 
 ***
 
@@ -535,6 +535,15 @@ logging:
 
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.
 
+`console` - _Type_: boolean; _Default_: true
+
+Controls whether console.log and other console.* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.  
+
+```yaml
+logging:
+  console: true
+```
+
 `root` - _Type_: string; _Default_: \<ROOTPATH>/log
 
 The path where the log files will be written.
@@ -747,9 +756,9 @@ storage:
   caching: true
 ```
 
-`compression` - _Type_: boolean; _Default_: false
+`compression` - _Type_: boolean; _Default_: true
 
-The `compression` option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
+The `compression` option enables compression of records in the database. This can be helpful for very large records in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
 
 ```yaml
 storage:
@@ -794,9 +803,9 @@ storage:
   maxTransactionQueueTime: 2m
 ```
 
-`noReadAhead` - _Type_: boolean; _Default_: true
+`noReadAhead` - _Type_: boolean; _Default_: false
 
-The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization, except in situations where large records are used or frequent range queries are used.
+The `noReadAhead` option advises the operating system to not read ahead when reading from the database. This provides better memory utilization for databases with small records (less than one page), but can degrade performance in situations where large records are used or frequent range queries are used.
 
 ```yaml
 storage:

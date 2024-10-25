@@ -131,6 +131,14 @@ You can also search for attributes that start with a specific string, by using t
 GET /Product/?name==Keyboard*
 ```
 
+#### Chained Conditions
+You can also specify that a range condition must be met for a single attribute value by chaining conditions. This is done by omitting the name in the name-value pair. For example, to find products with a price between 100 and 200, you could write:
+
+```http
+GET /Product/?price=gt=100&lt=200
+```
+Chaining can be used to combined `gt` or `ge` with `lt` or `le` to specify a range of values. Currently, no other types of chaining are supported.
+
 Note that some HTTP clients may be overly aggressive in encoding query parameters, and you may need to disable extra encoding of query parameters, to ensure operators are passed through without manipulation.
 
 Here is a full list of the supported FIQL-style operators/comparators:

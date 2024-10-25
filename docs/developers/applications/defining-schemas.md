@@ -54,11 +54,13 @@ type MyTable @table @export(name: "my-table")
 This table would be available at the URL path `/my-table/`. Without the `name` parameter, the exported name defaults to the name of the table type ("MyTable" in this example).
 
 ### Relationships: `@relationship`
+
 Defining relationships is the foundation of using "join" queries in HarperDB. A relationship defines how one table relates to another table using a foreign key. Using the `@relationship` directive will define a property as a computed property, which resolves to the an record/instance from a target type, based on the referenced attribute, which can be in this table or the target table. The `@relationship` directive must be used in combination with an attribute with a type that references another table.
 
 #### `@relationship(from: attribute)`
-This defines a relationship where the foreign key is defined in this table, and relates to the primary key of the target table. If the foreign key is single-valued, this establishes a many-to-one relationship with the target table. The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship.
-For example, we can define a foreign key that references another table and then define the relationship. Here we create a `brandId` attribute that will be our foreign key (it will hold an id that references the primary key of the Brand table), and we define a relationship to the `Brand` table through the `brand` attribute:
+
+This defines a relationship where the foreign key is defined in this table, and relates to the primary key of the target table. If the foreign key is single-valued, this establishes a many-to-one relationship with the target table. The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship. For example, we can define a foreign key that references another table and then define the relationship. Here we create a `brandId` attribute that will be our foreign key (it will hold an id that references the primary key of the Brand table), and we define a relationship to the `Brand` table through the `brand` attribute:
+
 ```graphql
 type Product @table @export {
 	id: ID @primaryKey
@@ -69,6 +71,7 @@ type Brand @table @export {
 	id: ID @primaryKey
 }
 ```
+
 Once this is defined we can use the `brand` attribute as a [property in our product instances](../../technical-details/reference/resource.md) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest.md).
 
 Again, the foreign key may be a multi-valued array (array of keys referencing the target table records). For example, if we had a list of features that references a Feature table:
@@ -77,7 +80,7 @@ Again, the foreign key may be a multi-valued array (array of keys referencing th
 type Product @table @export {
 	id: ID @primaryKey
 	featureIds: [ID] @indexed # array of ids
-	features: [Feature] @relationship(from: brandId) # array of referenced feature records
+	features: [Feature] @relationship(from: featureIds) # array of referenced feature records
 }
 type Feature @table {
 	id: ID @primaryKey
@@ -86,8 +89,9 @@ type Feature @table {
 ```
 
 #### `@relationship(to: attribute)`
-This defines a relationship where the foreign key is defined in the target table and relates to primary key of this table. If the foreign key is single-valued, this establishes a one-to-many relationship with the target table. Note that the target table type must be an array element type (like `[Table]`). The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship.
-For example, we can define on a reciprocal relationship, from the example above, adding a relationship from brand back to product. Here we use continue to use the `brandId` attribute from the `Product` schema, and we define a relationship to the `Product` table through the `products` attribute:
+
+This defines a relationship where the foreign key is defined in the target table and relates to primary key of this table. If the foreign key is single-valued, this establishes a one-to-many relationship with the target table. Note that the target table type must be an array element type (like `[Table]`). The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship. For example, we can define on a reciprocal relationship, from the example above, adding a relationship from brand back to product. Here we use continue to use the `brandId` attribute from the `Product` schema, and we define a relationship to the `Product` table through the `products` attribute:
+
 ```graphql
 type Brand @table @export {
 	id: ID @primaryKey
@@ -95,11 +99,12 @@ type Brand @table @export {
 	products: [Product] @relationship(to: brandId)
 }
 ```
+
 Once this is defined we can use the `products` attribute as a property in our brand instances and allow for querying by `products` and selecting product attributes as returned properties in query results.
 
-Note that schemas can also reference themselves with relationships, allow records to define relationships like parent-child relationships between records in the same table.
+Note that schemas can also reference themselves with relationships, allowing records to define relationships like parent-child relationships between records in the same table. Also note, that for a many-to-many relationship, you must not combine the `to` and `from` property in the same relationship directive.
 
-#### `@computed`
+### Computed Properties: `@computed`
 
 The `@computed` directive specifies that a field is computed based on other fields in the record. This is useful for creating derived fields that are not stored in the database, but are computed when specific record fields is queried/accessed. The `@computed` directive must be used in combination with a field that is a function that computes the value of the field. For example:
 
@@ -111,6 +116,7 @@ type Product @table {
 	totalPrice: Float @computed(from: "price + (price * taxRate)")
 }
 ```
+
 The `from` argument specifies the expression that computes the value of the field. The expression can reference other fields in the record. The expression is evaluated when the record is queried or indexed.
 
 The `computed` directive may also be defined in a JavaScript module, which is useful for more complex computations. You can specify a computed attribute, and then define the function with the `setComputedAttribute` method. For example:
@@ -127,6 +133,7 @@ tables.Product.setComputedAttribute('totalPrice', (record) => {
   return record.price + (record.price * record.taxRate);
 });
 ```
+
 Computed properties may also be indexed, which provides a powerful mechanism for creating indexes on derived fields with custom querying capabilities. This can provide a mechanism for composite indexes, custom full-text indexing, vector indexing, or other custom indexing strategies. A computed property can be indexed by adding the `@indexed` directive to the computed property. When using a JavaScript module for a computed property that is indexed, it is highly recommended that you specify a `version` argument to ensure that the computed attribute is re-evaluated when the function is updated. For example:
 
 ```graphql
@@ -135,13 +142,22 @@ type Product @table {
 	totalPrice: Float @computed(version: 1) @indexed
 }
 ```
-If you were to update the `setComputedAttribute` function for the `totalPrice` attribute, to use a new formula, you must increment the `version` argument to ensure that the computed attribute is re-indexed (note that on a large database, re-indexing may be a lengthy operation). Failing to increment the `version` argument with a modified function can result in an inconsistent index. The computed function must be deterministic, and should not have side effects, as it may be re-evaluated multiple times during indexing. 
+
+If you were to update the `setComputedAttribute` function for the `totalPrice` attribute, to use a new formula, you must increment the `version` argument to ensure that the computed attribute is re-indexed (note that on a large database, re-indexing may be a lengthy operation). Failing to increment the `version` argument with a modified function can result in an inconsistent index. The computed function must be deterministic, and should not have side effects, as it may be re-evaluated multiple times during indexing.
 
 Note that computed properties will not be included by default in a query result, you must explicitly include them in query results using the `select` query function.
 
-#### `@sealed`
+Another example of using a computed custom index, is that we could index all the comma-separated words in a `tags` property by doing (similar techniques are used for full-text indexing):
 
-The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	tags: String # comma delimited set of tags
+	tagsSeparated: String[] @computed(from: "tags.split(/\\s*,\\s*/)") @indexed # split and index the tags
+}
+```
+
+For more in-depth information on computed properties, visit our blog [here](https://www.harperdb.io/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
 
 ### Field Directives
 
@@ -163,6 +179,10 @@ The `@createdTime` directive indicates that this property should be assigned a t
 
 The `@updatedTime` directive indicates that this property should be assigned a timestamp of each updated time of the record (in epoch milliseconds).
 
+#### `@sealed`
+
+The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself
+
 ### Defined vs Dynamic Schemas
 
 If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
@@ -180,6 +200,7 @@ HarperDB supports the following field types in addition to user defined (object)
 * `ID`: A string (but indicates it is not intended to be human readable).
 * `Any`: Any primitive, object, or array is allowed.
 * `Date`: A Date object.
+* `Bytes`: Binary data (as a Buffer or Uint8Array).
 
 #### Renaming Tables
 
@@ -187,9 +208,7 @@ It is important to note that HarperDB does not currently support renaming tables
 
 ### OpenAPI Specification
 
-_The [OpenAPI Specification](https://spec.openapis.org/oas/v3.1.0)  defines a standard, programming language-agnostic interface description for HTTP APIs, 
-which allows both humans and computers to discover and understand the capabilities of a service without requiring 
-access to source code, additional documentation, or inspection of network traffic._
+_The_ [_OpenAPI Specification_](https://spec.openapis.org/oas/v3.1.0) _defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic._
 
 If a set of endpoints are configured through a HarperDB GraphQL schema, those endpoints can be described by using a default REST endpoint called `GET /openapi`.
 

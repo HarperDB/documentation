@@ -220,6 +220,8 @@ http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest.md) and see the [Schema reference](defining-schemas.md) for more options for defining schemas.
 
+> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../../technical-details/reference/graphql.md).
+
 ## Deploying your Application
 
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
