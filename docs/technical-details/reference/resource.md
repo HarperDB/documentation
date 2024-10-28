@@ -621,7 +621,7 @@ product1.delete('additionalInformation');
 product1.update();
 ```
 
-You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple object with all the properties (whether defined in the schema) as direct normal properties:
+You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple frozen object with all the properties (whether defined in the schema) as direct normal properties (note that this object can *not* be modified, it is frozen since it is belongs to a cache):
 
 ```javascript
 let product1 = await Product.get(1);
