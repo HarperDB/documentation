@@ -92,7 +92,7 @@ If your certificate is signed by a trusted public authority, just provide the pa
 Example configuration:
 
 ```yaml
-replication:
+tls:
   certificate: /path/to/certificate.pem
   certificateAuthority: /path/to/ca.pem
   privateKey: /path/to/privateKey.pem
