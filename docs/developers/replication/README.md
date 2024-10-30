@@ -100,6 +100,15 @@ tls:
 
 With this in place, HarperDB will load the provided certificates into the certificate table and use these to secure and authenticate connections between nodes.
 
+You have the option to skip providing a specific certificate authority (CA) and instead verify your certificate against the root certificates included in the bundled Mozilla CA store. This bundled CA store, provided by Node.js, is a snapshot of Mozilla's CA certificates that is fixed at the time of each Node.js release.
+
+To enable the root certificates set `replication.enableRootCAs` to `true` in the `harperdb-config.yaml` file:
+
+```yaml
+replication:
+  enableRootCAs: true
+```
+
 #### Cross-generated certificates
 
 HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](../operations-api/clustering.md) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. \
