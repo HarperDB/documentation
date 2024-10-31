@@ -187,6 +187,7 @@ _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - this should always be `drop_database`
 * database _(required)_ - name of the database you are dropping
+* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
@@ -248,6 +249,7 @@ _Operation is restricted to super_user roles only_
 * operation _(required)_ - this should always be `drop_table`
 * database _(optional)_ - database where the table you are dropping lives. The default is `data`
 * table _(required)_ - name of the table you are dropping
+* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
