@@ -8,6 +8,7 @@
 * [Applications](developers/applications/README.md)
   * [Caching](developers/applications/caching.md)
   * [Defining Schemas](developers/applications/defining-schemas.md)
+  * [Defining Roles](developers/applications/defining-roles.md)
   * [Debugging Applications](developers/applications/debugging.md)
   * [Define Fastify Routes](developers/applications/define-routes.md)
   * [Example Projects](developers/applications/example-projects.md)
