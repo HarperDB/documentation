@@ -24,3 +24,24 @@ declared-role:
           insert: false
           update: true
 ```
+
+With this in place, where HarperDB starts up, it will create the roles in the roles.yaml file if they do not already exist. If they do exist, it will update the roles with the new permissions. This allows you to manage your roles in your application code and have them automatically created or updated when the application starts.
+
+The structure of the roles.yaml file is:
+```yaml
+<role-name>:
+  permission: # contains the permissions for the role, this structure is optional, and you can place flags like super_user here as a shortcut
+    super_user: <boolean>
+  <database-name>: # each database with permissions can be added as named properties on the role
+  tables: # this structure is optional, and table names can be placed directly under the database as a shortcut 
+    <table-name>:
+      read: <boolean> # indicates if the role has read permission to this table
+      insert: <boolean> # indicates if the role has insert permission to this table
+      update: <boolean> # indicates if the role has update permission to this table
+      delete: <boolean> # indicates if the role has delete permission to this table
+      attributes:
+        <attribute-name>: # individual attributes can have permissions as well
+          read: <boolean>
+          insert: <boolean>
+          update: <boolean>
+```
