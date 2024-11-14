@@ -14,6 +14,10 @@
 
 [4.4.0 Tucker](4.tucker/4.4.0.md)
 
+[4.3.35 Tucker](4.tucker/4.3.35.md)
+
+[4.3.34 Tucker](4.tucker/4.3.34.md)
+
 [4.3.33 Tucker](4.tucker/4.3.33.md)
 
 [4.3.32 Tucker](4.tucker/4.3.32.md)

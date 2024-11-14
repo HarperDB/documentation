@@ -126,6 +126,8 @@
     * [4.4.2](technical-details/release-notes/4.tucker/4.4.2.md)
     * [4.4.1](technical-details/release-notes/4.tucker/4.4.1.md)
     * [4.4.0](technical-details/release-notes/4.tucker/4.4.0.md)
+    * [4.3.35](technical-details/release-notes/4.tucker/4.3.35.md)
+    * [4.3.34](technical-details/release-notes/4.tucker/4.3.34.md)
     * [4.3.33](technical-details/release-notes/4.tucker/4.3.33.md)
     * [4.3.32](technical-details/release-notes/4.tucker/4.3.32.md)
     * [4.3.31](technical-details/release-notes/4.tucker/4.3.31.md)
