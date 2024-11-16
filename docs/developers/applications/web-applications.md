@@ -41,7 +41,7 @@ export class Login extends Resource {
 ```
 
 This endpoint can be called from the client side using a standard fetch request, a cookie will be returned, and the session will be maintained by HarperDB.
-This allows web applications to directly with HarperDB and database resources, without needing to go through extra layers of authentication handling.
+This allows web applications to directly interact with HarperDB and database resources, without needing to go through extra layers of authentication handling.
 
 ## Browser Caching Negotiation
 
