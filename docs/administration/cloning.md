@@ -17,7 +17,7 @@ To start clone run `harperdb` in the CLI with either of the following variables 
 * `HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
 * `HDB_LEADER_USERNAME` - The leader node admin username.
 * `HDB_LEADER_PASSWORD` - The leader node admin password.
-* `REPLICATION_HOSTNAME` - _(optional)_ The leader replication hostname. This value will be added to `replication.hostname` on the clone node. If this value is not set, replication will not be set up between the leader and clone.
+* `REPLICATION_HOSTNAME` - _(optional)_ The clones replication hostname. This value will be added to `replication.hostname` on the clone node. If this value is not set, replication will not be set up between the leader and clone.
 
 For example:
 ```
@@ -29,7 +29,7 @@ HDB_LEADER_URL=https://node-1.my-domain.com:9925 REPLICATION_HOSTNAME=node-1.my-
 * `--HDB_LEADER_URL` - The URL of the leader node's operation API (usually port 9925).
 * `--HDB_LEADER_USERNAME` - The leader node admin username.
 * `--HDB_LEADER_PASSWORD` - The leader node admin password.
-* `--REPLICATION_HOSTNAME` - _(optional)_ The leader clustering host. This value will be added to `replication.hostname` on the clone node. If this value is not set, replication will not be set up between the leader and clone.
+* `--REPLICATION_HOSTNAME` - _(optional)_ The clones clustering host. This value will be added to `replication.hostname` on the clone node. If this value is not set, replication will not be set up between the leader and clone.
 
 For example:
 ```
