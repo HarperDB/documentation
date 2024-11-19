@@ -1,3 +1,7 @@
+{% hint style="warning" %}
+HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+{% endhint %}
+
 # SQL JSON Search
 
 HarperDB automatically indexes all top level attributes in a row / object written to a table. However, any attributes which hold JSON data do not have their nested attributes indexed. In order to make searching and/or transforming these JSON documents easy, HarperDB offers a special SQL function called SEARCH\_JSON. The SEARCH\_JSON function works in SELECT & WHERE clauses allowing queries to perform powerful filtering on any element of your JSON by implementing the [JSONata library](http://docs.jsonata.org/overview.html) into our SQL engine.

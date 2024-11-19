@@ -1,3 +1,7 @@
+{% hint style="warning" %}
+HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+{% endhint %}
+
 # SQL Geospatial Functions
 
 HarperDB geospatial features require data to be stored in a single column using the [GeoJSON standard](http://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
