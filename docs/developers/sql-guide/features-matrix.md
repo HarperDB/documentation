@@ -1,3 +1,7 @@
+{% hint style="warning" %}
+HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+{% endhint %}
+
 # SQL Features Matrix
 
 HarperDB provides access to most SQL functions, and we’re always expanding that list. Check below to see if we cover what you need. If not, feel free to [add a Feature Request](https://feedback.harperdb.io/).
