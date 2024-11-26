@@ -598,6 +598,27 @@ logging:
   stdStreams: false
 ```
 
+`auditAuthEvents`
+
+`logFailed` - _Type_: boolean; _Default_: false
+
+Log all failed authentication events.
+
+_Example:_ `[error] [auth-event]: {"username":"admin","status":"failure","type":"authentication","originating_ip":"127.0.0.1","request_method":"POST","path":"/","auth_strategy":"Basic"}`
+
+`logSuccessful` - _Type_: boolean; _Default_: false
+
+Log all successful authentication events.
+
+_Example:_ `[notify] [auth-event]: {"username":"admin","status":"success","type":"authentication","originating_ip":"127.0.0.1","request_method":"POST","path":"/","auth_strategy":"Basic"}`
+
+```yaml
+logging:
+  auditAuthEvents:
+    logFailed: false
+    logSuccessful: false
+```
+
 ***
 
 ### `authentication`
