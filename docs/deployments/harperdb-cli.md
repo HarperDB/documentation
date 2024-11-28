@@ -158,3 +158,14 @@ last_updated_record: 1724483231970.9949
 `harperdb search_by_value table=dog search_attribute=name search_value=harper get_attributes='["id", "name"]'`
 
 `harperdb sql sql='select * from dev.dog where id="1"'`
+
+## Remote Operations
+
+The CLI can also be used to run operations on remote HarperDB instances. To do this, pass the `target` parameter with the HTTP address of the remote instance. You generally will also need to provide credentials and specify the `username` and `password` parameters, or you can set environment variables `CLI_TARGET_USERNAME` and `CLI_TARGET_PASSWORD`, for example:
+```bash
+export CLI_TARGET_USERNAME=HDB_ADMIN
+export CLI_TARGET_PASSWORD=password
+harperdb describe_database database=dev target=https://server.com:9925
+```
+
+The same set of operations API are available for remote operations as well.
