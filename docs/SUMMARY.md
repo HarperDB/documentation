@@ -81,6 +81,7 @@
   * [Log In & Password Reset](administration/harperdb-studio/login-password-reset.md)
   * [Organizations](administration/harperdb-studio/organizations.md)
   * [Instances](administration/harperdb-studio/instances.md)
+  * [Query Instance Data](administration/harperdb-studio/query-instance-data.md)
   * [Manage Databases / Browse Data](administration/harperdb-studio/manage-databases-browse-data.md)
   * [Manage Charts](administration/harperdb-studio/manage-charts.md)
   * [Manage Clustering](administration/harperdb-studio/manage-replication.md)
