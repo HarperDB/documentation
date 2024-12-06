@@ -78,7 +78,13 @@ HarperDB supports the highest levels of security through public key infrastructu
 
 #### Provide your own certificates
 
-If you want to secure your HarperDB connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. Just make sure the certificate’s common name (CN) matches the node's hostname.
+If you want to secure your HarperDB connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. You can then allow nodes to authorize each other by checking the certificate against the standard list of root certificate authorities by enabling the `enableRootCAs` option in the config:
+```
+replication
+  enableRootCAs: true
+```
+
+And then just make sure the certificate’s common name (CN) matches the node's hostname.
 
 #### Setting Up Custom Certificates
 
