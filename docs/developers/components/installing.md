@@ -12,13 +12,13 @@ myComponentName:
   package: HarperDB-Add-Ons/package
 ```
 
-Under the hood HarperDB is calling npm install on all components, this means that the package value can be any valid npm reference such as a GitHub repo, an NPM package, a tarball, a local directory or a website.
+Under the hood HarperDB is calling `npm install` on all components, this means that the package value can be any valid npm reference such as a GitHub repo, an npm package, a tarball, a local directory, or a website.
 
 ```yaml
 myGithubComponent:
   package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub 
 myNPMComponent:
-  package: harperdb # install from NPM
+  package: harperdb # install from npm
 myTarBall:
   package: /Users/harper/cool-component.tar # install from tarball
 myLocal:
@@ -29,7 +29,7 @@ myWebsite:
 
 When HarperDB is run or restarted it checks to see if there are any new or updated components. If there are, it will dynamically create a package.json file in the `rootPath` directory and call `npm install`.
 
-NPM will install all the components in `<ROOTPATH>/node_moduels`.
+npm will install all the components and store them in `<ROOTPATH>/components`. A symlink back to `<ROOTPATH>/node_modules` is also created for dependency resolution purposes.
 
 The package.json file that is created will look something like this.
 
