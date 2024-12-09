@@ -176,3 +176,7 @@ When using remote operations, you can deploy a local component to the remote ins
 ```bash
 harperdb deploy target=https://server.com:9925
 ```
+If you are interacting with a cluster, you may wish to include the `replicated=true` parameter to ensure that the deployment operation is replicated to all nodes in the cluster. You will also need to restart afterwards to apply the changes (here seen with the replicated parameter):
+```bash
+harperdb restart target=https://server.com:9925 replicated=true
+```
