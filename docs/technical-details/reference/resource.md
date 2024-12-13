@@ -1,29 +1,60 @@
 # Resource Class
 
-## Resource Class
+The Resource class offers a unified API for modeling various data resources within HarperDB. It enables access to database and table data through the Resource API. You can extend this class to create new data sources and export resources to define endpoints. Notably, tables also extend the Resource class and can be customized by users.
 
-The Resource class is designed to provide a unified API for modeling different data resources within HarperDB. Database/table data can be accessed through the Resource API. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
+## Key Features
 
-Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
+### Unified Interface 
+The Resource class provides an interface for accessing, querying, modifying, and monitoring entities or records.
 
-Resource classes also have static methods, which are generally the preferred way to externally interact with tables and resources. The static methods handle parsing paths and query strings, starting a transaction as necessary, performing access authorization checks (if required), creating a resource instance, and calling the instance methods. This general rule for how to interact with resources:
-* If you want to *act upon* a table or resource, querying or writing to it, then use the static methods to initial access or write data. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
-  * You can subsequently use the instance methods on the returned resource instance to perform additional actions on the record.
-* If you want to *define custom behavior* for a table or resource (to control how a resource responds to queries/writes), then extend the class and override/define instance methods. 
+### Resource Instances
 
-The Resource API is heavily influenced by the REST/HTTP API, and the methods and properties of the Resource class are designed to map to and be used in a similar way to how you would interact with a RESTful API.
+- Instances can represent either a single record or a collection of records at a given time.
+- Each instance acts as an atomic transactional view of a resource, supporting transactional interactions.
+- A Resource instance holds:
+  - The primary key/identifier.
+  - Context information.
+  - Any pending updates to the record.
 
-The REST-based API is a little different than traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind, but semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
-* Read - `get`
-* Create with a known primary key - `put`
-* Create with a generated primary key - `post`/`create`
-* Update (Full) - `put`
-* Update (Partial) - `patch`
-* Delete - `delete`
+This ensures that instance methods can interact with the record and access this information during execution. Distinct Resource instances are created for every record or query accessed.
 
-The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`, and this represents the collection of all the records in the resource or table.
+### Static Methods
 
-You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
+Resource classes feature static methods, which are the preferred way to interact with tables and resources externally. These static methods manage:
+- **Path and Query String Parsing:** Simplifying how you handle incoming requests.
+- **Transaction Management:** Starting a transaction when necessary.
+- **Access Authorization Checks:** Verifying permissions as needed.
+- **Resource Instance Creation:** Generating a new Resource instance for interaction.
+- **Instance Method Invocation:** Calling instance methods for data operations.
+
+## How to Interact with Resources
+
+- **For Queries and Writes:** Use static methods to access or write data. For example, you can call `MyTable.get(34)` to retrieve the record with a primary key of 34.
+- **For Additional Actions:** Use the instance methods on the returned Resource instance to perform further operations on the record.
+- **To Define Custom Behavior:** Extend the Resource class and override or define instance methods to control how the resource responds to queries and writes.
+
+## REST API
+
+The Resource API is influenced by REST/HTTP principles. The methods and properties of the Resource class map closely to a RESTful API interaction model. Here’s how CRUD operations correspond to REST operations:
+
+- **Read:** `get`
+- **Create with a known primary key:** `put`
+- **Create with a generated primary key:** `post/create`
+- **Update (Full):** `put`
+- **Update (Partial):** `patch`
+- **Delete:** `delete`
+
+The RESTful HTTP server and other server interfaces directly call resource methods of the same name to handle incoming requests. When resources are accessed via server interfaces, the static methods initiate a transaction, perform access checks, create the Resource instance, and call the corresponding instance method.
+
+## Path Mapping
+
+Paths (like URLs or MQTT topics) are mapped to different Resource instances:
+- Using a path with an ID (e.g., `/MyResource/3492`) maps to a Resource instance where the instance’s ID is 3492. You can then interact with this instance using methods like `get()`, `put()`, and `post()`.
+- Using the root path (e.g., `/MyResource/`) maps to a Resource instance with an ID of null, representing the collection of all records in the resource or table.
+
+You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. 
+
+For example:
 
 ```javascript
 export class MyExternalData extends Resource {
