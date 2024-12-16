@@ -228,14 +228,14 @@ You can subscribe to a caching table just like any other table. The one differen
 
 ### Passive-Active Updates
 
-With our passive update examples, we have provided a data source handler with a `get()` method that returns the specific requested record as the response. However, we can also actively update other records in our response handler (if our data source provides data that should be propagated to other related records). This can be done transactionally, to ensure that all updates occur atomically. The context that is provided to the data source holds the transaction information, so we can simply pass the context to any update/write methods that we call. For example, let's say we are loading a blog post, which should also includes comment records:
+With our passive update examples, we have provided a data source handler with a `get()` method that returns the specific requested record as the response. However, we can also actively update other records in our response handler (if our data source provides data that should be propagated to other related records). This can be done transactionally, to ensure that all updates occur atomically. The context that is provided to the data source holds the transaction information, so we can simply pass the context to any update/write methods that we call. For example, let's say we are loading a blog post, which also includes comment records:
 
 ```javascript
 const { Post, Comment } = tables;
 class BlogSource extends Resource {
 	get() {
-		let post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
-		for (let comment of comments) {
+		const post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
+		for (let comment of post.comments) {
 			await Comment.put(comment, this); // save this comment as part of our current context and transaction
 		}
 		return post;
@@ -271,7 +271,7 @@ It may be helpful to understand the flow of a cache request. When a request is m
   * If the record is not in the cache, HarperDB will first check if there is a current request to get the record from the source. If there is, HarperDB will wait for the request to complete and return the record from the cache. 
   * If not, HarperDB will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
   * If the record is in the cache, HarperDB will check if the record is stale. If the record is not stale, HarperDB will immediately return the record from the cache. If the record is stale, HarperDB will call the `get()` method on the source to retrieve the record.
-  * The record will then be stored in the cache. This will write of the record to the cache will be done in a separate asynchronous/background write-behind transaction, so it does not block the current request, which will return the data immediately once it has it.
+  * The record will then be stored in the cache. This will write the record to the cache in a separate asynchronous/background write-behind transaction, so it does not block the current request, then return the data immediately once it has it.
 * The `get()` method will be called on the resource instance to return the record to the client (or perform any querying on the record). If this is overriden, the method will be called at this time.
 
 ### Caching Flow with Write-Through
