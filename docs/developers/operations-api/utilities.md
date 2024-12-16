@@ -52,7 +52,7 @@ Returns detailed metrics on the host system.
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `system_information`
-* attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'replication']
+* attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'metrics', 'threads', 'replication']
 
 ### Body
 ```json
