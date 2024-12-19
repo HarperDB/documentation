@@ -364,7 +364,8 @@ _Operation is restricted to super_user roles only_
 ### Body
 ```json
 {
-  "operation": "remove_certificate"
+  "operation": "remove_certificate",
+  "name": "my-cert"
 }
 ```
 
