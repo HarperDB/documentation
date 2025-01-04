@@ -209,21 +209,21 @@ This is called when a connection is received through WebSockets or Server Sent E
 
 This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be serialized during serialization (converted to the output format of JSON, MessagePack, etc.).
 
-### `allowCreate(user): boolean`
+### `allowCreate(user: any, data: Promise, context: Context): boolean | Promise<boolean>`
 
-This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table.
+This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.  
 
-### `allowRead(user): boolean`
+### `allowRead(user: any, query: Map | void, context: Context): boolean | Promise<boolean>`
 
-This is called to determine if the user has permission to read from the current resource. This is called as part of external incoming requests (HTTP GET). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's read permission to the table.
+This is called to determine if the user has permission to read from the current resource. This is called as part of external incoming requests (HTTP GET). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's read permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean.
 
-### `allowUpdate(user): boolean`
+### `allowUpdate(user: any, data: Promise, context: Context): boolean | Promise<boolean>`
 
-This is called to determine if the user has permission to update the current resource. This is called as part of external incoming requests (HTTP PUT). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's update permission to the table.
+This is called to determine if the user has permission to update the current resource. This is called as part of external incoming requests (HTTP PUT). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's update permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.
 
-### `allowDelete(user): boolean`
+### `allowDelete(user: any, query: Map | void, context: Context): boolean | Promise<boolean>`
 
-This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table.
+This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean.
 
 ### `addTo(property, value)`
 
