@@ -508,7 +508,7 @@ curl -X PUT http://localhost:9926/dog/4 \
 Start by verifying the `dog` table contains the 4 records added in the previous step:
 
 ```sh
-curl http://localhost:9926/dog/` # Don't miss the trailing slash!
+curl http://localhost:9926/dog/ # Don't miss the trailing slash!
 ```
 
 Expected output:
