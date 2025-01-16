@@ -10,7 +10,7 @@ redirects:
   install-harperdb/linux-quickstart: deployments/install-harperdb/linux.md
   install-harperdb/offline: deployments/install-harperdb/README.md
   install-harperdb/node-ver-requirement: deployments/install-harperdb/README.md
-  harperdb-studio: administration/harperdb-studio/README.m
+  harperdb-studio: administration/harperdb-studio/README.md
   harperdb-studio/create-account: administration/harperdb-studio/create-account.md
   harperdb-studio/login-password-reset: administration/harperdb-studio/login-password-reset.md
   harperdb-studio/resources: administration/harperdb-studio/resources.md
@@ -92,4 +92,5 @@ redirects:
   operations-api: developers/operations-api/README.md
   rest: developers/rest.md
   api: developers/operations-api/README.md
+  administration/harperdb-studio/query-instance-data: developers/rest.md
 
