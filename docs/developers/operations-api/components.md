@@ -64,6 +64,7 @@ _Operation is restricted to super_user roles only_
 * payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 * restart _(optional)_ - if true, HarperDB will restart after deploying the component. Must be a boolean
 * replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
+* install_command _(optional)_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
 
 ### Body
 

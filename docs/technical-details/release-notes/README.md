@@ -4,6 +4,12 @@
 
 [Meet Tucker](./4.tucker/tucker.md) Our 4th Release Pup
 
+[4.4.16 Tucker](4.tucker/4.4.16.md)
+
+[4.4.15 Tucker](4.tucker/4.4.15.md)
+
+[4.4.14 Tucker](4.tucker/4.4.14.md)
+
 [4.4.13 Tucker](4.tucker/4.4.13.md)
 
 [4.4.12 Tucker](4.tucker/4.4.12.md)
@@ -31,6 +37,10 @@
 [4.4.1 Tucker](4.tucker/4.4.1.md)
 
 [4.4.0 Tucker](4.tucker/4.4.0.md)
+
+[4.3.38 Tucker](4.tucker/4.3.38.md)
+
+[4.3.37 Tucker](4.tucker/4.3.37.md)
 
 [4.3.36 Tucker](4.tucker/4.3.36.md)
 
