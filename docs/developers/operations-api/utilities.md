@@ -29,6 +29,7 @@ _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `restart_service`
 * service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
+* replicated _(optional)_ - must be a boolean. If set to `true`, HarperDB will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
 
 ### Body
 ```json
