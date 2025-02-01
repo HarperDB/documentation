@@ -1,34 +1,95 @@
 # Components
 
-HarperDB is a highly extensible database application platform with support for a rich variety of composable modular components and components that can be used and combined to build applications and add functionality to existing applications. HarperDB tools, components, and add-ons can be found in a few places:
+Harper is not just a database, but also a highly extensible, JavaScript application platform built on a concept called **Components**. Harper Components are many things, and at the highest level are defined as JavaScript based _extensions_ of the core Harper platform. They are executed by Harper directly; thus, have complete access to the Harper Global APIs (such as `Resource`, `databases`, and `tables`).
 
-* [SDK libraries](sdks.md) are available for connecting to HarperDB from different languages.
-* [Drivers](drivers.md) are available for connecting to HarperDB from different products and tools.
-* [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
-* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
-* You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb\&type=repositories)
-* [Google Data Studio](google-data-studio.md) is a visualization tool for building charts and tables from HarperDB data.
+> See the complete [Global APIs](../../technical-details/reference/globals.md) documentation for more information.
 
-## Components
+A key aspect to Harper Components are their extensibility. Components can be built on other Components. For example, a [Harper Application]() is a Component! More specifically, it is a Component that uses many other Components. The [application template]() demonstrates many of Harper's internal Components such as `rest` (for automatic REST endpoint generation), `graphqlSchema` (for table schema definitions), and many more.
 
-There are four general categories of components for HarperDB. The most common is applications. Applications are simply a component that delivers complete functionality through an external interface that it defines, and is usually composed of other components. See [our guide to building applications for getting started](../applications/).
+> Documentation for all internal Harper components can be found below.
+> - **rest**:
+> - **graphqlSchema**:
+> - **static**:
+> - **jsResource**:
+> - **roles**:
 
-A data source component can implement the Resource API to customize access to a table or provide access to an external data source. External data source components are used to retrieve and access data from other sources.
+## Extensions
 
-The next two are considered extension components. Server protocol extension components provide and define ways for clients to access data and can be used to extend or create new protocols.
+Just like Harper provides certain features as internal Components, users can create new Harper features by developing custom Components, also known as **Extensions**.
 
-Server resource components implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource components may add support for different file types like HTML templates (like JSX), CSV data, and more.
+A Harper Extension is a extensible Component that is intended to be used by other Components. The internal Components `graphqlSchema` and `jsResource` are both examples of Extensions.
 
-## Server components
+There are two key types of Harper Extensions, **Resource Extension** and **Protocol Extensions**. The key difference is a **Protocol Extensions** can return a **Resource Extension**.
 
-Server components can be easily be added and configured by simply adding an entry to your harperdb-config.yaml:
+Functionally, what makes an Extension a Component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple Components within the _config.yaml_, an Extension will only specify `extensionModule: <pathToExtension>`. The path must resolve from the root of the Extension module directory.
 
-```yaml
-my-server-component:
-  package: 'HarperDB-Add-Ons/package-name' # this can be any valid github or npm reference
-  port: 4321
-```
+For example, the [Harper Next.js Extension]() _config.yaml_ specifies `extensionModule: ./extension.js`.
 
-## Writing Extension Components
+It is also recommended that all Extensions have a _package.json_ that specifies JavaScript package metadata such as name, version, etc. Since Extensions are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin]() property). It can be published to npm. The possibilities are endless!
 
-You can write your own extensions to build new functionality on HarperDB. See the [writing extension components documentation](writing-extensions.md) for more information.
+<!-- TODO: Write section here about Worker Threads -->
+
+### Resource Extension
+
+A Resource Extension is for processing a certain type of file or directory. For example, the internal [jsResource]() extension handles executing JavaScript files.
+
+These Extensions are comprised of four distinct function exports, `handleFile()`, `handleDirectory()`, `setupFile()`, and `setupDirectory()`. The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
+
+> Keep in mind that the CLI command `harperdb restart` or CLI argument `restart=true` only restarts the worker threads. If a Component is deployed using `harperdb deploy`, the code within the `setup{File|Directory}()` methods will not be executed until the system is completely shutdown and turned back on.
+
+Other than their execution behavior, the `{handle|setup}File()` and `{handle|setup}Directory()` methods have identical function definitions (arguments and return value behavior).
+
+#### `{handle|setup}File(contents, urlPath, path, resources): void | Promise<void>`
+
+This method is for processing individual files. It can be async.
+
+> Remember!
+> 
+> `setupFile()` is executed **once** on the **main thread** during the main start sequence.
+> 
+> `handleFile()` is executed on **worker threads** and is executed again during restarts.
+
+Parameters:
+
+- **contents** - `Buffer` - The contents of the file
+- **urlPath** - `String` - ???
+- **path** - `String` - The relative path of the file
+  <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
+- **resources** - `Object` - A collection of the currently loaded resources
+
+Returns: `void | Promise<void>`
+
+#### `{handle|setup}Directory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
+
+This method is for processing directories. It can be async.
+
+If this function returns or resolves a truthy value, then the Component loading sequence will end and no other entries within the directory will be processed.
+
+> Remember!
+> 
+> `setupFile()` is executed **once** on the **main thread** during the main start sequence.
+> 
+> `handleFile()` is executed on **worker threads** and is executed again during restarts.
+
+Parameters:
+
+- **urlPath** - `String` - ???
+- **path** - `String` - The relative path of the directory
+  <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
+- **resources** - `Object` - A collection of the currently loaded resources
+
+Returns: `boolean | void | Promise<boolean | void>`
+
+### Protocol Extension
+
+A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension]() handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers. See the [`server`]() documentation for more information.
+
+A Protocol Extension is made up of two distinct methods, `start()` and `startOnMainThread()`. Similar to a Resource Extension, the `start()` method is executed on _all worker threads_, and executed again on restarts. The `startOnMainThread()` method is only executed once during the initial system start sequence. These methods have identical `options` object parameter, and can both return a Resource Extension (i.e. an object containing one or more of the methods listed above).
+
+#### `{start|startOnMainThread}({ server, ensureTable, port, securePort, resources, })`
+
+Parameters:
+
+- **options** - `ProtocolOptions`
+
+Returns: `ResourceExtension`

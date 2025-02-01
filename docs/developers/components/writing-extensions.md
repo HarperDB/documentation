@@ -4,11 +4,14 @@ HarperDB is a highly extensible database application platform with support for a
 
 There are three general categories of components for HarperDB:
 
+1. **Server Extensions**
+2. **Resource Extensions**
+3. **Data Source Extensions**
 * **protocol extensions** that provide and define ways for clients to access data
 * **resource extensions** that handle and interpret different types of files
 * **consumer data sources** that provide a way to access and retrieve data from other sources.
 
-Server protocol extensions can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
+Server protocol extensions can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP and WS with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
 
 Server resource extensions implement support for different types of files that can be used as resources in applications. HarperDB includes support for using JavaScript modules and GraphQL Schemas as resources, but resource extensions could be added to support different file types like HTML templates (like JSX), CSV data, and more.
 
@@ -27,6 +30,10 @@ extensionModule: './entry-module-name.js'
 ### Module Initialization
 
 Once a user has configured an extension, HarperDB will attempt to load the extension package specified by `package` property. Once loaded, there are several functions that the extension module can export, that will be called by HarperDB:
+
+#### `start(option): Promise<>`
+
+#### `startOnMainThread(options): Promise<>`
 
 `export function start(options: { port: number, server: {}})` If defined, this will be called on the initialization of the extension. The provided `server` property object includes a set of additional entry points for utilizing or layering on top of other protocols (and when implementing a new protocol, you can add your own entry points). The most common entry is to provide an HTTP middleware layer. This looks like:
 
@@ -93,16 +100,21 @@ export function start(options: { port: number, server: {}}) {
 	});
 }
 ```
+
 #### WebSockets
-If you were implementing a protocol using WebSockets, you can define a listener for incoming WebSocket connections and indicate the WebSockets (sub)protocol to specifically handle (which will select your listener if the `Sec-WebSocket-Protocol` header matches your protocol):
+
+HarperDB provides a default WebSocket server for _upgrade_ requests to the included, default HTTP(S) server. In order to add custom `'connection'` event handling, use the `server.ws(listener, option)` method. The `listener` operates similar to the custom HTTP request handler where 
 
 ```javascript
 export function start(options) {
-	server.ws((socket) => {
+	options.server.ws((socket) => {
 			// called for each incoming WebSocket
 	}, Object.assign({ subProtocol: 'my-cool-protocol' }, options));
 }
 ```
+
+##### Custom HTTP Upgrade Handler
+
 
 ### Resource Handling
 
