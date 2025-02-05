@@ -72,3 +72,5 @@ export class MyEndpoint extends MyTable {
 	}
 }
 ```
+
+See the [configuration](../../deployments/configuration.md) documentation for more information on configuring where blob are stored. 
