@@ -1,4 +1,12 @@
-Blobs are binary large objects that can used to store any type of unstructured/binary data and is designed for large content. Blobs support streaming and feature better performance for content larger than about 20KB. Blobs are built off the native JavaScript `Blob` type, and HarperDB extends the native `Blob` type for integrated storage with the database. To use blobs, you can create a blob which writes the binary data to disk, and can then be included (as a reference) in a record. For example, you can create a record with a blob like:
+Blobs are binary large objects that can used to store any type of unstructured/binary data and is designed for large content. Blobs support streaming and feature better performance for content larger than about 20KB. Blobs are built off the native JavaScript `Blob` type, and HarperDB extends the native `Blob` type for integrated storage with the database. To use blobs, you would generally want to declare a field as a `Blob` type in your schema:
+```graphql
+type MyTable {
+	id: Any! @primaryKey
+	data: Blob
+}
+```
+
+You can then create a blob which writes the binary data to disk, and can then be included (as a reference) in a record. For example, you can create a record with a blob like:
 
 ```javascript
 let blob = await createBlob(largeBuffer);
@@ -23,7 +31,7 @@ export class MyEndpoint extends MyTable {
 	}
 }
 ```
-One of the important characteristics of blobs is they natively support asynchronous streaming of data. This is important for both creation and retrieval of large data. When create a blob with `createBlob`, the returned blob will create the storage entry, but the data will be streamed to storage. This means that you can create a blob from a buffer or from a stream. You can also create a record that references a blob before the blob is fully written to storage. For example, you can create a blob from a stream:
+One of the important characteristics of blobs is they natively support asynchronous streaming of data. This is important for both creation and retrieval of large data. When we create a blob with `createBlob`, the returned blob will create the storage entry, but the data will be streamed to storage. This means that you can create a blob from a buffer or from a stream. You can also create a record that references a blob before the blob is fully written to storage. For example, you can create a blob from a stream:
 
 ```javascript
 let blob = await createBlob(stream);
