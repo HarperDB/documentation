@@ -181,7 +181,7 @@ replication:
   routes:
     - wss://server-two:9925
   port: null
-  securePort: 9925,
+  securePort: 9933,
   disableRootCAs: false
 ```
 
@@ -217,11 +217,11 @@ replication:
       port: 9930
 ```
 
-`port` - _Type_: integer; _Default_: 9925 (the operations API port `operationsApi.port`)
+`port` - _Type_: integer; 
 
 The port to use for replication connections.
 
-`securePort` - _Type_: integer;
+`securePort` - _Type_: integer; _Default_: 9933
 
 The port to use for secure replication connections.
 
