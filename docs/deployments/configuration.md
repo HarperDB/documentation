@@ -220,7 +220,7 @@ replication:
     - wss://server-two:9925 # URL based route
     - hostname: server-three # define a hostname and port
       port: 9930
-      startTime: server-four
+      startTime: 2024-02-06T15:30:00Z
 ```
 
 `port` - _Type_: integer; _Default_: 9925 (the operations API port `operationsApi.port`)
