@@ -9,7 +9,7 @@ HarperDB unifies your entire backend stack - database, cache, message queue, and
 
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
-<figure><img src=".gitbook/assets/stackinabox.png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../images/stackinabox.png" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
 Wondering what's new with HarperDB 4.4? Take a look at our latest [Release Notes](https://docs.harperdb.io/docs/technical-details/release-notes/4.tucker/4.4.0)
