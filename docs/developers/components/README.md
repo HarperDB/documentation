@@ -1,21 +1,61 @@
 # Components
 
-Harper is not just a database, but also a highly extensible, JavaScript application platform built on a concept called **Components**. Harper Components are many things, and at the highest level are defined as JavaScript based _extensions_ of the core Harper platform. They are executed by Harper directly; thus, have complete access to the Harper Global APIs (such as `Resource`, `databases`, and `tables`).
+Harper is not just a database, but also a highly extensible, JavaScript application platform built on a concept called **components**. Harper components are many things, and at the highest level are defined as JavaScript based _extensions_ of the core Harper platform. They are executed by Harper directly; thus, have complete access to the Harper Global APIs (such as `Resource`, `databases`, and `tables`).
 
 > See the complete [Global APIs](../../technical-details/reference/globals.md) documentation for more information.
 
-A key aspect to Harper Components are their extensibility. Components can be built on other Components. For example, a [Harper Application]() is a Component! More specifically, it is a Component that uses many other Components. The [application template]() demonstrates many of Harper's internal Components such as `rest` (for automatic REST endpoint generation), `graphqlSchema` (for table schema definitions), and many more.
+A key aspect to components are their extensibility; components can be built on other components. For example, a [Harper Application]() is a component that uses many other components. The [application template]() demonstrates many of Harper's internal components such as `rest` (for automatic REST endpoint generation), `graphqlSchema` (for table schema definitions), and many more.
 
-> Documentation for all internal Harper components can be found below.
-> - **rest**:
-> - **graphqlSchema**:
-> - **static**:
-> - **jsResource**:
-> - **roles**:
+> Documentation for all internal Harper components can be found [here](#internal-components).
+
+The technical definition of a Harper component is fairly loose. In the absolute, simplest form, a component is any JavaScript module that is compatible with the [default component configuration](#default-component-configuration). For example, a module with a singular `resources.js` file is technically a valid component.
+
+## Component Configuration
+
+Harper components are configured with a **config.yaml** file located in the root of the component module directory. This file is how a component configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
+
+The following properties are available for **all** components.
+
+- `files`
+- `path`
+- `root`
+- `package`
+
+Additional properties can also be configured. For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following **config.yaml**:
+
+```yaml
+'@harperdb/nextjs':
+  package: '@harperdb/nextjs'
+  files: '/*'
+  prebuilt: true
+  dev: false
+```
+
+### Default Component Configuration
+
+Harper components do not need to specify a **config.yaml**. Harper uses the following default configuration to load components.
+
+```yaml
+rest: true
+graphql: true
+graphqlSchema:
+  files: '*.graphql'
+roles:
+  files: 'roles.yaml'
+jsResource:
+  files: 'resources.js'
+fastifyRoutes:
+  files: 'routes/*.js'
+  path: '.'
+static:
+  files: 'web/**'
+```
+
+If a **config.yaml** is defined, it will **not** be merged with the default config.
 
 ## Extensions
 
-Just like Harper provides certain features as internal Components, users can create new Harper features by developing custom Components, also known as **Extensions**.
+Just like Harper provides certain features as internal components, users can create new Harper features by developing custom Components, also known as **extensions**.
 
 A Harper Extension is a extensible Component that is intended to be used by other Components. The internal Components `graphqlSchema` and `jsResource` are both examples of Extensions.
 
@@ -93,3 +133,13 @@ Parameters:
 - **options** - `ProtocolOptions`
 
 Returns: `ResourceExtension`
+
+## Internal Components
+
+### rest
+### graphql
+### graphqlSchema
+### roles
+### jsResource
+### fastifyRoutes
+### static
