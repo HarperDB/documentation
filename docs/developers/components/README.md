@@ -4,15 +4,15 @@ Harper is not just a database, but also a highly extensible, JavaScript applicat
 
 > See the complete [Global APIs](../../technical-details/reference/globals.md) documentation for more information.
 
-A key aspect to components are their extensibility; components can be built on other components. For example, a [Harper Application]() is a component that uses many other components. The [application template]() demonstrates many of Harper's internal components such as [rest](#rest) (for automatic REST endpoint generation), [graphqlSchema](#graphqlschema) (for table schema definitions), and many more.
+A key aspect to components are their extensibility; components can be built on other components. For example, a [Harper Application](../applications/README.md) is a component that uses many other components. The [application template](https://github.com/HarperDB/application-template) demonstrates many of Harper's internal components such as [rest](#rest) (for automatic REST endpoint generation), [graphqlSchema](#graphqlschema) (for table schema definitions), and many more.
 
 The technical definition of a Harper component is fairly loose. In the absolute, simplest form, a component is any JavaScript module that is compatible with the [default component configuration](#default-component-configuration). For example, a module with a singular `resources.js` file is technically a valid component.
 
 Harper provides many features as _internal components_, these can be used directly without installing any other dependencies.
 
-Other features are provided by _custom components_. These can be npm packages such as [@harperdb/nextjs]() and [@harperdb/apollo]() (which are maintained by Harper), or something maintained by the community. Custom components follow the same configuration rules and use the same APIs that Harper's internal components do. The only difference is that they must be apart of the component's dependencies.
+Other features are provided by _custom components_. These can be npm packages such as [@harperdb/nextjs](https://github.com/HarperDB/nextjs) and [@harperdb/apollo](https://github.com/HarperDB/apollo) (which are maintained by Harper), or something maintained by the community. Custom components follow the same configuration rules and use the same APIs that Harper's internal components do. The only difference is that they must be apart of the component's dependencies.
 
-> Documentation is available for all [internal](#internal-components) and [external](#external-components) Harper components.
+> Documentation is available for all [internal](#internal-components) and [custom](#custom-components) Harper components.
 
 <!-- TODO: add a callout to a list of third-party components here. Maybe also a link to something like an awesome-harper for community things? -->
 
@@ -107,7 +107,7 @@ Functionally, what makes an extension a component is the contents of **config.ya
 
 - **extensionModule** - `string` - _required_ - A path to the extension module source code. The path must resolve from the root of the extension module directory.
 
-For example, the [Harper Next.js Extension]() **config.yaml** specifies `extensionModule: ./extension.js`.
+For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) **config.yaml** specifies `extensionModule: ./extension.js`.
 
 If the extension is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `extensionModule: ./dist/index.js`)
 
@@ -119,19 +119,34 @@ Furthermore, what defines an extension separately from a component is that it le
 
 A Resource Extension is for processing a certain type of file or directory. For example, the internal [jsResource](#jsresource) extension handles executing JavaScript files.
 
-These Extensions are comprised of four distinct function exports, [`handleFile()`][handlefile-and-setupfile-api], [`handleDirectory()`][handledirectory-and-setupdirectory-api], [`setupFile()`][handlefile-and-setupfile-api], and [`setupDirectory()`][handledirectory-and-setupdirectory-api]. The [`handleFile()`][handlefile-and-setupfile-api] and [`handleDirectory()`][handledirectory-and-setupdirectory-api] methods are executed on **all worker threads**, and are _executed again during restarts_. The [`setupFile()`][handlefile-and-setupfile-api] and [`setupDirectory()`][handledirectory-and-setupdirectory-api] methods are only executed **once** on the **main thread** during the initial system start sequence.
+These Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-path-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-path-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-path-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
 
-> Keep in mind that the CLI command `harperdb restart` or CLI argument `restart=true` only restarts the worker threads. If a component is deployed using `harperdb deploy`, the code within the [`setupFile()`][handlefile-and-setupfile-api] and [`setupDirectory()`][handledirectory-and-setupdirectory-api] methods will not be executed until the system is completely shutdown and turned back on.
+> Keep in mind that the CLI command `harperdb restart` or CLI argument `restart=true` only restarts the worker threads. If a component is deployed using `harperdb deploy`, the code within the `setupFile()` and `setupDirectory()` methods will not be executed until the system is completely shutdown and turned back on.
 
 Other than their execution behavior, the `handleFile()` and `setupFile()` methods, and `handleDirectory()` and `setupDirectory()` methods have identical function definitions (arguments and return value behavior).
 
 #### Resource Extension Configuration
 
-Any [Resource Extension](#resource-extension) can be configured with the `files`, `path`, and `root` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's [`{handle|setup}File()`](#handlesetupfilecontents-urlpath-path-resources-void--promisevoid) and [`{handle|setup}Directory()`](#handlesetupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void) methods.
+Any [Resource Extension](#resource-extension) can be configured with the `files`, `path`, and `root` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
 - **files** - `string` - *required* - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
 - **path** - `string` - *optional* - Specifies the URL path to be handled by the component.
-- **root** - `string` - *optional* - Specifies the root directory for mapping file paths to the URLs. For example, using the [static](#static) component, if all of the files in `'web/**'` should be available on the root URL path, then specify `files: 'web/**'` and `root: 'web'`.
+- **root** - `string` - *optional* - Specifies the root directory for mapping file paths to the URLs.
+
+For example, to configure the [static](#static) component to server all files from `web` to the root URL path:
+
+```yaml
+static:
+  files: 'web/**'
+  root: 'web'
+```
+
+Or, to configure the [graphqlSchema](#graphqlschema) component to load all schemas within the `src/schema` directory:
+
+```yaml
+graphqlSchema:
+  files: 'src/schema/*.schema'
+```
 
 #### Resource Extension API
 
@@ -159,9 +174,10 @@ export function start() {
 }
 ```
 
-##### `{handle|setup}File(contents, urlPath, path, resources): void | Promise<void>`
+##### `handleFile(contents, urlPath, path, resources): void | Promise<void>`
+##### `setupFile(contents, urlPath, path, resources): void | Promise<void>`
 
-This method is for processing individual files. It can be async.
+These methods are for processing individual files. They can be async.
 
 > Remember!
 > 
@@ -179,11 +195,12 @@ Parameters:
 
 Returns: `void | Promise<void>`
 
-##### `{handle|setup}Directory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
+##### `handleDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
+##### `setupDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
 
-This method is for processing directories. It can be async.
+These methods are for processing directories. They can be async.
 
-If this function returns or resolves a truthy value, then the Component loading sequence will end and no other entries within the directory will be processed.
+If the function returns or resolves a truthy value, then the component loading sequence will end and no other entries within the directory will be processed.
 
 > Remember!
 > 
@@ -202,7 +219,7 @@ Returns: `boolean | void | Promise<boolean | void>`
 
 ### Protocol Extension
 
-A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension]() handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`]() global API documentation for more information).
+A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension]() handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../../technical-details/reference/globals.md#server) global API documentation for more information).
 
 #### Protocol Extension Configuration
 
@@ -218,13 +235,14 @@ For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#o
   dev: false
 ```
 
-Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`]() global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
+Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`](../../technical-details/reference/globals.md#server) global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
 
 #### Protocol Extension API
 
-A Protocol Extension is made up of two distinct methods, [`start()`][start-and-startonmainthread-api] and [`startOnMainThread()`][start-and-startonmainthread-api]. Similar to a Resource Extension, the [`start()`][start-and-startonmainthread-api] method is executed on _all worker threads_, and _executed again on restarts_. The [`startOnMainThread()`][start-and-startonmainthread-api] method is **only** executed **once** during the initial system start sequence. These methods have identical `options` object parameter, and can both return a Resource Extension (i.e. an object containing one or more of the methods listed above).
+A Protocol Extension is made up of two distinct methods, [`start()`](#startoptions-resourceextension--promiseresourceextension) and [`startOnMainThread()`](#startonmainthreadoptions-resourceextension--promiseresourceextension). Similar to a Resource Extension, the `start()` method is executed on _all worker threads_, and _executed again on restarts_. The `startOnMainThread()` method is **only** executed **once** during the initial system start sequence. These methods have identical `options` object parameter, and can both return a Resource Extension (i.e. an object containing one or more of the methods listed above).
 
-##### `{start|startOnMainThread}(options): ResourceExtension | Promise<ResourceExtension>`
+##### `start(options): ResourceExtension | Promise<ResourceExtension>`
+##### `startOnMainThread(options): ResourceExtension | Promise<ResourceExtension>`
 
 Parameters:
 
@@ -248,7 +266,3 @@ Returns: `Object` - An object that implements any of the [Resource Extension API
 ### `@harperdb/apollo`
 ### `@harperdb/status-check`
 ### `@harperdb/prometheus-exporter`
-
-[handlefile-and-setupfile-api]: #handlesetupfilecontents-urlpath-path-resources-void--promisevoid "`handleFile()` and `setupFile()` APIs"
-[handledirectory-and-setupdirectory-api]: #handlesetupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void "`handleDirectory()` and `setupDirectory()` APIs"
-[start-and-startonmainthread-api]: #startstartonmainthread-server-ensuretable-port-secureport-resources- "`start()` and `startOnMainThread()` APIs"
