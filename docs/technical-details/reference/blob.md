@@ -47,8 +47,8 @@ Alternately, we can also wait for the blob to be fully written to storage before
 
 ```javascript
 let blob = await createBlob(stream);
-// at this point the blob exists, but the data is still being written to storage
-await blob.finished;
+// at this point the blob exists, but the data is was not been written to storage
+await blob.save(MyTable);
 // we now know the blob is fully written to storage
 await MyTable.put({ id: 'my-record', data: blob });
 ```
