@@ -215,7 +215,7 @@ Now we can start querying. Again, we just simply access the endpoint with query 
 ```
 http://localhost:9926/Dog/?name=Harper
 http://localhost:9926/Dog/?breed=Labrador
-http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
+http://localhost:9926/Dog/?breed=Husky&name=Balto&select(id,name,breed)
 ```
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest.md) and see the [Schema reference](defining-schemas.md) for more options for defining schemas.
