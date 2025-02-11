@@ -14,18 +14,81 @@ HarperDB provides several types of components. Any package that is added to Harp
 
 ```mermaid
 flowchart LR
-	Client(Client)-->Endpoints
-	Client(Client)-->HTTP
-	Client(Client)-->Extensions
-	subgraph HarperDB
-	direction TB
-	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
-	Applications-->Endpoints[/Custom Endpoints/]
-	Applications-->Extensions
-	Endpoints-->Tables
-	HTTP[/REST/HTTP/]-->Tables
-	Extensions[/Extensions/]-->Tables
-	end
+ subgraph Instance["Resource Instance: handle's actions specific to an individaul record or query"]
+        Load["Load record"]
+        Authorization["Authorization"]
+        instanceget["instance.get(query)"]
+        instancepost["instance.post(data, query)"]
+        instanceput["instance.put(data)"]
+  end
+ subgraph Resource["Resource: The resource's static methods handle the full lifecycle of parsing the request/URL, starting a transaction, instantiating an instance that can perform record level actions, and then committing the transaction"]
+        newResource["new Resource"]
+        startTxn["Start Transaction"]
+        Resource.get["Resource.get(request)"]
+        Resource.post["Resource.post(request, data)"]
+        Resource.put["Resource.put(request, data)"]
+        Resource.publish["Resource.publish(request, data)"]
+        Resource.subscribe["Resource.subscribe(request)"]
+        Resource.connect["Resource.connect(request, incomingMessages)"]
+        commitTxn["Commit Transaction"]
+        Instance
+  end
+ subgraph HarperDB["HarperDB"]
+    direction TB
+        Tables[("Databases/Tables")]
+        Authentication["Authentication"]
+        GET["HTTP GET"]
+        POST["HTTP POST"]
+        PUT["HTTP PUT"]
+        WS["WebSocket"]
+        REST["REST"]
+        ResourceMap["Resource Map: All registered resources by path"]
+        MQTT["MQTT"]
+        Resource
+        serialization["Serialization"]
+        Response
+        Message
+        jsResource
+        graphqlSchemaLoader
+        contentNegotiation
+ subgraph Component["Component"]
+        config.yaml["config.yaml"]
+        schema.graphql["schema.graphql"]
+        resources.js["resources.js"]
+  end
+  end
+    Client("Client") --> MQTT & GET & POST & PUT & WS
+    GET --> Authentication
+    POST --> Authentication
+    PUT --> Authentication
+    WS --> Authentication
+    Authentication --> REST
+    MQTT <--> ResourceMap & contentNegotiation["Content Negotiation"]
+    REST <--> ResourceMap & contentNegotiation
+    REST --> Resource.get & Resource.post & Resource.put & Resource.connect
+    MQTT --> Resource.publish & Resource.subscribe
+    startTxn --> newResource
+    newResource --> Load
+    Resource.get --> startTxn
+    Resource.post --> startTxn
+    Resource.put --> startTxn
+    Resource.publish --> startTxn
+    Resource.subscribe --> startTxn
+    Resource.connect --> startTxn
+    Load --> Authorization
+    Load <--> Tables
+    Authorization --> instanceget & instancepost & instanceput
+    instanceget --> commitTxn
+    commitTxn --> serialization["Serialization"] & Tables
+    serialization --> Response["Response"] & Message["Message"]
+    contentNegotiation <--> serialization
+    Response --> Client
+    Message --> Client
+    config.yaml --> schema.graphql & resources.js
+    resources.js <--> jsResource["JS Resource Loader"]
+    schema.graphql <--> graphqlSchemaLoader["GraphQL Schema Loader"]
+    schema.graphql --> ResourceMap & Tables
+    resources.js --> ResourceMap
 ```
 
 ## Getting up and Running
