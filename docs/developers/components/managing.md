@@ -1,6 +1,6 @@
 # Managing Components
 
-Managing components on on Harper is easy. There are many ways to manage components with Harper, and some are limited to local development as compared to a hosted, managed Harper instance. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
+Harper offers several approaches to managing components that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
 
 ## Local Development
 
