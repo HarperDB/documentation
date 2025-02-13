@@ -201,6 +201,7 @@ HarperDB supports the following field types in addition to user defined (object)
 * `Any`: Any primitive, object, or array is allowed.
 * `Date`: A Date object.
 * `Bytes`: Binary data (as a Buffer or Uint8Array).
+* `Blob`: Binary data designed for large blocks of data that can be streamed. It is recommend that you use this for binary data that will typically be larger than 20KB.
 
 #### Renaming Tables
 

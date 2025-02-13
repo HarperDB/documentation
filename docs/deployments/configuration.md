@@ -821,7 +821,7 @@ storage:
   prefetchWrites: true
 ```
 
-`path` - _Type_: string; _Default_: `<rootPath>/schema`
+`path` - _Type_: string; _Default_: `<rootPath>/database`
 
 The `path` configuration sets where all database files should reside.
 
@@ -831,6 +831,15 @@ storage:
 ```
 _**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
+`blobPaths` - _Type_: string; _Default_: `<rootPath>/blobs`
+
+The `blobPaths` configuration sets where all the blob files should reside. This can be an array of paths, and if there are multiple, the blobs will be distributed across the paths.
+
+```yaml
+storage:
+  blobPaths:
+    - /users/harperdb/big-storage
+```
 
 `pageSize` - _Type_: number; _Default_: Defaults to the default page size of the OS
 
