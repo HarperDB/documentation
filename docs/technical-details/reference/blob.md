@@ -12,7 +12,7 @@ You can then create a blob which writes the binary data to disk, and can then be
 let blob = await createBlob(largeBuffer);
 await MyTable.put({ id: 'my-record', data: blob });
 ```
-The `data` attribute in this example is a blob reference, and can be used like any other attribute in the record, but it is stored separately, and the data must be accessed asynchronously. You can retrieve the blob data with the standard Blob methods:
+The `data` attribute in this example is a blob reference, and can be used like any other attribute in the record, but it is stored separately, and the data must be accessed asynchronously. You can retrieve the blob data with the standard `Blob` methods:
 
 ```javascript
 let buffer = await blob.bytes();
@@ -52,6 +52,8 @@ await blob.save(MyTable);
 // we now know the blob is fully written to storage
 await MyTable.put({ id: 'my-record', data: blob });
 ```
+
+Note that this means that blobs are _not_ atomic or [ACID](https://en.wikipedia.org/wiki/ACID) compliant; streaming functionality achieves the opposite behavior of ACID/atomic writes that would prevent access to data as it is being written.  
 
 ### Error Handling
 Because blobs can be streamed and referenced prior to their completion, there is a chance that an error or interruption could occur while streaming data to the blob (after the record is committed). We can create an error handler for the blob to handle the case of an interrupted blob:
