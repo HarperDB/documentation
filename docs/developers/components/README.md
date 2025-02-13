@@ -38,7 +38,7 @@ Other components (internal or custom), will generally have more configuration op
 
 ### Custom Component Configuration
 
-Any custom component **must** be configured with the `package` option enabled in order for Harper to load that component. When enabled, the name of package must match a dependency of the component. For example, to use the `@harperdb/nextjs` extension, it must first be included in **package.json**:
+Any custom component **must** be configured with the `package` option in order for Harper to load that component. When enabled, the name of package must match a dependency of the component. For example, to use the `@harperdb/nextjs` extension, it must first be included in **package.json**:
 
 ```json
 {
@@ -52,7 +52,7 @@ Then, within **config.yaml** it can be enabled and configured using:
 
 ```yaml
 '@harperdb/nextjs':
-  package: true
+  package: '@harperdb/nextjs'
   # ...
 ```
 
@@ -70,7 +70,7 @@ And now in **config.yaml**:
 
 ```yaml
 harper-nextjs-test-feature:
-  package: true
+  package: '@harperdb/nextjs'
   files: '/*'
   # ...
 ```
@@ -229,7 +229,7 @@ For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#o
 
 ```yaml
 '@harperdb/nextjs':
-  package: true
+  package: '@harperdb/nextjs'
   files: '/*'
   prebuilt: true
   dev: false
