@@ -128,33 +128,36 @@ _Operation is restricted to super_user roles only_
   "type": "cluster-status",
   "connections": [
     {
-      "url": "wss://server-two:9925",
-      "subscriptions": [
-        {
-          "schema": "dev",
-          "table": "my-table",
-          "publish": true,
-          "subscribe": true
-        }
-      ],
-      "name": "server-two",
+      "replicateByDefault": true,
+      "replicates": true,
+      "url": "wss://server-2.domain.com:9933",
+      "name": "server-2.domain.com",
+      "subscriptions": null,
       "database_sockets": [
         {
-          "database": "dev",
+          "database": "data",
           "connected": true,
-          "latency": 0.84197798371315,
-          "threadId": 1,
+          "latency": 0.70,
+          "thread_id": 1,
           "nodes": [
-            "server-two"
-          ]
-        }
-      ]
+            "server-2.domain.com"
+          ],
+          "lastCommitConfirmed": "Wed, 12 Feb 2025 19:09:34 GMT",
+          "lastReceivedRemoteTime": "Wed, 12 Feb 2025 16:49:29 GMT",
+          "lastReceivedLocalTime": "Wed, 12 Feb 2025 16:50:59 GMT",
+          "lastSendTime": "Wed, 12 Feb 2025 16:50:59 GMT"
+        },
     }
   ],
-  "node_name": "server-one",
+  "node_name": "server-1.domain.com",
   "is_enabled": true
 }
 ```
+There is a separate socket for each database for each node. Each node is represented in the connections array, and each database connection to that node is represented in the `database_sockets` array. Additional timing statistics include:
+* `lastCommitConfirmed`: When a commit is sent out, it should receive a confirmation from the remote server; this is the last receipt of confirmation of an outgoing commit.
+* `lastReceivedRemoteTime`: This is the timestamp of the transaction that was last received. The timestamp is from when the original transaction occurred.
+* `lastReceivedLocalTime`: This is local time when the last transaction was received. If there is a different between this and `lastReceivedRemoteTime`, it means there is a delay from the original transaction to * receiving it and so it is probably catching-up/behind.
+* `sendingMessage`: The timestamp of transaction is actively being sent. This won't exist if the replicator is waiting for the next transaction to send.
 
 ---
 
