@@ -25,7 +25,7 @@ Complete documentation for this feature is available here: [Define Fastify Route
 
 ```yaml
 fastifyRoutes:
-	files: './routes/*.js'
+  files: './routes/*.js'
 ```
 
 ## graphql
@@ -51,7 +51,7 @@ Complete documentation for this feature is available here: [Defining Schemas](ht
 
 ```yaml
 graphqlSchema:
-	files: './schemas.graphql'
+  files: './schemas.graphql'
 ```
 
 ## jsResource
@@ -64,7 +64,7 @@ This component is a [Resource Extension](./reference.md#resource-extension), and
 
 ```yaml
 jsResource:
-	files: './resource.js'
+  files: './resource.js'
 ```
 
 <!-- ## login -->
@@ -91,14 +91,14 @@ To enable `Last-Modified` header support:
 
 ```yaml
 rest:
-	lastModified: true
+  lastModified: true
 ```
 
 To disable automatic WebSocket support:
 
 ```yaml
 rest:
-	webSocket: false
+  webSocket: false
 ```
 
 ## roles
@@ -111,7 +111,7 @@ Complete documentation for this feature is available here: [Defining Roles](http
 
 ```yaml
 roles:
-	files: './roles.yaml'
+  files: './roles.yaml'
 ```
 
 ## static
@@ -122,5 +122,5 @@ This component is a [Resource Extension](./reference.md#resource-extension), and
 
 ```yaml
 static:
-	files: './web/*'
+  files: './web/*'
 ```
