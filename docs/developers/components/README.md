@@ -18,4 +18,4 @@ The following list is all of Harper's officially maintained, custom components. 
 - [`@harperdb/apollo`](https://github.com/HarperDB/apollo)
 - [`@harperdb/status-check`](https://github.com/HarperDB/status-check)
 - [`@harperdb/prometheus-exporter`](https://github.com/HarperDB/prometheus-exporter)
-- [`@harperdb/acl-connect`](https://github.com/HarperDB-Add-Ons/acl-connect)
+- [`@harperdb/acl-connect`](https://github.com/HarperDB/acl-connect)
