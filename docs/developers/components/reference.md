@@ -6,7 +6,7 @@ Harper provides many features as _internal components_, these can be used direct
 
 Other features are provided by _custom components_. These can be npm packages such as [@harperdb/nextjs](https://github.com/HarperDB/nextjs) and [@harperdb/apollo](https://github.com/HarperDB/apollo) (which are maintained by Harper), or something maintained by the community. Custom components follow the same configuration rules and use the same APIs that Harper's internal components do. The only difference is that they must be apart of the component's dependencies.
 
-> Documentation is available for all [internal](#internal-components) and [custom](#custom-components) Harper components.
+> Documentation is available for all [internal](./internal.md) and [custom](./README.md#custom-components) Harper components.
 
 <!-- TODO: add a callout to a list of third-party components here. Maybe also a link to something like an awesome-harper for community things? -->
 
@@ -20,9 +20,9 @@ name:
   option-2: value
 ```
 
-It is the entry's **name** that is used for component resolution. It can be one of the [internal components](#internal-components), or it must match a package dependency of the component as specified by **package.json**. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
+It is the entry's **name** that is used for component resolution. It can be one of the [internal components](./internal.md), or it must match a package dependency of the component as specified by **package.json**. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
 
-For some [internal components](#internal-components), they can sometimes be configured with as little as a top-level boolean; for example, the [rest](#rest) extension can be enabled with just:
+For some internal components they can be configured with as little as a top-level boolean; for example, the [rest](./internal.md#rest) extension can be enabled with just:
 
 ```yaml
 rest: true
@@ -93,7 +93,7 @@ If a **config.yaml** is defined, it will **not** be merged with the default conf
 
 ## Extensions
 
-A Harper Extension is a extensible component that is intended to be used by other Components. The internal Components [graphqlSchema](#graphqlschema) and [jsResource](#jsresource) are both examples of extensions.
+A Harper Extension is a extensible component that is intended to be used by other Components. The internal Components [graphqlSchema](./internal.md#graphqlschema) and [jsResource](./internal.md#jsresource) are both examples of extensions.
 
 There are two key types of Harper Extensions, **Resource Extension** and **Protocol Extensions**. The key difference is a **Protocol Extensions** can return a **Resource Extension**.
 
@@ -111,7 +111,7 @@ Furthermore, what defines an extension separately from a component is that it le
 
 ### Resource Extension
 
-A Resource Extension is for processing a certain type of file or directory. For example, the internal [jsResource](#jsresource) extension handles executing JavaScript files.
+A Resource Extension is for processing a certain type of file or directory. For example, the internal [jsResource](./internal.md#jsresource) extension handles executing JavaScript files.
 
 These Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-path-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-path-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-path-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
 
@@ -127,7 +127,7 @@ Any [Resource Extension](#resource-extension) can be configured with the `files`
 - **path** - `string` - *optional* - Specifies the URL path to be handled by the component.
 - **root** - `string` - *optional* - Specifies the root directory for mapping file paths to the URLs.
 
-For example, to configure the [static](#static) component to server all files from `web` to the root URL path:
+For example, to configure the [static](./internal.md#static) component to server all files from `web` to the root URL path:
 
 ```yaml
 static:
@@ -135,7 +135,7 @@ static:
   root: 'web'
 ```
 
-Or, to configure the [graphqlSchema](#graphqlschema) component to load all schemas within the `src/schema` directory:
+Or, to configure the [graphqlSchema](./internal.md#graphqlschema) component to load all schemas within the `src/schema` directory:
 
 ```yaml
 graphqlSchema:

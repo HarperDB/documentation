@@ -1,6 +1,6 @@
 # Managing Components
 
-Managing components on on Harper is easy. There are many ways to manage components with Harper, and some are limited to local development as compared to a hosted, managed Harper instance. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
+Managing components on Harper is easy. There are many ways to manage components with Harper, and some are limited to local development as compared to a hosted Harper instance. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
 
 ## Local Development
 
@@ -16,7 +16,7 @@ The quickest way to run a component is by using the `dev` command within the com
 
 The `harperdb dev .` command will automatically watch for file changes within the component directory, and restart the Harper threads when changes are detected.
 
-The `dev` command will not restart the main thread, if this is a requirement switch to using `run` instead and manually start/stop the process to execute the main thread.
+The `dev` command will **not** restart the main thread; if this is a requirement, switch to using `run` instead and manually start/stop the process to execute the main thread.
 
 Stop execution for either of these processes by sending a SIGINT (generally CTRL/CMD+C) signal to the process.
 
@@ -61,9 +61,9 @@ harperdb deploy_component \
 
 ## Remote Management
 
-Managing components on a remote Harper instance is best accomplished through the component operation, similar to using the `deploy_component` command locally. Before continuing, always backup critical Harper instances. Managing, deploying, and executing components can directly impact a live system.
+Managing components on a remote Harper instance is best accomplished through [component operations](../operations-api/components.md), similar to using the `deploy_component` command locally. Before continuing, always backup critical Harper instances. Managing, deploying, and executing components can directly impact a live system.
 
-Remote Harper instances work very similarly to local Harper instances. The key component management operations still include `deploy_component`, `drop_component`, and `restart`.
+Remote Harper instances work very similarly to local Harper instances. The primary component management operations still include `deploy_component`, `drop_component`, and `restart`.
 
 The key to remote management is using the `CLI_TARGET_USERNAME` and `CLI_TARGET_PASSWORD` environment variables, and the `target=<remote>` CLI option.
 
@@ -94,25 +94,25 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers.
 
-These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally.
+These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
 
-Don't forget to include `restart=true`, or run `harperdb restart target=<remote>`
+Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`!
 
 ## Advanced
 
-The previous methodologies should be sufficient for most developers, but a more advanced process does exist. The following methods should be executed with caution as they can have unintended side-effects. Always backup any critical Harper instances before continuing.
+The previous methodologies should be sufficient for most developers, but a more advanced process exists. The following methods should be executed with caution as they can have unintended side-effects. Always backup any critical Harper instances before continuing.
 
 First, locate the Harper installation `rootPath` directory. Generally, this is `~/hdb`. It can be retrieved by running `harperdb get_configuration` and looking for the `rootPath` field.
 
-> For a useful shortcut on UNIX machines run: `harperdb get_configuration json=true | jq ".rootPath" | sed 's/"//g'`
+> For a useful shortcut on POSIX compliant machines run: `harperdb get_configuration json=true | jq ".rootPath" | sed 's/"//g'`
 
-This path is the Harper instance. Within this directory, locate the root config titled `harperdb-config.yaml`, and the components root path. The components root path will be `<rootPath>/components` by default, but it can also be configured. If necessary, use `harperdb get_configuration` again and look for the `componentsRoot` field for the exact path.
+This path is the Harper instance. Within this directory, locate the root config titled `harperdb-config.yaml`, and the components root path. The components root path will be `<rootPath>/components` by default (thus, `~/hdb/components`), but it can also be configured. If necessary, use `harperdb get_configuration` again and look for the `componentsRoot` field for the exact path.
 
 ### Adding components to root
 
 Similar to how components can specify other components within their `config.yaml`, components can be added to Harper by adding them to the `harperdb-config.yaml`.
 
-The configuration is very similar to that of `config.yaml`. Entries are comprised of a top-level `<name>:`, and an indented `package: <specifier>` field. Any additional component option can also be included as indented fields.
+The configuration is very similar to that of `config.yaml`. Entries are comprised of a top-level `<name>:`, and an indented `package: <specifier>` field. Any additional component options can also be included as indented fields.
 
 ```yaml
 status-check:
@@ -159,4 +159,4 @@ myCoolComponent:
   package: file:/Users/harper/cool-component.tar
 ```
 
-By specifying a file path, npm will generate a symlink and then changes will be automatically picked up between restarts. 
+By specifying a file path, npm will generate a symlink and then changes will be automatically picked up between restarts.
