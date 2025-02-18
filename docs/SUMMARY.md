@@ -14,12 +14,9 @@
   * [Web Applications](developers/applications/web-applications.md)
   * [Example Projects](developers/applications/example-projects.md)
 * [Components](developers/components/README.md)
-  * [Installing](developers/components/installing.md)
-  * [Writing Extensions](developers/components/writing-extensions.md)
-  * [Operations](developers/components/operations.md)
-  * [Google Data Studio](developers/components/google-data-studio.md)
-  * [SDKs](developers/components/sdks.md)
-  * [Drivers](developers/components/drivers.md)
+  * [Managing](developers/components/managing.md)
+  * [Reference](developers/components/reference.md)
+  * [Internal Components](developers/components/internal.md)
 * [REST](developers/rest.md)
 * [Operations API](developers/operations-api/README.md)
   * [Quick Start Examples](developers/operations-api/quickstart-examples.md)
@@ -65,6 +62,9 @@
   * [SQL Functions](developers/sql-guide/functions.md)
   * [SQL JSON Search](developers/sql-guide/json-search.md)
   * [SQL Geospatial Functions](developers/sql-guide/sql-geospatial-functions.md)
+* Miscellaneous
+  * [Google Data Studio](developers/miscellaneous/google-data-studio.md)
+  * [SDKs](developers/miscellaneous/sdks.md)
 
 ## Administration
 
