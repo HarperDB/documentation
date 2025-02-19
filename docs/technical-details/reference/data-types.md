@@ -41,7 +41,13 @@ Dates can be stored as a specific data type. This is not supported in JSON, but 
 
 ## Binary Data
 
-Binary data can be stored in property values as well. JSON doesn’t have any support for encoding binary data, but MessagePack and CBOR support binary data in data structures, and this will be preserved in HarperDB. Custom Functions can also store binary data by using NodeJS’s Buffer or Uint8Array instances to hold the binary data. The GraphQL schema type name is `Bytes`.
+Binary data can be stored in property values as well, with two different data types that are available:
+
+### Bytes
+JSON doesn’t have any support for encoding binary data, but MessagePack and CBOR support binary data in data structures, and this will be preserved in HarperDB. Custom Functions can also store binary data by using NodeJS’s Buffer or Uint8Array instances to hold the binary data. The GraphQL schema type name is `Bytes`.
+
+### Blobs
+Binary data can also be stored with [`Blob`s](blob.md), which can scale much better for larger content than `Bytes`, as it is designed to be streamed and does not need to be held entirely in memory. It is recommended that `Blob`s are used for content larger than 20KB. 
 
 ## Explicit Map/Set
 
