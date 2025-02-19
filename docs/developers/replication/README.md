@@ -24,9 +24,9 @@ In this example, the current node is `server-one`, and it will connect to `serve
 replication:
   hostname: server-one
   routes:
-    - wss://server-two:9925 # URL based route
+    - wss://server-two:9933 # URL based route
     - hostname: server-three # define a hostname and port
-      port: 9930
+      port: 9933
 ```
 
 You can also use the [operations API](../operations-api/clustering.md) to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
@@ -63,14 +63,12 @@ type LocalTableForNode @table(replicate: false) {
 
 You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, HarperDB will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](sharding.md).
 
-By default replication will connect on the operations API network interface/port (9925 by default). You can configure the replication port in the `replication` section. For example, to change the replication port to 9930:
+By default, replication connects to the secure port 9933. You can configure the replication port in the `replication` section.
 
 ```yaml
 replication:
-  securePort: 9930
+  securePort: 9933
 ```
-
-This will change the replication port to 9930 and the operations API port will be on a separate port, remaining on 9925.
 
 ### Securing Connections
 
@@ -157,7 +155,7 @@ You can completely disable secure connections and use IP addresses to authentica
 
 ```yaml
 replication:
-  port: 9930
+  port: 9933
   routes:
     - 127.0.0.2
     - 127.0.0.3
