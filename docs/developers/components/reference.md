@@ -12,7 +12,7 @@ Other features are provided by _custom components_. These can be npm packages su
 
 ## Component Configuration
 
-Harper components are configured with a **config.yaml** file located in the root of the component module directory. This file is how a component configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
+Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how a component configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
 
 ```yaml
 name:
@@ -20,7 +20,7 @@ name:
   option-2: value
 ```
 
-It is the entry's **name** that is used for component resolution. It can be one of the [internal components](./internal.md), or it must match a package dependency of the component as specified by **package.json**. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
+It is the entry's `name` that is used for component resolution. It can be one of the [internal components](./internal.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
 
 For some internal components they can be configured with as little as a top-level boolean; for example, the [rest](./internal.md#rest) extension can be enabled with just:
 
@@ -32,7 +32,7 @@ Other components (internal or custom), will generally have more configuration op
 
 ### Custom Component Configuration
 
-Any custom component **must** be configured with the `package` option in order for Harper to load that component. When enabled, the name of package must match a dependency of the component. For example, to use the `@harperdb/nextjs` extension, it must first be included in **package.json**:
+Any custom component **must** be configured with the `package` option in order for Harper to load that component. When enabled, the name of package must match a dependency of the component. For example, to use the `@harperdb/nextjs` extension, it must first be included in `package.json`:
 
 ```json
 {
@@ -42,7 +42,7 @@ Any custom component **must** be configured with the `package` option in order f
 }
 ```
 
-Then, within **config.yaml** it can be enabled and configured using:
+Then, within `config.yaml` it can be enabled and configured using:
 
 ```yaml
 '@harperdb/nextjs':
@@ -50,7 +50,7 @@ Then, within **config.yaml** it can be enabled and configured using:
   # ...
 ```
 
-Since npm allows for a [variety of dependency configurations](https://docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this can be used to create custom references. For example, to depend on a specific GitHub branch, first update the **package.json**:
+Since npm allows for a [variety of dependency configurations](https://docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this can be used to create custom references. For example, to depend on a specific GitHub branch, first update the `package.json`:
 
 ```json
 {
@@ -60,7 +60,7 @@ Since npm allows for a [variety of dependency configurations](https://docs.npmjs
 }
 ```
 
-And now in **config.yaml**:
+And now in `config.yaml`:
 
 ```yaml
 harper-nextjs-test-feature:
@@ -71,7 +71,7 @@ harper-nextjs-test-feature:
 
 ### Default Component Configuration
 
-Harper components do not need to specify a **config.yaml**. Harper uses the following default configuration to load components.
+Harper components do not need to specify a `config.yaml`. Harper uses the following default configuration to load components.
 
 ```yaml
 rest: true
@@ -89,23 +89,25 @@ static:
   files: 'web/**'
 ```
 
-If a **config.yaml** is defined, it will **not** be merged with the default config.
+Refer to the [internal components](./internal.md) documentation for more information on these fields.
+
+If a `config.yaml` is defined, it will **not** be merged with the default config.
 
 ## Extensions
 
-A Harper Extension is a extensible component that is intended to be used by other Components. The internal Components [graphqlSchema](./internal.md#graphqlschema) and [jsResource](./internal.md#jsresource) are both examples of extensions.
+A Harper Extension is a extensible component that is intended to be used by other components. The internal components [graphqlSchema](./internal.md#graphqlschema) and [jsResource](./internal.md#jsresource) are both examples of extensions.
 
-There are two key types of Harper Extensions, **Resource Extension** and **Protocol Extensions**. The key difference is a **Protocol Extensions** can return a **Resource Extension**.
+There are two key types of Harper Extensions: **Resource Extension** and **Protocol Extensions**. The key difference is a **Protocol Extensions** can return a **Resource Extension**.
 
-Functionally, what makes an extension a component is the contents of **config.yaml**. Unlike the Application Template referenced earlier, which specified multiple components within the **config.yaml**, an extension will specify an `extensionModule` option.
+Functionally, what makes an extension a component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple components within the `config.yaml`, an extension will specify an `extensionModule` option.
 
 - **extensionModule** - `string` - _required_ - A path to the extension module source code. The path must resolve from the root of the extension module directory.
 
-For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) **config.yaml** specifies `extensionModule: ./extension.js`.
+For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
 
 If the extension is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `extensionModule: ./dist/index.js`)
 
-It is also recommended that all extensions have a **package.json** that specifies JavaScript package metadata such as name, version, type, etc. Since extensions are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin]() property). It can be published to npm. The possibilities are endless!
+It is also recommended that all extensions have a `package.json` that specifies JavaScript package metadata such as name, version, type, etc. Since extensions are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin](https://docs.npmjs.com/cli/configuring-npm/package-json#bin) property). It can be published to npm. The possibilities are endless!
 
 Furthermore, what defines an extension separately from a component is that it leverages any of the [Resource Extension](#resource-extension-api) or [Protocol Extension](#protocol-extension-api) APIs. The key is in the name, **extensions are extensible**.
 
@@ -213,13 +215,13 @@ Returns: `boolean | void | Promise<boolean | void>`
 
 ### Protocol Extension
 
-A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension]() handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../../technical-details/reference/globals.md#server) global API documentation for more information).
+A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../../technical-details/reference/globals.md#server) global API documentation for more information).
 
 #### Protocol Extension Configuration
 
-In addition to the `files`, `path`, and `root` [Resource Extension configuration](#resource-extension-configuration) options, and the `package` [Custom Component configuration](#custom-component-configuration) option, Protocol Extensions can also specify additional configuration options. Any options added to the extension configuration (in **config.yaml**), will be passed through to the `options` object of the `start()` and `startOnMainThread()` methods.
+In addition to the `files`, `path`, and `root` [Resource Extension configuration](#resource-extension-configuration) options, and the `package` [Custom Component configuration](#custom-component-configuration) option, Protocol Extensions can also specify additional configuration options. Any options added to the extension configuration (in `config.yaml`), will be passed through to the `options` object of the `start()` and `startOnMainThread()` methods.
 
-For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following **config.yaml**:
+For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following `config.yaml`:
 
 ```yaml
 '@harperdb/nextjs':
