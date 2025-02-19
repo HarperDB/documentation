@@ -77,6 +77,19 @@ harperdb deploy_component \
   replicated=true
 ```
 
+Or, using environment variables:
+
+```sh
+export CLI_TARGET_USERNAME={username}
+export CLI_TARGET_PASSWORD={password}
+harperdb deploy_component \
+  project={name} \
+  package={package} \
+  target={remote} \
+  restart=true \
+  replicated=true
+```
+
 Unlike local development where `package` should be set to a local file path for symlinking and improved development experience purposes, now it has some additional options.
 
 A local component can be deployed to a remote instance by **omitting** the `package` field. Harper will automatically package the local directory and include that along with the rest of the deployment operation.
@@ -88,7 +101,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
     - Reference the [SSH Key](https://docs.harperdb.io/docs/developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
   - Even tarball URLs are supported: `package="https://example.com/component.tar.gz"`
 
-> When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers.
+> When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.
 
 These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
 

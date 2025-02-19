@@ -16,7 +16,7 @@
 * [Components](developers/components/README.md)
   * [Managing](developers/components/managing.md)
   * [Reference](developers/components/reference.md)
-  * [Internal Components](developers/components/internal.md)
+  * [Built-In Components](developers/components/built-in.md)
 * [REST](developers/rest.md)
 * [Operations API](developers/operations-api/README.md)
   * [Quick Start Examples](developers/operations-api/quickstart-examples.md)

@@ -1,8 +1,8 @@
-# Internal Components
+# Built-In Components
 
-Harper provides extended features using internal components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, internal components follow Harper's semantic version.
+Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
 
-- [Internal Components](#internal-components)
+- [Built-In Components](#built-in-components)
 	- [fastifyRoutes](#fastifyroutes)
 	- [graphql](#graphql)
 	- [graphqlSchema](#graphqlschema)
