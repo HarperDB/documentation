@@ -28,18 +28,18 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
 2. _Deploy_ the component to the local instance by executing:
     ```sh
     harperdb deploy_component \
-      project={name} \
-      package={path-to-project} \
+      project=<name> \
+      package=<path-to-project> \
       restart=true
     ```
    - Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
-   - The `package={path-to-project}` option creates a symlink to the component simplifying restarts
+   - The `package=<path-to-project>` option creates a symlink to the component simplifying restarts
      - By default, the `deploy_component` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
    - The `restart=true` option automatically restarts Harper threads after the component is deployed
 3. In another process, use the `harperdb restart` command to restart the instance's threads at any time
-   - With `package={path-to-project}`, the component source is symlinked so changes will automatically be picked up between restarts
+   - With `package=<path-to-project>`, the component source is symlinked so changes will automatically be picked up between restarts
    - If `package` was omitted, run the `deploy_component` command again with any new changes
-4. To remove the component use `harperdb drop_component project={name}`
+4. To remove the component use `harperdb drop_component project=<name>`
 
 Similar to the previous section, if the main thread needs to be restarted, start and stop the Harper instance manually (with the component deployed). Upon Harper startup, the component will automatically be loaded and executed across all threads.
 
@@ -68,11 +68,11 @@ All together:
 
 ```sh
 harperdb deploy_component \
-  project={name} \
-  package={package} \
-  username={username} \
-  password={password} \
-  target={remote} \
+  project=<name> \
+  package=<package> \
+  username=<username> \
+  password=<password> \
+  target=<remote> \
   restart=true \
   replicated=true
 ```
@@ -80,12 +80,12 @@ harperdb deploy_component \
 Or, using environment variables:
 
 ```sh
-export CLI_TARGET_USERNAME={username}
-export CLI_TARGET_PASSWORD={password}
+export CLI_TARGET_USERNAME=<username>
+export CLI_TARGET_PASSWORD=<password>
 harperdb deploy_component \
-  project={name} \
-  package={package} \
-  target={remote} \
+  project=<name> \
+  package=<package> \
+  target=<remote> \
   restart=true \
   replicated=true
 ```
@@ -105,7 +105,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 
 These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
 
-Finally, don't forget to include `restart=true`, or run `harperdb restart target={remote}`.
+Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`.
 
 ## Advanced
 
@@ -115,20 +115,20 @@ First, locate the Harper installation `rootPath` directory. Generally, this is `
 
 > For a useful shortcut on POSIX compliant machines run: `harperdb get_configuration json=true | jq ".rootPath" | sed 's/"//g'`
 
-This path is the Harper instance. Within this directory, locate the root config titled `harperdb-config.yaml`, and the components root path. The components root path will be `{rootPath}/components` by default (thus, `~/hdb/components`), but it can also be configured. If necessary, use `harperdb get_configuration` again and look for the `componentsRoot` field for the exact path.
+This path is the Harper instance. Within this directory, locate the root config titled `harperdb-config.yaml`, and the components root path. The components root path will be `<rootPath>/components` by default (thus, `~/hdb/components`), but it can also be configured. If necessary, use `harperdb get_configuration` again and look for the `componentsRoot` field for the exact path.
 
 ### Adding components to root
 
 Similar to how components can specify other components within their `config.yaml`, components can be added to Harper by adding them to the `harperdb-config.yaml`.
 
-The configuration is very similar to that of `config.yaml`. Entries are comprised of a top-level `{name}:`, and an indented `package: {specifier}` field. Any additional component options can also be included as indented fields.
+The configuration is very similar to that of `config.yaml`. Entries are comprised of a top-level `<name>:`, and an indented `package: <specifier>` field. Any additional component options can also be included as indented fields.
 
 ```yaml
 status-check:
   package: "@harperdb/status-check"
 ```
 
-The key difference between this and a component's `config.yaml` is that the name does **not** need to be associated with a `package.json` dependency. When Harper starts up, it transforms these configurations into a `package.json` file, and then executes a form of `npm install`. Thus, the `package: {specifier}` can be any valid dependency syntax such as npm packages, GitHub repos, tarballs, and local directories are all supported.
+The key difference between this and a component's `config.yaml` is that the name does **not** need to be associated with a `package.json` dependency. When Harper starts up, it transforms these configurations into a `package.json` file, and then executes a form of `npm install`. Thus, the `package: <specifier>` can be any valid dependency syntax such as npm packages, GitHub repos, tarballs, and local directories are all supported.
 
 Given a root config like:
 
@@ -159,7 +159,7 @@ Harper will generate a `package.json` like:
 }
 ```
 
-npm will install all the components and store them in `{componentsRoot}`. A symlink back to `{rootPath}/node_modules` is also created for dependency resolution purposes.
+npm will install all the components and store them in `<componentsRoot>`. A symlink back to `<rootPath>/node_modules` is also created for dependency resolution purposes.
 
 The package prefix is automatically added, however you can manually set it in your package reference.
 
