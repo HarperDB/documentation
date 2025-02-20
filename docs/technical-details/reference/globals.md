@@ -89,11 +89,11 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 
 #### `Request`
 
-> TODO
+An implementation of WHATWG [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) class. 
 
 #### `Response`
 
-> TODO
+An implementation of WHATWG [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) class.
 
 #### `HttpOptions`
 
@@ -132,14 +132,22 @@ Node.js [`net.Server`](https://nodejs.org/api/net.html#class-netserver) or [`tls
 
 ### `server.ws(listener: WsListener, options: WsOptions): HttpServer[]`
 
-Add a listener to the WebSocket connection listener middleware chain. The WebSocket server is associated with the HTTP server specified by the `options.port` or `options.securePort`. Use the [`server.upgrade()`](#serverupgrade) method to add a listener to the upgrade middleware chain.
+Add a listener to the WebSocket connection listener middleware chain. The WebSocket server is associated with the HTTP server specified by the `options.port` or `options.securePort`. Use the [`server.upgrade()`](#serverupgradelistener-upgradelistener-options-upgradeoptions-void) method to add a listener to the upgrade middleware chain.
 
 Example:
 
 ```js
 server.ws((ws, request, chainCompletion) => {
+	chainCompletion.then(() => {
+		ws.on('error', console.error);
 
-})
+		ws.on('message', function message(data) {
+			console.log('received: %s', data);
+		});
+
+		ws.send('something');
+	});
+});
 ```
 
 #### `WsListener`
@@ -148,8 +156,8 @@ Type: `(ws: WebSocket, request: Request, chainCompletion: ChainCompletion, next:
 
 The WebSocket connection listener.
 
-- The `ws` argument is the [WebSocket]() instance as defined by the `ws` module.
-- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection']() listener event for a WebSocket server. 
+- The `ws` argument is the [WebSocket](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
+- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server. 
 - The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
 - The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
 
@@ -166,7 +174,48 @@ Properties:
 - `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
 - `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
-### `server.upgrade()`
+### `server.upgrade(listener: UpgradeListener, options: UpgradeOptions): void`
+
+Add a listener to the HTTP Server [upgrade](https://nodejs.org/api/http.html#event-upgrade_1) event. If a WebSocket connection listener is added using [`server.ws()`](#serverwslistener-wslistener-options-wsoptions-httpserver), a default upgrade handler will be added as well. The default upgrade handler will add a `__harperdb_request_upgraded` boolean to the `request` argument to signal the connection has already been upgraded. It will also check for this boolean _before_ upgrading and if it is `true`, it will pass the arguments along to the `next` listener.
+
+This method should be used to delegate HTTP upgrade events to an external WebSocket server instance.
+
+Example:
+
+> This example is from the HarperDB Next.js component. See the complete source code [here](https://github.com/HarperDB/nextjs/blob/main/extension.js)
+
+```js
+server.upgrade(
+	(request, socket, head, next) => {
+		if (request.url === '/_next/webpack-hmr') {
+			return upgradeHandler(request, socket, head).then(() => {
+				request.__harperdb_request_upgraded = true;
+
+				next(request, socket, head);
+			});
+		}
+
+		return next(request, socket, head);
+	},
+	{ runFirst: true }
+);
+```
+
+#### `UpgradeListener`
+
+Type: `(request, socket, head, next) => void`
+
+The arguments are passed to the middleware chain from the HTTP server [`'upgrade'`](https://nodejs.org/api/http.html#event-upgrade_1) event.
+
+#### `UpgradeOptions`
+
+Type: `Object`
+
+Properties:
+
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTP secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 ### `server.config`
 
