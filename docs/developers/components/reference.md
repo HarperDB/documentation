@@ -37,7 +37,7 @@ Any custom component **must** be configured with the `package` option in order f
 ```json
 {
   "dependencies": {
-	"@harperdb/nextjs": "^1.0.0"
+    "@harperdb/nextjs": "^1.0.0"
   }
 }
 ```
@@ -55,7 +55,7 @@ Since npm allows for a [variety of dependency configurations](https://docs.npmjs
 ```json
 {
   "dependencies": {
-	"harper-nextjs-test-feature": "HarperDB/nextjs#test-feature"
+    "harper-nextjs-test-feature": "HarperDB/nextjs#test-feature"
   }
 }
 ```
@@ -115,7 +115,7 @@ Furthermore, what defines an extension separately from a component is that it le
 
 A Resource Extension is for processing a certain type of file or directory. For example, the built-in [jsResource](./built-in.md#jsresource) extension handles executing JavaScript files.
 
-These Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-path-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-path-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-path-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
+Resource Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-path-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-path-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-path-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
 
 > Keep in mind that the CLI command `harperdb restart` or CLI argument `restart=true` only restarts the worker threads. If a component is deployed using `harperdb deploy`, the code within the `setupFile()` and `setupDirectory()` methods will not be executed until the system is completely shutdown and turned back on.
 
@@ -165,7 +165,7 @@ When returned by a [Protocol Extension](#protocol-extension), these methods shou
 ```js
 export function start() {
   return {
-	handleFile () {}
+    handleFile () {}
   }
 }
 ```
