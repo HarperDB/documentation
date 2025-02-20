@@ -36,6 +36,7 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
    - The `package=<path-to-project>` option creates a symlink to the component simplifying restarts
      - By default, the `deploy_component` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
    - The `restart=true` option automatically restarts Harper threads after the component is deployed
+     - If set to `'rolling'`, a rolling restart will be triggered after the component is deployed
 3. In another terminal, use the `harperdb restart` command to restart the instance's threads at any time
    - With `package=<path-to-project>`, the component source is symlinked so changes will automatically be picked up between restarts
    - If `package` was omitted, run the `deploy_component` command again with any new changes
