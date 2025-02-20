@@ -67,7 +67,7 @@ Alias: `server.request`
 
 Add a handler method to the HTTP server request listener middleware chain.
 
-Returns the list of servers based on the specified `options.port` and `options.securePort`.
+Returns an array of server instances based on the specified `options.port` and `options.securePort`.
 
 Example:
 
