@@ -22,7 +22,7 @@ const { tables, Resource } = require('harperdb');
 
 The global variables include:
 
-### `tables`
+## `tables`
 
 This is an object that holds all the tables for the default database (called `data`) as properties. Each of these property values is a table class that subclasses the Resource interface and provides access to the table through the Resource interface. For example, you can get a record from a table (in the default database) called 'my-table' with:
 
@@ -36,7 +36,7 @@ async function getRecord() {
 
 It is recommended that you [define a database](../../getting-started/getting-started.md) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake\_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
-### `databases`
+## `databases`
 
 This is an object that holds all the databases in HarperDB, and can be used to explicitly access a table by database name. Each database will be a property on this object, each of these property values will be an object with the set of all tables in that database. The default database, `databases.data` should equal the `tables` export. For example, if you want to access the "dog" table in the "dev" database, you could do so:
 
@@ -45,27 +45,134 @@ import { databases } from 'harperdb';
 const { Dog } = databases.dev;
 ```
 
-### `Resource`
+## `Resource`
 
 This is the base class for all resources, including tables and external data sources. This is provided so that you can extend it to implement custom data source providers. See the [Resource API documentation](resource.md) for more details about implementing a Resource class.
 
-### `auth(username, password?): Promise<User>`
+## `auth(username, password?): Promise<User>`
 
 This returns the user object with permissions/authorization information based on the provided username. If a password is provided, the password will be verified before returning the user object (if the password is incorrect, an error will be thrown).
 
-### `logger`
+## `logger`
 
 This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../../administration/logging/logging.md) for more information.
 
-### `server`
+## `server`
 
-This provides a number of functions and objects to interact with the server including:
+The `server` global object provides a number of functions and objects to interact with Harper's HTTP service. 
 
-#### `server.config`
+### `server.http(listener: RequestListener, options: HttpOptions): HttpServer[]`
+
+Alias: `server.request`
+
+Add a handler method to the HTTP server request listener middleware chain.
+
+Returns the list of servers based on the specified `options.port` and `options.securePort`.
+
+Example:
+
+```js
+server.http((request, next) => {
+	return request.url === '/graphql'
+		? handleGraphQLRequest(request)
+		: next(request);
+}, {
+	runFirst: true, // run this handler first
+});
+```
+
+#### `RequestListener`
+
+Type: `(request: Request, next: RequestListener) => Promise<Response>`
+
+The HTTP request listener to be added to the middleware chain. To continue chain execution pass the `request` to the `next` function such as `return next(request);`.
+
+#### `Request`
+
+> TODO
+
+#### `Response`
+
+> TODO
+
+#### `HttpOptions`
+
+Type: `Object`
+
+Properties:
+
+<!-- Internal Use Only - `mtls` - _optional_ - `boolean` -->
+<!-- Internal Use Only - `isOperationsServer` - _optional_ - `boolean`  -->
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+
+#### `HttpServer`
+
+Node.js [`http.Server`](https://nodejs.org/api/http.html#class-httpserver) or [`https.SecureServer`](https://nodejs.org/api/https.html#class-httpsserver) instance.
+
+### `server.socket(listener: ConnectionListener, options: SocketOptions): SocketServer`
+
+Creates a socket server on the specified `options.port` or `options.securePort`.
+
+Only one socket server will be created. A `securePort` takes precedence.
+
+#### `ConnectionListener`
+
+Node.js socket server connection listener as documented in [`net.createServer`](https://nodejs.org/api/net.html#netcreateserveroptions-connectionlistener) or [`tls.createServer`](https://nodejs.org/api/tls.html#tlscreateserveroptions-secureconnectionlistener)
+
+#### `SocketOptions`
+
+- `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https://nodejs.org/api/net.html#class-netserver) instance.
+- `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
+
+#### `SocketServer`
+
+Node.js [`net.Server`](https://nodejs.org/api/net.html#class-netserver) or [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
+
+### `server.ws(listener: WsListener, options: WsOptions): HttpServer[]`
+
+Add a listener to the WebSocket connection listener middleware chain. The WebSocket server is associated with the HTTP server specified by the `options.port` or `options.securePort`. Use the [`server.upgrade()`](#serverupgrade) method to add a listener to the upgrade middleware chain.
+
+Example:
+
+```js
+server.ws((ws, request, chainCompletion) => {
+
+})
+```
+
+#### `WsListener`
+
+Type: `(ws: WebSocket, request: Request, chainCompletion: ChainCompletion, next: WsListener): Promise<void>`
+
+The WebSocket connection listener.
+
+- The `ws` argument is the [WebSocket]() instance as defined by the `ws` module.
+- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection']() listener event for a WebSocket server. 
+- The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
+- The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
+
+#### `WsOptions`
+
+Type: `Object`
+
+Properties:
+
+<!-- Internal Use Only - `mtls` - _optional_ - `boolean` -->
+<!-- Internal Use Only - `isOperationsServer` - _optional_ - `boolean`  -->
+- `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+
+### `server.upgrade()`
+
+### `server.config`
 
 This provides access to the HarperDB configuration object. This comes from the [harperdb-config.yaml](../../deployments/configuration.md) (parsed into object form).
 
-#### `server.recordAnalytics(value, metric, path?, method?, type?)`
+### `server.recordAnalytics(value, metric, path?, method?, type?)`
 
 This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
