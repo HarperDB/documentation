@@ -65,7 +65,7 @@ And now in `config.yaml`:
 ```yaml
 harper-nextjs-test-feature:
   package: '@harperdb/nextjs'
-  files: '/*'
+  files: './'
   # ...
 ```
 
@@ -84,7 +84,7 @@ jsResource:
   files: 'resources.js'
 fastifyRoutes:
   files: 'routes/*.js'
-  path: '.'
+  urlPath: '.'
 static:
   files: 'web/**'
 ```
@@ -115,7 +115,7 @@ Furthermore, what defines an extension separately from a component is that it le
 
 A Resource Extension is for processing a certain type of file or directory. For example, the built-in [jsResource](./built-in.md#jsresource) extension handles executing JavaScript files.
 
-Resource Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-path-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-path-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-path-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-path-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
+Resource Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-absolutepath-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-absolutepath-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-absolutepath-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-absolutepath-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
 
 > Keep in mind that the CLI command `harperdb restart` or CLI argument `restart=true` only restarts the worker threads. If a component is deployed using `harperdb deploy`, the code within the `setupFile()` and `setupDirectory()` methods will not be executed until the system is completely shutdown and turned back on.
 
@@ -125,8 +125,11 @@ Other than their execution behavior, the `handleFile()` and `setupFile()` method
 
 Any [Resource Extension](#resource-extension) can be configured with the `files` and `path` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
-- **files** - `string` - *required* - A [fast-glob glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) determining the set of files and directories to be resolved for the extension.
-- **path** - `string` - *optional* - A base URL path to prepend to the resolved `files` entries.
+- **files** - `string | string[] | Object` - *required* - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper matches files *and directories*.
+  - **source** - `string | string[]` - *required* - The glob pattern string or array of strings.
+  - **onlyFiles** - `boolean` - *optional* - Defaults to `false`, meaning the glob pattern will match directories and files.
+  - **ignore** - `string | string[]` - *optional* - A glob pattern string or array of strings for files to be ignored. Defaults to `[]`.
+- **urlPath** - `string` - *optional* - A base URL path to prepend to the resolved `files` entries.
   - If the value starts with `./`, such as `'./static/'`, the component name will be included in the base url path
   - If the value is `.`, then the component name will be the base url path
     - Note: `..` is an invalid pattern and will result in an error
@@ -137,18 +140,37 @@ For example, to configure the [static](./built-in.md#static) component to serve 
 ```yaml
 static:
   files: 'web/*.html'
-  path: 'static'
+  urlPath: 'static'
 ```
 
-So if there was files such as `web/index.html` and `web/blog.html`, they would be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
+If there are files such as `web/index.html` and `web/blog.html`, they would be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
 
-Furthermore, if the component was located in the `test-component` directory, and the `path` was set to `'./static/'` instead, then the files would be served from `localhost/test-component/static/*` instead.
+Furthermore, if the component is located in the `test-component` directory, and the `urlPath` was set to `'./static/'` instead, then the files would be served from `localhost/test-component/static/*` instead.
 
-The `path` option is optional, for example to configure the [graphqlSchema](./built-in.md#graphqlschema) component to load all schemas within the `src/schema` directory, only specifying a `files` glob pattern is required:
+The `urlPath` is optional, for example to configure the [graphqlSchema](./built-in.md#graphqlschema) component to load all schemas within the `src/schema` directory, only specifying a `files` glob pattern is required:
 
 ```yaml
 graphqlSchema:
   files: 'src/schema/*.schema'
+```
+
+The `files` option also supports a more complex options object. These additional fields enable finer control of the glob pattern matching.
+
+For example, to match files within `web`, and omit any within the `web/images` directory, the configuration could be:
+```yaml
+static:
+  files:
+    source: 'web/**/*'
+    ignore: 'web/images'
+```
+
+Or to disable matching directories within the glob pattern:
+
+```yaml
+test-component:
+  files:
+    source: 'dir/**/*'
+    onlyFiles: true
 ```
 
 #### Resource Extension API
@@ -177,8 +199,8 @@ export function start() {
 }
 ```
 
-##### `handleFile(contents, urlPath, path, resources): void | Promise<void>`
-##### `setupFile(contents, urlPath, path, resources): void | Promise<void>`
+##### `handleFile(contents, urlPath, absolutePath, resources): void | Promise<void>`
+##### `setupFile(contents, urlPath, absolutePath, resources): void | Promise<void>`
 
 These methods are for processing individual files. They can be async.
 
@@ -192,14 +214,14 @@ Parameters:
 
 - **contents** - `Buffer` - The contents of the file
 - **urlPath** - `string` - The recommended URL path of the file
-- **path** - `string` - The relative path of the file
+- **absolutePath** - `string` - The absolute path of the file
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
 - **resources** - `Object` - A collection of the currently loaded resources
 
 Returns: `void | Promise<void>`
 
-##### `handleDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
-##### `setupDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
+##### `handleDirectory(urlPath, absolutePath, resources): boolean | void | Promise<boolean | void>`
+##### `setupDirectory(urlPath, absolutePath, resources): boolean | void | Promise<boolean | void>`
 
 These methods are for processing directories. They can be async.
 
@@ -213,8 +235,8 @@ If the function returns or resolves a truthy value, then the component loading s
 
 Parameters:
 
-- **urlPath** - `string` - The recommended URL path of the file
-- **path** - `string` - The relative path of the directory
+- **urlPath** - `string` - The recommended URL path of the directory
+- **absolutePath** - `string` - The absolute path of the directory
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
 - **resources** - `Object` - A collection of the currently loaded resources
 
@@ -226,14 +248,14 @@ A Protocol Extension is a more advanced form of a Resource Extension and is main
 
 #### Protocol Extension Configuration
 
-In addition to the `files`, `path`, and `root` [Resource Extension configuration](#resource-extension-configuration) options, and the `package` [Custom Component configuration](#custom-component-configuration) option, Protocol Extensions can also specify additional configuration options. Any options added to the extension configuration (in `config.yaml`), will be passed through to the `options` object of the `start()` and `startOnMainThread()` methods.
+In addition to the `files` and `urlPath` [Resource Extension configuration](#resource-extension-configuration) options, and the `package` [Custom Component configuration](#custom-component-configuration) option, Protocol Extensions can also specify additional configuration options. Any options added to the extension configuration (in `config.yaml`), will be passed through to the `options` object of the `start()` and `startOnMainThread()` methods.
 
 For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following `config.yaml`:
 
 ```yaml
 '@harperdb/nextjs':
   package: '@harperdb/nextjs'
-  files: '/*'
+  files: './'
   prebuilt: true
   dev: false
 ```
