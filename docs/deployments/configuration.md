@@ -182,7 +182,7 @@ replication:
     - wss://server-two:9925
   port: null
   securePort: 9925,
-  disableRootCAs: false
+  enableRootCAs: true
 ```
 
 `hostname` - _Type_: string;
