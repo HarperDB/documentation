@@ -123,21 +123,28 @@ Other than their execution behavior, the `handleFile()` and `setupFile()` method
 
 #### Resource Extension Configuration
 
-Any [Resource Extension](#resource-extension) can be configured with the `files`, `path`, and `root` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
+Any [Resource Extension](#resource-extension) can be configured with the `files` and `path` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
-- **files** - `string` - *required* - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
-- **path** - `string` - *optional* - Specifies the URL path to be handled by the component.
-- **root** - `string` - *optional* - Specifies the root directory for mapping file paths to the URLs.
+- **files** - `string` - *required* - A [fast-glob glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) determining the set of files and directories to be resolved for the extension.
+- **path** - `string` - *optional* - A base URL path to prepend to the resolved `files` entries.
+  - If the value starts with `./`, such as `'./static/'`, the component name will be included in the base url path
+  - If the value is `.`, then the component name will be the base url path
+    - Note: `..` is an invalid pattern and will result in an error
+  - Otherwise, the value here will be base url path. Leading and trailing `/` characters will be handled automatically (`/static/`, `/static`, and `static/` are all equivalent to `static`)
 
-For example, to configure the [static](./built-in.md#static) component to server all files from `web` to the root URL path:
+For example, to configure the [static](./built-in.md#static) component to serve all HTML files from the `web` source directory on the `static` URL endpoint:
 
 ```yaml
 static:
-  files: 'web/**'
-  root: 'web'
+  files: 'web/*.html'
+  path: 'static'
 ```
 
-Or, to configure the [graphqlSchema](./built-in.md#graphqlschema) component to load all schemas within the `src/schema` directory:
+So if there was files such as `web/index.html` and `web/blog.html`, they would be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
+
+Furthermore, if the component was located in the `test-component` directory, and the `path` was set to `'./static/'` instead, then the files would be served from `localhost/test-component/static/*` instead.
+
+The `path` option is optional, for example to configure the [graphqlSchema](./built-in.md#graphqlschema) component to load all schemas within the `src/schema` directory, only specifying a `files` glob pattern is required:
 
 ```yaml
 graphqlSchema:
