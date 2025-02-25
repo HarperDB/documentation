@@ -206,15 +206,21 @@ replication:
 
 `routes` - _Type_: array;
 
-An array of routes to connect to other nodes. Each element in the array can be either a string or an object with `hostname` and `port` properties.
+An array of routes to connect to other nodes. Each element in the array can be either a string or an object with `hostname`, `port` and optionally `startTime` properties.
+
+`startTime` - _Type_: string; ISO formatted UTC date string. 
+
+Replication will attempt to catch up on all remote data upon setup. To start replication from a specific date, set this property.
 
 ```yaml
 replication:
+  copyTablesToCatchUp: true
   hostname: server-one
   routes:
     - wss://server-two:9925 # URL based route
     - hostname: server-three # define a hostname and port
       port: 9930
+      startTime: 2024-02-06T15:30:00Z
 ```
 
 `port` - _Type_: integer; 
@@ -227,7 +233,11 @@ The port to use for secure replication connections.
 
 `enableRootCAs` - _Type_: boolean; _Default_: true
 
-When false, HarperDB will not verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+When true, HarperDB will verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+
+`copyTablesToCatchUp` - _Type_: boolean; _Default_: true
+
+Replication will first attempt to catch up using the audit log. If unsuccessful, it will perform a full table copy. When set to `false`, replication will only use the audit log.
 
 ***
 
@@ -596,6 +606,27 @@ Log HarperDB logs to the standard output and error streams.
 ```yaml
 logging:
   stdStreams: false
+```
+
+`auditAuthEvents`
+
+`logFailed` - _Type_: boolean; _Default_: false
+
+Log all failed authentication events.
+
+_Example:_ `[error] [auth-event]: {"username":"admin","status":"failure","type":"authentication","originating_ip":"127.0.0.1","request_method":"POST","path":"/","auth_strategy":"Basic"}`
+
+`logSuccessful` - _Type_: boolean; _Default_: false
+
+Log all successful authentication events.
+
+_Example:_ `[notify] [auth-event]: {"username":"admin","status":"success","type":"authentication","originating_ip":"127.0.0.1","request_method":"POST","path":"/","auth_strategy":"Basic"}`
+
+```yaml
+logging:
+  auditAuthEvents:
+    logFailed: false
+    logSuccessful: false
 ```
 
 ***

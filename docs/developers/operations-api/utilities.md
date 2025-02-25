@@ -29,6 +29,7 @@ _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `restart_service`
 * service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
+* replicated _(optional)_ - must be a boolean. If set to `true`, HarperDB will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
 
 ### Body
 ```json
@@ -52,7 +53,7 @@ Returns detailed metrics on the host system.
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `system_information`
-* attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'replication']
+* attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'metrics', 'threads', 'replication']
 
 ### Body
 ```json
@@ -364,7 +365,8 @@ _Operation is restricted to super_user roles only_
 ### Body
 ```json
 {
-  "operation": "remove_certificate"
+  "operation": "remove_certificate",
+  "name": "my-cert"
 }
 ```
 
