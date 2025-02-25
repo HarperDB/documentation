@@ -387,6 +387,18 @@ This defines the source for a table. This allows a table to function as a cache 
 
 If the source resource implements subscription support, real-time invalidation can be performed to ensure the cache is guaranteed to be fresh (and this can eliminate or reduce the need for time-based expiration of data).
 
+### `directURLMapping`
+This property can be set to force the direct URL request target to be mapped to the resource primary key. Normally, URL resource targets are parsed, where the path is mapped to the primary key of the resource (and decoded using standard URL decoding), and any query string parameters are used to query that resource. But if this is turned on, the full URL is used as the primary key. For example:
+```javascript
+export class MyTable extends tables.MyTable {
+    static directURLMapping = true;
+}
+```
+```http request
+GET /MyTable/test?foo=bar
+```
+This will be mapped to the resource with a primary key of `test?foo=bar`, and no querying will be performed on that resource.
+
 ### `parsePath(path, context, query) {`
 
 This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will parse `.property` suffixes for accessing properties and specifying preferred content type in the URL (and for older tables it will convert a multi-segment path to multipart an array id). However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:

@@ -75,4 +75,20 @@ export class MyEndpoint extends MyTable {
 }
 ```
 
+### Blob `size`
+
+Blobs that are created from streams may not have the standard `size` property available, because the size may not be known while data is being streamed. Consequently, the `size` property may be undefined until the size is determined. You can listen for the `size` event to be notified when the size is available:
+```javascript
+let record = await MyTable.get('my-record');
+let blob = record.data;
+blob.size // will be available if it was saved with a known size
+let stream blob.stream(); // start streaming the data
+if (blob.size === undefined) {
+	blob.on('size', (size) => {
+		// will be called once the size is available
+	})
+}
+
+```
+
 See the [configuration](../../deployments/configuration.md) documentation for more information on configuring where blob are stored. 

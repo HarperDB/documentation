@@ -30,7 +30,7 @@ This can be used to search for records by the specified property name and value.
 
 ### `GET /my-resource/<record-id>.property`
 
-This can be used to retrieve the specified property of the specified record.
+This can be used to retrieve the specified property of the specified record. Note that this will only work for properties that are declared in the schema.
 
 ## PUT
 
