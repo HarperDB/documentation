@@ -89,7 +89,20 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 
 #### `Request`
 
-An implementation of WHATWG [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) class. 
+An implementation of WHATWG [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) class. This Request is designed to follow the standard as closely as possible, but has some additional properties, methods and behaviors that facilitate its use as a server API:
+- `request.url` - This is the resource target of the request, which will includes the full path and query string that comes after the hostname and port in the URL.
+- `request.sendEarlyHints(link)` - This sends an early hints response to the client. This is useful for sending link headers to the client before the final response is sent so that browsers can preload resources. This is generally most helpful in a cache resolution function, where you can send hints _if_ the data is not in the cache and is resolving from an origin:
+```javascript
+class Origin {
+	async get(request) {
+		// if we are fetching data from origin, send early hints
+		this.getContext().requestContext.sendEarlyHints('<link rel="preload" href="/my-resource" as="fetch">');
+		let response = await fetch(request);
+		...
+	}
+}
+Cache.sourcedFrom(Origin);
+```
 
 #### `Response`
 
