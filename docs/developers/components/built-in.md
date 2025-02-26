@@ -19,13 +19,13 @@ Harper provides extended features using built-in components. They do **not** nee
 
 Specify custom endpoints using [Fastify](https://fastify.dev/).
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Define Fastify Routes](https://docs.harperdb.io/docs/developers/applications/define-fastify-routes)
 
 ```yaml
 fastifyRoutes:
-  files: './routes/*.js'
+  files: 'routes/*.js'
 ```
 
 ## graphql
@@ -44,13 +44,13 @@ graphql: true
 
 Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Defining Schemas](https://docs.harperdb.io/docs/developers/applications/defining-schemas)
 
 ```yaml
 graphqlSchema:
-  files: './schemas.graphql'
+  files: 'schemas.graphql'
 ```
 
 ## jsResource
@@ -59,11 +59,11 @@ Specify custom, JavaScript based Harper resources.
 
 Refer to the Application [Custom Functionality with JavaScript](https://docs.harperdb.io/docs/developers/applications#custom-functionality-with-javascript) guide, or [Resource Class](https://docs.harperdb.io/docs/technical-details/reference/resource) reference documentation for more information on custom resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
 
 ```yaml
 jsResource:
-  files: './resource.js'
+  files: 'resource.js'
 ```
 
 <!-- ## login -->
@@ -104,22 +104,57 @@ rest:
 
 Specify roles for Harper tables and resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Defining Roles](https://docs.harperdb.io/docs/developers/applications/defining-roles)
 
 ```yaml
 roles:
-  files: './roles.yaml'
+  files: 'roles.yaml'
 ```
 
 ## static
 
-Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https://www.npmjs.com/package/send) and [serve-static](https://www.npmjs.com/package/serve-static) modules.
+Specify files to serve statically from the Harper HTTP endpoint.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+Use the [Resource Extension](./reference.md#resource-extension) configuration options [`files` and `urlPath`](./reference.md#resource-extension-configuration) to specify the files to be served.
+
+As specified by Harper's Resource Extension docs, the `files` option can be any glob pattern or a glob options object. This extension will serve all files matching the pattern, so make sure to be specific.
+
+To serve the entire `web` directory, specify `files: 'web/**'`.
+
+To serve only the html files within `web`, specify `files: 'web/*.html'` or `files: 'web/**/*.html'`.
+
+In the case of a "loose" glob pattern (matches files and their parent directories), it is recommended to either specify a "tighter" pattern, or use the `onlyFiles: true` in the options object. Regardless, the extension will do its best to only serve each file once.
+
+For example, with the configuration option: `files: 'web/**/*'`, and a file structure like:
+
+```
+web/
+|- a.txt
+|- foo/
+|  |- b.txt
+```
+
+The pattern will match `['web/a.txt', 'web/foo', 'web/foo/b.txt']`. The extension will serve `/a` file, and then the `/foo` directory. When it receives the `/foo/b` file, it will determine it is already serving all files within `/foo` and skip it. However, a better configuration value would be `files: 'web/**/*.txt'`.
+
+Furthermore, the config can be specified as:
 
 ```yaml
 static:
-  files: './web/*'
+  files:
+    source: 'web/**/*'
+    onlyFiles: true
 ```
+
+The `urlPath` option is the base URL path entries will be resolved to. For example, a `urlPath: 'static'` will serve all files resolved from `files` to the URL path `localhost/static/`.
+
+Given the config:
+
+```yaml
+static:
+  files: 'web/*.html'
+  urlPath: 'static'
+```
+
+And a web directory containing `index.html` and `blog.html`, they will be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
