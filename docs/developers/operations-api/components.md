@@ -303,7 +303,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `add_ssh_key`
 - name _(required)_ - the name of the key
-- key _(required)_ - the private key contents. Line breaks must be delimited with `\n`
+- key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
 - host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
 - hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
 - known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
@@ -316,7 +316,7 @@ _Operation is restricted to super_user roles only_
 {
   "operation": "add_ssh_key",
   "name": "harperdb-private-component",
-  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nfake\nkey\n-----END OPENSSH PRIVATE KEY-----",
+  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nfake\nkey\n-----END OPENSSH PRIVATE KEY-----\n",
   "host": "harperdb-private-component.github.com",
   "hostname": "github.com"
 }
@@ -354,7 +354,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `update_ssh_key`
 - name _(required)_ - the name of the key to be updated
-- key _(required)_ - the private key contents. Line breaks must be delimited with `\n`
+- key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
 - replicated _(optional)_ - if true, HarperDB will replicate the key update to all nodes in the cluster. Must be a boolean.
 
 ### Body
