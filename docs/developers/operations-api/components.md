@@ -362,7 +362,7 @@ _Operation is restricted to super_user roles only_
 {
   "operation": "update_ssh_key",
   "name": "harperdb-private-component",
-  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nNEWFAKE\nkey\n-----END OPENSSH PRIVATE KEY-----",
+  "key": "-----BEGIN OPENSSH PRIVATE KEY-----\nthis\nis\na\nNEWFAKE\nkey\n-----END OPENSSH PRIVATE KEY-----\n",
   "host": "harperdb-private-component.github.com",
   "hostname": "github.com"
 }
