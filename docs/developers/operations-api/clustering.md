@@ -15,6 +15,7 @@ _Operation is restricted to super_user roles only_
 * verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the HarperDB default self-signed certificates to be accepted. Defaults to `true`
 * authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
 * retain_authorization _(optional)_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
+* revoked_certificates _(optional)_ - an array of revoked certificates serial numbers. If a certificate is revoked, it will not be accepted for any connections.
 * subscriptions _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
   * database - the database to replicate
   * table - the table to replicate
@@ -52,6 +53,7 @@ _Note: will attempt to add the node if it does not exist_
 
 * operation _(required)_ - must always be `update_node`
 * hostname _(required)_ - the `hostname` of the remote node you are updating
+* revoked_certificates _(optional)_ - an array of revoked certificates serial numbers. If a certificate is revoked, it will not be accepted for any connections.
 * subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
   * database - the database to replicate from
   * table - the table to replicate from
