@@ -69,26 +69,6 @@ harper-nextjs-test-feature:
   # ...
 ```
 
-#### Environment Variable Loading
-
-All Harper components support environment variable loading using the `loadEnv` option.
-
-This option can be set to `true` to automatically load a `.env` file from the component root, or set to a string of the path to an environment variable file.
-
-For example, to automatically load `/.env`:
-
-```yaml
-loadEnv: true
-```
-
-Or to specify an exact environment variable file:
-
-```yaml
-loadEnv: '.env.production'
-```
-
-> Important: Harper is a single process application. Environment variables are loaded onto `process.env` and will be shared throughout all Harper components. This means environment variables loaded by one component will be available on other components (as long as the components are loaded in the correct order).
-
 ### Default Component Configuration
 
 Harper components do not need to specify a `config.yaml`. Harper uses the following default configuration to load components.
