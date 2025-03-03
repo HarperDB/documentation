@@ -7,6 +7,7 @@ Harper provides extended features using built-in components. They do **not** nee
 	- [graphql](#graphql)
 	- [graphqlSchema](#graphqlschema)
 	- [jsResource](#jsresource)
+	- [loadEnv](#loadenv)
 	- [rest](#rest)
 	- [roles](#roles)
 	- [static](#static)
@@ -65,6 +66,19 @@ This component is a [Resource Extension](./reference.md#resource-extension) and 
 jsResource:
   files: './resource.js'
 ```
+
+## loadEnv
+
+Load environment variables via files like `.env`.
+
+This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+
+```yaml
+loadEnv:
+  files: './.env'
+```
+
+> Important: Harper is a single process application. Environment variables are loaded onto `process.env` and will be shared throughout all Harper components. This means environment variables loaded by one component will be available on other components (as long as the components are loaded in the correct order).
 
 <!-- ## login -->
 
