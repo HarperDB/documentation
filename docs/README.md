@@ -1,13 +1,12 @@
 # Harper Docs
 
-
 ## What is Harper? Performance, Simplicity, and Scale.
 
 Harper is an all-in-one backend technology that fuses database technologies, caching, application hosting, and messaging functions into a single system. Unlike traditional architectures where each piece runs independently and incurs extra costs and latency from serialization and network operations between processes, Harper systems can handle workloads seamlessly and efficiently. 
 
 Harper simplifies scaling with clustering and native data replication. At scale, architectures tend to include 4 to 16 redundant, geo-distributed nodes located near every user population center. This ensures that every user experiences minimal network latency and maximum reliability in addition to the already rapid server responses.
 
-<figure><img src="../images/harperstack.jpg" alt="Comparison of Harper's all-in-one technology (left) versus traditional multi-system approaches (right), highlighting Harper's speed, simplicity, and efficiency with no intermediary processes, against the latency and complexity of legacy strategies."><figcaption>Harper Stack</figcaption></figure>
+<figure><img src="../images/harperstack.jpg" alt="Comparison of Harper's all-in-one technology (left) versus traditional multi-system approaches (right), highlighting Harper's speed, simplicity, and efficiency with no intermediary processes, against the latency and complexity of legacy strategies."><figcaption></figcaption></figure>
 
 ## Understanding the Paradigm Shift
 Have you ever combined MongoDB with Redis, Next.js with Postgres, or perhaps Fastify with anything else? The options seem endless. It turns out that the cost of serialization, network hops, and intermediary processes in these systems adds up to 50% of the total system resources used (often more). Not to mention the hundreds of milliseconds of latency they can add.  
