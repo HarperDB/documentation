@@ -1,6 +1,6 @@
 # Upgrade a HarperDB Instance
 
-This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](./harperdb-cloud/) will be upgraded by the HarperDB Cloud team.
+This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](harper-cloud/) will be upgraded by the HarperDB Cloud team.
 
 ## Upgrading
 
@@ -85,7 +85,7 @@ Start HarperDB
 harperdb start
 ```
 
----
+***
 
 ## Upgrading Nats to Plexus 4.4
 
@@ -95,7 +95,7 @@ The core of this upgrade is the _bridge node_. This node will run both NATS and 
 
 ### Enabling Plexus
 
-To enable Plexus on a node that is already running NATS, you will need to update [two values](./configuration.md) in the `harperdb-config.yaml` file:
+To enable Plexus on a node that is already running NATS, you will need to update [two values](configuration.md) in the `harperdb-config.yaml` file:
 
 ```yaml
 replication:
@@ -110,16 +110,17 @@ replication:
 ### Upgrade Steps
 
 1. Set up the bridge node:
-    - Choose one node to be the bridge node.
-    - On this node, follow the "Enabling Plexus" steps from the previous section, but __do not disable NATS clustering on this instance.__
-    - Stop the instance and perform the upgrade.
-    - Start the instance. This node should now be running both Plexus and NATS.
+   * Choose one node to be the bridge node.
+   * On this node, follow the "Enabling Plexus" steps from the previous section, but **do not disable NATS clustering on this instance.**
+   * Stop the instance and perform the upgrade.
+   * Start the instance. This node should now be running both Plexus and NATS.
 2. Upgrade a node:
-    - Choose a node that needs upgrading and enable Plexus by following the "Enable Plexus" steps.
-    - Disable NATS by setting `clustering.enabled` to `false`.
-    - Stop the instance and upgrade it.
-    - Start the instance.
-    - Call [`add_node`](../developers/operations-api/clustering.md#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node. _Note: depending on your setup, you may need to expand this `add_node` call to include [authorization and/or tls information](../developers/operations-api/clustering.md#add-node)._
+   * Choose a node that needs upgrading and enable Plexus by following the "Enable Plexus" steps.
+   * Disable NATS by setting `clustering.enabled` to `false`.
+   * Stop the instance and upgrade it.
+   * Start the instance.
+   * Call [`add_node`](../developers/operations-api/clustering.md#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node. _Note: depending on your setup, you may need to expand this `add_node` call to include_ [_authorization and/or tls information_](../developers/operations-api/clustering.md#add-node)_._
+
 ```json
 {
     "operation": "add_node",
@@ -127,7 +128,8 @@ replication:
     "url": "wss://my-cluster-node-1:9925"
 }
 ```
+
 3. Repeat Step 2 on all remaining nodes that need to be upgraded.
 4. Disable NATS on the bridge node by setting `clustering.enabled` to `false` and restart the instance.
-   
+
 Your cluster upgrade should now be complete, with no NATS processes running on any of the nodes.

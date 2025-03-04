@@ -2,8 +2,8 @@
 
 The HarperDB Studio allows you to administer all of your HarperDB instances in one place. HarperDB currently offers the following instance types:
 
-* **HarperDB Cloud Instance** Managed installations of HarperDB, what we call [HarperDB Cloud](../../deployments/harperdb-cloud/).
-* **5G Wavelength Instance** Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deployments/harperdb-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
+* **HarperDB Cloud Instance** Managed installations of HarperDB, what we call [HarperDB Cloud](../../deployments/harper-cloud/).
+* **5G Wavelength Instance** Managed installations of HarperDB running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deployments/harper-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
 * **Enterprise Instance** Any HarperDB installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
 All interactions between the Studio and your instances take place directly from your browser. HarperDB stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the HarperDB instances using the standard [HarperDB API](../../developers/operations-api/).
@@ -33,10 +33,10 @@ A summary view of all instances within an organization can be viewed by clicking
    3. Select Instance Specs
       1.  Select Instance RAM
 
-          _HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../../deployments/harperdb-cloud/instance-size-hardware-specs.md)_._
+          _HarperDB Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../../deployments/harper-cloud/instance-size-hardware-specs.md)_._
       2.  Select Storage Size
 
-          _Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../../deployments/harperdb-cloud/iops-impact.md)_._
+          _Each instance has a mounted storage volume where your HarperDB data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../../deployments/harper-cloud/iops-impact.md)_._
       3.  Select Instance Region
 
           _The geographic area where your instance will be provisioned._
@@ -46,13 +46,12 @@ A summary view of all instances within an organization can be viewed by clicking
    7. Click **Add Instance**.
    8. Your HarperDB Cloud instance will be provisioned in the background. Provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
-
 ## Register Enterprise Instance
 
-1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
-2) Click the appropriate organization for the instance to be created under.
-3) Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
-4) Select **Register Enterprise Instance**.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
+2. Click the appropriate organization for the instance to be created under.
+3. Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
+4. Select **Register Enterprise Instance**.
    1. Fill out Instance Info.
       1.  Enter Instance Name
 

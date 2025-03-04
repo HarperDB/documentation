@@ -2,7 +2,7 @@
 
 HarperDB is designed for quick and simple setup and deployment, with smart defaults that lead to fast, scalable, and globally distributed database applications.
 
-You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deployments/harperdb-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
+You can easily create a HarperDB database in the cloud through our studio or install it locally. The quickest way to get HarperDB up and running is with [HarperDB Cloud](deployments/harper-cloud/), our database-as-a-service offering. However, HarperDB is a [database application platform](developers/applications/), and to leverage HarperDB’s full application development capabilities of defining schemas, endpoints, messaging, and gateway capabilities, you may wish to install and run HarperDB locally so that you can use your standard local IDE tools, debugging, and version control.
 
 ### Installing a HarperDB Instance
 
@@ -43,7 +43,7 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a database](./administration/harperdb-studio/manage-databases-browse-data.md#create-a-database)
+1. [Create a database](administration/harperdb-studio/manage-databases-browse-data.md#create-a-database)
 2. [Create a table](administration/harperdb-studio/manage-databases-browse-data.md#create-a-table)
 3. [Add a record](administration/harperdb-studio/manage-databases-browse-data.md#add-a-record)
 4. [Load CSV data](administration/harperdb-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)

@@ -98,11 +98,11 @@
 * [Install HarperDB](deployments/install-harperdb/README.md)
   * [On Linux](deployments/install-harperdb/linux.md)
 * [Upgrade a HarperDB Instance](deployments/upgrade-hdb-instance.md)
-* [HarperDB Cloud](deployments/harperdb-cloud/README.md)
-  * [IOPS Impact on Performance](deployments/harperdb-cloud/iops-impact.md)
-  * [Instance Size Hardware Specs](deployments/harperdb-cloud/instance-size-hardware-specs.md)
-  * [Alarms](deployments/harperdb-cloud/alarms.md)
-  * [Verizon 5G Wavelength](deployments/harperdb-cloud/verizon-5g-wavelength-instances.md)
+* [Harper Cloud](deployments/harper-cloud/README.md)
+  * [IOPS Impact on Performance](deployments/harper-cloud/iops-impact.md)
+  * [Instance Size Hardware Specs](deployments/harper-cloud/instance-size-hardware-specs.md)
+  * [Alarms](deployments/harper-cloud/alarms.md)
+  * [Verizon 5G Wavelength](deployments/harper-cloud/verizon-5g-wavelength-instances.md)
 
 ## Technical Details
 
