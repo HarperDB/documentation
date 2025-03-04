@@ -78,6 +78,14 @@ loadEnv:
   files: './.env'
 ```
 
+This component matches the default behavior of dotenv where existing variables take precedence. Specify the `override` option in order to override existing environment variables assigned to `process.env`:
+
+```yaml
+loadEnv:
+  files: './.env'
+  override: true
+```
+
 > Important: Harper is a single process application. Environment variables are loaded onto `process.env` and will be shared throughout all Harper components. This means environment variables loaded by one component will be available on other components (as long as the components are loaded in the correct order).
 
 <!-- ## login -->
