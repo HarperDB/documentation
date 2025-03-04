@@ -1,4 +1,4 @@
-# HarperDB Docs
+# Harper Docs
 
 
 ## What is Harper? Performance, Simplicity, and Scale.
