@@ -1,6 +1,6 @@
 # Table of contents
 
-* [HarperDB Docs](README.md)
+* [Harper Docs](README.md)
 * [Getting Started](getting-started.md)
 
 ## Developers
@@ -62,7 +62,7 @@
   * [SQL Functions](developers/sql-guide/functions.md)
   * [SQL JSON Search](developers/sql-guide/json-search.md)
   * [SQL Geospatial Functions](developers/sql-guide/sql-geospatial-functions.md)
-* Miscellaneous
+* [Miscellaneous](developers/miscellaneous/README.md)
   * [Google Data Studio](developers/miscellaneous/google-data-studio.md)
   * [SDKs](developers/miscellaneous/sdks.md)
 
@@ -229,5 +229,5 @@
 ## More Help
 
 * [Support](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
-* [Slack](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
+* [Slack](https://harperdbcommunity.slack.com/join/shared_invite/zt-e8w6u1pu-2UFAXl_f4ZHo7F7DVkHIDA#/)
 * [Contact Us](https://www.harperdb.io/contact)
