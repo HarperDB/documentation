@@ -75,14 +75,14 @@ This component is a [Resource Extension](./reference.md#resource-extension) and 
 
 ```yaml
 loadEnv:
-  files: './.env'
+  files: '.env'
 ```
 
 This component matches the default behavior of dotenv where existing variables take precedence. Specify the `override` option in order to override existing environment variables assigned to `process.env`:
 
 ```yaml
 loadEnv:
-  files: './.env'
+  files: '.env'
   override: true
 ```
 
