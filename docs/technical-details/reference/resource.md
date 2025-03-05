@@ -7,13 +7,15 @@ The Resource class is designed to provide a unified API for modeling different d
 Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
 Resource classes also have static methods, which are generally the preferred way to externally interact with tables and resources. The static methods handle parsing paths and query strings, starting a transaction as necessary, performing access authorization checks (if required), creating a resource instance, and calling the instance methods. This general rule for how to interact with resources:
-* If you want to *act upon* a table or resource, querying or writing to it, then use the static methods to initial access or write data. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
+
+* If you want to _act upon_ a table or resource, querying or writing to it, then use the static methods to initial access or write data. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
   * You can subsequently use the instance methods on the returned resource instance to perform additional actions on the record.
-* If you want to *define custom behavior* for a table or resource (to control how a resource responds to queries/writes), then extend the class and override/define instance methods. 
+* If you want to _define custom behavior_ for a table or resource (to control how a resource responds to queries/writes), then extend the class and override/define instance methods.
 
 The Resource API is heavily influenced by the REST/HTTP API, and the methods and properties of the Resource class are designed to map to and be used in a similar way to how you would interact with a RESTful API.
 
 The REST-based API is a little different than traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind, but semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
+
 * Read - `get`
 * Create with a known primary key - `put`
 * Create with a generated primary key - `post`/`create`
@@ -70,6 +72,7 @@ export class MyTable extends tables.MyTable {
 	}
 }
 ```
+
 Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in your schema, so that you aren't exporting the same table/class name twice.
 
 All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
@@ -90,7 +93,7 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/writing-extensions.md).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/reference.md#extensions).
 
 ### `transaction`
 
@@ -135,6 +138,7 @@ get(query) {
 	...
 }
 ```
+
 If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return `this` instance of the resource. If `get` is called on a collection (`/Table/?name=value`), the default action is to `search` and return an AsyncIterable of results.
 
 It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.get(query)` performs a `get` on this specific record/resource, not on the whole table. If you wish to access a _different_ record, you should use the static `get` method on the table class, like `Table.get(otherId, context)`.
@@ -142,7 +146,6 @@ It is important to note that `this` is the resource instance for a specific reco
 ### `search(query: Query)`: AsyncIterable
 
 This performs a query on this resource, searching for records that are descendants. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. However, if you call search from an instance with a specific ID like `1` from a path like `Table/1`, it will only return records that are descendants of that record, like `[1, 1]` (path of Table/1/1) and `[1, 2]` (path of Table/1/2). If you want to do a standard search of the table, make you call the static method like `Table.search(...)`. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The query object can be used to specify the desired query.
-
 
 ### `getId(): string|number|Array<string|number>`
 
@@ -164,6 +167,7 @@ put(data, query) {
 ```
 
 ### `patch(data: object): Resource|void|Response`
+
 ### `patch(data: object, query?: Query)`
 
 This will update the existing record with the provided data's properties, and is called for HTTP PATCH requests. You can define or override this method to define how records should be updated. The default `patch` method on tables (`super.patch(data)`) updates the record. The properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `data` object. This is performed as part of the current transaction for the resource instance. The `query` argument is used to represent any additional query parameters that were included.
@@ -211,7 +215,7 @@ This will assign the provided value to the designated property in the resource's
 
 ### `allowCreate(user: any, data: Promise, context: Context): boolean | Promise<boolean>`
 
-This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.  
+This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.
 
 ### `allowRead(user: any, query: Map | void, context: Context): boolean | Promise<boolean>`
 
@@ -267,7 +271,7 @@ When a resource is accessed as a data source:
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
-This method is available on tables and will execute a Harper operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../../developers/operations-api) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
+This method is available on tables and will execute a Harper operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../../developers/operations-api/) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
 
 ### `allowStaleWhileRevalidate(entry: { version: number, localTime: number, expiresAt: number, value: object }, id): boolean`
 
@@ -275,7 +279,7 @@ For caching tables, this can be defined to allow stale entries to be returned wh
 
 ## Resource Static Methods and Properties
 
-The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. Whereas instances methods are bound to a specific record, the static methods allow you to specify any record in the table to act on. 
+The Resource class also has static methods that mirror the instance methods with an initial argument that is the id of the record to act on. The static methods are generally the preferred and most convenient method for interacting with tables outside of methods that are directly extending a table. Whereas instances methods are bound to a specific record, the static methods allow you to specify any record in the table to act on.
 
 The `get`, `put`, `delete`, `publish`, `subscribe`, and `connect` methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to creating an instance bound to the record specified by the arguments, and calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
@@ -296,15 +300,19 @@ const { MyTable, Comment } = tables;
 ```
 
 Type definition for `Id`:
+
 ```typescript
 Id = string|number|array<string|number>
 ```
+
 ### `get(query: Query, context?: Resource|Context)`
 
 This can be used to retrieve a resource instance by a query. The query can be used to specify a single/unique record by an `id` property, and can be combined with a `select`:
+
 ```javascript
 MyTable.get({ id: 34, select: ['name', 'age'] });
 ```
+
 This method may also be used to retrieve a collection of records by a query. If the query is not for a specific record id, this will call the `search` method, described above.
 
 ### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
@@ -313,19 +321,20 @@ This will save the provided record or data to this resource. This will create a 
 
 ### `put(record: object, context?: Resource|Context): Promise<void>`
 
-This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same primary key provided in the record. If your table doesn't have a primary key attribute, you will need to use the method with the `id` argument.
-Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
+This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same primary key provided in the record. If your table doesn't have a primary key attribute, you will need to use the method with the `id` argument. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `create(record: object, context?: Resource|Context): Promise<Resource>`
 
 This will create a new record using the provided record for all fields (except primary key), generating a new primary key for the record. This does _not_ check for an existing record; the record argument should not have a primary key and should use the generated primary key. This will (asynchronously) return the new resource instance. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `post(id: Id, data: object, context?: Resource|Context): Promise<any>`
+
 ### `post(data: object, context?: Resource|Context): Promise<any>`
 
 This will save the provided data to this resource. By default, this will create a new record (by calling `create`). However, the `post` method is specifically intended to be available for custom behaviors, so extending a class to support custom `post` method behavior is encouraged.
 
 ### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
+
 ### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
 
 This will save the provided updates to the record. The `recordUpdate` object's properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `recordUpdate` object. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
@@ -335,6 +344,7 @@ This will save the provided updates to the record. The `recordUpdate` object's p
 Deletes this resource's record or data. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `publish(message: object, context?: Resource|Context): Promise<void>`
+
 ### `publish(topic: Id, message: object, context?: Resource|Context): Promise<void>`
 
 Publishes the given message to the record entry specified by the id in the context. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
@@ -350,13 +360,15 @@ This will perform a query on this table or collection. The query parameter can b
 ### `setComputedAttribute(name: string, computeFunction: (record: object) => any)`
 
 This will define the function to use for a computed attribute. To use this, the attribute must be defined in the schema as a computed attribute. The `computeFunction` will be called with the record as an argument and should return the computed value for the attribute. For example:
-    
+
 ```javascript
 MyTable.setComputedAttribute('computedAttribute', (record) => {
     return record.attribute1 + record.attribute2;
 });
 ```
+
 For a schema like:
+
 ```graphql
 type MyTable @table {
     id: ID @primaryKey
@@ -365,6 +377,7 @@ type MyTable @table {
     computedAttribute: Int @computed
 }
 ```
+
 See the [schema documentation](../../developers/applications/defining-schemas.md) for more information on computed attributes.
 
 ### `primaryKey`
@@ -381,6 +394,7 @@ There are additional methods that are only available on table classes (which are
 ### `Table.sourcedFrom(Resource, options)`
 
 This defines the source for a table. This allows a table to function as a cache for an external resource. When a table is configured to have a source, any request for a record that is not found in the table will be delegated to the source resource to retrieve (via `get`) and the result will be cached/stored in the table. All writes to the table will also first be delegated to the source (if the source defines write functions like `put`, `delete`, etc.). The `options` parameter can include an `expiration` property that will configure the table with a time-to-live expiration window for automatic deletion or invalidation of older entries. The `options` parameter (also) supports:
+
 * `expiration` - Default expiration time for records in seconds.
 * `eviction` - Eviction time for records in seconds.
 * `scanInterval` - Time period for scanning the table for records to evict.
@@ -398,6 +412,7 @@ This is called by static methods when they are responding to a URL (from HTTP re
 ```
 
 ### `isCollection(resource: Resource): boolean`
+
 This returns a boolean indicating if the provide resource instance represents a collection (can return a query result) or a single record/entity.
 
 ### Context and Transactions
@@ -430,15 +445,17 @@ Please see the [transaction documentation](transactions.md) for more information
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
 
 #### `conditions`
+
 This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object can have the following properties:
-  * `attribute`: Name of the property/attribute to match on.
-  * `value`: The value to match.
-  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between", and "not_equal".
-  * `conditions`: An array of conditions, which follows the same structure as above.
-  * `operator`: Specifies the operator to apply to this set of conditions (`and` or `or`. This is optional and defaults to `and`).
-    For example, a complex query might look like:
+
+* `attribute`: Name of the property/attribute to match on.
+* `value`: The value to match.
+* `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between", and "not\_equal".
+* `conditions`: An array of conditions, which follows the same structure as above.
+* `operator`: Specifies the operator to apply to this set of conditions (`and` or `or`. This is optional and defaults to `and`). For example, a complex query might look like:
 
 For example, a more complex query might look like:
+
 ```javascript
 Table.search({ conditions: [
 	{ attribute: 'price', comparator: 'less_than', value: 100 },
@@ -449,53 +466,69 @@ Table.search({ conditions: [
 ]});
 ```
 
-##### Chained Attributes/Properties
+**Chained Attributes/Properties**
+
 Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md) (in addition to the [schema documentation](../../developers/applications/defining-schemas.md), see the [REST documentation](../../developers/rest.md) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
+
 ```javascript
 Product.search({ conditions: [
 	{ attribute: ['brand', 'name'], value: 'Harper' }
 ]});
 ```
-This effectively executes a join, searching on the `Brand` table and joining results with matching records in the `Product` table. Chained array properties can be used in any condition, as well nested/grouped conditions. The chain of properties may also be more than two entries, allowing for multiple relationships to be traversed, effectively joining across multiple tables.
-An array of chained properties can also be used as the `attribute` in the `sort` property, allowing for sorting by an attribute in a referenced joined tables.
+
+This effectively executes a join, searching on the `Brand` table and joining results with matching records in the `Product` table. Chained array properties can be used in any condition, as well nested/grouped conditions. The chain of properties may also be more than two entries, allowing for multiple relationships to be traversed, effectively joining across multiple tables. An array of chained properties can also be used as the `attribute` in the `sort` property, allowing for sorting by an attribute in a referenced joined tables.
 
 #### `operator`
+
 Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This is optional and defaults to `"and"`.
 
 #### `limit`
+
 This specifies the limit of the number of records that should be returned from the query.
 
 #### `offset`
+
 This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
 
 #### `select`
+
 This specifies the specific properties that should be included in each record that is returned. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results. Each of the elements in the array can be a property name, or can be an object with a `name` and `select` array itself that specifies properties that should be returned by the referenced sub-object or related record. For example, a `select` can defined:
+
 ```javascript
 Table.search({ select: [ 'name', 'age' ], conditions: ...})
 ```
+
 Or nested/joined properties from referenced objects can be specified, here we are including the referenced `related` records, and returning the `description` and `id` from each of the related objects:
+
 ```javascript
 Table.search({ select: [ 'name', { name: 'related', select: ['description', 'id'] } ], conditions: ...})
 ```
+
 The select properties can also include certain special properties:
+
 * `$id` - This will specifically return the primary key of the record (regardless of name, even if there is no defined primary key attribute for the table).
 * `$updatedtime` - This will return the last updated timestamp/version of the record (regardless of whether there is an attribute for the updated time).
 
 Alternately, the select value can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. For example to just return an iterator of the `id`s of object:
+
 ```javascript
 Table.search({ select: 'id', conditions: ...})
 ```
 
 #### `sort`
+
 This defines the sort order, and should be an object that can have the following properties:
-  * `attributes`: The attribute to sort on.
-  * `descending`: If true, will sort in descending order (optional and defaults to `false`).
-  * `next`: Specifies the next sort order to resolve ties. This is an object that follows the same structure as `sort`.
+
+* `attributes`: The attribute to sort on.
+* `descending`: If true, will sort in descending order (optional and defaults to `false`).
+* `next`: Specifies the next sort order to resolve ties. This is an object that follows the same structure as `sort`.
 
 #### `explain`
+
 This will return the conditions re-ordered as Harper will execute them. Harper will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
 
 #### `enforceExecutionOrder`
+
 This will force the conditions to be executed in the order they were supplied, rather than using query estimation to re-order them.
 
 The query results are returned as an `AsyncIterable`. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
@@ -518,6 +551,7 @@ for await (let record of results) {
 	// iterate through each record in the query results
 }
 ```
+
 `AsyncIterable`s can be returned from resource methods, and will be properly serialized in responses. When a query is performed, this will open/reserve a read transaction until the query results are iterated, either through your own `for await` loop or through serialization. Failing to iterate the results this will result in a long-lived read transaction which can degrade performance (including write performance), and may eventually be aborted.
 
 ### Interacting with the Resource Data Model
@@ -644,7 +678,7 @@ product1.delete('additionalInformation');
 product1.update();
 ```
 
-You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple frozen object with all the properties (whether defined in the schema) as direct normal properties (note that this object can *not* be modified, it is frozen since it is belongs to a cache):
+You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple frozen object with all the properties (whether defined in the schema) as direct normal properties (note that this object can _not_ be modified, it is frozen since it is belongs to a cache):
 
 ```javascript
 let product1 = await Product.get(1);
@@ -655,13 +689,15 @@ for (let key in plainObject) {
 ```
 
 ## Response Object
+
 The resource methods can return an object that will be serialized and returned as the response to the client. However, these methods can also return a `Response` style object with `status`, `headers`, and optionally `body` or `data` properties. This allows you to have more control over the response, including setting custom headers and status codes. For example, you could return a redirect response like:
 
 ```javascript
 return { status: 302, headers: { Location: '/new-location' } };
 ```
+
 If you include a `body` property, this must be a string or buffer that will be returned as the response body. If you include a `data` property, this must be an object that will be serialized as the response body (using the standard content negotiation). For example, we could return an object with a custom header:
-    
+
 ```javascript
 return { status: 200, headers: { 'X-Custom-Header': 'custom value' }, data: { message: 'Hello, World!' } };
 ```

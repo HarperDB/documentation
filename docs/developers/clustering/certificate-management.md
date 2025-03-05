@@ -2,7 +2,7 @@
 
 ## Development
 
-Out of the box Harper generates certificates that are used when Harper nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the Harper node, the following settings (see the full [configuration file](../../developers/configuration.md) docs for more details) are defaulted & recommended for ease of development:
+Out of the box Harper generates certificates that are used when Harper nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the Harper node, the following settings (see the full [configuration file](../../deployments/configuration.md) docs for more details) are defaulted & recommended for ease of development:
 
 ```
 clustering:

@@ -108,8 +108,7 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 `user` - _Type_: string; _Default_: Common Name
 
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
-This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
 `required` - _Type_: boolean; _Default_: false
 
@@ -119,14 +118,15 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 http:
   mtls: true
 ```
+
 or
+
 ```yaml
 http:
   mtls:
     required: true
     user: user-name
 ```
-
 
 ***
 
@@ -147,10 +147,7 @@ threads:
 
 This enables debugging. If simply set to true, this will enable debugging on the main thread on port 9229 with the 127.0.0.1 host interface. This can also be an object for more debugging control.
 
-`debug.port` - The port to use for debugging the main thread
-`debug.startingPort` - This will set up a separate port for debugging each thread. This is necessary for debugging individual threads with devtools.
-`debug.host` - Specify the host interface to listen on
-`debug.waitForDebugger` - Wait for debugger before starting
+`debug.port` - The port to use for debugging the main thread `debug.startingPort` - This will set up a separate port for debugging each thread. This is necessary for debugging individual threads with devtools. `debug.host` - Specify the host interface to listen on `debug.waitForDebugger` - Wait for debugger before starting
 
 ```yaml
 threads:
@@ -171,7 +168,7 @@ This specifies the heap memory limit for each thread, in megabytes. The default 
 
 ### `replication`
 
-The `replication` section configures [Harper replication](../developers/replication/README.md), which is used to create Harper clusters and replicate data between the instances.
+The `replication` section configures [Harper replication](../developers/replication/), which is used to create Harper clusters and replicate data between the instances.
 
 ```yaml
 replication:
@@ -193,7 +190,7 @@ The hostname of the current Harper instance.
 
 The URL of the current Harper instance.
 
-`databases` - _Type_: string/array; _Default_: "*" (all databases)
+`databases` - _Type_: string/array; _Default_: "\*" (all databases)
 
 Configure which databases to replicate. This can be a string for all database or an array for specific databases.
 
@@ -208,7 +205,7 @@ replication:
 
 An array of routes to connect to other nodes. Each element in the array can be either a string or an object with `hostname`, `port` and optionally `startTime` properties.
 
-`startTime` - _Type_: string; ISO formatted UTC date string. 
+`startTime` - _Type_: string; ISO formatted UTC date string.
 
 Replication will attempt to catch up on all remote data upon setup. To start replication from a specific date, set this property.
 
@@ -245,8 +242,7 @@ Replication will first attempt to catch up using the audit log. If unsuccessful,
 
 The `clustering` section configures the NATS clustering engine, this is used to replicate data between instances of Harper.
 
-_Note: There exist two ways to create clusters and replicate data in Harper. One option is to use native Harper replication over Websockets. 
-The other option is to use [NATS](https://nats.io/about/) to facilitate the cluster._
+_Note: There exist two ways to create clusters and replicate data in Harper. One option is to use native Harper replication over Websockets. The other option is to use_ [_NATS_](https://nats.io/about/) _to facilitate the cluster._
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
@@ -394,13 +390,14 @@ clustering:
       maxConsumeMsgs: 100
       maxIngestThreads: 2
 ```
+
 `maxConsumeMsgs` - _Type_: integer; _Default_: 100
 
 The maximum number of messages a consumer can process in one go.
 
 `maxIngestThreads` - _Type_: integer; _Default_: 2
 
-The number of Harper threads that are delegated to ingesting messages. 
+The number of Harper threads that are delegated to ingesting messages.
 
 ***
 
@@ -547,7 +544,7 @@ There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`,
 
 `console` - _Type_: boolean; _Default_: true
 
-Controls whether console.log and other console.* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.  
+Controls whether console.log and other console.\* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.
 
 ```yaml
 logging:
@@ -695,7 +692,7 @@ An array of allowable domains with CORS
 
 `domainSocket` - _Type_: string; _Default_: \<ROOTPATH>/hdb/operations-server
 
-The path to the Unix domain socket used to provide the Operations API through the CLI 
+The path to the Unix domain socket used to provide the Operations API through the CLI
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -860,8 +857,8 @@ The `path` configuration sets where all database files should reside.
 storage:
   path: /users/harperdb/storage
 ```
-_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by Harper. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by Harper. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
 `pageSize` - _Type_: number; _Default_: Defaults to the default page size of the OS
 
@@ -957,8 +954,7 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 `user` - _Type_: string; _Default_: Common Name
 
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
-This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
 `required` - _Type_: boolean; _Default_: false
 
@@ -969,6 +965,7 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
+
 ```yaml
 mqtt:
   network:
@@ -981,9 +978,7 @@ mqtt:
 
 ### `databases`
 
-The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.
-This configuration should be set before the database and table have been created.
-The configuration will not create the directories in the path, that must be done by the user.
+The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level. This configuration should be set before the database and table have been created. The configuration will not create the directories in the path, that must be done by the user.
 
 To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
@@ -1054,8 +1049,7 @@ The name of the component. This will be used to name the folder where the compon
 
 `package` - _Type_: string
 
-A reference to your [component](../developers/components/installing.md) package.This could be a remote git repo, a local folder/file or an NPM package. 
-Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
+A reference to your [component](../developers/components/managing.md#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
