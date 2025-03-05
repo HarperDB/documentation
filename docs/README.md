@@ -14,6 +14,10 @@ layout:
 
 # Harper Docs
 
+{% hint style="info" %}
+[Connect with our team!](https://www.harpersystems.dev/contact)
+{% endhint %}
+
 ## What is Harper? Performance, Simplicity, and Scale.
 
 Harper is an all-in-one backend technology that fuses database technologies, caching, application hosting, and messaging functions into a single system. Unlike traditional architectures where each piece runs independently and incurs extra costs and latency from serialization and network operations between processes, Harper systems can handle workloads seamlessly and efficiently.
@@ -44,7 +48,7 @@ If you would like to jump into the most advanced capabilities, learn about [comp
 
 For a more comprehensive deep dive, take a look at our [Getting Started Guide](getting-started.md).
 
-{% hint style="info" %}
+{% hint style="warning" %}
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
 {% endhint %}
 
@@ -55,8 +59,6 @@ With so much functionality built in, the use cases span nearly all application s
 ### Online Catalogs & Content Delivery
 
 For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
-
-To see what this looks like in action, follow [this tutorial](./).
 
 ### Data Delivery Networks
 
