@@ -1,6 +1,6 @@
 # Alarms
 
-HarperDB Cloud instance alarms are triggered when certain conditions are met. Once alarms are triggered organization owners will immediately receive an email alert and the alert will be available on the [Instance Configuration](../../administration/harper-studio/instance-configuration.md) page. The below table describes each alert and their evaluation metrics.
+Harper Cloud instance alarms are triggered when certain conditions are met. Once alarms are triggered organization owners will immediately receive an email alert and the alert will be available on the [Instance Configuration](../../administration/harper-studio/instance-configuration.md) page. The below table describes each alert and their evaluation metrics.
 
 ### Heading Definitions
 

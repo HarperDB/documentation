@@ -1,6 +1,6 @@
 # Enable Mixed Content
 
-Enabling mixed content is required in cases where you would like to connect the HarperDB Studio to HarperDB Instances via HTTP. This should not be used for production systems, but may be convenient for development and testing purposes. Doing so will allow your browser to reach HTTP traffic, which is considered insecure, through an HTTPS site like the Studio.
+Enabling mixed content is required in cases where you would like to connect the Harper Studio to Harper Instances via HTTP. This should not be used for production systems, but may be convenient for development and testing purposes. Doing so will allow your browser to reach HTTP traffic, which is considered insecure, through an HTTPS site like the Studio.
 
 
 

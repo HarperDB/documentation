@@ -1,19 +1,19 @@
 # Clustering
 
-The following operations are available for configuring and managing [HarperDB replication](../replication/).\
+The following operations are available for configuring and managing [Harper replication](../replication/).\
 
 
 _**If you are using NATS for clustering, please see the**_ [_**NATS Clustering Operations**_](clustering-nats.md) _**documentation.**_
 
 ## Add Node
 
-Adds a new HarperDB instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. If they are not provided a fully replicating system will be created. [Learn more about adding nodes here](../replication/).
+Adds a new Harper instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. If they are not provided a fully replicating system will be created. [Learn more about adding nodes here](../replication/).
 
 _Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `add_node`
 * hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
-* verify\_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the HarperDB default self-signed certificates to be accepted. Defaults to `true`
+* verify\_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
 * authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
 * retain\_authorization _(optional)_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
 * subscriptions _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
@@ -48,7 +48,7 @@ _Operation is restricted to super\_user roles only_
 
 ## Update Node
 
-Modifies an existing HarperDB instance in the cluster.
+Modifies an existing Harper instance in the cluster.
 
 _Operation is restricted to super\_user roles only_
 
@@ -91,7 +91,7 @@ _Note: will attempt to add the node if it does not exist_
 
 ## Remove Node
 
-Removes a HarperDB node from the cluster and stops replication, [Learn more about remove node here](../replication/).
+Removes a Harper node from the cluster and stops replication, [Learn more about remove node here](../replication/).
 
 _Operation is restricted to super\_user roles only_
 
@@ -277,7 +277,7 @@ _Operation is restricted to super\_user roles only_
 
 ## Cluster Get Routes
 
-Gets the replication routes from the HarperDB config file.
+Gets the replication routes from the Harper config file.
 
 _Operation is restricted to super\_user roles only_
 
@@ -307,7 +307,7 @@ _Operation is restricted to super\_user roles only_
 
 ## Cluster Delete Routes
 
-Removes route(s) from the HarperDB config file. Returns a deletion success message and arrays of deleted and skipped records.
+Removes route(s) from the Harper config file. Returns a deletion success message and arrays of deleted and skipped records.
 
 _Operation is restricted to super\_user roles only_
 

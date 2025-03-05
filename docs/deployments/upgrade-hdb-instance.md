@@ -1,23 +1,23 @@
-# Upgrade a HarperDB Instance
+# Upgrade a Harper Instance
 
-This document describes best practices for upgrading self-hosted HarperDB instances. HarperDB can be upgraded using a combination of npm and built-in HarperDB upgrade scripts. Whenever upgrading your HarperDB installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted HarperDB instances only. All [HarperDB Cloud instances](harper-cloud/) will be upgraded by the HarperDB Cloud team.
+This document describes best practices for upgrading self-hosted Harper instances. Harper can be upgraded using a combination of npm and built-in Harper upgrade scripts. Whenever upgrading your Harper installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted Harper instances only. All [Harper Cloud instances](harper-cloud/) will be upgraded by the Harper Cloud team.
 
 ## Upgrading
 
-Upgrading HarperDB is a two-step process. First the latest version of HarperDB must be downloaded from npm, then the HarperDB upgrade scripts will be utilized to ensure the newest features are available on the system.
+Upgrading Harper is a two-step process. First the latest version of Harper must be downloaded from npm, then the Harper upgrade scripts will be utilized to ensure the newest features are available on the system.
 
-1.  Install the latest version of HarperDB using `npm install -g harperdb`.
+1.  Install the latest version of Harper using `npm install -g harperdb`.
 
-    Note `-g` should only be used if you installed HarperDB globally (which is recommended).
+    Note `-g` should only be used if you installed Harper globally (which is recommended).
 2.  Run `harperdb` to initiate the upgrade process.
 
-    HarperDB will then prompt you for all appropriate inputs and then run the upgrade directives.
+    Harper will then prompt you for all appropriate inputs and then run the upgrade directives.
 
 ## Node Version Manager (nvm)
 
 [Node Version Manager (nvm)](http://nvm.sh/) is an easy way to install, remove, and switch between different versions of Node.js as required by various applications. More information, including directions on installing nvm can be found here: https://nvm.sh/.
 
-HarperDB supports Node.js versions 14.0.0 and higher, however, **please check our** [**NPM page**](https://www.npmjs.com/package/harperdb) **for our recommended Node.js version.** To install a different version of Node.js with nvm, run the command:
+Harper supports Node.js versions 14.0.0 and higher, however, **please check our** [**NPM page**](https://www.npmjs.com/package/harperdb) **for our recommended Node.js version.** To install a different version of Node.js with nvm, run the command:
 
 ```bash
 nvm install <the node version>
@@ -41,21 +41,21 @@ With a handful of different versions of Node.js installed, run nvm with the `ls`
 nvm ls
 ```
 
-When upgrading HarperDB, we recommend also upgrading your Node version. Here we assume you're running on an older version of Node; the execution may look like this:
+When upgrading Harper, we recommend also upgrading your Node version. Here we assume you're running on an older version of Node; the execution may look like this:
 
-Switch to the older version of Node that HarperDB is running on (if it is not the current version):
+Switch to the older version of Node that Harper is running on (if it is not the current version):
 
 ```bash
 nvm use 14.19.0
 ```
 
-Make sure HarperDB is not running:
+Make sure Harper is not running:
 
 ```bash
 harperdb stop
 ```
 
-Uninstall HarperDB. Note, this step is not required, but will clean up old artifacts of HarperDB. We recommend removing all other HarperDB installations to ensure the most recent version is always running.
+Uninstall Harper. Note, this step is not required, but will clean up old artifacts of Harper. We recommend removing all other Harper installations to ensure the most recent version is always running.
 
 ```bash
 npm uninstall -g harperdb
@@ -67,7 +67,7 @@ Switch to the newer version of Node:
 nvm use <the node version>
 ```
 
-Install HarperDB globally
+Install Harper globally
 
 ```bash
 npm install -g harperdb
@@ -79,7 +79,7 @@ Run the upgrade script
 harperdb
 ```
 
-Start HarperDB
+Start Harper
 
 ```bash
 harperdb start
@@ -103,7 +103,7 @@ replication:
     hostname: node-1
 ```
 
-`replication.url` – This should be set to the URL of the current HarperDB instance.
+`replication.url` – This should be set to the URL of the current Harper instance.
 
 `replication.hostname` – Since we are upgrading from NATS, this value should match the `clustering.nodeName` of the current instance.
 

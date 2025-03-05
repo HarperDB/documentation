@@ -8,7 +8,7 @@ _Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `add_component`
 * project _(required)_ - the name of the project you wish to create
-* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -33,7 +33,7 @@ _Operation is restricted to super\_user roles only_
 
 Will deploy a component using either a base64-encoded string representation of a `.tar` file (the output from `package_component`) or a package value, which can be any valid NPM reference, such as a GitHub repo, an NPM package, a tarball, a local directory or a website.
 
-If deploying with the `payload` option, HarperDB will decrypt the base64-encoded string, reconstitute the .tar file of your project folder, and extract it to the component root project directory.
+If deploying with the `payload` option, Harper will decrypt the base64-encoded string, reconstitute the .tar file of your project folder, and extract it to the component root project directory.
 
 If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. Then npm install will be utilized to install the component in the `node_modules` directory located in the hdb root. The value is a package reference, which should generally be a [URL reference, as described here](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#urls-as-dependencies) (it is also possible to include NPM registerd packages and file paths). URL package references can directly reference tarballs that can be installed as a package. However, the most common and recommended usage is to install from a Git repository, which can be combined with a tag to deploy a specific version directly from versioned source control. When using tags, we highly recommend that you use the `semver` directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers. Here is an example URL package reference to a (public) Git repository that doesn't require authentication:
 
@@ -76,7 +76,7 @@ _Operation is restricted to super\_user roles only_
 * package _(optional)_ - this can be any valid GitHub or NPM reference
 * payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 * restart _(optional)_ - must be either a boolean or the string `rolling`. If set to `rolling`, a rolling restart will be triggered after the component is deployed, meaning that each node in the cluster will be sequentially restarted (waiting for the last restart to start the next). If set to `true`, the restart will not be rolling, all nodes will be restarted in parallel. If `replicated` is `true`, the restart operations will be replicated across the cluster.
-* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 * install\_command _(optional)_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
 
 ### Body
@@ -150,8 +150,8 @@ _Operation is restricted to super\_user roles only_
 * operation _(required)_ - must always be `drop_component`
 * project _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
 * file _(optional)_ - the path relative to your project folder of the file you wish to delete
-* replicated _(optional)_ - if true, HarperDB will replicate the component deletion to all nodes in the cluster. Must be a boolean.
-* restart _(optional)_ - if true, HarperDB will restart after dropping the component. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component deletion to all nodes in the cluster. Must be a boolean.
+* restart _(optional)_ - if true, Harper will restart after dropping the component. Must be a boolean.
 
 ### Body
 
@@ -296,7 +296,7 @@ _Operation is restricted to super\_user roles only_
 * file _(required)_ - the path relative to your project folder of the file you wish to set
 * payload _(required)_ - what will be written to the file
 * encoding _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
-* replicated _(optional)_ - if true, HarperDB will replicate the component update to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component update to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -329,7 +329,7 @@ _Operation is restricted to super\_user roles only_
 * host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
 * hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
 * known\_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with&#x20;
-* replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -379,7 +379,7 @@ _Operation is restricted to super\_user roles only_
 * operation _(required)_ - must always be `update_ssh_key`
 * name _(required)_ - the name of the key to be updated
 * key _(required)_ - the private key contents. Line breaks must be delimited with&#x20;
-* replicated _(optional)_ - if true, HarperDB will replicate the key update to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the key update to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -409,7 +409,7 @@ _Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `delete_ssh_key`
 * name _(required)_ - the name of the key to be deleted
-* replicated _(optional)_ - if true, HarperDB will replicate the key deletion to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the key deletion to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -462,7 +462,7 @@ _Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `set_ssh_known_hosts`
 * known\_hosts _(required)_ - The contents to set the known\_hosts to. Line breaks must be delimite d with&#x20;
-* replicated _(optional)_ - if true, HarperDB will replicate the known hosts to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the known hosts to all nodes in the cluster. Must be a boolean.
 
 ### Body
 

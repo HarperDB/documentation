@@ -2,7 +2,7 @@
 
 ## Resource Class
 
-The Resource class is designed to provide a unified API for modeling different data resources within HarperDB. Database/table data can be accessed through the Resource API. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
+The Resource class is designed to provide a unified API for modeling different data resources within Harper. Database/table data can be accessed through the Resource API. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
 
 Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information to during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
 
@@ -23,7 +23,7 @@ The REST-based API is a little different than traditional Create-Read-Update-Del
 
 The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`, and this represents the collection of all the records in the resource or table.
 
-You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the HarperDB JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
+You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the Harper JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 
 ```javascript
 export class MyExternalData extends Resource {
@@ -43,11 +43,11 @@ export class MyExternalData extends Resource {
 	}
 }
 // we can export this class from resources.json as our own endpoint, or use this as the source for
-// a HarperDB data to store and cache the data coming from this data source:
+// a Harper data to store and cache the data coming from this data source:
 tables.MyCache.sourcedFrom(MyExternalData);
 ```
 
-You can also extend table classes in the same way, overriding the instance methods for custom functionality. The `tables` object is a global variable in the HarperDB JavaScript environment, along with `Resource`:
+You can also extend table classes in the same way, overriding the instance methods for custom functionality. The `tables` object is a global variable in the Harper JavaScript environment, along with `Resource`:
 
 ```javascript
 export class MyTable extends tables.MyTable {
@@ -82,7 +82,7 @@ This is an object with all the tables in the default database (the default datab
 
 ### `databases`
 
-This is an object with all the databases that have been defined in HarperDB (in the running instance). Each database that has been declared or created will be available as a (standard) property on this object. The property values are an object with the tables in that database, where each property is a table, like the `tables` object. In fact, `databases.data === tables` should always be true.
+This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created will be available as a (standard) property on this object. The property values are an object with the tables in that database, where each property is a table, like the `tables` object. In fact, `databases.data === tables` should always be true.
 
 ### `Resource`
 
@@ -102,14 +102,14 @@ This provides an interface for defining new content type handlers. See the [cont
 
 ### TypeScript Support
 
-While these objects/methods are all available as global variables, it is easier to get TypeScript support (code assistance, type checking) for these interfaces by explicitly `import`ing them. This can be done by setting up a package link to the main HarperDB package in your app:
+While these objects/methods are all available as global variables, it is easier to get TypeScript support (code assistance, type checking) for these interfaces by explicitly `import`ing them. This can be done by setting up a package link to the main Harper package in your app:
 
 ```
-# you may need to go to your harperdb directory and set it up as a link first
+# you may need to go to your harper directory and set it up as a link first
 npm link harperdb
 ```
 
-And then you can import any of the main HarperDB APIs you will use, and your IDE should understand the full typings associated with them:
+And then you can import any of the main Harper APIs you will use, and your IDE should understand the full typings associated with them:
 
 ```
 import { databases, tables, Resource } from 'harperdb';
@@ -267,7 +267,7 @@ When a resource is accessed as a data source:
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
-This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../../developers/operations-api) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
+This method is available on tables and will execute a Harper operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../../developers/operations-api) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
 
 ### `allowStaleWhileRevalidate(entry: { version: number, localTime: number, expiresAt: number, value: object }, id): boolean`
 
@@ -423,7 +423,7 @@ export class BlogPost extends tables.BlogPost {
 }
 ```
 
-Please see the [transaction documentation](transactions.md) for more information on how transactions work in HarperDB.
+Please see the [transaction documentation](transactions.md) for more information on how transactions work in Harper.
 
 ### Query
 
@@ -453,7 +453,7 @@ Table.search({ conditions: [
 Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas.md) (in addition to the [schema documentation](../../developers/applications/defining-schemas.md), see the [REST documentation](../../developers/rest.md) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
 ```javascript
 Product.search({ conditions: [
-	{ attribute: ['brand', 'name'], value: 'HarperDB' }
+	{ attribute: ['brand', 'name'], value: 'Harper' }
 ]});
 ```
 This effectively executes a join, searching on the `Brand` table and joining results with matching records in the `Product` table. Chained array properties can be used in any condition, as well nested/grouped conditions. The chain of properties may also be more than two entries, allowing for multiple relationships to be traversed, effectively joining across multiple tables.
@@ -493,7 +493,7 @@ This defines the sort order, and should be an object that can have the following
   * `next`: Specifies the next sort order to resolve ties. This is an object that follows the same structure as `sort`.
 
 #### `explain`
-This will return the conditions re-ordered as HarperDB will execute them. HarperDB will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
+This will return the conditions re-ordered as Harper will execute them. Harper will estimate the number of the matching records for each condition and apply the narrowest condition applied first.
 
 #### `enforceExecutionOrder`
 This will force the conditions to be executed in the order they were supplied, rather than using query estimation to re-order them.

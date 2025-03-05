@@ -1,6 +1,6 @@
 # Globals
 
-The primary way that JavaScript code can interact with HarperDB is through the global variables, which has several objects and classes that provide access to the tables, server hooks, and resources that HarperDB provides for building applications. As global variables, these can be directly accessed in any module.
+The primary way that JavaScript code can interact with Harper is through the global variables, which has several objects and classes that provide access to the tables, server hooks, and resources that Harper provides for building applications. As global variables, these can be directly accessed in any module.
 
 These global variables are also available through the `harperdb` module/package, which can provide better typing in TypeScript. To use this with your own directory, make sure you link the package to your current `harperdb` installation:
 
@@ -38,7 +38,7 @@ It is recommended that you [define a database](../../getting-started/getting-sta
 
 ## `databases`
 
-This is an object that holds all the databases in HarperDB, and can be used to explicitly access a table by database name. Each database will be a property on this object, each of these property values will be an object with the set of all tables in that database. The default database, `databases.data` should equal the `tables` export. For example, if you want to access the "dog" table in the "dev" database, you could do so:
+This is an object that holds all the databases in Harper, and can be used to explicitly access a table by database name. Each database will be a property on this object, each of these property values will be an object with the set of all tables in that database. The default database, `databases.data` should equal the `tables` export. For example, if you want to access the "dog" table in the "dev" database, you could do so:
 
 ```javascript
 import { databases } from 'harperdb';
@@ -182,7 +182,7 @@ This method should be used to delegate HTTP upgrade events to an external WebSoc
 
 Example:
 
-> This example is from the HarperDB Next.js component. See the complete source code [here](https://github.com/HarperDB/nextjs/blob/main/extension.js)
+> This example is from the Harper Next.js component. See the complete source code [here](https://github.com/HarperDB/nextjs/blob/main/extension.js)
 
 ```js
 server.upgrade(
@@ -219,11 +219,11 @@ Properties:
 
 ### `server.config`
 
-This provides access to the HarperDB configuration object. This comes from the [harperdb-config.yaml](../../deployments/configuration.md) (parsed into object form).
+This provides access to the Harper configuration object. This comes from the [harperdb-config.yaml](../../deployments/configuration.md) (parsed into object form).
 
 ### `server.recordAnalytics(value, metric, path?, method?, type?)`
 
-This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
+This records the provided value as a metric into Harper's analytics. Harper efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
 * `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
 * `metric` - This is the name of the metric.

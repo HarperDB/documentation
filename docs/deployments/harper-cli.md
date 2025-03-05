@@ -1,18 +1,18 @@
 # Harper CLI
 
-## HarperDB CLI
+## Harper CLI
 
-The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](install-harper/).
+The Harper command line interface (CLI) is used to administer [self-installed Harper instances](install-harper/).
 
-### Installing HarperDB
+### Installing Harper
 
-To install HarperDB with CLI prompts, run the following command:
+To install Harper with CLI prompts, run the following command:
 
 ```bash
 harperdb install
 ```
 
-Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
+Alternatively, Harper installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
 
 **Environment Variables**
 
@@ -35,9 +35,9 @@ harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_P
 
 ***
 
-### Starting HarperDB
+### Starting Harper
 
-To start HarperDB after it is installed, run the following command:
+To start Harper after it is installed, run the following command:
 
 ```bash
 harperdb start
@@ -45,9 +45,9 @@ harperdb start
 
 ***
 
-### Stopping HarperDB
+### Stopping Harper
 
-To stop HarperDB once it is running, run the following command:
+To stop Harper once it is running, run the following command:
 
 ```bash
 harperdb stop
@@ -55,9 +55,9 @@ harperdb stop
 
 ***
 
-### Restarting HarperDB
+### Restarting Harper
 
-To restart HarperDB once it is running, run the following command:
+To restart Harper once it is running, run the following command:
 
 ```bash
 harperdb restart
@@ -65,9 +65,9 @@ harperdb restart
 
 ***
 
-### Getting the HarperDB Version
+### Getting the Harper Version
 
-To check the version of HarperDB that is installed run the following command:
+To check the version of Harper that is installed run the following command:
 
 ```bash
 harperdb version
@@ -77,7 +77,7 @@ harperdb version
 
 ### Renew self-signed certificates
 
-To renew the HarperDB generated self-signed certificates, run:
+To renew the Harper generated self-signed certificates, run:
 
 ```bash
 harperdb renew-certs
@@ -87,7 +87,7 @@ harperdb renew-certs
 
 ### Copy a database with compaction
 
-To copy a HarperDB database with compaction (to eliminate free-space and fragmentation), use
+To copy a Harper database with compaction (to eliminate free-space and fragmentation), use
 
 ```bash
 harperdb copy-db <source-database> <target-database-path>
@@ -103,7 +103,7 @@ harperdb copy-db data /home/user/hdb/database/copy.mdb
 
 ### Get all available CLI commands
 
-To display all available HarperDB CLI commands along with a brief description run:
+To display all available Harper CLI commands along with a brief description run:
 
 ```bash
 harperdb help
@@ -111,9 +111,9 @@ harperdb help
 
 ***
 
-### Get the status of HarperDB and clustering
+### Get the status of Harper and clustering
 
-To display the status of the HarperDB process, the clustering hub and leaf processes, the clustering network and replication statuses, run:
+To display the status of the Harper process, the clustering hub and leaf processes, the clustering network and replication statuses, run:
 
 ```bash
 harperdb status
@@ -123,7 +123,7 @@ harperdb status
 
 ### Backups
 
-HarperDB uses a transactional commit process that ensures that data on disk is always transactionally consistent with storage. This means that HarperDB maintains database integrity in the event of a crash. It also means that you can use any standard volume snapshot tool to make a backup of a HarperDB database. Database files are stored in the hdb/database directory. As long as the snapshot is an atomic snapshot of these database files, the data can be copied/moved back into the database directory to restore a previous backup (with HarperDB shut down) , and database integrity will be preserved. Note that simply copying an in-use database file (using `cp`, for example) is _not_ a snapshot, and this would progressively read data from the database at different points in time, which yields unreliable copy that likely will not be usable. Standard copying is only reliable for a database file that is not in use.
+Harper uses a transactional commit process that ensures that data on disk is always transactionally consistent with storage. This means that Harper maintains database integrity in the event of a crash. It also means that you can use any standard volume snapshot tool to make a backup of a Harper database. Database files are stored in the hdb/database directory. As long as the snapshot is an atomic snapshot of these database files, the data can be copied/moved back into the database directory to restore a previous backup (with Harper shut down) , and database integrity will be preserved. Note that simply copying an in-use database file (using `cp`, for example) is _not_ a snapshot, and this would progressively read data from the database at different points in time, which yields unreliable copy that likely will not be usable. Standard copying is only reliable for a database file that is not in use.
 
 ***
 
@@ -165,7 +165,7 @@ last_updated_record: 1724483231970.9949
 
 ### Remote Operations
 
-The CLI can also be used to run operations on remote HarperDB instances. To do this, pass the `target` parameter with the HTTP address of the remote instance. You generally will also need to provide credentials and specify the `username` and `password` parameters, or you can set environment variables `CLI_TARGET_USERNAME` and `CLI_TARGET_PASSWORD`, for example:
+The CLI can also be used to run operations on remote Harper instances. To do this, pass the `target` parameter with the HTTP address of the remote instance. You generally will also need to provide credentials and specify the `username` and `password` parameters, or you can set environment variables `CLI_TARGET_USERNAME` and `CLI_TARGET_PASSWORD`, for example:
 
 ```bash
 export CLI_TARGET_USERNAME=HDB_ADMIN
