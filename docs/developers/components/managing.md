@@ -102,7 +102,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 * For components deployed to npm, specify the package name: `package="@harperdb/status-check"`
 * For components on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
 * Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-component.git"`
-  * Reference the [SSH Key](https://docs.harperdb.io/docs/developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
+  * Reference the [SSH Key](../developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
 * Even tarball URLs are supported: `package="https://example.com/component.tar.gz"`
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.
