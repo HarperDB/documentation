@@ -1,8 +1,8 @@
 # NATS Clustering
 
-HarperDB 4.0 - 4.3 used a clustering system based on NATS for replication. In 4.4+, HarperDB has moved to a new native replication system that has better performance, reliability, and data consistency. This document describes the legacy NATS clustering system. HarperDB clustering is the process of connecting multiple HarperDB databases together to create a database mesh network that enables users to define data replication patterns.
+Harper 4.0 - 4.3 used a clustering system based on NATS for replication. In 4.4+, Harper has moved to a new native replication system that has better performance, reliability, and data consistency. This document describes the legacy NATS clustering system. Harper clustering is the process of connecting multiple Harper databases together to create a database mesh network that enables users to define data replication patterns.
 
-HarperDB’s clustering engine replicates data between instances of HarperDB using a highly performant, bi-directional pub/sub model on a per-table basis. Data replicates asynchronously with eventual consistency across the cluster following the defined pub/sub configuration. Individual transactions are sent in the order in which they were transacted, once received by the destination instance, they are processed in an ACID-compliant manner. Conflict resolution follows a last writer wins model based on recorded transaction time on the transaction and the timestamp on the record on the node.
+Harper’s clustering engine replicates data between instances of Harper using a highly performant, bi-directional pub/sub model on a per-table basis. Data replicates asynchronously with eventual consistency across the cluster following the defined pub/sub configuration. Individual transactions are sent in the order in which they were transacted, once received by the destination instance, they are processed in an ACID-compliant manner. Conflict resolution follows a last writer wins model based on recorded transaction time on the transaction and the timestamp on the record on the node.
 
 ***
 
@@ -16,7 +16,7 @@ A common use case is an edge application collecting and analyzing sensor data th
 * The edge node should be inaccessible from outside the firewall.
 * The edge node will send alerts to the cloud with a snippet of sensor data containing the offending sensor readings.
 
-HarperDB simplifies the architecture of such an application with its bi-directional, table-level replication:
+Harper simplifies the architecture of such an application with its bi-directional, table-level replication:
 
 * The edge instance subscribes to a “thresholds” table on the cloud instance, so the application only makes localhost calls to get the thresholds.
 * The application continually pushes sensor data into a “sensor\_data” table via the localhost API, comparing it to the threshold values as it does so.
@@ -24,4 +24,4 @@ HarperDB simplifies the architecture of such an application with its bi-directio
 * The application appends to that record array “sensor\_data” entries for the 60 seconds (or minutes, or days) leading up to the threshold violation.
 * The edge instance publishes the “alerts” table up to the cloud instance.
 
-By letting HarperDB focus on the fault-tolerant logistics of transporting your data, you get to write less code. By moving data only when and where it’s needed, you lower storage and bandwidth costs. And by restricting your app to only making local calls to HarperDB, you reduce the overall exposure of your application to outside forces.
+By letting Harper focus on the fault-tolerant logistics of transporting your data, you get to write less code. By moving data only when and where it’s needed, you lower storage and bandwidth costs. And by restricting your app to only making local calls to Harper, you reduce the overall exposure of your application to outside forces.

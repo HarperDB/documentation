@@ -2,7 +2,7 @@
 
 If you wish to install locally or already have a configured server, see the basic [Installation Guide](./)
 
-The following is a recommended way to configure Linux and install HarperDB. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
+The following is a recommended way to configure Linux and install Harper. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
 
 ***
 
@@ -10,11 +10,11 @@ These instructions assume that the following has already been completed:
 
 1. Linux is installed
 2. Basic networking is configured
-3. A non-root user account dedicated to HarperDB with sudo privileges exists
-4. An additional volume for storing HarperDB files is attached to the Linux instance
-5. Traffic to ports 9925 (HarperDB Operations API) 9926 (HarperDB Application Interface) and 9932 (HarperDB Clustering) is permitted
+3. A non-root user account dedicated to Harper with sudo privileges exists
+4. An additional volume for storing Harper files is attached to the Linux instance
+5. Traffic to ports 9925 (Harper Operations API) 9926 (Harper Application Interface) and 9932 (Harper Clustering) is permitted
 
-While you will need to access HarperDB through port 9925 for the administration through the operations API, and port 9932 for clustering, for higher level of security, you may want to consider keeping both of these ports restricted to a VPN or VPC, and only have the application interface (9926 by default) exposed to the public Internet.
+While you will need to access Harper through port 9925 for the administration through the operations API, and port 9932 for clustering, for higher level of security, you may want to consider keeping both of these ports restricted to a VPN or VPC, and only have the application interface (9926 by default) exposed to the public Internet.
 
 For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
@@ -139,9 +139,9 @@ Install Node.js using nvm ([read more about specific Node version requirements](
 nvm install <the node version>
 ```
 
-### Install and Start HarperDB <a href="#install" id="install"></a>
+### Install and Start Harper <a href="#install" id="install"></a>
 
-Here is an example of installing HarperDB with minimal configuration.
+Here is an example of installing Harper with minimal configuration.
 
 ```bash
 npm install -g harperdb
@@ -153,7 +153,7 @@ harperdb start \
   --HDB_ADMIN_PASSWORD "password"
 ```
 
-Here is an example of installing HarperDB with commonly used additional configuration.
+Here is an example of installing Harper with commonly used additional configuration.
 
 ```bash
 npm install -g harperdb
@@ -170,7 +170,8 @@ harperdb start \
   --CLUSTERING_NODENAME "hdb1"
 ```
 
-You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../../deployments/configuration.md):
+You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../configuration.md):
+
 ```bash
 npm install -g harperdb
 harperdb start \
@@ -180,8 +181,9 @@ harperdb start \
   --HDB_CONFIG "/path/to/your/custom/harperdb-config.yaml"
 ```
 
-#### Start HarperDB on Boot
-HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options:
+#### Start Harper on Boot
+
+Harper will automatically start after installation. If you wish Harper to start when the OS boots, you have two options:
 
 You can set up a crontab:
 
@@ -195,7 +197,7 @@ Pasting the following contents into the file:
 
 ```
 [Unit]
-Description=HarperDB
+Description=Harper
 
 [Service]
 Type=simple
@@ -216,4 +218,4 @@ systemctl daemon-reload
 systemctl enable harperdb
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../../deployments/harperdb-cli.md) and the [HarperDB Configuration File guide](../../deployments/configuration.md).
+For more information visit the [Harper Command Line Interface guide](../harper-cli.md) and the [Harper Configuration File guide](../configuration.md).

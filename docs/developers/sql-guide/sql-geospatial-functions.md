@@ -1,10 +1,10 @@
 {% hint style="warning" %}
-HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+Harper encourages developers to utilize other querying tools over SQL for performance purposes. Harper SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
 {% endhint %}
 
 # SQL Geospatial Functions
 
-HarperDB geospatial features require data to be stored in a single column using the [GeoJSON standard](http://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
+Harper geospatial features require data to be stored in a single column using the [GeoJSON standard](http://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
 
 
 
@@ -162,7 +162,7 @@ geoDistance(_point1, point2_[_, units_])
 | units	     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
-Calculate the distance, in miles, between HarperDB’s headquarters and the Washington Monument.
+Calculate the distance, in miles, between Harper’s headquarters and the Washington Monument.
 
 ```
 SELECT geoDistance('[-104.979127,39.761563]', '[-77.035248,38.889475]', 'miles')
@@ -248,7 +248,7 @@ WHERE geoContains('{
 ```
 
 ### Example 2
-Return all locations which contain HarperDB Headquarters.
+Return all locations which contain Harper Headquarters.
 
 ```
 SELECT *
@@ -256,7 +256,7 @@ FROM dev.locations
 WHERE geoContains(geo_data, '{
     "type": "Feature",
     "properties": {
-      "name": "HarperDB Headquarters"
+      "name": "Harper Headquarters"
     },
     "geometry": {
         "type": "Polygon",
@@ -286,7 +286,7 @@ geoEqual(_geo1_, _geo2_)
 | geo2	      | Required. GeoJSON geometry or feature. |
 
 ### Example
-Find HarperDB Headquarters within all locations within the database.
+Find Harper Headquarters within all locations within the database.
 
 ```
 SELECT *
@@ -294,7 +294,7 @@ FROM dev.locations
 WHERE geoEqual(geo_data, '{
     "type": "Feature",
     "properties": {
-      "name": "HarperDB Headquarters"
+      "name": "Harper Headquarters"
     },
     "geometry": {
         "type": "Polygon",
@@ -374,7 +374,7 @@ SELECT geoConvert(
     '[-104.979127,39.761563]',
     'point',
     '{
-      "name": "HarperDB Headquarters"
+      "name": "Harper Headquarters"
     }'
 )
 ```

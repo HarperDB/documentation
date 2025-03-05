@@ -1,6 +1,6 @@
 # Create an in-place Project
 
-To create a project using our web-based GUI, HarperDB Studio, checkout out how to manage Custom Functions [here](../harperdb-studio/manage-functions.md).
+To create a project using our web-based GUI, Harper Studio, checkout out how to manage Custom Functions [here](../harper-studio/manage-functions.md).
 
 Otherwise, to create a project, you have the following options:
 

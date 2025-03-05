@@ -1,5 +1,5 @@
 {% hint style="warning" %}
-HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+Harper encourages developers to utilize other querying tools over SQL for performance purposes. Harper SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
 {% endhint %}
 
 # SQL Operations 

@@ -3,7 +3,7 @@
 ## Create movies database
 Create a new database called "movies" using the 'create_database' operation.
 
-_Note: Creating a database is optional, if one is not created HarperDB will default to using a database named `data`_
+_Note: Creating a database is optional, if one is not created Harper will default to using a database named `data`_
 
 ### Body
 ```json

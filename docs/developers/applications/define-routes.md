@@ -1,6 +1,6 @@
 # Define Fastify Routes
 
-HarperDB’s applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with HarperDB's [REST interface](../rest.md) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
+Harper’s applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with Harper's [REST interface](../rest.md) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
 
 The fastify route handler can be configured in your application's config.yaml (this is the default config if you used the [application template](https://github.com/HarperDB/application-template)):
 
@@ -18,7 +18,7 @@ However, you can specify the path to be `/` if you wish to have your routes hand
 
 * The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http://localhost:9926/dogs/breeds**.
 
-In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
+In effect, this route is just a pass-through to Harper. The same result could have been achieved by hitting the core Harper API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
 
 ```javascript
 export default async (server, { hdbCore, logger }) => {
@@ -33,7 +33,7 @@ export default async (server, { hdbCore, logger }) => {
 
 ## Custom Handlers
 
-For endpoints where you want to execute multiple operations against HarperDB, or perform additional processing (like an ML classification, or an aggregation, or a call to a 3rd party API), you can define your own logic in the handler. The function below will execute a query against the dogs table, and filter the results to only return those dogs over 4 years in age.
+For endpoints where you want to execute multiple operations against Harper, or perform additional processing (like an ML classification, or an aggregation, or a call to a 3rd party API), you can define your own logic in the handler. The function below will execute a query against the dogs table, and filter the results to only return those dogs over 4 years in age.
 
 **IMPORTANT: This route has NO preValidation and uses hdbCore.requestWithoutAuthentication, which- as the name implies- bypasses all user authentication. See the security concerns and mitigations in the “helper methods” section, below.**
 
@@ -57,7 +57,7 @@ export default async (server, { hdbCore, logger }) => {
 
 ## Custom preValidation Hooks
 
-The simple example above was just a pass-through to HarperDB- the exact same result could have been achieved by hitting the core HarperDB API. But for many applications, you may want to authenticate the user using custom logic you write, or by conferring with a 3rd party service. Custom preValidation hooks let you do just that.
+The simple example above was just a pass-through to Harper- the exact same result could have been achieved by hitting the core Harper API. But for many applications, you may want to authenticate the user using custom logic you write, or by conferring with a 3rd party service. Custom preValidation hooks let you do just that.
 
 Below is an example of a route that uses a custom validation hook:
 
@@ -81,7 +81,7 @@ export default async (server, { hdbCore, logger }) => {
 }
 ```
 
-Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](../../../applications/define-helpers.md).
+Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Helper Methods](define-routes.md#helper-methods).
 
 ## Helper Methods
 
@@ -89,17 +89,17 @@ When declaring routes, you are given access to 2 helper methods: hdbCore and log
 
 **hdbCore**
 
-hdbCore contains three functions that allow you to authenticate an inbound request, and execute operations against HarperDB directly, by passing the standard Operations API.
+hdbCore contains three functions that allow you to authenticate an inbound request, and execute operations against Harper directly, by passing the standard Operations API.
 
 *   **preValidation**
 
-    This is an array of functions used for fastify authentication. The second function takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API (for example, `hdbCore.preValidation[1](req, resp, callback)`). It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
+    This is an array of functions used for fastify authentication. The second function takes the authorization header from the inbound request and executes the same authentication as the standard Harper Operations API (for example, `hdbCore.preValidation[1](req, resp, callback)`). It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
 *   **request**
 
-    This will execute a request with HarperDB using the operations API. The `request.body` should contain a standard HarperDB operation and must also include the `hdb_user` property that was in `request.body` provided in the callback.
+    This will execute a request with Harper using the operations API. The `request.body` should contain a standard Harper operation and must also include the `hdb_user` property that was in `request.body` provided in the callback.
 *   **requestWithoutAuthentication**
 
-    Executes a request against HarperDB without any security checks around whether the inbound user is allowed to make this request. For security purposes, you should always take the following precautions when using this method:
+    Executes a request against Harper without any security checks around whether the inbound user is allowed to make this request. For security purposes, you should always take the following precautions when using this method:
 
     * Properly handle user-submitted values, including url params. User-submitted values should only be used for `search_value` and for defining values in records. Special care should be taken to properly escape any values if user-submitted values are used for SQL.
 

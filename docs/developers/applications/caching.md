@@ -1,6 +1,6 @@
 # Caching
 
-HarperDB has integrated support for caching data from external sources. With built-in caching capabilities and distributed high-performance low-latency responsiveness, HarperDB makes an ideal data caching server. HarperDB can store cached data in standard tables, as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. HarperDB also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, HarperDB is an extremely fast, interoperable, flexible, and customizable caching server.
+Harper has integrated support for caching data from external sources. With built-in caching capabilities and distributed high-performance low-latency responsiveness, Harper makes an ideal data caching server. Harper can store cached data in standard tables, as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. Harper also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, Harper is an extremely fast, interoperable, flexible, and customizable caching server.
 
 ## Configuring Caching
 
@@ -23,7 +23,7 @@ You can provide a single expiration and it defines the behavior for all three. Y
 
 ## Define External Data Source
 
-Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as a resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the HarperDB environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
+Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as a resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the Harper environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
@@ -40,7 +40,7 @@ const { MyTable } = tables;
 MyTable.sourcedFrom(ThirdPartyAPI);
 ```
 
-Now we have a fully configured and connected caching table. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), HarperDB will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
+Now we have a fully configured and connected caching table. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), Harper will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
 
 ```mermaid
 flowchart TD
@@ -51,7 +51,7 @@ flowchart TD
 ```
 
 
-HarperDB handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
+Harper handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
 
 Cache tables with an expiration are periodically pruned for expired entries. Because this is done periodically, there is usually some amount of time between when a record has expired and when the record is actually evicted (the cached data is removed). But when a record is checked for availability, the expiration time is used to determine if the record is fresh (and the cache entry can be used).
 
@@ -156,7 +156,7 @@ And the following properties can be defined on event objects:
 
 With an active external data source with a `subscribe` method, the data source will proactively notify the cache, ensuring a fresh and efficient active cache. Note that with an active data source, we still use the `sourcedFrom` method to register the source for a caching table, and the table will automatically detect and call the subscribe method on the data source.
 
-By default, HarperDB will only run the subscribe method on one thread. HarperDB is multi-threaded and normally runs many concurrent worker threads, but typically running a subscription on multiple threads can introduce overlap in notifications and race conditions and running on a subscription on a single thread is preferable. However, if you want to enable subscribe on multiple threads, you can define a `static subscribeOnThisThread` method to specify if the subscription should run on the current thread:
+By default, Harper will only run the subscribe method on one thread. Harper is multi-threaded and normally runs many concurrent worker threads, but typically running a subscription on multiple threads can introduce overlap in notifications and race conditions and running on a subscription on a single thread is preferable. However, if you want to enable subscribe on multiple threads, you can define a `static subscribeOnThisThread` method to specify if the subscription should run on the current thread:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
@@ -183,7 +183,7 @@ class ThirdPartyAPI extends Resource {
 
 ## Downstream Caching
 
-It is highly recommended that you utilize the [REST interface](../rest.md) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest.md#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in HarperDB. Caching tables also have [subscription capabilities](caching.md#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of HarperDB, both as passive or active caches.
+It is highly recommended that you utilize the [REST interface](../rest.md) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest.md#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in Harper. Caching tables also have [subscription capabilities](caching.md#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of Harper, both as passive or active caches.
 
 ## Write-Through Caching
 
@@ -267,16 +267,16 @@ You may also use the `stale-if-error` to indicate if it is acceptable to return 
 
 ## Caching Flow
 It may be helpful to understand the flow of a cache request. When a request is made to a caching table:
-* HarperDB will first create a resource instance to handle the process, and ensure that the data is loaded for the resource instance. To do this, it will first check if the record is in the table/cache.
-  * If the record is not in the cache, HarperDB will first check if there is a current request to get the record from the source. If there is, HarperDB will wait for the request to complete and return the record from the cache. 
-  * If not, HarperDB will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
-  * If the record is in the cache, HarperDB will check if the record is stale. If the record is not stale, HarperDB will immediately return the record from the cache. If the record is stale, HarperDB will call the `get()` method on the source to retrieve the record.
+* Harper will first create a resource instance to handle the process, and ensure that the data is loaded for the resource instance. To do this, it will first check if the record is in the table/cache.
+  * If the record is not in the cache, Harper will first check if there is a current request to get the record from the source. If there is, Harper will wait for the request to complete and return the record from the cache. 
+  * If not, Harper will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
+  * If the record is in the cache, Harper will check if the record is stale. If the record is not stale, Harper will immediately return the record from the cache. If the record is stale, Harper will call the `get()` method on the source to retrieve the record.
   * The record will then be stored in the cache. This will write the record to the cache in a separate asynchronous/background write-behind transaction, so it does not block the current request, then return the data immediately once it has it.
 * The `get()` method will be called on the resource instance to return the record to the client (or perform any querying on the record). If this is overriden, the method will be called at this time.
 
 ### Caching Flow with Write-Through
 When a writes are performed on a caching table (in `put()` or `post()` method, for example), the flow is slightly different:
-* HarperDB will have first created a resource instance to handle the process, and this resource instance that will be the current `this` for a call to `put()` or `post()`.
+* Harper will have first created a resource instance to handle the process, and this resource instance that will be the current `this` for a call to `put()` or `post()`.
 * If a `put()` or `update()` is called, for example, this action will be record in the current transaction.
 * Once the transaction is committed (which is done automatically as the request handler completes), the transaction write will be sent to the source to update the data.
   * The local writes will wait for the source to confirm the writes have completed (note that this effectively allows you to perform a two-phase transactional write to the source, and the source can confirm the writes have completed before the transaction is committed locally).

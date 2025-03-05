@@ -1,6 +1,6 @@
-# HarperDB Headers
+# Harper Headers
 
-All HarperDB API responses include headers that are important for interoperability and debugging purposes. The following headers are returned with all HarperDB API responses:
+All Harper API responses include headers that are important for interoperability and debugging purposes. The following headers are returned with all Harper API responses:
 
 | Key	              | Example Value	   | Description                                                                                                                                                |
 |-------------------|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|

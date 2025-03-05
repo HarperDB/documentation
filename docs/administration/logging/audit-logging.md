@@ -2,15 +2,15 @@
 
 ### Audit log
 
-The audit log uses a standard HarperDB table to track transactions. For each table a user creates, a corresponding table will be created to track transactions against that table.
+The audit log uses a standard Harper table to track transactions. For each table a user creates, a corresponding table will be created to track transactions against that table.
 
-Audit log is enabled by default. To disable the audit log, set `logging.auditLog` to false in the config file, `harperdb-config.yaml`. Then restart HarperDB for those changes to take place. Note, the audit is required to be enabled for real-time messaging.
+Audit log is enabled by default. To disable the audit log, set `logging.auditLog` to false in the config file, `harperdb-config.yaml`. Then restart Harper for those changes to take place. Note, the audit is required to be enabled for real-time messaging.
 
 ### Audit Log Operations
 
 #### read\_audit\_log
 
-The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [HarperDB API documentation](../../developers/operations-api/logs.md).
+The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [Harper API documentation](../../developers/operations-api/logs.md).
 
 **Search by Timestamp**
 

@@ -1,7 +1,7 @@
 # Utilities
 
 ## Restart
-Restarts the HarperDB instance.
+Restarts the Harper instance.
 
 _Operation is restricted to super_user roles only_
 
@@ -23,13 +23,13 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Restart Service
-Restarts servers for the specified HarperDB service.
+Restarts servers for the specified Harper service.
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `restart_service`
 * service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
-* replicated _(optional)_ - must be a boolean. If set to `true`, HarperDB will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
+* replicated _(optional)_ - must be a boolean. If set to `true`, Harper will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
 
 ### Body
 ```json
@@ -189,13 +189,13 @@ _Operation is restricted to super_user roles only_
 
 ## Set Configuration
 
-Modifies the HarperDB configuration file parameters. Must follow with a restart or restart_service operation.
+Modifies the Harper configuration file parameters. Must follow with a restart or restart_service operation.
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `set_configuration`
-* logging_level _(example/optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
-* clustering_enabled _(example/optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
+* logging_level _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
+* clustering_enabled _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
 
 ### Body
 ```json
@@ -216,7 +216,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Get Configuration
-Returns the HarperDB configuration parameters.
+Returns the Harper configuration parameters.
 
 _Operation is restricted to super_user roles only_
 

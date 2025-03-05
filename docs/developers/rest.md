@@ -1,6 +1,6 @@
 # REST
 
-HarperDB provides a powerful, efficient, and standard-compliant HTTP REST interface for interacting with tables and other resources. The REST interface is the recommended interface for data access, querying, and manipulation (for HTTP interactions), providing the best performance and HTTP interoperability with different clients.
+Harper provides a powerful, efficient, and standard-compliant HTTP REST interface for interacting with tables and other resources. The REST interface is the recommended interface for data access, querying, and manipulation (for HTTP interactions), providing the best performance and HTTP interoperability with different clients.
 
 Resources, including tables, can be configured as RESTful endpoints. Make sure you review the [application introduction](applications/README.md) and [defining schemas](applications/defining-schemas.md) to properly define your schemas and select which tables are exported and available through REST interface, as tables are not exported by default. The name of the [exported](applications/defining-schemas.md#export) resource defines the basis of the endpoint path available at the application HTTP server port [configured here](../../deployments/configuration.md#http) (the default being `9926`). From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
@@ -87,7 +87,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 ## Querying through URL query parameters
 
-URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
+URL query parameters provide a powerful language for specifying database queries in Harper. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
 
 ```http
 GET /my-resource/?property=value
@@ -180,7 +180,7 @@ GET /Product/?price=lt=100|[rating=5&[tag=fast|tag=scalable|tag=efficient]&inSto
 
 ## Query Calls
 
-HarperDB has several special query functions that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
+Harper has several special query functions that use "call" syntax. These can be included in the query string as its own query entry (separated from other query conditions with an `&`). These include:
 
 ### `select(properties)`
 
@@ -222,10 +222,10 @@ GET /Product?sort(+rating,-price)
 ```
 
 # Relationships
-HarperDB supports relationships in its data models, allowing for tables to define a relationship with data from other tables (or even itself) through foreign keys. These relationships can be one-to-many, many-to-one, or many-to-many (and even with ordered relationships). These relationships are defined in the schema, and then can easily be queried through chained attributes that act as "join" queries, allowing related attributes to referenced in conditions and selected for returned results.
+Harper supports relationships in its data models, allowing for tables to define a relationship with data from other tables (or even itself) through foreign keys. These relationships can be one-to-many, many-to-one, or many-to-many (and even with ordered relationships). These relationships are defined in the schema, and then can easily be queried through chained attributes that act as "join" queries, allowing related attributes to referenced in conditions and selected for returned results.
 
 ## Chained Attributes and Joins
-To support relationships and hierarchical data structures, in addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides HarperDB's "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
+To support relationships and hierarchical data structures, in addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides Harper's "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
 ```graphql
 type Product @table @export {
 	id: ID @primaryKey
@@ -312,7 +312,7 @@ For "strict" operators, which includes `=`, `===`, and `!==`, no automatic type 
 
 ### Content Types and Negotiation
 
-HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, HarperDB supports the following content types: `application/json` - Common format, easy to read, with great tooling support. `application/cbor` - Recommended binary format for optimal encoding efficiency and performance. `application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as it has better streaming capabilities and faster time-to-first-byte. `text/csv` - CSV, lacks explicit typing, not well suited for heterogeneous data structures, but good for moving data to and from a spreadsheet.
+HTTP defines a couple of headers for indicating the (preferred) content type of the request and response. The `Content-Type` request header can be used to specify the content type of the request body (for PUT, PATCH, and POST). The `Accept` request header indicates the preferred content type of the response. For general records with object structures, Harper supports the following content types: `application/json` - Common format, easy to read, with great tooling support. `application/cbor` - Recommended binary format for optimal encoding efficiency and performance. `application/x-msgpack` - This is also an efficient format, but CBOR is preferable, as it has better streaming capabilities and faster time-to-first-byte. `text/csv` - CSV, lacks explicit typing, not well suited for heterogeneous data structures, but good for moving data to and from a spreadsheet.
 
 CBOR is generally the most efficient and powerful encoding format, with the best performance, most compact encoding, and most expansive ability to encode different data types like Dates, Maps, and Sets. MessagePack is very similar and tends to have broader adoption. However, JSON can be easier to work with and may have better tooling. Also, if you are using compression for data transfer (gzip or brotli), JSON will often result in more compact compressed data due to character frequencies that better align with Huffman coding, making JSON a good choice for web applications that do not require specific data types beyond the standard JSON types.
 

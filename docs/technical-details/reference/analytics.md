@@ -1,10 +1,10 @@
 # Analytics
 
-HarperDB provides extensive telemetry and analytics data to help monitor the status of the server and work loads, and to help understand traffic and usage patterns to identify issues and scaling needs, and identify queries and actions that are consuming the most resources.
+Harper provides extensive telemetry and analytics data to help monitor the status of the server and work loads, and to help understand traffic and usage patterns to identify issues and scaling needs, and identify queries and actions that are consuming the most resources.
 
-HarperDB collects statistics for all operations, URL endpoints, and messaging topics, aggregating information by thread, operation, resource, and methods, in real-time. These statistics are logged in the `hdb_raw_analytics` and `hdb_analytics` table in the `system` database.
+Harper collects statistics for all operations, URL endpoints, and messaging topics, aggregating information by thread, operation, resource, and methods, in real-time. These statistics are logged in the `hdb_raw_analytics` and `hdb_analytics` table in the `system` database.
 
-There are two "levels" of analytics in the HarperDB analytics table: the first is the immediate level of raw direct logging of real-time statistics. These analytics entries are recorded once a second (when there is activity) by each thread, and include all recorded activity in the last second, along with system resource information. The records have a primary key that is the timestamp in milliseconds since epoch. This can be queried (with `superuser` permission) using the search\_by\_conditions operation (this will search for 10 seconds worth of analytics) on the `hdb_raw_analytics` table:
+There are two "levels" of analytics in the Harper analytics table: the first is the immediate level of raw direct logging of real-time statistics. These analytics entries are recorded once a second (when there is activity) by each thread, and include all recorded activity in the last second, along with system resource information. The records have a primary key that is the timestamp in milliseconds since epoch. This can be queried (with `superuser` permission) using the search\_by\_conditions operation (this will search for 10 seconds worth of analytics) on the `hdb_raw_analytics` table:
 
 ```
 POST http://localhost:9925

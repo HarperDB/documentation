@@ -28,12 +28,12 @@ Users and roles are not replicated across the cluster.
 
 ### Queueing
 
-HarperDB has built-in resiliency for when network connectivity is lost within a subscription. When connections are reestablished, a catchup routine is executed to ensure data that was missed, specific to the subscription, is sent/received as defined.
+Harper has built-in resiliency for when network connectivity is lost within a subscription. When connections are reestablished, a catchup routine is executed to ensure data that was missed, specific to the subscription, is sent/received as defined.
 
 ***
 
 ### Topologies
 
-HarperDB clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
+Harper clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
 ![](../../../images/clustering/figure6.png)

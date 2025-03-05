@@ -10,7 +10,7 @@ A simple route example is a two node topology, if Node1 adds a route to connect 
 
 A route consists of a `port` and a `host`.
 
-`port` - the clustering port of the remote instance you are creating the connection with. This is going to be the `clustering.hubServer.cluster.network.port` in the HarperDB configuration on the node you are connecting with.
+`port` - the clustering port of the remote instance you are creating the connection with. This is going to be the `clustering.hubServer.cluster.network.port` in the Harper configuration on the node you are connecting with.
 
 `host` - the host of the remote instance you are creating the connection with.This can be an IP address or a URL.
 
@@ -45,7 +45,7 @@ There are multiple ways to set routes, they are:
 }
 ```
 
-_Note: When making any changes to HarperDB configuration HarperDB must be restarted for the changes to take effect._
+_Note: When making any changes to Harper configuration Harper must be restarted for the changes to take effect._
 
 3. From the command line.
 

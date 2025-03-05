@@ -187,7 +187,7 @@ _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - this should always be `drop_database`
 * database _(required)_ - name of the database you are dropping
-* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 ```json
@@ -249,7 +249,7 @@ _Operation is restricted to super_user roles only_
 * operation _(required)_ - this should always be `drop_table`
 * database _(optional)_ - database where the table you are dropping lives. The default is `data`
 * table _(required)_ - name of the table you are dropping
-* replicated _(optional)_ - if true, HarperDB will replicate the component to all nodes in the cluster. Must be a boolean.
+* replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -273,7 +273,7 @@ _Operation is restricted to super_user roles only_
 ## Create  Attribute
 Create a new attribute within the specified table. **The create_attribute operation can be used for admins wishing to pre-define database values for setting role-based permissions or for any other reason.**
 
-_Note: HarperDB will automatically create new attributes on insert and update if they do not already exist within the database._
+_Note: Harper will automatically create new attributes on insert and update if they do not already exist within the database._
 
 * operation _(required)_ - must always be `create_attribute`
 * database _(optional)_ - name of the database of the table you want to add your attribute. The default is `data`
@@ -334,9 +334,9 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Get Backup
-This will return a snapshot of the requested database. This provides a means for backing up the database through the operations API. The response will be the raw database file (in binary format), which can later be restored as a database file by copying into the appropriate hdb/databases directory (with HarperDB not running). The returned file is a snapshot of the database at the moment in time that the get_backup operation begins. This also supports backing up individual tables in a database. However, this is a more expensive operation than backing up a database in whole, and will lose any transactional atomicity between writes across tables, so generally it is recommended that you backup the entire database.
+This will return a snapshot of the requested database. This provides a means for backing up the database through the operations API. The response will be the raw database file (in binary format), which can later be restored as a database file by copying into the appropriate hdb/databases directory (with Harper not running). The returned file is a snapshot of the database at the moment in time that the get_backup operation begins. This also supports backing up individual tables in a database. However, this is a more expensive operation than backing up a database in whole, and will lose any transactional atomicity between writes across tables, so generally it is recommended that you backup the entire database.
 
-It is important to note that trying to copy a database file that is in use (HarperDB actively running and writing to the file) using standard file copying tools is not safe (the copied file will likely be corrupt), which is why using this snapshot operation is recommended for backups (volume snapshots are also a good way to backup HarperDB databases).
+It is important to note that trying to copy a database file that is in use (Harper actively running and writing to the file) using standard file copying tools is not safe (the copied file will likely be corrupt), which is why using this snapshot operation is recommended for backups (volume snapshots are also a good way to backup Harper databases).
 
 _Operation is restricted to super_user roles only_
 

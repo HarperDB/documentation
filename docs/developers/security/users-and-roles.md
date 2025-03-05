@@ -1,23 +1,23 @@
 # Users & Roles
 
-HarperDB utilizes a Role-Based Access Control (RBAC) framework to manage access to HarperDB instances. A user is assigned a role that determines the user’s permissions to access database resources and run core operations.
+Harper utilizes a Role-Based Access Control (RBAC) framework to manage access to Harper instances. A user is assigned a role that determines the user’s permissions to access database resources and run core operations.
 
-## Roles in HarperDB
+## Roles in Harper
 
-Role permissions in HarperDB are broken into two categories – permissions around database manipulation and permissions around database definition.
+Role permissions in Harper are broken into two categories – permissions around database manipulation and permissions around database definition.
 
-**Database Manipulation**: A role defines CRUD (create, read, update, delete) permissions against database resources (i.e. data) in a HarperDB instance.
+**Database Manipulation**: A role defines CRUD (create, read, update, delete) permissions against database resources (i.e. data) in a Harper instance.
 
-1. At the table-level access, permissions must be explicitly defined when adding or altering a role – _i.e. HarperDB will assume CRUD access to be FALSE if not explicitly provided in the permissions JSON passed to the `add_role` and/or `alter_role` API operations._
+1. At the table-level access, permissions must be explicitly defined when adding or altering a role – _i.e. Harper will assume CRUD access to be FALSE if not explicitly provided in the permissions JSON passed to the `add_role` and/or `alter_role` API operations._
 2. At the attribute-level, permissions for attributes in all tables included in the permissions set will be assigned based on either the specific attribute-level permissions defined in the table’s permission set or, if there are no attribute-level permissions defined, permissions will be based on the table’s CRUD set.
 
 **Database Definition**: Permissions related to managing databases, tables, roles, users, and other system settings and operations are restricted to the built-in `super_user` role.
 
 **Built-In Roles**
 
-There are three built-in roles within HarperDB. See full breakdown of operations restricted to only super\_user roles [here](users-and-roles.md#Role-Based-Operation-Restrictions).
+There are three built-in roles within Harper. See full breakdown of operations restricted to only super\_user roles [here](users-and-roles.md#Role-Based-Operation-Restrictions).
 
-* `super_user` - This role provides full access to all operations and methods within a HarperDB instance, this can be considered the admin role.
+* `super_user` - This role provides full access to all operations and methods within a Harper instance, this can be considered the admin role.
   * This role provides full access to all Database Definition operations and the ability to run Database Manipulation operations across the entire database schema with no restrictions.
 * `cluster_user` - This role is an internal system role type that is managed internally to allow clustered instances to communicate with one another.
   * This role is an internally managed role to facilitate communication between clustered instances.
@@ -33,7 +33,7 @@ In addition to built-in roles, admins (i.e. users assigned to the super\_user ro
 
 **Role Permissions**
 
-When creating a new, user-defined role in a HarperDB instance, you must provide a role name and the permissions to assign to that role. _Reminder, only super users can create and manage roles._
+When creating a new, user-defined role in a Harper instance, you must provide a role name and the permissions to assign to that role. _Reminder, only super users can create and manage roles._
 
 *   `role` name used to easily identify the role assigned to individual users.
 
@@ -83,7 +83,7 @@ There are two parts to a permissions set:
 
 *   `super_user` – boolean value indicating if role should be provided super\_user access.
 
-    _If `super_user` is set to true, there should be no additional database-specific permissions values included since the role will have access to the entire database schema. If permissions are included in the body of the operation, they will be stored within HarperDB, but ignored, as super\_users have full access to the database._
+    _If `super_user` is set to true, there should be no additional database-specific permissions values included since the role will have access to the entire database schema. If permissions are included in the body of the operation, they will be stored within Harper, but ignored, as super\_users have full access to the database._
 *   `permissions`: Database tables that a role should have specific CRUD access to should be included in the final, database-specific `permissions` JSON.
 
     _For user-defined roles (i.e. non-super\_user roles, blank permissions will result in the user being restricted from accessing any of the database schema._
@@ -127,14 +127,14 @@ Each table that a role should be given some level of CRUD permissions to must be
 4.  If an `attribute_permissions` array is empty, the role’s access to a table’s attributes will be based on the table-level CRUD permissions.
 
     _See table\_name2’s permission set for an example of this._
-5. The `__createdtime__` and `__updatedtime__` attributes that HarperDB manages internally can have read perms set but, if set, all other attribute-level permissions will be ignored.
+5. The `__createdtime__` and `__updatedtime__` attributes that Harper manages internally can have read perms set but, if set, all other attribute-level permissions will be ignored.
 6. Please note that DELETE permissions are not included as a part of an individual attribute-level permission set. That is because it is not possible to delete individual attributes from a row, rows must be deleted in full.
    * If a role needs the ability to delete rows from a table, that permission should be set on the table-level.
    * The practical approach to deleting an individual attribute of a row would be to set that attribute to null via an update statement.
 
 ## Role-Based Operation Restrictions <a href="#role-based-operation-restrictions" id="role-based-operation-restrictions"></a>
 
-The table below includes all API operations available in HarperDB and indicates whether or not the operation is restricted to super\_user roles.
+The table below includes all API operations available in Harper and indicates whether or not the operation is restricted to super\_user roles.
 
 _Keep in mind that non-super\_user roles will also be restricted within the operations they do have access to by the database-level CRUD permissions set for the roles._
 
@@ -258,6 +258,6 @@ _Keep in mind that non-super\_user roles will also be restricted within the oper
 
 **You may have gotten an error like,** `Error: Must execute as <<username>>`.
 
-This means that you installed HarperDB as `<<user>>`. Because HarperDB stores files natively on the operating system, we only allow the HarperDB executable to be run by a single user. This prevents permissions issues on files.
+This means that you installed Harper as `<<user>>`. Because Harper stores files natively on the operating system, we only allow the Harper executable to be run by a single user. This prevents permissions issues on files.
 
-For example if you installed as user\_a, but later wanted to run as user\_b. User\_b may not have access to the hdb files HarperDB needs. This also keeps HarperDB more secure as it allows you to lock files down to a specific user and prevents other users from accessing your files.
+For example if you installed as user\_a, but later wanted to run as user\_b. User\_b may not have access to the hdb files Harper needs. This also keeps Harper more secure as it allows you to lock files down to a specific user and prevents other users from accessing your files.

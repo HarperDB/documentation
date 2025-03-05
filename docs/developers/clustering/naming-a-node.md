@@ -17,7 +17,7 @@ clustering:
   nodeName: Node1
 ```
 
-_Note: When making any changes to the `harperdb-config.yaml` file HarperDB must be restarted for the changes to take effect._
+_Note: When making any changes to the `harperdb-config.yaml` file Harper must be restarted for the changes to take effect._
 
 2. Calling `set_configuration` through the operations API
 

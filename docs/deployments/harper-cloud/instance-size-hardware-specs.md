@@ -1,6 +1,6 @@
 # Instance Size Hardware Specs
 
-While HarperDB Cloud bills by RAM, each instance has other specifications associated with the RAM selection. The following table describes each instance size in detail\*.
+While Harper Cloud bills by RAM, each instance has other specifications associated with the RAM selection. The following table describes each instance size in detail\*.
 
 | AWS EC2 Instance Size | RAM (GiB) | # vCPUs | Network (Gbps) | Processor                              |
 | --------------------- | --------- | ------- | -------------- | -------------------------------------- |
