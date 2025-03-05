@@ -170,7 +170,8 @@ harperdb start \
   --CLUSTERING_NODENAME "hdb1"
 ```
 
-You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../../deployments/configuration.md):
+You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../configuration.md):
+
 ```bash
 npm install -g harperdb
 harperdb start \
@@ -181,6 +182,7 @@ harperdb start \
 ```
 
 #### Start HarperDB on Boot
+
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options:
 
 You can set up a crontab:
@@ -216,4 +218,4 @@ systemctl daemon-reload
 systemctl enable harperdb
 ```
 
-For more information visit the [HarperDB Command Line Interface guide](../../deployments/harperdb-cli.md) and the [HarperDB Configuration File guide](../../deployments/configuration.md).
+For more information visit the [HarperDB Command Line Interface guide](../harper-cli.md) and the [HarperDB Configuration File guide](../configuration.md).

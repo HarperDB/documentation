@@ -33,7 +33,7 @@ HarperDB is more than just a database, with HarperDB you build "database applica
 To set up a HarperDB cloud instance, simply sign up and create a new instance:
 
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
-2. [Create a new HarperDB Cloud instance](administration/harperdb-studio/instances.md#Create-a-New-Instance)
+2. [Create a new HarperDB Cloud instance](administration/harper-studio/instances.md#Create-a-New-Instance)
 
 Note that a local instance and cloud instance are not mutually exclusive. You can register your local instance in the HarperDB Studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
 
@@ -43,10 +43,10 @@ HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will rece
 
 Now that you have a HarperDB instance, if you want to use HarperDB as a standalone database, you can fully administer and interact with our database through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a database](administration/harperdb-studio/manage-databases-browse-data.md#create-a-database)
-2. [Create a table](administration/harperdb-studio/manage-databases-browse-data.md#create-a-table)
-3. [Add a record](administration/harperdb-studio/manage-databases-browse-data.md#add-a-record)
-4. [Load CSV data](administration/harperdb-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
+1. [Create a database](administration/harper-studio/manage-databases-browse-data.md#create-a-database)
+2. [Create a table](administration/harper-studio/manage-databases-browse-data.md#create-a-table)
+3. [Add a record](administration/harper-studio/manage-databases-browse-data.md#add-a-record)
+4. [Load CSV data](administration/harper-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
 5. [Query data via SQL](administration/harperdb-studio/query-instance-data.md)
 
 ## Administering HarperDB

@@ -130,7 +130,7 @@ type Dog @table @sealed {
 }
 ```
 
-If you are using HarperDB Studio, we can now [add JSON-formatted records](../../administration/harperdb-studio/manage-databases-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../administration/harperdb-studio/manage-databases-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api/), which provides full administrative control over your new HarperDB instance and tables.
+If you are using HarperDB Studio, we can now [add JSON-formatted records](../../administration/harper-studio/manage-databases-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../administration/harper-studio/manage-databases-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api/), which provides full administrative control over your new HarperDB instance and tables.
 
 ## Adding an Endpoint
 
@@ -182,7 +182,7 @@ If-None-Match: "etag-id" # browsers can automatically provide this
 
 ## Querying
 
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query\_string).
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
 In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing. We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 
@@ -227,7 +227,7 @@ Congratulations, you now have created a secure database application backend with
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
 * Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-* Go to the applications section of your target cloud instance in the [HarperDB Studio](../../administration/harperdb-studio/manage-applications.md).
+* Go to the applications section of your target cloud instance in the [HarperDB Studio](../../administration/harper-studio/manage-applications.md).
 * In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components.md#deploy-component).

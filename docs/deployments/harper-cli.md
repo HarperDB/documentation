@@ -1,8 +1,10 @@
-# HarperDB CLI
+# Harper CLI
 
-The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](install-harperdb/).
+## HarperDB CLI
 
-## Installing HarperDB
+The HarperDB command line interface (CLI) is used to administer [self-installed HarperDB instances](install-harper/).
+
+### Installing HarperDB
 
 To install HarperDB with CLI prompts, run the following command:
 
@@ -12,7 +14,7 @@ harperdb install
 
 Alternatively, HarperDB installations can be automated with environment variables or command line arguments; [see a full list of configuration parameters here](configuration.md#Using-the-Configuration-File-and-Naming-Conventions). Note, when used in conjunction, command line arguments will override environment variables.
 
-#### Environment Variables
+**Environment Variables**
 
 ```bash
 #minimum required parameters for no additional CLI prompts
@@ -24,7 +26,7 @@ export OPERATIONSAPI_NETWORK_PORT=9925
 harperdb install
 ```
 
-#### Command Line Arguments
+**Command Line Arguments**
 
 ```bash
 #minimum required parameters for no additional CLI prompts
@@ -33,7 +35,7 @@ harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_P
 
 ***
 
-## Starting HarperDB
+### Starting HarperDB
 
 To start HarperDB after it is installed, run the following command:
 
@@ -43,7 +45,7 @@ harperdb start
 
 ***
 
-## Stopping HarperDB
+### Stopping HarperDB
 
 To stop HarperDB once it is running, run the following command:
 
@@ -53,25 +55,27 @@ harperdb stop
 
 ***
 
-## Restarting HarperDB
+### Restarting HarperDB
 
 To restart HarperDB once it is running, run the following command:
 
 ```bash
 harperdb restart
 ```
+
 ***
 
-## Getting the HarperDB Version
+### Getting the HarperDB Version
 
 To check the version of HarperDB that is installed run the following command:
 
 ```bash
 harperdb version
 ```
+
 ***
 
-## Renew self-signed certificates
+### Renew self-signed certificates
 
 To renew the HarperDB generated self-signed certificates, run:
 
@@ -81,31 +85,33 @@ harperdb renew-certs
 
 ***
 
-## Copy a database with compaction
+### Copy a database with compaction
 
-To copy a HarperDB database with compaction (to eliminate free-space and fragmentation), use 
+To copy a HarperDB database with compaction (to eliminate free-space and fragmentation), use
 
 ```bash
 harperdb copy-db <source-database> <target-database-path>
 ```
+
 For example, to copy the default database:
+
 ```bash
 harperdb copy-db data /home/user/hdb/database/copy.mdb
 ```
 
-
 ***
 
-## Get all available CLI commands
+### Get all available CLI commands
 
 To display all available HarperDB CLI commands along with a brief description run:
 
 ```bash
 harperdb help
 ```
+
 ***
 
-## Get the status of HarperDB and clustering
+### Get the status of HarperDB and clustering
 
 To display the status of the HarperDB process, the clustering hub and leaf processes, the clustering network and replication statuses, run:
 
@@ -115,17 +121,15 @@ harperdb status
 
 ***
 
-## Backups
+### Backups
 
 HarperDB uses a transactional commit process that ensures that data on disk is always transactionally consistent with storage. This means that HarperDB maintains database integrity in the event of a crash. It also means that you can use any standard volume snapshot tool to make a backup of a HarperDB database. Database files are stored in the hdb/database directory. As long as the snapshot is an atomic snapshot of these database files, the data can be copied/moved back into the database directory to restore a previous backup (with HarperDB shut down) , and database integrity will be preserved. Note that simply copying an in-use database file (using `cp`, for example) is _not_ a snapshot, and this would progressively read data from the database at different points in time, which yields unreliable copy that likely will not be usable. Standard copying is only reliable for a database file that is not in use.
 
 ***
 
-# Operations API through the CLI
+## Operations API through the CLI
 
-Some of the API operations are available through the CLI, this includes most operations that do not require nested parameters. 
-To call the operation use the following convention: `<api-operation> <parameter>=<value>`. 
-By default, the result will be formatted as YAML, if you would like the result in JSON pass: `json=true`.
+Some of the API operations are available through the CLI, this includes most operations that do not require nested parameters. To call the operation use the following convention: `<api-operation> <parameter>=<value>`. By default, the result will be formatted as YAML, if you would like the result in JSON pass: `json=true`.
 
 Some examples are:
 
@@ -153,15 +157,16 @@ last_updated_record: 1724483231970.9949
 
 `harperdb get_components`
 
-`harperdb search_by_id database=dev table=dog  ids='["1"]' get_attributes='["*"]' json=true`
+`harperdb search_by_id database=dev table=dog ids='["1"]' get_attributes='["*"]' json=true`
 
 `harperdb search_by_value table=dog search_attribute=name search_value=harper get_attributes='["id", "name"]'`
 
 `harperdb sql sql='select * from dev.dog where id="1"'`
 
-## Remote Operations
+### Remote Operations
 
 The CLI can also be used to run operations on remote HarperDB instances. To do this, pass the `target` parameter with the HTTP address of the remote instance. You generally will also need to provide credentials and specify the `username` and `password` parameters, or you can set environment variables `CLI_TARGET_USERNAME` and `CLI_TARGET_PASSWORD`, for example:
+
 ```bash
 export CLI_TARGET_USERNAME=HDB_ADMIN
 export CLI_TARGET_PASSWORD=password
@@ -170,13 +175,16 @@ harperdb describe_database database=dev target=https://server.com:9925
 
 The same set of operations API are available for remote operations as well.
 
-### Remote Component Deployment
+#### Remote Component Deployment
 
 When using remote operations, you can deploy a local component to the remote instance. If you omit the `package` parameter, you can deploy the current directory. This will package the current directory and send it to the target server (also `deploy` is allowed as an alias to `deploy_component`):
+
 ```bash
 harperdb deploy target=https://server.com:9925
 ```
+
 If you are interacting with a cluster, you may wish to include the `replicated=true` parameter to ensure that the deployment operation is replicated to all nodes in the cluster. You will also need to restart afterwards to apply the changes (here seen with the replicated parameter):
+
 ```bash
 harperdb restart target=https://server.com:9925 replicated=true
 ```
