@@ -212,6 +212,10 @@ An array of routes to connect to other nodes. Each element in the array can be e
 
 Replication will attempt to catch up on all remote data upon setup. To start replication from a specific date, set this property.
 
+`revokedCertificates` - _Type_: array;
+
+An array of serial numbers of revoked certificates. If a connection is attempted with a certificate that is in this list, the connection will be rejected.
+
 ```yaml
 replication:
   copyTablesToCatchUp: true
@@ -221,6 +225,9 @@ replication:
     - hostname: server-three # define a hostname and port
       port: 9930
       startTime: 2024-02-06T15:30:00Z
+      revokedCertificates:
+        - 1769F7D6A
+        - QA69C7E2S
 ```
 
 `port` - _Type_: integer; 

@@ -144,6 +144,32 @@ You can also provide credentials in HTTP Authorization format (Basic auth, Token
 
 Additionally, you can use `set_node` as an alias for the `add_node` operation if you prefer.
 
+#### Revoking Certificates
+
+Certificates used in replication can be revoked by using the certificate serial number and either the `revoked_certificates` attribute in the `hdb_nodes` system table or route config in `harperdb-config.yaml`.
+
+To utilize the `revoked_certificates` attribute in the `hdb_nodes` table, you can use the `add_node` or `update_node` operation to add the certificate serial number to the `revoked_certificates` array. For example:
+
+```json
+{
+  "operation": "update_node",
+  "hostname": "server-two",
+  "revoked_certificates": ["1769F7D6A"]
+}
+```
+
+To utilize the replication route config in `harperdb-config.yaml`, you can add the certificate serial number to the `revokedCertificates` array. For example:
+
+```yaml
+replication:
+  routes:
+    - hostname: server-three
+      port: 9930
+      revokedCertificates:
+        - 1769F7D6A
+        - QA69C7E2S
+```
+
 #### Removing Nodes
 
 Nodes can be removed from the cluster using the [`remove_node` operation](../operations-api/clustering.md). This will remove the node from the cluster, and stop replication to and from the node. For example:
