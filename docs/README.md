@@ -3,7 +3,6 @@
 {% hint style="info" %}
 [Connect with our team!](https://www.harpersystems.dev/contact)
 {% endhint %}
-
 ## What is Harper? Performance, Simplicity, and Scale.
 
 Harper is an all-in-one backend technology that fuses database technologies, caching, application hosting, and messaging functions into a single system. Unlike traditional architectures where each piece runs independently and incurs extra costs and latency from serialization and network operations between processes, Harper systems can handle workloads seamlessly and efficiently.
