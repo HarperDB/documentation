@@ -26,11 +26,16 @@ redirects:
   harperdb-studio/instance-metrics: administration/harperdb-studio/instance-metrics.md
   harperdb-studio/instance-configuration: administration/harperdb-studio/instance-configuration.md
   harperdb-studio/enable-mixed-content: administration/harperdb-studio/enable-mixed-content.md
-  harperdb-cloud: deployments/harperdb-cloud/README.md
-  harperdb-cloud/iops-impact: deployments/harperdb-cloud/iops-impact.md
-  harperdb-cloud/instance-size-hardware-specs: deployments/harperdb-cloud/instance-size-hardware-specs.md
-  harperdb-cloud/alarms: deployments/harperdb-cloud/alarms.md
-  harperdb-cloud/verizon-5g-wavelength-instances: deployments/harperdb-cloud/verizon-5g-wavelength-instances.md
+  harperdb-cloud: deployments/harper-cloud/README.md
+  harperdb-cloud/iops-impact: deployments/harper-cloud/iops-impact.md
+  harperdb-cloud/instance-size-hardware-specs: deployments/harper-cloud/instance-size-hardware-specs.md
+  harperdb-cloud/alarms: deployments/harper-cloud/alarms.md
+  harperdb-cloud/verizon-5g-wavelength-instances: deployments/harper-cloud/verizon-5g-wavelength-instances.md
+  deployments/harperdb-cloud: deployments/harper-cloud/README.md
+  deployments/harperdb-cloud/iops-impact: deployments/harper-cloud/iops-impact.md
+  deployments/harperdb-cloud/instance-size-hardware-specs: deployments/harper-cloud/instance-size-hardware-specs.md
+  deployments/harperdb-cloud/alarms: deployments/harper-cloud/alarms.md
+  deployments/harperdb-cloud/verizon-5g-wavelength-instances: deployments/harper-cloud/verizon-5g-wavelength-instances.md
   security: developers/security/README.md
   security/jwt-auth: developers/security/jwt-auth.md
   security/basic-auth: developers/security/basic-auth.md
