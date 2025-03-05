@@ -1,15 +1,17 @@
 root: ./docs/
 
 redirects:
-  install-harperdb: deployments/install-harperdb/README.md
-  install-harperdb/linux: deployments/install-harperdb/linux.md
-  install-harperdb/other: deployments/install-harperdb/README.md
-  install-harperdb/docker: deployments/install-harperdb/README.md
-  install-harperdb/mac: deployments/install-harperdb/README.md
-  install-harperdb/windows: deployments/install-harperdb/README.md
-  install-harperdb/linux-quickstart: deployments/install-harperdb/linux.md
-  install-harperdb/offline: deployments/install-harperdb/README.md
-  install-harperdb/node-ver-requirement: deployments/install-harperdb/README.md
+  install-harperdb: deployments/install-harper/README.md
+  install-harperdb/linux: deployments/install-harper/linux.md
+  install-harperdb/other: deployments/install-harper/README.md
+  install-harperdb/docker: deployments/install-harper/README.md
+  install-harperdb/mac: deployments/install-harper/README.md
+  install-harperdb/windows: deployments/install-harper/README.md
+  install-harperdb/linux-quickstart: deployments/install-harper/linux.md
+  install-harperdb/offline: deployments/install-harper/README.md
+  install-harperdb/node-ver-requirement: deployments/install-harper/README.md
+  deployments/install-harperdb: deployments/install-harper/README.md
+  deployments/install-harperdb/linux: deployments/install-harper/linux.md
   harperdb-studio: administration/harperdb-studio/README.md
   harperdb-studio/create-account: administration/harperdb-studio/create-account.md
   harperdb-studio/login-password-reset: administration/harperdb-studio/login-password-reset.md
@@ -26,6 +28,20 @@ redirects:
   harperdb-studio/instance-metrics: administration/harperdb-studio/instance-metrics.md
   harperdb-studio/instance-configuration: administration/harperdb-studio/instance-configuration.md
   harperdb-studio/enable-mixed-content: administration/harperdb-studio/enable-mixed-content.md
+  administration/harperdb-studio: administration/harper-studio/README.md
+  administration/harperdb-studio/create-account: administration/harper-studio/create-account.md
+  administration/harperdb-studio/enable-mixed-content: administration/harper-studio/enable-mixed-content.md
+  administration/harperdb-studio/instance-configuration: administration/harper-studio/instance-configuration.md
+  administration/harperdb-studio/instance-metrics: administration/harper-studio/instance-metrics.md
+  administration/harperdb-studio/instances: administration/harper-studio/instances.md
+  administration/harperdb-studio/login-password-reset: administration/harper-studio/login-password-reset.md
+  administration/harperdb-studio/manage-applications: administration/harper-studio/manage-applications.md
+  administration/harperdb-studio/manage-charts: administration/harper-studio/README.md
+  administration/harperdb-studio/manage-databases-browse-data: administration/harper-studio/manage-databases-browse-data.md
+  administration/harperdb-studio/manage-instance-roles: administration/harper-studio/manage-instance-roles.md
+  administration/harperdb-studio/manage-instance-users: administration/harper-studio/manage-instance-users.md
+  administration/harperdb-studio/manage-replication: administration/harper-studio/manage-replication.md
+  administration/harperdb-studio/organizations: administration/harper-studio/organizations.md
   harperdb-cloud: deployments/harper-cloud/README.md
   harperdb-cloud/iops-impact: deployments/harper-cloud/iops-impact.md
   harperdb-cloud/instance-size-hardware-specs: deployments/harper-cloud/instance-size-hardware-specs.md
@@ -79,7 +95,8 @@ redirects:
   sql-guide/sql-geospatial-functions/geoequal: developers/sql-guide/sql-geospatial-functions.md
   sql-guide/sql-geospatial-functions/geocrosses: developers/sql-guide/sql-geospatial-functions.md
   sql-guide/sql-geospatial-functions/geoconvert: developers/sql-guide/sql-geospatial-functions.md
-  harperdb-cli: deployments/harperdb-cli.md
+  harperdb-cli: deployments/harper-cli.md
+  deployments/harperdb-cli: deployments/harper-cli.md
   configuration: deployments/configuration.md
   logging: administration/logging/logging.md
   transaction-logging: administration/logging/transaction-logging.md
