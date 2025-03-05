@@ -73,6 +73,8 @@ Load environment variables via files like `.env`.
 
 This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
 
+Ensure this component is specified first in `config.yaml` so that environment variables are loaded prior to loading any other components.
+
 ```yaml
 loadEnv:
   files: '.env'
