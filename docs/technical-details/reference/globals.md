@@ -98,7 +98,7 @@ A `Request` object is passed to the direct static REST handlers, and preserved a
 - `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
 - `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
 - `protocol` - This is the protocol of the request, like `http` or `https`.
-- `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type` header](./content-types.md)).
+- `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type`](./content-types.md)  header).
 - `ip` - This is the remote IP address of the client that made the request (or the remote IP address of the last proxy to connect to Harper).
 - `host` - This is the host of the request, like `example.com`.
 - `sendEarlyHints(link: string, headers?: object): void` - This method sends an early hints response to the client, prior to actually returning a response. This is useful for sending a link header to the client to indicate that another resource should be preloaded. The `headers` argument can be used to send additional headers with the early hints response, in addition to the `link`.
