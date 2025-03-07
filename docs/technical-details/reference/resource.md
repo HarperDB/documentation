@@ -101,7 +101,7 @@ This provides a function for starting transactions. See the transactions section
 
 ### `contentTypes`
 
-This provides an interface for defining new content type handlers. See the [content type extensions documentation](../../developers/components/writing-extensions.md) for more information.
+This provides an interface for defining new content type handlers. See the [content type extensions documentation](content-types.md) for more information.
 
 ### TypeScript Support
 

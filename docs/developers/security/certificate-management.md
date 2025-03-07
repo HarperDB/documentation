@@ -4,7 +4,7 @@ This document is information on managing certificates for Harper external facing
 
 ## Development
 
-An out of the box install of Harper does not have HTTPS enabled (see [configuration](../../developers/configuration.md) for relevant configuration file settings.) This is great for local development. If you are developing using a remote server and your requests are traversing the Internet, we recommend that you enable HTTPS.
+An out of the box install of Harper does not have HTTPS enabled (see [configuration](../../deployments/configuration.md#http) for relevant configuration file settings.) This is great for local development. If you are developing using a remote server and your requests are traversing the Internet, we recommend that you enable HTTPS.
 
 To enable HTTPS, set `http.securePort` in `harperdb-config.yaml` to the port you wish to use for HTTPS connections and restart Harper.
 

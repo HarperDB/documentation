@@ -47,7 +47,7 @@ Now that you have a Harper instance, if you want to use Harper as a standalone d
 2. [Create a table](administration/harper-studio/manage-databases-browse-data.md#create-a-table)
 3. [Add a record](administration/harper-studio/manage-databases-browse-data.md#add-a-record)
 4. [Load CSV data](administration/harper-studio/manage-databases-browse-data.md#load-csv-data) (Here’s a sample CSV of the Harper team’s dogs)
-5. [Browse data](administration/harperdb-studio/manage-databases-browse-data.md#browse-table-data)
+5. [Browse data](administration/harper-studio/manage-databases-browse-data.md#browse-table-data)
 
 ## Administering Harper
 
