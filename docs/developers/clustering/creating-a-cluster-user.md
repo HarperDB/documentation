@@ -1,6 +1,6 @@
 # Creating a Cluster User
 
-Inter-node authentication takes place via HarperDB users. There is a special role type called `cluster_user` that exists by default and limits the user to only clustering functionality.
+Inter-node authentication takes place via Harper users. There is a special role type called `cluster_user` that exists by default and limits the user to only clustering functionality.
 
 A `cluster_user` must be created and added to the `harperdb-config.yaml` file for clustering to be enabled.
 
@@ -38,7 +38,7 @@ clustering:
   user: cluster_account
 ```
 
-_Note: When making any changes to the `harperdb-config.yaml` file, HarperDB must be restarted for the changes to take effect._
+_Note: When making any changes to the `harperdb-config.yaml` file, Harper must be restarted for the changes to take effect._
 
 2. Upon installation using **command line variables**. This will automatically set the user in the `harperdb-config.yaml` file.
 

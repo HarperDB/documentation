@@ -2,26 +2,22 @@
 
 Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
 
-- [Built-In Components](#built-in-components)
-	- [fastifyRoutes](#fastifyroutes)
-	- [graphql](#graphql)
-	- [graphqlSchema](#graphqlschema)
-	- [jsResource](#jsresource)
-	- [rest](#rest)
-	- [roles](#roles)
-	- [static](#static)
-
-<!-- ## authentication -->
-
-<!-- ## clustering -->
+* [Built-In Components](built-in.md#built-in-components)
+  * [fastifyRoutes](built-in.md#fastifyroutes)
+  * [graphql](built-in.md#graphql)
+  * [graphqlSchema](built-in.md#graphqlschema)
+  * [jsResource](built-in.md#jsresource)
+  * [rest](built-in.md#rest)
+  * [roles](built-in.md#roles)
+  * [static](built-in.md#static)
 
 ## fastifyRoutes
 
 Specify custom endpoints using [Fastify](https://fastify.dev/).
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](reference.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Define Fastify Routes](https://docs.harperdb.io/docs/developers/applications/define-fastify-routes)
+Complete documentation for this feature is available here: [Define Fastify Routes](../applications/define-routes.md)
 
 ```yaml
 fastifyRoutes:
@@ -34,7 +30,7 @@ fastifyRoutes:
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
-Complete documentation for this feature is available here: [GraphQL](https://docs.harperdb.io/docs/technical-details/reference/graphql)
+Complete documentation for this feature is available here: [GraphQL](../../technical-details/reference/graphql.md)
 
 ```yaml
 graphql: true
@@ -44,9 +40,9 @@ graphql: true
 
 Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](reference.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Schemas](https://docs.harperdb.io/docs/developers/applications/defining-schemas)
+Complete documentation for this feature is available here: [Defining Schemas](../applications/defining-schemas.md)
 
 ```yaml
 graphqlSchema:
@@ -57,28 +53,20 @@ graphqlSchema:
 
 Specify custom, JavaScript based Harper resources.
 
-Refer to the Application [Custom Functionality with JavaScript](https://docs.harperdb.io/docs/developers/applications#custom-functionality-with-javascript) guide, or [Resource Class](https://docs.harperdb.io/docs/technical-details/reference/resource) reference documentation for more information on custom resources.
+Refer to the Application [Custom Functionality with JavaScript](../applications/#custom-functionality-with-javascript) guide, or [Resource Class](../../technical-details/reference/resource.md) reference documentation for more information on custom resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](reference.md#resource-extension-configuration) configuration options.
 
 ```yaml
 jsResource:
   files: './resource.js'
 ```
 
-<!-- ## login -->
-
-<!-- ## mqtt -->
-
-<!-- ## operationsApi -->
-
-<!-- ## replication -->
-
 ## rest
 
 Enable automatic REST endpoint generation for exported resources with this component.
 
-Complete documentation for this feature is available here: [REST](https://docs.harperdb.io/docs/developers/rest)
+Complete documentation for this feature is available here: [REST](../rest.md)
 
 ```yaml
 rest: true
@@ -104,9 +92,9 @@ rest:
 
 Specify roles for Harper tables and resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](reference.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Roles](https://docs.harperdb.io/docs/developers/applications/defining-roles)
+Complete documentation for this feature is available here: [Defining Roles](../applications/defining-roles.md)
 
 ```yaml
 roles:
@@ -117,7 +105,7 @@ roles:
 
 Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https://www.npmjs.com/package/send) and [serve-static](https://www.npmjs.com/package/serve-static) modules.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](reference.md#resource-extension) and can be configured with the [`files`, `path`, and `root`](reference.md#resource-extension-configuration) configuration options.
 
 ```yaml
 static:
