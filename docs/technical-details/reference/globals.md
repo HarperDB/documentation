@@ -110,7 +110,7 @@ A `Request` object is passed to the direct static REST handlers, and preserved a
 
 REST methods can directly return data that is serialized and returned to users, or it can return a `Response` object (or a promise to a `Response`), or it can return a `Response`-like object with the following properties (or again, a promise to it):
 - `status` - This is the HTTP status code of the response. This is a number like `200`, `404`, `500`, etc.
-- `headers` - This is a [`Headers` object](https://developer.mozilla.org/en-US/docs/Web/API/Headers) that contains the headers of the response.
+- `headers` - This is a [`Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the response.
 - `data` - This is the data to be returned of the response. This will be serialized using Harper's [content negotiation](./content-types.md). 
 - `body` - Alternately (to `data`), the raw body can be returned as a `Buffer`, string, stream (Node.js or [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)), or a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
 
