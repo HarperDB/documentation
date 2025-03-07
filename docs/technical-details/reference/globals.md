@@ -87,13 +87,31 @@ Type: `(request: Request, next: RequestListener) => Promise<Response>`
 
 The HTTP request listener to be added to the middleware chain. To continue chain execution pass the `request` to the `next` function such as `return next(request);`.
 
-#### `Request`
+### `Request` and `Response`
 
-An implementation of WHATWG [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) class.
+The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource.md) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
+
+#### `Request`
+A `Request` object is passed to the direct static REST handlers, and preserved as the context for instance methods, and has the following properties:
+- `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `http://example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
+- `method` - This is the HTTP method of the request. This is a string like `GET`, `POST`, `PUT`, `DELETE`, etc.
+- `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
+- `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
+- `protocol` - This is the protocol of the request, like `http` or `https`.
+- `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type`](./content-types.md)  header).
+- `ip` - This is the remote IP address of the client that made the request (or the remote IP address of the last proxy to connect to Harper).
+- `host` - This is the host of the request, like `example.com`.
+- `sendEarlyHints(link: string, headers?: object): void` - This method sends an early hints response to the client, prior to actually returning a response. This is useful for sending a link header to the client to indicate that another resource should be preloaded. The `headers` argument can be used to send additional headers with the early hints response, in addition to the `link`.
+- `_nodeRequest` - This is the underlying Node.js [`http.IncomingMessage`](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object. This can be used to access the raw request data, such as the raw headers, raw body, etc. However, this is discouraged and should be used with caution since it will likely break any other server handlers that depends on the layered `Request` call with `Response` return pattern.
+- `_nodeResponse` - This is the underlying Node.js [`http.ServerResponse`](https://nodejs.org/api/http.html#http_class_http_serverresponse) object. This can be used to access the raw response data, such as the raw headers. Again, this is discouraged and can cause problems for middleware, should only be used if you are certain that other server handlers will not attempt to return a different `Response` object.
 
 #### `Response`
 
-An implementation of WHATWG [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) class.
+REST methods can directly return data that is serialized and returned to users, or it can return a `Response` object (or a promise to a `Response`), or it can return a `Response`-like object with the following properties (or again, a promise to it):
+- `status` - This is the HTTP status code of the response. This is a number like `200`, `404`, `500`, etc.
+- `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the response.
+- `data` - This is the data to be returned of the response. This will be serialized using Harper's [content negotiation](./content-types.md). 
+- `body` - Alternately (to `data`), the raw body can be returned as a `Buffer`, string, stream (Node.js or [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)), or a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
 
 #### `HttpOptions`
 

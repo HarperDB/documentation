@@ -62,6 +62,10 @@ Enable Cross Origin Resource Sharing, which allows requests across a domain.
 
 An array of allowable domains with CORS
 
+`corsAccessControlAllowHeaders` - _Type_: string; _Default_: 'Accept, Content-Type, Authorization'
+
+A string representation of a comma separated list of header keys for the [Access-Control-Allow-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers) header for OPTIONS requests.
+
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
 Limit the amount of time the parser will wait to receive the complete HTTP headers with.
