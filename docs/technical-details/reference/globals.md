@@ -95,7 +95,7 @@ The `Request` and `Response` classes are based on the WHATWG APIs for the [`Requ
 A `Request` object is passed to the direct static REST handlers, and preserved as the context for instance methods, and has the following properties:
 - `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `http://example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
 - `method` - This is the HTTP method of the request. This is a string like `GET`, `POST`, `PUT`, `DELETE`, etc.
-- `headers` - This is a [`Headers` object](https://developer.mozilla.org/en-US/docs/Web/API/Headers) that contains the headers of the request.
+- `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
 - `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
 - `protocol` - This is the protocol of the request, like `http` or `https`.
 - `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type` header](./content-types.md)).
