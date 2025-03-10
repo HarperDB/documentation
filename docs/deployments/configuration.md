@@ -586,7 +586,7 @@ logging:
     path: /user/hdb/log
 ```
 
-`enabled` - _Type_: boolean; _Default_: false
+`enabled` - _Type_: boolean; _Default_: true
 
 Enables logging rotation.
 
