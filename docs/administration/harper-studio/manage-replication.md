@@ -1,12 +1,12 @@
 # Manage Replication
 
-HarperDB instance clustering and replication can be configured directly through the HarperDB Studio. It is recommended to read through the [clustering documentation](../../developers/clustering/README.md) first to gain a strong understanding of HarperDB clustering behavior.
+Harper instance clustering and replication can be configured directly through the Harper Studio. It is recommended to read through the [clustering documentation](../../developers/clustering/README.md) first to gain a strong understanding of Harper clustering behavior.
 
 
 
-All clustering configuration is handled through the **replication** page of the HarperDB Studio, accessed with the following instructions:
+All clustering configuration is handled through the **replication** page of the Harper Studio, accessed with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
+1) Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 2) Click the appropriate organization that the instance belongs to.
 
@@ -19,14 +19,14 @@ Note, the **replication** page will only be available to super users.
 ---
 ## Initial Configuration
 
-HarperDB instances do not have clustering configured by default. The HarperDB Studio will walk you through the initial configuration. Upon entering the **replication** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen. It is worth reviewing the [Creating a Cluster User](../../developers/clustering/creating-a-cluster-user.md) document before proceeding.
+Harper instances do not have clustering configured by default. The Harper Studio will walk you through the initial configuration. Upon entering the **replication** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen. It is worth reviewing the [Creating a Cluster User](../../developers/clustering/creating-a-cluster-user.md) document before proceeding.
 
 1) Enter Cluster User username. (Defaults to `cluster_user`). 
 2) Enter Cluster Password. 
 3) Review and/or Set Cluster Node Name. 
 4) Click **Enable Clustering**.
    
-At this point the Studio will restart your HarperDB Instance, required for the configuration changes to take effect.
+At this point the Studio will restart your Harper Instance, required for the configuration changes to take effect.
 
 ---
 
@@ -52,7 +52,7 @@ Once initial clustering configuration is completed you a presented with a cluste
 
 ## Connect an Instance
 
-HarperDB Instances can be clustered together with the following instructions.
+Harper Instances can be clustered together with the following instructions.
 
 1) Ensure clustering has been configured on both instances and a cluster user with identical credentials exists on both.
 
@@ -66,7 +66,7 @@ HarperDB Instances can be clustered together with the following instructions.
 
 ## Disconnect an Instance
 
-HarperDB Instances can be disconnected with the following instructions.
+Harper Instances can be disconnected with the following instructions.
 
 1) Identify the instance you would like to disconnect from the **connected instances** panel.
 

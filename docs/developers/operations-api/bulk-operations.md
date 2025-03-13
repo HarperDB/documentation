@@ -7,7 +7,7 @@ Ingests CSV data, provided directly in the operation as an `insert`, `update` or
 * action _(optional)_ - type of action you want to perform - `insert`, `update` or `upsert`. The default is `insert`
 * database _(optional)_ - name of the database where you are loading your data. The default is `data`
 * table _(required)_ - name of the table where you are loading your data
-* data _(required)_ - csv data to import into HarperDB
+* data _(required)_ - csv data to import into Harper
 
 ### Body
 ```json
@@ -33,13 +33,13 @@ Ingests CSV data, provided directly in the operation as an `insert`, `update` or
 ## CSV File Load
 Ingests CSV data, provided via a path on the local filesystem, as an `insert`, `update` or `upsert` into the specified database table. 
 
-_Note: The CSV file must reside on the same machine on which HarperDB is running. For example, the path to a CSV on your computer will produce an error if your HarperDB instance is a cloud instance._
+_Note: The CSV file must reside on the same machine on which Harper is running. For example, the path to a CSV on your computer will produce an error if your Harper instance is a cloud instance._
 
 * operation _(required)_ - must always be `csv_file_load`
 * action _(optional)_ - type of action you want to perform - `insert`, `update` or `upsert`. The default is `insert`
 * database _(optional)_ - name of the database where you are loading your data. The default is `data`
 * table _(required)_ - name of the table where you are loading your data
-* file_path _(required)_ - path to the csv file on the host running harperdb
+* file_path _(required)_ - path to the csv file on the host running Harper
 
 ### Body
 ```json

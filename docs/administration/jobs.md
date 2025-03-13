@@ -1,6 +1,6 @@
 # Jobs
 
-HarperDB Jobs are asynchronous tasks performed by the Operations API.
+Harper Jobs are asynchronous tasks performed by the Operations API.
 
 ## Job Summary
 

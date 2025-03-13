@@ -1,6 +1,6 @@
 # Reference
 
-This section contains technical details and reference materials for HarperDB.
+This section contains technical details and reference materials for Harper.
 
 * [Resource API](resource.md)
 * [Transactions](transactions.md)

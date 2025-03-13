@@ -1,14 +1,14 @@
 # Quick Start Examples
 
-HarperDB recommends utilizing [HarperDB Applications](../../developers/applications/README.md) for defining databases, tables, and other functionality. However, this guide is a great way to get started using on the HarperDB Operations API. 
+Harper recommends utilizing [Harper Applications](../../developers/applications/README.md) for defining databases, tables, and other functionality. However, this guide is a great way to get started using on the Harper Operations API. 
 
 ## Create dog Table
 
 We first need to create a table. Since our company is named after our CEO's dog, lets create a table to store all our employees' dogs. We'll call this table, `dogs`.
 
-Tables in HarperDB are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  
+Tables in Harper are schema-less, so we don't need to add any attributes other than a primary_key (in pre 4.2 versions this was referred to as the hash_attribute) to create this table.  
 
-HarperDB does offer a `database` parameter that can be used to hold logical groupings of tables. The parameter is optional and if not provided the operation will default to using a database named `data`.
+Harper does offer a `database` parameter that can be used to hold logical groupings of tables. The parameter is optional and if not provided the operation will default to using a database named `data`.
 
 If you receive an error response, make sure your Basic Authentication user and password match those you entered during the installation process.
 
@@ -244,7 +244,7 @@ Let's add some more Harper doggies! We can add as many dog objects as we want in
 
 We need to populate the 'breed' table with some data so we can reference it later. For larger data sets, we recommend using our CSV upload option.
 
-Each header in a column will be considered as an attribute, and each row in the file will be a row in the table. Simply specify the file path and the table to upload to, and HarperDB will take care of the rest. You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
+Each header in a column will be considered as an attribute, and each row in the file will be a row in the table. Simply specify the file path and the table to upload to, and Harper will take care of the rest. You can pull the breeds.csv file from here: https://s3.amazonaws.com/complimentarydata/breeds.csv
 
 ### Body
 
@@ -269,7 +269,7 @@ Each header in a column will be considered as an attribute, and each row in the 
 
 ## Update 1 Dog Using NoSQL
 
-HarperDB supports NoSQL and SQL commands. We're going to update the dog table to show Penny's last initial using our NoSQL API.
+Harper supports NoSQL and SQL commands. We're going to update the dog table to show Penny's last initial using our NoSQL API.
 
 ### Body
 

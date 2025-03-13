@@ -1,6 +1,6 @@
 # Table of contents
 
-* [HarperDB Docs](README.md)
+* [Harper Docs](README.md)
 * [Getting Started](getting-started.md)
 
 ## Developers
@@ -62,7 +62,7 @@
   * [SQL Functions](developers/sql-guide/functions.md)
   * [SQL JSON Search](developers/sql-guide/json-search.md)
   * [SQL Geospatial Functions](developers/sql-guide/sql-geospatial-functions.md)
-* Miscellaneous
+* [Miscellaneous](developers/miscellaneous/README.md)
   * [Google Data Studio](developers/miscellaneous/google-data-studio.md)
   * [SDKs](developers/miscellaneous/sdks.md)
 
@@ -95,15 +95,15 @@
 ## Deployments
 
 * [Configuration File](deployments/configuration.md)
-* [HarperDB CLI](deployments/harperdb-cli.md)
-* [Install HarperDB](deployments/install-harperdb/README.md)
-  * [On Linux](deployments/install-harperdb/linux.md)
-* [Upgrade a HarperDB Instance](deployments/upgrade-hdb-instance.md)
-* [HarperDB Cloud](deployments/harperdb-cloud/README.md)
-  * [IOPS Impact on Performance](deployments/harperdb-cloud/iops-impact.md)
-  * [Instance Size Hardware Specs](deployments/harperdb-cloud/instance-size-hardware-specs.md)
-  * [Alarms](deployments/harperdb-cloud/alarms.md)
-  * [Verizon 5G Wavelength](deployments/harperdb-cloud/verizon-5g-wavelength-instances.md)
+* [Harper CLI](deployments/harper-cli.md)
+* [Install Harper](deployments/install-harper/README.md)
+  * [On Linux](deployments/install-harper/linux.md)
+* [Upgrade a Harper Instance](deployments/upgrade-hdb-instance.md)
+* [Harper Cloud](deployments/harper-cloud/README.md)
+  * [IOPS Impact on Performance](deployments/harper-cloud/iops-impact.md)
+  * [Instance Size Hardware Specs](deployments/harper-cloud/instance-size-hardware-specs.md)
+  * [Alarms](deployments/harper-cloud/alarms.md)
+  * [Verizon 5G Wavelength](deployments/harper-cloud/verizon-5g-wavelength-instances.md)
 
 ## Technical Details
 
@@ -114,14 +114,17 @@
   * [Data Types](technical-details/reference/data-types.md)
   * [Dynamic Schema](technical-details/reference/dynamic-schema.md)
   * [GraphQL](technical-details/reference/graphql.md)
-  * [HarperDB Headers](technical-details/reference/headers.md)
-  * [HarperDB Limits](technical-details/reference/limits.md)
+  * [Harper Headers](technical-details/reference/headers.md)
+  * [Harper Limits](technical-details/reference/limits.md)
   * [Globals](technical-details/reference/globals.md)
   * [Resource Class](technical-details/reference/resource.md)
   * [Transactions](technical-details/reference/transactions.md)
   * [Storage Algorithm](technical-details/reference/storage-algorithm.md)
 * [Release Notes](technical-details/release-notes/README.md)
-  * [HarperDB Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+  * [Harper Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+    * [4.4.24](technical-details/release-notes/4.tucker/4.4.24.md)
+    * [4.4.23](technical-details/release-notes/4.tucker/4.4.23.md)
+    * [4.4.22](technical-details/release-notes/4.tucker/4.4.22.md)
     * [4.4.21](technical-details/release-notes/4.tucker/4.4.21.md)
     * [4.4.20](technical-details/release-notes/4.tucker/4.4.20.md)
     * [4.4.19](technical-details/release-notes/4.tucker/4.4.19.md)
@@ -230,5 +233,5 @@
 ## More Help
 
 * [Support](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
-* [Slack](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
-* [Contact Us](https://www.harperdb.io/contact)
+* [Slack](https://harperdbcommunity.slack.com/join/shared_invite/zt-e8w6u1pu-2UFAXl_f4ZHo7F7DVkHIDA#/)
+* [Contact Us](https://www.harpersystems.dev/contact)

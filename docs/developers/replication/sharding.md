@@ -1,7 +1,7 @@
-HarperDB's replication system supports various levels of replication or sharding. HarperDB can be configured or set up to replicate to different data to different subsets of nodes. This can be used facilitate horizontally scalability of storage and write performance, while maintaining optimal strategies of data locality and data consistency. When sharding is configured, HarperDB will replicate data to only a subset of nodes, based on the sharding configuration, and can then retrieve data from the appropriate nodes as needed to fulfill requests for data.
+Harper's replication system supports various levels of replication or sharding. Harper can be configured or set up to replicate to different data to different subsets of nodes. This can be used facilitate horizontally scalability of storage and write performance, while maintaining optimal strategies of data locality and data consistency. When sharding is configured, Harper will replicate data to only a subset of nodes, based on the sharding configuration, and can then retrieve data from the appropriate nodes as needed to fulfill requests for data.
 
 ## Configuration
-By default, HarperDB will replicate all data to all nodes. However, replication can easily be configured for "sharding", or storing different data in different locations or nodes. The simplest way to configure sharding and limit replication to improve performance and efficiency is to configure a replication-to count. This will limit the number of nodes that data is replicated to. For example, to specify that writes should replicate to 2 other nodes besides the node that first stored the data, you can set the `replicateTo` to 2 in the `replication` section of the `harperdb-config.yaml` file:
+By default, Harper will replicate all data to all nodes. However, replication can easily be configured for "sharding", or storing different data in different locations or nodes. The simplest way to configure sharding and limit replication to improve performance and efficiency is to configure a replication-to count. This will limit the number of nodes that data is replicated to. For example, to specify that writes should replicate to 2 other nodes besides the node that first stored the data, you can set the `replicateTo` to 2 in the `replication` section of the `harperdb-config.yaml` file:
 ```yaml
 replication:
   replicateTo: 2
@@ -27,7 +27,7 @@ X-Replicate-To: node1,node2
 (This can also be used with the `confirm` parameter.)
 
 ## Replication Control with Operations
-Likewise, you can specify replicateTo and confirm parameters in the operation object when using the HarperDB API. For example, to specify that data should be replicated to two other nodes, and the response should be returned once confirmation is received from one other node, you can use the following operation object:
+Likewise, you can specify replicateTo and confirm parameters in the operation object when using the Harper API. For example, to specify that data should be replicated to two other nodes, and the response should be returned once confirmation is received from one other node, you can use the following operation object:
 ```json
 {
   "operation": "update",
