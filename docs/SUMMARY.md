@@ -204,6 +204,7 @@
     * [4.0.2](technical-details/release-notes/4.tucker/4.0.2.md)
     * [4.0.1](technical-details/release-notes/4.tucker/4.0.1.md)
     * [4.0.0](technical-details/release-notes/4.tucker/4.0.0.md)
+    * [Tucker](technical-details/release-notes/4.tucker/tucker.md)
     * [HarperDB Monkey (Version 3)](technical-details/release-notes/3.monkey/README.md)
     * [3.3.0](technical-details/release-notes/3.monkey/3.3.0.md)
     * [3.2.1](technical-details/release-notes/3.monkey/3.2.1.md)
