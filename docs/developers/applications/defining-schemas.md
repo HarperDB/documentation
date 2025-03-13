@@ -165,7 +165,7 @@ The field directives can be used for information about each attribute in table t
 
 #### `@primaryKey`
 
-The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated with a UUID if no primary key is provided.
+The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys). 
 
 #### `@indexed`
 
