@@ -86,6 +86,10 @@ The port used to access the component server.
 
 The port the Harper component server uses for HTTPS connections. This requires a valid certificate and key.
 
+`http2` - _Type_: boolean; _Default_: false 
+
+Enables HTTP/2 for the HTTP server.
+
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
@@ -887,6 +891,18 @@ Defines the page size of the database.
 ```yaml
 storage:
   pageSize: 4096
+```
+
+`reclamation`
+
+The reclamation section provides configuration for the reclamation process, which is responsible for reclaiming space when free space is low. For example:
+
+```yaml
+storage:
+  reclamation:
+	threshold: 0.4 # Start storage reclamation efforts when free space has reached 40% of the volume space (default)
+  	interval: 1h # Reclamation will run every hour (default)
+    evictionFactor: 100000 # A factor used to determine how much aggressively to evict cached entries (default)
 ```
 
 ***
