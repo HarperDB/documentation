@@ -2,6 +2,11 @@
 
 HarperDB version 4 ([Tucker release](tucker.md)) represents major step forward in database technology. This release line has ground-breaking architectural advancements including:
 
+## [4.5](4.5.0.md)
+* Blob Storage - 4.5 introduces a new [Blob storage system](../../reference/blob.md).
+* Password Hashing Upgrade - two new password hashing algorithms for better security (to replace md5).
+* New resource and storage Analytics
+
 ## [4.4](4.4.0.md)
 
 * Native replication (codename "Plexus") which is faster, more efficient, secure, and reliable than the previous replication system and provides provisional sharding capabilities with a foundation for the future

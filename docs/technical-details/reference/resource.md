@@ -413,6 +413,11 @@ GET /MyTable/test?foo=bar
 ```
 This will be mapped to the resource with a primary key of `test?foo=bar`, and no querying will be performed on that resource.
 
+### `getRecordCount({ exactCount: boolean })`
+This will return the number of records in the table. By default, this will return an approximate count of records, which is fast and efficient. If you want an exact count, you can pass `{ exactCount: true }` as the first argument, but this will be slower and more expensive. The return value will be a Promise that resolves to an object with a `recordCount` property, which is the number of records in the table. If this was not an exact count, it will also include `estimatedRange` array with estimate range of the count.
+
+```javascript
+
 ### `parsePath(path, context, query) {`
 
 This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will parse `.property` suffixes for accessing properties and specifying preferred content type in the URL (and for older tables it will convert a multi-segment path to multipart an array id). However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
@@ -422,6 +427,8 @@ This is called by static methods when they are responding to a URL (from HTTP re
 		return path; // return the path as the id
 	}
 ```
+
+### getRecordCount: Promise<{}
 
 ### `isCollection(resource: Resource): boolean`
 

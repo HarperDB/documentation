@@ -255,3 +255,9 @@ This records the provided value as a metric into Harper's analytics. Harper effi
 * `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
 * `method` - Optional method to group by.
 * `type` - Optional type to group by.
+
+### `server.getUser(username): Promise<User>`
+This returns the user object with permissions/authorization information based on the provided username. This does not verify the password, so it is generally used for looking up users by username. If you want to verify a user by password, use [`server.authenticateUser`](globals.md#serverauthenticateuserusername-password-user).
+
+### `server.authenticateUser(username, password): Promise<User>`
+This returns the user object with permissions/authorization information based on the provided username. The password will be verified before returning the user object (if the password is incorrect, an error will be thrown).
