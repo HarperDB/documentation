@@ -59,7 +59,7 @@ This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `n
 
 ## `server`
 
-The `server` global object provides a number of functions and objects to interact with Harper's HTTP service.
+The `server` global object provides a number of functions and objects to interact with Harper's HTTP, networking, and authentication services.
 
 ### `server.http(listener: RequestListener, options: HttpOptions): HttpServer[]`
 
