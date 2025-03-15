@@ -900,8 +900,8 @@ The reclamation section provides configuration for the reclamation process, whic
 ```yaml
 storage:
   reclamation:
-	threshold: 0.4 # Start storage reclamation efforts when free space has reached 40% of the volume space (default)
-  	interval: 1h # Reclamation will run every hour (default)
+    threshold: 0.4 # Start storage reclamation efforts when free space has reached 40% of the volume space (default)
+    interval: 1h # Reclamation will run every hour (default)
     evictionFactor: 100000 # A factor used to determine how much aggressively to evict cached entries (default)
 ```
 
