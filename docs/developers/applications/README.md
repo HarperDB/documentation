@@ -99,7 +99,7 @@ Now we tell Harper to run this as an application:
 > harperdb dev . # tell Harper cli to run current directory as an application in dev mode
 ```
 
-Harper will now create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to get create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any Harper instance).
+Harper will now create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any Harper instance).
 
 ## Adding Attributes to our Table
 
