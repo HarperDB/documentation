@@ -25,19 +25,19 @@ logging:
 ```
 
 You could apply this change using:
-* Environment variables: `LOGGING_ROTATION_ENABLED=false`
-* Command line variables: `--LOGGING_ROTATION_ENABLED false`
+* Environment variable: `LOGGING_ROTATION_ENABLED=false`
+* Command line variable: `--LOGGING_ROTATION_ENABLED false`
 * Operations API (`set_configuration`): `logging_rotation_enabled: false`
 
 To change the `port` in the `http` section, use:
-* Environment variables: `HTTP_PORT=<port>`
-* Command line variables: `--HTTP_PORT <port>`
-* Operations API: `http_port: <port>`
+* Environment variable: `HTTP_PORT=<port>`
+* Command line variable: `--HTTP_PORT <port>`
+* Operations API (`set_configuration`): `http_port: <port>`
 
 To set the `operationsApi,network.port` to `9925`, use:
-* Environment variables: `OPERATIONSAPI_NETWORK_PORT=9925`
-* Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
-* Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
+* Environment variable: `OPERATIONSAPI_NETWORK_PORT=9925`
+* Command line variable: `--OPERATIONSAPI_NETWORK_PORT 9925`
+* Operations API (`set_configuration`): `operationsApi_network_port: 9925`
 
 _Note: Component configuration cannot be added or updated via CLI or ENV variables._
 
