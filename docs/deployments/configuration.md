@@ -8,17 +8,36 @@ Some configuration will be populated by default in the config file on install, r
 
 ## Using the Configuration File and Naming Conventions
 
-The configuration elements in `harperdb-config.yaml` use camelcase: `operationsApi`.
+The configuration elements in `harperdb-config.yaml` use camelcase, such as `operationsApi`.
 
-To change a configuration value edit the `harperdb-config.yaml` file and save any changes. HarperDB must be restarted for changes to take effect.
+To change a configuration value, edit the `harperdb-config.yaml` file and save any changes. **HarperDB must be restarted for changes to take effect.**
 
-Alternately, configuration can be changed via environment and/or command line variables or via the API. To access lower level elements, use underscores to append parent/child elements (when used this way elements are case insensitive):
+Alternatively, all configuration values can also be modified using environment variables, command line arguments, or the operations API via the [`set_configuration` operation](../developers/operations-api/utilities.md#set-configuration).
 
+For nested configuration elements, use underscores to represent parent-child relationships. When accessed this way, elements are case-insensitive.
+
+For example, to disable logging rotation in the `logging` section:
+
+```yaml
+logging:
+  rotation:
+    enabled: false
 ```
-- Environment variables: `OPERATIONSAPI_NETWORK_PORT=9925`
-- Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
-- Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
-```
+
+You could apply this change using:
+* Environment variables: `LOGGING_ROTATION_ENABLED=false`
+* Command line variables: `--LOGGING_ROTATION_ENABLED false`
+* Operations API (`set_configuration`): `logging_rotation_enabled: false`
+
+To change the `port` in the `http` section, use:
+* Environment variables: `HTTP_PORT=<port>`
+* Command line variables: `--HTTP_PORT <port>`
+* Operations API: `http_port: <port>`
+
+To set the `operationsApi,network.port` to `9925`, use:
+* Environment variables: `OPERATIONSAPI_NETWORK_PORT=9925`
+* Command line variables: `--OPERATIONSAPI_NETWORK_PORT 9925`
+* Calling `set_configuration` through the API: `operationsApi_network_port: 9925`
 
 _Note: Component configuration cannot be added or updated via CLI or ENV variables._
 
