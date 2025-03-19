@@ -34,7 +34,7 @@ To change the `port` in the `http` section, use:
 * Command line variable: `--HTTP_PORT <port>`
 * Operations API (`set_configuration`): `http_port: <port>`
 
-To set the `operationsApi,network.port` to `9925`, use:
+To set the `operationsApi.network.port` to `9925`, use:
 * Environment variable: `OPERATIONSAPI_NETWORK_PORT=9925`
 * Command line variable: `--OPERATIONSAPI_NETWORK_PORT 9925`
 * Operations API (`set_configuration`): `operationsApi_network_port: 9925`
