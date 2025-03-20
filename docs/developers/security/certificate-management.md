@@ -24,9 +24,8 @@ To replace the certificates, either replace the contents of the existing certifi
 
 ```yaml
 tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
+  certificate: ~/hdb/keys/certificate.pem
+  privateKey: ~/hdb/keys/privateKey.pem
 ```
 
 `operationsApi.tls` configuration is optional. If it is not set Harper will default to the values in the `tls` section.
@@ -35,8 +34,21 @@ tls:
 operationsApi:
   tls:
     certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
+```
+
+### mTLS
+
+Mutual TLS (mTLS) is a security protocol that requires both the client and the server to present certificates to each other. Requiring a client certificate can be useful for authenticating clients and ensuring that only authorized clients can access your Harper instance. This can be enabled by setting the `http.mtls` configuration in `harperdb-config.yaml` to `true` and providing a certificate authority in the TLS section:
+
+```yaml
+
+http:
+  mtls: true
+  ...
+tls:
+  certificateAuthority: ~/hdb/keys/ca.pem
+  ...
 ```
 
 ### Option: Nginx Reverse Proxy
