@@ -1,10 +1,10 @@
 {% hint style="warning" %}
-HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+Harper encourages developers to utilize other querying tools over SQL for performance purposes. Harper SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
 {% endhint %}
 
 # SQL Date Functions
 
-HarperDB utilizes [Coordinated Universal Time (UTC)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) in all internal SQL operations. This means that date values passed into any of the functions below will be assumed to be in UTC or in a format that can be translated to UTC.
+Harper utilizes [Coordinated Universal Time (UTC)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) in all internal SQL operations. This means that date values passed into any of the functions below will be assumed to be in UTC or in a format that can be translated to UTC.
 
 When parsing date values passed to SQL date functions in HDB, we first check for [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formats, then for [RFC 2822](https://tools.ietf.org/html/rfc2822#section-3.3) date-time format and then fall back to new Date(date_string)if a known format is not found.
 

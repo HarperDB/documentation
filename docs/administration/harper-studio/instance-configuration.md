@@ -1,12 +1,12 @@
 # Instance Configuration
 
-HarperDB instance configuration can be viewed and managed directly through the HarperDB Studio. HarperDB Cloud instances can be resized in two different ways via this page, either by modifying machine RAM or by increasing drive storage. Enterprise instances can have their licenses modified by modifying licensed RAM.
+Harper instance configuration can be viewed and managed directly through the Harper Studio. Harper Cloud instances can be resized in two different ways via this page, either by modifying machine RAM or by increasing drive storage. Enterprise instances can have their licenses modified by modifying licensed RAM.
 
 
 
-All instance configuration is handled through the **config** page of the HarperDB Studio, accessed with the following instructions:
+All instance configuration is handled through the **config** page of the Harper Studio, accessed with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
+1) Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 2) Click the appropriate organization that the instance belongs to.
 
@@ -28,11 +28,11 @@ The **instance overview** panel displays the following instance specifications:
 
 * Instance API Auth Header (this user)
    
-   *The Basic authentication header used for the logged in HarperDB database user*
+   *The Basic authentication header used for the logged in Harper database user*
 
-* Created Date (HarperDB Cloud only)
+* Created Date (Harper Cloud only)
 
-* Region (HarperDB Cloud only)
+* Region (Harper Cloud only)
    
    *The geographic region where the instance is hosted.*
 
@@ -40,17 +40,17 @@ The **instance overview** panel displays the following instance specifications:
 
 * RAM
 
-* Storage (HarperDB Cloud only)
+* Storage (Harper Cloud only)
 
-* Disk IOPS (HarperDB Cloud only)
+* Disk IOPS (Harper Cloud only)
 
 ## Update Instance RAM
 
-HarperDB Cloud instance size and Enterprise instance licenses can be modified with the following instructions. This option is only available to Studio organization owners.
+Harper Cloud instance size and Enterprise instance licenses can be modified with the following instructions. This option is only available to Studio organization owners.
 
 
 
-Note: For HarperDB Cloud instances, upgrading RAM may add additional CPUs to your instance as well. Click here to see how many CPUs are provisioned for each instance size.
+Note: For Harper Cloud instances, upgrading RAM may add additional CPUs to your instance as well. Click here to see how many CPUs are provisioned for each instance size.
 
 1) In the **update ram** panel at the bottom left:
 
@@ -66,11 +66,11 @@ Note: For HarperDB Cloud instances, upgrading RAM may add additional CPUs to you
 
 3) Once your instance upgrade is complete, it will appear on the instance dashboard as status OK with your newly selected instance size.
 
-*Note, if HarperDB Cloud instance reprovisioning takes longer than 20 minutes, please submit a support ticket here: https://harperdbhelp.zendesk.com/hc/en-us/requests/new.*
+*Note, if Harper Cloud instance reprovisioning takes longer than 20 minutes, please submit a support ticket here: https://harperdbhelp.zendesk.com/hc/en-us/requests/new.*
 
 ## Update Instance Storage
 
-The HarperDB Cloud instance storage size can be increased with the following instructions. This option is only available to Studio organization owners.
+The Harper Cloud instance storage size can be increased with the following instructions. This option is only available to Studio organization owners.
 
 Note: Instance storage can only be upgraded once every 6 hours.
 
@@ -92,7 +92,7 @@ Note: Instance storage can only be upgraded once every 6 hours.
 
 ## Remove Instance
 
-The HarperDB instance can be deleted/removed from the Studio with the following instructions. Once this operation is started it cannot be undone. This option is only available to Studio organization owners.
+The Harper instance can be deleted/removed from the Studio with the following instructions. Once this operation is started it cannot be undone. This option is only available to Studio organization owners.
 
 1) In the **remove instance** panel at the bottom left:
    * Enter the instance name in the text box.
@@ -105,7 +105,7 @@ The HarperDB instance can be deleted/removed from the Studio with the following 
    
 ## Restart Instance
 
-The HarperDB Cloud instance can be restarted with the following instructions.
+The Harper Cloud instance can be restarted with the following instructions.
 
 1) In the **restart instance** panel at the bottom right:
    * Enter the instance name in the text box.
