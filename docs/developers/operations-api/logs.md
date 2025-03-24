@@ -1,17 +1,19 @@
-# Logs 
+# Logs
 
-## Read HarperDB Log
-Returns log outputs from the primary HarperDB log based on the provided search criteria. Read more about HarperDB logging here: https://docs.harperdb.io/docs/logging#read-logs-via-the-api. 
+## Read Harper Log
 
-_Operation is restricted to super_user roles only_
+Returns log outputs from the primary Harper log based on the provided search criteria. [Read more about Harper logging here](../../administration/logging/logging.md#read-logs-via-the-api).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_Log`
 * start _(optional)_ - result to start with. Default is 0, the first log in `hdb.log`. Must be a number
 * limit _(optional)_ - number of results returned. Default behavior is 1000. Must be a number
-* level _(optional)_ - error level to filter on. Default behavior is all levels. Must be `notify`, `error`, `warn`, `info`, `debug` or `trace` 
-* from _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is first log in `hdb.log` 
+* level _(optional)_ - error level to filter on. Default behavior is all levels. Must be `notify`, `error`, `warn`, `info`, `debug` or `trace`
+* from _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is first log in `hdb.log`
 * until _(optional)_ - date to end showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is last log in `hdb.log`
 * order _(optional)_ - order to display logs desc or asc by timestamp. By default, will maintain `hdb.log` order
+
 ### Body
 
 ```json
@@ -27,6 +29,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -54,13 +57,13 @@ _Operation is restricted to super_user roles only_
 
 ```
 
-
----
+***
 
 ## Read Transaction Log
-Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_transaction_log.
 
-_Operation is restricted to super_user roles only_
+Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. [Read more about Harper transaction logs here](logs.md#read-transaction-log).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_transaction_log`
 * schema _(required)_ - schema under which the transaction log resides
@@ -83,6 +86,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -256,12 +260,13 @@ _Operation is restricted to super_user roles only_
 ]
 ```
 
----
+***
 
 ## Delete Transaction Logs Before
+
 Deletes transaction log data for the specified database table that is older than the specified timestamp.
 
-_Operation is restricted to super_user roles only_
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `delete_transaction_log_before`
 * schema _(required)_ - schema under which the transaction log resides. Must be a string
@@ -269,6 +274,7 @@ _Operation is restricted to super_user roles only_
 * timestamp _(required)_ - records older than this date will be deleted. Format is millisecond-based epoch in UTC
 
 ### Body
+
 ```json
 {
     "operation": "delete_transaction_logs_before",
@@ -279,24 +285,26 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Starting job with id 26a6d3a6-6d77-40f9-bee7-8d6ef479a126"
 }
 ```
 
----
+***
 
 ## Read Audit Log
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-_Operation is restricted to super_user roles only_
+AuditLog must be enabled in the Harper configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search\_type and search\_values fields. [Read more about Harper transaction logs here.](../../administration/logging/transaction-logging.md#read_transaction_log)
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_audit_log`
 * schema _(required)_ - schema under which the transaction log resides
 * table _(required)_ - table under which the transaction log resides
-* search_type _(optional)_ - possibilities are `hash_value`, `timestamp` and `username`
-* search_values _(optional)_ - an array of string or numbers relating to search_type
+* search\_type _(optional)_ - possibilities are `hash_value`, `timestamp` and `username`
+* search\_values _(optional)_ - an array of string or numbers relating to search\_type
 
 ### Body
 
@@ -309,6 +317,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -386,19 +395,19 @@ _Operation is restricted to super_user roles only_
 ]
 ```
 
-
----
+***
 
 ## Read Audit Log by timestamp
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-_Operation is restricted to super_user roles only_
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. [Read more about Harper transaction logs here](logs.md#read-transaction-log).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_audit_log`
 * schema _(required)_ - schema under which the transaction log resides
 * table _(required)_ - table under which the transaction log resides
-* search_type _(optional)_ - timestamp
-* search_values _(optional)_ - an array containing a maximum of two values [`from_timestamp`, `to_timestamp`] defining the range of transactions you would like to view.
+* search\_type _(optional)_ - timestamp
+* search\_values _(optional)_ - an array containing a maximum of two values \[`from_timestamp`, `to_timestamp`] defining the range of transactions you would like to view.
   * Timestamp format is millisecond-based epoch in UTC
   * If no items are supplied then all transactions are returned
   * If only one entry is supplied then all transactions after the supplied timestamp will be returned
@@ -419,6 +428,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -519,19 +529,19 @@ _Operation is restricted to super_user roles only_
 ]
 ```
 
-
----
+***
 
 ## Read Audit Log by username
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
 
-_Operation is restricted to super_user roles only_
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. [Read more about Harper transaction logs here](../../administration/logging/transaction-logging.md#read_transaction_log).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_audit_log`
 * schema _(required)_ - schema under which the transaction log resides
 * table _(required)_ - table under which the transaction log resides
-* search_type _(optional)_ - username
-* search_values _(optional)_ - the HarperDB user for whom you would like to view transactions
+* search\_type _(optional)_ - username
+* search\_values _(optional)_ - the Harper user for whom you would like to view transactions
 
 ### Body
 
@@ -548,6 +558,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "admin": [
@@ -650,19 +661,19 @@ _Operation is restricted to super_user roles only_
 }
 ```
 
+***
 
----
+## Read Audit Log by hash\_value
 
-## Read Audit Log by hash_value
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). Read more about HarperDB transaction logs here: https://docs.harperdb.io/docs/transaction-logging#read_audit_log.
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). [Read more about Harper transaction logs here](../../administration/logging/transaction-logging.md#read_transaction_log).
 
-_Operation is restricted to super_user roles only_
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `read_audit_log`
 * schema _(required)_ - schema under which the transaction log resides
 * table _(required)_ - table under which the transaction log resides
-* search_type _(optional)_ - hash_value
-* search_values _(optional)_ - an array of hash_attributes for which you wish to see transaction logs
+* search\_type _(optional)_ - hash\_value
+* search\_values _(optional)_ - an array of hash\_attributes for which you wish to see transaction logs
 
 ### Body
 
@@ -679,6 +690,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "318": [
@@ -719,12 +731,13 @@ _Operation is restricted to super_user roles only_
 }
 ```
 
----
+***
 
 ## Delete Audit Logs Before
-AuditLog must be enabled in the HarperDB configuration file to make this request. Deletes audit log data for the specified database table that is older than the specified timestamp.
 
-_Operation is restricted to super_user roles only_
+AuditLog must be enabled in the Harper configuration file to make this request. Deletes audit log data for the specified database table that is older than the specified timestamp.
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `delete_audit_logs_before`
 * schema _(required)_ - schema under which the transaction log resides. Must be a string
@@ -732,6 +745,7 @@ _Operation is restricted to super_user roles only_
 * timestamp _(required)_ - records older than this date will be deleted. Format is millisecond-based epoch in UTC
 
 ### Body
+
 ```json
 {
     "operation": "delete_audit_logs_before",
@@ -742,10 +756,9 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Starting job with id 7479e5f8-a86e-4fc9-add7-749493bc100f"
 }
 ```
-
-

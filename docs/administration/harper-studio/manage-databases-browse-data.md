@@ -2,7 +2,7 @@
 
 Manage instance databases/tables and browse data in tabular format with the following instructions:
 
-1) Navigate to the HarperDB Studio Organizations page. 
+1) Navigate to the Harper Studio Organizations page. 
 2) Click the appropriate organization that the instance belongs to. 
 3) Select your desired instance. 
 4) Click **browse** in the instance control bar.

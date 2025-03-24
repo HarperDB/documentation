@@ -1,28 +1,31 @@
 # Clustering
 
-The following operations are available for configuring and managing [HarperDB replication](../replication/README.md).<br>
+The following operations are available for configuring and managing [Harper replication](../replication/).\
 
-___If you are using NATS for clustering, please see the [NATS Clustering Operations](clustering-nats.md) documentation.___
+
+_**If you are using NATS for clustering, please see the**_ [_**NATS Clustering Operations**_](clustering-nats.md) _**documentation.**_
 
 ## Add Node
-Adds a new HarperDB instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. 
-If they are not provided a fully replicating system will be created. [Learn more about adding nodes here](../replication/README.md).
 
-_Operation is restricted to super_user roles only_
+Adds a new Harper instance to the cluster. If `subscriptions` are provided, it will also create the replication relationships between the nodes. If they are not provided a fully replicating system will be created. [Learn more about adding nodes here](../replication/).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `add_node`
 * hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
-* verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the HarperDB default self-signed certificates to be accepted. Defaults to `true`
+* verify\_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
 * authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
 * retain_authorization _(optional)_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
 * revoked_certificates _(optional)_ - an array of revoked certificates serial numbers. If a certificate is revoked, it will not be accepted for any connections.
+* shard _(optional)_ - a number which can be used to indicate which shard this node belongs to. This is only needed if you are using sharding.
 * subscriptions _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
   * database - the database to replicate
   * table - the table to replicate
   * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
+  * publish - a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
+
 ```json
 {
     "operation": "add_node",
@@ -36,31 +39,35 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully added 'server-two' to cluster"
 }
 ```
 
----
+***
 
 ## Update Node
-Modifies an existing HarperDB instance in the cluster.
 
-_Operation is restricted to super_user roles only_
+Modifies an existing Harper instance in the cluster.
+
+_Operation is restricted to super\_user roles only_
 
 _Note: will attempt to add the node if it does not exist_
 
 * operation _(required)_ - must always be `update_node`
 * hostname _(required)_ - the `hostname` of the remote node you are updating
 * revoked_certificates _(optional)_ - an array of revoked certificates serial numbers. If a certificate is revoked, it will not be accepted for any connections.
+* shard _(optional)_ - a number which can be used to indicate which shard this node belongs to. This is only needed if you are using sharding.
 * subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
   * database - the database to replicate from
   * table - the table to replicate from
   * subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
+  * publish - a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
+
 ```json
 {
   "operation": "update_node",
@@ -77,23 +84,26 @@ _Note: will attempt to add the node if it does not exist_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully updated 'server-two'"
 }
 ```
 
----
+***
 
 ## Remove Node
-Removes a HarperDB node from the cluster and stops replication, [Learn more about remove node here](../replication/README.md).
 
-_Operation is restricted to super_user roles only_
+Removes a Harper node from the cluster and stops replication, [Learn more about remove node here](../replication/).
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `remove_node`
 * name _(required)_ - The name of the node you are removing
 
 ### Body
+
 ```json
 {
     "operation": "remove_node",
@@ -102,23 +112,27 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully removed 'server-two' from cluster"
 }
 ```
----
+
+***
 
 ## Cluster Status
-Returns an array of status objects from a cluster. 
+
+Returns an array of status objects from a cluster.
 
 `database_sockets` shows the actual websocket connections that exist between nodes.
 
-_Operation is restricted to super_user roles only_
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `cluster_status`
 
 ### Body
+
 ```json
 {
     "operation": "cluster_status"
@@ -126,6 +140,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
   "type": "cluster-status",
@@ -162,17 +177,19 @@ There is a separate socket for each database for each node. Each node is represe
 * `lastReceivedLocalTime`: This is local time when the last transaction was received. If there is a different between this and `lastReceivedRemoteTime`, it means there is a delay from the original transaction to * receiving it and so it is probably catching-up/behind.
 * `sendingMessage`: The timestamp of transaction is actively being sent. This won't exist if the replicator is waiting for the next transaction to send.
 
----
+***
 
 ## Configure Cluster
+
 Bulk create/remove subscriptions for any number of remote nodes. Resets and replaces any existing clustering setup.
 
-_Operation is restricted to super_user roles only_
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `configure_cluster`
 * connections _(required)_ - must be an object array with each object following the `add_node` schema.
 
 ### Body
+
 ```json
 {
     "operation": "configure_cluster",
@@ -214,23 +231,26 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Cluster successfully configured."
 }
 ```
 
----
+***
 
 ## Cluster Set Routes
+
 Adds a route/routes to the `replication.routes` configuration. This operation behaves as a PATCH/upsert, meaning it will add new routes to the configuration while leaving existing routes untouched.
 
-_Operation is restricted to super_user roles only_
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `cluster_set_routes`
 * routes _(required)_ - the routes field is an array that specifies the routes for clustering. Each element in the array can be either a string or an object with `hostname` and `port` properties.
 
 ### Body
+
 ```json
 {
     "operation": "cluster_set_routes",
@@ -245,6 +265,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "cluster routes successfully set",
@@ -259,16 +280,18 @@ _Operation is restricted to super_user roles only_
 }
 ```
 
----
+***
 
 ## Cluster Get Routes
-Gets the replication routes from the HarperDB config file.
 
-_Operation is restricted to super_user roles only_
+Gets the replication routes from the Harper config file.
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `cluster_get_routes`
 
 ### Body
+
 ```json
 {
     "operation": "cluster_get_routes"
@@ -276,6 +299,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
   "wss://server-two:9925",
@@ -286,12 +310,13 @@ _Operation is restricted to super_user roles only_
 ]
 ```
 
----
+***
 
 ## Cluster Delete Routes
-Removes route(s) from the HarperDB config file. Returns a deletion success message and arrays of deleted and skipped records.
 
-_Operation is restricted to super_user roles only_
+Removes route(s) from the Harper config file. Returns a deletion success message and arrays of deleted and skipped records.
+
+_Operation is restricted to super\_user roles only_
 
 * operation _(required)_ - must always be `cluster_delete_routes`
 * routes _required_ - Must be an array of route object(s)
@@ -311,6 +336,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "cluster routes successfully deleted",

@@ -1,4 +1,4 @@
-In addition to [defining a database schema](./defining-schemas.md), you can also define roles in your application. Roles are a way to group permissions together and assign them to users as part of HarperDB's [role based access control](../security/users-and-roles.md). An application component may declare roles that should exist for the application in a roles configuration file. To use this, first specify your roles config file in the `config.yaml` in your application directory:
+In addition to [defining a database schema](./defining-schemas.md), you can also define roles in your application. Roles are a way to group permissions together and assign them to users as part of Harper's [role based access control](../security/users-and-roles.md). An application component may declare roles that should exist for the application in a roles configuration file. To use this, first specify your roles config file in the `config.yaml` in your application directory:
 
 ```yaml
 roles:
@@ -25,7 +25,7 @@ declared-role:
           update: true
 ```
 
-With this in place, where HarperDB starts up, it will create the roles in the roles.yaml file if they do not already exist. If they do exist, it will update the roles with the new permissions. This allows you to manage your roles in your application code and have them automatically created or updated when the application starts.
+With this in place, where Harper starts up, it will create the roles in the roles.yaml file if they do not already exist. If they do exist, it will update the roles with the new permissions. This allows you to manage your roles in your application code and have them automatically created or updated when the application starts.
 
 The structure of the roles.yaml file is:
 ```yaml

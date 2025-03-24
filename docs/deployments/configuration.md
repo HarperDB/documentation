@@ -1,6 +1,6 @@
 # Configuration File
 
-HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the HarperDB root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+Harper is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the Harper root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
 Some configuration will be populated by default in the config file on install, regardless of whether it is used.
 
@@ -45,7 +45,7 @@ _Note: Component configuration cannot be added or updated via CLI or ENV variabl
 
 To use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your custom configuration file.
 
-To install HarperDB overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
+To install Harper overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
 
 ***
 
@@ -55,9 +55,9 @@ To install HarperDB overtop of an existing configuration file, set `HDB_CONFIG` 
 
 `sessionAffinity` - _Type_: string; _Default_: null
 
-HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
+Harper is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
 
-To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
+To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using Harper to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using Harper behind a proxy server or application server, all the remote ip addresses will be the same and Harper will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
 
 ```yaml
 http:
@@ -81,6 +81,10 @@ Enable Cross Origin Resource Sharing, which allows requests across a domain.
 
 An array of allowable domains with CORS
 
+`corsAccessControlAllowHeaders` - _Type_: string; _Default_: 'Accept, Content-Type, Authorization'
+
+A string representation of a comma separated list of header keys for the [Access-Control-Allow-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers) header for OPTIONS requests.
+
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
 Limit the amount of time the parser will wait to receive the complete HTTP headers with.
@@ -99,7 +103,11 @@ The port used to access the component server.
 
 `securePort` - _Type_: integer; _Default_: null
 
-The port the HarperDB component server uses for HTTPS connections. This requires a valid certificate and key.
+The port the Harper component server uses for HTTPS connections. This requires a valid certificate and key.
+
+`http2` - _Type_: boolean; _Default_: false 
+
+Enables HTTP/2 for the HTTP server.
 
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
@@ -127,8 +135,7 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 `user` - _Type_: string; _Default_: Common Name
 
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
-This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
 `required` - _Type_: boolean; _Default_: false
 
@@ -138,14 +145,15 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 http:
   mtls: true
 ```
+
 or
+
 ```yaml
 http:
   mtls:
     required: true
     user: user-name
 ```
-
 
 ***
 
@@ -155,7 +163,7 @@ The `threads` provides control over how many threads, how much heap memory they 
 
 `count` - _Type_: number; _Default_: One less than the number of logical cores/processors
 
-The `threads.count` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because HarperDB does have other threads at work), assuming HarperDB is the main service on a server.
+The `threads.count` option specifies the number of threads that will be used to service the HTTP requests for the operations API and custom functions. Generally, this should be close to the number of CPU logical cores/processors to ensure the CPU is fully utilized (a little less because Harper does have other threads at work), assuming Harper is the main service on a server.
 
 ```yaml
 threads:
@@ -166,10 +174,7 @@ threads:
 
 This enables debugging. If simply set to true, this will enable debugging on the main thread on port 9229 with the 127.0.0.1 host interface. This can also be an object for more debugging control.
 
-`debug.port` - The port to use for debugging the main thread
-`debug.startingPort` - This will set up a separate port for debugging each thread. This is necessary for debugging individual threads with devtools.
-`debug.host` - Specify the host interface to listen on
-`debug.waitForDebugger` - Wait for debugger before starting
+`debug.port` - The port to use for debugging the main thread `debug.startingPort` - This will set up a separate port for debugging each thread. This is necessary for debugging individual threads with devtools. `debug.host` - Specify the host interface to listen on `debug.waitForDebugger` - Wait for debugger before starting
 
 ```yaml
 threads:
@@ -190,7 +195,7 @@ This specifies the heap memory limit for each thread, in megabytes. The default 
 
 ### `replication`
 
-The `replication` section configures [HarperDB replication](../developers/replication/README.md), which is used to create HarperDB clusters and replicate data between the instances.
+The `replication` section configures [Harper replication](../developers/replication/), which is used to create Harper clusters and replicate data between the instances.
 
 ```yaml
 replication:
@@ -201,18 +206,18 @@ replication:
     - wss://server-two:9925
   port: null
   securePort: 9933,
-  disableRootCAs: false
+  enableRootCAs: true
 ```
 
 `hostname` - _Type_: string;
 
-The hostname of the current HarperDB instance.
+The hostname of the current Harper instance.
 
 `url` - _Type_: string;
 
-The URL of the current HarperDB instance.
+The URL of the current Harper instance.
 
-`databases` - _Type_: string/array; _Default_: "*" (all databases)
+`databases` - _Type_: string/array; _Default_: "\*" (all databases)
 
 Configure which databases to replicate. This can be a string for all database or an array for specific databases.
 
@@ -227,7 +232,7 @@ replication:
 
 An array of routes to connect to other nodes. Each element in the array can be either a string or an object with `hostname`, `port` and optionally `startTime` properties.
 
-`startTime` - _Type_: string; ISO formatted UTC date string. 
+`startTime` - _Type_: string; ISO formatted UTC date string.
 
 Replication will attempt to catch up on all remote data upon setup. To start replication from a specific date, set this property.
 
@@ -259,7 +264,7 @@ The port to use for secure replication connections.
 
 `enableRootCAs` - _Type_: boolean; _Default_: true
 
-When true, HarperDB will verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+When true, Harper will verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
 
 `copyTablesToCatchUp` - _Type_: boolean; _Default_: true
 
@@ -269,10 +274,9 @@ Replication will first attempt to catch up using the audit log. If unsuccessful,
 
 ### `clustering` using NATS
 
-The `clustering` section configures the NATS clustering engine, this is used to replicate data between instances of HarperDB.
+The `clustering` section configures the NATS clustering engine, this is used to replicate data between instances of Harper.
 
-_Note: There exist two ways to create clusters and replicate data in HarperDB. One option is to use native HarperDB replication over Websockets. 
-The other option is to use [NATS](https://nats.io/about/) to facilitate the cluster._
+_Note: There exist two ways to create clusters and replicate data in Harper. One option is to use native Harper replication over Websockets. The other option is to use_ [_NATS_](https://nats.io/about/) _to facilitate the cluster._
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
@@ -295,7 +299,7 @@ clustering:
 
 `clustering.hubServer.cluster`
 
-Clustering’s `hubServer` facilitates the HarperDB mesh network and discovery service.
+Clustering’s `hubServer` facilitates the Harper mesh network and discovery service.
 
 ```yaml
 clustering:
@@ -420,13 +424,14 @@ clustering:
       maxConsumeMsgs: 100
       maxIngestThreads: 2
 ```
+
 `maxConsumeMsgs` - _Type_: integer; _Default_: 100
 
 The maximum number of messages a consumer can process in one go.
 
 `maxIngestThreads` - _Type_: integer; _Default_: 2
 
-The number of HarperDB threads that are delegated to ingesting messages. 
+The number of Harper threads that are delegated to ingesting messages.
 
 ***
 
@@ -443,7 +448,7 @@ There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`,
 
 `nodeName` - _Type_: string; _Default_: null
 
-The name of this node in your HarperDB cluster topology. This must be a value unique from the rest of the cluster node names.
+The name of this node in your Harper cluster topology. This must be a value unique from the rest of the cluster node names.
 
 _Note: If you want to change the node name make sure there are no subscriptions in place before doing so. After the name has been changed a full restart is required._
 
@@ -496,7 +501,7 @@ When true, hub server will verify client certificate using the CA certificate.
 
 The username given to the `cluster_user`. All instances in a cluster must use the same clustering user credentials (matching username and password).
 
-Inter-node authentication takes place via a special HarperDB user role type called `cluster_user`.
+Inter-node authentication takes place via a special Harper user role type called `cluster_user`.
 
 The user can be created either through the API using an `add_user` request with the role set to `cluster_user`, or on install using environment variables `CLUSTERING_USER=cluster_person` `CLUSTERING_PASSWORD=pass123!` or CLI variables `harperdb --CLUSTERING_USER cluster_person` `--CLUSTERING_PASSWORD` `pass123!`
 
@@ -509,7 +514,7 @@ clustering:
 
 ### `localStudio`
 
-The `localStudio` section configures the local HarperDB Studio, a GUI for HarperDB hosted on the server. A hosted version of the HarperDB Studio with licensing and provisioning options is available at https://studio.harperdb.io. Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
+The `localStudio` section configures the local Harper Studio, a GUI for Harper hosted on the server. A hosted version of the Harper Studio with licensing and provisioning options is available at https://studio.harperdb.io. Note, all database traffic from either `localStudio` or Harper Studio is made directly from your browser to the instance.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -524,7 +529,7 @@ localStudio:
 
 ### `logging`
 
-The `logging` section configures HarperDB logging across all HarperDB functionality. This includes standard text logging of application and database events as well as structured data logs of record changes. Logging of application/database events are logged in text format to the `~/hdb/log/hdb.log` file (or location specified by `logging.root`).
+The `logging` section configures Harper logging across all Harper functionality. This includes standard text logging of application and database events as well as structured data logs of record changes. Logging of application/database events are logged in text format to the `~/hdb/log/hdb.log` file (or location specified by `logging.root`).
 
 In addition, structured logging of data changes are also available:
 
@@ -573,7 +578,7 @@ There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`,
 
 `console` - _Type_: boolean; _Default_: true
 
-Controls whether console.log and other console.* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.  
+Controls whether console.log and other console.\* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.
 
 ```yaml
 logging:
@@ -627,7 +632,7 @@ Where to store the rotated log file. File naming convention is `HDB-YYYY-MM-DDT-
 
 `stdStreams` - _Type_: boolean; _Default_: false
 
-Log HarperDB logs to the standard output and error streams.
+Log Harper logs to the standard output and error streams.
 
 ```yaml
 logging:
@@ -659,7 +664,7 @@ logging:
 
 ### `authentication`
 
-The authentication section defines the configuration for the default authentication mechanism in HarperDB.
+The authentication section defines the configuration for the default authentication mechanism in Harper.
 
 ```yaml
 authentication:
@@ -672,7 +677,7 @@ authentication:
 
 `authorizeLocal` - _Type_: boolean; _Default_: true
 
-This will automatically authorize any requests from the loopback IP address as the superuser. This should be disabled for any HarperDB servers that may be accessed by untrusted users from the same instance. For example, this should be disabled if you are using a local proxy, or for general server hardening.
+This will automatically authorize any requests from the loopback IP address as the superuser. This should be disabled for any Harper servers that may be accessed by untrusted users from the same instance. For example, this should be disabled if you are using a local proxy, or for general server hardening.
 
 `cacheTTL` - _Type_: number; _Default_: 30000
 
@@ -692,7 +697,7 @@ Defines the length of time a refresh token will be valid until it expires. Examp
 
 ### `operationsApi`
 
-The `operationsApi` section configures the HarperDB Operations API.\
+The `operationsApi` section configures the Harper Operations API.\
 All the `operationsApi` configuration is optional. Any configuration that is not provided under this section will default to the `http` configuration section.
 
 `network`
@@ -721,7 +726,7 @@ An array of allowable domains with CORS
 
 `domainSocket` - _Type_: string; _Default_: \<ROOTPATH>/hdb/operations-server
 
-The path to the Unix domain socket used to provide the Operations API through the CLI 
+The path to the Unix domain socket used to provide the Operations API through the CLI
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -733,11 +738,11 @@ Sets the number of milliseconds of inactivity the server needs to wait for addit
 
 `port` - _Type_: integer; _Default_: 9925
 
-The port the HarperDB operations API interface will listen on.
+The port the Harper operations API interface will listen on.
 
 `securePort` - _Type_: integer; _Default_: null
 
-The port the HarperDB operations API uses for HTTPS connections. This requires a valid certificate and key.
+The port the Harper operations API uses for HTTPS connections. This requires a valid certificate and key.
 
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
@@ -785,7 +790,7 @@ componentsRoot: ~/hdb/components
 
 `rootPath` - _Type_: string; _Default_: home directory of the current user
 
-The HarperDB database and applications/API/interface are decoupled from each other. The `rootPath` directory specifies where the HarperDB application persists data, config, logs, and Custom Functions.
+The Harper database and applications/API/interface are decoupled from each other. The `rootPath` directory specifies where the Harper application persists data, config, logs, and Custom Functions.
 
 ```yaml
 rootPath: /Users/jonsnow/hdb
@@ -839,7 +844,7 @@ storage:
 
 `compactOnStart` - _Type_: boolean; _Default_: false
 
-When `true` all non-system databases will be compacted when starting HarperDB, read more [here](../administration/compact.md).
+When `true` all non-system databases will be compacted when starting Harper, read more [here](../administration/compact.md).
 
 `compactOnStartKeepBackup` - _Type_: boolean; _Default_: false
 
@@ -886,7 +891,7 @@ The `path` configuration sets where all database files should reside.
 storage:
   path: /users/harperdb/storage
 ```
-_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by Harper. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
 `blobPaths` - _Type_: string; _Default_: `<rootPath>/blobs`
 
@@ -905,6 +910,18 @@ Defines the page size of the database.
 ```yaml
 storage:
   pageSize: 4096
+```
+
+`reclamation`
+
+The reclamation section provides configuration for the reclamation process, which is responsible for reclaiming space when free space is low. For example:
+
+```yaml
+storage:
+  reclamation:
+    threshold: 0.4 # Start storage reclamation efforts when free space has reached 40% of the volume space (default)
+    interval: 1h # Reclamation will run every hour (default)
+    evictionFactor: 100000 # A factor used to determine how much aggressively to evict cached entries (default)
 ```
 
 ***
@@ -992,8 +1009,7 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 `user` - _Type_: string; _Default_: Common Name
 
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user.
-This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
 `required` - _Type_: boolean; _Default_: false
 
@@ -1004,6 +1020,7 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
+
 ```yaml
 mqtt:
   network:
@@ -1016,9 +1033,7 @@ mqtt:
 
 ### `databases`
 
-The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level.
-This configuration should be set before the database and table have been created.
-The configuration will not create the directories in the path, that must be done by the user.
+The `databases` section is an optional configuration that can be used to define where database files should reside down to the table level. This configuration should be set before the database and table have been created. The configuration will not create the directories in the path, that must be done by the user.
 
 To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
@@ -1089,8 +1104,7 @@ The name of the component. This will be used to name the folder where the compon
 
 `package` - _Type_: string
 
-A reference to your [component](../developers/components/installing.md) package.This could be a remote git repo, a local folder/file or an NPM package. 
-HarperDB will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
+A reference to your [component](../developers/components/managing.md#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 

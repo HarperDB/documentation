@@ -2,7 +2,7 @@
 
 ## Insert
 
-Adds one or more rows of data to a database table. Primary keys of the inserted JSON record may be supplied on insert. If a primary key is not provided, then a GUID will be generated for each record.
+Adds one or more rows of data to a database table. Primary keys of the inserted JSON record may be supplied on insert. If a primary key is not provided, then a GUID or incremented number (depending on type) will be generated for each record.
 
 * operation _(required)_ - must always be `insert`
 * database _(optional)_ - database where the table you are inserting records into lives. The default is `data`

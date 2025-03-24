@@ -1,7 +1,7 @@
 # Users and Roles
 
 ## List Roles
-Returns a list of all roles. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Returns a list of all roles. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -68,7 +68,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Add Role
-Creates a new role with the specified permissions. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Creates a new role with the specified permissions. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -143,7 +143,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter Role
-Modifies an existing role with the specified permissions. updates permissions from an existing role. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Modifies an existing role with the specified permissions. updates permissions from an existing role. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -220,7 +220,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Drop Role
-Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -245,7 +245,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## List Users
-Returns a list of all users. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Returns a list of all users. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
@@ -389,15 +389,15 @@ Returns user data for the associated user credentials.
 ---
 
 ## Add User
-Creates a new user with the specified role and credentials. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Creates a new user with the specified role and credentials. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `add_user`
 * role _(required)_ - 'role' name value of the role you wish to assign to the user. See `add_role` for more detail
 * username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash
-* password _(required)_ - clear text for password. HarperDB will encrypt the password upon receipt
-* active _(required)_ - boolean value for status of user's access to your HarperDB instance. If set to false, user will not be able to access your instance of HarperDB.
+* password _(required)_ - clear text for password. Harper will encrypt the password upon receipt
+* active _(required)_ - boolean value for status of user's access to your Harper instance. If set to false, user will not be able to access your instance of Harper.
 
 ### Body
 ```json
@@ -420,15 +420,15 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter User
-Modifies an existing user's role and/or credentials. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Modifies an existing user's role and/or credentials. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super\_user roles only_
 
   * operation _(required)_ - must always be `alter_user`
   * username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
-  * password _(optional)_ - clear text for password. HarperDB will encrypt the password upon receipt
+  * password _(optional)_ - clear text for password. Harper will encrypt the password upon receipt
   * role _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
-  * active _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
+  * active _(optional)_ - status of user's access to your Harper instance. See `add_role` for more detail
 
 ### Body
 ```json
@@ -457,7 +457,7 @@ _Operation is restricted to super\_user roles only_
 ---
 
 ## Drop User
-Deletes an existing user by username. [Learn more about HarperDB roles here.](../security/users-and-roles.md)
+Deletes an existing user by username. [Learn more about Harper roles here.](../security/users-and-roles.md)
 
 _Operation is restricted to super_user roles only_
 
