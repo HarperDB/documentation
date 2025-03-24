@@ -177,6 +177,7 @@ The same set of operations API are available for remote operations as well.
 
 #### Remote Component Deployment
 
+You can coordinate deployment of local code to remote server(s) by using the `deploy` CLI operation.  All attributes from the [`deploy_component`](../developers/operations-api/components#deploy-component) 
 When using remote operations, you can deploy a local component to the remote instance. If you omit the `package` parameter, you can deploy the current directory. This will package the current directory and send it to the target server (also `deploy` is allowed as an alias to `deploy_component`):
 
 ```bash
