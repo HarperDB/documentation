@@ -270,6 +270,10 @@ When true, Harper will verify certificates against the Node.js bundled CA store.
 
 Replication will first attempt to catch up using the audit log. If unsuccessful, it will perform a full table copy. When set to `false`, replication will only use the audit log.
 
+`shard` - _Type_: integer;
+
+This defines the shard id of this instance and is used in conjunction with the [Table Resource functions](../developers/replication/sharding#custom-sharding) `setResidency` & `setResidencyById` to programmatically route traffic to the proper shard.
+
 ***
 
 ### `clustering` using NATS
