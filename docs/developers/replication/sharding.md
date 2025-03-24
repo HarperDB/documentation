@@ -65,7 +65,12 @@ class MyTable extends tables.MyTable {
 ```
 
 ## Configuration for Static Sharding
-Alternatively, you can configure static sharding, where each node is assigned to a specific shard, and each record is replicated to the nodes in that shard based on the primary key. The `shard` is identified by a number. To configure the shard for each node, you can specify the shard number in the `replication`'s `routes` in the configuration:  
+Alternatively, you can configure static sharding, where each node is assigned to a specific shard, and each record is replicated to the nodes in that shard based on the primary key. The `shard` is identified by a number. To configure the shard for each node, you can specify the shard number in the `replication`'s `shard` in the configuration:
+```yaml
+replication:
+  shard: 1
+```
+Alternatively, you can configure the `shard` under the `replication` `routes`.  This allows you to assign a specific shard id based on the routing configuration.  
 ```yaml
 replication:
   routes:
