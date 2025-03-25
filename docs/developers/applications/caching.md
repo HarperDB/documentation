@@ -116,12 +116,12 @@ export class MyTableEndpoint extends MyTable {
 
 ### Subscriptions
 
-We can provide more control of an active cache with subscriptions. If there is a way to receive notifications from the external data source of data changes, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes, we could implement this like:
+We can provide more control of an active cache with subscriptions. If there is a way to receive notifications from the external data source of data changes, we can implement this data source as an "active" data source for our cache by implementing a `subscribe` method. A `subscribe` method should return an asynchronous iterable that iterates and returns events indicating the updates. One straightforward way of creating an asynchronous iterable is by defining the `subscribe` method as an asynchronous generator. If we had an endpoint that we could poll for changes every second, we could implement this like:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async *subscribe() {
-		do {
+      setInterval(() => { // every second retrieve more data
 			// get the next data change event from the source
 			let update = (await fetch(`http://some-api.com/latest-update`)).json();
 			const event = { // define the change event (which will update the cache)
@@ -131,7 +131,7 @@ class ThirdPartyAPI extends Resource {
 				timestamp: // the timestamp of when the data change occurred
 			};
 			yield event; // this returns this event, notifying the cache of the change
-		} while(true);
+      }, 1000);
 	}
 	async get() {
 ...
