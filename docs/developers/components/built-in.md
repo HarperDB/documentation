@@ -3,13 +3,13 @@
 Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
 
 - [Built-In Components](#built-in-components)
-	- [fastifyRoutes](#fastifyroutes)
-	- [graphql](#graphql)
-	- [graphqlSchema](#graphqlschema)
-	- [jsResource](#jsresource)
-	- [rest](#rest)
-	- [roles](#roles)
-	- [static](#static)
+  - [fastifyRoutes](#fastifyroutes)
+  - [graphql](#graphql)
+  - [graphqlSchema](#graphqlschema)
+  - [jsResource](#jsresource)
+  - [rest](#rest)
+  - [roles](#roles)
+  - [static](#static)
 
 <!-- ## authentication -->
 
@@ -125,31 +125,9 @@ To serve the entire `web` directory, specify `files: 'web/**'`.
 
 To serve only the html files within `web`, specify `files: 'web/*.html'` or `files: 'web/**/*.html'`.
 
-In the case of a "loose" glob pattern (matches files and their parent directories), it is recommended to either specify a "tighter" pattern, or use the `onlyFiles: true` in the options object. Regardless, the extension will do its best to only serve each file once.
-
-For example, with the configuration option: `files: 'web/**/*'`, and a file structure like:
-
-```
-web/
-|- a.txt
-|- foo/
-|  |- b.txt
-```
-
-The pattern will match `['web/a.txt', 'web/foo', 'web/foo/b.txt']`. The extension will serve `/a` file, and then the `/foo` directory. When it receives the `/foo/b` file, it will determine it is already serving all files within `/foo` and skip it. However, a better configuration value would be `files: 'web/**/*.txt'`.
-
-Furthermore, the config can be specified as:
-
-```yaml
-static:
-  files:
-    source: 'web/**/*'
-    onlyFiles: true
-```
-
 The `urlPath` option is the base URL path entries will be resolved to. For example, a `urlPath: 'static'` will serve all files resolved from `files` to the URL path `localhost/static/`.
 
-Given the config:
+Given the `config.yaml`:
 
 ```yaml
 static:
@@ -157,4 +135,15 @@ static:
   urlPath: 'static'
 ```
 
-And a web directory containing `index.html` and `blog.html`, they will be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
+And the file directory structure:
+
+```
+component/
+├─ web/
+│  ├─ index.html
+│  ├─ blog.html
+├─ config.yaml
+
+```
+
+The HTML files will be available at `localhost/static/index.html` and `localhost/static/blog.html` respectively.
