@@ -25,10 +25,10 @@ customFunctions:
 ```
 
 * **`enabled`**
-  A boolean value that tells HarperDB to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable. `enabled` is `true` by default.
+  A boolean value that tells Harper to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable. `enabled` is `true` by default.
 
 * **`network.port`**
-  This is the port HarperDB will use to start the HTTP server dedicated to serving your Custom Functions’ routes.
+  This is the port Harper will use to start the HTTP server dedicated to serving your Custom Functions’ routes.
 
 * **`root`**
   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your \<ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
@@ -58,7 +58,7 @@ module.exports = async (server, { hdbCore, logger }) => {
 
 **/helpers folder**
 
-These files are JavaScript modules that you can use in your handlers, or for custom `preValidation` hooks. Examples include calls to third party Authentication services, filters for results of calls to HarperDB, and custom error responses. As modules, you can use standard import and export functionality.
+These files are JavaScript modules that you can use in your handlers, or for custom `preValidation` hooks. Examples include calls to third party Authentication services, filters for results of calls to Harper, and custom error responses. As modules, you can use standard import and export functionality.
 
 ```javascript
 "use strict";

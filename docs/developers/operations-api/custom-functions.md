@@ -58,7 +58,7 @@ _Operation is restricted to super_user roles only_
 
 ## Get Custom Function
 
-Returns the content of the specified file as text. HarperDB Studio uses this call to render the file content in its built-in code editor.
+Returns the content of the specified file as text. HarperDStudio uses this call to render the file content in its built-in code editor.
 
 _Operation is restricted to super_user roles only_
 
@@ -90,7 +90,7 @@ _Operation is restricted to super_user roles only_
 
 ## Set Custom Function
 
-Updates the content of the specified file. HarperDB Studio uses this call to save any changes made through its built-in code editor.
+Updates the content of the specified file. Harper Studio uses this call to save any changes made through its built-in code editor.
 
 _Operation is restricted to super_user roles only_
 

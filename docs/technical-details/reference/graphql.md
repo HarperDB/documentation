@@ -1,12 +1,12 @@
 # GraphQL Querying
 
-HarperDB supports GraphQL in a variety of ways. It can be used for [defining schemas](../../developers/applications/defining-schemas.md), and for querying [Resources](./resource.md).
+Harper supports GraphQL in a variety of ways. It can be used for [defining schemas](../../developers/applications/defining-schemas.md), and for querying [Resources](./resource.md).
 
 Get started by setting `graphql: true` in `config.yaml`.
 
 This automatically enables a `/graphql` endpoint that can be used for GraphQL queries.
 
-> HarperDB's GraphQL component is inspired by the [GraphQL Over HTTP](https://graphql.github.io/graphql-over-http/draft/#) specification; however, it does not fully implement neither that specification nor the [GraphQL](https://spec.graphql.org/) specification.
+> Harper's GraphQL component is inspired by the [GraphQL Over HTTP](https://graphql.github.io/graphql-over-http/draft/#) specification; however, it does not fully implement neither that specification nor the [GraphQL](https://spec.graphql.org/) specification.
 
 Queries can either be `GET` or `POST` requests, and both follow essentially the same request format. `GET` requests must use search parameters, and `POST` requests use the request body.
 
@@ -41,7 +41,7 @@ Accept: application/graphql-response+json
 
 > Tip: For the best user experience, include the `Accept: application/graphql-response+json` header in your request. This provides better status codes for errors.
 
-The HarperDB GraphQL querying system is strictly limited to exported HarperDB Resources. For many users, this will typically be a table that uses the `@exported` directive in its schema. Queries can only specify HarperDB Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. HarperDB provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource.md#query) for more complex queries.
+The Harper GraphQL querying system is strictly limited to exported Harper Resources. For many users, this will typically be a table that uses the `@exported` directive in its schema. Queries can only specify Harper Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. Harper provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource.md#query) for more complex queries.
 
 Unlike REST queries, GraphQL queries can specify multiple resources simultaneously:
 
@@ -82,7 +82,7 @@ There are three request parameters for GraphQL queries: `query`, `operationName`
 
 ### Type Checking
 
-The HarperDB GraphQL Querying system takes many liberties from the GraphQL specification. This extends to how it handle type checking. In general, the querying system does **not** type check. HarperDB uses the `graphql` parser directly, and then performs a transformation on the resulting AST. We do not control any type checking/casting behavior of the parser, and since the execution step diverges from the spec greatly, the type checking behavior is only loosely defined.
+The Harper GraphQL Querying system takes many liberties from the GraphQL specification. This extends to how it handle type checking. In general, the querying system does **not** type check. Harper uses the `graphql` parser directly, and then performs a transformation on the resulting AST. We do not control any type checking/casting behavior of the parser, and since the execution step diverges from the spec greatly, the type checking behavior is only loosely defined.
 
 In variable definitions, the querying system will ensure non-null values exist (and error appropriately), but it will not do any type checking of the value itself.
 
@@ -120,7 +120,7 @@ fragment DogFields on Dog {
 }
 ```
 
-The `Dog` type in the fragment has no correlation to the `Dog` resource in the query (that correlates to the HarperDB `Dog` resource).
+The `Dog` type in the fragment has no correlation to the `Dog` resource in the query (that correlates to the Harper `Dog` resource).
 
 You can literally specify anything in the fragment and it will behave the same way:
 

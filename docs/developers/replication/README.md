@@ -1,10 +1,10 @@
 # Replication/Clustering
 
-HarperDB’s replication system is designed to make distributed data replication fast and reliable across multiple nodes. This means you can easily build a distributed database that ensures high availability, disaster recovery, and data localization. The best part? It’s simple to set up, configure, and manage. You can easily add or remove nodes, choose which data to replicate, and monitor the system’s health without jumping through hoops.
+Harper’s replication system is designed to make distributed data replication fast and reliable across multiple nodes. This means you can easily build a distributed database that ensures high availability, disaster recovery, and data localization. The best part? It’s simple to set up, configure, and manage. You can easily add or remove nodes, choose which data to replicate, and monitor the system’s health without jumping through hoops.
 
 ### Replication Overview
 
-HarperDB replication uses a peer-to-peer model where every node in your cluster can send and subscribe to data. Each node connects through WebSockets, allowing data to flow seamlessly in both directions. By default, HarperDB takes care of managing these connections and subscriptions, so you don’t have to worry about data consistency. The system is designed to maintain secure, reliable connections between nodes, ensuring that your data is always safe.
+Harper replication uses a peer-to-peer model where every node in your cluster can send and subscribe to data. Each node connects through WebSockets, allowing data to flow seamlessly in both directions. By default, Harper takes care of managing these connections and subscriptions, so you don’t have to worry about data consistency. The system is designed to maintain secure, reliable connections between nodes, ensuring that your data is always safe.
 
 ### Replication Configuration
 
@@ -41,9 +41,9 @@ You can also use the [operations API](../operations-api/clustering.md) to dynami
 
 These operations will also dynamically generating certificates as needed, if there are no existing signed certificates, or if the existing certificates are not valid for the new node.
 
-HarperDB will also automatically replicate node information to other nodes in a cluster ([gossip-style discovery](https://highscalability.com/gossip-protocol-explained/)). This means that you only need to connect to one node in an existing cluster, and HarperDB will automatically detect and connect to other nodes in the cluster (bidirectionally).
+Harper will also automatically replicate node information to other nodes in a cluster ([gossip-style discovery](https://highscalability.com/gossip-protocol-explained/)). This means that you only need to connect to one node in an existing cluster, and Harper will automatically detect and connect to other nodes in the cluster (bidirectionally).
 
-By default, HarperDB will replicate all the data in all the databases. You can configure which databases are replicated, and then override this behavior on a per-table basis. For example, you can indicate which databases should be replicated by default, here indicating you want to replicate the `data` and `system` databases:
+By default, Harper will replicate all the data in all the databases. You can configure which databases are replicated, and then override this behavior on a per-table basis. For example, you can indicate which databases should be replicated by default, here indicating you want to replicate the `data` and `system` databases:
 
 ```yaml
 replication:
@@ -61,7 +61,7 @@ type LocalTableForNode @table(replicate: false) {
 }
 ```
 
-You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, HarperDB will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](sharding.md).
+You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, Harper will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](sharding.md).
 
 By default, replication connects to the secure port 9933. You can configure the replication port in the `replication` section.
 
@@ -72,11 +72,11 @@ replication:
 
 ### Securing Connections
 
-HarperDB supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure HarperDB in several different ways to build a connected cluster.
+Harper supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure Harper in several different ways to build a connected cluster.
 
 #### Provide your own certificates
 
-If you want to secure your HarperDB connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. You can then allow nodes to authorize each other by checking the certificate against the standard list of root certificate authorities by enabling the `enableRootCAs` option in the config:
+If you want to secure your Harper connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. You can then allow nodes to authorize each other by checking the certificate against the standard list of root certificate authorities by enabling the `enableRootCAs` option in the config:
 ```
 replication
   enableRootCAs: true
@@ -86,7 +86,7 @@ And then just make sure the certificate’s common name (CN) matches the node's 
 
 #### Setting Up Custom Certificates
 
-There are two ways to configure HarperDB with your own certificates:
+There are two ways to configure Harper with your own certificates:
 
 1. Use the `add_certificate` operation to upload them.
 2. Or, specify the certificate paths directly in the `replication` section of the `harperdb-config.yaml` file.
@@ -102,7 +102,7 @@ tls:
   privateKey: /path/to/privateKey.pem
 ```
 
-With this in place, HarperDB will load the provided certificates into the certificate table and use these to secure and authenticate connections between nodes.
+With this in place, Harper will load the provided certificates into the certificate table and use these to secure and authenticate connections between nodes.
 
 You have the option to skip providing a specific certificate authority (CA) and instead verify your certificate against the root certificates included in the bundled Mozilla CA store. This bundled CA store, provided by Node.js, is a snapshot of Mozilla's CA certificates that is fixed at the time of each Node.js release.
 
@@ -115,7 +115,7 @@ replication:
 
 #### Cross-generated certificates
 
-HarperDB can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](../operations-api/clustering.md) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. \
+Harper can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](../operations-api/clustering.md) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. \
 \
 Example configuration:
 
@@ -131,9 +131,9 @@ Example configuration:
 }
 ```
 
-When you connect to another node (e.g., `server-two`), HarperDB uses secure WebSockets and the provided credentials to establish the connection.
+When you connect to another node (e.g., `server-two`), Harper uses secure WebSockets and the provided credentials to establish the connection.
 
-If you’re working with a fresh install, you’ll need to set `verify_tls` to `false` temporarily, so the self-signed certificate is accepted. Once the connection is made, HarperDB will automatically handle the certificate signing process:
+If you’re working with a fresh install, you’ll need to set `verify_tls` to `false` temporarily, so the self-signed certificate is accepted. Once the connection is made, Harper will automatically handle the certificate signing process:
 
 * It creates a certificate signing request (CSR), sends it to `server-two`, which then signs it and returns the signed certificate along with the certificate authority (CA).
 * The signed certificate is stored for future connections between the nodes, ensuring secure communication.
@@ -143,6 +143,32 @@ If you’re working with a fresh install, you’ll need to set `verify_tls` to `
 You can also provide credentials in HTTP Authorization format (Basic auth, Token auth, or JWT). This is helpful for handling authentication with the required permissions to generate and sign certificates.
 
 Additionally, you can use `set_node` as an alias for the `add_node` operation if you prefer.
+
+#### Revoking Certificates
+
+Certificates used in replication can be revoked by using the certificate serial number and either the `revoked_certificates` attribute in the `hdb_nodes` system table or route config in `harperdb-config.yaml`.
+
+To utilize the `revoked_certificates` attribute in the `hdb_nodes` table, you can use the `add_node` or `update_node` operation to add the certificate serial number to the `revoked_certificates` array. For example:
+
+```json
+{
+  "operation": "update_node",
+  "hostname": "server-two",
+  "revoked_certificates": ["1769F7D6A"]
+}
+```
+
+To utilize the replication route config in `harperdb-config.yaml`, you can add the certificate serial number to the `revokedCertificates` array. For example:
+
+```yaml
+replication:
+  routes:
+    - hostname: server-three
+      port: 9930
+      revokedCertificates:
+        - 1769F7D6A
+        - QA69C7E2S
+```
 
 #### Removing Nodes
 
@@ -171,13 +197,13 @@ Note that in this example, we are using loop back addresses, which can be a conv
 
 #### Explicit Subscriptions
 
-#### Managing Node Connections and Subscriptions in HarperDB
+#### Managing Node Connections and Subscriptions in Harper
 
-By default, HarperDB automatically handles connections and subscriptions between nodes, ensuring data consistency across your cluster. It even uses data routing to manage node failures. But if you want more control, you can manage these connections manually by explicitly subscribing to nodes. This is useful for advanced configurations, testing, or debugging.
+By default, Harper automatically handles connections and subscriptions between nodes, ensuring data consistency across your cluster. It even uses data routing to manage node failures. But if you want more control, you can manage these connections manually by explicitly subscribing to nodes. This is useful for advanced configurations, testing, or debugging.
 
 #### Important Notes on Explicit Subscriptions
 
-If you choose to manage subscriptions manually, HarperDB will no longer handle data consistency for you. This means there’s no guarantee that all nodes will have consistent data if subscriptions don’t fully replicate in all directions. If a node goes down, it’s possible that some data wasn’t replicated before the failure.
+If you choose to manage subscriptions manually, Harper will no longer handle data consistency for you. This means there’s no guarantee that all nodes will have consistent data if subscriptions don’t fully replicate in all directions. If a node goes down, it’s possible that some data wasn’t replicated before the failure.
 
 #### How to Subscribe to Nodes
 

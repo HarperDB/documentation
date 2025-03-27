@@ -1,10 +1,10 @@
 # Manage Instance Users
 
-HarperDB users and roles can be managed directly through the HarperDB Studio. It is recommended to read through the [users & roles documentation](../../developers/security/users-and-roles.md) to gain a strong understanding of how they operate.
+Harper users and roles can be managed directly through the Harper Studio. It is recommended to read through the [users & roles documentation](../../developers/security/users-and-roles.md) to gain a strong understanding of how they operate.
 
-Instance user configuration is handled through the **users** page of the HarperDB Studio, accessed with the following instructions:
+Instance user configuration is handled through the **users** page of the Harper Studio, accessed with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
+1) Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 2) Click the appropriate organization that the instance belongs to.
 
@@ -16,7 +16,7 @@ Instance user configuration is handled through the **users** page of the HarperD
 
 ## Add a User
 
-HarperDB instance users can be added with the following instructions.
+Harper instance users can be added with the following instructions.
 
 1) In the **add user** panel on the left enter:
 
@@ -32,7 +32,7 @@ HarperDB instance users can be added with the following instructions.
    
 ## Edit a User
 
-HarperDB instance users can be modified with the following instructions.
+Harper instance users can be modified with the following instructions.
 
 1) In the **existing users** panel, click the row of the user you would like to edit.
 

@@ -1,6 +1,6 @@
 # Defining Schemas
 
-Schemas define tables and their attributes. Schemas can be declaratively defined in HarperDB's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
+Schemas define tables and their attributes. Schemas can be declaratively defined in Harper's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
 
 Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
 
@@ -22,7 +22,7 @@ type Breed @table {
 
 In this example, you can see that we specified the expected data structure for records in the Dog and Breed table. For example, this will enforce that Dog records are required to have a `name` property with a string (or null, unless the type were specified to be non-nullable). This does not preclude records from having additional properties (see `@sealed` for preventing additional properties. For example, some Dog records could also optionally include a `favoriteTrick` property.
 
-In this page, we will describe the specific directives that HarperDB uses for defining tables and attributes in a schema.
+In this page, we will describe the specific directives that Harper uses for defining tables and attributes in a schema.
 
 ### Type Directives
 
@@ -55,7 +55,7 @@ This table would be available at the URL path `/my-table/`. Without the `name` p
 
 ### Relationships: `@relationship`
 
-Defining relationships is the foundation of using "join" queries in HarperDB. A relationship defines how one table relates to another table using a foreign key. Using the `@relationship` directive will define a property as a computed property, which resolves to the an record/instance from a target type, based on the referenced attribute, which can be in this table or the target table. The `@relationship` directive must be used in combination with an attribute with a type that references another table.
+Defining relationships is the foundation of using "join" queries in Harper. A relationship defines how one table relates to another table using a foreign key. Using the `@relationship` directive will define a property as a computed property, which resolves to the an record/instance from a target type, based on the referenced attribute, which can be in this table or the target table. The `@relationship` directive must be used in combination with an attribute with a type that references another table.
 
 #### `@relationship(from: attribute)`
 
@@ -157,7 +157,7 @@ type Product @table {
 }
 ```
 
-For more in-depth information on computed properties, visit our blog [here](https://www.harperdb.io/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
+For more in-depth information on computed properties, visit our blog [here](https://www.harpersystems.dev/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
 
 ### Field Directives
 
@@ -165,7 +165,7 @@ The field directives can be used for information about each attribute in table t
 
 #### `@primaryKey`
 
-The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated with a UUID if no primary key is provided.
+The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys). 
 
 #### `@indexed`
 
@@ -185,11 +185,11 @@ The `@sealed` directive specifies that no additional properties should be allowe
 
 ### Defined vs Dynamic Schemas
 
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../applications/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../technical-details/reference/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ### Field Types
 
-HarperDB supports the following field types in addition to user defined (object) types:
+Harper supports the following field types in addition to user defined (object) types:
 
 * `String`: String/text
 * `Int`: A 32-bit signed integer (from -2147483648 to 2147483647)
@@ -205,12 +205,12 @@ HarperDB supports the following field types in addition to user defined (object)
 
 #### Renaming Tables
 
-It is important to note that HarperDB does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.
+It is important to note that Harper does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.
 
 ### OpenAPI Specification
 
 _The_ [_OpenAPI Specification_](https://spec.openapis.org/oas/v3.1.0) _defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic._
 
-If a set of endpoints are configured through a HarperDB GraphQL schema, those endpoints can be described by using a default REST endpoint called `GET /openapi`.
+If a set of endpoints are configured through a Harper GraphQL schema, those endpoints can be described by using a default REST endpoint called `GET /openapi`.
 
 _Note: The `/openapi` endpoint should only be used as a starting guide, it may not cover all the elements of an endpoint._

@@ -1,4 +1,4 @@
-# Managing Components
+# Managing
 
 Harper offers several approaches to managing components that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
 
@@ -6,7 +6,7 @@ Harper offers several approaches to managing components that differ between loca
 
 Harper is designed to be simple to run locally. Generally, Harper should be installed locally on a machine using a global package manager install (i.e. `npm i -g harperdb`).
 
-> Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../deployments/install-harperdb/README.md).
+> Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../deployments/install-harper/).
 
 When developing a component locally there are a number of ways to run it on Harper.
 
@@ -25,21 +25,23 @@ Stop execution for either of these processes by sending a SIGINT (generally CTRL
 Alternatively, to mimic interfacing with a hosted Harper instance, use operation commands instead.
 
 1. Start up Harper with `harperdb`
-2. _Deploy_ the component to the local instance by executing:
+2.  _Deploy_ the component to the local instance by executing:
+
     ```sh
     harperdb deploy_component \
       project=<name> \
       package=<path-to-project> \
       restart=true
     ```
-   - Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
-   - The `package=<path-to-project>` option creates a symlink to the component simplifying restarts
-     - By default, the `deploy_component` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
-   - The `restart=true` option automatically restarts Harper threads after the component is deployed
-     - If set to `'rolling'`, a rolling restart will be triggered after the component is deployed
+
+    * Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
+    * The `package=<path-to-project>` option creates a symlink to the component simplifying restarts
+      * By default, the `deploy_component` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
+    * The `restart=true` option automatically restarts Harper threads after the component is deployed
+      * If set to `'rolling'`, a rolling restart will be triggered after the component is deployed
 3. In another terminal, use the `harperdb restart` command to restart the instance's threads at any time
-   - With `package=<path-to-project>`, the component source is symlinked so changes will automatically be picked up between restarts
-   - If `package` was omitted, run the `deploy_component` command again with any new changes
+   * With `package=<path-to-project>`, the component source is symlinked so changes will automatically be picked up between restarts
+   * If `package` was omitted, run the `deploy_component` command again with any new changes
 4. To remove the component use `harperdb drop_component project=<name>`
 
 Similar to the previous section, if the main thread needs to be restarted, start and stop the Harper instance manually (with the component deployed). Upon Harper startup, the component will automatically be loaded and executed across all threads.
@@ -96,15 +98,16 @@ Unlike local development where `package` should be set to a local file path for 
 A local component can be deployed to a remote instance by **omitting** the `package` field. Harper will automatically package the local directory and include that along with the rest of the deployment operation.
 
 Furthermore, the `package` field can be set to any valid [npm dependency value](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#dependencies).
-  - For components deployed to npm, specify the package name: `package="@harperdb/status-check"`
-  - For components on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
-  - Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-component.git"`
-    - Reference the [SSH Key](https://docs.harperdb.io/docs/developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
-  - Even tarball URLs are supported: `package="https://example.com/component.tar.gz"`
+
+* For components deployed to npm, specify the package name: `package="@harperdb/status-check"`
+* For components on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
+* Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-component.git"`
+  * Reference the [SSH Key](../operations-api/components.md#add-ssh-key) operations for more information on managing SSH keys on a remote instance
+* Even tarball URLs are supported: `package="https://example.com/component.tar.gz"`
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.
 
-These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
+These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](managing.md#advanced) section explores this pattern in more detail.
 
 Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`.
 
