@@ -28,20 +28,20 @@ redirects:
   harperdb-studio/instance-metrics: administration/harper-studio/instance-metrics.md
   harperdb-studio/instance-configuration: administration/harper-studio/instance-configuration.md
   harperdb-studio/enable-mixed-content: administration/harper-studio/enable-mixed-content.md
-  administration/harperdb-studio: administration/harper-studio/README.md
-  administration/harperdb-studio/create-account: administration/harper-studio/create-account.md
-  administration/harperdb-studio/enable-mixed-content: administration/harper-studio/enable-mixed-content.md
-  administration/harperdb-studio/instance-configuration: administration/harper-studio/instance-configuration.md
-  administration/harperdb-studio/instance-metrics: administration/harper-studio/instance-metrics.md
-  administration/harperdb-studio/instances: administration/harper-studio/instances.md
-  administration/harperdb-studio/login-password-reset: administration/harper-studio/login-password-reset.md
-  administration/harperdb-studio/manage-applications: administration/harper-studio/manage-applications.md
-  administration/harperdb-studio/manage-charts: administration/harper-studio/README.md
-  administration/harperdb-studio/manage-databases-browse-data: administration/harper-studio/manage-databases-browse-data.md
-  administration/harperdb-studio/manage-instance-roles: administration/harper-studio/manage-instance-roles.md
-  administration/harperdb-studio/manage-instance-users: administration/harper-studio/manage-instance-users.md
-  administration/harperdb-studio/manage-replication: administration/harper-studio/manage-replication.md
-  administration/harperdb-studio/organizations: administration/harper-studio/organizations.md
+#  administration/harperdb-studio: administration/harper-studio/README.md
+#  administration/harperdb-studio/create-account: administration/harper-studio/create-account.md
+#  administration/harperdb-studio/enable-mixed-content: administration/harper-studio/enable-mixed-content.md
+#  administration/harperdb-studio/instance-configuration: administration/harper-studio/instance-configuration.md
+#  administration/harperdb-studio/instance-metrics: administration/harper-studio/instance-metrics.md
+#  administration/harperdb-studio/instances: administration/harper-studio/instances.md
+#  administration/harperdb-studio/login-password-reset: administration/harper-studio/login-password-reset.md
+#  administration/harperdb-studio/manage-applications: administration/harper-studio/manage-applications.md
+#  administration/harperdb-studio/manage-charts: administration/harper-studio/README.md
+#  administration/harperdb-studio/manage-databases-browse-data: administration/harper-studio/manage-databases-browse-data.md
+#  administration/harperdb-studio/manage-instance-roles: administration/harper-studio/manage-instance-roles.md
+#  administration/harperdb-studio/manage-instance-users: administration/harper-studio/manage-instance-users.md
+#  administration/harperdb-studio/manage-replication: administration/harper-studio/manage-replication.md
+#  administration/harperdb-studio/organizations: administration/harper-studio/organizations.md
   harperdb-cloud: deployments/harper-cloud/README.md
   harperdb-cloud/iops-impact: deployments/harper-cloud/iops-impact.md
   harperdb-cloud/instance-size-hardware-specs: deployments/harper-cloud/instance-size-hardware-specs.md
