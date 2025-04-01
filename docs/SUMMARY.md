@@ -76,7 +76,7 @@
 * [Clone Node](administration/cloning.md)
 * [Compact](administration/compact.md)
 * [Jobs](administration/jobs.md)
-* [HarperDB Studio](administration/harper-studio/README.md)
+* [Harper Studio](administration/harper-studio/README.md)
   * [Create an Account](administration/harper-studio/create-account.md)
   * [Log In & Password Reset](administration/harper-studio/login-password-reset.md)
   * [Organizations](administration/harper-studio/organizations.md)

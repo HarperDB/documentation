@@ -1,8 +1,8 @@
 # Query Instance Data
 
-SQL queries can be executed directly through the HarperDB Studio with the following instructions:
+SQL queries can be executed directly through the Harper Studio with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. 
+1) Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page. 
 2) Click the appropriate organization that the instance belongs to. 
 3) Select your desired instance. 
 4) Click **query** in the instance control bar. 
@@ -46,4 +46,4 @@ Click the trash can icon at the top right of the **query history** section.
 
 ## Create Charts
 
-The HarperDB Studio includes a charting feature where you can build charts based on your specified queries. Visit the Charts documentation for more information.
+The Harper Studio includes a charting feature where you can build charts based on your specified queries. Visit the Charts documentation for more information.
