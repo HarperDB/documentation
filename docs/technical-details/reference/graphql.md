@@ -6,7 +6,7 @@ Get started by setting `graphql: true` in `config.yaml`.
 
 This automatically enables a `/graphql` endpoint that can be used for GraphQL queries.
 
-> Harper's GraphQL component is inspired by the [GraphQL Over HTTP](https://graphql.github.io/graphql-over-http/draft/#) specification; however, it does not fully implement neither that specification nor the [GraphQL](https://spec.graphql.org/) specification.
+> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https://graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full [specification](https://spec.graphql.org/) of resolvers, subscribers, and mutations).
 
 Queries can either be `GET` or `POST` requests, and both follow essentially the same request format. `GET` requests must use search parameters, and `POST` requests use the request body.
 
