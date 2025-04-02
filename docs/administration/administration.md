@@ -21,7 +21,3 @@ Harper provides robust capabilities for analytics and observability to facilitat
 * A large variety of real-time statistics about load, system information, database metrics, thread usage can be retrieved through the [`system_information` API](../developers/operations-api/utilities.md).
 * Information about the current cluster configuration and status can be found in the [cluster APIs](../developers/operations-api/clustering.md).
 * Analytics and system information can easily be exported to Prometheus with our [Prometheus exporter component](https://github.com/HarperDB-Add-Ons/prometheus_exporter), making it easy visualize and monitor Harper with Graphana.
-
-### Replication Transaction Logging
-
-Harper utilizes NATS for replication, which maintains a transaction log. See the [transaction log documentation for information on how to query this log](logging/transaction-logging.md).
