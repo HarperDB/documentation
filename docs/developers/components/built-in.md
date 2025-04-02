@@ -26,7 +26,7 @@ fastifyRoutes:
 
 ## graphql
 
-> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the GraphQL Over HTTP / GraphQL specifications (it is designed to intuitively map queries to Harper resources, but does not implement the full specification of resolvers, subscribers, and mutations).
+> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https://graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full specification of resolvers, subscribers, and mutations).
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
