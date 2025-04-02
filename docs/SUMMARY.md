@@ -65,6 +65,7 @@
 * [Miscellaneous](developers/miscellaneous/README.md)
   * [Google Data Studio](developers/miscellaneous/google-data-studio.md)
   * [SDKs](developers/miscellaneous/sdks.md)
+  * [Query Optimization](developers/miscellaneous/query-optimization.md)
 
 ## Administration
 
