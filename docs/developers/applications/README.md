@@ -1,31 +1,34 @@
 # Applications
 
-## Overview of HarperDB Applications
+## Overview of Harper Applications
 
-Harper is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
+Harper is a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
 
-In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
+In this guide, we are going to explore the extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
 
 When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 ## Understanding the Component Application Architecture
 
-Harper provides several types of components. Any package that is added to Harper is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by Harper when it starts. Components that are remotely deployed to Harper (through the studio or the operation API) are installed into the `hdb/node_modules` directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed (in `hdb/node_modules`).
+Harper provides several types of components. Any package that is added to Harper is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Other systems might call this "middleware." A simplified modle for an HTTP use case looks like: 
 
 ```mermaid
 flowchart LR
-	Client(Client)-->Endpoints
-	Client(Client)-->HTTP
-	Client(Client)-->Extensions
-	subgraph Harper
-	direction TB
-	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
-	Applications-->Endpoints[/Custom Endpoints/]
-	Applications-->Extensions
-	Endpoints-->Tables
-	HTTP[/REST/HTTP/]-->Tables
-	Extensions[/Extensions/]-->Tables
-	end
+    Client(Client)-->HTTP
+    subgraph "Harper (Using HTTP)"
+      direction TB
+      HTTP-->Extensions
+      HTTP-->Endpoints
+      HTTP-->REST
+      REST[/REST/]-->Tables
+      Extensions[/Extensions/]-->Tables
+      subgraph Application
+         direction TB
+         Endpoints
+      end
+      Application -- "Schemas" --> Tables
+      Application --> Extensions --> Application
+    end
 ```
 
 ## Getting up and Running
@@ -69,27 +72,131 @@ Here's an example for a github repo:
 
 Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](./#deploying-your-application).
 
+## The Application Configuration: `config.yaml`
+
+Before we jump into writing code, let's take a quick look at the `config.yaml` file that is part of the Application Template. This file tells the Harper core what extensions (built-in or your own) to run and in what order.  This is effectively a stack of middleware.  Each extension has an opportunity to handle or modify the request as it passes through.  You will see below that your application code actually runs inside an extension!  Here is the provided file:
+
+```yaml
+rest: true           
+graphqlSchema:       
+  files: '*.graphql' 
+jsResource: 
+  files: resources.js 
+static: 
+  root: web
+  files: web/**
+roles: 
+  files: roles.yaml
+```
+
 </details>
 
-## Creating our first Table
+Let's go through this item by item.  All of these extensions will be defined in detail below in this document.
 
-The core of a Harper application is the database, so let's create a database table!
+### rest
 
-A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
+This served two purposes, it provided a RESTful interface to the tables you define as well as to your application endpoints defined below.  
 
-```graphql
-type Dog @table {
-	# properties will go here soon
+### graphqlSchema
+
+This takes the referenced graphql file(s) and autogenerates the referenced databases and tables. As you will see below, this is a powerful and simple way to spin up your data infrastructure.
+
+## jsResource
+
+The extension that loads and connections your application code. 
+
+## static
+
+Defines where to find the files that you want served directly, without any processing.
+
+## roles
+
+Defines the permissions to your data and endpoints
+
+## Time to say "Hello"
+
+The Application Template has a file called `resource.js`.  We see above in the `config.yaml` that this is loaded by the `jsResource` extension. This extension is the heart of exposing your application code to the world. It goes through and loads your javascript file (or files) and using the `rest` extensions, creates endpoints for each exposed `Resource`. We'll discuss Resources below.  
+
+```javascript
+export class Greeting extends Resource {
+  get() {
+    return { greeting: 'Hello, world!' };
+  }
 }
 ```
 
-And then we'll add a primary key named `id` of type `ID`:
+In your `my-app` directory run Harper:
+
+```shell
+> harperdb run . # tell Harper cli to run current directory as an application
+```
+
+This is a quick and easy way to run you application without bundining it into a component and installed.  Well, without YOU having to do it. The command takes care of that for you.
+
+Now, make an HTTP request to your runnign application.  Note that the default port that harper listens on is 9926 which can be [configured here](../../deployments/configuration.md#http):
+
+```shell
+> curl -i http://127.0.0.1:9926/Greeting
+
+HTTP/1.1 200 OK
+Vary: Accept, Accept-Encoding
+Content-Type: application/json
+...snip headers...
+
+{"greeting":"Hello, world!"}
+```
+
+### Make it Interactive
+
+Let's change who we say hello to based on the URL query string.
+
+The `get` method endpoints is passed a `query` object:
+
+```javascript
+export class Greeting extends Resource {
+ get(query) {
+   const name = query.get('name') || 'world'
+   return { greeting: `Hello, ${name}!` };
+ }
+}
+```
+
+Stop and start harper and send the request:
+
+```shell
+> curl -i http://127.0.0.1:9926/Greeting?name=Harper
+
+HTTP/1.1 200 OK
+Vary: Accept, Accept-Encoding
+Content-Type: application/json
+...snip headers...
+
+{"greeting":"Hello, Harper!"}
+```
+
+> [!NOTE]
+> 
+> Rather than restarting harper every time you update your javascript files, you can run `harperdb dev .`. The dev mode monitors files in the application and will restart the component threads when it sees an update.  We will work with this in the next section.  Some changes, such as extention updates or logging changes might still require a full stop and start.
+
+## Creating our first Table
+
+Code without data to back it up tends to have limited value.  Luckily a core part of a Harper application is the database, so let's create a database table!
+
+A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). This leverages the built in extension called, appropriately, 'graphqlSchema'.  Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
+
+```graphql
+type Dogs @table {
+    # properties will go here soon
+}
+```
+
+And then we'll add a primary key named `id` of type `ID`. Additionally, let's give out database an explicit name, `pets`:
 
 _(Note: A GraphQL schema is a fast method to define tables in Harper, but you are by no means required to use GraphQL to query your application, nor should you necessarily do so)_
 
 ```graphql
-type Dog @table {
-	id: ID @primaryKey
+type Dogs @table(database: "pets") {
+    id: ID @primaryKey
 }
 ```
 
@@ -106,11 +213,11 @@ Harper will now create the `Dog` table and its `id` attribute we just defined. N
 Next, let's expand our `Dog` table by adding additional typed attributes for dog `name`, `breed` and `age`.
 
 ```graphql
-type Dog @table {
-	id: ID @primaryKey
-	name: String
-	breed: String
-	age: Int
+type Dogs @table(database: "pets") {
+    id: ID @primaryKey
+    name: String
+    breed: String
+    age: Int
 }
 ```
 
@@ -121,106 +228,320 @@ Because we ran `harperdb dev .` earlier (dev mode), Harper is now monitoring the
 As a document database, Harper supports heterogeneous records, so you can freely specify additional properties on any record. If you do want to restrict the records to only defined properties, you can always do that by adding the `sealed` directive:
 
 ```graphql
-type Dog @table @sealed {
-	id: ID @primaryKey
-	name: String
-	breed: String
-	age: Int
-	tricks: [String]
+type Dogs @table(database: "pets") @sealed {
+    id: ID @primaryKey
+    name: String
+    breed: String
+    age: Int
+    tricks: [String]
 }
 ```
 
-If you are using Harper Studio, we can now [add JSON-formatted records](../../administration/harper-studio/manage-databases-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../administration/harper-studio/manage-databases-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api/), which provides full administrative control over your new Harper instance and tables.
+If you are using Harper Studio, we can now [add JSON-formatted records](../../administration/harper-studio/manage-databases-browse-data.md#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../administration/harper-studio/manage-databases-browse-data.md#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api/), which provides full administrative control over your new Harper instance and tables.  We are going to use a fourth method, the capabilties exposed by the built-in`rest` extension, in the next section.
 
-## Adding an Endpoint
+## Adding a Endpoint with REST
 
-Now that we have a running application with a database (with data if you imported any data), let's make this data accessible from a RESTful URL by adding an endpoint. To do this, we simply add the `@export` directive to our `Dog` table:
+Now that we have a running application with a database, let's make this data accessible from a RESTful URL by adding an endpoint. To do this, we simply add the `@export` directive to our `Dog` table:
 
 ```graphql
-type Dog @table @export {
-	id: ID @primaryKey
-	name: String
-	breed: String
-	age: Int
-	tricks: [String]
+type Dogs @table(database: "pets") @export {
+    id: ID @primaryKey
+    name: String
+    breed: String
+    age: Int
+    tricks: [String]
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../../deployments/configuration.md#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+By default the application HTTP server port is `9926` (this can be [configured here](../../deployments/configuration.md#http)), so the local URL would be [http://localhost:9926/Dogs/](http://localhost:9926/Dogs/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```http
-POST /Dog/
+POST /Dogs/
 Content-Type: application/json
 
 {
-	"name": "Harper",
-	"breed": "Labrador",
-	"age": 3,
-	"tricks": ["sits"]
+    "name": "Harper",
+    "breed": "Labrador",
+    "age": 3,
+    "tricks": ["sits"]
 }
 ```
 
-With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
+An example curl command woule be:
+
+```shell
+curl -i http://127.0.0.1:9926/Dogs/ --header 'Content-type: application/json' -d '{"name":"Harper","breed":"Labrador","age":3,"tricks":["sits"]}'
+```
+
+With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dogs/<id>` to view that record. Alternately, the curl command:
+
+```shell
+curl http://127.0.0.1:9926/Dogs/<id>
+```
+
+Or to see all of the records in the table:
+
+```shell
+curl http://127.0.0.1:9926/Dogs/
+```
+
+## Back to the Application
+
+So now we know how to spin up an application endpoint, create a data table, and populate it with data. Let's combine then into something more than the sum of its parts.
+
+### Populate the Data
+
+Before we start out, let's clear the Dog table and populate it with a few records:
+
+```shell
+curl -X DELETE http://127.0.0.1:9926/Dogs/
+```
+
+Here is some data that you can uload via `curl`
+
+```shell
+'{"name":"Harper","breed":"Labrador","age":3,"tricks":["sits"]}'
+'{"name":"Perth","breed":"Labrador","age":9,"tricks":["guidedog"]}'
+'{"name":"Elfie","breed":"Golden Retriever","age":4,"tricks":["sits","stays"]}'
+```
+
+`POST` them with:
+
+```shell
+curl http://127.0.0.1:9926/Dogs/ <ContentType Header> -d <data line>
+```
+
+See above for an example.
+
+Now we should have three records in our table!  That sound like enough for a robust application.
+
+### Building the App
+
+Let's have our application do three things:
+
+- Return the average age of the dogs in the table
+
+- Return a list of all of the tricks our dogs can perform
+
+- Teach a dog a new trick
+
+We will put these endpoints at:
+
+```
+/dogs/average
+/dogs/tricks
+/dogs/teachnewtrick
+```
+
+Here is our `get` method for `dogs`:
+
+```javascript
+export class dogs extends Resource {
+  get(query) {
+    const command = this.getId()
+
+    switch( command ) {
+    case 'average':
+      return calculateAverageAge()
+    case 'tricks':
+      return getTricks()
+    case 'newtrick':
+      return teachNewTrick(query)
+    }
+  }
+}
+```
+
+Here we use `this.getId()` to get the `id` of the request.  In REST this is generally the first path parameter indicating the id of the object we want to act on.  Here we are using it to parse out the 'verb' we want to execute.  
+
+Before we go any further, lets get access to the `Dogs` table:
+
+```javascript
+import { Dogs } from databases.pets
+```
+
+`databases` is a global object that Harper exposes that represents all of the databases you have access to. You will remember that above we called out database `pets` in the graphql schema.
+
+Here is how we can implement `calculateAvergaAge`:
+
+```javascript
+async function calculateAverageAge() {
+  # Retrieve the age column from all records
+  const records = await Dogs.get({
+    select: [ 'age' ]
+  })
+
+  let total = 0
+  let n = 0
+
+  for await ( const dog of records ) {
+    total += dog.age
+    n++
+  }
+
+  # Returning non-null creates a 200 response
+  return { 'averageAge': (total/n).toFixed(2) }
+}
+```
+
+There are a few things to note here:
+
+- We use the `Dogs` table's `get` method to get all of the records, limiting only to the `age` columns that we care about.  `get` and it's equivalent `search` take a `Query` object that provides fine grained control over what is fetched.  There is very complete [documention](https://docs.harperdb.io/docs/technical-details/reference/resource#patch-recordupdate-object-context-resource-or-context-promise-less-than-void-greater-than) on its use.
+
+- `Dogs.get` returns an `asyncIterator`. We have to `await` the for loop where we walk through the records.
+
+- By returning non null, we implcitly return a 200 response with the JSON.stringified object.
+
+Try it out (restart Harper is you are not runnign under `dev`):
+
+```shell
+> curl http://127.0.0.1/dogs/average
+
+HTTP/1.1 200 OK
+Content-Type: application/json
+...
+
+{"averageAge":"5.33"}
+```
+
+Now for `getTricks`
+
+```javascript
+async function getTricks() {
+  # Get all records and columns
+  const records = await Dogs.get([])
+
+  const tricks = []
+
+  # Iterate over the asyncIterator and get the unique tricks
+  for await ( const dog of records ) {
+    for ( const trick of dog.tricks ) {
+      if ( ! tricks.includes(trick) ) {
+        tricks.push(trick)
+      }
+    }
+  }
+
+  # return a 200
+  return { tricks }
+}
+```
+
+Passing the empty `[]` to `Dogs.get` returns all of the table contents.
+
+Finally, `teachNewTrick`
+
+```javascript
+async function teachNewTrick( query ) {
+  # Get the query prameters for name and trick
+  const name = query.get('name')
+  const trick = query.get('trick')
+
+  # No trick?  Return a 400
+  if ( ! trick ) {
+    return { status: 400, headers: {}, data: { error: "No trick listed" } }
+  }
+
+  # Perform the search based on the dog name
+  const records = await Dogs.search({
+    conditions: [
+      { attribute: 'name', value: name }
+    ]
+  })
+
+  # Use fromAsync to get the async records
+  const dogs = await Array.fromAsync( records )
+  const dog = dogs[0] # There might be more than one dog with that name!
+
+  # If we did not find a dog, return a 404
+  if ( ! dog ) {
+    return { status: 404, headers: {} }
+  }
+
+  # Another error if the do is too old to learn
+  if ( dog.age > 8 ) {
+    return { status: 400, 
+             headers: {}, 
+             data: { error: "Can't teach an old dog new tricks" } }
+  }
+
+  # add the new trick to the list (no duplicate check)
+  const tricks = [ ...dog.tricks, trick ]
+
+  # Call patch with the record id to just update the tricks
+  await Dogs.patch( dog.id, { tricks } )
+
+  # Return a sucessful 'No Content' response
+  return { status: 204, headers: {} }
+}
+```
+
+There you have it.  A 'complete' app for managing you dogs. Hopefully this helped illustrate how the application code and data model can interact and help you build your truly complete applications.
+
+There is a LOT more to cover, but this should get you started.  For more infromation go 'here', 'here', 'here', and 'here', etc.
 
 ## Authenticating Endpoints
 
-These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security/) for more information on different levels of access.
+The REST endpoints we created above automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security/) for more information on different levels of access.
 
-By default, Harper also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../../deployments/configuration.md#authentication).
+However, the endpoints that are created by just extending the `Resource` class need a bit more work.  Let's go back to our `dogs` endpoint:
 
-### Content Negotiation
-
-These endpoints support various content types, including `JSON`, `CBOR`, `MessagePack` and `CSV`. Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development, and `CSV` can be useful for exporting data to spreadsheets or other processing.
-
-Harper works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
-
-```
-Authorization: Basic <base64 encoded user:pass>
-Accept: application/cbor
-If-None-Match: "etag-id" # browsers can automatically provide this
-```
-
-## Querying
-
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest.md). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
-
-In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing. We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
-
-```graphql
-type Dog @table {
-	id: ID @primaryKey
-	name: String @indexed
-	breed: String @indexed
-	owner: String
-	age: Int
-	tricks: [String]
+```javascript
+export class dogs extends Resource {
+  get(query) {
+    ...
+  }
 }
 ```
 
-And finally, we'll add the `@export` directive to expose the table as a RESTful endpoint
+As written, we will get a `403` error when we try to access this from something other then `localhost` (see the Note below).  There are two options for poperly handingling this.  The first is the have `dogs` extend `databases.pets.Dogs`:
 
-```graphql
-type Dog @table @export {
-	id: ID @primaryKey
-	name: String @indexed
-	breed: String @indexed
-	owner: String
-	age: Int
-	tricks: [String]
+```javascript
+export class dogs extends databases.pets.Dogs {
+  get(query) {
+    ...
+  }
 }
 ```
 
-Now we can start querying. Again, we just simply access the endpoint with query parameters (basic GET requests), like:
+`databases` is a global that is expoerted to your Application by default that contains all of the databases you have access to currently in the Harper stack, `pets` is what we called our database, and `Dogs` is the name of our table, which is an instance of `TableResource` which is a `Resource`.  Thus, you are adding functionality directly to the `Table` object that already has the REST based permissions mentioned above.
 
+This is extremely convenient but it is not always what you want.  These is where the CRUD based `allow` calls come in:
+
+- `allowCreate( user, data, context )`
+
+- `allowRead( user, query, context )`
+
+- `allowUpdate( user, data, context )`
+
+- `allowDelete( user, query, context )`
+
+There calls will return `true` if the request should be allowed and `false` if not.  In our case we are performing a `get` which is a read operation so we need to provide an `allowRead`:
+
+```javascript
+  allowRead( user, query, context ) {
+    return <Perform auth check here>
+  }
 ```
-http://localhost:9926/Dog/?name=Harper
-http://localhost:9926/Dog/?breed=Labrador
-http://localhost:9926/Dog/?breed=Husky&name=Balto&select(id,name,breed)
+
+What should that auth check be?  It depends on your appliction.  Maybe you check the session cookie?  Or an `Authorize` header?  A cute thing to do would be:
+
+```javascript
+### Does not work as written
+allowRead( user, query, context ) { # This code is incomplete!!!
+  let redirect = await RedirectTable.get(id)
+  let isAllowed = redirect.allowRead(user);
+  return isAllowed
+}
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest.md) and see the [Schema reference](defining-schemas.md) for more options for defining schemas.
+This gives you the exact behavior as if you extended `databases.pets.Dogs`.  Which implies is it probably easier to do just that.
 
-> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../../technical-details/reference/graphql.md).
+> [!NOTE]
+> 
+> By default, Harper also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../../deployments/configuration.md#authentication).
+
+
 
 ## Deploying your Application
 
@@ -238,137 +559,13 @@ With the help of a global traffic manager/load balancer configured, you can dist
 
 Now, with an application that you can deploy, update, and re-deploy, you have an application that is horizontally and globally scalable!
 
-## Custom Functionality with JavaScript
-
-So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../technical-details/reference/resource.md), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
-
-To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
-
-```javascript
-// resources.js:
-const { Dog } = tables; // get the Dog table from the Harper provided set of tables (in the default database)
-
-export class DogWithHumanAge extends Dog {
-	get(query) {
-		this.humanAge = 15 + this.age * 5; // silly calculation of human age equivalent
-		return super.get(query);
-	}
-}
-```
-
-Here we exported the `DogWithHumanAge` class (exported with the same name), which directly maps to the endpoint path. Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. Resource classes provide getters/setters for every defined attribute so that accessing instance properties like `age`, will get the value from the underlying record. The instance holds information about the primary key of the record so updates and actions can be applied to the correct record. And changing or assigning new properties can be saved or included in the resource as it returned and serialized. The `return super.get(query)` call at the end allows for any query parameters to be applied to the resource, such as selecting individual properties (with a [`select` query parameter](../rest.md#select-properties)).
-
-Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
-
-```graphql
-type Breed @table {
-	name: String @primaryKey
-	description: String @indexed
-	lifespan: Int
-	averageWeight: Float
-}
-```
-
-And next we will use this table in our `get()` method. We will call the new table's (static) `get()` method to retrieve a breed by id. To do this correctly, we access the table using our current context by passing in `this` as the second argument. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables. This provides automatically tracking of most recently updated timestamps across resources for caching purposes. This allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
-
-```javascript
-//resource.js:
-const { Dog, Breed } = tables; // get the Breed table too
-export class DogWithBreed extends Dog {
-	async get(query) {
-		let breedDescription = await Breed.get(this.breed, this);
-		this.breedDescription = breedDescription;
-		return super.get(query);
-	}
-}
-```
-
-The call to `Breed.get` will return an instance of the `Breed` resource class, which holds the record specified the provided id/primary key. Like the `Dog` instance, we can access or change properties on the Breed instance.
-
-Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method. the POST method has much more open-ended semantics and is a good choice for custom actions. POST requests are handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks` array to a specific instance. We might do it like this, and specify an action to be able to differentiate actions:
-
-```javascript
-export class CustomDog extends Dog {
-	async post(data) {
-		if (data.action === 'add-trick')
-			this.tricks.push(data.trick);
-	}
-}
-```
-
-And a POST request to /CustomDog/ would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
-
-The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
-
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../../technical-details/reference/resource.md) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
-
-```javascript
-export class CustomDog extends Dog {
-	allowUpdate(user) {
-		return this.owner === user.username;
-	}
-}
-```
-
-Any methods that are not defined will fall back to Harper's default authorization procedure based on users' roles. If you are using/extending a table, this is based on Harper's [role based access](../security/users-and-roles.md). If you are extending the base `Resource` class, the default access requires super user permission.
-
-You can also use the `default` export to define the root path resource handler. For example:
-
-```javascript
-// resources.json
-export default class CustomDog extends Dog {
-	...
-```
-
-This will allow requests to url like / to be directly resolved to this resource.
-
-## Define Custom Data Sources
-
-We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
-
-```javascript
-const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
-	async get() {
-		return (await fetch(`http://best-dog-site.com/${this.getId()}`)).json();
-	}
-}
-// define that our breed table is a cache of data from the data source above, with a specified expiration
-Breed.sourcedFrom(BreedSource, { expiration: 3600 });
-```
-
-The [caching documentation](caching.md) provides much more information on how to use Harper's powerful caching capabilities and set up data sources.
-
-Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../technical-details/reference/globals.md) and the [Resource interface](../../technical-details/reference/resource.md).
-
-## Configuring Applications/Components
-
-Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
-
-This config file allows you define a location for static files, as well (that are directly delivered as-is for incoming HTTP requests).
-
-Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
-
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
-
-## Define Fastify Routes
-
-Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. Harper includes a resource plugin for defining routes with the Fastify web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
-
-By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](define-routes.md) for more information on how to create Fastify routes.
-
-However, Fastify is not as fast as Harper's RESTful endpoints (about 10%-20% slower/more-overhead), nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the Harper's REST interface is recommended for optimum performance and ease of use.
-
 ## Restarting Your Instance
 
 Generally, Harper will auto-detect when files change and auto-restart the appropriate threads. However, if there are changes that aren't detected, you may manually restart, with the `restart_service` operation:
 
 ```json
 {
-	"operation": "restart_service",
-	"service": "http_workers"
+    "operation": "restart_service",
+    "service": "http_workers"
 }
 ```
