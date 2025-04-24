@@ -120,6 +120,7 @@
   * [Resource Class](technical-details/reference/resource.md)
   * [Transactions](technical-details/reference/transactions.md)
   * [Storage Algorithm](technical-details/reference/storage-algorithm.md)
+  * [Blob](technical-details/reference/blob.md)
 * [Release Notes](technical-details/release-notes/README.md)
   * [Harper Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
     * [4.5.6](technical-details/release-notes/4.tucker/4.5.6.md)
