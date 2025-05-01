@@ -26,7 +26,6 @@
   * [Users and Roles](developers/operations-api/users-and-roles.md)
   * [Clustering](developers/operations-api/clustering.md)
     * [Clustering with NATS](developers/operations-api/clustering-nats.md)
-  * [Custom Functions](developers/operations-api/custom-functions.md)
   * [Components](developers/operations-api/components.md)
   * [Registration](developers/operations-api/registration.md)
   * [Jobs](developers/operations-api/jobs.md)
