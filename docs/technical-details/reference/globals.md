@@ -263,3 +263,23 @@ This returns the user object with permissions/authorization information based on
 
 ### `server.authenticateUser(username, password): Promise<User>`
 This returns the user object with permissions/authorization information based on the provided username. The password will be verified before returning the user object (if the password is incorrect, an error will be thrown).
+
+### `server.resources: Resources`
+This provides access to the map of all registered resources. This is the central registry in Harper for registering any resources to be exported for use by REST, MQTT, or other components. Components that want to register resources should use the `server.resources.set(name, resource)` method to add to this map. Exported resources can be found by passing in a path to `server.resources.getMatch(path)` which will find any resource that matches the path or beginning of the path.
+
+#### `server.resources.set(name, resource, exportTypes?)`
+Register a resource with the server. For example:
+```
+class NewResource extends Resource {
+}
+server.resources.set('NewResource', Resource);
+// or limit usage:
+server.resources.set('NewResource', Resource, { rest: true, mqtt: false, 'my-protocol': true });
+```
+#### `server.resources.getMatch(path, exportType?)`
+Find a resource that matches the path. For example:
+```
+server.resources.getMatch('/NewResource/some-id');
+// or specify the export/protocol type, to allow it to be limited:
+server.resources.getMatch('/NewResource/some-id', 'my-protocol');
+```
