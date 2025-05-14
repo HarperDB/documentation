@@ -1,7 +1,11 @@
 # Table of contents
 
 * [Harper Docs](README.md)
-* [Getting Started](getting-started.md)
+* [Getting Started](getting-started/README.md)
+  * [What is Harper](getting-started/what-is-harper.md)
+  * [Install Harper](getting-started/install-harper.md)
+  * [Harper Concepts](getting-started/harper-concepts.md)
+  * [Create Your First Application](getting-started/first-harper-app.md)
 
 ## Developers
 
@@ -120,8 +124,15 @@
   * [Resource Class](technical-details/reference/resource.md)
   * [Transactions](technical-details/reference/transactions.md)
   * [Storage Algorithm](technical-details/reference/storage-algorithm.md)
+  * [Blob](technical-details/reference/blob.md)
 * [Release Notes](technical-details/release-notes/README.md)
   * [Harper Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+    * [4.5.8](technical-details/release-notes/4.tucker/4.5.8.md)
+    * [4.5.7](technical-details/release-notes/4.tucker/4.5.7.md)
+    * [4.5.6](technical-details/release-notes/4.tucker/4.5.6.md)
+    * [4.5.5](technical-details/release-notes/4.tucker/4.5.5.md)
+    * [4.5.4](technical-details/release-notes/4.tucker/4.5.4.md)
+    * [4.5.3](technical-details/release-notes/4.tucker/4.5.3.md)
     * [4.5.2](technical-details/release-notes/4.tucker/4.5.2.md)
     * [4.5.1](technical-details/release-notes/4.tucker/4.5.1.md)
     * [4.5.0](technical-details/release-notes/4.tucker/4.5.0.md)
