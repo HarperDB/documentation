@@ -36,7 +36,7 @@ This command downloads the official Harper image from Docker Hub, ensuring you h
 docker run -d -p 9925:9925 harperdb/harperdb
 ```
 
-In this command, the -d flag runs the container in detached mode, allowing it to operate in the background, and the -p 9925:9925 flag maps port 9925 on your local machine to port 9925 within the container, which is Harper’s default port. This port mapping lets you interact with the Harper instance directly from your local environment.
+In this command, the `-d` flag runs the container in detached mode, allowing it to operate in the background, and the `-p 9925:9925` flag maps port 9925 on your local machine to port 9925 within the container, which is Harper’s default port. This port mapping lets you interact with the Harper instance directly from your local environment.
 
 ### How to Use this Image
 [Harper configuration settings⁠](https://harperdb.io/docs/reference/configuration-file/) can be passed as Docker run environment variables. If no environment variables are provided, Harper will operate with default configuration settings, such as:
