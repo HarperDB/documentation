@@ -39,7 +39,6 @@ Now let's create the business logic for our Book API by implementing a custom re
 export class Books extends Resource {
   // Get a book by ID or list all books
   async get() {
-    console.log("GET request received");
     const id = this.getId();
     
     if (id) {
@@ -54,9 +53,7 @@ export class Books extends Resource {
   }
   
   // Create a new book
-  async post(data) {
-    console.log("POST request received");
-    
+  async post(data) {    
     // Parse string data if needed
     if (typeof data === "string") {
       try {
@@ -95,7 +92,6 @@ This line creates a custom `Books` class that extends Harper's built-in `Resourc
 ### GET Method
 ```js
 async get() {
-  console.log("GET request received");
   const id = this.getId();
   
   if (id) {
@@ -120,7 +116,6 @@ The `get()` method handles HTTP GET requests to our Book endpoint. It:
 ### POST Method
 ```js
 async post(data) {
-  console.log("POST request received");
   
   // Parse string data if needed
   if (typeof data === "string") {
