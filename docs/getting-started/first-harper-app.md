@@ -30,7 +30,7 @@ The schema above does several important things:
 - Requires `title` and `author` fields (marked with `!`)
 - Adds optional `publishedYear` and `genre` fields
 
-When you start your application, Harper will automatically create this table structure.
+When you start your application, Harper will automatically create this table resource.
 
 ## Extend the Resource Class
 Now let's create the business logic for our Book API by implementing a custom resource class. Update your `resources.js` file:
@@ -38,31 +38,20 @@ Now let's create the business logic for our Book API by implementing a custom re
 ```js
 export class Books extends Resource {
   // Get a book by ID or list all books
-  async get() {
+  get() {
     const id = this.getId();
     
     if (id) {
       // Return a single book
-      return await this.table.get(id);
+      return this.table.get(id);
     } else {
-      // Return all books with optional genre filter
-      const genre = this.getQueryParam("genre");
-      const searchOptions = genre ? { genre } : {};
-      return await this.table.search(searchOptions);
+      // Return all books
+      return this.table.get();
     }
   }
   
   // Create a new book
-  async post(data) {    
-    // Parse string data if needed
-    if (typeof data === "string") {
-      try {
-        data = JSON.parse(data);
-      } catch (err) {
-        return { error: "Invalid JSON" };
-      }
-    }
-    
+  post(data) {    
     // Validate required fields
     if (!data.title || !data.author) {
       return { error: "Title and author are required" };
@@ -72,8 +61,7 @@ export class Books extends Resource {
     if (data.id) delete data.id;
     
     try {
-      const result = await this.table.post(data);
-      return result;
+      return this.table.post(data);
     } catch (error) {
       return { error: "Error creating book", details: error.message };
     }
@@ -91,17 +79,13 @@ This line creates a custom `Books` class that extends Harper's built-in `Resourc
 
 ### GET Method
 ```js
-async get() {
+get() {
   const id = this.getId();
   
   if (id) {
-    // Return a single book
-    return await this.table.get(id);
+    return this.table.get(id);
   } else {
-    // Return all books with optional genre filter
-    const genre = this.getQueryParam("genre");
-    const searchOptions = genre ? { genre } : {};
-    return await this.table.search(searchOptions);
+    return this.table.get();
   }
 }
 ```
@@ -115,17 +99,7 @@ The `get()` method handles HTTP GET requests to our Book endpoint. It:
 
 ### POST Method
 ```js
-async post(data) {
-  
-  // Parse string data if needed
-  if (typeof data === "string") {
-    try {
-      data = JSON.parse(data);
-    } catch (err) {
-      return { error: "Invalid JSON" };
-    }
-  }
-  
+post(data) {
   // Validate required fields
   if (!data.title || !data.author) {
     return { error: "Title and author are required" };
@@ -134,12 +108,7 @@ async post(data) {
   // Prevent primary key overriding
   if (data.id) delete data.id;
   
-  try {
-    const result = await this.table.post(data);
-    return result;
-  } catch (error) {
-    return { error: "Error creating book", details: error.message };
-  }
+  return this.table.post(data);
 }
 ```
 

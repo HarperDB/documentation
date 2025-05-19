@@ -3,7 +3,7 @@
 There are three ways to install a Harper instance: using a package manager like NPM, deploying it as a Docker container, and offline installation. Below is a step-by-step tutorial for each method.
 
 ## Installing via NPM
-Before you begin, ensure you have [Node.js](https://nodejs.org/) installed (v22 or newer is recommended). Node.js comes with npm, which will be used to install Harper.
+Before you begin, ensure you have [Node.js](https://nodejs.org/) LTS version or newer. Node.js comes with npm, which will be used to install Harper.
 
 Open your terminal or command prompt and install Harper globally by executing the command below. Installing globally allows the `harperdb` command to be accessible from anywhere on your machine, making it easier to manage multiple projects.
 
