@@ -20,6 +20,7 @@ _Operation is restricted to super_user roles only_
   "message": "Restarting HarperDB. This may take up to 60 seconds."
 }
 ```
+
 ---
 
 ## Restart Service
@@ -47,6 +48,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ---
+
 ## System Information
 Returns detailed metrics on the host system.
 
@@ -63,6 +65,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ---
+
 ## Set Status
 Sets a status value that can be used for application-specific status tracking. Status values are stored in memory and are not persisted across restarts.
 
@@ -98,6 +101,7 @@ _Operation is restricted to super_user roles only_
 - For other status types, any string value is accepted
 
 ---
+
 ## Get Status
 Retrieves a status value previously set with the set_status operation.
 
@@ -143,6 +147,7 @@ If no id parameter is provided, all status values will be returned:
 ```
 
 ---
+
 ## Clear Status
 Removes a status entry by its ID.
 
