@@ -27,7 +27,6 @@ The operations API reference is available below and categorized by topic:
 * [Jobs](jobs.md)
 * [Logs](logs.md)
 * [System Operations](system-operations.md)
-* [Data Management](data-management.md)
 * [Configuration](configuration.md)
 * [Certificate Management](certificate-management.md)
 * [Token Authentication](token-authentication.md)

@@ -32,7 +32,6 @@
   * [Jobs](developers/operations-api/jobs.md)
   * [Logs](developers/operations-api/logs.md)
   * [System Operations](developers/operations-api/system-operations.md)
-  * [Data Management](developers/operations-api/data-management.md)
   * [Configuration](developers/operations-api/configuration.md)
   * [Certificate Management](developers/operations-api/certificate-management.md)
   * [Token Authentication](developers/operations-api/token-authentication.md)
