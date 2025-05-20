@@ -30,7 +30,6 @@ The operations API reference is available below and categorized by topic:
 * [Data Management](data-management.md)
 * [Configuration](configuration.md)
 * [Certificate Management](certificate-management.md)
-* [Package Management](package-management.md)
 * [Token Authentication](token-authentication.md)
 * [SQL Operations](sql-operations.md)
 * [Advanced JSON SQL Examples](advanced-json-sql-examples.md)

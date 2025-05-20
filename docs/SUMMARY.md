@@ -35,7 +35,6 @@
   * [Data Management](developers/operations-api/data-management.md)
   * [Configuration](developers/operations-api/configuration.md)
   * [Certificate Management](developers/operations-api/certificate-management.md)
-  * [Package Management](developers/operations-api/package-management.md)
   * [Token Authentication](developers/operations-api/token-authentication.md)
   * [SQL Operations](developers/operations-api/sql-operations.md)
   * [Advanced JSON SQL Examples](developers/operations-api/advanced-json-sql-examples.md)
