@@ -1,5 +1,7 @@
 # Custom Functions
 
+*These operations are deprecated.*
+
 ## Custom Functions Status
 
 Returns the state of the Custom functions server. This includes whether it is enabled, upon which port it is listening, and where its root project directory is located on the host machine.

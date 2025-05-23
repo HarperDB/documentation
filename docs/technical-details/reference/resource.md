@@ -178,7 +178,7 @@ This is called by the default `put` and `patch` handlers to update a record. `pu
 
 ### `delete(queryOrProperty?): Resource|void|Response`
 
-This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.put(record)`) deletes the record from the table as part of the current transaction.
+This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.delete(record)`) deletes the record from the table as part of the current transaction.
 
 ### `publish(message): Resource|void|Response`
 
