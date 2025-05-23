@@ -2,6 +2,13 @@
 
 HarperDB version 4 ([Tucker release](tucker.md)) represents major step forward in database technology. This release line has ground-breaking architectural advancements including:
 
+## [4.6](4.6.0.md)
+* Vector Indexing - 4.6 introduces a new Vector Indexing system based on Hierarchical Navigable Small World Graphs.
+* New extension API - 4.6 introduces a new extension API for creating extensions components.
+* Improved logging configurability - Logging can be dynamically updated and specifically configured for each component.
+* Resource API - 4.6 has updated Resource APIs for ease of use.
+* Data loader - 4.6 introduces a new data loader that allows for ensuring records exist as part of a component. 
+
 ## [4.5](4.5.0.md)
 * Blob Storage - 4.5 introduces a new [Blob storage system](../../reference/blob.md).
 * Password Hashing Upgrade - two new password hashing algorithms for better security (to replace md5).
