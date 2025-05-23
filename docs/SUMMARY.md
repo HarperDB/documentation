@@ -1,7 +1,11 @@
 # Table of contents
 
 * [Harper Docs](README.md)
-* [Getting Started](getting-started.md)
+* [Getting Started](getting-started/README.md)
+  * [What is Harper](getting-started/what-is-harper.md)
+  * [Install Harper](getting-started/install-harper.md)
+  * [Harper Concepts](getting-started/harper-concepts.md)
+  * [Create Your First Application](getting-started/first-harper-app.md)
 
 ## Developers
 
