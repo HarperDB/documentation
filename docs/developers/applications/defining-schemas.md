@@ -190,6 +190,14 @@ let results = Product.search({
   limit: 5 // get the five nearest neighbors
 })
 ```
+This can be used in combination with other conditions as well, for example:
+```javascript
+let results = Product.search({
+  conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
+  sort: { attribute: 'textEmbeddings', target: searchVector },
+  limit: 5 // get the five nearest neighbors
+})
+```
 
 HNSW supports several additional arguments to the `@indexed` directive to adjust the HNSW parameters:
 * `distance` - Define the distance function. This can be set to 'euclidean' or 'cosine' (uses negative of cosine similarity). The default is cosine.
@@ -198,6 +206,14 @@ HNSW supports several additional arguments to the `@indexed` directive to adjust
 * `optimizeRouting` - This uses a heuristic to avoid graph connections that match existing indirect connections (connections through another node). This can yield more efficient graph traversals for the same M setting. This is a number between 0 and 1 and a higher value will more aggressively omit connections with alternate paths. Setting this to 0 will disable route optimizing and follow the traditional HNSW algorithm for creating connections. The default is 0.5.
 * `mL` - The normalization factor for level generation, by default this is computed from `M`.
 * `efSearchConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors for searching. The default is 50.
+ 
+For exmpale
+```graphql
+type Product @table {
+  id: Long @primaryKey
+  textEmbeddings: [Float] @indexed(type: "HNSW", distance: "euclidean", optimizeRouting: 0, efSearchConstruction: 100)
+}
+```
 
 #### `@createdTime`
 
