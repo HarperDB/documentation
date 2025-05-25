@@ -171,7 +171,51 @@ The `@primaryKey` directive specifies that an attribute is the primary key for a
 
 #### `@indexed`
 
-The `@indexed` directive specifies that an attribute should be indexed. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
+The `@indexed` directive specifies that an attribute should be indexed. When an attribute is indexed, Harper will create secondary index from the data in this field for fast/efficient querying using this field. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
+
+A standard index will index the values in each field, so you can query directly by those values. If the field's value is an array, each of the values in the array will be indexed (you can query by any individual value).
+
+#### Vector Indexing
+
+The `@indexed` directive can also specify a `type`. To use vector indexing, you can specify the `type` as `HNSW` for Hierarchical Navigable Small World indexing. This will create a vector index for the attribute. For example:
+```graphql
+type Product @table {
+	id: Long @primaryKey
+	textEmbeddings: [Float] @indexed(type: "HNSW")
+}
+```
+
+HNSW indexing finds the nearest neighbors to a search vector. To use this, you can query with a `sort` parameter, for example:
+```javascript
+let results = Product.search({
+  sort: { attribute: 'textEmbeddings', target: searchVector },
+  limit: 5 // get the five nearest neighbors
+})
+```
+This can be used in combination with other conditions as well, for example:
+```javascript
+let results = Product.search({
+  conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
+  sort: { attribute: 'textEmbeddings', target: searchVector },
+  limit: 5 // get the five nearest neighbors
+})
+```
+
+HNSW supports several additional arguments to the `@indexed` directive to adjust the HNSW parameters:
+* `distance` - Define the distance function. This can be set to 'euclidean' or 'cosine' (uses negative of cosine similarity). The default is cosine.
+* `efConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors. A higher value can yield better recall, and a lower value can have better performance. If `efSearchConstruction` is set, this is only applied to indexing. The default is 100.
+* `M` - The preferred number of connections at each layer in the HNSW graph. A higher number uses more space but can be helpful when the intrinsic dimensionality of the data is higher. A lower number can be more efficient. The default is 16.
+* `optimizeRouting` - This uses a heuristic to avoid graph connections that match existing indirect connections (connections through another node). This can yield more efficient graph traversals for the same M setting. This is a number between 0 and 1 and a higher value will more aggressively omit connections with alternate paths. Setting this to 0 will disable route optimizing and follow the traditional HNSW algorithm for creating connections. The default is 0.5.
+* `mL` - The normalization factor for level generation, by default this is computed from `M`.
+* `efSearchConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors for searching. The default is 50.
+ 
+For exmpale
+```graphql
+type Product @table {
+  id: Long @primaryKey
+  textEmbeddings: [Float] @indexed(type: "HNSW", distance: "euclidean", optimizeRouting: 0, efSearchConstruction: 100)
+}
+```
 
 #### `@createdTime`
 
