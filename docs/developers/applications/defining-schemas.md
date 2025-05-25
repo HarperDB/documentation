@@ -41,6 +41,8 @@ By default the table name is inherited from the type name (in this case the tabl
 * `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
 * `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
 
+Database naming: the default "data" database is generally a good default choice for tables in applications that will not be reused in other applications (and don't need to worry about staying in a separate namespace). Application with many tables may wish to organize the tables into separate databases (but remember that transactions do not preserve atomicity across different databases, only across tables in the same database). For components that are designed for re-use, it is recommended that you use a database name that is specific to the component (e.g. "my-component-data") to avoid name collisions with other components.
+
 #### `@export`
 
 This indicates that the specified table should be exported as a resource that is accessible as an externally available endpoints, through REST, MQTT, or any of the external resource APIs.

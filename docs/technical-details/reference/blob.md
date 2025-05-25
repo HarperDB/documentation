@@ -1,4 +1,6 @@
-Blobs are binary large objects that can used to store any type of unstructured/binary data and is designed for large content. Blobs support streaming and feature better performance for content larger than about 20KB. Blobs are built off the native JavaScript `Blob` type, and HarperDB extends the native `Blob` type for integrated storage with the database. To use blobs, you would generally want to declare a field as a `Blob` type in your schema:
+# Blob
+
+Blobs are binary large objects that can be used to store any type of unstructured/binary data and is designed for large content. Blobs support streaming and feature better performance for content larger than about 20KB. Blobs are built off the native JavaScript `Blob` type, and HarperDB extends the native `Blob` type for integrated storage with the database. To use blobs, you would generally want to declare a field as a `Blob` type in your schema:
 ```graphql
 type MyTable {
 	id: Any! @primaryKey

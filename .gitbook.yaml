@@ -1,6 +1,7 @@
 root: ./docs/
 
 redirects:
+  developers/operations-api/utilities: developers/operations-api/system-operations.md
   install-harperdb: deployments/install-harper/README.md
   install-harperdb/linux: deployments/install-harper/linux.md
   install-harperdb/other: deployments/install-harper/README.md

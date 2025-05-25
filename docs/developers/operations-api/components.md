@@ -317,6 +317,8 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
+***
+
 ## Add SSH Key
 
 Adds an SSH key for deploying components from private repositories. This will also create an ssh config file that will be used when deploying the components.
@@ -379,6 +381,8 @@ Host harperdb-private-component.github.com
 
 Note that `deploy_component` with a package uses `npm install` so the url must be a valid npm format url. The above is an example of a url using a tag in the repo to install.
 
+***
+
 ## Update SSH Key
 
 Updates the private key contents of an existing SSH key.
@@ -436,6 +440,8 @@ _Operation is restricted to super\_user roles only_
 }
 ```
 
+***
+
 ## List SSH Keys
 
 List off the names of added SSH keys
@@ -462,6 +468,8 @@ _Operation is restricted to super\_user roles only_
     ...
 ]
 ```
+
+***
 
 ## Set SSH Known Hosts
 
@@ -511,5 +519,29 @@ _Operation is restricted to super\_user roles only_
 ```json
 {
     "known_hosts": "github.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=\ngithub.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\ngithub.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=\n"
+}
+```
+
+***
+
+## Install Node Modules
+This operation is deprecated, as it is handled automatically by deploy_component and restart.
+Executes npm install against specified custom function projects.
+
+_Operation is restricted to super_user roles only_
+
+* operation _(required)_ - must always be `install_node_modules`
+* projects _(required)_ - must ba an array of custom functions projects.
+* dry_run _(optional)_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
+
+### Body
+```json
+{
+  "operation": "install_node_modules",
+  "projects": [
+    "dogs",
+    "cats"
+  ],
+  "dry_run": true
 }
 ```
