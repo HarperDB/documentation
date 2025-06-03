@@ -15,7 +15,8 @@ The updated Resource API is enabled on a per-class basis, by setting static `loa
 * Context is tracked using asynchronous context tracking, and will automatically be available to calls to other resources. This can be disabled by setting `static explicitContext = true`, which can improve performance. 
 * The `update` method will return an `Updatable` object (instead of a Resource instance), which provides properties mapped to a record, but these properties can be updated and changes will be saved when the transaction is committed.
 
-Here are examples of how to convert/upgrade to the non-instance binding Resource API:
+The following are examples of how to migrate to the non-instance binding Resource API.
+
 Previous code with a `get` method:
 ```javascript
 export class MyData extends tables.MyData {
