@@ -173,7 +173,7 @@ class ... {
 	}
 }
 ```
-In addition, the `Updatable class has the following methods`. 
+In addition, the `Updatable` class has the following methods. 
 ### `Updatable` class
   
 #### `addTo(property, value)`
