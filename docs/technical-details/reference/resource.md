@@ -32,12 +32,12 @@ You can create classes that extend `Resource` to define your own data sources, t
 ```javascript
 export class MyExternalData extends Resource {
 	static loadAsInstance = false; // enable the updated API
-    async get(target) {
-        // fetch data from an external source, using our id
-        let response = await this.fetch(target.id);
-        // do something with the response
-    }
-    put(target, data) {
+	async get(target) {
+		// fetch data from an external source, using our id
+		let response = await this.fetch(target.id);
+		// do something with the response
+	}
+	put(target, data) {
 		// send the data into the external source
 	}
 	delete(target) {
@@ -136,7 +136,6 @@ The `target` object represents the target of a request and can be used to access
 class extends Resource {
 	static loadAsInstance = false;
 	get(target) {
-		// note that query will only exist (as an object) if there is a query string
 		let param1 = target.get('param1'); // returns 'value'
 		let id = target.id; // returns 'some-id'
 		let path = target.pathname; // returns /some-id
@@ -351,7 +350,7 @@ This will define the function to use for a computed attribute. To use this, the 
 
 ```javascript
 MyTable.setComputedAttribute('computedAttribute', (record) => {
-    return record.attribute1 + record.attribute2;
+	return record.attribute1 + record.attribute2;
 });
 ```
 
@@ -359,10 +358,10 @@ For a schema like:
 
 ```graphql
 type MyTable @table {
-    id: ID @primaryKey
-    attribute1: Int
-    attribute2: Int
-    computedAttribute: Int @computed
+	id: ID @primaryKey
+	attribute1: Int
+	attribute2: Int
+	computedAttribute: Int @computed
 }
 ```
 
@@ -393,7 +392,7 @@ If the source resource implements subscription support, real-time invalidation c
 This property can be set to force the direct URL request target to be mapped to the resource primary key. Normally, URL resource targets are parsed, where the path is mapped to the primary key of the resource (and decoded using standard URL decoding), and any query string parameters are used to query that resource. But if this is turned on, the full URL is used as the primary key. For example:
 ```javascript
 export class MyTable extends tables.MyTable {
-    static directURLMapping = true;
+	static directURLMapping = true;
 }
 ```
 ```http request
@@ -646,7 +645,7 @@ export class CustomProduct extends Product {
 	post(target, data) {
 		let record = this.update(target);
 		record.name = data.name;
-    	record.description = data.description;
+		record.description = data.description;
 		// both of these changes will be saved automatically as this transaction commits
 	}
 }

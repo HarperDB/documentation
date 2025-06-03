@@ -321,12 +321,13 @@ export class CustomDog extends Dog {
 	async post(target, data) {
 		if (data.action === 'add-trick') {
 			const context = this.getContext();
+			// if we want to skip the default permission checks, we can turn off checkPermissions:
+			target.checkPermissions = false;
+			const record = this.update(target);
+			// and do our own/custom permission check: 
 			if (record.owner !== context.user?.username) {
 				throw new Error('Can not update this record');
 			}
-			// if we now want to skip the default permission checks, we can turn that off:
-			target.checkPermissions = false;  
-			const record = this.update(target);
 			record.tricks.push(data.trick);
 		}
 	}

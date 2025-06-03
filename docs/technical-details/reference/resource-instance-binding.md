@@ -1,17 +1,17 @@
 # Resource Class with Resource Instance Binding behavior
 
-This document describes the legacy behavior of the Resource class using the instance binding behavior. It is recommended that [updated behavior](./resource.md) instead, but this legacy API is preserved for backwards compatibility.
+This document describes the legacy behavior of the Resource class using the instance binding behavior. It is recommended that you use the [updated behavior of the Resource API](./resource.md) instead, but this legacy API is preserved for backwards compatibility.
 ## Resource Class
 
 ```javascript
 export class MyExternalData extends Resource {
 	static loadAsInstance = true;
-    async get() {
-        // fetch data from an external source, using our id
-        let response = await this.fetch(this.id);
-        // do something with the response
-    }
-    put(data) {
+	async get() {
+		// fetch data from an external source, using our id
+		let response = await this.fetch(this.id);
+		// do something with the response
+	}
+	put(data) {
 		// send the data into the external source
 	}
 	delete() {
@@ -138,8 +138,8 @@ The `query` argument is used to represent any additional query parameters that w
 
 ```javascript
 put(data, query) {
-    let param1 = query?.get?.('param1'); // returns 'value'
-    ...
+	let param1 = query?.get?.('param1'); // returns 'value'
+	...
 }
 ```
 
@@ -340,7 +340,7 @@ This will define the function to use for a computed attribute. To use this, the 
 
 ```javascript
 MyTable.setComputedAttribute('computedAttribute', (record) => {
-    return record.attribute1 + record.attribute2;
+	return record.attribute1 + record.attribute2;
 });
 ```
 
@@ -348,10 +348,10 @@ For a schema like:
 
 ```graphql
 type MyTable @table {
-    id: ID @primaryKey
-    attribute1: Int
-    attribute2: Int
-    computedAttribute: Int @computed
+	id: ID @primaryKey
+	attribute1: Int
+	attribute2: Int
+	computedAttribute: Int @computed
 }
 ```
 
@@ -382,7 +382,7 @@ If the source resource implements subscription support, real-time invalidation c
 This property can be set to force the direct URL request target to be mapped to the resource primary key. Normally, URL resource targets are parsed, where the path is mapped to the primary key of the resource (and decoded using standard URL decoding), and any query string parameters are used to query that resource. But if this is turned on, the full URL is used as the primary key. For example:
 ```javascript
 export class MyTable extends tables.MyTable {
-    static directURLMapping = true;
+	static directURLMapping = true;
 }
 ```
 ```http request
