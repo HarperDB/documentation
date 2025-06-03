@@ -319,7 +319,7 @@ And a POST request to /CustomDog/ would call this `post` method. The Resource cl
 
 The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
 
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this. For example, we might do this:
+We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
