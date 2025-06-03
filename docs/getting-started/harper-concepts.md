@@ -17,12 +17,6 @@ Resources in Harper encompass databases, tables, and schemas that store and stru
 Harper is a  multi-protocol server, handling incoming requests from clients and serving data from the data model. Harper supports multiple server protocols, with components for serving REST/HTTP (including Server-Sent Events), MQTT, WebSockets, and the Operations API (and custom server components can be added). Harper uses separate layers for the data model and the servers. The data model, which is defined with resources, can be exported and be used as the source for any of the servers. A single table or other resource can then be accessed and modified through REST, MQTT, SSE, or any other server protocol, for a powerful integrated model with multiple forms of access.
 Networking in Harper handles different communication protocols including HTTP, WebSocket, and MQTT, as well as event-driven systems. These networking capabilities enable Harper applications to communicate with other services, receive requests, send responses, and participate in real-time data exchange. The networking layer is fundamental to Harper's functionality as a versatile application platform.
 
-## Authentication
-Authentication in Harper provides security mechanisms to verify user identities before granting access to system resources and functionality. This concept is essential for securing Harper deployments and ensuring that only authorized users can access sensitive data or perform privileged operations within applications built on the Harper platform.
-
-## Roles
-Roles in Harper define permissions and access levels for different users within the system. They work in conjunction with authentication to create a comprehensive security model that controls what authenticated users can do once they access the system. Roles help implement principle of least privilege and segregation of duties within Harper applications.
-
 __
 
 As you go through Harper, you will pick up more knowledge of other advanced areas along the way, but with these concepts, you're now ready to create your first application.
