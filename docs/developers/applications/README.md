@@ -273,7 +273,13 @@ type Breed @table {
 }
 ```
 
-And next we will use this table in our `get()` method. We will call the new table's (static) `get()` method to retrieve a breed by id. Harper will maintain the current context, ensuring that we are accessing the data atomically, in a consistent snapshot across tables. This provides automatic tracking of most recently updated timestamps across resources for caching purposes. This allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
+We use the new table's (static) `get()` method to retrieve a breed by id. Harper will maintain the current context, ensuring that we are accessing the data atomically, in a consistent snapshot across tables. This provides:
+
+1. Automatic tracking of most recently updated timestamps across resources for caching purposes
+2. Sharing of contextual metadata (like user who requested the data)
+3. Transactional atomicity for any writes (not needed in this get operation, but important for other operations)
+
+The resource methods are automatically wrapped with a transaction and will automatically commit the changes when the method finishes. This allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
 ```javascript
 //resource.js:
