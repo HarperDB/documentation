@@ -14,7 +14,7 @@ Resource classes also have static methods, which are generally the preferred way
 
 The Resource API is heavily influenced by the REST/HTTP API, and the methods and properties of the Resource class are designed to map to and be used in a similar way to how you would interact with a RESTful API.
 
-The REST-based API is a little different than traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind, but semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
+The REST-based API is a little different than traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind. Semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
 
 * Read - `get`
 * Create with a known primary key - `put`
@@ -23,7 +23,7 @@ The REST-based API is a little different than traditional Create-Read-Update-Del
 * Update (Partial) - `patch`
 * Delete - `delete`
 
-The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped to a Resource instance where the instance's ID will be `3492`, and interactions will use the instance methods like `get()`, `put()`, and `post()`. Using the root path (`/MyResource/`) will map to a Resource instance with an ID of `null`, and this represents the collection of all the records in the resource or table.
+The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped an instance of MyResource, and will call the instance methods like `get(target)`, `put(target, data)`, and `post(target, data)`, where target is based on the `/3492` part of the path.
 
 It is recommended that you use generalized Resource API with the legacy instance binding behavior disabled. This is done by setting the static `loadAsInstance` property to `false` on the Resource class. This page is written assuming `loadAsInstance` is set to `false`. If you want to use the legacy instance binding behavior, you can set `loadAsInstance` to `true` on the Resource class. If you have existing code that you want to migrate, please see the [migration guide](./resource-migration.md) for more information.
 
@@ -43,7 +43,7 @@ export class MyExternalData extends Resource {
 	delete(target) {
 		// delete an entity in the external data source 
 	}
-	subscribe(options) {
+	subscribe(subscription) {
 		// if the external data source is capable of real-time notification of changes, can subscribe
 	}
 }
@@ -149,12 +149,12 @@ If `get` is called for a single record (for a request like `/Table/some-id`), th
 
 ### `search(query: RequestTarget)`: AsyncIterable
 
-This performs a query on this resource or table. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The `query` object can be used to specify the desired query.
+This performs a query on this resource or table. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an `AsyncIterable` of results. The `query` object can be used to specify the desired query.
 
 
 ### `put(target: RequestTarget | Id, data: object): void|Response`
 
-This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
+This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(target, data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
 
 The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
 
@@ -168,6 +168,7 @@ This can be called to get an Updatable class for updating a record. An `Updatabl
 ```javascript
 class ... {
 	post(target, data) {
+		static loadAsInstance = false;
 		let updatable = this.update(target);
 		updatable.quantity = updatable.quantity - 1;
 	}
@@ -181,6 +182,7 @@ In addition, the `Updatable class has the following methods`.
 This adds the provided value to the specified property using conflict-free data type (CRDT) incrementation. This ensures that even if multiple calls are simultaneously made to increment a value, the resulting merge of data changes from different threads and nodes will properly sum all the added values. We could improve the example above to reliably ensure the quantity is decremented even when it occurs in multiple nodes simultaneously:
 ```javascript
 class ... {
+	static loadAsInstance = false;
 	post(target, data) {
 		let updatable = this.update(target);
 		updatable.addTo('quantity', -1);
@@ -275,7 +277,7 @@ The Resource class also has static methods that mirror the instance methods with
 
 The `get`, `put`, `delete`, `publish`, `subscribe`, and `connect` methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to creating an instance bound to the record specified by the arguments, and calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
-### `get(id: Id, context?: Resource|Context)`
+### `get(target: RequestTarget|Id, context?: Resource|Context)`
 
 This will retrieve a resource instance by id. For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 
@@ -307,7 +309,7 @@ MyTable.get({ id: 34, select: ['name', 'age'] });
 
 This method may also be used to retrieve a collection of records by a query. If the query is not for a specific record id, this will call the `search` method, described above.
 
-### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
+### `put(target: RequestTarget|Id, record: object, context?: Resource|Context): Promise<void>`
 
 This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same `id` (primary key).
 
@@ -319,25 +321,19 @@ This will save the provided record or data to this resource. This will create a 
 
 This will create a new record using the provided record for all fields (except primary key), generating a new primary key for the record. This does _not_ check for an existing record; the record argument should not have a primary key and should use the generated primary key. This will (asynchronously) return the new resource instance. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `post(id: Id, data: object, context?: Resource|Context): Promise<any>`
-
-### `post(data: object, context?: Resource|Context): Promise<any>`
+### `post(target: RequestTarget|Id, data: object, context?: Resource|Context): Promise<any>|any`
 
 This will save the provided data to this resource. By default, this will create a new record (by calling `create`). However, the `post` method is specifically intended to be available for custom behaviors, so extending a class to support custom `post` method behavior is encouraged.
 
-### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
-
-### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
+### `patch(target: RequestTarget|Id, recordUpdate: object, context?: Resource|Context): Promise<void>|void`
 
 This will save the provided updates to the record. The `recordUpdate` object's properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `recordUpdate` object. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `delete(id: Id, context?: Resource|Context): Promise<void>`
+### `delete(target: RequestTarget|Id, context?: Resource|Context): Promise<void>|void`
 
 Deletes this resource's record or data. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `publish(message: object, context?: Resource|Context): Promise<void>`
-
-### `publish(topic: Id, message: object, context?: Resource|Context): Promise<void>`
+### `publish(target: RequestTarget|Id, message: object, context?: Resource|Context): Promise<void>|void`
 
 Publishes the given message to the record entry specified by the id in the context. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
@@ -345,7 +341,7 @@ Publishes the given message to the record entry specified by the id in the conte
 
 Subscribes to a record/resource. See the description of the `subscriptionRequest` object above for more information on how to use this.
 
-### `search(query: Query, context?: Resource|Context): AsyncIterable`
+### `search(query: RequestTarget, context?: Resource|Context): AsyncIterable`
 
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 

@@ -11,9 +11,8 @@ The updated Resource API is enabled on a per-class basis, by setting static `loa
   * A `target` property of `checkPermission` indicates that a method should check the permission before of request before proceeding. The default instance methods provide the default authorization behavior.
     * This supplants the need for `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete` methods, which shouldn't need to be used (and don't provide the id of the target record).
 * Any data from a POST, PUT, and PATCH request will be available in the second argument. This reverses the order of the arguments to `put`, `post`, and `patch` compared to the legacy Resource API.
-* Context is tracked using asynchronous context tracking, and will automatically be available to calls to other other resources.
-* The method will return a `Updatable` object (instead of a Resource instance), which provides properties mapped to a record, but these properties can be updated and changes will be saved when the transaction is committed.
-* The `update` methods will return an `Updatable` object (instead of a Resource instance), which provides properties mapped to a record, but these properties can be updated and changes will be saved when the transaction is committed.
+* Context is tracked using asynchronous context tracking, and will automatically be available to calls to other resources. This can be disabled by setting `static explicitContext = true`, which can improve performance. 
+* The `update` method will return an `Updatable` object (instead of a Resource instance), which provides properties mapped to a record, but these properties can be updated and changes will be saved when the transaction is committed.
 
 Here are examples of how to convert/upgrade to the non-instance binding Resource API:
 Previous code with a `get` method:
@@ -45,9 +44,9 @@ export class MyData extends tables.MyData {
       // we can retrieve another record from this table directly with this.get/super.get or with tables.MyData.get
       record = await super.get(idWithQuery);
     } else {
-      record = await super.get(target); // we can just directly use the query as well
+      record = await super.get(target); // we can just directly use the target as well
     }
-    // the record itself is frozen, but we can copy/assign to a new record with additional properties if we want
+    // the record itself is frozen, but we can copy/assign to a new object with additional properties if we want
     return { ...record, newProperty: 'value' };
   }
 }
@@ -74,6 +73,7 @@ export class MyData extends tables.MyData {
 		// to perform/call authorization explicitly in direct get, put, post methods rather than using allow* methods.
 		if (!this.getContext().user) throw new Error('Unauthorized');
 		target.checkPermissions = false; // authorization complete, no need to further check permissions below
+		// target.checkPermissions is set to true or left in place, this default get method will perform the default permissions checks
 		return super.get(target); // we can just directly use the query as well
 	}
 }
@@ -98,14 +98,13 @@ export class MyData extends tables.MyData {
 ```
 Updated code:
 ```javascript
-
 export class MyData extends tables.MyData {
   static loadAsInstance = false; // opt in to updated behavior
   // IMPORTANT: arguments are reversed:
   async post(target, data) {
     let record = await this.get(data.id);
     if (record) { // update a property
-      const updatable = await this.update(data.id);
+      const updatable = await this.update(data.id); // we can alternately pass a target to update
       updatable.someProperty = 'value';
       // or
       this.patch(data.id, { someProperty: 'value' }, this);
