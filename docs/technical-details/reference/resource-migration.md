@@ -6,7 +6,8 @@ The updated Resource API is enabled on a per-class basis, by setting static `loa
 * The `get` method (both static and instance) will directly return the record, a frozen enumerable object with direct properties, instead of a Resource instance.
 * When instance methods are called, there will not be any record preloaded beforehand. And the resource instance will not have properties mapped to a record.
 * All instance methods accept a `target`, an instance of `RequestTarget`, as the first argument, which identifies the target record or query.
-	* The `target` will have an `id` property identifying the target resource, along with target information. The `getId()` method will return `undefined`.
+	* The `target` will have an `id` property identifying the target resource, along with target information.
+	* The `getId()` method is not required and will return `undefined`.
 	* The `target` will provide access to query parameters, search operators, and other directives.
 	* A `target` property of `checkPermission` indicates that a method should check the permission before of request before proceeding. The default instance methods provide the default authorization behavior.
 		* This supplants the need for `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete` methods, which shouldn't need to be used (and don't provide the id of the target record).
