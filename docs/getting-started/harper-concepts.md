@@ -13,7 +13,8 @@ Applications are a subset of components that cannot be used directly and must de
 ## Resources
 Resources in Harper encompass databases, tables, and schemas that store and structure data within the system. The concept is central to Harper's data management capabilities, with custom resources being enabled by the built-in jsResource extension. Resources represent the data layer of the Harper ecosystem and provide the foundation for data operations across applications built with the platform.
 
-## Networking
+## Server
+Harper is a  multi-protocol server, handling incoming requests from clients and serving data from the data model. Harper supports multiple server protocols, with components for serving REST/HTTP (including Server-Sent Events), MQTT, WebSockets, and the Operations API (and custom server components can be added). Harper uses separate layers for the data model and the servers. The data model, which is defined with resources, can be exported and be used as the source for any of the servers. A single table or other resource can then be accessed and modified through REST, MQTT, SSE, or any other server protocol, for a powerful integrated model with multiple forms of access.
 Networking in Harper handles different communication protocols including HTTP, WebSocket, and MQTT, as well as event-driven systems. These networking capabilities enable Harper applications to communicate with other services, receive requests, send responses, and participate in real-time data exchange. The networking layer is fundamental to Harper's functionality as a versatile application platform.
 
 ## Authentication
