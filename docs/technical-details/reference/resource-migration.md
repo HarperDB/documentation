@@ -4,7 +4,7 @@ The Resource API was inspired by two major design ideas: the REST architectural 
 
 The updated Resource API is enabled on a per-class basis, by setting static `loadAsInstance` property to `false`. When this property is set to `false`, this means that the Resource instances will not be bound to a specific record, and instead instances represent the whole table, capturing the context and current transactional state. Any records in the table can be loaded or modified from `this` instance. There are a number of implications and different behaviors from a Resource class with `static loadAsInstance = false`:
 * The `get` method (both static and instance) will directly return the record, a frozen enumerable object with direct properties, instead of a Resource instance.
-* When instance methods are called, there will not be any record preloaded beforehand. And the resource instance will not have properties mapped to a record.
+* When instance methods are called, there will not be any record preloaded beforehand and the resource instance will not have properties mapped to a record.
 * All instance methods accept a `target`, an instance of `RequestTarget`, as the first argument, which identifies the target record or query.
 	* The `target` will have an `id` property identifying the target resource, along with target information.
 	* The `getId()` method is not required and will return `undefined`.
