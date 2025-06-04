@@ -1,6 +1,6 @@
 # Resource Class with Resource Instance Binding behavior
 
-This document describes the legacy behavior of the Resource class using the instance binding behavior. It is recommended that you use the [updated behavior of the Resource API](./resource.md) instead, but this legacy API is preserved for backwards compatibility.
+This document describes the legacy instance binding behavior of the Resource class. It is recommended that you use the [updated behavior of the Resource API](./resource.md) instead, but this legacy API is preserved for backwards compatibility.
 ## Resource Class
 
 ```javascript
