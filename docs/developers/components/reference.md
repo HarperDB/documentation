@@ -191,7 +191,7 @@ This is the only method an extension module must export. It can be async and is 
 
 #### Event: `'close'`
 
-Emitted after the scope is closed via the `close()` method. The scope is not 
+Emitted after the scope is closed via the `close()` method.
 
 #### Event: `'error'`
 
