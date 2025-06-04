@@ -1,6 +1,6 @@
 # Install Harper
 
-There are three ways to install a Harper instance: using a package manager like NPM, deploying it as a Docker container, and offline installation. Below is a step-by-step tutorial for each method.
+There are three ways to install a Harper instance: using a package manager like npm, deploying it as a Docker container, and offline installation. Below is a step-by-step tutorial for each method.
 
 ## Installing via NPM
 Before you begin, ensure you have [Node.js](https://nodejs.org/) LTS version or newer. Node.js comes with npm, which will be used to install Harper.

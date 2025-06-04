@@ -39,27 +39,36 @@ Harper automatically creates your Book table and REST endpoints. You now have a 
 
 ## Test Your API
 ### Create a book:
-```bash
-curl -X POST -H "Content-Type: application/json" \
-  -d '{"title": "The Great Gatsby", "author": "F. Scott Fitzgerald", "publishedYear": 1925, "genre": "Fiction"}' \
-  http://localhost:9926/Book
+```javascript
+const response = await fetch('http://localhost:9926/Book', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    title: "The Great Gatsby",
+    author: "F. Scott Fitzgerald", 
+    publishedYear: 1925,
+    genre: "Fiction"
+  })
+});
+const newBook = await response.json();
 ```
 
 ### Get all books:
-```bash
-curl http://localhost:9926/Book
+```javascript
+const books = await fetch('http://localhost:9926/Book').then(r => r.json());
 ```
 
 ### Query by indexed fields:
-```bash
-curl "http://localhost:9926/Book?author=F. Scott Fitzgerald"
-curl "http://localhost:9926/Book?genre=Fiction"
-curl "http://localhost:9926/Book?publishedYear=1925&select(title,author)"
+```javascript
+const authorBooks = await fetch('http://localhost:9926/Book?author=Chimamanda')
+  .then(r => r.json());
+const fictionTitles = await fetch('http://localhost:9926/Book?genre=Fiction&select(title,author)')
+  .then(r => r.json());
 ```
 
 ### Get a specific book:
 ```bash
-curl http://localhost:9926/Book/BOOK_ID_HERE
+const book = await fetch(`http://localhost:9926/Book/${bookId}`).then(r => r.json());
 ```
 
 ## What You Get Automatically
@@ -73,11 +82,11 @@ Harper provides enterprise-grade features out of the box:
 - **Error handling** and proper HTTP status codes
 
 ## Add Custom Logic (Optional)
-Only when you need custom business logic should you add code. Create a `resources.js` file to extend the default behavior:
+Only when you need custom business logic should you add code. Create a `resources.js` file to define a new resource and add custom functionality:
 
 ```js
 export class Books extends Resource {
-  // Add custom validation or computed fields
+  const { Book } = tables;
   post(data) {
     if (!data.title || !data.author) {
       return { error: "Title and author are required" };
@@ -88,7 +97,7 @@ export class Books extends Resource {
       data.decade = Math.floor(data.publishedYear / 10) * 10;
     }
     
-    return this.table.post(data);
+    return Book.post(data);
   }
 }
 ```
