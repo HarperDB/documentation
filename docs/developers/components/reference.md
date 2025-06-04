@@ -201,14 +201,6 @@ Emitted after the scope is closed via the `close()` method. The scope is not
 
 Emitted when the Scope is ready to be used after loading the associated config file. It is awaited by the component loader, so it is not necessary to await it within the `handleComponent()` method.
 
-#### `scope.ready()`
-
-Returns: `Promise<void>`
-
-A utility method that returns a Promise that resolves when the scope is ready. This is useful for ensuring that the scope is ready before performing any operations that depend on it.
-
-This is awaited by the component loader, and is not necessary to await within the `handleComponent()` method.
-
 #### `scope.close()`
 
 Returns: `this` - The current `Scope` instance.
@@ -376,12 +368,6 @@ Returns: [`Config`](#interface-config) | `undefined`
 
 Returns the root configuration object of the component. This is the entire configuration object, basically the parsed form of the `config.yaml`. If the config is not defined, it will return `undefined`.
 
-#### `options.ready()`
-
-Returns: `Promise<void>`
-
-A utility method that returns a Promise that resolves when the options watcher is ready. This is useful for ensuring that the options watcher is ready before performing any operations that depend on it such as trying to retrieve configuration options.
-
 ### Interface: `Config`
 
 - `[key: string]` [`ConfigValue`](#interface-configvalue)
@@ -489,12 +475,6 @@ The directory of the associated component. This is the root directory of the com
 Returns: `this` - The current `EntryHandler` instance.
 
 Closes the entry handler, removing all listeners and preventing any further events from being emitted. The handler can be started again using the [`entryHandler.update()`](#entryhandlerupdateconfig) method.
-
-#### `entryHandler.ready()`
-
-Returns: `Promise<void>`
-
-A utility method that returns a Promise that resolves when the entry handler is ready. This is useful for ensuring that the entry handler is ready before performing any operations that depend on it.
 
 #### `entryHandler.update(config)`
 
