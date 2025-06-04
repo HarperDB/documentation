@@ -562,7 +562,7 @@ for await (let record of results) {
 
 ### `RequestTarget`
 The `RequestTarget` class is used to represent a URL path that can be mapped to a resource. This is used by the REST interface to map a URL path to a resource class. All REST methods are called with a `RequestTarget` as the first argument, which is used to determine which record or entry to access or modify. Methods on a `Resource` class can be called with a primary key as a string or number value as the first argument, to access or modify a record by primary key, which will work with all the default methods. The static methods will be transform the primary key to a `RequestTarget` instance to call the instance methods for argument normalization.
-When RequestTarget is constructed with a URL path (from the REST methods). The static methods will also automatically parse the path to a `RequestTarget` instance, including parsing the search string into query parameters. The `RequestTarget` is a subclass of `URLSearchParams` and can be used to access the query parameters through the `get` method or by iterating the target.
+When RequestTarget is constructed with a URL path (from the REST methods). The static methods will also automatically parse the path to a `RequestTarget` instance, including parsing the search string into query parameters.
 Below are the properties and methods of the `RequestTarget` class:
 
 * `pathname` - The path of the URL relative to the resource path that matched this request. This excluded the query/search string
