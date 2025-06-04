@@ -266,7 +266,7 @@ Then the default `EntryHandler` instances would be created to handle all entries
 
 Returns: `void`
 
-Request a Harper restart.This **does not** restart the instance immediately, but rather indicates to the user that a restart is required. This should be called when the extension cannot handle the entry event and wants to indicate to the user that the Harper instance should be restarted. 
+Request a Harper restart. This **does not** restart the instance immediately, but rather indicates to the user that a restart is required. This should be called when the extension cannot handle the entry event and wants to indicate to the user that the Harper instance should be restarted. 
 
 This method is called automatically by the `scope` instance if the user has not defined an `scope.options.on('change')` handler or any event handlers for the default `EntryHandler` instance.
 
