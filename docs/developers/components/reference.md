@@ -99,7 +99,7 @@ A Harper Extension is a extensible component that is intended to be used by othe
 
 > As of Harper v4.6, a new Extension API has been introduced as a major overhaul of the previous API. The new API is designed to be more flexible, extensible, performant, and easier to use. It is recommended that all new extensions use the new API, and that existing extensions are migrated to the new API as soon as possible. The documentation for the legacy API is still available below in the [Legacy Extensions](#legacy-extensions) section.
 
-Functionally, what makes an extension a component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple components within the `config.yaml`, an extension will specify an `extensionModule` option. A path to the extension module source code. The path must resolve from the root of the extension module directory.
+Functionally, what makes an extension a component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple components within the `config.yaml`, an extension must specify an `extensionModule` option. This must be a path to the extension module source code. The path must resolve from the root of the extension module directory.
 
 For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
 
