@@ -79,7 +79,7 @@ type Dog @table @export {
 
 By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration.md#http)), so the local URL would be http://localhost:9926/Dog/ with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
-```
+```json
 POST /Dog/
 Content-Type: application/json
 
