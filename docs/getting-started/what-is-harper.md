@@ -22,17 +22,16 @@ What we realized is that networking systems together in this way is inefficient 
 
 Start by running Harper locally with [npm](https://www.npmjs.com/package/harperdb) or [Docker](https://hub.docker.com/r/harperdb/harperdb).
 
-Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
+Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](../developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
 
-If you would like to [query](developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](developers/rest.md), [MQTT](developers/real-time.md#mqtt), or [WebSocket](developers/real-time.md#websockets) endpoints.
+If you would like to [query](../developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](../developers/rest.md), [MQTT](../developers/real-time.md#mqtt), or [WebSocket](../developers/real-time.md#websockets) endpoints.
 
-When you are ready for something a little more advanced, start [customizing your application](developers/applications/#custom-functionality-with-javascript).
+When you are ready for something a little more advanced, start [customizing your application](../developers/applications/#custom-functionality-with-javascript).
 
-Finally, when it’s time to deploy, explore [replication](developers/replication/) between nodes.
+Finally, when it’s time to deploy, explore [replication](../developers/replication/) between nodes.
 
-If you would like to jump into the most advanced capabilities, learn about [components](developers/components/).
+If you would like to jump into the most advanced capabilities, learn about [components](../developers/components/).
 
-For a more comprehensive deep dive, take a look at our [Getting Started Guide](getting-started.md).
 
 {% hint style="warning" %}
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
@@ -48,7 +47,7 @@ For use cases like e-commerce, real estate listing, and content-oriented sites, 
 
 ### Data Delivery Networks
 
-For use cases like real-time sports updates, flight tracking, and zero-day software update distribution, Harper is rapidly gaining popularity. Harper’s ability to receive and broadcast messages while simultaneously handling application logic and data storage streamlines operations and eliminates the need for multiple separate systems. To build an understanding of our messaging system function, refer to our [real-time documentation](developers/real-time.md).
+For use cases like real-time sports updates, flight tracking, and zero-day software update distribution, Harper is rapidly gaining popularity. Harper’s ability to receive and broadcast messages while simultaneously handling application logic and data storage streamlines operations and eliminates the need for multiple separate systems. To build an understanding of our messaging system function, refer to our [real-time documentation](../developers/real-time.md).
 
 ### Edge Inference Systems
 
