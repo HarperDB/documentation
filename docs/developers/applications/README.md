@@ -249,9 +249,13 @@ To define custom (JavaScript) resources as endpoints, we need to create a `resou
 const { Dog } = tables; // get the Dog table from the Harper provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
-	get(query) {
-		this.humanAge = 15 + this.age * 5; // silly calculation of human age equivalent
-		return super.get(query);
+	static loadAsInstance = false;
+	async get(target) {
+		const record = await super.get(target);
+		return {
+			...record, // include all properties from the record
+			humanAge: 15 + record.age * 5 // silly calculation of human age equivalent
+		};
 	}
 }
 ```
@@ -269,16 +273,28 @@ type Breed @table {
 }
 ```
 
-And next we will use this table in our `get()` method. We will call the new table's (static) `get()` method to retrieve a breed by id. To do this correctly, we access the table using our current context by passing in `this` as the second argument. This is important because it ensures that we are accessing the data atomically, in a consistent snapshot across tables. This provides automatically tracking of most recently updated timestamps across resources for caching purposes. This allows for sharing of contextual metadata (like user who requested the data), and ensure transactional atomicity for any writes (not needed in this get operation, but important for other operations). The resource methods are automatically wrapped with a transaction (will commit/finish when the method completes), and this allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
+We use the new table's (static) `get()` method to retrieve a breed by id. Harper will maintain the current context, ensuring that we are accessing the data atomically, in a consistent snapshot across tables. This provides:
+
+1. Automatic tracking of most recently updated timestamps across resources for caching purposes
+2. Sharing of contextual metadata (like user who requested the data)
+3. Transactional atomicity for any writes (not needed in this get operation, but important for other operations)
+
+The resource methods are automatically wrapped with a transaction and will automatically commit the changes when the method finishes. This allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
 ```javascript
 //resource.js:
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
-	async get(query) {
-		let breedDescription = await Breed.get(this.breed, this);
-		this.breedDescription = breedDescription;
-		return super.get(query);
+	static loadAsInstance = false;
+	async get(target) {
+		// get the Dog record
+		const record = await super.get(target);
+		// get the Breed record
+		let breedDescription = await Breed.get(record.breed);
+		return {
+			...record,
+			breedDescription
+		};
 	}
 }
 ```
@@ -289,9 +305,12 @@ Here we have focused on customizing how we retrieve data, but we may also want t
 
 ```javascript
 export class CustomDog extends Dog {
-	async post(data) {
-		if (data.action === 'add-trick')
-			this.tricks.push(data.trick);
+	static loadAsInstance = false;
+	async post(target, data) {
+		if (data.action === 'add-trick') {
+			const record = this.update(target);
+			record.tricks.push(data.trick);
+		}
 	}
 }
 ```
@@ -300,12 +319,23 @@ And a POST request to /CustomDog/ would call this `post` method. The Resource cl
 
 The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
 
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../../technical-details/reference/resource.md) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
+We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
-	allowUpdate(user) {
-		return this.owner === user.username;
+	static loadAsInstance = false;
+	async post(target, data) {
+		if (data.action === 'add-trick') {
+			const context = this.getContext();
+			// if we want to skip the default permission checks, we can turn off checkPermissions:
+			target.checkPermissions = false;
+			const record = this.update(target);
+			// and do our own/custom permission check: 
+			if (record.owner !== context.user?.username) {
+				throw new Error('Can not update this record');
+			}
+			record.tricks.push(data.trick);
+		}
 	}
 }
 ```
@@ -329,8 +359,8 @@ We can also directly implement the Resource class and use it to create new data 
 ```javascript
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
-	async get() {
-		return (await fetch(`http://best-dog-site.com/${this.getId()}`)).json();
+	async get(target) {
+		return (await fetch(`http://best-dog-site.com/${target}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
