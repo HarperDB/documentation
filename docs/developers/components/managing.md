@@ -1,6 +1,6 @@
-# Managing
+# Managing Applications
 
-Harper offers several approaches to managing components that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
+Harper offers several approaches to managing applications that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper applications.
 
 ## Local Development
 
@@ -8,15 +8,15 @@ Harper is designed to be simple to run locally. Generally, Harper should be inst
 
 > Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../deployments/install-harper/).
 
-When developing a component locally there are a number of ways to run it on Harper.
+When developing an application locally there are a number of ways to run it on Harper.
 
 ### `dev` and `run` commands
 
-The quickest way to run a component is by using the `dev` command within the component directory.
+The quickest way to run an application is by using the `dev` command within the package directory.
 
-The `harperdb dev .` command will automatically watch for file changes within the component directory and restart the Harper threads when changes are detected.
+The `harperdb dev .` command will automatically watch for file changes within the application directory and restart the Harper threads when changes are detected.
 
-The `dev` command will **not** restart the main thread; if this is a requirement, switch to using `run` instead and manually start/stop the process to execute the main thread.
+> The `dev` command will **not** restart the main thread; if this is a requirement, switch to using `run` instead and manually start/stop the process to execute the main thread.
 
 Stop execution for either of these processes by sending a SIGINT (generally CTRL/CMD+C) signal to the process.
 
@@ -25,7 +25,7 @@ Stop execution for either of these processes by sending a SIGINT (generally CTRL
 Alternatively, to mimic interfacing with a hosted Harper instance, use operation commands instead.
 
 1. Start up Harper with `harperdb`
-2.  _Deploy_ the component to the local instance by executing:
+2.  _Deploy_ the application to the local instance by executing:
 
     ```sh
     harperdb deploy_component \

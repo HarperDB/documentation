@@ -1,16 +1,16 @@
-# Built-In Components
+# Built-In Extensions
 
-Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
+Harper provides many features through built-in extensions. They do **not** need to be installed with a package manager, and simply must be specified in an application `config.yaml` to run. These are used throughout many Harper docs, guides, and examples. Unlike the [custom components](./README.md#custom-components), built-in extensions do **not** have their own versioning; they follow Harper's core versioning.
 
-- [Built-In Components](#built-in-components)
-	- [fastifyRoutes](#fastifyroutes)
-	- [graphql](#graphql)
-	- [graphqlSchema](#graphqlschema)
-	- [jsResource](#jsresource)
-	- [loadEnv](#loadenv)
-	- [rest](#rest)
-	- [roles](#roles)
-	- [static](#static)
+- [Built-In Extensions](#built-in-extensions)
+  - [fastifyRoutes](#fastifyroutes)
+  - [graphql](#graphql)
+  - [graphqlSchema](#graphqlschema)
+  - [jsResource](#jsresource)
+  - [loadEnv](#loadenv)
+  - [rest](#rest)
+  - [roles](#roles)
+  - [static](#static)
 
 <!-- ## authentication -->
 
