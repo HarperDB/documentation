@@ -13,6 +13,7 @@
   * [Caching](developers/applications/caching.md)
   * [Defining Schemas](developers/applications/defining-schemas.md)
   * [Defining Roles](developers/applications/defining-roles.md)
+  * [Data Loader](developers/applications/data-loader.md)
   * [Debugging Applications](developers/applications/debugging.md)
   * [Define Fastify Routes](developers/applications/define-routes.md)
   * [Web Applications](developers/applications/web-applications.md)
