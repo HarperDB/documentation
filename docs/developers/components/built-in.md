@@ -3,6 +3,7 @@
 Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
 
 - [Built-In Components](#built-in-components)
+	- [dataLoader](#dataloader)
 	- [fastifyRoutes](#fastifyroutes)
 	- [graphql](#graphql)
 	- [graphqlSchema](#graphqlschema)
@@ -15,6 +16,19 @@ Harper provides extended features using built-in components. They do **not** nee
 <!-- ## authentication -->
 
 <!-- ## clustering -->
+
+## dataLoader
+
+Load data from JSON or YAML files into Harper tables as part of component deployment.
+
+This component is an [Extension](./reference.md#extensions) and can be configured with the `files` configuration option.
+
+Complete documentation for this feature is available here: [Data Loader](../applications/data-loader.md)
+
+```yaml
+dataLoader:
+  files: 'data/*.json'
+```
 
 ## fastifyRoutes
 
