@@ -32,6 +32,7 @@ The operations API reference is available below and categorized by topic:
 * [Token Authentication](token-authentication.md)
 * [SQL Operations](sql-operations.md)
 * [Advanced JSON SQL Examples](advanced-json-sql-examples.md)
+* [Analytics](analytics.md)
 
 • [Past Release API Documentation](https://olddocs.harperdb.io)
 
