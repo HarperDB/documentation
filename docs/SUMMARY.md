@@ -41,6 +41,7 @@
   * [Token Authentication](developers/operations-api/token-authentication.md)
   * [SQL Operations](developers/operations-api/sql-operations.md)
   * [Advanced JSON SQL Examples](developers/operations-api/advanced-json-sql-examples.md)
+  * [Analytics](developers/operations-api/analytics.md)
 * [Real-Time](developers/real-time.md)
 * [Replication/Clustering](developers/replication/README.md)
   * [Sharding](developers/replication/sharding.md)
