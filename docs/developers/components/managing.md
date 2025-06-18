@@ -1,6 +1,6 @@
-# Managing Applications
+# Managing Components
 
-Harper offers several approaches to managing applications that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper applications.
+Harper offers several approaches to managing components that differ between local development and Harper managed instances. This page will cover the recommended methods of developing, installing, deploying, and running Harper components.
 
 ## Local Development
 
@@ -8,11 +8,11 @@ Harper is designed to be simple to run locally. Generally, Harper should be inst
 
 > Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../deployments/install-harper/).
 
-When developing an application locally there are a number of ways to run it on Harper.
+When developing an component locally there are a number of ways to run it on Harper.
 
 ### `dev` and `run` commands
 
-The quickest way to run an application is by using the `dev` command within the package directory.
+The quickest way to run a component is by using the `dev` command within the package directory.
 
 The `harperdb dev .` command will automatically watch for file changes within the application directory and restart the Harper threads when changes are detected.
 
@@ -25,7 +25,7 @@ Stop execution for either of these processes by sending a SIGINT (generally CTRL
 Alternatively, to mimic interfacing with a hosted Harper instance, use operation commands instead.
 
 1. Start up Harper with `harperdb`
-2.  _Deploy_ the application to the local instance by executing:
+2.  _Deploy_ the component to the local instance by executing:
 
     ```sh
     harperdb deploy_component \
@@ -123,9 +123,11 @@ This path is the Harper instance. Within this directory, locate the root config 
 
 ### Adding components to root
 
-Similar to how components can specify other components within their `config.yaml`, components can be added to Harper by adding them to the `harperdb-config.yaml`.
+Similar to how components can specify extensions within their `config.yaml`, components can be added to Harper by adding them to the `harperdb-config.yaml`.
 
 The configuration is very similar to that of `config.yaml`. Entries are comprised of a top-level `<name>:`, and an indented `package: <specifier>` field. Any additional component options can also be included as indented fields.
+
+For example, to add the `@harperdb/status-check` component:
 
 ```yaml
 status-check:
