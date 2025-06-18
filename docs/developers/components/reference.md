@@ -1,18 +1,22 @@
 # Component Reference
 
-The technical definition of a Harper component is fairly loose. In the absolute, simplest form, a component is any JavaScript module that is compatible with the [default component configuration](#default-component-configuration). For example, a module with a singular `resources.js` file is technically a valid component.
+Components are a fundamental aspect to the Harper platform. They enable developers to extend the core platform with new functionality, whether that be through applications or extensions. This document details the technical differences between application and extensions, how to configure them, and a comprehensive reference of the Extension API.
 
-Harper provides many features as _built-in components_, these can be used directly without installing any other dependencies.
+Remember, extensions included within Harper are referred to and documented as [built-in extensions](./built-in.md). Any other component is referred to as a **custom component**.
 
-Other features are provided by _custom components_. These can be npm packages such as [@harperdb/nextjs](https://github.com/HarperDB/nextjs) and [@harperdb/apollo](https://github.com/HarperDB/apollo) (which are maintained by Harper), or something maintained by the community. Custom components follow the same configuration rules and use the same APIs that Harper's built-in components do. The only difference is that they must be apart of the component's dependencies.
-
-> Documentation is available for all [built-in](./built-in.md) and [custom](./README.md#custom-components) Harper components.
-
-<!-- TODO: add a callout to a list of third-party components here. Maybe also a link to something like an awesome-harper for community things? -->
+> The full list of officially maintained, open source custom components is available in the [Custom Components](./README.md#custom-components) section.
 
 ## Component Configuration
 
-Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how a component configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
+There is a key technical differentiation between applications and extensions.
+
+In the absolute, simplest form, an application is any JavaScript package that is compatible with the [default application configuration](#default-application-configuration). For example, a package with a singular `resources.js` file is technically a valid component (and will be handled by the [`jsResource`](./built-in.md#jsresource) built-in extension automatically). Generally, most applications will define a `config.yaml` file that specifies the various extensions it depends on.
+
+Extensions _require_ a `config.yaml` file with a singular, `extensionModule` option. This is further defined in the [Extension API](#extension-api) section below.
+
+The `config.yaml` file must be located in the root of the component package directory. 
+
+For applications, each entry in the file starts with an extension name, and then configuration values are indented below it.
 
 ```yaml
 name:
@@ -20,58 +24,60 @@ name:
   option-2: value
 ```
 
-It is the entry's `name` that is used for component resolution. It can be one of the [built-in components](./built-in.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
+It is the entry's `name` that is used for component resolution. It can be one of the [built-in extensions](./built-in.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
 
-For some built-in components they can be configured with as little as a top-level boolean; for example, the [rest](./built-in.md#rest) extension can be enabled with just:
+Some extensions can be configured with as little as a top-level boolean. For example, the [rest](./built-in.md#rest) extension can be enabled with just:
 
 ```yaml
 rest: true
 ```
 
-Other components (built-in or custom), will generally have more configuration options. Some options are ubiquitous to the Harper platform, such as the `files` and `urlPath` options for an [Extension](#resource-extension-configuration), or `package` for a [custom component](#custom-component-configuration). Additionally, [custom options](#protocol-extension-configuration) can also be defined for Extensions.
+Other extensions will generally have more configuration options. Some options are ubiquitous to the Harper platform, such as the `files` and `urlPath` options for an [Extension](#resource-extension-configuration), or `package` for a [custom component](#custom-component-configuration). Additionally, [custom options](#protocol-extension-configuration) can also be defined for Extensions.
 
-### Custom Component Configuration
+### Custom Extension Configuration
 
-Any custom component **must** be configured with the `package` option in order for Harper to load that component. When enabled, the name of package must match a dependency of the component. For example, to use the `@harperdb/nextjs` extension, it must first be included in `package.json`:
-
-```json
-{
-  "dependencies": {
-    "@harperdb/nextjs": "1.0.0"
-  }
-}
-```
-
-Then, within `config.yaml` it can be enabled and configured using:
+Any **custom** extension **must** be configured with the `package` option in order for Harper to load that extension. The name and `package` value correspond to the key/value pair in the applications' `package.json` dependency list. For example, to use the `@harperdb/nextjs` extension, it should be defined within `config.yaml` as:
 
 ```yaml
 '@harperdb/nextjs':
-  package: '@harperdb/nextjs'
+  package: '^1.0.0'
   # ...
 ```
 
-Since npm allows for a [variety of dependency configurations](https://docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this can be used to create custom references. For example, to depend on a specific GitHub branch, first update the `package.json`:
+And within `package.json` as:
 
 ```json
 {
   "dependencies": {
-    "harper-nextjs-test-feature": "HarperDB/nextjs#test-feature"
+    "@harperdb/nextjs": "^1.0.0"
   }
 }
 ```
 
-And now in `config.yaml`:
+Since npm allows for a [variety of dependency configuration values](https://docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this is not limited to just a version string. You may use GitHub references, tarballs, or even local paths. Just ensure to update the value in _both_ the `package.json` and `config.yaml` files.
+
+> We are actively working to improve this developer experience, and will soon support a more streamlined version management approach.
+
+For example, to update the `@harperdb/nextjs` extension to a custom branch:
 
 ```yaml
-harper-nextjs-test-feature:
-  package: '@harperdb/nextjs'
-  files: './'
+'@harperdb/nextjs':
+  package: 'HarperDB/nextjs#test-feature'
   # ...
 ```
 
-### Default Component Configuration
 
-Harper components do not need to specify a `config.yaml`. Harper uses the following default configuration to load components.
+```json
+{
+  "dependencies": {
+    "@harperdb/nextjs": "HarperDB/nextjs#test-feature"
+  }
+}
+```
+
+### Default Application Configuration
+
+Applications do not _need_ to specify a `config.yaml`. Harper uses the following default configuration to load components.
 
 ```yaml
 rest: true
@@ -89,17 +95,15 @@ static:
   files: 'web/**'
 ```
 
-Refer to the [built-in components](./built-in.md) documentation for more information on these fields.
+Refer to the [built-in extensions](./built-in.md) documentation for more information on these fields.
 
 If a `config.yaml` is defined, it will **not** be merged with the default config.
 
-## Extensions
-
-A Harper Extension is a extensible component that is intended to be used by other components. The built-in components [graphqlSchema](./built-in.md#graphqlschema) and [jsResource](./built-in.md#jsresource) are both examples of extensions.
+## Extension API
 
 > As of Harper v4.6, a new Extension API has been introduced as a major overhaul of the previous API. The new API is designed to be more flexible, extensible, performant, and easier to use. It is recommended that all new extensions use the new API, and that existing extensions are migrated to the new API as soon as possible. The documentation for the legacy API is still available below in the [Legacy Extensions](#legacy-extensions) section.
 
-Functionally, what makes an extension a component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple components within the `config.yaml`, an extension must specify an `extensionModule` option. This must be a path to the extension module source code. The path must resolve from the root of the extension module directory.
+An extension must specify a `config.yaml` file with a singular `extensionModule` option. This must be a path to the extension module source code. The path must resolve from the root of the extension module directory.
 
 For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
 
@@ -107,21 +111,19 @@ If the extension is being written in something other than JavaScript (such as Ty
 
 It is also recommended that all extensions have a `package.json` that specifies JavaScript package metadata such as name, version, type, etc. Since extensions are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin](https://docs.npmjs.com/cli/configuring-npm/package-json#bin) property). It can be published to npm. The possibilities are endless!
 
-Furthermore, what defines an extension separately from a component is that it exports a `handleComponent()` method.
+The key to extension module is a named export `handleComponent()`. This is the only method that an extension module must export. It is the entry point for the extension, and is executed by Harper when the extension is used by an application.
 
-> An extension cannot export both `handleComponent()` and any of the Legacy extension methods. The component loader will throw an error if both are defined.
+> An extension cannot export both `handleComponent()` and any of the Legacy extension methods. Harper will throw an error if both are defined.
 
-The `handleComponent()` method is executed only on worker threads during the component loading sequence. It receives a single, `scope` argument that contains all of the relevant metadata and APIs for interacting with the associated component.
+The `handleComponent()` method is executed only on worker threads during the component loading sequence. It receives a single, `scope` argument that contains all of the relevant metadata and APIs for interacting with the associated application.
 
-The method can be async and is awaited by the component loader.
-
-However, it is highly recommended to avoid event-loop-blocking operations within the `handleComponent()` method. See the examples section for best practices on how to use the `scope` argument effectively.
+The method can be async and is awaited during the loading experience. However, it is highly recommended to avoid event-loop-blocking operations within the `handleComponent()` method. See the following example for how to use the `scope` argument effectively.
 
 ### Example: Statically hosting files
 
 This is a functional example of how the `handleComponent()` method and `scope` argument can be used to create a simple static file server extension. This example assumes that the component has a `config.yaml` with the `files` option set to a glob pattern that matches the files to be served.
 
-> This is a simplified form of the [static](./built-in.md#static) built-in component.
+> This is a simplified form of the [static](./built-in.md#static) built-in extension.
 
 ```js
 export function handleComponent(scope) {
