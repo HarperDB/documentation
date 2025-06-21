@@ -533,7 +533,7 @@ localStudio:
 
 ### `logging`
 
-The `logging` section configures Harper logging across all Harper functionality. This includes standard text logging of application and database events as well as structured data logs of record changes. Logging of application/database events are logged in text format to the `~/hdb/log/hdb.log` file (or location specified by `logging.root`).
+The `logging` section configures Harper logging across all Harper functionality. This includes standard text logging of application and database events as well as structured data logs of record changes. Logging of application/database events are logged in text format to the `~/hdb/log/hdb.log` file (or location specified by `logging.root` or `logging.path`). Many of the logging configuration properties can be set and applied without a restart (are dynamically applied).
 
 In addition, structured logging of data changes are also available:
 
@@ -582,7 +582,7 @@ There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`,
 
 `console` - _Type_: boolean; _Default_: true
 
-Controls whether console.log and other console.\* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are logged to the log file, but this can be disabled.
+Controls whether console.log and other console.\* calls (as well as another JS components that writes to `process.stdout` and `process.stderr`) are logged to the log file. By default, these are not logged to the log file, but this can be enabled:
 
 ```yaml
 logging:
@@ -591,11 +591,20 @@ logging:
 
 `root` - _Type_: string; _Default_: \<ROOTPATH>/log
 
-The path where the log files will be written.
+The directory path where the log files will be written.
 
 ```yaml
 logging:
   root: ~/hdb/log
+```
+
+`path` - _Type_: string; _Default_: \<ROOTPATH>/log/hdb.log
+
+The file path where the log file will be written.
+
+```yaml
+logging:
+  root: ~/hdb/log/hdb.log
 ```
 
 `rotation`
@@ -663,6 +672,69 @@ logging:
     logFailed: false
     logSuccessful: false
 ```
+
+## Defining Separate Logging Configurations
+
+Harper's logger supports defining multiple logging configurations for different components in the system. Each logging configuration can be assigned its own `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`. All logging defaults to the configuration of the "main" logger as configured above, but when logging is configured for different loggers, they will use their own configuration. Separate loggers can be defined:
+
+`logging.external`
+
+The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../technical-details/reference/globals.md). For example:
+```yaml
+logging:
+  external:
+    level: warn
+    path: ~/hdb/log/apps.log
+```
+
+`http.logging`
+
+This section defines log configuration for HTTP logging. By default, HTTP requests are not logged, but defining this section will enable HTTP logging. Note that there can be substantive overhead to logging all HTTP requests. In addition to the standard logging configuration, the `http.logging` section also allows the following configuration properties to be set:
+* `timing` - This will log timing information
+* `headers` - This will log the headers in each request (which can be very verbose)
+* `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
+Note that the `level` will determine which HTTP requests are logged:
+* `info` (or more verbose) - All HTTP requests
+* `warn` - HTTP requests with a status code of 400 or above
+* `error` - HTTP requests with a status code of 500
+
+For example:
+```yaml
+http:
+  logging: 
+    timing: true
+    level: info
+    path: ~/hdb/log/http.log 
+  ... rest of http config
+```
+
+`authentication.logging`
+
+This section defines log configuration for authentication. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`mqtt.logging`
+
+This section defines log configuration for MQTT. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`replication.logging`
+
+This section defines log configuration for replication. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`tls.logging`
+
+This section defines log configuration for TLS. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`storage.logging`
+
+This section defines log configuration for setting up and reading the database files. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`storage.logging`
+
+This section defines log configuration for setting up and reading the database files. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
+
+`analytics.logging`
+
+This section defines log configuration for analytics. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
 
 ***
 
