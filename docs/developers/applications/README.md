@@ -2,15 +2,15 @@
 
 ## Overview of HarperDB Applications
 
-Harper is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
+Harper is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints, and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
 
-In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
+In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper application, a fundamental building-block of the Harper ecosystem.
 
 When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
-## Understanding the Component Application Architecture
+## Understanding the Application Architecture
 
-Harper provides several types of components. Any package that is added to Harper is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by Harper when it starts. Components that are remotely deployed to Harper (through the studio or the operation API) are installed into the `hdb/node_modules` directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed (in `hdb/node_modules`).
+The key to Harper's application architecture is **composability**. At its core, Harper provides access to key subsystems such as the database and system management via the [Operations API](). But Harper is so much more than just a database! Through the use of [plugins](), Harper exposes more core features such as the highly extensible networking middleware, custom Resources, and so much more! Additionally, the same API Harper's built-in plugins use, is available for custom plugin development as well enabling developers to implement support for any feature they want. Applications are built on top of the plugins (both built-in and custom) to provide a enterprise-grade, scalable, and performant full-stack application platform.
 
 ```mermaid
 flowchart LR
@@ -32,10 +32,21 @@ flowchart LR
 
 [The getting started guide](../../getting-started/first-harper-app.md) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../technical-details/reference/resource.md), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
-To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
+To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql.
+
+> If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that the table does not conflict with the custom resource class.
+> ```graphql
+> type MyTable @table @export { } # remove the @export to avoid conflicts
+> ```
+> 
+> ```js
+> export class MyTable extends tables.MyTable {}
+> ```
+
+Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
 
 ```javascript
-// resources.js:
+// resources.js
 const { Dog } = tables; // get the Dog table from the Harper provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
@@ -72,7 +83,7 @@ We use the new table's (static) `get()` method to retrieve a breed by id. Harper
 The resource methods are automatically wrapped with a transaction and will automatically commit the changes when the method finishes. This allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
 ```javascript
-//resource.js:
+// resources.js
 const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
 	static loadAsInstance = false;
@@ -94,6 +105,7 @@ The call to `Breed.get` will return an instance of the `Breed` resource class, w
 Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method. the POST method has much more open-ended semantics and is a good choice for custom actions. POST requests are handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks` array to a specific instance. We might do it like this, and specify an action to be able to differentiate actions:
 
 ```javascript
+// resources.js
 export class CustomDog extends Dog {
 	static loadAsInstance = false;
 	async post(target, data) {
@@ -105,13 +117,14 @@ export class CustomDog extends Dog {
 }
 ```
 
-And a POST request to /CustomDog/ would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
+And a POST request to `/CustomDog/` would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
 
 The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
 
 We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
 
 ```javascript
+// resources.js
 export class CustomDog extends Dog {
 	static loadAsInstance = false;
 	async post(target, data) {
@@ -135,18 +148,20 @@ Any methods that are not defined will fall back to Harper's default authorizatio
 You can also use the `default` export to define the root path resource handler. For example:
 
 ```javascript
-// resources.json
+// resources.js
 export default class CustomDog extends Dog {
-	...
+	// ...
+}
 ```
 
-This will allow requests to url like / to be directly resolved to this resource.
+This will allow requests to url like `/` to be directly resolved to this resource.
 
 ## Define Custom Data Sources
 
 We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 
 ```javascript
+// resources.js
 const { Breed } = tables; // our Breed table
 class BreedSource extends Resource { // define a data source
 	async get(target) {
@@ -161,24 +176,15 @@ The [caching documentation](caching.md) provides much more information on how to
 
 Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../technical-details/reference/globals.md) and the [Resource interface](../../technical-details/reference/resource.md).
 
-## Configuring Applications/Components
+## Configuring Applications
 
-Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
-
-This config file allows you define a location for static files, as well (that are directly delivered as-is for incoming HTTP requests).
-
-Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
-
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
+Every application can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml). Within the config file, you can configure various built-in and custom [plugins](../plugins/README.md). The default configuration file itself is documented with directions. Some plugins may be configured with as little as a boolean value to enable or disable the plugin (such as the [`rest`]() plugin for automatic REST endpoint generation). But, most plugins are configured with a `files` property that specifies the file system entities that the plugin will handle. The `files` field can be as simple as a path to a singular file (such as `resources.js` for [`jsResource`]()), or it can be a complex glob pattern. You may also specify a `urlPath` property to indicate a unique path prefix for the plugin's loaded resources. For example, by specifying a `urlPath` of `web` for the [`static`]() plugin, all files that are matched by the `files` option will be served at the URL path `/web/`. For more examples and complete documentation on configuring plugins refer to the [plugin documentation](../plugins/README.md), which provides not only a general overview, but also specific documentation for each built-in plugin.
 
 ## Define Fastify Routes
 
-Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. Harper includes a resource plugin for defining routes with the Fastify web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
+Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. Harper includes a built-in plugin for defining routes with the [Fastify](https://fastify.dev) web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
 
-By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](define-routes.md) for more information on how to create Fastify routes.
+By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](./define-routes.md) for more information on how to create Fastify routes.
 
 However, Fastify is not as fast as Harper's RESTful endpoints (about 10%-20% slower/more-overhead), nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the Harper's REST interface is recommended for optimum performance and ease of use.
 

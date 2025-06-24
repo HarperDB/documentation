@@ -10,13 +10,12 @@
 ## Developers
 
 * [Applications](developers/applications/README.md)
-  * [Caching](developers/applications/caching.md)
   * [Defining Schemas](developers/applications/defining-schemas.md)
+  * [Caching](developers/applications/caching.md)
   * [Defining Roles](developers/applications/defining-roles.md)
   * [Debugging Applications](developers/applications/debugging.md)
   * [Define Fastify Routes](developers/applications/define-routes.md)
   * [Web Applications](developers/applications/web-applications.md)
-  * [Example Projects](developers/applications/example-projects.md)
 * [Components](developers/components/README.md)
   * [Managing](developers/components/managing.md)
   * [Reference](developers/components/reference.md)

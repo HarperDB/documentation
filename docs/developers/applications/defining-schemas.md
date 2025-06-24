@@ -1,6 +1,6 @@
 # Defining Schemas
 
-Schemas define tables and their attributes. Schemas can be declaratively defined in Harper's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
+Schemas define tables and their attributes. Schemas can be declaratively defined using Harper's GraphQL schema definition plugin [`graphqlSchema`](). Schema definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
 
 Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
 
@@ -20,13 +20,20 @@ type Breed @table {
 }
 ```
 
-In this example, you can see that we specified the expected data structure for records in the Dog and Breed table. For example, this will enforce that Dog records are required to have a `name` property with a string (or null, unless the type were specified to be non-nullable). This does not preclude records from having additional properties (see `@sealed` for preventing additional properties. For example, some Dog records could also optionally include a `favoriteTrick` property.
+Don't forget to specify the [`graphqlSchema`]() plugin in your `config.yaml`:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+```
+
+In this example, you can see that we specified the expected data structure for records in the Dog and Breed table. For example, this will enforce that Dog records are required to have a `name` property with a string (or null, unless the type were specified to be non-nullable). This does not preclude records from having additional properties (see [`@sealed`](#sealed) for preventing additional properties. For example, some Dog records could also optionally include a `favoriteTrick` property.
 
 In this page, we will describe the specific directives that Harper uses for defining tables and attributes in a schema.
 
-### Type Directives
+## Type Directives
 
-#### `@table`
+### `@table`
 
 The schema for tables are defined using GraphQL type definitions with a `@table` directive:
 
@@ -41,9 +48,9 @@ By default the table name is inherited from the type name (in this case the tabl
 * `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
 * `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
 
-Database naming: the default "data" database is generally a good default choice for tables in applications that will not be reused in other applications (and don't need to worry about staying in a separate namespace). Application with many tables may wish to organize the tables into separate databases (but remember that transactions do not preserve atomicity across different databases, only across tables in the same database). For components that are designed for re-use, it is recommended that you use a database name that is specific to the component (e.g. "my-component-data") to avoid name collisions with other components.
+Database naming: the default "data" database is generally a good default choice for tables in applications that will not be reused in other applications (and don't need to worry about staying in a separate namespace). Applications with many tables may wish to organize the tables into separate databases (but remember that transactions do not preserve atomicity across different databases, only across tables in the same database). For applications that are designed for composability, it is recommended that you use a database name that is specific to the application (e.g. "my-application-data") to avoid name collisions with other applications.
 
-#### `@export`
+### `@export`
 
 This indicates that the specified table should be exported as a resource that is accessible as an externally available endpoints, through REST, MQTT, or any of the external resource APIs.
 
@@ -55,11 +62,11 @@ type MyTable @table @export(name: "my-table")
 
 This table would be available at the URL path `/my-table/`. Without the `name` parameter, the exported name defaults to the name of the table type ("MyTable" in this example).
 
-### Relationships: `@relationship`
+## Relationships: `@relationship`
 
 Defining relationships is the foundation of using "join" queries in Harper. A relationship defines how one table relates to another table using a foreign key. Using the `@relationship` directive will define a property as a computed property, which resolves to the an record/instance from a target type, based on the referenced attribute, which can be in this table or the target table. The `@relationship` directive must be used in combination with an attribute with a type that references another table.
 
-#### `@relationship(from: attribute)`
+### `@relationship(from: attribute)`
 
 This defines a relationship where the foreign key is defined in this table, and relates to the primary key of the target table. If the foreign key is single-valued, this establishes a many-to-one relationship with the target table. The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship. For example, we can define a foreign key that references another table and then define the relationship. Here we create a `brandId` attribute that will be our foreign key (it will hold an id that references the primary key of the Brand table), and we define a relationship to the `Brand` table through the `brand` attribute:
 
@@ -90,7 +97,7 @@ type Feature @table {
 }
 ```
 
-#### `@relationship(to: attribute)`
+### `@relationship(to: attribute)`
 
 This defines a relationship where the foreign key is defined in the target table and relates to primary key of this table. If the foreign key is single-valued, this establishes a one-to-many relationship with the target table. Note that the target table type must be an array element type (like `[Table]`). The foreign key may also be a multi-valued array, in which case this will be a many-to-many relationship. For example, we can define on a reciprocal relationship, from the example above, adding a relationship from brand back to product. Here we use continue to use the `brandId` attribute from the `Product` schema, and we define a relationship to the `Product` table through the `products` attribute:
 
@@ -106,7 +113,7 @@ Once this is defined we can use the `products` attribute as a property in our br
 
 Note that schemas can also reference themselves with relationships, allowing records to define relationships like parent-child relationships between records in the same table. Also note, that for a many-to-many relationship, you must not combine the `to` and `from` property in the same relationship directive.
 
-### Computed Properties: `@computed`
+## Computed Properties: `@computed`
 
 The `@computed` directive specifies that a field is computed based on other fields in the record. This is useful for creating derived fields that are not stored in the database, but are computed when specific record fields is queried/accessed. The `@computed` directive must be used in combination with a field that is a function that computes the value of the field. For example:
 
@@ -161,23 +168,24 @@ type Product @table {
 
 For more in-depth information on computed properties, visit our blog [here](https://www.harpersystems.dev/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
 
-### Field Directives
+## Field Directives
 
 The field directives can be used for information about each attribute in table type definition.
 
-#### `@primaryKey`
+### `@primaryKey`
 
 The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys). 
 
-#### `@indexed`
+### `@indexed`
 
 The `@indexed` directive specifies that an attribute should be indexed. When an attribute is indexed, Harper will create secondary index from the data in this field for fast/efficient querying using this field. This is necessary if you want to execute queries using this attribute (whether that is through RESTful query parameters, SQL, or NoSQL operations).
 
 A standard index will index the values in each field, so you can query directly by those values. If the field's value is an array, each of the values in the array will be indexed (you can query by any individual value).
 
-#### Vector Indexing
+### Vector Indexing
 
 The `@indexed` directive can also specify a `type`. To use vector indexing, you can specify the `type` as `HNSW` for Hierarchical Navigable Small World indexing. This will create a vector index for the attribute. For example:
+
 ```graphql
 type Product @table {
 	id: Long @primaryKey
@@ -186,13 +194,16 @@ type Product @table {
 ```
 
 HNSW indexing finds the nearest neighbors to a search vector. To use this, you can query with a `sort` parameter, for example:
+
 ```javascript
 let results = Product.search({
   sort: { attribute: 'textEmbeddings', target: searchVector },
   limit: 5 // get the five nearest neighbors
 })
 ```
+
 This can be used in combination with other conditions as well, for example:
+
 ```javascript
 let results = Product.search({
   conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
@@ -208,8 +219,9 @@ HNSW supports several additional arguments to the `@indexed` directive to adjust
 * `optimizeRouting` - This uses a heuristic to avoid graph connections that match existing indirect connections (connections through another node). This can yield more efficient graph traversals for the same M setting. This is a number between 0 and 1 and a higher value will more aggressively omit connections with alternate paths. Setting this to 0 will disable route optimizing and follow the traditional HNSW algorithm for creating connections. The default is 0.5.
 * `mL` - The normalization factor for level generation, by default this is computed from `M`.
 * `efSearchConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors for searching. The default is 50.
- 
-For exmpale
+
+For example:
+
 ```graphql
 type Product @table {
   id: Long @primaryKey
@@ -217,23 +229,23 @@ type Product @table {
 }
 ```
 
-#### `@createdTime`
+### `@createdTime`
 
 The `@createdTime` directive indicates that this property should be assigned a timestamp of the creation time of the record (in epoch milliseconds).
 
-#### `@updatedTime`
+### `@updatedTime`
 
 The `@updatedTime` directive indicates that this property should be assigned a timestamp of each updated time of the record (in epoch milliseconds).
 
-#### `@sealed`
+### `@sealed`
 
 The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself
 
-### Defined vs Dynamic Schemas
+## Defined vs Dynamic Schemas
 
 If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../technical-details/reference/dynamic-schema.md). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
-### Field Types
+## Field Types
 
 Harper supports the following field types in addition to user defined (object) types:
 
@@ -249,13 +261,13 @@ Harper supports the following field types in addition to user defined (object) t
 * `Bytes`: Binary data as a Buffer or Uint8Array
 * `Blob`: Binary data as a [Blob](../../technical-details/reference/blob.md), designed for large blocks of data that can be streamed. It is recommend that you use this for binary data that will typically be larger than 20KB.
 
-#### Renaming Tables
+## Renaming Tables
 
 It is important to note that Harper does not currently support renaming tables. If you change the name of a table in your schema definition, this will result in the creation of a new, empty table.
 
-### OpenAPI Specification
+## OpenAPI Specification
 
-_The_ [_OpenAPI Specification_](https://spec.openapis.org/oas/v3.1.0) _defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic._
+_The [OpenAPI Specification](https://spec.openapis.org/oas/v3.1.0) defines a standard, programming language-agnostic interface description for HTTP APIs, which allows both humans and computers to discover and understand the capabilities of a service without requiring access to source code, additional documentation, or inspection of network traffic._
 
 If a set of endpoints are configured through a Harper GraphQL schema, those endpoints can be described by using a default REST endpoint called `GET /openapi`.
 

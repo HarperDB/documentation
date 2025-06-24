@@ -28,7 +28,7 @@ Get started today with one of our examples:
 
 Harper includes support for authenticated sessions using cookies. This allows you to create secure, authenticated web applications
 using best-practice security patterns, allowing users to login and maintain a session without any credential storage on the client side
-that can be compromised. A login endpoint can be defined by exporting a resource and calling the `login` method on the request object. For example, this could be a login endpoint in your resources.js file:
+that can be compromised. A login endpoint can be defined by exporting a resource and calling the `login` method on the request object. For example, this could be a login endpoint in your `resources.js` file:
 
 ```javascript
 export class Login extends Resource {

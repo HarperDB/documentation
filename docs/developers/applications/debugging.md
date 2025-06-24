@@ -1,6 +1,6 @@
 # Debugging Applications
 
-Harper components and applications run inside the Harper process, which is a standard Node.js process that can be debugged with standard JavaScript development tools like Chrome's devtools, VSCode, and WebStorm. Debugging can be performed by launching the Harper entry script with your IDE, or you can start Harper in dev mode and connect your debugger to the running process (defaults to standard 9229 port):
+Harper applications run inside the Harper process, which is a standard Node.js process that can be debugged with standard JavaScript development tools like Chrome's devtools, VSCode, and WebStorm. Debugging can be performed by launching the Harper entry script with your IDE, or you can start Harper in dev mode and connect your debugger to the running process (defaults to standard 9229 port):
 
 ```
 harperdb dev
