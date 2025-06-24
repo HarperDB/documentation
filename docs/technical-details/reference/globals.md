@@ -283,3 +283,25 @@ server.resources.getMatch('/NewResource/some-id');
 // or specify the export/protocol type, to allow it to be limited:
 server.resources.getMatch('/NewResource/some-id', 'my-protocol');
 ```
+
+### `server.operation(operation, context, authorize?)`
+Execute an operation from the [Operations API](https://docs.harperdb.io/docs/developers/operations-api)
+
+Parameters:
+
+`operation`: Object matching desired operation's request body
+
+`context`: TODO ???
+
+`authorize`: TODO ???
+
+Returns a promise with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
+
+### `server.nodes`
+Returns an array of node objects registered in the cluster
+
+### `server.shards`
+Returns map of shard number to an array of its associated nodes
+
+### `server.hostname`
+Returns the hostname of the current node
