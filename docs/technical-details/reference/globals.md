@@ -294,7 +294,7 @@ Parameters:
 - **context** - [`OperationContext`](#operationcontext) - _optional_ - A context object relating to the specified operation
 - **authorize** - boolean - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
 
-Returns a promise with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
+Returns a `Promise` with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
 
 ### `server.nodes`
 Returns an array of node objects registered in the cluster
