@@ -284,7 +284,8 @@ server.resources.getMatch('/NewResource/some-id');
 server.resources.getMatch('/NewResource/some-id', 'my-protocol');
 ```
 
-### `server.operation(operation, context, authorize?)`
+### `server.operation(operation: OperationRequestBody, context?: OperationContext, authorize?: boolean)`
+
 Execute an operation from the [Operations API](https://docs.harperdb.io/docs/developers/operations-api)
 
 Parameters:
