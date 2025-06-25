@@ -284,15 +284,15 @@ server.resources.getMatch('/NewResource/some-id');
 server.resources.getMatch('/NewResource/some-id', 'my-protocol');
 ```
 
-### `server.operation(operation: OperationRequestBody, context?: OperationContext, authorize?: boolean)`
+### `server.operation(operation: Object, context?: Object, authorize?: boolean)`
 
 Execute an operation from the [Operations API](https://docs.harperdb.io/docs/developers/operations-api)
 
 Parameters:
 
-- **operation** - [`OperationRequestBody`](#operationrequestbody) - Object matching desired operation's request body
-- **context** - [`OperationContext`](#operationcontext) - _optional_ - A context object relating to the specified operation
-- **authorize** - boolean - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
+- **operation** - `Object` - Object matching desired operation's request body
+- **context** - `Object` - `{ username: string}` - _optional_ - The specified user
+- **authorize** - `boolean` - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
 
 Returns a `Promise` with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
 
