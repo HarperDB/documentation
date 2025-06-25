@@ -1,6 +1,6 @@
-# Components
+# Plugins
 
-Harper **components** extend the core platform to provide additional features. Components are classified as either **applications** or **extensions**, and mimic a caller/callee relationship. Like a function, extensions are useless on their own, and are only functional when used by an application.
+Harper **plugins** extend the core platform to provide additional features. Components are classified as either **applications** or **extensions**, and mimic a caller/callee relationship. Like a function, extensions are useless on their own, and are only functional when used by an application.
 
 Applications can be as simple as defining table schemas, or as complex as a full Next.js application.
 
@@ -20,7 +20,7 @@ The following list is all of Harper's officially maintained, open source, custom
 - [`@harperdb/prometheus-exporter`](https://github.com/HarperDB/prometheus-exporter)
 - [`@harperdb/acl-connect`](https://github.com/HarperDB/acl-connect)
 
-### Extensions
+### Plugins
 
 - [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs)
 - [`@harperdb/apollo`](https://github.com/HarperDB/apollo)

@@ -1,7 +1,5 @@
 # Applications
 
-## Overview of HarperDB Applications
-
 Harper is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints, and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
 
 In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper application, a fundamental building-block of the Harper ecosystem.
