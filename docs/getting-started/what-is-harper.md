@@ -22,15 +22,15 @@ What we realized is that networking systems together in this way is inefficient 
 
 Start by running Harper locally with [npm](https://www.npmjs.com/package/harperdb) or [Docker](https://hub.docker.com/r/harperdb/harperdb).
 
-Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
+Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](../developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
 
-If you would like to [query](developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](developers/rest.md), [MQTT](developers/real-time.md#mqtt), or [WebSocket](developers/real-time.md#websockets) endpoints.
+If you would like to [query](../developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](../developers/rest.md), [MQTT](../developers/real-time.md#mqtt), or [WebSocket](../developers/real-time.md#websockets) endpoints.
 
-When you are ready for something a little more advanced, start [customizing your application](developers/applications/#custom-functionality-with-javascript).
+When you are ready for something a little more advanced, start [customizing your application](../developers/applications/#custom-functionality-with-javascript).
 
-Finally, when it’s time to deploy, explore [replication](developers/replication/) between nodes.
+Finally, when it’s time to deploy, explore [replication](../developers/replication/) between nodes.
 
-If you would like to jump into the most advanced capabilities, learn about [components](developers/components/).
+If you would like to jump into the most advanced capabilities, learn about [plugins](../developers/plugins/).
 
 For a more comprehensive deep dive, take a look at our [Getting Started Guide](getting-started.md).
 
@@ -44,7 +44,7 @@ With so much functionality built in, the use cases span nearly all application s
 
 ### Online Catalogs & Content Delivery
 
-For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
+For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Plugin](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
 
 ### Data Delivery Networks
 
