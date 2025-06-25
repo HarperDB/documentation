@@ -290,11 +290,9 @@ Execute an operation from the [Operations API](https://docs.harperdb.io/docs/dev
 
 Parameters:
 
-`operation`: Object matching desired operation's request body
-
-`context`: TODO ???
-
-`authorize`: TODO ???
+- **operation** - [`OperationRequestBody`](#operationrequestbody) - Object matching desired operation's request body
+- **context** - [`OperationContext`](#operationcontext) - _optional_ - A context object relating to the specified operation
+- **authorize** - boolean - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
 
 Returns a promise with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
 
