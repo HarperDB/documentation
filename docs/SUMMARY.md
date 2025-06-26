@@ -116,7 +116,7 @@
   * [Architecture](technical-details/reference/architecture.md)
   * [Blob](technical-details/reference/blob.md)
   * [Content Types](technical-details/reference/content-types.md)
-  * [Components](technical-details/reference/components.md)
+  * Components
     * [Built-In](technical-details/reference/components/built-in.md)
     * [Extensions](technical-details/reference/components/extensions.md)
     * [Plugins](technical-details/reference/components/plugins.md)
