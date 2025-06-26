@@ -19,23 +19,23 @@ For more advanced concepts in Harper, see our [blog](https://www.harpersystems.d
     <tbody>
         <tr>
             <td>
-                <a href="getting-started/install-harper.md"><strong>Install Harper</strong></a>
+                <a href="./getting-started/install-harper.md"><strong>Install Harper</strong></a>
             </td>
             <td>Pick the installation method that best suits your environment</td>
             <td></td>
-            <td><a href="getting-started/install-harper.md">install-harper</a></td>
+            <td><a href="./getting-started/install-harper.md">install-harper</a></td>
         </tr>
         <tr>
-            <td><a href="getting-started/what-is-harper.md"><strong>What is Harper</strong></a></td>
+            <td><a href="./getting-started/what-is-harper.md"><strong>What is Harper</strong></a></td>
             <td>Learn about Harper, how it works, and some of its usecases</td>
             <td></td>
-            <td><a href="getting-started/what-is-harper.md">what-is-harper</a></td>
+            <td><a href="./getting-started/what-is-harper.md">what-is-harper</a></td>
         </tr>
         <tr>
-            <td><a href="getting-started/harper-concepts.md"><strong>Harper Concepts</strong></a></td>
+            <td><a href="./getting-started/harper-concepts.md"><strong>Harper Concepts</strong></a></td>
             <td>Learn about Harper's fundamental concepts and how they interact</td>
             <td></td>
-            <td><a href="getting-started/harper-concepts.md">harper-concepts</a></td>
+            <td><a href="./getting-started/harper-concepts.md">harper-concepts</a></td>
         </tr>
     </tbody>
 </table>
