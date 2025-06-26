@@ -6,7 +6,7 @@ This section contains technical details and reference materials for Harper.
 * [Architecture](technical-details/reference/architecture.md)
 * [Blob](technical-details/reference/blob.md)
 * [Content Types](technical-details/reference/content-types.md)
-* Components
+* [Components](technical-details/reference/components/README.md)
   * [Built-In](technical-details/reference/components/built-in.md)
   * [Configuration](technical-details/reference/components/configuration.md)
   * [Managing Applications](technical-details/reference/components/managing-applications.md)
