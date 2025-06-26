@@ -63,6 +63,11 @@ Beyond applications and extensions, components are further classified as built-i
 
 Harper does not currently include any built-in applications, making "custom applications" a bit redundant. Generally, we just say "application". However, there is a multitude of both built-in and custom extensions, and so the documentation refers to them as such. A complete list of built-in extensions is available in the [Built-In Extensions](./built-in.md) documentation page, and the list of custom extensions and applications is available below.
 
+Complete reference documentation for all built-ins, extensions, and plugins is available in the Technical Details section of the documentation.
+- [Built-In Extensions](./built-in.md)
+- [Extension API Reference](./extensions.md)
+- [Plugin API Reference](./plugins.md)
+
 ## Custom Applications
 
 - [`@harperdb/status-check`](https://github.com/HarperDB/status-check)
