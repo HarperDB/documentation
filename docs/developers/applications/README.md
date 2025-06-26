@@ -74,22 +74,7 @@ Harper does not currently include any built-in applications, making "custom appl
 
 This guide is going to walk you through building a basic Harper application using a set of built-in extensions.
 
-Complete reference documentation for all built-ins, extensions, and plugins is available in the Technical Details section of the documentation.
-- [Built-In Extensions](../../technical-details/reference/components/built-in.md)
-- [Extension API Reference](../../technical-details/reference/components/extensions.md)
-- [Plugin API Reference](../../technical-details/reference/components/plugins.md)
-
-### Custom Applications
-
-- [`@harperdb/status-check`](https://github.com/HarperDB/status-check)
-- [`@harperdb/prometheus-exporter`](https://github.com/HarperDB/prometheus-exporter)
-- [`@harperdb/acl-connect`](https://github.com/HarperDB/acl-connect)
-
-### Custom Extensions
-
-- [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs)
-- [`@harperdb/apollo`](https://github.com/HarperDB/apollo)
-- [`@harperdb/astro`](https://github.com/HarperDB/astro)
+> The Technical Details section of the documentation contains a [complete reference for all aspects of components](../../technical-details/reference/components), applications, extensions, and more.
 
 ## Custom Functionality with JavaScript
 

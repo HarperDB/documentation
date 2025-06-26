@@ -21,3 +21,15 @@ This technical reference section has detailed information on various component s
 - [Managing Applications](./managing.md)
 - [Extensions](./extensions.md)
 - [(Experimental) Plugins](./plugins.md)
+
+## Custom Applications
+
+- [`@harperdb/status-check`](https://github.com/HarperDB/status-check)
+- [`@harperdb/prometheus-exporter`](https://github.com/HarperDB/prometheus-exporter)
+- [`@harperdb/acl-connect`](https://github.com/HarperDB/acl-connect)
+
+## Custom Extensions
+
+- [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs)
+- [`@harperdb/apollo`](https://github.com/HarperDB/apollo)
+- [`@harperdb/astro`](https://github.com/HarperDB/astro)
