@@ -211,16 +211,7 @@ Harper provides a powerful JavaScript API with significant capabilities that go 
 
 ## Configuring Applications/Components
 
-Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
-
-This config file allows you define a location for static files, as well (that are directly delivered as-is for incoming HTTP requests).
-
-Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
-
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
+For complete information of configuring applications, refer to the [Component Configuration](../../technical-details/reference/components/configuration.md) reference page.
 
 ## Define Fastify Routes
 
