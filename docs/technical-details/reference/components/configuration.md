@@ -1,6 +1,8 @@
 # Component Configuration
 
-Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how a component configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
+> For information on the distinction between applications and extensions, refer to beginning of the [Applications](../../../developers/applications) documentation section.
+
+Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how an components configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
 
 ```yaml
 name:
@@ -10,13 +12,15 @@ name:
 
 It is the entry's `name` that is used for component resolution. It can be one of the [built-in extensions](./built-in.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
 
-For some built-in components they can be configured with as little as a top-level boolean; for example, the [rest](./built-in.md#rest) extension can be enabled with just:
+For some built-in extensions they can be configured with as little as a top-level boolean; for example, the [rest](./built-in.md#rest) extension can be enabled with just:
 
 ```yaml
 rest: true
 ```
 
 Most components generally have more configuration options. Some options are ubiquitous to the Harper platform, such as the `files` and `urlPath` options for an [extension](./extensions.md) or [plugin](./plugins.md), or `package` for any [custom component](#custom-component-configuration).
+
+[Extensions](./extensions.md) and [plugins](./plugins.md) require specifying the `extensionModule` option. Refer to their respective API reference documentation for more information.
 
 ## Custom Component Configuration
 

@@ -1,32 +1,95 @@
 # Applications
 
-## Overview of HarperDB Applications
-
 Harper is more than a database, it's a distributed clustering platform allowing you to package your schema, endpoints and application logic and deploy them to an entire fleet of Harper instances optimized for on-the-edge scalable data delivery.
 
-In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
+In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper application, a fundamental building-block of the Harper ecosystem.
 
 When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
-## Understanding the Component Application Architecture
+Before we get started, let's clarify some terminology that is used throughout the documentation.
 
-Harper provides several types of components. Any package that is added to Harper is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by Harper when it starts. Components that are remotely deployed to Harper (through the studio or the operation API) are installed into the `hdb/node_modules` directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed (in `hdb/node_modules`).
+**Components** are the high-level concept for modules that extend the Harper core platform adding additional functionality. The application you will build here is a component. In addition to applications, components also encompass extensions.
+
+> We are actively working to disambiguate the terminology. When you see "component", such as in the Operations API or CLI, it generally refers to an application. We will do our best to clarify exactly which classification of a component whenever possible.
+
+**Applications** are best defined as the implementation of a specific user-facing feature or functionality. Applications are built on top of extensions and can be thought of as the end product that users interact with. For example, a Next.js application that serves a web interface or an Apollo GraphQL server that provides a GraphQL API are both applications.
+
+**Extensions** are the building blocks of the Harper component system. Applications depend on extensions to provide the functionality the application is implementing. For example, the built-in `graphqlSchema` extension enables applications to define their databases and tables using GraphQL schemas. Furthermore, the `@harperdb/nextjs` and `@harperdb/apollo` extensions are the building blocks that provide support for building Next.js and Apollo applications.
+
+All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
+
+Extensions can also depend on other extensions. For example, the [`@harperdb/apollo`](https://github.com/HarperDB/apollo) extension depends on the built-in `graphqlSchema` extension to create a cache table for Apollo queries. Applications can then use the `@harperdb/apollo` extension to implement an Apollo GraphQL backend server.
 
 ```mermaid
-flowchart LR
-	Client(Client)-->Endpoints
-	Client(Client)-->HTTP
-	Client(Client)-->Extensions
-	subgraph Harper
+flowchart TD
+  subgraph Applications
 	direction TB
-	Applications(Applications)-- "Schemas" --> Tables[(Tables)]
-	Applications-->Endpoints[/Custom Endpoints/]
-	Applications-->Extensions
-	Endpoints-->Tables
-	HTTP[/REST/HTTP/]-->Tables
-	Extensions[/Extensions/]-->Tables
+	NextJSApp["Next.js App"]
+	ApolloApp["Apollo App"]
+	CustomResource["Custom Resource"]
+  end
+
+  subgraph Extensions
+	direction TB
+	subgraph Custom
+	  NextjsExt["@harperdb/nextjs"]
+	  ApolloExt["@harperdb/apollo"]
 	end
+	subgraph Built-In
+	  GraphqlSchema["graphqlSchema"]
+	  JsResource["jsResource"]
+	  Rest["rest"]
+	end
+  end
+
+  subgraph Core
+	direction TB
+	Database["database"]
+	FileSystem["file-system"]
+	Networking["networking"]
+  end
+
+  NextJSApp --> NextjsExt
+  ApolloApp --> ApolloExt
+  CustomResource --> JsResource & GraphqlSchema & Rest
+
+  NextjsExt --> Networking
+  NextjsExt --> FileSystem
+  ApolloExt --> GraphqlSchema
+  ApolloExt --> Networking
+
+  GraphqlSchema --> Database
+  JsResource --> Database
+  Rest --> Networking
+
 ```
+
+> As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleComponent` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](../../technical-details/reference/components/plugins.md) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
+
+Beyond applications and extensions, components are further classified as built-in or custom. **Built-in** components are included with Harper by default and can be directly referenced by their name. The `graphqlSchema`, `rest`, and `jsResource` extensions used in the previous application example are all examples of built-in extensions. **Custom** components must use external references, generally npm or GitHub packages, and are often included as dependencies within the `package.json` of the component.
+
+> Harper maintains a number of custom components that are available on `npm` and `GitHub`, such as the [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs) extension or the [`@harperdb/status-check`](https://github.com/HarperDB/status-check) application.
+
+Harper does not currently include any built-in applications, making "custom applications" a bit redundant. Generally, we just say "application". However, there is a multitude of both built-in and custom extensions, and so the documentation refers to them as such. A complete list of built-in extensions is available in the [Built-In Extensions](../../technical-details/reference/components/built-in.md) documentation page, and the list of custom extensions and applications is available below.
+
+This guide is going to walk you through building a basic Harper application using a set of built-in extensions.
+
+Complete reference documentation for all built-ins, extensions, and plugins is available in the Technical Details section of the documentation.
+- [Built-In Extensions](../../technical-details/reference/components/built-in.md)
+- [Extension API Reference](../../technical-details/reference/components/extensions.md)
+- [Plugin API Reference](../../technical-details/reference/components/plugins.md)
+
+### Custom Applications
+
+- [`@harperdb/status-check`](https://github.com/HarperDB/status-check)
+- [`@harperdb/prometheus-exporter`](https://github.com/HarperDB/prometheus-exporter)
+- [`@harperdb/acl-connect`](https://github.com/HarperDB/acl-connect)
+
+### Custom Extensions
+
+- [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs)
+- [`@harperdb/apollo`](https://github.com/HarperDB/apollo)
+- [`@harperdb/astro`](https://github.com/HarperDB/astro)
 
 ## Custom Functionality with JavaScript
 

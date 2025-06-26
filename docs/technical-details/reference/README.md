@@ -8,8 +8,10 @@ This section contains technical details and reference materials for Harper.
 * [Content Types](technical-details/reference/content-types.md)
 * Components
   * [Built-In](technical-details/reference/components/built-in.md)
+  * [Configuration](technical-details/reference/components/configuration.md)
+  * [Managing Applications](technical-details/reference/components/managing-applications.md)
   * [Extensions](technical-details/reference/components/extensions.md)
-  * [Plugins](technical-details/reference/components/plugins.md)
+  * [(Experimental) Plugins](technical-details/reference/components/plugins.md)
 * [Data Types](technical-details/reference/data-types.md)
 * [Dynamic Schema](technical-details/reference/dynamic-schema.md)
 * [Globals](technical-details/reference/globals.md)

@@ -29,18 +29,18 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
 1. Start up Harper with `harperdb`
 2.  _Deploy_ the application to the local instance by executing:
 
-    ```sh
-    harperdb deploy \
-      project=<name> \
-      package=<path-to-project> \
-      restart=true
-    ```
+	```sh
+	harperdb deploy \
+	  project=<name> \
+	  package=<path-to-project> \
+	  restart=true
+	```
 
-    * Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
-    * The `package=<path-to-project>` option creates a symlink to the application simplifying restarts
-      * By default, the `deploy` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
-    * The `restart=true` option automatically restarts Harper threads after the application is deployed
-      * If set to `'rolling'`, a rolling restart will be triggered after the application is deployed
+	* Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
+	* The `package=<path-to-project>` option creates a symlink to the application simplifying restarts
+	  * By default, the `deploy` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
+	* The `restart=true` option automatically restarts Harper threads after the application is deployed
+	  * If set to `'rolling'`, a rolling restart will be triggered after the application is deployed
 3. In another terminal, use the `harperdb restart` command to restart the instance's threads at any time
    * With `package=<path-to-project>`, the application source is symlinked so changes will automatically be picked up between restarts
    * If `package` was omitted, run the `deploy` command again with any new changes
@@ -158,11 +158,11 @@ Harper will generate a `package.json` like:
 ```json
 {
   "dependencies": {
-    "myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
-    "myNPMComponent": "npm:harperdb",
-    "myTarBall": "file:/Users/harper/cool-component.tar",
-    "myLocal": "file:/Users/harper/local",
-    "myWebsite": "https://harperdb-component"
+	"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
+	"myNPMComponent": "npm:harperdb",
+	"myTarBall": "file:/Users/harper/cool-component.tar",
+	"myLocal": "file:/Users/harper/local",
+	"myWebsite": "https://harperdb-component"
   }
 }
 ```
