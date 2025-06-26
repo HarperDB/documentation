@@ -1,0 +1,12 @@
+{
+	"name": "@harperdb/documentation",
+	"private": true,
+	"scripts": {
+		"format": "prettier --write 'docs/**/*' package.json"
+	},
+	"devDependencies": {
+		"@harperdb/code-guidelines": "^0.0.2",
+		"prettier": "^3.6.1"
+	},
+	"prettier": "@harperdb/code-guidelines/prettier"
+}
