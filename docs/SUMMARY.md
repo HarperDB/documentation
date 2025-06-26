@@ -18,6 +18,7 @@
   * [Web Applications](developers/applications/web-applications.md)
   * [Example Projects](developers/applications/example-projects.md)
 * [Components](developers/components/README.md)
+  * [Configuration](developers/components/configuration.md)
   * [Managing](developers/components/managing.md)
   * [Reference](developers/components/reference.md)
   * [Built-In Components](developers/components/built-in.md)
