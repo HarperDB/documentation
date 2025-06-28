@@ -127,7 +127,7 @@ http:
     timeout: 120000 
 ```
 
-`mlts` - _Type_: boolean | object; _Default_: false
+`mtls` - _Type_: boolean | object; _Default_: false
 
 This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified with `tls.certificateAuthority`. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
 
@@ -139,11 +139,21 @@ This configures a specific username to authenticate as for mTLS connections. If 
 
 `required` - _Type_: boolean; _Default_: false
 
-This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+This can be enabled to require client certificates (mTLS) for all incoming HTTP connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+
+`certificateVerification` - _Type_: boolean | object; _Default_: true
+
+When mTLS is enabled, Harper will verify the revocation status of client certificates using OCSP (Online Certificate Status Protocol) by default. This adds an additional layer of security by checking if certificates have been revoked by the Certificate Authority. You can disable this by setting to `false`, or configure it with an object containing the following properties:
+
+* `timeout` - _Type_: number; _Default_: 5000 (milliseconds) - Maximum time to wait for OCSP response
+* `cacheTtl` - _Type_: number; _Default_: 3600000 (1 hour in milliseconds) - How long to cache verification results
+* `failureMode` - _Type_: string; _Default_: 'fail-open' - Behavior when verification fails:
+  * `'fail-open'`: Allow connection if verification fails (logs warning)
+  * `'fail-closed'`: Reject connection if verification fails
 
 ```yaml
 http:
-  mtls: true
+  mtls: true  # Uses default certificate verification
 ```
 
 or
@@ -153,6 +163,19 @@ http:
   mtls:
     required: true
     user: user-name
+    certificateVerification: false  # Disable certificate verification
+```
+
+or with custom verification settings:
+
+```yaml
+http:
+  mtls:
+    required: true
+    certificateVerification:
+      timeout: 10000
+      cacheTtl: 7200000  # 2 hours
+      failureMode: fail-closed
 ```
 
 ***
@@ -1022,6 +1045,16 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 `certificateAuthority` - _Type_: string; _Default_: Path from `tls.certificateAuthority`
 
 This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
+
+`certificateVerification` - _Type_: boolean | object; _Default_: true
+
+When mTLS is enabled, Harper will verify the revocation status of client certificates using OCSP (Online Certificate Status Protocol) by default. This adds an additional layer of security by checking if certificates have been revoked by the Certificate Authority. You can disable this by setting to `false`, or configure it with an object containing the following properties:
+
+* `timeout` - _Type_: number; _Default_: 5000 (milliseconds) - Maximum time to wait for OCSP response
+* `cacheTtl` - _Type_: number; _Default_: 3600000 (1 hour in milliseconds) - How long to cache verification results
+* `failureMode` - _Type_: string; _Default_: 'fail-open' - Behavior when verification fails:
+  * `'fail-open'`: Allow connection if verification fails (logs warning)
+  * `'fail-closed'`: Reject connection if verification fails
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
 
