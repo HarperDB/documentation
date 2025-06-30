@@ -2,7 +2,7 @@
 
 Harper provides extended features using built-in extensions. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike custom extensions which have their own semantic versions, built-in extensions follow Harper's semantic version.
 
-For more information read the [Components, Applications, and Extensions](../../../developers/components) documentation section.
+For more information read the [Components, Applications, and Extensions](../../../developers/applications/) documentation section.
 
 - [Built-In Extensions](#built-in-extensions)
   - [fastifyRoutes](#fastifyroutes)

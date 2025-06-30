@@ -14,7 +14,7 @@ If the plugin is being written in something other than JavaScript (such as TypeS
 
 ## Resource Extension
 
-A Resource Extension is for processing a certain type of file or directory. For example, the built-in [jsResource](./built-in.md#jsresource) extension handles executing JavaScript files.
+A Resource Extension is for processing a certain type of file or directory. For example, the built-in [jsResource](./built-in-extensions.md#jsresource) extension handles executing JavaScript files.
 
 Resource Extensions are comprised of four distinct function exports, [`handleFile()`](#handlefilecontents-urlpath-absolutepath-resources-void--promisevoid), [`handleDirectory()`](#handledirectoryurlpath-absolutepath-resources-boolean--void--promiseboolean--void), [`setupFile()`](#setupfilecontents-urlpath-absolutepath-resources-void--promisevoid), and [`setupDirectory()`](#setupdirectoryurlpath-absolutepath-resources-boolean--void--promiseboolean--void). The `handleFile()` and `handleDirectory()` methods are executed on **all worker threads**, and are _executed again during restarts_. The `setupFile()` and `setupDirectory()` methods are only executed **once** on the **main thread** during the initial system start sequence.
 
@@ -38,7 +38,7 @@ Any [Resource Extension](#resource-extension) can be configured with the `files`
 	- Note: `..` is an invalid pattern and will result in an error
   - Otherwise, the value here will be base url path. Leading and trailing `/` characters will be handled automatically (`/static/`, `/static`, and `static/` are all equivalent to `static`)
 
-For example, to configure the [static](./built-in.md#static) component to serve all HTML files from the `web` source directory on the `static` URL endpoint:
+For example, to configure the [static](./built-in-extensions.md#static) component to serve all HTML files from the `web` source directory on the `static` URL endpoint:
 
 ```yaml
 static:
@@ -50,7 +50,7 @@ If there are files such as `web/index.html` and `web/blog.html`, they would be a
 
 Furthermore, if the component is located in the `test-component` directory, and the `urlPath` was set to `'./static/'` instead, then the files would be served from `localhost/test-component/static/*` instead.
 
-The `urlPath` is optional, for example to configure the [graphqlSchema](./built-in.md#graphqlschema) component to load all schemas within the `src/schema` directory, only specifying a `files` glob pattern is required:
+The `urlPath` is optional, for example to configure the [graphqlSchema](./built-in-extensions.md#graphqlschema) component to load all schemas within the `src/schema` directory, only specifying a `files` glob pattern is required:
 
 ```yaml
 graphqlSchema:

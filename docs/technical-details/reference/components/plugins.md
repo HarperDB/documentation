@@ -22,7 +22,7 @@ However, it is highly recommended to avoid event-loop-blocking operations within
 
 This is a functional example of how the `handleComponent()` method and `scope` argument can be used to create a simple static file server plugin. This example assumes that the component has a `config.yaml` with the `files` option set to a glob pattern that matches the files to be served.
 
-> This is a simplified form of the [static](./built-in.md#static) built-in extension.
+> This is a simplified form of the [static](./built-in-extensions.md#static) built-in extension.
 
 ```js
 export function handleComponent(scope) {

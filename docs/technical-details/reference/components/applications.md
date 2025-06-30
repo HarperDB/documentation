@@ -1,4 +1,4 @@
-# Managing Applications
+# Applications
 
 > The contents of this page predominantly relate to **application** components. Extensions are not necessarily _deployable_. The ambiguity of the term "components" is being worked on and will be improved in future releases. As we work to clarify the terminology, please keep in mind that the component operations are synonymous with application management. In general, "components" is the general term for both applications and extensions, but in context of the operations API it refers to applications only.
 
@@ -111,7 +111,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.
 
-These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](managing.md#advanced) section explores this pattern in more detail.
+These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
 
 Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`.
 

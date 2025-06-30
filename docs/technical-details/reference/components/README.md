@@ -12,13 +12,13 @@
 
 All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
 
-For more information on the differences between applications and extensions, refer to the beginning of the [Applications](../../../developers/components) guide documentation section.
+For more information on the differences between applications and extensions, refer to the beginning of the [Applications](../../../developers/applications/) guide documentation section.
 
 This technical reference section has detailed information on various component systems:
 
-- [Built-In Extenstion](./built-in.md)
+- [Built-In Extensions](./built-in-extensions.md)
 - [Configuration](./configuration.md)
-- [Managing Applications](./managing.md)
+- [Managing Applications](./applications.md)
 - [Extensions](./extensions.md)
 - [(Experimental) Plugins](./plugins.md)
 

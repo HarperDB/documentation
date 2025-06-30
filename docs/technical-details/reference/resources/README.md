@@ -94,7 +94,7 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/reference.md#extensions).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../components/extensions.md).
 
 ### `transaction`
 

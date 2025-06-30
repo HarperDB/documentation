@@ -1,6 +1,6 @@
 # Component Configuration
 
-> For information on the distinction between applications and extensions, refer to beginning of the [Applications](../../../developers/applications) documentation section.
+> For information on the distinction between the types of components (applications and extensions), refer to beginning of the [Applications](../../../developers/applications) documentation section.
 
 Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how an components configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
 
@@ -10,9 +10,9 @@ name:
   option-2: value
 ```
 
-It is the entry's `name` that is used for component resolution. It can be one of the [built-in extensions](./built-in.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
+It is the entry's `name` that is used for component resolution. It can be one of the [built-in extensions](./built-in-extensions.md), or it must match a package dependency of the component as specified by `package.json`. The [Custom Component Configuration](#custom-component-configuration) section provides more details and examples.
 
-For some built-in extensions they can be configured with as little as a top-level boolean; for example, the [rest](./built-in.md#rest) extension can be enabled with just:
+For some built-in extensions they can be configured with as little as a top-level boolean; for example, the [rest](./built-in-extensions.md#rest) extension can be enabled with just:
 
 ```yaml
 rest: true
@@ -80,6 +80,6 @@ static:
   files: 'web/**'
 ```
 
-Refer to the [built-in components](./built-in.md) documentation for more information on these fields.
+Refer to the [built-in components](./built-in-extensions.md) documentation for more information on these fields.
 
 If a `config.yaml` is defined, it will **not** be merged with the default config.
