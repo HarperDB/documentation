@@ -1,23 +1,48 @@
-# Resource Class with Resource Instance Binding behavior
+# Resource Class
 
-This document describes the legacy instance binding behavior of the Resource class. It is recommended that you use the [updated behavior of the Resource API](./resource.md) instead, but this legacy API is preserved for backwards compatibility.
 ## Resource Class
+
+The Resource class is designed to provide a unified API for modeling different data resources within Harper. Database/table data can be accessed through the Resource API. The Resource class can be extended to create new data sources. Resources can be exported to define endpoints. Tables themselves extend the Resource class, and can be extended by users.
+
+Conceptually, a Resource class provides an interface for accessing, querying, modifying, and monitoring a set of entities or records. Instances of a Resource class can represent a single record or entity, or a collection of records, at a given point in time, that you can interact with through various methods or queries. Resource instances can represent an atomic transactional view of a resource and facilitate transactional interaction. A Resource instance holds the primary key/identifier, context information, and any pending updates to the record, so any instance methods can act on the record and have full access to this information during execution. Therefore, there are distinct resource instances created for every record or query that is accessed, and the instance methods are used for interaction with the data.
+
+Resource classes also have static methods, which are generally the preferred way to externally interact with tables and resources. The static methods handle parsing paths and query strings, starting a transaction as necessary, performing access authorization checks (if required), creating a resource instance, and calling the instance methods. This general rule for how to interact with resources:
+
+* If you want to _act upon_ a table or resource, querying or writing to it, then use the static methods to initially access or write data. For example, you could use `MyTable.get(34)` to access the record with a primary key of `34`.
+* If you want to _define custom behavior_ for a table or resource (to control how a resource responds to queries/writes), then extend the class and override/define instance methods.
+
+The Resource API is heavily influenced by the REST/HTTP API, and the methods and properties of the Resource class are designed to map to and be used in a similar way to how you would interact with a RESTful API.
+
+The REST-based API is a little different from traditional Create-Read-Update-Delete (CRUD) APIs that were designed with single-server interactions in mind. Semantics that attempt to guarantee no existing record or overwrite-only behavior require locks that don't scale well in distributed database. Centralizing writes around `put` calls provides much more scalable, simple, and consistent behavior in a distributed eventually consistent database. You can generally think of CRUD operations mapping to REST operations like this:
+
+* Read - `get`
+* Create with a known primary key - `put`
+* Create with a generated primary key - `post`/`create`
+* Update (Full) - `put`
+* Update (Partial) - `patch`
+* Delete - `delete`
+
+The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped an instance of MyResource, and will call the instance methods like `get(target)`, `put(target, data)`, and `post(target, data)`, where target is based on the `/3492` part of the path.
+
+It is recommended that you use the latest version (V2) of the Resource API with the legacy instance binding behavior disabled. This is done by setting the static `loadAsInstance` property to `false` on the Resource class. This will become the default behavior in Harper version 5.0. This page is written assuming `loadAsInstance` is set to `false`. If you want to use the legacy instance binding behavior, you can set `loadAsInstance` to `true` on the Resource class. If you have existing code that you want to migrate, please see the [migration guide](./resource-migration.md) for more information.
+
+You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the Harper JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 
 ```javascript
 export class MyExternalData extends Resource {
-	static loadAsInstance = true;
-	async get() {
+	static loadAsInstance = false; // enable the updated API
+	async get(target) {
 		// fetch data from an external source, using our id
-		let response = await this.fetch(this.id);
+		let response = await this.fetch(target.id);
 		// do something with the response
 	}
-	put(data) {
+	put(target, data) {
 		// send the data into the external source
 	}
-	delete() {
+	delete(target) {
 		// delete an entity in the external data source 
 	}
-	subscribe(options) {
+	subscribe(subscription) {
 		// if the external data source is capable of real-time notification of changes, can subscribe
 	}
 }
@@ -30,20 +55,19 @@ You can also extend table classes in the same way, overriding the instance metho
 
 ```javascript
 export class MyTable extends tables.MyTable {
-	get() {
+	static loadAsInstance = false; // enable the updated API
+	get(target) {
 		// we can add properties or change properties before returning data:
-		this.newProperty = 'newValue';
-		this.existingProperty = 44;
-		return super.get(); // returns the record, modified with the changes above
+		return { ...super.get(target), newProperty: 'newValue', existingProperty: 42 }; // returns the record, with additional properties
 	}
-	put(data) {
+	put(target, data) {
 		// can change data any way we want
-		super.put(data);
+		super.put(target, data);
 	}
-	delete() {
-		super.delete(); 
+	delete(target) {
+		super.delete(target);
 	}
-	post(data) {
+	post(target, data) {
 		// providing a post handler (for HTTP POST requests) is a common way to create additional
 		// actions that aren't well described with just PUT or DELETE
 	}
@@ -70,7 +94,7 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/reference.md#extensions).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../components/extensions.md).
 
 ### `transaction`
 
@@ -101,73 +125,88 @@ import { databases, tables, Resource } from 'harperdb';
 
 Properties that have been defined in your table's schema can be accessed and modified as direct properties on the Resource instances.
 
-### `get(queryOrProperty?)`: Resource|AsyncIterable
+### `get(target: RequestTarget | Id)`: Promise<Resource>|AsyncIterable
 
-This is called to return the record or data for this resource, and is called by HTTP GET requests. This may be optionally called with a `query` object to specify a query should be performed, or a string to indicate that the specified property value should be returned. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. The default `get` method (`super.get()`) returns the current record as a plain object.
+This retrieves a record, or queries for records, and is called by HTTP GET requests. This can be called with a `RequestTarget` which can specify a path/id and query parameters as well as search parameters. For tables, this can also be called directly with an id (string or number) to retrieve a record by id. When defining Resource classes, you can define or override this method to define exactly what should be returned when retrieving a record. HTTP requests will always call `get` with a full `RequestTarget`. The default `get` method (`super.get(target)`) returns the current record as a plain object.
 
-The query object can be used to access any query parameters that were included in the URL. For example, with a request to `/my-resource/some-id?param1=value`, we can access URL/request information:
-
-```javascript
-get(query) {
-	// note that query will only exist (as an object) if there is a query string
-	let param1 = query?.get?.('param1'); // returns 'value'
-	let id = this.getId(); // returns 'some-id'
-	...
-}
-```
-
-If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return `this` instance of the resource. If `get` is called on a collection (`/Table/?name=value`), the default action is to `search` and return an AsyncIterable of results.
-
-It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.get(query)` performs a `get` on this specific record/resource, not on the whole table. If you wish to access a _different_ record, you should use the static `get` method on the table class, like `Table.get(otherId, context)`.
-
-### `search(query: Query)`: AsyncIterable
-
-This performs a query on this resource, searching for records that are descendants. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. However, if you call search from an instance with a specific ID like `1` from a path like `Table/1`, it will only return records that are descendants of that record, like `[1, 1]` (path of Table/1/1) and `[1, 2]` (path of Table/1/2). If you want to do a standard search of the table, make you call the static method like `Table.search(...)`. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The query object can be used to specify the desired query.
-
-### `getId(): string|number|Array<string|number>`
-
-Returns the primary key value for this resource.
-
-### `put(data: object, query?: Query): Resource|void|Response`
-
-This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
-
-It is important to note that `this` is the resource instance for a specific record, specified by the primary key. Therefore, calling `super.put(data)` updates this specific record/resource, not another records in the table. If you wish to update a _different_ record, you should use the static `put` method on the table class, like `Table.put(data, context)`.
-
-The `query` argument is used to represent any additional query parameters that were included in the URL. For example, with a request to `/my-resource/some-id?param1=value`, we can access URL/request information:
+The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL. For example, with a request to `/my-resource/some-id?param1=value`, we can access URL/request information:
 
 ```javascript
-put(data, query) {
-	let param1 = query?.get?.('param1'); // returns 'value'
-	...
-}
+class extends Resource {
+	static loadAsInstance = false;
+	get(target) {
+		let param1 = target.get('param1'); // returns 'value'
+		let id = target.id; // returns 'some-id'
+		let path = target.pathname; // returns /some-id
+		let fullTarget = target.target; // returns /some-id?param1=value
+		...
+	}
 ```
 
-### `patch(data: object): Resource|void|Response`
+If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return the record identified by the path. If `get` is called on a collection (`/Table/?name=value`), the target will have the `isCollection` property set to `true` and default action is to `search` and return an AsyncIterable of results.
 
-### `patch(data: object, query?: Query)`
+### `search(query: RequestTarget)`: AsyncIterable
 
-This will update the existing record with the provided data's properties, and is called for HTTP PATCH requests. You can define or override this method to define how records should be updated. The default `patch` method on tables (`super.patch(data)`) updates the record. The properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `data` object. This is performed as part of the current transaction for the resource instance. The `query` argument is used to represent any additional query parameters that were included.
+This performs a query on this resource or table. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an `AsyncIterable` of results. The `query` object can be used to specify the desired query.
 
-### `update(data: object, fullUpdate: boolean?)`
 
-This is called by the default `put` and `patch` handlers to update a record. `put` calls with `fullUpdate` as `true` to indicate a full record replacement (`patch` calls it with the second argument as `false`). Any additional property changes that are made before the transaction commits will also be persisted.
+### `put(target: RequestTarget | Id, data: object): void|Response`
 
-### `delete(queryOrProperty?): Resource|void|Response`
+This will assign the provided record or data to this resource, and is called for HTTP PUT requests. You can define or override this method to define how records should be updated. The default `put` method on tables (`super.put(target, data)`) writes the record to the table (updating or inserting depending on if the record previously existed) as part of the current transaction for the resource instance.
 
-This will delete this record or resource, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.delete(record)`) deletes the record from the table as part of the current transaction.
+The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
 
-### `publish(message): Resource|void|Response`
+### `patch(target: RequestTarget | Id, data: object): void|Response`
 
-This will publish a message to this resource, and is called for MQTT publish commands. You can define or override this method to define how messages should be published. The default `publish` method on tables (`super.publish(message)`) records the published message as part of the current transaction; this will not change the data in the record but will notify any subscribers to the record/topic.
+This will update the existing record with the provided data's properties, and is called for HTTP PATCH requests. You can define or override this method to define how records should be updated. The default `patch` method on tables (`super.patch(target, data)`) updates the record. The properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `data` object. This is performed as part of the current transaction for the resource instance. The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
 
-### `post(data: object, query?: Query): Resource|void|Response`
+### `update(target: RequestTarget, updates?: object): Updatable`
 
-This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally `POST` provides a generic mechanism for various types of data updates, and is a good place to define custom functionality for updating records. The default behavior is to create a new record/resource. The `query` argument is used to represent any additional query parameters that were included.
+This can be called to get an Updatable class for updating a record. An `Updatable` instance provides direct access to record properties as properties on `Updatable` instance. The properties can also be modified and any changes are tracked and written to the record when the transaction commits. For example, if we wanted to update the quantify of a product in the Product table, in response to a post, we could write:
+```javascript
+class ... {
+	post(target, data) {
+		static loadAsInstance = false;
+		let updatable = this.update(target);
+		updatable.quantity = updatable.quantity - 1;
+	}
+}
+```
+In addition, the `Updatable` class has the following methods. 
+### `Updatable` class
+  
+#### `addTo(property, value)`
 
-### `invalidate()`
+This adds the provided value to the specified property using conflict-free data type (CRDT) incrementation. This ensures that even if multiple calls are simultaneously made to increment a value, the resulting merge of data changes from different threads and nodes will properly sum all the added values. We could improve the example above to reliably ensure the quantity is decremented even when it occurs in multiple nodes simultaneously:
+```javascript
+class ... {
+	static loadAsInstance = false;
+	post(target, data) {
+		let updatable = this.update(target);
+		updatable.addTo('quantity', -1);
+	}
+}
+```
+#### `subtractFrom(property, value)`
+This functions exactly the same as `addTo`, except it subtracts the value.
 
-This method is available on tables. This will invalidate the current record in the table. This can be used with a caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
+The `Updatable` also inherits the `getUpdatedTime` and `getExpiresAt` methods from the `RecordObject` class.
+
+### `delete(target: RequestTarget): void|Response`
+
+This will delete this record or resource identified by the target, and is called for HTTP DELETE requests. You can define or override this method to define how records should be deleted. The default `delete` method on tables (`super.delete(target)`) deletes the record identified by target from the table as part of the current transaction. The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
+
+### `publish(target: RequestTarget, message): void|Response`
+
+This will publish a message to this resource, and is called for MQTT publish commands. You can define or override this method to define how messages should be published. The default `publish` method on tables (`super.publish(target, message)`) records the published message as part of the current transaction; this will not change the data in the record but will notify any subscribers to the record/topic. The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
+
+### `post(target: RequestTarget, data: object): void|Response`
+
+This is called for HTTP POST requests. You can define this method to provide your own implementation of how POST requests should be handled. Generally `POST` provides a generic mechanism for various types of data updates, and is a good place to define custom functionality for updating records. The default behavior is to create a new record/resource. The `target` object represents the target of a request and can be used to access the path, coerced id, and any query parameters that were included in the URL.
+
+### `invalidate(target: RequestTarget)`
+
+This method is available on tables. This will invalidate the specified record in the table. This can be used with a caching table and is used to indicate that the source data has changed, and the record needs to be reloaded when next accessed.
 
 ### `subscribe(subscriptionRequest: SubscriptionRequest): Promise<Subscription>`
 
@@ -182,33 +221,9 @@ The `SubscriptionRequest` object supports the following properties (all optional
 * `previousCount` - This specifies the number of previous updates/messages to deliver. For example, `previousCount: 10` would return the last ten messages. Note that `previousCount` can not be used in conjunction with `startTime`.
 * `omitCurrent` - Indicates that the current (or retained) record should _not_ be immediately sent as the first update in the subscription (if no `startTime` or `previousCount` was used). By default, the current record is sent as the first update.
 
-### `connect(incomingMessages?: AsyncIterable<any>, query?: Query): AsyncIterable<any>`
+### `connect(target: RequestTarget, incomingMessages?: AsyncIterable<any>): AsyncIterable<any>`
 
 This is called when a connection is received through WebSockets or Server Sent Events (SSE) to this resource path. This is called with `incomingMessages` as an iterable stream of incoming messages when the connection is from WebSockets, and is called with no arguments when the connection is from a SSE connection. This can return an asynchronous iterable representing the stream of messages to be sent to the client.
-
-### `set(property, value)`
-
-This will assign the provided value to the designated property in the resource's record. During a write operation, this will indicate that the record has changed and the changes will be saved during commit. During a read operation, this will modify the copy of the record that will be serialized during serialization (converted to the output format of JSON, MessagePack, etc.).
-
-### `allowCreate(user: any, data: Promise, context: Context): boolean | Promise<boolean>`
-
-This is called to determine if the user has permission to create the current resource. This is called as part of external incoming requests (HTTP). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's insert permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.
-
-### `allowRead(user: any, query: Map | void, context: Context): boolean | Promise<boolean>`
-
-This is called to determine if the user has permission to read from the current resource. This is called as part of external incoming requests (HTTP GET). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's read permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean.
-
-### `allowUpdate(user: any, data: Promise, context: Context): boolean | Promise<boolean>`
-
-This is called to determine if the user has permission to update the current resource. This is called as part of external incoming requests (HTTP PUT). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's update permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean, and may await the `data` promise to determine if the data is valid for creation.
-
-### `allowDelete(user: any, query: Map | void, context: Context): boolean | Promise<boolean>`
-
-This is called to determine if the user has permission to delete the current resource. This is called as part of external incoming requests (HTTP DELETE). The default behavior for a generic resource is that this requires super-user permission and the default behavior for a table is to check the user's role's delete permission to the table. The allow method may be asynchronous and return a promise that resolves to a boolean.
-
-### `addTo(property, value)`
-
-This adds to provided value to the specified property using conflict-free data type (CRDT) incrementation. This ensures that even if multiple calls are simultaneously made to increment a value, the resulting merge of data changes from different threads and nodes will properly sum all the added values.
 
 ### `getUpdatedTime(): number`
 
@@ -260,7 +275,7 @@ The Resource class also has static methods that mirror the instance methods with
 
 The `get`, `put`, `delete`, `publish`, `subscribe`, and `connect` methods all have static equivalents. There is also a `static search()` method for specifically handling searching a table with query parameters. By default, the Resource static methods default to creating an instance bound to the record specified by the arguments, and calling the instance methods. Again, generally static methods are the preferred way to interact with resources and call them from application code. These methods are available on all user Resource classes and tables.
 
-### `get(id: Id, context?: Resource|Context)`
+### `get(target: RequestTarget|Id, context?: Resource|Context)`
 
 This will retrieve a resource instance by id. For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 
@@ -292,7 +307,7 @@ MyTable.get({ id: 34, select: ['name', 'age'] });
 
 This method may also be used to retrieve a collection of records by a query. If the query is not for a specific record id, this will call the `search` method, described above.
 
-### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
+### `put(target: RequestTarget|Id, record: object, context?: Resource|Context): Promise<void>`
 
 This will save the provided record or data to this resource. This will create a new record or fully replace an existing record if one exists with the same `id` (primary key).
 
@@ -304,25 +319,19 @@ This will save the provided record or data to this resource. This will create a 
 
 This will create a new record using the provided record for all fields (except primary key), generating a new primary key for the record. This does _not_ check for an existing record; the record argument should not have a primary key and should use the generated primary key. This will (asynchronously) return the new resource instance. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `post(id: Id, data: object, context?: Resource|Context): Promise<any>`
-
-### `post(data: object, context?: Resource|Context): Promise<any>`
+### `post(target: RequestTarget|Id, data: object, context?: Resource|Context): Promise<any>|any`
 
 This will save the provided data to this resource. By default, this will create a new record (by calling `create`). However, the `post` method is specifically intended to be available for custom behaviors, so extending a class to support custom `post` method behavior is encouraged.
 
-### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
-
-### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
+### `patch(target: RequestTarget|Id, recordUpdate: object, context?: Resource|Context): Promise<void>|void`
 
 This will save the provided updates to the record. The `recordUpdate` object's properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `recordUpdate` object. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `delete(id: Id, context?: Resource|Context): Promise<void>`
+### `delete(target: RequestTarget|Id, context?: Resource|Context): Promise<void>|void`
 
 Deletes this resource's record or data. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
-### `publish(message: object, context?: Resource|Context): Promise<void>`
-
-### `publish(topic: Id, message: object, context?: Resource|Context): Promise<void>`
+### `publish(target: RequestTarget|Id, message: object, context?: Resource|Context): Promise<void>|void`
 
 Publishes the given message to the record entry specified by the id in the context. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
@@ -330,7 +339,7 @@ Publishes the given message to the record entry specified by the id in the conte
 
 Subscribes to a record/resource. See the description of the `subscriptionRequest` object above for more information on how to use this.
 
-### `search(query: Query, context?: Resource|Context): AsyncIterable`
+### `search(query: RequestTarget, context?: Resource|Context): AsyncIterable`
 
 This will perform a query on this table or collection. The query parameter can be used to specify the desired query.
 
@@ -550,9 +559,49 @@ for await (let record of results) {
 
 `AsyncIterable`s can be returned from resource methods, and will be properly serialized in responses. When a query is performed, this will open/reserve a read transaction until the query results are iterated, either through your own `for await` loop or through serialization. Failing to iterate the results this will result in a long-lived read transaction which can degrade performance (including write performance), and may eventually be aborted.
 
+
+### `RequestTarget`
+The `RequestTarget` class is used to represent a URL path that can be mapped to a resource. This is used by the REST interface to map a URL path to a resource class. All REST methods are called with a `RequestTarget` as the first argument, which is used to determine which record or entry to access or modify. Methods on a `Resource` class can be called with a primary key as a string or number value as the first argument, to access or modify a record by primary key, which will work with all the default methods. The static methods will be transform the primary key to a `RequestTarget` instance to call the instance methods for argument normalization.
+When RequestTarget is constructed with a URL path (from the REST methods). The static methods will also automatically parse the path to a `RequestTarget` instance, including parsing the search string into query parameters.
+Below are the properties and methods of the `RequestTarget` class:
+
+* `pathname` - The path of the URL relative to the resource path that matched this request. This excluded the query/search string
+* `toString()` - The full relative path and search string of the URL
+* `search` - The search/query part the target path (the part after the first `?` character)
+* `id` - The primary key of the resource, as determined by the path
+* `checkPermission` - This property is set to an object indicating that a permission check should be performed on the
+  resource. This is used by the REST interface to determine if a user has permission to access the resource. The object
+  contains:
+  * `action` - The type of action being performed (read/write/delete)
+  * `resource` - The resource being accessed
+  * `user` - The user requesting access
+
+`RequestTarget` is subclass of `URLSearchParams`, and these methods are available for accessing and modifying the query parameters:
+* `get(name: string)` - Get the value of the query parameter with the specified name
+* `getAll(name: string)` - Get all the values of the query parameter with the specified name
+* `set(name: string, value: string)` - Set the value of the query parameter with the specified name
+* `append(name: string, value: string)` - Append the value to the query parameter with the specified name
+* `delete(name: string)` - Delete the query parameter with the specified name
+* `has(name: string)` - Check if the query parameter with the specified name exists
+
+In addition, the `RequestTarget` class is an iterable, so you can iterate through the query parameters:
+* `for (let [name, value] of target)` - Iterate through the query parameters
+
+When a `RequestTarget` has query parameters using Harper's extended query syntax, the REST static methods will parse the `RequestTarget` and potentially add any of the following properties if they are present in the query:
+* `conditions` - An array of conditions that will be used to filter the query results
+* `limit` - The limit of the number of records to return
+* `offset` - The number of records to skip before returning the results
+* `sort` - The sort order of the query results
+* `select` - The properties to return in the query results
+
+### `RecordObject`
+The `get` method will return a `RecordObject` instance, which is an object containing all the properties of the record. Any property on the record can be directly accessed and the properties can be enumerated with standard JS capabilities like `for`-`in` and `Object.keys`. The `RecordObject` instance will also have the following methods:
+* `getUpdatedTime()` - Get the last updated time (the version number) of the record
+* `getExpiresAt()` - Get the expiration time of the entry, if there is one.
+
 ### Interacting with the Resource Data Model
 
-When extending or interacting with table resources, when a resource instance is retrieved and instantiated, it will be loaded with the record data from its table. You can interact with this record through the resource instance. For any properties that have been defined in the table's schema, you can direct access or modify properties through standard property syntax. For example, let's say we defined a product schema:
+When extending or interacting with table resources, you can interact through standard CRUD/REST methods to create, read, update, and delete records. You can idiomatic property access and modification to interact with the records themselves. For example, let's say we defined a product schema:
 
 ```graphql
 type Product @table {
@@ -563,16 +612,17 @@ type Product @table {
 }
 ```
 
-If we have extended this table class with our get() we can interact with any these specified attributes/properties:
+If we have extended this table class with our own `get()` we can interact with the record:
 
 ```javascript
 export class CustomProduct extends Product {
-	get(query) {
-		let name = this.name; // this is the name of the current product
-		let rating = this.rating; // this is the rating of the current product
-		this.rating = 3 // we can also modify the rating for the current instance
-		// (with a get this won't be saved by default, but will be used when serialized)
-		return super.get(query);
+	async get(target) {
+		let record = await super.get(target);
+		let name = record.name; // this is the name of the current product
+		let rating = record.rating; // this is the rating of the current product
+		// we can't directly modify the record (it is frozen), but we can copy if we want to return a modification 
+		record = { ...record, rating: 3 };
+		return record;
 	}
 }
 ```
@@ -583,47 +633,18 @@ Likewise, we can interact with resource instances in the same way when retrievin
 let product1 = await Product.get(1);
 let name = product1.name; // this is the name of the product with a primary key of 1
 let rating = product1.rating; // this is the rating of the product with a primary key of 1
-product1.rating = 3 // modify the rating for this instance (this will be saved without a call to update())
-
+// if we want to update a single property:
+await Product.patch(1, { rating: 3});
 ```
 
-If there are additional properties on (some) products that aren't defined in the schema, we can still access them through the resource instance, but since they aren't declared, there won't be getter/setter definition for direct property access, but we can access properties with the `get(propertyName)` method and modify properties with the `set(propertyName, value)` method:
-
-```javascript
-let product1 = await Product.get(1);
-let additionalInformation = product1.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
-product1.set('newProperty', 'some value'); // we can assign any properties we want with set 
-```
-
-And likewise, we can do this in an instance method, although you will probably want to use super.get()/set() so you don't have to write extra logic to avoid recursion:
+When running inside a transaction, we can use the `update` method and updates are automatically saved when a request completes:
 
 ```javascript
 export class CustomProduct extends Product {
-	get(query) {
-		let additionalInformation = super.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
-		super.set('newProperty', 'some value'); // we can assign any properties we want with set 
-	}
-}
-```
-
-Note that you may also need to use `get`/`set` for properties that conflict with existing method names. For example, your schema defines an attribute called `getId` (not recommended), you would need to access that property through `get('getId')` and `set('getId', value)`.
-
-If you want to save the changes you make, you can call the \`update()\`\` method:
-
-```javascript
-let product1 = await Product.get(1);
-product1.rating = 3;
-product1.set('newProperty', 'some value');
-product1.update(); // save both of these property changes
-```
-
-Updates are automatically saved inside modifying methods like put and post:
-
-```javascript
-export class CustomProduct extends Product {
-	post(data) {
-		this.name = data.name;
-		this.set('description', data.description);
+	post(target, data) {
+		let record = this.update(target);
+		record.name = data.name;
+		record.description = data.description;
 		// both of these changes will be saved automatically as this transaction commits
 	}
 }
@@ -654,13 +675,14 @@ We can interact with these nested properties:
 ```javascript
 export class CustomProduct extends Product {
 	post(data) {
-		let brandName = this.brand.name;
-		let firstVariationPrice = this.variations[0].price;
-		let additionalInfoOnBrand = this.brand.get('additionalInfo'); // not defined in schema, but can still try to access property
+		let record = this.update(target);
+		let brandName = record.brand.name;
+		let firstVariationPrice = record.variations[0].price;
+		let additionalInfoOnBrand = record.brand.additionalInfo; // not defined in schema, but can still try to access property
 		// make some changes
-		this.variations.splice(0, 1); // remove first variation
-		this.variations.push({ name: 'new variation', price: 9.99 }); // add a new variation
-		this.brand.name = 'new brand name';
+		record.variations.splice(0, 1); // remove first variation
+		record.variations.push({ name: 'new variation', price: 9.99 }); // add a new variation
+		record.brand.name = 'new brand name';
 		// all these change will be saved
 	}
 }
@@ -669,19 +691,8 @@ export class CustomProduct extends Product {
 If you need to delete a property, you can do with the `delete` method:
 
 ```javascript
-let product1 = await Product.get(1);
+let product1 = await Product.update(1);
 product1.delete('additionalInformation');
-product1.update();
-```
-
-You can also get "plain" object representation of a resource instance by calling `toJSON`, which will return a simple frozen object with all the properties (whether defined in the schema) as direct normal properties (note that this object can _not_ be modified, it is frozen since it is belongs to a cache):
-
-```javascript
-let product1 = await Product.get(1);
-let plainObject = product1.toJSON();
-for (let key in plainObject) {
-	// can iterate through the properties of this record
-}
 ```
 
 ## Response Object

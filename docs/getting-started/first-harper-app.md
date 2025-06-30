@@ -77,7 +77,7 @@ type Dog @table @export {
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration.md#http)), so the local URL would be http://localhost:9926/Dog/ with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration.md#http)), so the local URL would be `http://localhost:9926/Dog/` with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```json
 POST /Dog/
@@ -149,10 +149,9 @@ http://localhost:9926/Dog/?breed=Labrador
 http://localhost:9926/Dog/?breed=Husky&name=Balto&select(id,name,breed)
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest.md) and see the [Schema reference](defining-schemas.md) for more options for defining schemas.
+Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest.md) and see the [Schema reference](../developers/applications/defining-schemas.md) for more options for defining schemas.
 
-> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../../technical-details/reference/graphql.md).
-
+> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../technical-details/reference/graphql.md).
 
 ## Key Takeaway
 Harper's schema-driven approach means you can build production-ready APIs in minutes, not hours. Start with pure schema definitions to get 90% of your functionality, then add custom code only where needed. This gives you the best of both worlds: rapid development with the flexibility to customize when required.

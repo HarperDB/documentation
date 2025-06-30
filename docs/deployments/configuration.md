@@ -1180,7 +1180,7 @@ The name of the component. This will be used to name the folder where the compon
 
 `package` - _Type_: string
 
-A reference to your [component](../developers/components/managing.md#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
+A reference to your [component](../technical-details/reference/components/applications.md#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
