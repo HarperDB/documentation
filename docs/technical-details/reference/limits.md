@@ -29,4 +29,5 @@ Additionally, they cannot contain the first 31 non-printing characters. Spaces a
 Harper limits the number of total indexed attributes across tables (including the primary key of each table) to 10,000 per database.
 
 ## Primary Keys
+
 The maximum length of a primary key is 1978 bytes or 659 characters (whichever is shortest).

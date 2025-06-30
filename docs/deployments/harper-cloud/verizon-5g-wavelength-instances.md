@@ -24,4 +24,4 @@ AWS EBS gp2 volumes have a baseline performance level, which determines the numb
 
 Smaller gp2 volumes are perfect for trying out the functionality of Harper, and might also work well for applications that don’t perform many database transactions. For applications that perform a moderate or high number of transactions, we recommend that you use a larger Harper volume. Learn more about the [impact of IOPS on performance here](iops-impact.md).
 
-You can read more about [AWS EBS gp2 volume IOPS here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes\_gp2).
+You can read more about [AWS EBS gp2 volume IOPS here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#EBSVolumeTypes_gp2).

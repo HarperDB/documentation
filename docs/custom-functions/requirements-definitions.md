@@ -1,8 +1,10 @@
 # Requirements And Definitions
+
 Before you get started with Custom Functions, here’s a primer on the basic configuration and the structure of a Custom Functions Project.
 
 ## Configuration
-Custom Functions are configured in the harperdb-config.yaml file located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user). Below is a view of the Custom Functions' section of the config YAML file, plus descriptions of important Custom Functions settings. 
+
+Custom Functions are configured in the harperdb-config.yaml file located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user). Below is a view of the Custom Functions' section of the config YAML file, plus descriptions of important Custom Functions settings.
 
 ```yaml
 customFunctions:
@@ -24,22 +26,22 @@ customFunctions:
     privateKey: ~/hdb/keys/privateKey.pem
 ```
 
-* **`enabled`**
+- **`enabled`**
   A boolean value that tells Harper to start the Custom Functions server. Set it to **true** to enable custom functions and **false** to disable. `enabled` is `true` by default.
 
-* **`network.port`**
+- **`network.port`**
   This is the port Harper will use to start the HTTP server dedicated to serving your Custom Functions’ routes.
 
-* **`root`**
+- **`root`**
   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your \<ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
 
 _Please visit our [configuration docs](../configuration.md) for a more comprehensive look at these settings._
 
 ## Project Structure
+
 **project folder**
 
-The name of the folder that holds your project files serves as the root prefix for all the routes you create.  All routes created in the **dogs** project folder will have a URL like this: **https://my-server-url.com:9926/dogs/my/route**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
-
+The name of the folder that holds your project files serves as the root prefix for all the routes you create. All routes created in the **dogs** project folder will have a URL like this: **https://my-server-url.com:9926/dogs/my/route**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
 
 **/routes folder**
 
@@ -47,13 +49,13 @@ By default, files in the **routes** folder define the requests that your Custom 
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {
-    server.route({
-        url: '/',
-        method: 'POST',
-        preValidation: hdbCore.preValidation,
-        handler: hdbCore.request,
-    });
-}
+	server.route({
+		url: '/',
+		method: 'POST',
+		preValidation: hdbCore.preValidation,
+		handler: hdbCore.request,
+	});
+};
 ```
 
 **/helpers folder**
@@ -61,7 +63,7 @@ module.exports = async (server, { hdbCore, logger }) => {
 These files are JavaScript modules that you can use in your handlers, or for custom `preValidation` hooks. Examples include calls to third party Authentication services, filters for results of calls to Harper, and custom error responses. As modules, you can use standard import and export functionality.
 
 ```javascript
-"use strict";
+'use strict';
 
 const dbFilter = (databaseResultsArray) => databaseResultsArray.filter((result) => result.showToApi === true);
 

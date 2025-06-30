@@ -10,71 +10,71 @@ If you would like to use the transaction log, but have not set up clustering yet
 
 ## Transaction Log Operations
 
-### read\_transaction\_log
+### read_transaction_log
 
 The `read_transaction_log` operation returns a prescribed set of records, based on given parameters. The example below will give a maximum of 2 records within the timestamps provided.
 
 ```json
 {
-    "operation": "read_transaction_log",
-    "schema": "dev",
-    "table": "dog",
-    "from": 1598290235769,
-    "to": 1660249020865,
-    "limit": 2
+	"operation": "read_transaction_log",
+	"schema": "dev",
+	"table": "dog",
+	"from": 1598290235769,
+	"to": 1660249020865,
+	"limit": 2
 }
 ```
 
 _See example response below._
 
-### read\_transaction\_log Response
+### read_transaction_log Response
 
 ```json
 [
-    {
-        "operation": "insert",
-        "user": "admin",
-        "timestamp": 1660165619736,
-        "records": [
-            {
-                "id": 1,
-                "dog_name": "Penny",
-                "owner_name": "Kyle",
-                "breed_id": 154,
-                "age": 7,
-                "weight_lbs": 38,
-                "__updatedtime__": 1660165619688,
-                "__createdtime__": 1660165619688
-            }
-        ]
-    },
-    {
-        "operation": "update",
-        "user": "admin",
-        "timestamp": 1660165620040,
-        "records": [
-            {
-                "id": 1,
-                "dog_name": "Penny B",
-                "__updatedtime__": 1660165620036
-            }
-        ]
-    }
+	{
+		"operation": "insert",
+		"user": "admin",
+		"timestamp": 1660165619736,
+		"records": [
+			{
+				"id": 1,
+				"dog_name": "Penny",
+				"owner_name": "Kyle",
+				"breed_id": 154,
+				"age": 7,
+				"weight_lbs": 38,
+				"__updatedtime__": 1660165619688,
+				"__createdtime__": 1660165619688
+			}
+		]
+	},
+	{
+		"operation": "update",
+		"user": "admin",
+		"timestamp": 1660165620040,
+		"records": [
+			{
+				"id": 1,
+				"dog_name": "Penny B",
+				"__updatedtime__": 1660165620036
+			}
+		]
+	}
 ]
 ```
 
 _See example request above._
 
-### delete\_transaction\_logs\_before
+### delete_transaction_logs_before
 
 The `delete_transaction_logs_before` operation will delete transaction log data according to the given parameters. The example below will delete records older than the timestamp provided.
 
 ```json
 {
-    "operation": "delete_transaction_logs_before",
-    "schema": "dev",
-    "table": "dog",
-    "timestamp": 1598290282817
+	"operation": "delete_transaction_logs_before",
+	"schema": "dev",
+	"table": "dog",
+	"timestamp": 1598290282817
 }
 ```
 

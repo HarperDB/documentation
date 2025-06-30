@@ -4,10 +4,10 @@ Harper Cloud instance alarms are triggered when certain conditions are met. Once
 
 ### Heading Definitions
 
-* **Alarm**: Title of the alarm.
-* **Threshold**: Definition of the alarm threshold.
-* **Intervals**: The number of occurrences before an alarm is triggered and the period that the metric is evaluated over.
-* **Proposed Remedy**: Recommended solution to avoid the alert in the future.
+- **Alarm**: Title of the alarm.
+- **Threshold**: Definition of the alarm threshold.
+- **Intervals**: The number of occurrences before an alarm is triggered and the period that the metric is evaluated over.
+- **Proposed Remedy**: Recommended solution to avoid the alert in the future.
 
 | Alarm   | Threshold  | Intervals | Proposed Remedy                                                                                                                |
 | ------- | ---------- | --------- | ------------------------------------------------------------------------------------------------------------------------------ |

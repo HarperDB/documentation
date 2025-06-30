@@ -34,5 +34,5 @@ Harper's architecture consists of resources, which includes tables and user defi
    │       │                │               │
    │       └────────────────┘               │
    │                                        │
-   └────────────────────────────────────────┘ 
+   └────────────────────────────────────────┘
 ```

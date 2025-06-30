@@ -1,11 +1,13 @@
 Tables are replicated when the table is designated as replicating and there is subscription between the nodes.
 Tables designated as replicating by default, but can be changed by setting `replicate` to `false` in the table definition:
+
 ```graphql
 type Product @table(replicate: false) {
-  id: ID!
-  name: String!
+	id: ID!
+	name: String!
 }
 ```
+
 Or in your harperdb-config.yaml, you can set the default replication behavior for databases, and indicate which databases
 should be replicated by default:
 
@@ -13,21 +15,19 @@ should be replicated by default:
 replication:
   databases: data
 ```
+
 If a table is not in the list of databases to be replicated, it will not be replicated unless the table is specifically set to replicate:
 
 ```graphql
 type Product @table(replicate: true) {
-  id: ID!
-  name: String!
+	id: ID!
+	name: String!
 }
 ```
 
-Reading hdb_nodes (what we do _to_ the node, not what the node does).
+Reading hdb*nodes (what we do \_to* the node, not what the node does).
 
 The subscription can be set to publish, subscribe, or both.
-
-
-
 
 # Managing subscriptions
 
@@ -39,22 +39,22 @@ To add a single node and create one or more subscriptions use `set_node_replicat
 
 ```json
 {
-    "operation": "set_node_replication",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "database": "data",
-            "table": "dog",
-            "publish": false,
-            "subscribe": true
-        },
-        {
-            "database": "data",
-            "table": "chicken",
-            "publish": true,
-            "subscribe": true
-        }
-    ]
+	"operation": "set_node_replication",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"database": "data",
+			"table": "dog",
+			"publish": false,
+			"subscribe": true
+		},
+		{
+			"database": "data",
+			"table": "chicken",
+			"publish": true,
+			"subscribe": true
+		}
+	]
 }
 ```
 
@@ -64,16 +64,16 @@ To update one or more subscriptions with a single node you can also use `set_nod
 
 ```json
 {
-    "operation": "set_node_replication",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "schema": "dev",
-            "table": "dog",
-            "publish": true,
-            "subscribe": true
-        }
-    ]
+	"operation": "set_node_replication",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"schema": "dev",
+			"table": "dog",
+			"publish": true,
+			"subscribe": true
+		}
+	]
 }
 ```
 
@@ -83,37 +83,37 @@ To add or update subscriptions with one or more nodes in one API call use `confi
 
 ```json
 {
-    "operation": "configure_cluster",
-    "connections": [
-        {
-            "node_name": "Node2",
-            "subscriptions": [
-                {
-                    "database": "dev",
-                    "table": "chicken",
-                    "publish": false,
-                    "subscribe": true
-                },
-                {
-                    "database": "prod",
-                    "table": "dog",
-                    "publish": true,
-                    "subscribe": true
-                }
-            ]
-        },
-        {
-            "node_name": "Node3",
-            "subscriptions": [
-                {
-                    "database": "dev",
-                    "table": "chicken",
-                    "publish": true,
-                    "subscribe": false
-                }
-            ]
-        }
-    ]
+	"operation": "configure_cluster",
+	"connections": [
+		{
+			"node_name": "Node2",
+			"subscriptions": [
+				{
+					"database": "dev",
+					"table": "chicken",
+					"publish": false,
+					"subscribe": true
+				},
+				{
+					"database": "prod",
+					"table": "dog",
+					"publish": true,
+					"subscribe": true
+				}
+			]
+		},
+		{
+			"node_name": "Node3",
+			"subscriptions": [
+				{
+					"database": "dev",
+					"table": "chicken",
+					"publish": true,
+					"subscribe": false
+				}
+			]
+		}
+	]
 }
 ```
 
@@ -127,17 +127,17 @@ There is an optional property called `start_time` that can be passed in the subs
 
 ```json
 {
-    "operation": "set_node_replication",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "database": "dev",
-            "table": "dog",
-            "publish": false,
-            "subscribe": true,
-            "start_time": "2022-09-02T20:06:35.993Z"
-        }
-    ]
+	"operation": "set_node_replication",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"database": "dev",
+			"table": "dog",
+			"publish": false,
+			"subscribe": true,
+			"start_time": "2022-09-02T20:06:35.993Z"
+		}
+	]
 }
 ```
 
@@ -153,8 +153,8 @@ To remove a node and all its subscriptions use `remove_node`.
 
 ```json
 {
-    "operation":"remove_node",
-    "node_name":"Node2"
+	"operation": "remove_node",
+	"node_name": "Node2"
 }
 ```
 
@@ -164,32 +164,32 @@ To get the status of all connected nodes and see their subscriptions use `cluste
 
 ```json
 {
-    "node_name": "Node1",
-    "is_enabled": true,
-    "connections": [
-        {
-            "node_name": "Node2",
-            "status": "open",
-            "ports": {
-                "clustering": 9932,
-                "operations_api": 9925
-            },
-            "latency_ms": 65,
-            "uptime": "11m 19s",
-            "subscriptions": [
-                {
-                    "schema": "dev",
-                    "table": "dog",
-                    "publish": true,
-                    "subscribe": true
-                }
-            ],
-            "system_info": {
-                "hdb_version": "4.0.0",
-                "node_version": "16.17.1",
-                "platform": "linux"
-            }
-        }
-    ]
+	"node_name": "Node1",
+	"is_enabled": true,
+	"connections": [
+		{
+			"node_name": "Node2",
+			"status": "open",
+			"ports": {
+				"clustering": 9932,
+				"operations_api": 9925
+			},
+			"latency_ms": 65,
+			"uptime": "11m 19s",
+			"subscriptions": [
+				{
+					"schema": "dev",
+					"table": "dog",
+					"publish": true,
+					"subscribe": true
+				}
+			],
+			"system_info": {
+				"hdb_version": "4.0.0",
+				"node_version": "16.17.1",
+				"platform": "linux"
+			}
+		}
+	]
 }
 ```

@@ -2,9 +2,9 @@
 
 The Harper Studio allows you to administer all of your HarperDinstances in one place. Harper currently offers the following instance types:
 
-* **Harper Cloud Instance** Managed installations of Harper, what we call [Harper Cloud](../../deployments/harper-cloud/).
-* **5G Wavelength Instance** Managed installations of Harper running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deployments/harper-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
-* **Enterprise Instance** Any Harper installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
+- **Harper Cloud Instance** Managed installations of Harper, what we call [Harper Cloud](../../deployments/harper-cloud/).
+- **5G Wavelength Instance** Managed installations of Harper running on the Verizon network through AWS Wavelength, what we call [5G Wavelength Instances](../../deployments/harper-cloud/verizon-5g-wavelength-instances.md). _Note, these instances are only accessible via the Verizon network._
+- **Enterprise Instance** Any Harper installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
 All interactions between the Studio and your instances take place directly from your browser. Harper stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the Harper instances using the standard [Harper API](../../developers/operations-api/).
 
@@ -20,26 +20,32 @@ A summary view of all instances within an organization can be viewed by clicking
 4. Select your desired Instance Type.
 5. For a Harper Cloud Instance or a Harper 5G Wavelength Instance, click **Create Harper Cloud Instance**.
    1. Fill out Instance Info.
-      1.  Enter Instance Name
+      1. Enter Instance Name
 
-          _This will be used to build your instance URL. For example, with subdomain “demo” and instance name “c1” the instance URL would be: https://c1-demo.harperdbcloud.com. The Instance URL will be previewed below._
-      2.  Enter Instance Username
+         _This will be used to build your instance URL. For example, with subdomain “demo” and instance name “c1” the instance URL would be: https://c1-demo.harperdbcloud.com. The Instance URL will be previewed below._
 
-          _This is the username of the initial Harper instance super user._
-      3.  Enter Instance Password
+      2. Enter Instance Username
 
-          _This is the password of the initial Harper instance super user._
+         _This is the username of the initial Harper instance super user._
+
+      3. Enter Instance Password
+
+         _This is the password of the initial Harper instance super user._
+
    2. Click **Instance Details** to move to the next page.
    3. Select Instance Specs
-      1.  Select Instance RAM
+      1. Select Instance RAM
 
-          _Harper Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../../deployments/harper-cloud/instance-size-hardware-specs.md)_._
-      2.  Select Storage Size
+         _Harper Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ [_More on instance specs_](../../deployments/harper-cloud/instance-size-hardware-specs.md)_._
 
-          _Each instance has a mounted storage volume where your Harper data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../../deployments/harper-cloud/iops-impact.md)_._
-      3.  Select Instance Region
+      2. Select Storage Size
 
-          _The geographic area where your instance will be provisioned._
+         _Each instance has a mounted storage volume where your Harper data will reside. Storage is provisioned based on space and IOPS._ [_More on IOPS Impact on Performance_](../../deployments/harper-cloud/iops-impact.md)_._
+
+      3. Select Instance Region
+
+         _The geographic area where your instance will be provisioned._
+
    4. Click **Confirm Instance Details** to move to the next page.
    5. Review your Instance Details, if there is an error, use the back button to correct it.
    6. Review the [Privacy Policy](https://harperdb.io/legal/privacy-policy/) and [Terms of Service](https://harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
@@ -53,29 +59,36 @@ A summary view of all instances within an organization can be viewed by clicking
 3. Click the **Create New Harper Cloud Instance + Register Enterprise Instance** card.
 4. Select **Register Enterprise Instance**.
    1. Fill out Instance Info.
-      1.  Enter Instance Name
+      1. Enter Instance Name
 
-          _This is used for descriptive purposes only._
-      2.  Enter Instance Username
+         _This is used for descriptive purposes only._
 
-          _The username of a Harper super user that is already configured in your Harper installation._
-      3.  Enter Instance Password
+      2. Enter Instance Username
 
-          _The password of a Harper super user that is already configured in your Harper installation._
-      4.  Enter Host
+         _The username of a Harper super user that is already configured in your Harper installation._
 
-          _The host to access the Harper instance. For example, `harperdb.myhost.com` or `localhost`._
-      5.  Enter Port
+      3. Enter Instance Password
 
-          _The port to access the Harper instance. Harper defaults `9925` for HTTP and `31283` for HTTPS._
-      6.  Select SSL
+         _The password of a Harper super user that is already configured in your Harper installation._
 
-          _If your instance is running over SSL, select the SSL checkbox. If not, you will need to enable mixed content in your browser to allow the HTTPS Studio to access the HTTP instance. If there are issues connecting to the instance, the Studio will display a red error message._
+      4. Enter Host
+
+         _The host to access the Harper instance. For example, `harperdb.myhost.com` or `localhost`._
+
+      5. Enter Port
+
+         _The port to access the Harper instance. Harper defaults `9925` for HTTP and `31283` for HTTPS._
+
+      6. Select SSL
+
+         _If your instance is running over SSL, select the SSL checkbox. If not, you will need to enable mixed content in your browser to allow the HTTPS Studio to access the HTTP instance. If there are issues connecting to the instance, the Studio will display a red error message._
+
    2. Click **Instance Details** to move to the next page.
    3. Select Instance Specs
-      1.  Select Instance RAM
+      1. Select Instance RAM
 
-          _Harper instances are billed based on Instance RAM. Selecting additional RAM will enable the ability for faster and more complex queries._
+         _Harper instances are billed based on Instance RAM. Selecting additional RAM will enable the ability for faster and more complex queries._
+
    4. Click **Confirm Instance Details** to move to the next page.
    5. Review your Instance Details, if there is an error, use the back button to correct it.
    6. Review the [Privacy Policy](https://harperdb.io/legal/privacy-policy/) and [Terms of Service](https://harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
@@ -86,17 +99,18 @@ A summary view of all instances within an organization can be viewed by clicking
 
 Instance deletion has two different behaviors depending on the instance type.
 
-* **Harper Cloud Instance** This instance will be permanently deleted, including all data. This process is irreversible and cannot be undone.
-* **Enterprise Instance** The instance will be removed from the Harper Studio only. This does not uninstall Harper from your system and your data will remain intact.
+- **Harper Cloud Instance** This instance will be permanently deleted, including all data. This process is irreversible and cannot be undone.
+- **Enterprise Instance** The instance will be removed from the Harper Studio only. This does not uninstall Harper from your system and your data will remain intact.
 
 An instance can be deleted as follows:
 
 1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 2. Click the appropriate organization that the instance belongs to.
 3. Identify the proper instance card and click the trash can icon.
-4.  Enter the instance name into the text box.
+4. Enter the instance name into the text box.
 
-    _This is done for confirmation purposes to ensure you do not accidentally delete an instance._
+   _This is done for confirmation purposes to ensure you do not accidentally delete an instance._
+
 5. Click the **Do It** button.
 
 ## Upgrade an Instance
@@ -117,10 +131,12 @@ To log in to an instance:
 1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 2. Click the appropriate organization that the instance belongs to.
 3. Identify the proper instance card, it will have an unlocked icon and a status reading PLEASE LOG IN, and click the center of the card.
-4.  Enter the database username.
+4. Enter the database username.
 
-    _The username of a Harper user that is already configured in your Harper instance._
-5.  Enter the database password.
+   _The username of a Harper user that is already configured in your Harper instance._
 
-    _The password of a Harper user that is already configured in your Harper instance._
+5. Enter the database password.
+
+   _The password of a Harper user that is already configured in your Harper instance._
+
 6. Click **Log In**.

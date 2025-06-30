@@ -12,11 +12,11 @@ There are multiple ways a `cluster_user` can be created, they are:
 
 ```json
 {
-    "operation": "add_user",
-    "role": "cluster_user",
-    "username": "cluster_account",
-    "password": "letsCluster123!",
-    "active": true
+	"operation": "add_user",
+	"role": "cluster_user",
+	"username": "cluster_account",
+	"password": "letsCluster123!",
+	"active": true
 }
 ```
 
@@ -26,8 +26,8 @@ This can be done through the API by calling `set_configuration` or by editing th
 
 ```json
 {
-    "operation": "set_configuration",
-    "clustering_user": "cluster_account"
+	"operation": "set_configuration",
+	"clustering_user": "cluster_account"
 }
 ```
 

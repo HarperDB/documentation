@@ -39,9 +39,9 @@ There are multiple ways to set routes, they are:
 
 ```json
 {
-    "operation": "cluster_set_routes",
-    "server": "hub",
-    "routes":[ {"host": "3.735.184.8", "port": 9932} ]
+	"operation": "cluster_set_routes",
+	"server": "hub",
+	"routes": [{ "host": "3.735.184.8", "port": 9932 }]
 }
 ```
 
@@ -63,7 +63,7 @@ The API also has `cluster_get_routes` for getting all routes in the config and `
 
 ```json
 {
-    "operation": "cluster_delete_routes",
-    "routes":[ {"host": "3.735.184.8", "port": 9932} ]
+	"operation": "cluster_delete_routes",
+	"routes": [{ "host": "3.735.184.8", "port": 9932 }]
 }
 ```

@@ -30,7 +30,7 @@ Since these new certificates can be issued with correct CNs, you should set `ins
 
 ### Certificate Requirements
 
-* Certificates must have an `Extended Key Usage` that defines both `TLS Web Server Authentication` and `TLS Web Client Authentication` as these certificates will be used to accept connections from other Harper nodes and to make requests to other Harper nodes. Example:
+- Certificates must have an `Extended Key Usage` that defines both `TLS Web Server Authentication` and `TLS Web Client Authentication` as these certificates will be used to accept connections from other Harper nodes and to make requests to other Harper nodes. Example:
 
 ```
 X509v3 Key Usage: critical
@@ -39,8 +39,8 @@ X509v3 Extended Key Usage:
     TLS Web Server Authentication, TLS Web Client Authentication
 ```
 
-* If you are using an intermediate CA to issue the certificates, the entire certificate chain (to the root CA) must be included in the `certificateAuthority` file.
-* If your certificates expire you will need a way to issue new certificates to the nodes and then restart Harper. If you are using a public CA such as LetsEncrypt, a tool like `certbot` can be used to renew certificates.
+- If you are using an intermediate CA to issue the certificates, the entire certificate chain (to the root CA) must be included in the `certificateAuthority` file.
+- If your certificates expire you will need a way to issue new certificates to the nodes and then restart Harper. If you are using a public CA such as LetsEncrypt, a tool like `certbot` can be used to renew certificates.
 
 ### Certificate Troubleshooting
 

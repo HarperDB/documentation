@@ -5,9 +5,11 @@
 Harper provides real-time access to data and messaging. This allows clients to monitor and subscribe to data for changes in real-time as well as handling data-oriented messaging. Harper supports multiple standardized protocols to facilitate diverse standards-based client interaction.
 
 Harper real-time communication is based around database tables. Declared tables are the basis for monitoring data, and defining "topics" for publishing and subscribing to messages. Declaring a table that establishes a topic can be as simple as adding a table with no attributes to your [schema.graphql in a Harper application folder](./applications/README.md):
+
 ```
 type MyTopic @table @export
 ```
+
 You can then subscribe to records or sub-topics in this topic/namespace, as well as save data and publish messages, with the protocols discussed below.
 
 ### Content Negotiation
@@ -57,6 +59,7 @@ Harper supports QoS 0 and 1 for publishing and subscribing.
 Harper supports multi-level topics, both for subscribing and publishing. Harper also supports multi-level wildcards, so you can subscribe to /`my-resource/#` to receive notifications for `my-resource/some-id` as well as `my-resource/nested/id`, or you can subscribe to `my-resource/nested/#` and receive the latter, but not the former, topic messages. Harper currently only supports trailing multi-level wildcards (no single-level wildcards with '\*').
 
 #### Events
+
 JavaScript components can also listen for MQTT events. This is available on the server.mqtt.events object. For example, to set up a listener/callback for when MQTT clients connect and authorize, we can do:
 
 ```javascript
@@ -64,11 +67,13 @@ server.mqtt.events.on('connected', (session, socket) => {
 	console.log('client connected with id', session.clientId);
 });
 ```
+
 The following MQTT events are available:
-* `connection` - When a client initially establishes a TCP or WS connection to the server
-* `connected` - When a client establishes an authorized MQTT connection
-* `auth-failed` - When a client fails to authenticate
-* `disconnected` - When a client disconnects from the server
+
+- `connection` - When a client initially establishes a TCP or WS connection to the server
+- `connected` - When a client establishes an authorized MQTT connection
+- `auth-failed` - When a client fails to authenticate
+- `disconnected` - When a client disconnects from the server
 
 ### Ordering
 
@@ -140,7 +145,7 @@ eventSource.onmessage = (event) => {
 ### MQTT Feature Support Matrix
 
 | Feature                                                            | Support                                                        |
-|--------------------------------------------------------------------|----------------------------------------------------------------|
+| ------------------------------------------------------------------ | -------------------------------------------------------------- |
 | Connections, protocol negotiation, and acknowledgement with v3.1.1 | :heavy_check_mark:                                             |
 | Connections, protocol negotiation, and acknowledgement with v5     | :heavy_check_mark:                                             |
 | Secure MQTTS                                                       | :heavy_check_mark:                                             |

@@ -16,10 +16,10 @@ Strings, or text, are a sequence of any unicode characters and are internally en
 
 Numbers can be stored as signed integers up to a 1000 bits of precision (about 300 digits) or floating point with 64-bit floating point precision, and numbers are automatically stored using the most optimal type. With JSON, numbers are automatically parsed and stored in the most appropriate format. Custom components and applications may use BigInt numbers to store/access integers that are larger than 53-bit. The following GraphQL schema type name are supported:
 
-* `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format) ("double")
-* `Int` - Any integer between from -2147483648 to 2147483647
-* `Long` - Any integer between from -9007199254740992 to 9007199254740992
-* `BigInt` - Any integer (negative or positive) with less than 300 digits
+- `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) ("double")
+- `Int` - Any integer between from -2147483648 to 2147483647
+- `Long` - Any integer between from -9007199254740992 to 9007199254740992
+- `BigInt` - Any integer (negative or positive) with less than 300 digits
 
 Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.
 
@@ -44,10 +44,12 @@ Dates can be stored as a specific data type. This is not supported in JSON, but 
 Binary data can be stored in property values as well, with two different data types that are available:
 
 ### Bytes
+
 JSON doesn’t have any support for encoding binary data, but MessagePack and CBOR support binary data in data structures, and this will be preserved in HarperDB. Custom Functions can also store binary data by using NodeJS’s Buffer or Uint8Array instances to hold the binary data. The GraphQL schema type name is `Bytes`.
 
 ### Blobs
-Binary data can also be stored with [`Blob`s](blob.md), which can scale much better for larger content than `Bytes`, as it is designed to be streamed and does not need to be held entirely in memory. It is recommended that `Blob`s are used for content larger than 20KB. 
+
+Binary data can also be stored with [`Blob`s](blob.md), which can scale much better for larger content than `Bytes`, as it is designed to be streamed and does not need to be held entirely in memory. It is recommended that `Blob`s are used for content larger than 20KB.
 
 ## Explicit Map/Set
 
