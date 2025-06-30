@@ -34,7 +34,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a database](../../developers/applications/defining-schemas.md) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake\_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a database](../../developers/applications/defining-schemas.md) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ## `databases`
 
@@ -72,13 +72,14 @@ Returns an array of server instances based on the specified `options.port` and `
 Example:
 
 ```js
-server.http((request, next) => {
-	return request.url === '/graphql'
-		? handleGraphQLRequest(request)
-		: next(request);
-}, {
-	runFirst: true, // run this handler first
-});
+server.http(
+	(request, next) => {
+		return request.url === '/graphql' ? handleGraphQLRequest(request) : next(request);
+	},
+	{
+		runFirst: true, // run this handler first
+	}
+);
 ```
 
 #### `RequestListener`
@@ -92,16 +93,19 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource.md) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
 
 #### `Request`
+
 A `Request` object is passed to the direct static REST handlers, and preserved as the context for instance methods, and has the following properties:
+
 - `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `http://example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
 - `method` - This is the HTTP method of the request. This is a string like `GET`, `POST`, `PUT`, `DELETE`, etc.
 - `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
 - `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
 - `protocol` - This is the protocol of the request, like `http` or `https`.
-- `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type`](./content-types.md)  header).
+- `data` - This is the deserialized body of the request (based on the type of data specified by [`Content-Type`](./content-types.md) header).
 - `ip` - This is the remote IP address of the client that made the request (or the remote IP address of the last proxy to connect to Harper).
 - `host` - This is the host of the request, like `example.com`.
 - `sendEarlyHints(link: string, headers?: object): void` - This method sends an early hints response to the client, prior to actually returning a response. This is useful for sending a link header to the client to indicate that another resource should be preloaded. The `headers` argument can be used to send additional headers with the early hints response, in addition to the `link`. This is generally most helpful in a cache resolution function, where you can send hints _if_ the data is not in the cache and is resolving from an origin:
+
 ```javascript
 class Origin {
 	async get(request) {
@@ -113,6 +117,7 @@ class Origin {
 }
 Cache.sourcedFrom(Origin);
 ```
+
 - `login(username, password): Promise<void>` - This method can be called to start an authenticated session. The login will authenticate the user by username and password. If the authentication was successful, a session will be created and a cookie will be set on the response header that references the session. All subsequent requests from the client that sends the cookie in requests will be authenticated as the user that logged in and the session record will be attached to the request. This method returns a promise that resolves when the login is successful, and rejects if the login is unsuccessful.
 - `session` - This is the session object that is associated with current cookie-maintained session. This object is used to store session data for the current session. This is `Table` record instance, and can be updated by calling `request.session.update({ key: value })` or session can be retrieved with `request.session.get()`. If the cookie has not been set yet, a cookie will be set the first time a session is updated or a login occurs.
 - `_nodeRequest` - This is the underlying Node.js [`http.IncomingMessage`](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object. This can be used to access the raw request data, such as the raw headers, raw body, etc. However, this is discouraged and should be used with caution since it will likely break any other server handlers that depends on the layered `Request` call with `Response` return pattern.
@@ -121,9 +126,10 @@ Cache.sourcedFrom(Origin);
 #### `Response`
 
 REST methods can directly return data that is serialized and returned to users, or it can return a `Response` object (or a promise to a `Response`), or it can return a `Response`-like object with the following properties (or again, a promise to it):
+
 - `status` - This is the HTTP status code of the response. This is a number like `200`, `404`, `500`, etc.
 - `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the response.
-- `data` - This is the data to be returned of the response. This will be serialized using Harper's [content negotiation](./content-types.md). 
+- `data` - This is the data to be returned of the response. This will be serialized using Harper's [content negotiation](./content-types.md).
 - `body` - Alternately (to `data`), the raw body can be returned as a `Buffer`, string, stream (Node.js or [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)), or a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
 
 #### `HttpOptions`
@@ -132,9 +138,9 @@ Type: `Object`
 
 Properties:
 
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 #### `HttpServer`
 
@@ -152,8 +158,8 @@ Node.js socket server connection listener as documented in [`net.createServer`](
 
 #### `SocketOptions`
 
-* `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https://nodejs.org/api/net.html#class-netserver) instance.
-* `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
+- `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https://nodejs.org/api/net.html#class-netserver) instance.
+- `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
 
 #### `SocketServer`
 
@@ -185,10 +191,10 @@ Type: `(ws: WebSocket, request: Request, chainCompletion: ChainCompletion, next:
 
 The WebSocket connection listener.
 
-* The `ws` argument is the [WebSocket](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
-* The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server.
-* The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
-* The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
+- The `ws` argument is the [WebSocket](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
+- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server.
+- The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
+- The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
 
 #### `WsOptions`
 
@@ -196,10 +202,10 @@ Type: `Object`
 
 Properties:
 
-* `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 ### `server.upgrade(listener: UpgradeListener, options: UpgradeOptions): void`
 
@@ -240,9 +246,9 @@ Type: `Object`
 
 Properties:
 
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which HTTP secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTP secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 ### `server.config`
 
@@ -252,23 +258,28 @@ This provides access to the Harper configuration object. This comes from the [ha
 
 This records the provided value as a metric into Harper's analytics. Harper efficiently records and tracks these metrics and makes them available through [analytics API](analytics.md). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
-* `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
-* `metric` - This is the name of the metric.
-* `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
-* `method` - Optional method to group by.
-* `type` - Optional type to group by.
+- `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
+- `metric` - This is the name of the metric.
+- `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
+- `method` - Optional method to group by.
+- `type` - Optional type to group by.
 
 ### `server.getUser(username): Promise<User>`
+
 This returns the user object with permissions/authorization information based on the provided username. This does not verify the password, so it is generally used for looking up users by username. If you want to verify a user by password, use [`server.authenticateUser`](globals.md#serverauthenticateuserusername-password-user).
 
 ### `server.authenticateUser(username, password): Promise<User>`
+
 This returns the user object with permissions/authorization information based on the provided username. The password will be verified before returning the user object (if the password is incorrect, an error will be thrown).
 
 ### `server.resources: Resources`
+
 This provides access to the map of all registered resources. This is the central registry in Harper for registering any resources to be exported for use by REST, MQTT, or other components. Components that want to register resources should use the `server.resources.set(name, resource)` method to add to this map. Exported resources can be found by passing in a path to `server.resources.getMatch(path)` which will find any resource that matches the path or beginning of the path.
 
 #### `server.resources.set(name, resource, exportTypes?)`
+
 Register a resource with the server. For example:
+
 ```
 class NewResource extends Resource {
 }
@@ -276,8 +287,11 @@ server.resources.set('NewResource', Resource);
 // or limit usage:
 server.resources.set('NewResource', Resource, { rest: true, mqtt: false, 'my-protocol': true });
 ```
+
 #### `server.resources.getMatch(path, exportType?)`
+
 Find a resource that matches the path. For example:
+
 ```
 server.resources.getMatch('/NewResource/some-id');
 // or specify the export/protocol type, to allow it to be limited:
@@ -297,10 +311,13 @@ Parameters:
 Returns a `Promise` with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/docs/developers/operations-api).
 
 ### `server.nodes`
+
 Returns an array of node objects registered in the cluster
 
 ### `server.shards`
+
 Returns map of shard number to an array of its associated nodes
 
 ### `server.hostname`
+
 Returns the hostname of the current node

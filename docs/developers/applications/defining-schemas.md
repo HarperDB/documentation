@@ -36,10 +36,10 @@ type TableName @table
 
 By default the table name is inherited from the type name (in this case the table name would be "TableName"). The `@table` directive supports several optional arguments (all of these are optional and can be freely combined):
 
-* `@table(table: "table_name")` - This allows you to explicitly specify the table name.
-* `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
-* `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
-* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
+- `@table(table: "table_name")` - This allows you to explicitly specify the table name.
+- `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
+- `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
+- `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration.md#logging).
 
 Database naming: the default "data" database is generally a good default choice for tables in applications that will not be reused in other applications (and don't need to worry about staying in a separate namespace). Application with many tables may wish to organize the tables into separate databases (but remember that transactions do not preserve atomicity across different databases, only across tables in the same database). For components that are designed for re-use, it is recommended that you use a database name that is specific to the component (e.g. "my-component-data") to avoid name collisions with other components.
 
@@ -132,7 +132,7 @@ type Product @table {
 
 ```javascript
 tables.Product.setComputedAttribute('totalPrice', (record) => {
-  return record.price + (record.price * record.taxRate);
+	return record.price + record.price * record.taxRate;
 });
 ```
 
@@ -167,7 +167,7 @@ The field directives can be used for information about each attribute in table t
 
 #### `@primaryKey`
 
-The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys). 
+The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys).
 
 #### `@indexed`
 
@@ -178,6 +178,7 @@ A standard index will index the values in each field, so you can query directly 
 #### Vector Indexing
 
 The `@indexed` directive can also specify a `type`. To use vector indexing, you can specify the `type` as `HNSW` for Hierarchical Navigable Small World indexing. This will create a vector index for the attribute. For example:
+
 ```graphql
 type Product @table {
 	id: Long @primaryKey
@@ -186,34 +187,39 @@ type Product @table {
 ```
 
 HNSW indexing finds the nearest neighbors to a search vector. To use this, you can query with a `sort` parameter, for example:
+
 ```javascript
 let results = Product.search({
-  sort: { attribute: 'textEmbeddings', target: searchVector },
-  limit: 5 // get the five nearest neighbors
-})
+	sort: { attribute: 'textEmbeddings', target: searchVector },
+	limit: 5, // get the five nearest neighbors
+});
 ```
+
 This can be used in combination with other conditions as well, for example:
+
 ```javascript
 let results = Product.search({
-  conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
-  sort: { attribute: 'textEmbeddings', target: searchVector },
-  limit: 5 // get the five nearest neighbors
-})
+	conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
+	sort: { attribute: 'textEmbeddings', target: searchVector },
+	limit: 5, // get the five nearest neighbors
+});
 ```
 
 HNSW supports several additional arguments to the `@indexed` directive to adjust the HNSW parameters:
-* `distance` - Define the distance function. This can be set to 'euclidean' or 'cosine' (uses negative of cosine similarity). The default is cosine.
-* `efConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors. A higher value can yield better recall, and a lower value can have better performance. If `efSearchConstruction` is set, this is only applied to indexing. The default is 100.
-* `M` - The preferred number of connections at each layer in the HNSW graph. A higher number uses more space but can be helpful when the intrinsic dimensionality of the data is higher. A lower number can be more efficient. The default is 16.
-* `optimizeRouting` - This uses a heuristic to avoid graph connections that match existing indirect connections (connections through another node). This can yield more efficient graph traversals for the same M setting. This is a number between 0 and 1 and a higher value will more aggressively omit connections with alternate paths. Setting this to 0 will disable route optimizing and follow the traditional HNSW algorithm for creating connections. The default is 0.5.
-* `mL` - The normalization factor for level generation, by default this is computed from `M`.
-* `efSearchConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors for searching. The default is 50.
- 
+
+- `distance` - Define the distance function. This can be set to 'euclidean' or 'cosine' (uses negative of cosine similarity). The default is cosine.
+- `efConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors. A higher value can yield better recall, and a lower value can have better performance. If `efSearchConstruction` is set, this is only applied to indexing. The default is 100.
+- `M` - The preferred number of connections at each layer in the HNSW graph. A higher number uses more space but can be helpful when the intrinsic dimensionality of the data is higher. A lower number can be more efficient. The default is 16.
+- `optimizeRouting` - This uses a heuristic to avoid graph connections that match existing indirect connections (connections through another node). This can yield more efficient graph traversals for the same M setting. This is a number between 0 and 1 and a higher value will more aggressively omit connections with alternate paths. Setting this to 0 will disable route optimizing and follow the traditional HNSW algorithm for creating connections. The default is 0.5.
+- `mL` - The normalization factor for level generation, by default this is computed from `M`.
+- `efSearchConstruction` - Maximum number of nodes to keep in the list for finding nearest neighbors for searching. The default is 50.
+
 For exmpale
+
 ```graphql
 type Product @table {
-  id: Long @primaryKey
-  textEmbeddings: [Float] @indexed(type: "HNSW", distance: "euclidean", optimizeRouting: 0, efSearchConstruction: 100)
+	id: Long @primaryKey
+	textEmbeddings: [Float] @indexed(type: "HNSW", distance: "euclidean", optimizeRouting: 0, efSearchConstruction: 100)
 }
 ```
 
@@ -237,17 +243,17 @@ If you do not define a schema for a table and create a table through the operati
 
 Harper supports the following field types in addition to user defined (object) types:
 
-* `String`: String/text
-* `Int`: A 32-bit signed integer (from -2147483648 to 2147483647)
-* `Long`: A 54-bit signed integer (from -9007199254740992 to 9007199254740992)
-* `Float`: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available)
-* `BigInt`: Any integer (negative or positive) with less than 300 digits (Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately)
-* `Boolean`: true or false
-* `ID`: A string (but indicates it is not intended to be human readable)
-* `Any`: Any primitive, object, or array is allowed
-* `Date`: A Date object
-* `Bytes`: Binary data as a Buffer or Uint8Array
-* `Blob`: Binary data as a [Blob](../../technical-details/reference/blob.md), designed for large blocks of data that can be streamed. It is recommend that you use this for binary data that will typically be larger than 20KB.
+- `String`: String/text
+- `Int`: A 32-bit signed integer (from -2147483648 to 2147483647)
+- `Long`: A 54-bit signed integer (from -9007199254740992 to 9007199254740992)
+- `Float`: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available)
+- `BigInt`: Any integer (negative or positive) with less than 300 digits (Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately)
+- `Boolean`: true or false
+- `ID`: A string (but indicates it is not intended to be human readable)
+- `Any`: Any primitive, object, or array is allowed
+- `Date`: A Date object
+- `Bytes`: Binary data as a Buffer or Uint8Array
+- `Blob`: Binary data as a [Blob](../../technical-details/reference/blob.md), designed for large blocks of data that can be streamed. It is recommend that you use this for binary data that will typically be larger than 20KB.
 
 #### Renaming Tables
 

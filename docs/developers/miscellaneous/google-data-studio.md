@@ -19,15 +19,15 @@ Get started by selecting the Harper connector from the [Google Data Studio Partn
 5. Check the box for “Secure Connections Only” if you want to always use HTTPS connections for this data source; entering a Web URL that starts with https:// will do the same thing, if you prefer.
 6. Check the box for “Allow Bad Certs” if your Harper instance does not have a valid SSL certificate. [Harper Cloud](../../deployments/harper-cloud/) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [Harper Cloud](../../deployments/harper-cloud/) or another instance you know should always have valid SSL certificates, do not check this box.
 7. Choose your Query Type. This determines what information the configuration will ask for after pressing the Next button.
-   * Table will ask you for a Schema and a Table to return all fields of using `SELECT *`.
-   * SQL will ask you for the SQL query you’re using to retrieve fields from the database. You may `JOIN` multiple tables together, and use Harper specific SQL functions, along with the usual power SQL grants.
+   - Table will ask you for a Schema and a Table to return all fields of using `SELECT *`.
+   - SQL will ask you for the SQL query you’re using to retrieve fields from the database. You may `JOIN` multiple tables together, and use Harper specific SQL functions, along with the usual power SQL grants.
 8. When all information is entered correctly, press the Connect button in the top right of the new Data Source view to generate the Schema. You may also want to name the data source at this point. If the connector encounters any errors, a dialog box will tell you what went wrong so you can correct the issue.
 9. If there are no errors, you now have a data source you can use in your reports! You may change the types of the generated fields in the Schema view if you need to (for instance, changing a Number field to a specific currency), as well as creating new fields from the report view that do calculations on other fields.
 
 ## Considerations
 
-* Both Postman and the [Harper Studio](deployments/harper-cloud/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
-  * You may sign out of your current user by going to the instances tab in Harper Studio, then clicking on the lock icon at the top-right of a given instance’s box. Click the lock again to sign in as any user. The Basic Auth token will be visible in the Authorization header portion of any code created in the Sample Code tab.
-* It’s highly recommended that you create a read-only user role in Harper Studio, and create a user with that role for your data sources to use. This prevents that authorization token from being used to alter your database, should someone else ever get ahold of it.
-* The RecordCount field is intended for use as a metric, for counting how many instances of a given set of values appear in a report’s data set.
-* _Do not attempt to create fields with spaces in their names_ for any data sources! Google Data Studio will crash when attempting to retrieve a field with such a name, producing a System Error instead of a useful chart on your reports. Using CamelCase or snake\_case gets around this.
+- Both Postman and the [Harper Studio](deployments/harper-cloud/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
+  - You may sign out of your current user by going to the instances tab in Harper Studio, then clicking on the lock icon at the top-right of a given instance’s box. Click the lock again to sign in as any user. The Basic Auth token will be visible in the Authorization header portion of any code created in the Sample Code tab.
+- It’s highly recommended that you create a read-only user role in Harper Studio, and create a user with that role for your data sources to use. This prevents that authorization token from being used to alter your database, should someone else ever get ahold of it.
+- The RecordCount field is intended for use as a metric, for counting how many instances of a given set of values appear in a report’s data set.
+- _Do not attempt to create fields with spaces in their names_ for any data sources! Google Data Studio will crash when attempting to retrieve a field with such a name, producing a System Error instead of a useful chart on your reports. Using CamelCase or snake_case gets around this.

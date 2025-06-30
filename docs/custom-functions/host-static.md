@@ -10,8 +10,8 @@ For further information on how to send specific files see the [@fastify/static](
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {
-  server.register(require('@fastify/static'), {
-    root: path.join(__dirname, 'public'),
-  })
+	server.register(require('@fastify/static'), {
+		root: path.join(__dirname, 'public'),
+	});
 };
 ```

@@ -24,15 +24,18 @@ For assistance in estimating IOPS requirements feel free to contact Harper Suppo
 
 ## Example Use Case IOPS Requirements
 
-*   **Sensor Data Collection**
+- **Sensor Data Collection**
 
-    In the case of IoT sensors where data collection will be sustained, high IOPS are required. While there are not typically large queries going on in this case, there is a high volume of data being ingested. This implies that IOPS will be sustained at a high level. For example, if you are collecting 100 records per second you would expect to need roughly 3,000 IOPS just to handle the data inserts.
-*   **Data Analytics/BI Server**
+  In the case of IoT sensors where data collection will be sustained, high IOPS are required. While there are not typically large queries going on in this case, there is a high volume of data being ingested. This implies that IOPS will be sustained at a high level. For example, if you are collecting 100 records per second you would expect to need roughly 3,000 IOPS just to handle the data inserts.
 
-    Providing a server for analytics purposes typically requires a larger machine. Typically these cases involve large scale SQL joins and aggregations, which puts a large strain on reads. Harper utilizes an in-memory cache, which provides a significant performance boost on machines with large amounts of memory. However, if disparate datasets are constantly being queried and/or new data is frequently being loaded, you will find that the system still needs to have high IOPS to meet performance demand.
-*   **Web Services**
+- **Data Analytics/BI Server**
 
-    Typical web service implementations with discrete reads and writes often do not need high IOPS to perform as expected. This is often the case in more transactional systems without the requirement for high performance load. A good rule to follow is that any Harper operation that requires a data scan will be IOPS intensive, but if these are not frequent then the EBS boost will suffice. Queries utilizing equals operations in either SQL or NoSQL do not require a scan due to Harper’s native indexing.
-*   **High Performance Database**
+  Providing a server for analytics purposes typically requires a larger machine. Typically these cases involve large scale SQL joins and aggregations, which puts a large strain on reads. Harper utilizes an in-memory cache, which provides a significant performance boost on machines with large amounts of memory. However, if disparate datasets are constantly being queried and/or new data is frequently being loaded, you will find that the system still needs to have high IOPS to meet performance demand.
 
-    Ultimately, if performance is your top priority, Harper should be run on bare metal hardware. Cloud providers offer these options at a higher cost, but they come with obvious performance improvements.
+- **Web Services**
+
+  Typical web service implementations with discrete reads and writes often do not need high IOPS to perform as expected. This is often the case in more transactional systems without the requirement for high performance load. A good rule to follow is that any Harper operation that requires a data scan will be IOPS intensive, but if these are not frequent then the EBS boost will suffice. Queries utilizing equals operations in either SQL or NoSQL do not require a scan due to Harper’s native indexing.
+
+- **High Performance Database**
+
+  Ultimately, if performance is your top priority, Harper should be run on bare metal hardware. Cloud providers offer these options at a higher cost, but they come with obvious performance improvements.

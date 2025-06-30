@@ -22,46 +22,45 @@ Extensions can also depend on other extensions. For example, the [`@harperdb/apo
 
 ```mermaid
 flowchart TD
-  subgraph Applications
-	direction TB
-	NextJSApp["Next.js App"]
-	ApolloApp["Apollo App"]
-	CustomResource["Custom Resource"]
-  end
-
-  subgraph Extensions
-	direction TB
-	subgraph Custom
-	  NextjsExt["@harperdb/nextjs"]
-	  ApolloExt["@harperdb/apollo"]
+	subgraph Applications
+		direction TB
+		NextJSApp["Next.js App"]
+		ApolloApp["Apollo App"]
+		CustomResource["Custom Resource"]
 	end
-	subgraph Built-In
-	  GraphqlSchema["graphqlSchema"]
-	  JsResource["jsResource"]
-	  Rest["rest"]
+
+	subgraph Extensions
+		direction TB
+		subgraph Custom
+			NextjsExt["@harperdb/nextjs"]
+			ApolloExt["@harperdb/apollo"]
+		end
+		subgraph Built-In
+			GraphqlSchema["graphqlSchema"]
+			JsResource["jsResource"]
+			Rest["rest"]
+		end
 	end
-  end
 
-  subgraph Core
-	direction TB
-	Database["database"]
-	FileSystem["file-system"]
-	Networking["networking"]
-  end
+	subgraph Core
+		direction TB
+		Database["database"]
+		FileSystem["file-system"]
+		Networking["networking"]
+	end
 
-  NextJSApp --> NextjsExt
-  ApolloApp --> ApolloExt
-  CustomResource --> JsResource & GraphqlSchema & Rest
+	NextJSApp --> NextjsExt
+	ApolloApp --> ApolloExt
+	CustomResource --> JsResource & GraphqlSchema & Rest
 
-  NextjsExt --> Networking
-  NextjsExt --> FileSystem
-  ApolloExt --> GraphqlSchema
-  ApolloExt --> Networking
+	NextjsExt --> Networking
+	NextjsExt --> FileSystem
+	ApolloExt --> GraphqlSchema
+	ApolloExt --> Networking
 
-  GraphqlSchema --> Database
-  JsResource --> Database
-  Rest --> Networking
-
+	GraphqlSchema --> Database
+	JsResource --> Database
+	Rest --> Networking
 ```
 
 > As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleComponent` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](../../technical-details/reference/components/plugins.md) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
@@ -92,7 +91,7 @@ export class DogWithHumanAge extends Dog {
 		const record = await super.get(target);
 		return {
 			...record, // include all properties from the record
-			humanAge: 15 + record.age * 5 // silly calculation of human age equivalent
+			humanAge: 15 + record.age * 5, // silly calculation of human age equivalent
 		};
 	}
 }
@@ -131,7 +130,7 @@ export class DogWithBreed extends Dog {
 		let breedDescription = await Breed.get(record.breed);
 		return {
 			...record,
-			breedDescription
+			breedDescription,
 		};
 	}
 }
@@ -168,7 +167,7 @@ export class CustomDog extends Dog {
 			// if we want to skip the default permission checks, we can turn off checkPermissions:
 			target.checkPermissions = false;
 			const record = this.update(target);
-			// and do our own/custom permission check: 
+			// and do our own/custom permission check:
 			if (record.owner !== context.user?.username) {
 				throw new Error('Can not update this record');
 			}
@@ -196,7 +195,8 @@ We can also directly implement the Resource class and use it to create new data 
 
 ```javascript
 const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
+class BreedSource extends Resource {
+	// define a data source
 	async get(target) {
 		return (await fetch(`http://best-dog-site.com/${target}`)).json();
 	}

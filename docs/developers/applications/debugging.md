@@ -14,13 +14,13 @@ For local debugging and development, it is recommended that you use standard con
 
 Harper Logger Functions
 
-* `trace(message)`: Write a 'trace' level log, if the configured level allows for it.
-* `debug(message)`: Write a 'debug' level log, if the configured level allows for it.
-* `info(message)`: Write a 'info' level log, if the configured level allows for it.
-* `warn(message)`: Write a 'warn' level log, if the configured level allows for it.
-* `error(message)`: Write a 'error' level log, if the configured level allows for it.
-* `fatal(message)`: Write a 'fatal' level log, if the configured level allows for it.
-* `notify(message)`: Write a 'notify' level log.
+- `trace(message)`: Write a 'trace' level log, if the configured level allows for it.
+- `debug(message)`: Write a 'debug' level log, if the configured level allows for it.
+- `info(message)`: Write a 'info' level log, if the configured level allows for it.
+- `warn(message)`: Write a 'warn' level log, if the configured level allows for it.
+- `error(message)`: Write a 'error' level log, if the configured level allows for it.
+- `fatal(message)`: Write a 'fatal' level log, if the configured level allows for it.
+- `notify(message)`: Write a 'notify' level log.
 
 For example, you can log a warning:
 

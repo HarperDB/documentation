@@ -51,7 +51,7 @@ npm install -g harperdb-X.X.X.tgz harperdb install
 
 Harper comes with binaries for standard AMD64/x64 or ARM64 CPU architectures on Linux, Windows (x64 only), and Mac (including Apple Silicon). However, if you are installing on a less common platform (Alpine, for example), you will need to ensure that you have build tools installed for the installation process to compile the binaries (this is handled automatically), including:
 
-* [Go](https://go.dev/dl/): version 1.19.1
-* GCC
-* Make
-* Python v3.7, v3.8, v3.9, or v3.10
+- [Go](https://go.dev/dl/): version 1.19.1
+- GCC
+- Make
+- Python v3.7, v3.8, v3.9, or v3.10

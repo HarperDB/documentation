@@ -14,7 +14,7 @@ This executes the callback in a transaction, providing a context that can be use
 
 ```javascript
 import { tables } from 'harperdb';
-const { MyTable } = tables; 
+const { MyTable } = tables;
 if (isMainThread) // only on main thread
 	setInterval(async () => {
 		let someData = await (await fetch(... some URL ...)).json();
@@ -30,7 +30,7 @@ You can provide your own context object for the transaction to attach to. If you
 
 Once the transaction callback is completed (for non-nested transaction calls), the transaction will commit, and if the callback throws an error, the transaction will abort. However, the callback is called with the `transaction` object, which also provides the following methods and property:
 
-* `commit(): Promise` - Commits the current transaction. The transaction will be committed once the returned promise resolves.
-* `abort(): void` - Aborts the current transaction and resets it.
-* `resetReadSnapshot(): void` - Resets the read snapshot for the transaction, resetting to the latest data in the database.
-* `timestamp: number` - This is the timestamp associated with the current transaction.
+- `commit(): Promise` - Commits the current transaction. The transaction will be committed once the returned promise resolves.
+- `abort(): void` - Aborts the current transaction and resets it.
+- `resetReadSnapshot(): void` - Resets the read snapshot for the transaction, resetting to the latest data in the database.
+- `timestamp: number` - This is the timestamp associated with the current transaction.
