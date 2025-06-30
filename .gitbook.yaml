@@ -70,11 +70,11 @@ redirects:
   custom-functions: developers/applications/README.md
   custom-functions/define-routes: developers/applications/define-routes.md
   custom-functions/using-npm-git: developers/custom-functions/create-project.md
-  custom-functions/custom-functions-operations: developers/components/operations.md
+  custom-functions/custom-functions-operations: developers/operations-api/README.md
   custom-functions/debugging-custom-function: developers/applications/debugging.md
   custom-functions/example-projects: developers/applications/example-projects.md
-  add-ons-and-sdks: developers/components/README.md
-  add-ons-and-sdks/google-data-studio: developers/components/google-data-studio.md
+  add-ons-and-sdks: developers/applications/README.md
+  add-ons-and-sdks/google-data-studio: developers/miscellaneous/google-data-studio.md
   sql-guide: developers/sql-guide/README.md
   sql-guide/features-matrix: developers/sql-guide/features-matrix.md
   sql-guide/insert: developers/sql-guide/README.md

@@ -1,26 +1,24 @@
-# Built-In Components
+# Built-In Extensions
 
-Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
+Harper provides extended features using built-in extensions. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike custom extensions which have their own semantic versions, built-in extensions follow Harper's semantic version.
 
-- [Built-In Components](#built-in-components)
-	- [fastifyRoutes](#fastifyroutes)
-	- [graphql](#graphql)
-	- [graphqlSchema](#graphqlschema)
-	- [jsResource](#jsresource)
-	- [loadEnv](#loadenv)
-	- [rest](#rest)
-	- [roles](#roles)
-	- [static](#static)
+For more information read the [Components, Applications, and Extensions](../../../developers/applications/) documentation section.
 
-<!-- ## authentication -->
-
-<!-- ## clustering -->
+- [Built-In Extensions](#built-in-extensions)
+  - [fastifyRoutes](#fastifyroutes)
+  - [graphql](#graphql)
+  - [graphqlSchema](#graphqlschema)
+  - [jsResource](#jsresource)
+  - [loadEnv](#loadenv)
+  - [rest](#rest)
+  - [roles](#roles)
+  - [static](#static)
 
 ## fastifyRoutes
 
 Specify custom endpoints using [Fastify](https://fastify.dev/).
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Define Fastify Routes](../applications/define-routes.md)
 
@@ -45,7 +43,7 @@ graphql: true
 
 Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Defining Schemas](../applications/defining-schemas.md)
 
@@ -60,7 +58,7 @@ Specify custom, JavaScript based Harper resources.
 
 Refer to the Application [Custom Functionality with JavaScript](../applications/#custom-functionality-with-javascript) guide, or [Resource Class](../../technical-details/reference/resource.md) reference documentation for more information on custom resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
 ```yaml
 jsResource:
@@ -71,7 +69,7 @@ jsResource:
 
 Load environment variables via files like `.env`.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
 Ensure this component is specified first in `config.yaml` so that environment variables are loaded prior to loading any other components.
 
@@ -128,7 +126,7 @@ rest:
 
 Specify roles for Harper tables and resources.
 
-This component is a [Resource Extension](./reference.md#resource-extension) and can be configured with the [`files` and `urlPath`](./reference.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
 Complete documentation for this feature is available here: [Defining Roles](../applications/defining-roles.md)
 
@@ -141,7 +139,7 @@ roles:
 
 Specify files to serve statically from the Harper HTTP endpoint.
 
-Use the [Resource Extension](./reference.md#resource-extension) configuration options [`files` and `urlPath`](./reference.md#resource-extension-configuration) to specify the files to be served.
+Use the [Resource Extension](./extensions.md#resource-extension) configuration options [`files` and `urlPath`](./extensions.md#resource-extension-configuration) to specify the files to be served.
 
 As specified by Harper's Resource Extension docs, the `files` option can be any glob pattern or a glob options object. This extension will serve all files matching the pattern, so make sure to be specific.
 
