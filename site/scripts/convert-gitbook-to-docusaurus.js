@@ -93,6 +93,108 @@ function convertFile(filePath) {
         modified = true;
     }
 
+    // Fix mismatched code fence backticks  
+    // Pattern: ````javascript ... ````
+    const mismatchedFences = /(^```+)(javascript|js|typescript|ts)\n([\s\S]*?)\n(```+)$/gm;
+    if (content.match(mismatchedFences)) {
+        content = content.replace(mismatchedFences, (match, open, lang, code, close) => {
+            if (open.length !== close.length) {
+                console.log(`  Fixed mismatched code fence: ${open.length} vs ${close.length} backticks`);
+                // Use the standard 3 backticks
+                return '```' + lang + '\n' + code + '\n```';
+            }
+            return match;
+        });
+        modified = true;
+    }
+
+    // Fix headers with generic types that confuse MDX
+    // Pattern like: ### methodName: Promise<{} or Type<something>
+    const headerWithGenerics = /^(#{1,6}\s+[^:\n]+):\s*([^`\n]*<[^>\n]*>?[^`\n]*)/gm;
+    if (content.match(headerWithGenerics)) {
+        content = content.replace(headerWithGenerics, (match, header, typeSignature) => {
+            // Check if it contains angle brackets
+            if (typeSignature.includes('<') || typeSignature.includes('{')) {
+                console.log(`  Fixed header with generics: ${match.substring(0, 50)}...`);
+                return `${header}: \`${typeSignature}\``;
+            }
+            return match;
+        });
+        modified = true;
+    }
+
+    // Fix headers with backticks to prevent MDX parsing issues
+    // Two cases to handle:
+    // 1. Headers with empty backticks: #### `method()`: `type``
+    // 2. Headers that start with backtick but don't end with one: ### `method()`: type
+    
+    // First, handle headers with empty backticks
+    const headersWithEmptyBackticks = /^(#{1,6}\s+.*``.*?)$/gm;
+    if (content.match(headersWithEmptyBackticks)) {
+        content = content.replace(headersWithEmptyBackticks, (match) => {
+            // If we have empty backticks, we need to clean up
+            // Find first and last backtick positions
+            const firstBacktick = match.indexOf('`');
+            const lastBacktick = match.lastIndexOf('`');
+            
+            // Keep the outer backticks, remove any in between
+            const before = match.substring(0, firstBacktick + 1);
+            const middle = match.substring(firstBacktick + 1, lastBacktick);
+            const after = match.substring(lastBacktick);
+            
+            // Remove all backticks from the middle portion
+            const cleanedMiddle = middle.replace(/`/g, '');
+            
+            console.log(`  Removed inner backticks in header: ${match.substring(0, 50)}...`);
+            return before + cleanedMiddle + after;
+        });
+        modified = true;
+    }
+    
+    // Second, fix headers with backtick issues
+    // Pattern: ### `method()`: type - where backtick closes before end of line
+    const headersWithBacktickIssues = /^(#{1,6}\s+)(.*)$/gm;
+    if (content.match(headersWithBacktickIssues)) {
+        content = content.replace(headersWithBacktickIssues, (match, prefix, content) => {
+            const backtickCount = (content.match(/`/g) || []).length;
+            // If odd number of backticks or contains backtick followed by colon
+            if (backtickCount % 2 === 1 || content.match(/`:/)) {
+                console.log(`  Fixed backtick issue in header: ${match.substring(0, 50)}...`);
+                // Find the first backtick
+                const firstBacktickIndex = content.indexOf('`');
+                if (firstBacktickIndex >= 0) {
+                    // Wrap everything after the header prefix in backticks
+                    return `${prefix}\`${content.replace(/`/g, '')}\``;
+                }
+            }
+            return match;
+        });
+        modified = true;
+    }
+
+    // Fix links in release notes for numeric.name pattern (e.g., 3.monkey)
+    if (filePath.includes('/release-notes/')) {
+        // Fix links like [text](n.name/) to [text](./n.name/index)
+        const numericDotDirLinks = /\[([^\]]+)\]\((\d+\.\w+)\/\)/g;
+        if (content.match(numericDotDirLinks)) {
+            content = content.replace(numericDotDirLinks, (match, text, path) => {
+                console.log(`  Fixed numeric dot directory link: ${match}`);
+                return `[${text}](./${path}/index)`;
+            });
+            modified = true;
+        }
+        
+        // Fix links like [text](n.name/file.md) to [text](./n.name/file.md)
+        const numericDotFileLinks = /\[([^\]]+)\]\((\d+\.\w+\/[^)]+)\)/g;
+        if (content.match(numericDotFileLinks)) {
+            content = content.replace(numericDotFileLinks, (match, text, path) => {
+                console.log(`  Fixed numeric dot file link: ${match}`);
+                return `[${text}](./${path})`;
+            });
+            modified = true;
+        }
+    }
+
     // Fix problematic inline code patterns that confuse MDX
     // Pattern like: request.session.update(`{ key: value }`)
     // The backticks inside parentheses with curly braces cause issues
@@ -137,7 +239,7 @@ function convertFile(filePath) {
         const jsonPattern = /(\{[^{}]*:[^{}]*\})/g;
         
         if (jsonPattern.test(line)) {
-            lines[i] = line.replace(jsonPattern, (match, index) => {
+            lines[i] = line.replace(jsonPattern, (match) => {
                 // Don't wrap if already in backticks (check more carefully)
                 const beforeMatch = line.substring(0, line.indexOf(match));
                 const afterMatch = line.substring(line.indexOf(match) + match.length);

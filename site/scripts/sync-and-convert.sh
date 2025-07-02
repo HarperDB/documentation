@@ -106,16 +106,18 @@ if [ "$SAMPLE_MODE" = false ]; then
             fi
         fi
         
-        echo "Pulling latest changes..."
-        git pull origin "$BRANCH"
-        if [ $? -ne 0 ]; then
-            echo "Warning: Failed to pull latest changes. Continue anyway? (y/n)"
-            read -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                exit 1
-            fi
-        fi
+        # Temporarily skip git pull due to GitHub issues
+        echo "Skipping git pull (temporarily disabled due to GitHub issues)"
+        # echo "Pulling latest changes..."
+        # git pull origin "$BRANCH"
+        # if [ $? -ne 0 ]; then
+        #     echo "Warning: Failed to pull latest changes. Continue anyway? (y/n)"
+        #     read -n 1 -r
+        #     echo
+        #     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        #         exit 1
+        #     fi
+        # fi
     done
 else
     echo ""
