@@ -10,12 +10,13 @@ SOURCE_DOCS_DIR="$DOC_REPO_ROOT/docs"
 BRANCH="main"
 SAMPLE_MODE=false
 DRY_RUN=false
+TARGET_PATH=""
 
 # Function to display usage
 usage() {
-    echo "Usage: $0 [-b branch] [-s] [-d] [-h] <target-repo-path>"
+    echo "Usage: $0 [OPTIONS] <target-repo-path>"
     echo ""
-    echo "Options:"
+    echo "Options can appear before or after the target path:"
     echo "  -b branch    Branch to sync (default: main)"
     echo "  -s          Sample mode - convert subset of files, no branch changes"
     echo "  -d          Dry run - show what would be done without making changes"
@@ -25,39 +26,51 @@ usage() {
     echo "  # Normal sync from harperdb repo"
     echo "  bash ../documentation/site/scripts/sync-and-convert.sh ."
     echo ""
-    echo "  # Sync specific branch"
+    echo "  # Sync specific branch (options before path)"
     echo "  bash ../documentation/site/scripts/sync-and-convert.sh -b release_4.5 ."
+    echo ""
+    echo "  # Sync specific branch (options after path)"
+    echo "  bash ../documentation/site/scripts/sync-and-convert.sh . -b release_4.5"
     echo ""
     echo "  # Sample mode with dry run"
     echo "  bash ../documentation/site/scripts/sync-and-convert.sh -s -d ."
     exit 1
 }
 
-# Parse options with getopts
-while getopts "b:sdh" opt; do
-    case $opt in
-        b)
-            BRANCH="$OPTARG"
+# Parse all arguments manually to allow options anywhere
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        -b|--branch)
+            BRANCH="$2"
+            shift 2
             ;;
-        s)
+        -s|--sample)
             SAMPLE_MODE=true
+            shift
             ;;
-        d)
+        -d|--dry-run)
             DRY_RUN=true
+            shift
             ;;
-        h)
+        -h|--help)
             usage
             ;;
-        \?)
-            echo "Invalid option: -$OPTARG" >&2
+        -*)
+            echo "Invalid option: $1" >&2
             usage
+            ;;
+        *)
+            # This is the target path
+            if [ -z "$TARGET_PATH" ]; then
+                TARGET_PATH="$1"
+            else
+                echo "Error: Multiple target paths specified: '$TARGET_PATH' and '$1'" >&2
+                usage
+            fi
+            shift
             ;;
     esac
 done
-
-# Shift to get the target path
-shift $((OPTIND-1))
-TARGET_PATH=$1
 
 # Validate required arguments
 if [ -z "$TARGET_PATH" ]; then
