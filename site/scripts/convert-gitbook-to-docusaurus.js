@@ -60,15 +60,131 @@ function convertFile(filePath) {
         modified = true;
     }
 
-    // Fix image paths - convert relative paths to absolute
-    // In documentation repo: ../images/foo.png
-    // In harperdb: /docs/images/foo.png (for production)
-    // In local preview: /images/foo.png (Docusaurus serves from static/)
+    // Fix escaped angle brackets that break MDX parsing
+    // Convert <\< to << and >\> to >>
+    if (content.includes('<\\<') || content.includes('>\\>')) {
+        content = content.replace(/<\\</g, '&lt;&lt;').replace(/>\\>/g, '&gt;&gt;');
+        console.log('  Fixed escaped angle brackets');
+        modified = true;
+    }
+
+    // Fix escaped asterisks around text (GitBook bold syntax)
+    // Convert \*\* to ** 
+    if (content.includes('\\*\\*')) {
+        content = content.replace(/\\\*\\\*/g, '**');
+        console.log('  Fixed escaped asterisks');
+        modified = true;
+    }
+
+    // Fix figure/img HTML tags - convert to markdown
+    // GitBook uses <figure><img src="..."><figcaption>...</figcaption></figure>
+    // Convert to markdown image syntax
+    const figurePattern = /<figure>\s*<img\s+src="([^"]+)"[^>]*>\s*(?:<figcaption>([^<]*)<\/figcaption>)?\s*<\/figure>/gi;
+    if (content.match(figurePattern)) {
+        content = content.replace(figurePattern, (match, src, caption) => {
+            console.log(`  Fixed figure/img tag: ${src}`);
+            // Convert to markdown image syntax
+            if (caption && caption.trim()) {
+                return `![${caption}](${src})`;
+            } else {
+                return `![](${src})`;
+            }
+        });
+        modified = true;
+    }
+
+    // Fix problematic inline code patterns that confuse MDX
+    // Pattern like: request.session.update(`{ key: value }`)
+    // The backticks inside parentheses with curly braces cause issues
+    const inlineCodeWithBackticks = /(\w+\()(`[^`]+`)\)/g;
+    if (content.match(inlineCodeWithBackticks)) {
+        content = content.replace(inlineCodeWithBackticks, (match, prefix, code) => {
+            // If the code contains curly braces, escape them
+            if (code.includes('{') || code.includes('}')) {
+                console.log(`  Fixed inline code with braces: ${match.substring(0, 50)}...`);
+                // Replace backticks with quotes inside the parentheses
+                const fixedCode = code.replace(/`/g, "'");
+                return prefix + fixedCode + ')';
+            }
+            return match;
+        });
+        modified = true;
+    }
+
+    // Fix inline JSON objects that MDX tries to parse as expressions
+    // MDX will try to parse {anything} as a JavaScript expression
+    // We need to escape these by wrapping in backticks
+    const lines = content.split('\n');
+    let hasInlineJson = false;
+    let inCodeBlock = false;
+    
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        
+        // Track code blocks
+        if (line.startsWith('```')) {
+            inCodeBlock = !inCodeBlock;
+            continue;
+        }
+        
+        // Skip if we're in a code block or line is indented (likely code)
+        if (inCodeBlock || line.match(/^[ \t]+/)) {
+            continue;
+        }
+        
+        // Look for curly braces that might be interpreted as expressions
+        // This regex finds {...} patterns that contain colons (likely JSON)
+        const jsonPattern = /(\{[^{}]*:[^{}]*\})/g;
+        
+        if (jsonPattern.test(line)) {
+            lines[i] = line.replace(jsonPattern, (match, index) => {
+                // Don't wrap if already in backticks (check more carefully)
+                const beforeMatch = line.substring(0, line.indexOf(match));
+                const afterMatch = line.substring(line.indexOf(match) + match.length);
+                
+                // Count backticks before and after to see if we're in inline code
+                const backticksBeforeOdd = (beforeMatch.match(/`/g) || []).length % 2 === 1;
+                const hasBacktickAfter = afterMatch.startsWith('`');
+                
+                if (backticksBeforeOdd || hasBacktickAfter) {
+                    // We're inside backticks, don't wrap
+                    return match;
+                }
+                
+                console.log(`  Fixed inline expression: ${match.substring(0, 50)}...`);
+                hasInlineJson = true;
+                return '`' + match + '`';
+            });
+        }
+    }
+    
+    if (hasInlineJson) {
+        content = lines.join('\n');
+        modified = true;
+        console.log('  Fixed inline JSON/expressions');
+    }
+
+    // Fix image paths - convert GitBook relative paths to proper relative paths
+    // GitBook uses paths like ../../../images/clustering/figure1.png
+    // We need to calculate the correct relative path from the current file to the images directory
     const imagePattern = /!\[([^\]]*)\]\(([^)]+)\)/g;
     content = content.replace(imagePattern, (match, alt, src) => {
-        if (src.startsWith('../images/') || src.startsWith('./images/')) {
-            // Use /images/ for now - can be adjusted based on where images are served from
-            return `![${alt}](/images/${path.basename(src)})`;
+        // Check if this is a relative path containing '/images/'
+        if (src.includes('/images/') && (src.startsWith('../') || src.startsWith('./'))) {
+            // Extract everything after 'images/' to preserve subdirectory structure
+            const imagePathMatch = src.match(/images\/(.+)$/);
+            if (imagePathMatch) {
+                const imagePath = imagePathMatch[1];
+                
+                // Calculate relative path from current file to images directory
+                // Get the depth of the current file relative to docs root
+                const relativePath = path.relative(path.dirname(filePath), docsDir);
+                const imageSrc = path.join(relativePath, 'images', imagePath);
+                
+                console.log(`  Fixed image path: ${src} -> ${imageSrc}`);
+                modified = true;
+                return `![${alt}](${imageSrc})`;
+            }
         }
         return match;
     });
