@@ -59,7 +59,17 @@ const config: Config = {
           path: process.env.DOCS_PATH || '../docs',  // DOCS_PATH should always be set to harperdb/docs
           sidebarPath: './sidebars.ts',
           routeBasePath: 'docs',
-          editUrl: 'https://github.com/HarperDB/documentation/edit/main/',
+          editUrl: ({docPath}) => {
+            // Find where docs/ starts in the path and use everything from there
+            const docsIndex = docPath.indexOf('docs/');
+            if (docsIndex !== -1) {
+              const cleanPath = docPath.substring(docsIndex);
+              // TODO: When implementing versioned docs, this will need to handle version branches
+              return `https://github.com/HarperDB/documentation/blob/main/${cleanPath}`;
+            }
+            // Fallback if docs/ is not found
+            return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
+          },
           lastVersion: 'current',
           versions: {
             current: {

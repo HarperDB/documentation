@@ -86,6 +86,7 @@ Evolving/fuzzy list of things to implement/build/do
 1. **GitBook Tabs** - Basic conversion implemented, may need enhancement for complex cases
 1. **Generated Index Pages** - Some directories without index files show generated category pages
 1. **Image Paths** - Currently using `/images/` prefix, may need adjustment for production
+1. **Edit This Page Links** - Currently hardcoded to main branch. When implementing versioned docs, the editUrl function in docusaurus.config.ts will need to be updated to handle version branches
 
 ## Next Steps
 
