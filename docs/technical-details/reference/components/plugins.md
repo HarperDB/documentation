@@ -1,31 +1,107 @@
 # Experimental Plugins
 
-The new, experimental **plugin** API is an iteration of the existing extension system. It simplifies the API by removing the need for multiple methods (`start`, `startOnMainThread`, `handleFile`, `setupFile`, etc.) and instead only requires a single `handleComponent` method. Plugins are designed to be more extensible and easier to use, and they are intended to replace the concept of extensions in the future.
+The new, experimental **plugin** API is an iteration of the existing extension system. It simplifies the API by removing the need for multiple methods (`start`, `startOnMainThread`, `handleFile`, `setupFile`, etc.) and instead only requires a single `handleApplication` method. Plugins are designed to be more extensible and easier to use, and they are intended to replace the concept of extensions in the future.
 
-Similar to the existing extension API, a plugin must specify an `extensionModule` option. This must be a path to the plugin module source code. The path must resolve from the root of the module directory.
+Similar to the existing extension API, a plugin must specify an `pluginModule` option within `config.yaml`. This must be a path to the plugin module source code. The path must resolve from the root of the module directory. For example: `pluginModule: plugin.js`.
 
-For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
-
-If the plugin is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `extensionModule: ./dist/index.js`)
+If the plugin is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `pluginModule: ./dist/index.js`)
 
 It is also recommended that all extensions have a `package.json` that specifies JavaScript package metadata such as name, version, type, etc. Since plugins are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin](https://docs.npmjs.com/cli/configuring-npm/package-json#bin) property). It can be published to npm. The possibilities are endless!
 
-The key to a plugin is the `handleComponent()` method. It must be exported by the `extensionModule`, and cannot coexist with any of the other extension methods such as `start`, `handleFile`, etc. The component loader will throw an error if both are defined.
+The key to a plugin is the [`handleApplication()`](#function-handleapplicationscope-scope-void--promisevoid) method. It must be exported by the `pluginModule`, and cannot coexist with any of the other extension methods such as `start`, `handleFile`, etc. The component loader will throw an error if both are defined.
 
-The `handleComponent()` method is executed only on worker threads during the component loading sequence. It receives a single, `scope` argument that contains all of the relevant metadata and APIs for interacting with the associated component.
+The `handleApplication()` method is executed **sequentially** across all **worker threads** during the component loading sequence. It receives a single, `scope` argument that contains all of the relevant metadata and APIs for interacting with the associated component.
 
-The method can be async and is awaited by the component loader.
+The method can be async and it is awaited by the component loader.
 
-However, it is highly recommended to avoid event-loop-blocking operations within the `handleComponent()` method. See the examples section for best practices on how to use the `scope` argument effectively.
+However, it is highly recommended to avoid event-loop-blocking operations within the `handleApplication()` method. See the examples section for best practices on how to use the `scope` argument effectively.
+
+## Configuration
+
+As plugins are meant to be used by applications in order to implement some feature, many plugins provide a variety of configuration options to customize their behavior. Some plugins even require certain configuration options to be set in order to function properly.
+
+As a brief overview, the general configuration options available for plugins are:
+
+- **files** - `string` | `string[]` | [`FilesOptionsObject`](#interface-filesoptionsobject) - _optional_ - A glob pattern string or array of strings that specifies the files and directories to be handled by the plugin's default `EntryHandler` instance.
+- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries handled by the plugin's default `EntryHandler` instance.
+- **timeout** - `number` - _optional_ - The timeout in milliseconds for the plugin's operations. If not specified, the system default is **30 seconds**. Plugins may override the system default themselves, but this configuration option is the highest priority and takes precedence.
+
+### File Entries
+
+Just like extensions, plugins support the `files` and `urlPath` options for file entry matching. The values specified for these options are used for the default `EntryHandler` instance created by the `scope.handleEntry()` method. As the reference documentation details, similar options can be used to create custom `EntryHandler` instances too.
+
+The `files` option can be a glob pattern string, an array of glob pattern strings, or a more expressive glob options object.
+
+- The patterns **cannot** contain `..` or start with `/`.
+- The pattern `.` or `./` is transformed into `**/*` automatically.
+- Often, it is best to omit a leading `.` or `./` in the glob pattern.
+
+The `urlPath` option is a base URL path that is prepended to the resolved `files` entries.
+
+- It **cannot** contain `..`.
+- If it starts with `./` or is just `.`, the name of the plugin will be automatically prepended to it.
+
+Putting this all together, to configure the [static](./built-in-extensions.md#static) built-in extension to serve files from the `web` directory but at the `/static/` path, the `config.yaml` would look like this:
+
+```yaml
+static:
+  files: 'web/**/*'
+  urlPath: '/static/'
+```
+
+Keep in mind the `urlPath` option is completely optional.
+
+As another example, to configure the [graphqlSchema](./built-in-extensions.md#graphqlschema) built-in extension to serve only `*.graphql` files from within the top-level of the `src/schema` directory, the `config.yaml` would look like this:
+
+```yaml
+graphqlSchema:
+  files: 'src/schema/*.graphql'
+```
+
+As detailed, the `files` option also supports a more complex object syntax for advanced use cases.
+
+For example, to match files within the `web` directory, and omit any within `web/images`, you can use a configuration such as:
+
+```yaml
+static:
+  files:
+    source: 'web/**/*'
+    ignore: 'web/images/**'
+```
+
+> If you're transitioning from the [extension](./extensions.md) system, the `files` option object no longer supports an `only` field. Instead, use the `entryEvent.entryType` or the specific `entryEvent.eventType` fields in [`onEntryEventHandler(entryEvent)`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) method or any of the specific [`EntryHandler`](#class-entryhandler) events.
+
+### Timeouts
+
+The default timeout for all plugins is **30 seconds**. If the method does not complete within this time, the component loader will throw an error and unblock the component loading sequence. This is to prevent the component loader from hanging indefinitely if a plugin fails to respond or takes too long to execute.
+
+The plugin module can export a `defaultTimeout` variable (in milliseconds) that will override the system default.
+
+For example:
+
+```typescript
+export const defaultTimeout = 60_000; // 60 seconds
+```
+
+Additionally, users can specify a `timeout` option in their application's `config.yaml` file for a specific plugin. This option takes precedence over the plugin's `defaultTimeout` and the system default.
+
+For example:
+
+```yaml
+customPlugin:
+  package: '@harperdb/custom-plugin'
+  files: 'foo.js'
+  timeout: 45_000 # 45 seconds
+```
 
 ## Example: Statically hosting files
 
-This is a functional example of how the `handleComponent()` method and `scope` argument can be used to create a simple static file server plugin. This example assumes that the component has a `config.yaml` with the `files` option set to a glob pattern that matches the files to be served.
+This is a functional example of how the `handleApplication()` method and `scope` argument can be used to create a simple static file server plugin. This example assumes that the component has a `config.yaml` with the `files` option set to a glob pattern that matches the files to be served.
 
 > This is a simplified form of the [static](./built-in-extensions.md#static) built-in extension.
 
 ```js
-export function handleComponent(scope) {
+export function handleApplication(scope) {
 	const staticFiles = new Map();
 
 	scope.options.on('change', (key, value, config) => {
@@ -81,15 +157,15 @@ In this example, the entry handler method passed to `handleEntry` will manage th
 
 This example is heavily simplified, but it demonstrates how the different key parts of `scope` can be used together to provide a performant and reactive application experience.
 
-## `handleComponent(scope: Scope): void | Promise<void>`
+## Function: `handleApplication(scope: Scope): void | Promise<void>`
 
 Parameters:
 
-- **scope** - [`Scope`](#class-scope) - An instance of the `Scope` class that provides access to the component's configuration, resources, and other APIs.
+- **scope** - [`Scope`](#class-scope) - An instance of the `Scope` class that provides access to the relative application's configuration, resources, and other APIs.
 
 Returns: `void | Promise<void>`
 
-This is the only method an plugin module must export. It can be async and is awaited by the component loader. The `scope` argument provides access to the component's configuration, resources, and other APIs.
+This is the only method a plugin module must export. It can be async and is awaited by the component loader. The `scope` argument provides access to the relative application's configuration, resources, and other APIs.
 
 ## Class: `Scope`
 
@@ -105,7 +181,7 @@ Emitted after the scope is closed via the `close()` method.
 
 ### Event: `'ready'`
 
-Emitted when the Scope is ready to be used after loading the associated config file. It is awaited by the component loader, so it is not necessary to await it within the `handleComponent()` method.
+Emitted when the Scope is ready to be used after loading the associated config file. It is awaited by the component loader, so it is not necessary to await it within the `handleApplication()` method.
 
 ### `scope.close()`
 
@@ -117,22 +193,22 @@ Closes all associated entry handlers, the associated `scope.options` instance, e
 
 Parameters:
 
-- **files** - [`FilesOptions`](#interface-filesoptions) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | `onEntryEventHandler` - _optional_
-- **handler** - `onEntryEventHandler` - _optional_
+- **files** - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
+- **handler** - [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
 
-Returns: `EntryHandler` - An instance of the `EntryHandler` class that can be used to handle entries within the scope.
+Returns: [`EntryHandler`](#class-entryhandler) - An instance of the `EntryHandler` class that can be used to handle entries within the scope.
 
-The `handleEntry()` method is the key to handling component entries. This method is used to register an entry event handler, specifically for the `EntryHandler` `'all'` event. The method signature is very flexible, and allows for the following variations:
+The `handleEntry()` method is the key to handling file system entries specified by a `files` glob pattern option in `config.yaml`. This method is used to register an entry event handler, specifically for the `EntryHandler` [`'all'`](#event-all) event. The method signature is very flexible, and allows for the following variations:
 
 - `scope.handleEntry()` (with no arguments) Returns the default `EntryHandler` created by the `files` and `urlPath` options in the `config.yaml`.
-- `scope.handleEntry(handler)` (where `handler` is an `onEntryEventHandler`) Returns the default `EntryHandler` instance (based on the options within `config.yaml`) and uses the provided `handler` for the `'all'` event.
+- `scope.handleEntry(handler)` (where `handler` is an `onEntryEventHandler`) Returns the default `EntryHandler` instance (based on the options within `config.yaml`) and uses the provided `handler` for the [`'all'`](#event-all) event.
 - `scope.handleEntry(files)` (where `files` is `FilesOptions` or `FileAndURLPathConfig`) Returns a new `EntryHandler` instance that handles the specified `files` configuration.
-- `scope.handleEntry(files, handler)` (where `files` is `FilesOptions` or `FileAndURLPathConfig`, and `handler` is an `onEntryEventHandler`) Returns a new `EntryHandler` instance that handles the specified `files` configuration and uses the provided `handler` for the `'all'` event.
+- `scope.handleEntry(files, handler)` (where `files` is `FilesOptions` or `FileAndURLPathConfig`, and `handler` is an `onEntryEventHandler`) Returns a new `EntryHandler` instance that handles the specified `files` configuration and uses the provided `handler` for the [`'all'`](#event-all) event.
 
-For example,
+For example:
 
 ```js
-export function handleComponent(scope) {
+export function handleApplication(scope) {
 	// Get the default EntryHandler instance
 	const defaultEntryHandler = scope.handleEntry();
 
@@ -173,21 +249,59 @@ Returns: `void`
 
 Request a Harper restart. This **does not** restart the instance immediately, but rather indicates to the user that a restart is required. This should be called when the plugin cannot handle the entry event and wants to indicate to the user that the Harper instance should be restarted.
 
-This method is called automatically by the `scope` instance if the user has not defined an `scope.options.on('change')` handler or any event handlers for the default `EntryHandler` instance.
+This method is called automatically by the `scope` instance if the user has not defined an `scope.options.on('change')` handler or if an event handler exists and is missing a necessary handler method.
 
 ### `scope.resources`
 
-- `Map<string, Resource>` - A map of the currently loaded [Resource](../../technical-details/reference/globals.md#resource) instances.
+Returns: `Map<string, Resource>` - A map of the currently loaded [Resource](../globals.md#resource) instances.
 
 ### `scope.server`
 
-- `server` - A reference to the [server](../../technical-details/reference/globals.md#server) global API.
+Returns: `server` - A reference to the [server](../globals.md#server) global API.
 
 ### `scope.options`
 
-- `OptionsWatcher`
+Returns: [`OptionsWatcher`](#class-optionswatcher) - An instance of the `OptionsWatcher` class that provides access to the application's configuration options. Emits `'change'` events when the respective plugin part of the component's config file is modified.
 
-An `OptionsWatcher` instance associated with the component using the plugin. Emits `'change'` events when the respective plugin part of the component's config file is modified.
+For example, if the plugin `customPlugin` is configured by an application with:
+
+```yaml
+customPlugin:
+  files: 'foo.js'
+```
+
+And has the following `handleApplication(scope)` implementation:
+
+```typescript
+export function handleApplication(scope) {
+	scope.options.on('change', (key, value, config) => {
+		if (key[0] === 'files') {
+			// Handle the change in the files option
+			scope.logger.info(`Files option changed to: ${value}`);
+		}
+	});
+}
+```
+
+Then modifying the `files` option in the `config.yaml` to `bar.js` would log the following:
+
+```plaintext
+Files option changed to: bar.js
+```
+
+### `scope.logger`
+
+Returns: `logger` - A scoped instance of the [`logger`](../globals.md#logger) class that provides logging capabilities for the plugin.
+
+It is recommended to use this instead of the `logger` global.
+
+### `scope.name`
+
+Returns: `string` - The name of the plugin as configured in the `config.yaml` file. This is the key under which the plugin is configured.
+
+### `scope.directory`
+
+Returns: `string` - The directory of the application. This is the root directory of the component where the `config.yaml` file is located.
 
 ## Interface: `FilesOption`
 
@@ -200,7 +314,7 @@ An `OptionsWatcher` instance associated with the component using the plugin. Emi
 
 ## Interface: `FileAndURLPathConfig`
 
-- **files** - `FilesOptions` - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
+- **files** - [`FilesOption`](#interface-filesoption) - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
 - **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
 
 ## Class: `OptionsWatcher`
@@ -213,15 +327,15 @@ An `OptionsWatcher` instance associated with the component using the plugin. Emi
 - **value** - [`ConfigValue`](#interface-configvalue) - The new value of the option.
 - **config** - [`ConfigValue`](#interface-configvalue) - The entire configuration object of the plugin.
 
-The `'change'` event is emitted whenever an configuration option is changed in the configuration file relative to the component and respective plugin.
+The `'change'` event is emitted whenever an configuration option is changed in the configuration file relative to the application and respective plugin.
 
-Given a component using the following `config.yaml`:
+Given an application using the following `config.yaml`:
 
 ```yaml
 customPlugin:
   files: 'web/**/*'
-other{lugin:
-  file: 'index.js'
+otherPlugin:
+  files: 'index.js'
 ```
 
 The `scope.options` for the respective plugin's `customPlugin` and `otherPlugin` would emit `'change'` events when the `files` options relative to them are modified.
@@ -274,21 +388,21 @@ If the config is defined it will attempt to retrieve the value of the option at 
 
 Returns: [`ConfigValue`](#interface-configvalue) | `undefined`
 
-Returns the entire configuration object of the plugin. If the config is not defined, it will return `undefined`.
+Returns the entire configuration object for the plugin. If the config is not defined, it will return `undefined`.
 
 ### `options.getRoot()`
 
 Returns: [`Config`](#interface-config) | `undefined`
 
-Returns the root configuration object of the component. This is the entire configuration object, basically the parsed form of the `config.yaml`. If the config is not defined, it will return `undefined`.
+Returns the root configuration object of the application. This is the entire configuration object, basically the parsed form of the `config.yaml`. If the config is not defined, it will return `undefined`.
 
-## Interface: `Config`
+### Interface: `Config`
 
 - `[key: string]` [`ConfigValue`](#interface-configvalue)
 
-An object representing the configuration of the plugin.
+An object representing the `config.yaml` file configuration.
 
-## Interface: `ConfigValue`
+### Interface: `ConfigValue`
 
 - `string` | `number` | `boolean` | `null` | `undefined` | `ConfigValue[]` | [`Config`](#interface-config)
 
@@ -297,6 +411,8 @@ Any valid configuration value type. Essentially, the primitive types, an array o
 ## Class: `EntryHandler`
 
 Extends: [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
+
+Created by calling [`scope.handleEntry()`](#scopehandleentry) method.
 
 ### Event: `'all'`
 
@@ -307,7 +423,7 @@ The `'all'` event is emitted for all entry events, including file and directory 
 An effective pattern for this event is:
 
 ```js
-async function handleComponent(scope) {
+async function handleApplication(scope) {
 	scope.handleEntry((entry) => {
 		switch (entry.eventType) {
 			case 'add':
@@ -358,7 +474,7 @@ Emitted when the entry handler is closed via the [`entryHandler.close()`](#entry
 
 ### Event: `'ready'`
 
-Emitted when the entry handler is ready to be used.
+Emitted when the entry handler is ready to be used. This is not automatically awaited by the component loader, but also is not required. Calling `scope.handleEntry()` is perfectly sufficient. This is generally useful if you need to do something _after_ the entry handler is absolutely watching and handling entries.
 
 ### Event: `'unlink'`
 
@@ -374,15 +490,15 @@ The `'unlinkDir'` event is emitted when a directory is deleted. The event handle
 
 ### `entryHandler.name`
 
-Returns: `string`
+Returns: `string` - The name of the plugin as configured in the `config.yaml` file. This is the key under which the plugin is configured.
 
-The name of the associated component.
+The name of the plugin.
 
 ### `entryHandler.directory`
 
 Returns: `string`
 
-The directory of the associated component. This is the root directory of the component where the `config.yaml` file is located.
+The directory of the application. This is the root directory of the component where the `config.yaml` file is located.
 
 ### `entryHandler.close()`
 
@@ -400,7 +516,7 @@ This method will update an existing entry handler to watch new entries. It will 
 
 This method returns a promise associated with the ready event of the updated handler.
 
-## Interface: `BaseEntry`
+### Interface: `BaseEntry`
 
 - **stats** - [`fs.Stats`](https://nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
 - **urlPath** - `string` - The recommended URL path of the entry.
@@ -412,7 +528,7 @@ The `urlPath` is resolved based on the configured pattern (`files:` option) comb
 
 The `absolutePath` is the file system path for the entry.
 
-## Interface: `FileEntry`
+### Interface: `FileEntry`
 
 Extends [`BaseEntry`](#interface-baseentry)
 
@@ -422,7 +538,7 @@ A specific extension of the `BaseEntry` interface representing a file entry. We 
 
 There is no `DirectoryEntry` since there is no other important metadata aside from the `BaseEntry` properties. If a user wants the contents of a directory, they should adjust the pattern to resolve files instead.
 
-## Interface: `EntryEvent`
+### Interface: `EntryEvent`
 
 Extends [`BaseEntry`](#interface-baseentry)
 
@@ -431,7 +547,7 @@ Extends [`BaseEntry`](#interface-baseentry)
 
 A general interface representing the entry handle event objects.
 
-## Interface: `AddFileEvent`
+### Interface: `AddFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -440,7 +556,7 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is created (or the watcher sees it for the first time).
 
-## Interface: `ChangeFileEvent`
+### Interface: `ChangeFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -449,7 +565,7 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is modified.
 
-## Interface: `UnlinkFileEvent`
+### Interface: `UnlinkFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -458,13 +574,13 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is deleted.
 
-## Interface: `FileEntryEvent`
+### Interface: `FileEntryEvent`
 
 - `AddFileEvent` | `ChangeFileEvent` | `UnlinkFileEvent`
 
 A union type representing the file entry events. These events are emitted when a file is created, modified, or deleted. The `FileEntry` interface provides the file contents and other metadata.
 
-## Interface: `AddDirEvent`
+### Interface: `AddDirEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -473,7 +589,7 @@ Extends [`EntryEvent`](#interface-entryevent)
 
 Event object emitted when a directory is created (or the watcher sees it for the first time).
 
-## Interface: `UnlinkDirEvent`
+### Interface: `UnlinkDirEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -482,8 +598,18 @@ Extends [`EntryEvent`](#interface-entryevent)
 
 Event object emitted when a directory is deleted.
 
-## Interface: `DirectoryEntryEvent`
+### Interface: `DirectoryEntryEvent`
 
 - `AddDirEvent` | `UnlinkDirEvent`
 
 A union type representing the directory entry events. There are no change events for directories since they are not modified in the same way as files.
+
+### Function: `onEntryEventHandler(entryEvent: FileEntryEvent | DirectoryEntryEvent): void`
+
+Parameters:
+
+- **entryEvent** - [`FileEntryEvent`](#interface-fileentryevent) | [`DirectoryEntryEvent`](#interface-directoryentryevent)
+
+Returns: `void`
+
+This function is what is passed to the `scope.handleEntry()` method as the handler for the `'all'` event. This is also applicable to a custom `.on('all', handler)` method for any `EntryHandler` instance.
