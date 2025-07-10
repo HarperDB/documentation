@@ -135,6 +135,7 @@
 * [Release Notes](technical-details/release-notes/README.md)
   * [Harper Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
     * [4.6.0](technical-details/release-notes/4.tucker/4.6.0.md)
+    * [4.6.1](technical-details/release-notes/4.tucker/4.6.1.md)
     * [4.5.12](technical-details/release-notes/4.tucker/4.5.12.md)
     * [4.5.11](technical-details/release-notes/4.tucker/4.5.11.md)
     * [4.5.10](technical-details/release-notes/4.tucker/4.5.10.md)
