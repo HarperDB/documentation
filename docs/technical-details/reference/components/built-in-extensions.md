@@ -14,6 +14,19 @@ For more information read the [Components, Applications, and Extensions](../../.
   - [roles](#roles)
   - [static](#static)
 
+## dataLoader
+
+Load data from JSON or YAML files into Harper tables as part of component deployment.
+
+This component is an [Extension](./reference.md#extensions) and can be configured with the `files` configuration option.
+
+Complete documentation for this feature is available here: [Data Loader](../applications/data-loader.md)
+
+```yaml
+dataLoader:
+  files: 'data/*.json'
+```
+
 ## fastifyRoutes
 
 Specify custom endpoints using [Fastify](https://fastify.dev/).

@@ -21,7 +21,7 @@ Harper allows for managing [cross-origin HTTP requests](https://developer.mozill
 
 ## SSL
 
-HarperDprovides the option to use an HTTP or HTTPS and HTTP/2 interface. The default port for the server is 9925.
+Harper provides the option to use an HTTP or HTTPS and HTTP/2 interface. The default port for the server is 9925.
 
 These default ports can be changed by updating the `operationsApi.network.port` value in `<ROOTPATH>/harperdb-config.yaml`
 
