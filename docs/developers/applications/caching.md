@@ -36,8 +36,8 @@ class ThirdPartyAPI extends Resource {
 Next, we define this external data resource as the "source" for the caching table we defined above:
 
 ```javascript
-const { MyTable } = tables;
-MyTable.sourcedFrom(ThirdPartyAPI);
+const { MyCache } = tables;
+MyCache.sourcedFrom(ThirdPartyAPI);
 ```
 
 Now we have a fully configured and connected caching table. If you access data from `MyCache` (for example, through the REST API, like `/MyCache/some-id`), Harper will check to see if the requested entry is in the table and return it if it is available (and hasn't expired). If there is no entry, or it has expired (it is older than one hour in this case), it will go to the source, calling the `get()` method, which will then retrieve the requested entry. Once the entry is retrieved, it will be saved/cached in the caching table (for one hour based on our expiration time).
