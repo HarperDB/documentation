@@ -6,6 +6,8 @@
 
 [4.6.0 Tucker](4.tucker/4.6.0.md)
 
+[4.5.12 Tucker](4.tucker/4.5.12.md)
+
 [4.5.11 Tucker](4.tucker/4.5.11.md)
 
 [4.5.10 Tucker](4.tucker/4.5.10.md)
