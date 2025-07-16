@@ -27,23 +27,23 @@ Stop execution for either of these processes by sending a SIGINT (generally CTRL
 Alternatively, to mimic interfacing with a hosted Harper instance, use operation commands instead.
 
 1. Start up Harper with `harperdb`
-2.  _Deploy_ the application to the local instance by executing:
+2. _Deploy_ the application to the local instance by executing:
 
-	```sh
-	harperdb deploy \
-	  project=<name> \
-	  package=<path-to-project> \
-	  restart=true
-	```
+   ```sh
+   harperdb deploy \
+     project=<name> \
+     package=<path-to-project> \
+     restart=true
+   ```
+   - Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
+   - The `package=<path-to-project>` option creates a symlink to the application simplifying restarts
+     - By default, the `deploy` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
+   - The `restart=true` option automatically restarts Harper threads after the application is deployed
+     - If set to `'rolling'`, a rolling restart will be triggered after the application is deployed
 
-	* Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
-	* The `package=<path-to-project>` option creates a symlink to the application simplifying restarts
-	  * By default, the `deploy` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
-	* The `restart=true` option automatically restarts Harper threads after the application is deployed
-	  * If set to `'rolling'`, a rolling restart will be triggered after the application is deployed
 3. In another terminal, use the `harperdb restart` command to restart the instance's threads at any time
-   * With `package=<path-to-project>`, the application source is symlinked so changes will automatically be picked up between restarts
-   * If `package` was omitted, run the `deploy` command again with any new changes
+   - With `package=<path-to-project>`, the application source is symlinked so changes will automatically be picked up between restarts
+   - If `package` was omitted, run the `deploy` command again with any new changes
 4. To remove the application use `harperdb drop_component project=<name>`
 
 Similar to the previous section, if the main thread needs to be restarted, start and stop the Harper instance manually (with the application deployed). Upon Harper startup, the application will automatically be loaded and executed across all threads.
@@ -103,11 +103,11 @@ A local application can be deployed to a remote instance by **omitting** the `pa
 
 Furthermore, the `package` field can be set to any valid [npm dependency value](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#dependencies).
 
-* For applications deployed to npm, specify the package name: `package="@harperdb/status-check"`
-* For applications on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
-* Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-applications.git"`
-  * Reference the [SSH Key](../operations-api/components.md#add-ssh-key) operations for more information on managing SSH keys on a remote instance
-* Even tarball URLs are supported: `package="https://example.com/application.tar.gz"`
+- For applications deployed to npm, specify the package name: `package="@harperdb/status-check"`
+- For applications on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
+- Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-applications.git"`
+  - Reference the [SSH Key](../operations-api/components.md#add-ssh-key) operations for more information on managing SSH keys on a remote instance
+- Even tarball URLs are supported: `package="https://example.com/application.tar.gz"`
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.
 
@@ -133,7 +133,7 @@ The configuration is very similar to that of `config.yaml`. Entries are comprise
 
 ```yaml
 status-check:
-  package: "@harperdb/status-check"
+  package: '@harperdb/status-check'
 ```
 
 The key difference between this and a component's `config.yaml` is that the name does **not** need to be associated with a `package.json` dependency. When Harper starts up, it transforms these configurations into a `package.json` file, and then executes a form of `npm install`. Thus, the `package: <specifier>` can be any valid dependency syntax such as npm packages, GitHub repos, tarballs, and local directories are all supported.
@@ -142,7 +142,7 @@ Given a root config like:
 
 ```yaml
 myGithubComponent:
-  package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub 
+  package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub
 myNPMComponent:
   package: harperdb # install from npm
 myTarBall:
@@ -157,13 +157,13 @@ Harper will generate a `package.json` like:
 
 ```json
 {
-  "dependencies": {
-	"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
-	"myNPMComponent": "npm:harperdb",
-	"myTarBall": "file:/Users/harper/cool-component.tar",
-	"myLocal": "file:/Users/harper/local",
-	"myWebsite": "https://harperdb-component"
-  }
+	"dependencies": {
+		"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
+		"myNPMComponent": "npm:harperdb",
+		"myTarBall": "file:/Users/harper/cool-component.tar",
+		"myLocal": "file:/Users/harper/local",
+		"myWebsite": "https://harperdb-component"
+	}
 }
 ```
 

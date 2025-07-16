@@ -17,9 +17,10 @@ You may also note that we can define a time-to-live (TTL) expiration on the tabl
 While you can provide a single expiration time, there are actually several expiration timings that are potentially relevant, and can be independently configured. These settings are available as directive properties on the table configuration (like `expiration` above): stale expiration: The point when a request for a record should trigger a request to origin (but might possibly return the current stale record depending on policy) must-revalidate expiration: The point when a request for a record must make a request to origin first and return the latest value from origin. eviction expiration: The point when a record is actually removed from the caching table.
 
 You can provide a single expiration and it defines the behavior for all three. You can also provide three settings for expiration, through table directives:
-* expiration - The amount of time until a record goes stale.
-* eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
-* scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
+
+- expiration - The amount of time until a record goes stale.
+- eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
+- scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
 ## Define External Data Source
 
@@ -49,7 +50,6 @@ flowchart TD
 	  Cache-->Resource(Data Source Connector)
 	  Resource-->API(Remote Data Source API)
 ```
-
 
 Harper handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
 
@@ -106,7 +106,8 @@ One way to provide more active caching is to specifically invalidate individual 
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
 	async post(data) {
-		if (data.invalidate) // use this flag as a marker
+		if (data.invalidate)
+			// use this flag as a marker
 			this.invalidate();
 	}
 }
@@ -139,20 +140,20 @@ class ThirdPartyAPI extends Resource {
 
 Notification events should always include an `id` property to indicate the primary key of the updated record. The event should have a `value` property for `put` and `message` event types. The `timestamp` is optional and can be used to indicate the exact timestamp of the change. The following event `type`s are supported:
 
-* `put` - This indicates that the record has been updated and provides the new value of the record.
-* `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
-* `delete` - This indicates that the record has been deleted.
-* `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time.md).
-* `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
+- `put` - This indicates that the record has been updated and provides the new value of the record.
+- `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
+- `delete` - This indicates that the record has been deleted.
+- `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time.md).
+- `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
 
 And the following properties can be defined on event objects:
 
-* `type`: The event type as described above.
-* `id`: The primary key of the record that updated
-* `value`: The new value of the record that updated (for put and message)
-* `writes`: An array of event properties that are part of a transaction (used in conjunction with the transaction event type).
-* `table`: The name of the table with the record that was updated. This can be used with events within a transaction to specify events across multiple tables.
-* `timestamp`: The timestamp of when the data change occurred
+- `type`: The event type as described above.
+- `id`: The primary key of the record that updated
+- `value`: The new value of the record that updated (for put and message)
+- `writes`: An array of event properties that are part of a transaction (used in conjunction with the transaction event type).
+- `table`: The name of the table with the record that was updated. This can be used with events within a transaction to specify events across multiple tables.
+- `timestamp`: The timestamp of when the data change occurred
 
 With an active external data source with a `subscribe` method, the data source will proactively notify the cache, ensuring a fresh and efficient active cache. Note that with an active data source, we still use the `sourcedFrom` method to register the source for a caching table, and the table will automatically detect and call the subscribe method on the data source.
 
@@ -214,10 +215,10 @@ When you are using a caching table, it is important to remember that any resourc
 ```javascript
 class MyCache extends tables.MyCache {
 	async post(data) {
-        // if the data is not cached locally, retrieves from source:
-        await this.ensuredLoaded();
-        // now we can be sure that the data is loaded, and can access properties
-        this.quantity = this.quantity - data.purchases;
+		// if the data is not cached locally, retrieves from source:
+		await this.ensuredLoaded();
+		// now we can be sure that the data is loaded, and can access properties
+		this.quantity = this.quantity - data.purchases;
 	}
 }
 ```
@@ -264,21 +265,24 @@ Cache-Control: only-if-cached, no-store
 
 You may also use the `stale-if-error` to indicate if it is acceptable to return a stale cached resource when the data source returns an error (network connection error, 500, 502, 503, or 504). The `must-revalidate` directive can indicate a stale cached resource can not be returned, even when the data source has an error (by default a stale cached resource is returned when there is a network connection error).
 
-
 ## Caching Flow
+
 It may be helpful to understand the flow of a cache request. When a request is made to a caching table:
-* Harper will first create a resource instance to handle the process, and ensure that the data is loaded for the resource instance. To do this, it will first check if the record is in the table/cache.
-  * If the record is not in the cache, Harper will first check if there is a current request to get the record from the source. If there is, Harper will wait for the request to complete and return the record from the cache. 
-  * If not, Harper will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
-  * If the record is in the cache, Harper will check if the record is stale. If the record is not stale, Harper will immediately return the record from the cache. If the record is stale, Harper will call the `get()` method on the source to retrieve the record.
-  * The record will then be stored in the cache. This will write the record to the cache in a separate asynchronous/background write-behind transaction, so it does not block the current request, then return the data immediately once it has it.
-* The `get()` method will be called on the resource instance to return the record to the client (or perform any querying on the record). If this is overriden, the method will be called at this time.
+
+- Harper will first create a resource instance to handle the process, and ensure that the data is loaded for the resource instance. To do this, it will first check if the record is in the table/cache.
+  - If the record is not in the cache, Harper will first check if there is a current request to get the record from the source. If there is, Harper will wait for the request to complete and return the record from the cache.
+  - If not, Harper will call the `get()` method on the source to retrieve the record. The record will then be stored in the cache.
+  - If the record is in the cache, Harper will check if the record is stale. If the record is not stale, Harper will immediately return the record from the cache. If the record is stale, Harper will call the `get()` method on the source to retrieve the record.
+  - The record will then be stored in the cache. This will write the record to the cache in a separate asynchronous/background write-behind transaction, so it does not block the current request, then return the data immediately once it has it.
+- The `get()` method will be called on the resource instance to return the record to the client (or perform any querying on the record). If this is overriden, the method will be called at this time.
 
 ### Caching Flow with Write-Through
+
 When a writes are performed on a caching table (in `put()` or `post()` method, for example), the flow is slightly different:
-* Harper will have first created a resource instance to handle the process, and this resource instance that will be the current `this` for a call to `put()` or `post()`.
-* If a `put()` or `update()` is called, for example, this action will be record in the current transaction.
-* Once the transaction is committed (which is done automatically as the request handler completes), the transaction write will be sent to the source to update the data.
-  * The local writes will wait for the source to confirm the writes have completed (note that this effectively allows you to perform a two-phase transactional write to the source, and the source can confirm the writes have completed before the transaction is committed locally).
-  * The transaction writes will then be written the local caching table.
-* The transaction handler will wait for the local commit to be written, then the transaction will be resolved and a response will be sent to the client.
+
+- Harper will have first created a resource instance to handle the process, and this resource instance that will be the current `this` for a call to `put()` or `post()`.
+- If a `put()` or `update()` is called, for example, this action will be record in the current transaction.
+- Once the transaction is committed (which is done automatically as the request handler completes), the transaction write will be sent to the source to update the data.
+  - The local writes will wait for the source to confirm the writes have completed (note that this effectively allows you to perform a two-phase transactional write to the source, and the source can confirm the writes have completed before the transaction is committed locally).
+  - The transaction writes will then be written the local caching table.
+- The transaction handler will wait for the local commit to be written, then the transaction will be resolved and a response will be sent to the client.

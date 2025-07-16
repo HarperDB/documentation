@@ -4,7 +4,7 @@ If you wish to install locally or already have a configured server, see the basi
 
 The following is a recommended way to configure Linux and install Harper. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
 
-***
+---
 
 These instructions assume that the following has already been completed:
 
@@ -18,7 +18,7 @@ While you will need to access Harper through port 9925 for the administration th
 
 For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
-***
+---
 
 ### (Optional) LVM Configuration
 
@@ -81,7 +81,7 @@ Run `lsblk` and note the device name of the additional volume
 lsblk
 ```
 
-Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb\_vg/hdb\_lv)
+Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb_vg/hdb_lv)
 
 ```bash
 sudo mkfs.ext4 -L hdb_data /dev/nvme1n1

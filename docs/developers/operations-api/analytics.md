@@ -1,31 +1,32 @@
 # Analytics Operations
 
 ## get_analytics
+
 Retrieves analytics data from the server.
 
-* operation _(required)_ - must always be `get_analytics`
-* metric _(required)_ - any value returned by `list_metrics`
-* start_time _(optional)_ - Unix timestamp in seconds
-* end_time _(optional)_ - Unix timestamp in seconds
-* get_attributes _(optional)_ - array of attribute names to retrieve
-* conditions _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](docs/developers/operations-api/nosql-operations.md) for details)
+- operation _(required)_ - must always be `get_analytics`
+- metric _(required)_ - any value returned by `list_metrics`
+- start*time *(optional)\_ - Unix timestamp in seconds
+- end*time *(optional)\_ - Unix timestamp in seconds
+- get*attributes *(optional)\_ - array of attribute names to retrieve
+- conditions _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](docs/developers/operations-api/nosql-operations.md) for details)
 
 ### Body
 
 ```json
 {
-  "operation": "get_analytics",
-  "metric": "resource-usage",
-  "start_time": 1609459200,
-  "end_time": 1609545600,
-  "get_attributes": ["id", "metric", "userCPUTime", "systemCPUTime"],
-  "conditions": [
-    {
-      "attribute": "node",
-      "operator": "equals",
-      "value": "node1.example.com"
-    }
-  ]
+	"operation": "get_analytics",
+	"metric": "resource-usage",
+	"start_time": 1609459200,
+	"end_time": 1609545600,
+	"get_attributes": ["id", "metric", "userCPUTime", "systemCPUTime"],
+	"conditions": [
+		{
+			"attribute": "node",
+			"operator": "equals",
+			"value": "node1.example.com"
+		}
+	]
 }
 ```
 
@@ -33,61 +34,56 @@ Retrieves analytics data from the server.
 
 ```json
 [
-  {
-    "id": "12345",
-    "metric": "resource-usage",
-    "userCPUTime": 100,
-    "systemCPUTime": 50
-  },
-  {
-    "id": "67890",
-    "metric": "resource-usage",
-    "userCPUTime": 150,
-    "systemCPUTime": 75
-  }
+	{
+		"id": "12345",
+		"metric": "resource-usage",
+		"userCPUTime": 100,
+		"systemCPUTime": 50
+	},
+	{
+		"id": "67890",
+		"metric": "resource-usage",
+		"userCPUTime": 150,
+		"systemCPUTime": 75
+	}
 ]
 ```
 
 ## list_metrics
+
 Returns a list of available metrics that can be queried.
 
-* operation _(required)_ - must always be `list_metrics`
-* metric_types _(optional)_ - array of metric types to filter results; one or both of `custom` and `builtin`; default is `builtin`
+- operation _(required)_ - must always be `list_metrics`
+- metric*types *(optional)\_ - array of metric types to filter results; one or both of `custom` and `builtin`; default is `builtin`
 
 ### Body
 
 ```json
 {
-  "operation": "list_metrics",
-  "metric_types": ["custom", "builtin"]
+	"operation": "list_metrics",
+	"metric_types": ["custom", "builtin"]
 }
 ```
 
 ### Response 200
 
 ```json
-[
-  "resource-usage",
-  "table-size",
-  "database-size",
-  "main-thread-utilization",
-  "utilization",
-  "storage-volume"
-]
+["resource-usage", "table-size", "database-size", "main-thread-utilization", "utilization", "storage-volume"]
 ```
 
 ## describe_metric
+
 Provides detailed information about a specific metric, including its structure and available parameters.
 
-* operation _(required)_ - must always be `describe_metric`
-* metric _(required)_ - name of the metric to describe
+- operation _(required)_ - must always be `describe_metric`
+- metric _(required)_ - name of the metric to describe
 
 ### Body
 
 ```json
 {
-  "operation": "describe_metric",
-  "metric": "resource-usage"
+	"operation": "describe_metric",
+	"metric": "resource-usage"
 }
 ```
 
@@ -95,27 +91,27 @@ Provides detailed information about a specific metric, including its structure a
 
 ```json
 {
-  "attributes": [
-    {
-      "name": "id",
-      "type": "number"
-    },
-    {
-      "name": "metric",
-      "type": "string"
-    },
-    {
-      "name": "userCPUTime",
-      "type": "number"
-    },
-    {
-      "name": "systemCPUTime",
-      "type": "number"
-    },
-    {
-      "name": "node",
-      "type": "string"
-    }
-  ]
+	"attributes": [
+		{
+			"name": "id",
+			"type": "number"
+		},
+		{
+			"name": "metric",
+			"type": "string"
+		},
+		{
+			"name": "userCPUTime",
+			"type": "number"
+		},
+		{
+			"name": "systemCPUTime",
+			"type": "number"
+		},
+		{
+			"name": "node",
+			"type": "string"
+		}
+	]
 }
 ```

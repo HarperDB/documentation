@@ -6,7 +6,7 @@ _Note: ‘local’ and ‘remote’ will often be referred to. In the context of
 
 A subscription consists of:
 
-`database` - the name of the database that the table you are creating the subscription for belongs to. *Note, this was previously referred to as schema and may occasionally still be referenced that way.*
+`database` - the name of the database that the table you are creating the subscription for belongs to. _Note, this was previously referred to as schema and may occasionally still be referenced that way._
 
 `table` - the name of the table the subscription will apply to.
 

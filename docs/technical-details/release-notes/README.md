@@ -236,7 +236,7 @@
 
 [3.0.0 Monkey](3.monkey/3.0.0.md)
 
-***
+---
 
 [Meet Penny](2.penny/) Our 2nd Release Pup
 
@@ -252,7 +252,7 @@
 
 [2.1.1 Penny](2.penny/2.1.1.md)
 
-***
+---
 
 [Meet Alby](1.alby/) Our 1st Release Pup
 

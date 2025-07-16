@@ -6,7 +6,7 @@ Harper Jobs are asynchronous tasks performed by the Operations API.
 
 Jobs uses an asynchronous methodology to account for the potential of a long-running operation. For example, exporting millions of records to S3 could take some time, so that job is started and the id is provided to check on the status.
 
-The job status can be **COMPLETE** or **IN\_PROGRESS**.
+The job status can be **COMPLETE** or **IN_PROGRESS**.
 
 ## Example Job Operations
 

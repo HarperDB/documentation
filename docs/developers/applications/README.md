@@ -92,7 +92,7 @@ export class DogWithHumanAge extends Dog {
 		const record = await super.get(target);
 		return {
 			...record, // include all properties from the record
-			humanAge: 15 + record.age * 5 // silly calculation of human age equivalent
+			humanAge: 15 + record.age * 5, // silly calculation of human age equivalent
 		};
 	}
 }
@@ -131,7 +131,7 @@ export class DogWithBreed extends Dog {
 		let breedDescription = await Breed.get(record.breed);
 		return {
 			...record,
-			breedDescription
+			breedDescription,
 		};
 	}
 }
@@ -168,7 +168,7 @@ export class CustomDog extends Dog {
 			// if we want to skip the default permission checks, we can turn off checkPermissions:
 			target.checkPermissions = false;
 			const record = this.update(target);
-			// and do our own/custom permission check: 
+			// and do our own/custom permission check:
 			if (record.owner !== context.user?.username) {
 				throw new Error('Can not update this record');
 			}
@@ -196,7 +196,8 @@ We can also directly implement the Resource class and use it to create new data 
 
 ```javascript
 const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
+class BreedSource extends Resource {
+	// define a data source
 	async get(target) {
 		return (await fetch(`http://best-dog-site.com/${target}`)).json();
 	}

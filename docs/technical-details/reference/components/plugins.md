@@ -26,49 +26,54 @@ This is a functional example of how the `handleComponent()` method and `scope` a
 
 ```js
 export function handleComponent(scope) {
-  const staticFiles = new Map();
+	const staticFiles = new Map();
 
-  scope.options.on('change', (key, value, config) => {
-	if (key[0] === 'files' || key[0] === 'urlPath') {
-	  // If the files or urlPath options change, we need to reinitialize the static files map
-	  staticFiles.clear();
-	  logger.info(`Static files reinitialized due to change in ${key.join('.')}`);
-	}
-  });
+	scope.options.on('change', (key, value, config) => {
+		if (key[0] === 'files' || key[0] === 'urlPath') {
+			// If the files or urlPath options change, we need to reinitialize the static files map
+			staticFiles.clear();
+			logger.info(`Static files reinitialized due to change in ${key.join('.')}`);
+		}
+	});
 
-  scope.handleEntry((entry) => {
-	if (entry.entryType === 'directory') {
-	  logger.info(`Cannot serve directories. Update the files option to only match files.`);
-	  return;
-	}
+	scope.handleEntry((entry) => {
+		if (entry.entryType === 'directory') {
+			logger.info(`Cannot serve directories. Update the files option to only match files.`);
+			return;
+		}
 
-	switch (entry.eventType) {
-	  case 'add':
-	  case 'change':
-		// Store / Update the file contents in memory for serving
-		staticFiles.set(entry.urlPath, entry.contents);
-		break;
-	  case 'unlink':
-		// Remove the file from memory when it is deleted
-		staticFiles.delete(entry.urlPath);
-		break;
-	}
-  });
+		switch (entry.eventType) {
+			case 'add':
+			case 'change':
+				// Store / Update the file contents in memory for serving
+				staticFiles.set(entry.urlPath, entry.contents);
+				break;
+			case 'unlink':
+				// Remove the file from memory when it is deleted
+				staticFiles.delete(entry.urlPath);
+				break;
+		}
+	});
 
-  scope.server.http((req, next) => {
-	if (req.method !== 'GET') return next(req);
+	scope.server.http(
+		(req, next) => {
+			if (req.method !== 'GET') return next(req);
 
-	// Attempt to retrieve the requested static file from memory
-	const staticFile = staticFiles.get(req.pathname);
+			// Attempt to retrieve the requested static file from memory
+			const staticFile = staticFiles.get(req.pathname);
 
-	return staticFile ? {
-	  statusCode: 200,
-	  body: staticFile,
-	} : {
-	  statusCode: 404,
-	  body: 'File not found',
-	}
-  }, { runFirst: true });
+			return staticFile
+				? {
+						statusCode: 200,
+						body: staticFile,
+					}
+				: {
+						statusCode: 404,
+						body: 'File not found',
+					};
+		},
+		{ runFirst: true }
+	);
 }
 ```
 
@@ -112,8 +117,8 @@ Closes all associated entry handlers, the associated `scope.options` instance, e
 
 Parameters:
 
-- **files** - [`FilesOptions`](#interface-filesoptions) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | `onEntryEventHandler` - *optional*
-- **handler** - `onEntryEventHandler` - *optional*
+- **files** - [`FilesOptions`](#interface-filesoptions) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | `onEntryEventHandler` - _optional_
+- **handler** - `onEntryEventHandler` - _optional_
 
 Returns: `EntryHandler` - An instance of the `EntryHandler` class that can be used to handle entries within the scope.
 
@@ -128,21 +133,28 @@ For example,
 
 ```js
 export function handleComponent(scope) {
-   // Get the default EntryHandler instance
-  const defaultEntryHandler = scope.handleEntry();
+	// Get the default EntryHandler instance
+	const defaultEntryHandler = scope.handleEntry();
 
-  // Assign a handler for the 'all' event on the default EntryHandler
-  scope.handleEntry((entry) => { /* ... */ });
+	// Assign a handler for the 'all' event on the default EntryHandler
+	scope.handleEntry((entry) => {
+		/* ... */
+	});
 
-  // Create a new EntryHandler for the 'src/**/*.js' files option with a custom `'all'` event handler.
-  const customEntryHandler = scope.handleEntry({
-	files: 'src/**/*.js',
-  }, (entry) => { /* ... */ });
+	// Create a new EntryHandler for the 'src/**/*.js' files option with a custom `'all'` event handler.
+	const customEntryHandler = scope.handleEntry(
+		{
+			files: 'src/**/*.js',
+		},
+		(entry) => {
+			/* ... */
+		}
+	);
 
-  // Create another custom EntryHandler for the 'src/**/*.ts' files option, but without a `'all'` event handler.
-  const anotherCustomEntryHandler = scope.handleEntry({
-	files: 'src/**/*.ts',
-  });
+	// Create another custom EntryHandler for the 'src/**/*.ts' files option, but without a `'all'` event handler.
+	const anotherCustomEntryHandler = scope.handleEntry({
+		files: 'src/**/*.ts',
+	});
 }
 ```
 
@@ -159,7 +171,7 @@ Then the default `EntryHandler` instances would be created to handle all entries
 
 Returns: `void`
 
-Request a Harper restart. This **does not** restart the instance immediately, but rather indicates to the user that a restart is required. This should be called when the plugin cannot handle the entry event and wants to indicate to the user that the Harper instance should be restarted. 
+Request a Harper restart. This **does not** restart the instance immediately, but rather indicates to the user that a restart is required. This should be called when the plugin cannot handle the entry event and wants to indicate to the user that the Harper instance should be restarted.
 
 This method is called automatically by the `scope` instance if the user has not defined an `scope.options.on('change')` handler or any event handlers for the default `EntryHandler` instance.
 
@@ -183,13 +195,13 @@ An `OptionsWatcher` instance associated with the component using the plugin. Emi
 
 ## Interface: `FilesOptionsObject`
 
-- **source** - `string` | `string[]` - *required* - The glob pattern string or array of strings.
-- **ignore** - `string` | `string[]` - *optional* - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
+- **source** - `string` | `string[]` - _required_ - The glob pattern string or array of strings.
+- **ignore** - `string` | `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
 
 ## Interface: `FileAndURLPathConfig`
 
-- **files** - `FilesOptions` - *required* - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
-- **urlPath** - `string` - *optional* - A base URL path to prepend to the resolved `files` entries.
+- **files** - `FilesOptions` - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
+- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
 
 ## Class: `OptionsWatcher`
 
@@ -218,9 +230,9 @@ For example, if the `files` option for `customPlugin` is changed to `web/**/*.js
 
 ```js
 scope.options.on('change', (key, value, config) => {
-  key // ['files']
-  value // 'web/**/*.js'
-  config // { files: 'web/**/*.js' }
+	key; // ['files']
+	value; // 'web/**/*.js'
+	config; // { files: 'web/**/*.js' }
 });
 ```
 
@@ -251,6 +263,7 @@ Closes the options watcher, removing all listeners and preventing any further ev
 ### `options.get(key)`
 
 Parameters:
+
 - **key** - `string[]` - The key of the option to get, split into parts (e.g. `foo.bar` is represented as `['foo', 'bar']`).
 
 Returns: [`ConfigValue`](#interface-configvalue) | `undefined`
@@ -295,25 +308,25 @@ An effective pattern for this event is:
 
 ```js
 async function handleComponent(scope) {
-  scope.handleEntry((entry) => {
-	switch(entry.eventType) {
-	  case 'add':
-		// Handle file addition
-		break;
-	  case 'change':
-		// Handle file change
-		break;
-	  case 'unlink':
-		// Handle file deletion
-		break;
-	  case 'addDir':
-		// Handle directory addition
-		break;
-	  case 'unlinkDir':
-		// Handle directory deletion
-		break;
-	}
-  });
+	scope.handleEntry((entry) => {
+		switch (entry.eventType) {
+			case 'add':
+				// Handle file addition
+				break;
+			case 'change':
+				// Handle file change
+				break;
+			case 'unlink':
+				// Handle file deletion
+				break;
+			case 'addDir':
+				// Handle directory addition
+				break;
+			case 'unlinkDir':
+				// Handle directory deletion
+				break;
+		}
+	});
 }
 ```
 
@@ -380,6 +393,7 @@ Closes the entry handler, removing all listeners and preventing any further even
 ### `entryHandler.update(config)`
 
 Parameters:
+
 - **config** - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) - The configuration object for the entry handler.
 
 This method will update an existing entry handler to watch new entries. It will close the underlying watcher and create a new one, but will maintain any existing listeners on the EntryHandler instance itself.
@@ -404,7 +418,7 @@ Extends [`BaseEntry`](#interface-baseentry)
 
 - **contents** - `Buffer` - The contents of the file.
 
-A specific extension of the `BaseEntry` interface representing a file entry. We automatically read the contents of the file so the user doesn't have to bother with FS operations. 
+A specific extension of the `BaseEntry` interface representing a file entry. We automatically read the contents of the file so the user doesn't have to bother with FS operations.
 
 There is no `DirectoryEntry` since there is no other important metadata aside from the `BaseEntry` properties. If a user wants the contents of a directory, they should adjust the pattern to resolve files instead.
 

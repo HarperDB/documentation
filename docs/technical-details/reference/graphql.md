@@ -11,6 +11,7 @@ This automatically enables a `/graphql` endpoint that can be used for GraphQL qu
 Queries can either be `GET` or `POST` requests, and both follow essentially the same request format. `GET` requests must use search parameters, and `POST` requests use the request body.
 
 For example, to request the GraphQL Query:
+
 ```graphql
 query GetDogs {
 	Dog {
@@ -87,6 +88,7 @@ The Harper GraphQL Querying system takes many liberties from the GraphQL specifi
 In variable definitions, the querying system will ensure non-null values exist (and error appropriately), but it will not do any type checking of the value itself.
 
 For example, the variable `$name: String!` states that `name` should be a non-null, string value.
+
 - If the request does not contain the `name` variable, an error will be returned
 - If the request provides `null` for the `name` variable, an error will be returned
 - If the request provides any non-string value for the `name` variable, i.e. `1`, `true`, `{ foo: "bar" }`, the behavior is undefined and an error may or may not be returned.
@@ -96,6 +98,7 @@ For example, the variable `$name: String!` states that `name` should be a non-nu
 - Fragments will generally extend non-specified types, and the querying system will do no validity checking on them. For example, `fragment Fields on Any { ... }` is just as valid as `fragment Fields on MadeUpTypeName { ... }`. See the Fragments sections for more details.
 
 The only notable place the querying system will do some level of type analysis is the transformation of arguments into a query.
+
 - Objects will be transformed into properly nested attributes
 - Strings and Boolean values are passed through as their AST values
 - Float and Int values will be parsed using the JavaScript `parseFloat` and `parseInt` methods respectively.
@@ -170,6 +173,7 @@ query GetDog($id: ID!) {
 ```
 
 And as a properly formed request:
+
 ```http
 POST /graphql/
 Content-Type: application/json
@@ -184,6 +188,7 @@ Accept: application/graphql-response+json
 ```
 
 The REST equivalent would be:
+
 ```http
 GET /Dog/?id==0&select(name,breed,owner{name})
 # or
@@ -207,6 +212,7 @@ query GetDog {
 ```
 
 Would be equivalent to
+
 ```http
 GET /Dog/?owner.name==John&select(name,breed,owner{name})
 ```
@@ -216,7 +222,7 @@ And finally, we can put all of these together to create semi-complex, equality b
 The following query has two variables and will return all dogs who have the specified name as well as the specified owner name.
 
 ```graphql
-query GetDog($dogName: String!, $ownerName: String! ) {
+query GetDog($dogName: String!, $ownerName: String!) {
 	Dog(name: $dogName, owner: { name: $ownerName }) {
 		name
 		breed

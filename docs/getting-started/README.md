@@ -7,6 +7,7 @@ Follow the steps in this documentation to discover how Harper can simplify your 
 For more advanced concepts in Harper, see our [blog](https://www.harpersystems.dev/blog).
 
 ## Harper Basics
+
 <table data-column-title-hidden data-view="cards">
     <thead>
         <tr>

@@ -4,11 +4,9 @@ One way to manage Custom Functions is through [Harper Studio](../harper-studio/R
 
 For any changes made to your routes, helpers, or projects, you’ll need to restart the Custom Functions server to see them take effect. Harper Studio does this automatically whenever you create or delete a project, or add, edit, or edit a route or helper. If you need to start the Custom Functions server yourself, you can use the following operation to do so:
 
-
-
 ```json
 {
-    "operation": "restart_service",
-    "service": "custom_functions"
+	"operation": "restart_service",
+	"service": "custom_functions"
 }
 ```

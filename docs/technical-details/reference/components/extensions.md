@@ -28,14 +28,14 @@ Any [Resource Extension](#resource-extension) can be configured with the `files`
 
 > Harper relies on the [fast-glob](https://github.com/mrmlnc/fast-glob) library for glob pattern matching.
 
-- **files** - `string | string[] | Object` - *required* - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
-  - **source** - `string | string[]` - *required* - The glob pattern string or array of strings.
-  - **only** - `'all' | 'files' | 'directories'` - *optional* - The glob pattern will match only the specified entry type. Defaults to `'all'`. 
-  - **ignore** - `string[]` - *optional* - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
-- **urlPath** - `string` - *optional* - A base URL path to prepend to the resolved `files` entries.
+- **files** - `string | string[] | Object` - _required_ - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
+  - **source** - `string | string[]` - _required_ - The glob pattern string or array of strings.
+  - **only** - `'all' | 'files' | 'directories'` - _optional_ - The glob pattern will match only the specified entry type. Defaults to `'all'`.
+  - **ignore** - `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
+- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
   - If the value starts with `./`, such as `'./static/'`, the component name will be included in the base url path
   - If the value is `.`, then the component name will be the base url path
-	- Note: `..` is an invalid pattern and will result in an error
+  - Note: `..` is an invalid pattern and will result in an error
   - Otherwise, the value here will be base url path. Leading and trailing `/` characters will be handled automatically (`/static/`, `/static`, and `static/` are all equivalent to `static`)
 
 For example, to configure the [static](./built-in-extensions.md#static) component to serve all HTML files from the `web` source directory on the `static` URL endpoint:
@@ -60,6 +60,7 @@ graphqlSchema:
 The `files` option also supports a more complex options object. These additional fields enable finer control of the glob pattern matching.
 
 For example, to match files within `web`, and omit any within the `web/images` directory, the configuration could be:
+
 ```yaml
 static:
   files:
@@ -89,28 +90,29 @@ export function setupDirectory() {}
 function handleDirectory() {}
 function setupFile() {}
 
-module.exports = { handleDirectory, setupFile }
+module.exports = { handleDirectory, setupFile };
 ```
 
 When returned by a [Protocol Extension](#protocol-extension), these methods should be defined on the object instead:
 
 ```js
 export function start() {
-  return {
-	handleFile () {}
-  }
+	return {
+		handleFile() {},
+	};
 }
 ```
 
 #### `handleFile(contents, urlPath, absolutePath, resources): void | Promise<void>`
+
 #### `setupFile(contents, urlPath, absolutePath, resources): void | Promise<void>`
 
 These methods are for processing individual files. They can be async.
 
 > Remember!
-> 
+>
 > `setupFile()` is executed **once** on the **main thread** during the main start sequence.
-> 
+>
 > `handleFile()` is executed on **worker threads** and is executed again during restarts.
 
 Parameters:
@@ -124,6 +126,7 @@ Parameters:
 Returns: `void | Promise<void>`
 
 #### `handleDirectory(urlPath, absolutePath, resources): boolean | void | Promise<boolean | void>`
+
 #### `setupDirectory(urlPath, absolutePath, resources): boolean | void | Promise<boolean | void>`
 
 These methods are for processing directories. They can be async.
@@ -131,9 +134,9 @@ These methods are for processing directories. They can be async.
 If the function returns or resolves a truthy value, then the component loading sequence will end and no other entries within the directory will be processed.
 
 > Remember!
-> 
+>
 > `setupFile()` is executed **once** on the **main thread** during the main start sequence.
-> 
+>
 > `handleFile()` is executed on **worker threads** and is executed again during restarts.
 
 Parameters:
@@ -170,6 +173,7 @@ Many protocol extensions will use the `port` and `securePort` options for config
 A Protocol Extension is made up of two distinct methods, [`start()`](#startoptions-resourceextension--promiseresourceextension) and [`startOnMainThread()`](#startonmainthreadoptions-resourceextension--promiseresourceextension). Similar to a Resource Extension, the `start()` method is executed on _all worker threads_, and _executed again on restarts_. The `startOnMainThread()` method is **only** executed **once** during the initial system start sequence. These methods have identical `options` object parameter, and can both return a Resource Extension (i.e. an object containing one or more of the methods listed above).
 
 #### `start(options): ResourceExtension | Promise<ResourceExtension>`
+
 #### `startOnMainThread(options): ResourceExtension | Promise<ResourceExtension>`
 
 Parameters:
