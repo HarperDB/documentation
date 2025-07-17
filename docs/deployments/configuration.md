@@ -683,6 +683,7 @@ Harper's logger supports defining multiple logging configurations for different 
 `logging.external`
 
 The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../technical-details/reference/globals.md). For example:
+
 ```yaml
 logging:
   external:
@@ -693,21 +694,23 @@ logging:
 `http.logging`
 
 This section defines log configuration for HTTP logging. By default, HTTP requests are not logged, but defining this section will enable HTTP logging. Note that there can be substantive overhead to logging all HTTP requests. In addition to the standard logging configuration, the `http.logging` section also allows the following configuration properties to be set:
-* `timing` - This will log timing information
-* `headers` - This will log the headers in each request (which can be very verbose)
-* `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
-Note that the `level` will determine which HTTP requests are logged:
-* `info` (or more verbose) - All HTTP requests
-* `warn` - HTTP requests with a status code of 400 or above
-* `error` - HTTP requests with a status code of 500
+
+- `timing` - This will log timing information
+- `headers` - This will log the headers in each request (which can be very verbose)
+- `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
+  Note that the `level` will determine which HTTP requests are logged:
+- `info` (or more verbose) - All HTTP requests
+- `warn` - HTTP requests with a status code of 400 or above
+- `error` - HTTP requests with a status code of 500
 
 For example:
+
 ```yaml
 http:
-  logging: 
+  logging:
     timing: true
     level: info
-    path: ~/hdb/log/http.log 
+    path: ~/hdb/log/http.log
   ... rest of http config
 ```
 
@@ -739,7 +742,7 @@ This section defines log configuration for setting up and reading the database f
 
 This section defines log configuration for analytics. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
 
-***
+---
 
 ### `authentication`
 

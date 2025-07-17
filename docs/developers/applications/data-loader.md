@@ -23,22 +23,22 @@ Create a data file in your component's data directory (one table per file):
 
 ```json
 {
-  "database": "myapp",
-  "table": "users",
-  "records": [
-    {
-      "id": 1,
-      "username": "admin",
-      "email": "admin@example.com",
-      "role": "administrator"
-    },
-    {
-      "id": 2,
-      "username": "user1",
-      "email": "user1@example.com",
-      "role": "standard"
-    }
-  ]
+	"database": "myapp",
+	"table": "users",
+	"records": [
+		{
+			"id": 1,
+			"username": "admin",
+			"email": "admin@example.com",
+			"role": "administrator"
+		},
+		{
+			"id": 2,
+			"username": "user1",
+			"email": "user1@example.com",
+			"role": "standard"
+		}
+	]
 }
 ```
 
@@ -47,21 +47,23 @@ Create a data file in your component's data directory (one table per file):
 To load data into multiple tables, create separate data files for each table:
 
 **users.json:**
+
 ```json
 {
-  "database": "myapp",
-  "table": "users",
-  "records": [
-    {
-      "id": 1,
-      "username": "admin",
-      "email": "admin@example.com"
-    }
-  ]
+	"database": "myapp",
+	"table": "users",
+	"records": [
+		{
+			"id": 1,
+			"username": "admin",
+			"email": "admin@example.com"
+		}
+	]
 }
 ```
 
 **settings.yaml:**
+
 ```yaml
 database: myapp
 table: settings
@@ -71,7 +73,7 @@ records:
     setting_value: My Application
   - id: 2
     setting_name: version
-    setting_value: "1.0.0"
+    setting_value: '1.0.0'
 ```
 
 ## File Organization
@@ -79,21 +81,24 @@ records:
 You can organize your data files in various ways:
 
 ### Single File Pattern
+
 ```yaml
 dataLoader:
   files: 'data/seed-data.json'
 ```
 
 ### Multiple Files Pattern
+
 ```yaml
 dataLoader:
-  files: 
+  files:
     - 'data/users.json'
     - 'data/settings.yaml'
     - 'data/initial-products.json'
 ```
 
 ### Glob Pattern
+
 ```yaml
 dataLoader:
   files: 'data/**/*.{json,yaml,yml}'
