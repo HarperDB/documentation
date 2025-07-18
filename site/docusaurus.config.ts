@@ -16,7 +16,7 @@ const config: Config = {
 	title: 'Harper Docs',
 	tagline:
 		'Harper fuses database, cache, messaging, and application functions into a single process — delivering performance and simplicity for data-intensive, latency-sensitive applications.',
-	favicon: 'img/HarperDogSmall.png',
+	favicon: 'img/HarperDogFavicon.svg',
 
 	// Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
 	future: {
