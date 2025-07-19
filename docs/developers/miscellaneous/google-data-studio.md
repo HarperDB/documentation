@@ -26,7 +26,7 @@ Get started by selecting the Harper connector from the [Google Data Studio Partn
 
 ## Considerations
 
-- Both Postman and the [Harper Studio](deployments/harper-cloud/) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector’s user.
+- Both Postman and the [Harper Studio](../../administration/harper-studio/README.md) app have ways to convert a user:password pair to a Basic Auth token. Use either to create the token for the connector's user.
   - You may sign out of your current user by going to the instances tab in Harper Studio, then clicking on the lock icon at the top-right of a given instance’s box. Click the lock again to sign in as any user. The Basic Auth token will be visible in the Authorization header portion of any code created in the Sample Code tab.
 - It’s highly recommended that you create a read-only user role in Harper Studio, and create a user with that role for your data sources to use. This prevents that authorization token from being used to alter your database, should someone else ever get ahold of it.
 - The RecordCount field is intended for use as a metric, for counting how many instances of a given set of values appear in a report’s data set.

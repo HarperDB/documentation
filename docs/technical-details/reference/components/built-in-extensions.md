@@ -20,7 +20,7 @@ Load data from JSON or YAML files into Harper tables as part of component deploy
 
 This component is an [Extension](./reference.md#extensions) and can be configured with the `files` configuration option.
 
-Complete documentation for this feature is available here: [Data Loader](../applications/data-loader.md)
+Complete documentation for this feature is available here: [Data Loader](../../../developers/applications/data-loader.md)
 
 ```yaml
 dataLoader:
@@ -33,7 +33,7 @@ Specify custom endpoints using [Fastify](https://fastify.dev/).
 
 This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Define Fastify Routes](../applications/define-routes.md)
+Complete documentation for this feature is available here: [Define Fastify Routes](../../../developers/applications/define-routes.md)
 
 ```yaml
 fastifyRoutes:
@@ -46,7 +46,7 @@ fastifyRoutes:
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
-Complete documentation for this feature is available here: [GraphQL](../../technical-details/reference/graphql.md)
+Complete documentation for this feature is available here: [GraphQL](../graphql.md)
 
 ```yaml
 graphql: true
@@ -58,7 +58,7 @@ Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
 This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Schemas](../applications/defining-schemas.md)
+Complete documentation for this feature is available here: [Defining Schemas](../../../developers/applications/defining-schemas.md)
 
 ```yaml
 graphqlSchema:
@@ -69,7 +69,7 @@ graphqlSchema:
 
 Specify custom, JavaScript based Harper resources.
 
-Refer to the Application [Custom Functionality with JavaScript](../applications/#custom-functionality-with-javascript) guide, or [Resource Class](../../technical-details/reference/resource.md) reference documentation for more information on custom resources.
+Refer to the Application [Custom Functionality with JavaScript](../../../developers/applications/README.md#custom-functionality-with-javascript) guide, or [Resource Class](../resources/README.md) reference documentation for more information on custom resources.
 
 This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
@@ -113,7 +113,7 @@ loadEnv:
 
 Enable automatic REST endpoint generation for exported resources with this component.
 
-Complete documentation for this feature is available here: [REST](../rest.md)
+Complete documentation for this feature is available here: [REST](../../../developers/rest.md)
 
 ```yaml
 rest: true
@@ -141,7 +141,7 @@ Specify roles for Harper tables and resources.
 
 This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Roles](../applications/defining-roles.md)
+Complete documentation for this feature is available here: [Defining Roles](../../../developers/applications/defining-roles.md)
 
 ```yaml
 roles:

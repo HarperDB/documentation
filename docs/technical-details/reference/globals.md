@@ -47,7 +47,7 @@ const { Dog } = databases.dev;
 
 ## `Resource`
 
-This is the base class for all resources, including tables and external data sources. This is provided so that you can extend it to implement custom data source providers. See the [Resource API documentation](resource.md) for more details about implementing a Resource class.
+This is the base class for all resources, including tables and external data sources. This is provided so that you can extend it to implement custom data source providers. See the [Resource API documentation](resources/README.md) for more details about implementing a Resource class.
 
 ## `auth(username, password?): Promise<User>`
 
@@ -90,7 +90,7 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 
 ### `Request` and `Response`
 
-The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource.md) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
+The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resources/README.md) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
 
 #### `Request`
 

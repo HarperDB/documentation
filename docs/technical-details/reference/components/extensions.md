@@ -166,7 +166,7 @@ For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#o
   dev: false
 ```
 
-Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`](../../technical-details/reference/globals.md#server) global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
+Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`](../globals.md#server) global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
 
 ### Protocol Extension API
 
