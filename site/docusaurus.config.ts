@@ -74,7 +74,7 @@ const config: Config = {
           versions: {
             current: {
               label: 'Latest',
-              path: '',
+              path: 'latest',
             },
           },
           remarkPlugins: [
@@ -138,15 +138,15 @@ const config: Config = {
           items: [
             {
               label: 'Getting Started',
-              to: '/getting-started',
+              to: '/docs/latest/getting-started/',
             },
             {
               label: 'Developers',
-              to: '/developers',
+              to: '/docs/latest/category/developers',
             },
             {
               label: 'Administration',
-              to: '/administration',
+              to: '/docs/latest/category/administration',
             },
           ],
         },
