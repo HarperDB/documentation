@@ -167,6 +167,6 @@ rest: true
 
 ## Related Documentation
 
-- [Built-In Components](../components/built-in.md)
-- [Extensions](../components/reference.md#extensions)
+- [Built-In Components](../../technical-details/reference/components/built-in-extensions.md)
+- [Extensions](../../technical-details/reference/components/extensions.md)
 - [Bulk Operations](../operations-api/bulk-operations.md) - For loading data via the Operations API

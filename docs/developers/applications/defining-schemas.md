@@ -74,7 +74,7 @@ type Brand @table @export {
 }
 ```
 
-Once this is defined we can use the `brand` attribute as a [property in our product instances](../../technical-details/reference/resource.md) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest.md).
+Once this is defined we can use the `brand` attribute as a [property in our product instances](../../technical-details/reference/resources/README.md) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest.md).
 
 Again, the foreign key may be a multi-valued array (array of keys referencing the target table records). For example, if we had a list of features that references a Feature table:
 
