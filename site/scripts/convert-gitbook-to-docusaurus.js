@@ -355,6 +355,78 @@ function convertFile(filePath) {
         fs.renameSync(filePath, newPath);
         filePath = newPath;
     }
+    
+    // Handle special case: logging.md in logging directory conflicts with index.md
+    // Rename to standard-logging.md to match the pattern of other files
+    if (path.basename(filePath) === 'logging.md' && path.dirname(filePath).endsWith('/logging')) {
+        const newPath = path.join(path.dirname(filePath), 'standard-logging.md');
+        console.log(`  Renaming logging.md to standard-logging.md to avoid route conflict: ${newPath}`);
+        fs.renameSync(filePath, newPath);
+        filePath = newPath;
+    }
+    
+    // If this is the logging index.md, update the link to standard-logging.md
+    if (path.basename(filePath) === 'index.md' && path.dirname(filePath).endsWith('/logging')) {
+        content = content.replace('[Standard Logging](logging.md)', '[Standard Logging](standard-logging.md)');
+        modified = true;
+    }
+    
+    // Fix links to logging/logging.md throughout all files (should be logging/standard-logging.md)
+    const loggingLinkPattern = /(\[[^\]]+\]\()([^)]*\/)?logging\/logging\.md([^)]*\))/g;
+    if (content.match(loggingLinkPattern)) {
+        content = content.replace(loggingLinkPattern, (match, prefix, path, suffix) => {
+            const newLink = `${prefix}${path || ''}logging/standard-logging.md${suffix}`;
+            console.log(`  Fixed logging link: ${match} -> ${newLink}`);
+            return newLink;
+        });
+        modified = true;
+    }
+    
+    // Fix links to README.md files (should be index.md since we convert them)
+    const readmeLinkPattern = /(\[[^\]]+\]\()([^)]*\/)README\.md([^)]*\))/g;
+    if (content.match(readmeLinkPattern)) {
+        content = content.replace(readmeLinkPattern, (match, prefix, path, suffix) => {
+            const newLink = `${prefix}${path}index.md${suffix}`;
+            console.log(`  Fixed README.md link: ${match} -> ${newLink}`);
+            return newLink;
+        });
+        modified = true;
+    }
+    
+    // Fix links based on GitBook redirects
+    // 1. manage-functions → manage-applications
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/)manage-functions\.md([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}manage-applications.md${suffix}`;
+        console.log(`  Fixed manage-functions.md link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+    
+    // 2. custom-functions/define-routes → developers/applications/define-routes
+    content = content.replace(/(\[[^\]]+\]\()define-routes\.md([^)]*\))/g, (match, prefix, suffix) => {
+        // Only fix if we're in custom-functions context
+        if (filePath.includes('custom-functions')) {
+            const newLink = `${prefix}../developers/applications/define-routes.md${suffix}`;
+            console.log(`  Fixed define-routes.md link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+    
+    // 3. harperdb-studio → harper-studio
+    content = content.replace(/harperdb-studio/g, (match) => {
+        console.log(`  Fixed harperdb-studio -> harper-studio`);
+        modified = true;
+        return 'harper-studio';
+    });
+    
+    // 4. harperdb-cloud → harper-cloud
+    content = content.replace(/harperdb-cloud/g, (match) => {
+        console.log(`  Fixed harperdb-cloud -> harper-cloud`);
+        modified = true;
+        return 'harper-cloud';
+    });
 
     // Add frontmatter if missing
     if (!content.startsWith('---')) {
