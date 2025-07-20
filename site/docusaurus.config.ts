@@ -100,7 +100,12 @@ const config: Config = {
         highlightSearchTermsOnTargetPage: true,
       },
     ],
+    '@docusaurus/theme-mermaid',
   ],
+  
+  markdown: {
+    mermaid: true,
+  },
   
   themeConfig: {
     // Replace with your project's social card
