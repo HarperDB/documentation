@@ -20,11 +20,11 @@ Example job operations include:
 
 [import from s3](../developers/operations-api/bulk-operations.md#import-from-s3)
 
-[delete_records_before](../developers/operations-api/utilities.md#delete-records-before)
+[delete_records_before](../developers/operations-api/bulk-operations.md#delete-records-before)
 
-[export_local](../developers/operations-api/utilities.md#export-local)
+[export_local](../developers/operations-api/bulk-operations.md#export-local)
 
-[export_to_s3](../developers/operations-api/utilities.md#export-to-s3)
+[export_to_s3](../developers/operations-api/bulk-operations.md#export-to-s3)
 
 Example Response from a Job Operation
 

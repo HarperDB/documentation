@@ -20,7 +20,7 @@ rest: true
 
 Most components generally have more configuration options. Some options are ubiquitous to the Harper platform, such as the `files` and `urlPath` options for an [extension](./extensions.md) or [plugin](./plugins.md), or `package` for any [custom component](#custom-component-configuration).
 
-[Extensions](./extensions.md) and [plugins](./plugins.md) require specifying the `extensionModule` option. Refer to their respective API reference documentation for more information.
+[Extensions](./extensions.md) and [plugins](./plugins.md) require specifying the `extensionModule` or `pluginModule` option respectively. Refer to their respective API reference documentation for more information.
 
 ## Custom Component Configuration
 
