@@ -44,10 +44,8 @@ const config: Config = {
 			'@docusaurus/preset-classic',
 			{
 				docs: {
-					// IMPORTANT: This site only works with converted docs from harperdb repo
-					// The documentation repo contains GitBook-formatted docs that must be converted first
-					// Always run preview from harperdb repo: npm run docs:dev
-					path: process.env.DOCS_PATH || '../docs', // DOCS_PATH should always be set to harperdb/docs
+					// Use converted docs from DOCS_PATH or default location
+					path: process.env.DOCS_PATH || '../docs',
 					sidebarPath: './sidebars.ts',
 					routeBasePath: 'docs',
 					editUrl: ({ docPath }) => {

@@ -4,14 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 const docsDir = process.argv[2];
+const outputDir = process.argv[3]; // Optional output directory
+
 if (!docsDir) {
-    console.error('Usage: convert-gitbook-to-docusaurus.js <docs-directory>');
+    console.error('Usage: convert-gitbook-to-docusaurus.js <docs-directory> [output-directory]');
+    console.error('  If output-directory is not specified, files will be converted in place');
     process.exit(1);
 }
 
 // Convert a single file
-function convertFile(filePath) {
-    console.log(`Converting: ${filePath}`);
+function convertFile(filePath, targetPath) {
+    const displayPath = outputDir ? path.relative(docsDir, filePath) : filePath;
+    console.log(`Converting: ${displayPath}`);
     let content = fs.readFileSync(filePath, 'utf8');
     let modified = false;
 
@@ -279,8 +283,12 @@ function convertFile(filePath) {
                 const imagePath = imagePathMatch[1];
                 
                 // Calculate relative path from current file to images directory
+                // Use targetPath if provided, otherwise use filePath
+                const currentFilePath = targetPath || filePath;
+                const currentDocsRoot = targetPath ? outputDir : docsDir;
+                
                 // Get the depth of the current file relative to docs root
-                const relativePath = path.relative(path.dirname(filePath), docsDir);
+                const relativePath = path.relative(path.dirname(currentFilePath), currentDocsRoot);
                 const imageSrc = path.join(relativePath, 'images', imagePath);
                 
                 console.log(`  Fixed image path: ${src} -> ${imageSrc}`);
@@ -293,7 +301,9 @@ function convertFile(filePath) {
 
     // Fix relative links that include the current directory in the path
     // e.g., in getting-started/index.md, links like ./getting-started/install-harper.md should be ./install-harper.md
-    const currentDir = path.dirname(filePath).replace(docsDir + '/', '');
+    const currentFilePath = targetPath || filePath;
+    const currentDocsRoot = targetPath ? outputDir : docsDir;
+    const currentDir = path.dirname(currentFilePath).replace(currentDocsRoot + '/', '');
     if (currentDir && currentDir !== '.') {
         // Pattern to match markdown links
         const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -349,20 +359,35 @@ function convertFile(filePath) {
     }
 
     // Convert README.md files to index.md for better Docusaurus compatibility
+    let shouldRenameToIndex = false;
     if (path.basename(filePath) === 'README.md') {
-        const newPath = path.join(path.dirname(filePath), 'index.md');
-        console.log(`  Renaming README.md to index.md: ${newPath}`);
-        fs.renameSync(filePath, newPath);
-        filePath = newPath;
+        if (targetPath) {
+            // When outputting to different directory, just change the target filename
+            targetPath = path.join(path.dirname(targetPath), 'index.md');
+            console.log(`  Converting README.md to index.md in output`);
+        } else {
+            // When converting in place, rename the actual file
+            const newPath = path.join(path.dirname(filePath), 'index.md');
+            console.log(`  Renaming README.md to index.md: ${newPath}`);
+            fs.renameSync(filePath, newPath);
+            filePath = newPath;
+        }
     }
     
     // Handle special case: logging.md in logging directory conflicts with index.md
     // Rename to standard-logging.md to match the pattern of other files
     if (path.basename(filePath) === 'logging.md' && path.dirname(filePath).endsWith('/logging')) {
-        const newPath = path.join(path.dirname(filePath), 'standard-logging.md');
-        console.log(`  Renaming logging.md to standard-logging.md to avoid route conflict: ${newPath}`);
-        fs.renameSync(filePath, newPath);
-        filePath = newPath;
+        if (targetPath) {
+            // When outputting to different directory, just change the target filename
+            targetPath = path.join(path.dirname(targetPath), 'standard-logging.md');
+            console.log(`  Converting logging.md to standard-logging.md in output`);
+        } else {
+            // When converting in place, rename the actual file
+            const newPath = path.join(path.dirname(filePath), 'standard-logging.md');
+            console.log(`  Renaming logging.md to standard-logging.md to avoid route conflict: ${newPath}`);
+            fs.renameSync(filePath, newPath);
+            filePath = newPath;
+        }
     }
     
     // If this is the logging index.md, update the link to standard-logging.md
@@ -463,14 +488,33 @@ function convertFile(filePath) {
     }
 
     if (modified) {
-        fs.writeFileSync(filePath, content);
-        console.log(`  ✓ Converted ${filePath}`);
+        if (targetPath) {
+            // Ensure target directory exists
+            const targetDir = path.dirname(targetPath);
+            fs.mkdirSync(targetDir, { recursive: true });
+            fs.writeFileSync(targetPath, content);
+            console.log(`  ✓ Converted to ${targetPath}`);
+        } else {
+            fs.writeFileSync(filePath, content);
+            console.log(`  ✓ Converted ${filePath}`);
+        }
+    } else if (targetPath && filePath !== targetPath) {
+        // Even if not modified, copy to target if different location
+        const targetDir = path.dirname(targetPath);
+        fs.mkdirSync(targetDir, { recursive: true });
+        fs.copyFileSync(filePath, targetPath);
+        console.log(`  ✓ Copied to ${targetPath}`);
     }
 }
 
 // Recursively process all markdown files
-function processDirectory(dirPath) {
+function processDirectory(dirPath, targetDirPath) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    
+    // Create target directory if specified
+    if (targetDirPath) {
+        fs.mkdirSync(targetDirPath, { recursive: true });
+    }
     
     // Check if this directory has an index.md or will have one after README conversion
     const hasIndex = entries.some(entry => 
@@ -485,7 +529,9 @@ function processDirectory(dirPath) {
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
         
-        const categoryPath = path.join(dirPath, '_category_.json');
+        const categoryPath = targetDirPath 
+            ? path.join(targetDirPath, '_category_.json')
+            : path.join(dirPath, '_category_.json');
         const categoryContent = {
             label: categoryLabel,
             position: 1,
@@ -496,20 +542,40 @@ function processDirectory(dirPath) {
         };
         
         fs.writeFileSync(categoryPath, JSON.stringify(categoryContent, null, 2));
-        console.log(`  Created category file for: ${dirPath}`);
+        console.log(`  Created category file for: ${categoryPath}`);
     }
     
     for (const entry of entries) {
         const fullPath = path.join(dirPath, entry.name);
+        const targetPath = targetDirPath 
+            ? path.join(targetDirPath, entry.name)
+            : null;
         
         if (entry.isDirectory()) {
-            processDirectory(fullPath);
+            processDirectory(fullPath, targetPath);
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
-            convertFile(fullPath);
+            // Skip blank index.md files when there's a README.md in the same directory
+            if (entry.name === 'index.md') {
+                const indexContent = fs.readFileSync(fullPath, 'utf8').trim();
+                const hasReadme = entries.some(e => e.name === 'README.md');
+                if (hasReadme && indexContent.includes('blank index file')) {
+                    console.log(`  Skipping blank GitBook index.md in favor of README.md: ${fullPath}`);
+                    continue;
+                }
+            }
+            convertFile(fullPath, targetPath);
         }
     }
 }
 
-console.log(`Starting GitBook to Docusaurus conversion in: ${docsDir}`);
-processDirectory(docsDir);
+if (outputDir) {
+    console.log(`Starting GitBook to Docusaurus conversion`);
+    console.log(`  Source: ${docsDir}`);
+    console.log(`  Output: ${outputDir}`);
+    processDirectory(docsDir, outputDir);
+} else {
+    console.log(`Starting GitBook to Docusaurus conversion in: ${docsDir}`);
+    console.log(`  Converting files in place`);
+    processDirectory(docsDir, null);
+}
 console.log('Conversion complete!');
