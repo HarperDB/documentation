@@ -4,15 +4,14 @@
 	"scripts": {
 		"format": "prettier --write 'docs/**/*' package.json",
 		"site:install": "cd site && npm install",
-		"site:dev": "echo '⚠️  WARNING: Previewing converted docs from ../harperdb/docs (not GitBook docs from this repo)' && echo '' && DOCS_PATH=$(cd ../harperdb && pwd)/docs IMAGES_PATH=$(cd ../harperdb && pwd)/docs/images npm --prefix site start",
-		"site:build": "echo '⚠️  WARNING: Building converted docs from ../harperdb/docs (not GitBook docs from this repo)' && echo '' && DOCS_PATH=$(cd ../harperdb && pwd)/docs IMAGES_PATH=$(cd ../harperdb && pwd)/docs/images npm --prefix site run build",
-		"site:serve": "echo '⚠️  WARNING: Serving converted docs from ../harperdb/docs (not GitBook docs from this repo)' && echo '' && DOCS_PATH=$(cd ../harperdb && pwd)/docs IMAGES_PATH=$(cd ../harperdb && pwd)/docs/images npm --prefix site run serve",
+		"site:dev": "bash site/scripts/dev-local.sh",
+		"site:build": "bash site/scripts/build-local.sh",
+		"site:serve": "bash site/scripts/serve-local.sh",
 		"site:clear": "cd site && npm run clear",
 		"sync:to-harperdb": "bash site/scripts/sync-and-convert.sh",
 		"sync:to-harperdb:sample": "bash site/scripts/sync-and-convert.sh -s",
 		"sync:to-harperdb:dry": "bash site/scripts/sync-and-convert.sh -d",
-		"preview:harperdb": "cd site && bash scripts/preview-harperdb-docs.sh",
-		"site:sync-and-dev": "npm run sync:to-harperdb:sample -- ../harperdb && npm run site:dev"
+		"preview:harperdb": "cd site && bash scripts/preview-harperdb-docs.sh"
 	},
 	"devDependencies": {
 		"@harperdb/code-guidelines": "^0.0.2",
