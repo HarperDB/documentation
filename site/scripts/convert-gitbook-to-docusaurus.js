@@ -390,8 +390,8 @@ function convertFile(filePath, targetPath) {
         }
     }
     
-    // If this is the logging index.md, update the link to standard-logging.md
-    if (path.basename(filePath) === 'index.md' && path.dirname(filePath).endsWith('/logging')) {
+    // If this is the logging index.md or README.md, update the link to standard-logging.md
+    if ((path.basename(filePath) === 'index.md' || path.basename(filePath) === 'README.md') && path.dirname(filePath).endsWith('/logging')) {
         content = content.replace('[Standard Logging](logging.md)', '[Standard Logging](standard-logging.md)');
         modified = true;
     }
@@ -451,6 +451,455 @@ function convertFile(filePath, targetPath) {
         console.log(`  Fixed harperdb-cloud -> harper-cloud`);
         modified = true;
         return 'harper-cloud';
+    });
+
+    // 5. Fix absolute paths starting with docs/
+    content = content.replace(/(\[[^\]]+\]\()docs\/([^)]+\))/g, (match, prefix, path) => {
+        const newLink = `${prefix}/${path}`;
+        console.log(`  Fixed absolute docs/ path: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 6. Fix references to non-existent resource.md files
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/reference\/resource\.md([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}/technical-details/reference/resources/index.md${suffix}`;
+        console.log(`  Fixed resource.md reference: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 7. Fix links with too many ../ (e.g., ../../../../deployments should be ../../deployments from release notes)
+    content = content.replace(/(\[[^\]]+\]\()(\.\.\/){4,}([^)]+\))/g, (match, prefix, dots, path) => {
+        // Count actual directory depth
+        const currentDepth = filePath.split('/').filter(p => p && p !== '.').length;
+        const docsDepth = docsDir.split('/').filter(p => p && p !== '.').length;
+        const relativeDepth = currentDepth - docsDepth - 1; // -1 for the file itself
+        
+        // For paths like technical-details/release-notes/4.tucker/4.1.0.md, we need ../../.. to get to docs root
+        const correctDots = '../'.repeat(Math.max(1, relativeDepth));
+        const newLink = `${prefix}${correctDots}${path}`;
+        console.log(`  Fixed relative path depth: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 8. Fix references to custom-functions paths - these are relative paths from custom-functions files
+    if (filePath.includes('custom-functions/')) {
+        // Fix ../harper-studio/manage-applications.md
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/(harper-studio\/manage-applications\.md)([^)]*\))/g, (match, prefix, _path, suffix) => {
+            const newLink = `${prefix}/administration/harper-studio/manage-applications.md${suffix}`;
+            console.log(`  Fixed custom-functions link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+        
+        // Fix ../configuration.md
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/(configuration\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+            const newLink = `${prefix}/deployments/configuration.md${suffix}`;
+            console.log(`  Fixed custom-functions link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+        
+        // Fix ../harper-studio/index.md
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/(harper-studio\/index\.md)([^)]*\))/g, (match, prefix, _path, suffix) => {
+            const newLink = `${prefix}/administration/harper-studio/index.md${suffix}`;
+            console.log(`  Fixed custom-functions link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 9. Fix references to ./reference.md in built-in-extensions.md
+    content = content.replace(/(\[[^\]]+\]\()\.\/(reference\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+        if (filePath.includes('built-in-extensions.md')) {
+            const newLink = `${prefix}/developers/components/reference.md${suffix}`;
+            console.log(`  Fixed ./reference.md link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+
+    // 10. Fix references to content-types.md, transactions.md in instance-binding.md
+    if (filePath.includes('instance-binding.md')) {
+        content = content.replace(/(\[[^\]]+\]\()(content-types\.md|transactions\.md)([^)]*\))/g, (match, prefix, file, suffix) => {
+            const fileMappings = {
+                'content-types.md': '/technical-details/reference/content-types.md',
+                'transactions.md': '/technical-details/reference/transactions.md'
+            };
+            const newPath = fileMappings[file] || file;
+            const newLink = `${prefix}${newPath}${suffix}`;
+            console.log(`  Fixed ${file} reference: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 11. Fix resource-migration.md reference
+    content = content.replace(/(\[[^\]]+\]\()\.\/(resource-migration\.md)([^)]*\))/g, (match, prefix, file, suffix) => {
+        if (filePath.includes('resources/index.md')) {
+            const newLink = `${prefix}/technical-details/reference/resources/resource-migration.md${suffix}`;
+            console.log(`  Fixed resource-migration.md link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+
+    // 12. Fix references to ../getting-started.md from deep paths
+    content = content.replace(/(\[[^\]]+\]\()\.\.\/(getting-started\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+        const newLink = `${prefix}/getting-started.md${suffix}`;
+        console.log(`  Fixed getting-started.md reference: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 13. Fix references to defining-schemas.md
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(defining-schemas\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+        const newLink = `${prefix}/developers/applications/defining-schemas.md${suffix}`;
+        console.log(`  Fixed defining-schemas.md reference: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 14. Fix reference to ../components/reference.md in data-loader.md
+    if (filePath.includes('data-loader.md')) {
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/(components\/reference\.md)([^)]*\))/g, (match, prefix, _path, suffix) => {
+            const newLink = `${prefix}/developers/components/reference.md${suffix}`;
+            console.log(`  Fixed components/reference.md link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 15. Fix references to rest.md
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(rest\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+        const newLink = `${prefix}/developers/rest.md${suffix}`;
+        console.log(`  Fixed rest.md reference: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 16. Fix hash links to components/reference.md#extensions
+    content = content.replace(/(\[[^\]]+\]\()\/developers\/components\/reference\.md#extensions([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}/developers/components/reference#extensions${suffix}`;
+        console.log(`  Fixed hash link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 17. Fix resource-migration.md link in resources/index.md
+    if (filePath.includes('resources') && (filePath.includes('index.md') || filePath.includes('README.md'))) {
+        content = content.replace(/(\[[^\]]+\]\()\.\/(resource-migration\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+            const newLink = `${prefix}./resource-migration${suffix}`;
+            console.log(`  Fixed resource-migration link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 18. Fix links to directories (should link to directory without trailing slash)
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(operations-api)\/$([^)]*\))/g, (match, prefix, dir, suffix) => {
+        const newLink = `${prefix}/developers/${dir}${suffix}`;
+        console.log(`  Fixed directory link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 19. Fix getting-started.md link from release notes
+    if (filePath.includes('release-notes') && filePath.includes('tucker')) {
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/\.\.\/\.\.\/(getting-started\.md)([^)]*\))/g, (match, prefix, _file, suffix) => {
+            const newLink = `${prefix}/getting-started/index.md${suffix}`;
+            console.log(`  Fixed getting-started link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 20. Fix components/ directory link
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(developers\/components)\/$([^)]*\))/g, (match, prefix, path, suffix) => {
+        const newLink = `${prefix}/${path}${suffix}`;
+        console.log(`  Fixed components directory link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 21. Fix broken-reference (appears to be a placeholder)
+    content = content.replace(/(\[[^\]]+\]\()broken-reference([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}#${suffix}`;
+        console.log(`  Fixed broken-reference placeholder: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 22. Fix links to version subdirectories - only fix directory links, not file links
+    content = content.replace(/(\[[^\]]+\]\()\.\/(3\.monkey|2\.penny|1\.alby)\/index([^)]*\))/g, (match, prefix, dir, suffix) => {
+        const newLink = `${prefix}./${dir}/index.md${suffix}`;
+        console.log(`  Fixed version directory link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Also fix version directory links without ./ prefix (only directories)
+    content = content.replace(/(\[[^\]]+\]\()(3\.monkey|2\.penny|1\.alby)\/$([^)]*\))/g, (match, prefix, dir, suffix) => {
+        const newLink = `${prefix}./${dir}/index.md${suffix}`;
+        console.log(`  Fixed version directory link without prefix: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 23. Fix README.md link in SUMMARY.md
+    if (filePath.includes('SUMMARY.md')) {
+        content = content.replace(/(\[[^\]]+\]\()README\.md([^)]*\))/g, (match, prefix, suffix) => {
+            const newLink = `${prefix}index.md${suffix}`;
+            console.log(`  Fixed README.md link in SUMMARY: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 24. Fix non-existent built-in.md link - redirect to components operations API
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/developers\/components\/built-in\.md([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}/developers/operations-api/components.md${suffix}`;
+        console.log(`  Fixed built-in.md link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 25. Fix hash link to reference#extensions - point to components operations API
+    content = content.replace(/(\[[^\]]+\]\()\/developers\/components\/reference#extensions([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}/developers/operations-api/components#extensions${suffix}`;
+        console.log(`  Fixed reference#extensions link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Also fix without /reference in path
+    content = content.replace(/(\[[^\]]+\]\()\/developers\/components#extensions([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}/developers/operations-api/components#extensions${suffix}`;
+        console.log(`  Fixed components#extensions link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 26. Fix resource-migration link - the actual file is migration.md
+    if (filePath.includes('resources') && (filePath.includes('index.md') || filePath.includes('README.md'))) {
+        content = content.replace(/(\[[^\]]+\]\()\.\/(resource-migration)(\.md)?([^)]*\))/g, (match, prefix, _file, _ext, suffix) => {
+            const newLink = `${prefix}./migration.md${suffix}`;
+            console.log(`  Fixed resource-migration link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 27. Fix operations-api directory link 
+    content = content.replace(/(\[[^\]]+\]\()\.\.\/\.\.\/(developers\/operations-api)\/$([^)]*\))/g, (match, prefix, _path, suffix) => {
+        const newLink = `${prefix}/developers/operations-api${suffix}`;
+        console.log(`  Fixed operations-api directory link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 28. Fix components directory link
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(developers\/components)\/$([^)]*\))/g, (match, prefix, _path, suffix) => {
+        const newLink = `${prefix}/developers/operations-api/components${suffix}`;
+        console.log(`  Fixed components directory link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 29. Fix any link to components/reference.md (with or without hash)
+    content = content.replace(/(\[[^\]]+\]\()[^)]*\/(components\/reference\.md)(#[^)]*)?([^)]*\))/g, (match, prefix, _path, hash, suffix) => {
+        const newLink = `${prefix}/developers/operations-api/components${hash || ''}${suffix}`;
+        console.log(`  Fixed components/reference.md link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 30. Fix ./reference.md links in components directory
+    if (filePath.includes('/components/')) {
+        content = content.replace(/(\[[^\]]+\]\()\.\/reference\.md(#[^)]*)?([^)]*\))/g, (match, prefix, hash, suffix) => {
+            const newLink = `${prefix}/developers/operations-api/components${hash || ''}${suffix}`;
+            console.log(`  Fixed ./reference.md link in components: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 31. Fix operations-api directory link from resources
+    if (filePath.includes('/resources/')) {
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/\.\.\/(developers\/operations-api)\/$([^)]*\))/g, (match, prefix, _path, suffix) => {
+            const newLink = `${prefix}/developers/operations-api${suffix}`;
+            console.log(`  Fixed operations-api directory link from resources: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 32. Fix components directory link in release notes
+    if (filePath.includes('/release-notes/')) {
+        content = content.replace(/(\[[^\]]+\]\()\.\.\/\.\.\/\.\.\/(developers\/components)\/$([^)]*\))/g, (match, prefix, _path, suffix) => {
+            const newLink = `${prefix}/developers/operations-api/components${suffix}`;
+            console.log(`  Fixed components directory link in release notes: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // 33. Remove hash anchors that don't exist - just link to the page
+    // Fix #extensions anchors
+    content = content.replace(/(\[[^\]]+\]\()([^)]*\/components)(#extensions)([^)]*\))/g, (match, prefix, path, _hash, suffix) => {
+        const newLink = `${prefix}${path}${suffix}`;
+        console.log(`  Removed #extensions anchor: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // 34. Fix self-referencing anchors that don't exist
+    content = content.replace(/\[([^\]]+)\]\((#[^)]+)\)/g, (match, linkText, hash) => {
+        // For self-referencing anchors, convert to plain text
+        if (hash.includes('built-in-extensions') || hash.includes('custom-component-configuration') || 
+            hash.includes('scopehandleentry') || hash.includes('interface-directoryentry')) {
+            console.log(`  Converted self-referencing anchor to plain text: ${match}`);
+            return linkText;
+        }
+        return match;
+    });
+
+    // 35. Fix broken anchor links to correct targets
+    // Fix #adding-an-endpoint links to point to defining-schemas
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/applications\/)#adding-an-endpoint([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}defining-schemas${suffix}`;
+        console.log(`  Fixed #adding-an-endpoint link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix #Using-the-Configuration-File-and-Naming-Conventions to lowercase
+    content = content.replace(/(\[[^\]]+\]\([^)]*configuration)\.md#Using-the-Configuration-File-and-Naming-Conventions([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}#using-the-configuration-file-and-naming-conventions${suffix}`;
+        console.log(`  Fixed configuration anchor link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix #select-properties to #selectproperties
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/rest)\.md#select-properties([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}#selectproperties${suffix}`;
+        console.log(`  Fixed #select-properties link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix #cachingconditional-requests (already lowercase, just remove .md)
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/rest)\.md#cachingconditional-requests([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}#cachingconditional-requests${suffix}`;
+        console.log(`  Fixed #cachingconditional-requests link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix self-referencing #Role-Based-Operation-Restrictions
+    if (filePath.includes('users-and-roles.md')) {
+        content = content.replace(/(\[[^\]]+\]\()users-and-roles\.md#Role-Based-Operation-Restrictions([^)]*\))/g, (match, prefix, suffix) => {
+            const newLink = `${prefix}#role-based-operation-restrictions${suffix}`;
+            console.log(`  Fixed role-based restrictions link: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // Fix #creating-our-first-table to defining-schemas
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/applications\/)#creating-our-first-table([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}defining-schemas${suffix}`;
+        console.log(`  Fixed #creating-our-first-table link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix globals.md self-referencing authenticateUser anchor
+    if (filePath.includes('globals.md')) {
+        content = content.replace(/(\[[^\]]+\]\()globals\.md#serverauthenticateuserusername-password-user([^)]*\))/g, (match, prefix, suffix) => {
+            const newLink = `${prefix}#serverauthenticateuserusername-password-promiseuser${suffix}`;
+            console.log(`  Fixed authenticateUser anchor: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        });
+    }
+
+    // Fix #schemas to #databases
+    content = content.replace(/(\[[^\]]+\]\([^)]*configuration)\.md#schemas([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}#databases${suffix}`;
+        console.log(`  Fixed #schemas link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix broken anchor links to correct targets
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/applications\/)#configyaml([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}../configuration${suffix}`;
+        console.log(`  Fixed #configyaml link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/security\/)#authentication-configuration([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}configuration${suffix}`;
+        console.log(`  Fixed #authentication-configuration link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/sql-guide\/)#sql-guide([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}${suffix}`;
+        console.log(`  Fixed #sql-guide link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/operations-api\/)#authentication-tokens([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}token-authentication${suffix}`;
+        console.log(`  Fixed #authentication-tokens link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/operations-api\/)#refresh-operation-tokens([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}token-authentication${suffix}`;
+        console.log(`  Fixed #refresh-operation-tokens link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/developers\/)#developers([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}${suffix}`;
+        console.log(`  Fixed #developers link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/administration\/)#administration([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}${suffix}`;
+        console.log(`  Fixed #administration link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/deployments\/)#deployments([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}${suffix}`;
+        console.log(`  Fixed #deployments link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+
+    // Fix #role-based-operation-restrictions link
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/components\/)#role-based-operation-restrictions([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}../../security/users-and-roles#role-based-operation-restrictions${suffix}`;
+        console.log(`  Fixed #role-based-operation-restrictions link: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
     });
 
     // Add frontmatter if missing
