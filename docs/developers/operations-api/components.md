@@ -47,10 +47,12 @@ or this can be shortened to:
 HarperDB/application-template#semver:v1.0.0
 ```
 
-You can also install from private repository if you have an installed SSH keys on the server:
+You can also install from private repository if you have installed SSH keys on the server. Ensure the `host` portion of the url exactly matches the `host` used when adding ssh keys to ensure proper authentication.
 
 ```
 git+ssh://git@github.com:my-org/my-app.git#semver:v1.0.0
+
+git+ssh://git@harperdb-private-component.github.com:my-org/my-app.git#semver:v1.0.0
 ```
 
 Or you can use a Github token:
@@ -328,19 +330,10 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `add_ssh_key`
 - name _(required)_ - the name of the key
 - key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
-- host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
+- host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key.
 - hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-- known*hosts *(optional)\_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
 - replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
-  _Operation is restricted to super_user roles only_
-
-* operation _(required)_ - must always be `add_ssh_key`
-* name _(required)_ - the name of the key
-* key _(required)_ - the private key contents. Line breaks must be delimited with&#x20;
-* host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
-* hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-* known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with&#x20;
-* replicated _(optional)_ - if true, Harper will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -392,7 +385,10 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `update_ssh_key`
 - name _(required)_ - the name of the key to be updated
 - key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
-- replicated _(optional)_ - if true, Harper will replicate the key update to all nodes in the cluster. Must be a boolean.
+- host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key.
+- hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
+- known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
