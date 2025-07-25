@@ -130,7 +130,7 @@ http:
   timeout: 120000
 ```
 
-`mlts` - _Type_: boolean | object; _Default_: false
+`mtls` - _Type_: boolean | object; _Default_: false
 
 This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified with `tls.certificateAuthority`. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
 
@@ -142,20 +142,46 @@ This configures a specific username to authenticate as for mTLS connections. If 
 
 `required` - _Type_: boolean; _Default_: false
 
-This can be enabled to require client certificates (mTLS) for all incoming MQTT connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+This can be enabled to require client certificates (mTLS) for all incoming connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+
+`certificateVerification` - _Type_: boolean | object; _Default_: true
+
+When mTLS is enabled, Harper verifies the revocation status of client certificates using OCSP (Online Certificate Status Protocol). This ensures that revoked certificates cannot be used for authentication.
+
+Set to `false` to disable certificate verification, or configure with an object:
+
+- `timeout` - _Type_: number; _Default_: 5000 - Maximum milliseconds to wait for OCSP response
+- `cacheTtl` - _Type_: number; _Default_: 3600000 - Milliseconds to cache verification results (default: 1 hour)
+- `failureMode` - _Type_: string; _Default_: 'fail-open' - Behavior when OCSP verification fails:
+  - `'fail-open'`: Allow connection on verification failure (logs warning)
+  - `'fail-closed'`: Reject connection on verification failure
+
+Example configurations:
 
 ```yaml
+# Basic mTLS with default certificate verification
 http:
   mtls: true
 ```
 
-or
-
 ```yaml
+# mTLS with certificate verification disabled (not recommended for production)
 http:
   mtls:
     required: true
     user: user-name
+    certificateVerification: false
+```
+
+```yaml
+# mTLS with custom verification settings for high-security environments
+http:
+  mtls:
+    required: true
+    certificateVerification:
+      timeout: 10000 # 10 seconds for OCSP response
+      cacheTtl: 7200000 # Cache results for 2 hours
+      failureMode: fail-closed # Reject if OCSP check fails
 ```
 
 ---
@@ -683,6 +709,7 @@ Harper's logger supports defining multiple logging configurations for different 
 `logging.external`
 
 The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../technical-details/reference/globals.md). For example:
+
 ```yaml
 logging:
   external:
@@ -693,15 +720,16 @@ logging:
 `http.logging`
 
 This section defines log configuration for HTTP logging. By default, HTTP requests are not logged, but defining this section will enable HTTP logging. Note that there can be substantive overhead to logging all HTTP requests. In addition to the standard logging configuration, the `http.logging` section also allows the following configuration properties to be set:
-* `timing` - This will log timing information
-* `headers` - This will log the headers in each request (which can be very verbose)
-* `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
+- `timing` - This will log timing information
+- `headers` - This will log the headers in each request (which can be very verbose)
+- `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
 Note that the `level` will determine which HTTP requests are logged:
-* `info` (or more verbose) - All HTTP requests
-* `warn` - HTTP requests with a status code of 400 or above
-* `error` - HTTP requests with a status code of 500
+- `info` (or more verbose) - All HTTP requests
+- `warn` - HTTP requests with a status code of 400 or above
+- `error` - HTTP requests with a status code of 500
 
 For example:
+
 ```yaml
 http:
   logging: 
@@ -739,7 +767,7 @@ This section defines log configuration for setting up and reading the database f
 
 This section defines log configuration for analytics. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
 
-***
+---
 
 ### `authentication`
 
@@ -1080,7 +1108,7 @@ This enables access to MQTT through WebSockets. This will handle WebSocket conne
 
 This indicates if authentication should be required for establishing an MQTT connection (whether through MQTT connection credentials or mTLS). Disabling this allows unauthenticated connections, which are then subject to authorization for publishing and subscribing (and by default tables/resources do not authorize such access, but that can be enabled at the resource level).
 
-`mlts` - _Type_: boolean | object; _Default_: false
+`mtls` - _Type_: boolean | object; _Default_: false
 
 This can be configured to enable mTLS based authentication for incoming connections. If enabled with default options (by setting to `true`), the client certificate will be checked against the certificate authority specified in the `tls` section. And if the certificate can be properly verified, the connection will authenticate users where the user's id/username is specified by the `CN` (common name) from the client certificate's `subject`, by default.
 
@@ -1097,6 +1125,18 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 `certificateAuthority` - _Type_: string; _Default_: Path from `tls.certificateAuthority`
 
 This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
+
+`certificateVerification` - _Type_: boolean | object; _Default_: true
+
+When mTLS is enabled, Harper verifies the revocation status of client certificates using OCSP (Online Certificate Status Protocol). This ensures that revoked certificates cannot be used for authentication.
+
+Set to `false` to disable certificate verification, or configure with an object:
+
+- `timeout` - _Type_: number; _Default_: 5000 - Maximum milliseconds to wait for OCSP response
+- `cacheTtl` - _Type_: number; _Default_: 3600000 - Milliseconds to cache verification results (default: 1 hour)
+- `failureMode` - _Type_: string; _Default_: 'fail-open' - Behavior when OCSP verification fails:
+  - `'fail-open'`: Allow connection on verification failure (logs warning)
+  - `'fail-closed'`: Reject connection on verification failure
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
 

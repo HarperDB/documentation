@@ -28,6 +28,18 @@ Once you generate new certificates, to make Harper start using them you can eith
 
 Since these new certificates can be issued with correct CNs, you should set `insecure` to `false` so that nodes will do full validation of the certificates of the other nodes.
 
+### Certificate Revocation Checking
+
+Harper automatically performs certificate revocation checking using OCSP (Online Certificate Status Protocol) for all cluster connections. This critical security feature ensures that:
+
+- Revoked certificates cannot be used for cluster communication
+- Compromised nodes can be quickly isolated by revoking their certificates
+- Certificate status is verified in real-time with the Certificate Authority
+
+Certificate verification is enabled by default for cluster connections and follows the same configuration as HTTP mTLS connections. The verification settings can be customized in the HTTP configuration section to balance security requirements with performance considerations.
+
+For production clusters, consider using `failureMode: fail-closed` to ensure maximum security by rejecting connections when OCSP verification cannot be completed.
+
 ### Certificate Requirements
 
 - Certificates must have an `Extended Key Usage` that defines both `TLS Web Server Authentication` and `TLS Web Client Authentication` as these certificates will be used to accept connections from other Harper nodes and to make requests to other Harper nodes. Example:

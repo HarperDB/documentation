@@ -73,6 +73,8 @@ replication:
 
 Harper supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure Harper in several different ways to build a connected cluster.
 
+When using certificate-based authentication, Harper automatically performs OCSP (Online Certificate Status Protocol) verification to check if certificates have been revoked. This ensures that compromised certificates cannot be used for replication connections. Certificate verification settings follow the same configuration as HTTP mTLS connections (see [certificate verification configuration](../../deployments/configuration.md#http)).
+
 #### Provide your own certificates
 
 If you want to secure your Harper connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. You can then allow nodes to authorize each other by checking the certificate against the standard list of root certificate authorities by enabling the `enableRootCAs` option in the config:
