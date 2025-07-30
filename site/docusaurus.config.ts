@@ -12,6 +12,14 @@ if (process.env.IMAGES_PATH) {
 	console.log('Using IMAGES_PATH:', process.env.IMAGES_PATH);
 }
 
+const scripts = [];
+
+// `npm run site:build` and `docusaurus build` sets this to 'production'
+// `npm run site:dev` and `docusaurus start` sets it to 'development'
+if (process.env.NODE_ENV === 'production') {
+	scripts.push({ src: 'js/reo.js' });
+}
+
 const config: Config = {
 	title: 'Harper Docs',
 	tagline:
@@ -189,6 +197,7 @@ const config: Config = {
 			darkTheme: prismThemes.dracula,
 		},
 	} satisfies Preset.ThemeConfig,
+	scripts,
 };
 
 export default config;
