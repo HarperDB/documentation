@@ -44,7 +44,7 @@ let record = await MyTable.get('my-record');
 // we now have a record that gives us access to the blob. We can asynchronously access the blob's data or stream the data, and it will be available as blob the stream is written to the blob.
 let stream = record.data.stream();
 ```
-This can be powerful functionality for large media content, where content can be streamed into storage as it streamed out in real-time to users as it is received.
+This can be powerful functionality for large media content, where content can be streamed into storage as it streamed out in real-time to users as it is received. Note that this means that blobs are _not_ atomic or [ACID](https://en.wikipedia.org/wiki/ACID) compliant; streaming functionality achieves the opposite behavior of ACID/atomic writes that would prevent access to data as it is being written.
 Alternately, we can also wait for the blob to be fully written to storage before creating a record that references the blob:
 
 ```javascript
@@ -55,19 +55,18 @@ await blob.save(MyTable);
 await MyTable.put({ id: 'my-record', data: blob });
 ```
 
-Note that this means that blobs are _not_ atomic or [ACID](https://en.wikipedia.org/wiki/ACID) compliant; streaming functionality achieves the opposite behavior of ACID/atomic writes that would prevent access to data as it is being written.  
-
 ### Error Handling
-Because blobs can be streamed and referenced prior to their completion, there is a chance that an error or interruption could occur while streaming data to the blob (after the record is committed). We can create an error handler for the blob to handle the case of an interrupted blob:
+When blobs are being streamed (and potentially referenced) prior to their completion (if the blob is not saved prior to writing), there is a chance that an error or interruption could occur while streaming data to the blob (after the record is committed). A restart, server crash, or network interruption can lead to incomplete blobs, and it is important that we create an error handler for the blob to handle the case of an interrupted blob:
 
 ```javascript
 export class MyEndpoint extends MyTable {
-	let blob = this.data;
-	blob.on('error', () => {
-		// if this was a caching table, we may want to invalidate or delete this record:
-  		this.invalidate();
-	});
 	async get() {
+		let blob = this.data;
+			// this event will be called if the blob had previously been interrupted and is incomplete:
+		blob.on('error', () => {
+			// if this was a caching table, we may want to invalidate or delete this record:
+			this.invalidate();
+		});
 		return {
 			status: 200,
 			headers: {},
