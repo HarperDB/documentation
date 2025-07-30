@@ -23,3 +23,5 @@ bin-release/
 .idea/vcs.xml
 
 node_modules
+
+docs-temp
