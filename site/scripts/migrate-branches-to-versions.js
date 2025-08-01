@@ -227,11 +227,6 @@ function updateDocusaurusConfig(configContent) {
         console.log('Updated docusaurus.config.ts with versioning configuration');
     }
     
-    // Update lastVersion to be the latest numbered version
-    if (!configContent.includes('lastVersion: \'4.6\'')) {
-        configContent = configContent.replace(/lastVersion:\s*['"]current['"]/, 'lastVersion: \'4.6\'');
-        console.log('Updated lastVersion to 4.6');
-    }
     
     return configContent;
 }
@@ -285,12 +280,31 @@ async function migrate() {
         console.log('\nCleaning up temporary files...');
         fs.rmSync(TEMP_DIR, { recursive: true, force: true });
         
+        // Move site/docs to replace root docs
+        console.log('\nReplacing GitBook docs with converted Docusaurus docs...');
+        const siteDocsPath = path.join(SITE_DIR, 'docs');
+        const rootDocsPath = path.join(REPO_ROOT, 'docs');
+        
+        if (fs.existsSync(siteDocsPath)) {
+            // Remove existing docs
+            if (fs.existsSync(rootDocsPath)) {
+                console.log(`  Removing existing GitBook docs at ${rootDocsPath}`);
+                fs.rmSync(rootDocsPath, { recursive: true, force: true });
+            }
+            
+            // Move site/docs to root docs
+            console.log(`  Moving ${siteDocsPath} to ${rootDocsPath}`);
+            fs.renameSync(siteDocsPath, rootDocsPath);
+            console.log('  ✓ Docs replaced successfully');
+        }
+        
         console.log('\n✅ Migration completed successfully!');
         console.log('\nNext steps:');
         console.log('1. Review the generated files in:');
         console.log(`   - ${VERSIONED_DOCS_DIR}`);
         console.log(`   - ${VERSIONED_SIDEBARS_DIR}`);
         console.log(`   - ${VERSIONS_FILE}`);
+        console.log(`   - ${rootDocsPath} (converted latest docs)`);
         console.log('2. Test the site with: npm run start');
         console.log('3. Adjust sidebar configurations as needed');
         console.log('4. Update image references if necessary');
