@@ -53,7 +53,7 @@ const config: Config = {
 			{
 				docs: {
 					// Use converted docs from DOCS_PATH or default location
-					path: process.env.DOCS_PATH || '../docs',
+					path: process.env.DOCS_PATH || 'docs',
 					sidebarPath: './sidebars.ts',
 					routeBasePath: 'docs',
 					editUrl: ({ docPath }) => {
@@ -68,10 +68,15 @@ const config: Config = {
 						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 					},
 					lastVersion: 'current',
+					includeCurrentVersion: true,
 					versions: {
 						current: {
 							label: 'Latest',
 							path: 'latest',
+						},
+						'4.6': {
+							label: '4.6',
+							banner: 'none',
 						},
 					},
 					remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
