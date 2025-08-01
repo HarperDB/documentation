@@ -53,7 +53,7 @@ const config: Config = {
 			{
 				docs: {
 					// Use converted docs from DOCS_PATH or default location
-					path: process.env.DOCS_PATH || 'docs',
+					path: process.env.DOCS_PATH || '../docs',
 					sidebarPath: './sidebars.ts',
 					routeBasePath: 'docs',
 					editUrl: ({ docPath }) => {
