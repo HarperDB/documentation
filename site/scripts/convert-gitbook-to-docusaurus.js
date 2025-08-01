@@ -917,6 +917,15 @@ function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
     }
     
     
+    // Fix specific absolute docs/ path in analytics.md
+    if (filePath.includes('operations-api/analytics.md')) {
+        content = content.replace(/\[([^\]]+)\]\(docs\/developers\/operations-api\/nosql-operations\.md\)/g, (match, text) => {
+            console.log('  Fixed absolute docs/ path in analytics.md');
+            return `[${text}](./nosql-operations.md)`;
+        });
+        modified = true;
+    }
+    
     // Fix remaining broken links
     
     // Fix developers/security/configuration.md paths in 4.1.0 release notes
