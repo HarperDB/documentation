@@ -15,37 +15,42 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SITE_DIR="$(dirname "$SCRIPT_DIR")"
 REPO_ROOT="$(dirname "$SITE_DIR")"
 
-# Create a temporary docs directory at the expected location
-TEMP_DOCS="$REPO_ROOT/docs-temp"
+# Check if we need to run the full migration (versioned docs don't exist)
+if [ ! -d "$SITE_DIR/versioned_docs" ] || [ ! -f "$SITE_DIR/versions.json" ]; then
+    echo "Versioned documentation not found. Running full migration..."
+    
+    # Clean up any existing versioned docs
+    rm -rf "$SITE_DIR/versioned_docs" "$SITE_DIR/versioned_sidebars" "$SITE_DIR/docs"
+    
+    # Run the migration script to create versioned docs
+    echo "Creating versioned documentation from release branches..."
+    node "$SCRIPT_DIR/migrate-branches-to-versions.js"
+    
+    if [ $? -ne 0 ]; then
+        echo "Migration failed!"
+        exit 1
+    fi
+fi
 
-echo "Setting up temporary docs directory..."
-rm -rf "$TEMP_DOCS"
-mkdir -p "$TEMP_DOCS"
-
-# Convert GitBook docs to Docusaurus format using the original converter with output directory
-echo "Converting GitBook docs to Docusaurus format..."
-node "$SCRIPT_DIR/convert-gitbook-to-docusaurus.js" "$REPO_ROOT/docs" "$TEMP_DOCS"
+# Convert current docs (from main branch) to Docusaurus format
+echo "Converting current docs to Docusaurus format..."
+node "$SCRIPT_DIR/convert-gitbook-to-docusaurus.js" "$REPO_ROOT/docs" "$SITE_DIR/docs"
 
 if [ $? -ne 0 ]; then
     echo "Conversion failed!"
     exit 1
 fi
 
-# Copy images to where the converted docs expect them
-echo "Copying images..."
-mkdir -p "$TEMP_DOCS/images"
-cp -r "$REPO_ROOT/images/." "$TEMP_DOCS/images/"
-
-# Run the appropriate Docusaurus command with DOCS_PATH
+# Run the appropriate Docusaurus command
 cd "$SITE_DIR"
 case "$COMMAND" in
     start)
         echo "Starting Docusaurus development server..."
-        DOCS_PATH="$TEMP_DOCS" npm run "$COMMAND"
+        npm run "$COMMAND"
         ;;
     build)
         echo "Building Docusaurus site..."
-        DOCS_PATH="$TEMP_DOCS" npm run "$COMMAND"
+        npm run "$COMMAND"
         ;;
     *)
         echo "Unknown command: $COMMAND"
