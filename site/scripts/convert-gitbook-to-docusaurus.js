@@ -1029,6 +1029,35 @@ function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
             frontmatterFields.sidebar_position = 0;
         }
         
+        // Handle release notes ordering
+        if (filePath.includes('/release-notes/')) {
+            const pathParts = filePath.split(path.sep);
+            const releaseNotesIndex = pathParts.indexOf('release-notes');
+            
+            if (releaseNotesIndex >= 0 && releaseNotesIndex < pathParts.length - 2) {
+                const versionDir = pathParts[releaseNotesIndex + 1]; // e.g., "1.alby", "2.penny"
+                const filename = path.basename(filePath, '.md');
+                
+                if (filename === 'index') {
+                    // Version directory index files get position based on major version
+                    // 4.tucker = 1, 3.monkey = 2, 2.penny = 3, 1.alby = 4
+                    const majorVersion = parseInt(versionDir.split('.')[0]) || 0;
+                    frontmatterFields.sidebar_position = 5 - majorVersion;
+                } else if (versionDir && versionDir.match(/^\d+\./)) {
+                    // For release files, calculate position based on version number
+                    // Higher versions get lower positions (appear first)
+                    const versionParts = filename.split('.').map(v => parseInt(v) || 0);
+                    // Create a sortable number from version parts (e.g., 1.3.1 -> 10301)
+                    const versionScore = versionParts[0] * 10000 + (versionParts[1] || 0) * 100 + (versionParts[2] || 0);
+                    // Invert the score so higher versions get lower positions
+                    frontmatterFields.sidebar_position = 99999 - versionScore;
+                }
+            } else if (path.basename(filePath, '.md') === 'index' && pathParts[pathParts.length - 2] === 'release-notes') {
+                // Main release-notes index
+                frontmatterFields.sidebar_position = 0;
+            }
+        }
+        
         // Build frontmatter
         let frontmatter = `---\ntitle: ${title}`;
         if (frontmatterFields.sidebar_position !== undefined) {
@@ -1096,6 +1125,31 @@ function processDirectory(dirPath, targetDirPath, docsDir = dirPath, outputDir =
         
         fs.writeFileSync(categoryPath, JSON.stringify(categoryContent, null, 2));
         console.log(`  Created category file for: ${categoryPath}`);
+    }
+    
+    // Special handling for release notes version directories
+    if (dirPath.includes('/release-notes/') && dirPath.match(/\/\d+\.\w+$/)) {
+        const versionMatch = dirPath.match(/\/(\d+)\.(\w+)$/);
+        if (versionMatch) {
+            const majorVersion = parseInt(versionMatch[1]);
+            const versionName = versionMatch[2];
+            
+            const categoryPath = targetDirPath 
+                ? path.join(targetDirPath, '_category_.json')
+                : path.join(dirPath, '_category_.json');
+            
+            const categoryContent = {
+                label: `HarperDB ${versionName.charAt(0).toUpperCase() + versionName.slice(1)} (Version ${majorVersion})`,
+                position: 5 - majorVersion, // 4.tucker = 1, 3.monkey = 2, etc.
+                link: {
+                    type: 'doc',
+                    id: 'index'
+                }
+            };
+            
+            fs.writeFileSync(categoryPath, JSON.stringify(categoryContent, null, 2));
+            console.log(`  Created category file for release version: ${categoryPath}`);
+        }
     }
     
     for (const entry of entries) {
