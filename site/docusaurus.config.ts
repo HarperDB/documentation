@@ -68,10 +68,15 @@ const config: Config = {
 						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 					},
 					lastVersion: 'current',
+					includeCurrentVersion: true,
 					versions: {
 						current: {
 							label: 'Latest',
 							path: 'latest',
+						},
+						'4.6': {
+							label: '4.6',
+							banner: 'none',
 						},
 					},
 					remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],

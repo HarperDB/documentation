@@ -3,21 +3,19 @@
 const fs = require('fs');
 const path = require('path');
 
-const docsDir = process.argv[2];
-const outputDir = process.argv[3]; // Optional output directory
-
-if (!docsDir) {
-    console.error('Usage: convert-gitbook-to-docusaurus.js <docs-directory> [output-directory]');
-    console.error('  If output-directory is not specified, files will be converted in place');
-    process.exit(1);
-}
+// These will be set when running as a script, or passed as parameters when used as a module
+let docsDir;
+let outputDir;
 
 // Convert a single file
-function convertFile(filePath, targetPath) {
+function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
     const displayPath = outputDir ? path.relative(docsDir, filePath) : filePath;
     console.log(`Converting: ${displayPath}`);
     let content = fs.readFileSync(filePath, 'utf8');
     let modified = false;
+    
+    // Extract version from options if provided (for versioned docs)
+    const version = options.version;
 
     // Convert GitBook hints to Docusaurus admonitions
     const hintPattern = /{% hint style="(info|warning|danger|success)" %}\s*([\s\S]*?)\s*{% endhint %}/g;
@@ -66,7 +64,9 @@ function convertFile(filePath, targetPath) {
 
     // Fix escaped angle brackets that break MDX parsing
     // Convert <\< to << and >\> to >>
-    if (content.includes('<\\<') || content.includes('>\\>')) {
+    // Also handle single backslash cases like <\< which appear in some files
+    if (content.includes('<\\<') || content.includes('>\\>') || content.includes('<\\<') || content.includes('>\\>')) {
+        content = content.replace(/<\\</g, '&lt;&lt;').replace(/>\\>/g, '&gt;&gt;');
         content = content.replace(/<\\</g, '&lt;&lt;').replace(/>\\>/g, '&gt;&gt;');
         console.log('  Fixed escaped angle brackets');
         modified = true;
@@ -95,6 +95,41 @@ function convertFile(filePath, targetPath) {
             }
         });
         modified = true;
+    }
+
+    // Fix non-self-closing br tags
+    if (content.includes('<br>')) {
+        content = content.replace(/<br>/g, '<br/>');
+        console.log('  Fixed non-self-closing <br> tags');
+        modified = true;
+    }
+
+    // Remove backticks around br tags (weird artifact from conversion)
+    if (content.includes('```````<br')) {
+        content = content.replace(/```````<br/g, '<br');
+        content = content.replace(/```````/g, '');
+        console.log('  Fixed backticks around <br> tags');
+        modified = true;
+    }
+
+    // Fix HTML tags inside code blocks
+    // Look for <pre><code> blocks and escape HTML inside them
+    const preCodePattern = /<pre><code>([\s\S]*?)<\/code><\/pre>/g;
+    if (content.match(preCodePattern)) {
+        content = content.replace(preCodePattern, (match, codeContent) => {
+            // Check if there are HTML tags inside the code block
+            if (codeContent.includes('<strong>') || codeContent.includes('</strong>')) {
+                console.log('  Fixed HTML tags inside code block');
+                // Convert to markdown code block instead
+                const cleanCode = codeContent
+                    .replace(/<strong>/g, '')
+                    .replace(/<\/strong>/g, '')
+                    .trim();
+                modified = true;
+                return '```\n' + cleanCode + '\n```';
+            }
+            return match;
+        });
     }
 
     // Fix mismatched code fence backticks  
@@ -217,42 +252,96 @@ function convertFile(filePath, targetPath) {
         modified = true;
     }
 
+    // Fix pseudo-HTML tags that aren't meant to be HTML (like <home-dir>)
+    // These break MDX parsing because it expects them to be closed
+    const pseudoHtmlPattern = /<([a-z-]+)>/g;
+    const pseudoTags = content.match(pseudoHtmlPattern);
+    if (pseudoTags) {
+        const uniqueTags = [...new Set(pseudoTags)];
+        for (const tag of uniqueTags) {
+            // Check if this tag is never closed in the content
+            const tagName = tag.match(/<([a-z-]+)>/)[1];
+            const openCount = (content.match(new RegExp(`<${tagName}>`, 'g')) || []).length;
+            const closeCount = (content.match(new RegExp(`</${tagName}>`, 'g')) || []).length;
+            
+            if (openCount > closeCount) {
+                // This tag is not properly closed
+                // Split content into lines to check context
+                const lines = content.split('\n');
+                let updatedLines = [];
+                
+                for (const line of lines) {
+                    let updatedLine = line;
+                    const tagRegex = new RegExp(`<${tagName}>`, 'g');
+                    
+                    // Check each occurrence in the line
+                    let match;
+                    while ((match = tagRegex.exec(line)) !== null) {
+                        const beforeTag = line.substring(0, match.index);
+                        const afterTag = line.substring(match.index + match[0].length);
+                        
+                        // Count backticks before the tag to see if we're inside inline code
+                        const backticksBeforeCount = (beforeTag.match(/`/g) || []).length;
+                        const isInsideBackticks = backticksBeforeCount % 2 === 1;
+                        
+                        if (!isInsideBackticks) {
+                            // Not inside backticks, wrap it
+                            updatedLine = updatedLine.replace(`<${tagName}>`, `\`<${tagName}>\``);
+                            console.log(`  Fixed unclosed pseudo-HTML tag: <${tagName}>`);
+                            modified = true;
+                        }
+                    }
+                    updatedLines.push(updatedLine);
+                }
+                
+                content = updatedLines.join('\n');
+            }
+        }
+    }
+
     // Fix inline JSON objects that MDX tries to parse as expressions
     // MDX will try to parse {anything} as a JavaScript expression
     // We need to escape these by wrapping in backticks
     const lines = content.split('\n');
     let hasInlineJson = false;
     let inCodeBlock = false;
+    let inCodeFence = false;
     
     for (let i = 0; i < lines.length; i++) {
         const line = lines[i];
         
-        // Track code blocks
+        // Track code blocks and fences
         if (line.startsWith('```')) {
-            inCodeBlock = !inCodeBlock;
+            inCodeFence = !inCodeFence;
             continue;
         }
         
-        // Skip if we're in a code block or line is indented (likely code)
-        if (inCodeBlock || line.match(/^[ \t]+/)) {
+        // Track indented code blocks
+        if (!inCodeFence && line.match(/^[ \t]{4,}/) && !line.trim()) {
+            inCodeBlock = true;
+        } else if (!line.match(/^[ \t]/) && line.trim()) {
+            inCodeBlock = false;
+        }
+        
+        // Skip if we're in a code block/fence
+        if (inCodeFence || inCodeBlock) {
             continue;
         }
         
         // Look for curly braces that might be interpreted as expressions
-        // This regex finds {...} patterns that contain colons (likely JSON)
-        const jsonPattern = /(\{[^{}]*:[^{}]*\})/g;
+        // More comprehensive pattern to catch JSON-like structures
+        const jsonPattern = /\{[^{}]*[:,][^{}]*\}/g;
         
         if (jsonPattern.test(line)) {
-            lines[i] = line.replace(jsonPattern, (match) => {
-                // Don't wrap if already in backticks (check more carefully)
-                const beforeMatch = line.substring(0, line.indexOf(match));
-                const afterMatch = line.substring(line.indexOf(match) + match.length);
+            lines[i] = line.replace(jsonPattern, (match, index) => {
+                // Don't wrap if already in backticks
+                const beforeMatch = line.substring(0, index);
+                const afterMatch = line.substring(index + match.length);
                 
-                // Count backticks before and after to see if we're in inline code
+                // Count backticks before to see if we're in inline code
                 const backticksBeforeOdd = (beforeMatch.match(/`/g) || []).length % 2 === 1;
-                const hasBacktickAfter = afterMatch.startsWith('`');
                 
-                if (backticksBeforeOdd || hasBacktickAfter) {
+                if (backticksBeforeOdd) {
                     // We're inside backticks, don't wrap
                     return match;
                 }
@@ -270,9 +359,7 @@ function convertFile(filePath, targetPath) {
         console.log('  Fixed inline JSON/expressions');
     }
 
-    // Fix image paths - convert GitBook relative paths to proper relative paths
-    // GitBook uses paths like ../../../images/clustering/figure1.png
-    // We need to calculate the correct relative path from the current file to the images directory
+    // Fix image paths
     const imagePattern = /!\[([^\]]*)\]\(([^)]+)\)/g;
     content = content.replace(imagePattern, (match, alt, src) => {
         // Check if this is a relative path containing '/images/'
@@ -282,18 +369,20 @@ function convertFile(filePath, targetPath) {
             if (imagePathMatch) {
                 const imagePath = imagePathMatch[1];
                 
-                // Calculate relative path from current file to images directory
-                // Use targetPath if provided, otherwise use filePath
-                const currentFilePath = targetPath || filePath;
-                const currentDocsRoot = targetPath ? outputDir : docsDir;
-                
-                // Get the depth of the current file relative to docs root
-                const relativePath = path.relative(path.dirname(currentFilePath), currentDocsRoot);
-                const imageSrc = path.join(relativePath, 'images', imagePath);
-                
-                console.log(`  Fixed image path: ${src} -> ${imageSrc}`);
-                modified = true;
-                return `![${alt}](${imageSrc})`;
+                // If version is provided, use static versioned path
+                if (version) {
+                    const imageSrc = `/img/v${version}/${imagePath}`;
+                    console.log(`  Fixed image path for v${version}: ${src} -> ${imageSrc}`);
+                    modified = true;
+                    return `![${alt}](${imageSrc})`;
+                } else {
+                    // For current docs, use absolute path since images are served from static directory
+                    const imageSrc = `/${imagePath}`;
+                    
+                    console.log(`  Fixed image path: ${src} -> ${imageSrc}`);
+                    modified = true;
+                    return `![${alt}](${imageSrc})`;
+                }
             }
         }
         return match;
@@ -390,10 +479,18 @@ function convertFile(filePath, targetPath) {
         }
     }
     
-    // If this is the logging index.md, update the link to standard-logging.md
-    if (path.basename(filePath) === 'index.md' && path.dirname(filePath).endsWith('/logging')) {
-        content = content.replace('[Standard Logging](logging.md)', '[Standard Logging](standard-logging.md)');
-        modified = true;
+    // If this is the logging index.md or README.md, update the link to standard-logging.md
+    if ((path.basename(filePath) === 'index.md' || path.basename(filePath) === 'README.md') && path.dirname(filePath).endsWith('/logging')) {
+        // Match any variation of the logging.md link with different list markers
+        const loggingLinkPattern = /([-*]\s*)?\[([^\]]+)\]\(logging\.md\)/g;
+        if (content.match(loggingLinkPattern)) {
+            content = content.replace(loggingLinkPattern, (match, listMarker, linkText) => {
+                console.log(`  Fixed logging.md -> standard-logging.md in logging index: ${match}`);
+                const marker = listMarker || '';
+                return `${marker}[${linkText}](standard-logging.md)`;
+            });
+            modified = true;
+        }
     }
     
     // Fix links to logging/logging.md throughout all files (should be logging/standard-logging.md)
@@ -452,6 +549,462 @@ function convertFile(filePath, targetPath) {
         modified = true;
         return 'harper-cloud';
     });
+    
+    // Fix common broken link patterns
+    // Fix configuration.md paths
+    content = content.replace(/(\[[^\]]+\]\()\.\.\/configuration\.md([^)]*\))/g, (match, prefix, suffix) => {
+        if (filePath.includes('custom-functions')) {
+            const newLink = `${prefix}../deployments/configuration.md${suffix}`;
+            console.log(`  Fixed configuration.md path: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+    
+    // Fix harper-studio paths from custom-functions
+    content = content.replace(/(\[[^\]]+\]\()\.\.\/harper-studio\//g, (match, prefix) => {
+        if (filePath.includes('custom-functions')) {
+            const newLink = `${prefix}../administration/harper-studio/`;
+            console.log(`  Fixed harper-studio path: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+    
+    // Fix harper-cloud paths
+    content = content.replace(/(\[[^\]]+\]\()\.\.\/harper-cloud\//g, (match, prefix) => {
+        if (filePath.includes('custom-functions') || filePath.includes('getting-started')) {
+            const newLink = `${prefix}../deployments/harper-cloud/`;
+            console.log(`  Fixed harper-cloud path: ${match} -> ${newLink}`);
+            modified = true;
+            return newLink;
+        }
+        return match;
+    });
+    
+    // Fix REST.md case sensitivity
+    content = content.replace(/(\[[^\]]+\]\([^)]*\/)REST\.md([^)]*\))/g, (match, prefix, suffix) => {
+        const newLink = `${prefix}rest.md${suffix}`;
+        console.log(`  Fixed REST.md case: ${match} -> ${newLink}`);
+        modified = true;
+        return newLink;
+    });
+    
+    // Fix manage-schemas-browse-data.md to manage-databases-browse-data.md (4.3+)
+    if (version && version >= '4.3') {
+        content = content.replace(/manage-schemas-browse-data\.md/g, 'manage-databases-browse-data.md');
+        if (content.includes('manage-databases-browse-data.md')) {
+            console.log('  Fixed manage-schemas-browse-data.md -> manage-databases-browse-data.md');
+            modified = true;
+        }
+    }
+    
+    // Fix deep relative paths (../../../)
+    const deepPathPattern = /(\[[^\]]+\]\()\.\.\/\.\.\/\.\.\/([^)]+\))/g;
+    if (content.match(deepPathPattern)) {
+        content = content.replace(deepPathPattern, (match, prefix, path) => {
+            // These deep paths are usually wrong, try to fix them
+            let fixedPath = path;
+            
+            // Common deep path fixes
+            if (path.includes('applications/define-helpers.md')) {
+                fixedPath = '../applications/define-helpers.md';
+            } else if (path.includes('deployments/configuration.md')) {
+                fixedPath = '../../deployments/configuration.md';
+            } else if (path.includes('security/basic-auth.md') || path.includes('security/jwt-auth.md')) {
+                fixedPath = '../../security/' + path.split('/').pop();
+            } else if (path.includes('reference/resource.md')) {
+                fixedPath = '../../technical-details/reference/resource.md';
+            }
+            
+            if (fixedPath !== path) {
+                console.log(`  Fixed deep path: ../../../${path} -> ${fixedPath}`);
+                modified = true;
+                return prefix + fixedPath;
+            }
+            return match;
+        });
+    }
+    
+    // Fix all reference/resource.md links to reference/resources/
+    if (!version || version === '4.6') {
+        // Fix various patterns of reference/resource.md
+        const resourcePatterns = [
+            /\[([^\]]+)\]\(([^)]*\/)reference\/resource\.md\)/g,
+            /\[([^\]]+)\]\(reference\/resource\.md\)/g,
+            /\[([^\]]+)\]\(\.\.\/reference\/resource\.md\)/g,
+            /\[([^\]]+)\]\(\.\.\/\.\.\/reference\/resource\.md\)/g,
+            /\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/reference\/resource\.md\)/g
+        ];
+        
+        resourcePatterns.forEach(pattern => {
+            if (content.match(pattern)) {
+                content = content.replace(pattern, (match, text) => {
+                    // Determine the correct relative path based on the original match
+                    let newPath = 'reference/resources/';
+                    if (match.includes('../../../')) {
+                        newPath = '../../../reference/resources/';
+                    } else if (match.includes('../../')) {
+                        newPath = '../../reference/resources/';
+                    } else if (match.includes('../')) {
+                        newPath = '../reference/resources/';
+                    } else if (match.includes('/reference/')) {
+                        // Preserve any path prefix
+                        const prefix = match.match(/\]\(([^)]*\/)reference\/resource\.md\)/);
+                        if (prefix && prefix[1]) {
+                            newPath = prefix[1] + 'reference/resources/';
+                        }
+                    }
+                    
+                    console.log(`  Fixed reference/resource.md -> ${newPath}`);
+                    return `[${text}](${newPath})`;
+                });
+                modified = true;
+            }
+        });
+    }
+    
+    // Remove links to non-existent Harper Studio pages
+    const removedPages = [
+        'create-account.md',
+        'enable-mixed-content.md',
+        'instance-configuration.md',
+        'instance-example-code.md'
+    ];
+    
+    removedPages.forEach(page => {
+        const pattern = new RegExp(`\\[([^\\]]+)\\]\\([^)]*harper-studio/${page}[^)]*\\)`, 'g');
+        if (content.match(pattern)) {
+            content = content.replace(pattern, '$1');
+            console.log(`  Removed link to non-existent page: ${page}`);
+            modified = true;
+        }
+    });
+    
+    // Aggressive fixes for new platform - remove problematic links in SUMMARY.md
+    if (path.basename(filePath) === 'SUMMARY.md') {
+        // Remove entire lines that link to non-existent administration/harper-studio pages
+        const linesToRemove = [
+            'administration/harper-studio/index.md',
+            'administration/harper-studio/instance-metrics.md',
+            'administration/harper-studio/instances.md',
+            'administration/harper-studio/login-password-reset.md',
+            'administration/harper-studio/manage-applications.md',
+            'administration/harper-studio/manage-charts.md',
+            'administration/harper-studio/manage-clustering.md',
+            'administration/harper-studio/manage-instance-roles.md',
+            'administration/harper-studio/manage-instance-users.md',
+            'administration/harper-studio/manage-replication.md',
+            'administration/harper-studio/manage-schemas-browse-data.md',
+            'administration/harper-studio/manage-databases-browse-data.md',
+            'administration/harper-studio/organizations.md',
+            'administration/harper-studio/query-instance-data.md',
+            'deployments/harper-cloud/index.md',
+            'deployments/harper-cloud/alarms.md',
+            'deployments/harper-cloud/instance-size-hardware-specs.md',
+            'deployments/harper-cloud/iops-impact.md',
+            'deployments/harper-cloud/verizon-5g-wavelength-instances.md',
+            // Also version 4.1 specific paths
+            'harper-studio/index.md',
+            'harper-studio/instance-metrics.md',
+            'harper-studio/instances.md',
+            'harper-studio/login-password-reset.md',
+            'harper-studio/manage-applications.md',
+            'harper-studio/manage-charts.md',
+            'harper-studio/manage-clustering.md',
+            'harper-studio/manage-instance-roles.md',
+            'harper-studio/manage-instance-users.md',
+            'harper-studio/manage-schemas-browse-data.md',
+            'harper-studio/organizations.md',
+            'harper-studio/query-instance-data.md',
+            'harper-studio/resources.md',
+            'harper-cloud/index.md',
+            'harper-cloud/alarms.md',
+            'harper-cloud/instance-size-hardware-specs.md',
+            'harper-cloud/iops-impact.md',
+            'harper-cloud/verizon-5g-wavelength-instances.md'
+        ];
+        
+        const lines = content.split('\n');
+        const filteredLines = lines.filter(line => {
+            // Check if line contains any of the problematic links
+            return !linesToRemove.some(link => line.includes(link));
+        });
+        
+        if (lines.length !== filteredLines.length) {
+            content = filteredLines.join('\n');
+            console.log(`  Removed ${lines.length - filteredLines.length} lines with non-existent links from SUMMARY.md`);
+            modified = true;
+        }
+        
+        // Fix root README.md references - SUMMARY.md links to non-existent README.md
+        content = content.replace(/\[([^\]]+)\]\(README\.md\)/g, (match, text) => {
+            console.log('  Fixed README.md reference in SUMMARY.md');
+            modified = true;
+            return `[${text}](index.md)`;
+        });
+    }
+    
+    // Fix version-specific path issues
+    if (version && version === '4.1') {
+        // In 4.1, fix paths that assume newer directory structure
+        content = content.replace(/\.\.\/administration\/harper-studio\//g, '../harper-studio/');
+        content = content.replace(/\.\.\/deployments\/harper-cloud\//g, '../harper-cloud/');
+        content = content.replace(/\.\.\/deployments\/configuration\.md/g, '../configuration.md');
+        if (content.includes('../harper-studio/') || content.includes('../harper-cloud/')) {
+            console.log('  Fixed 4.1 version-specific paths');
+            modified = true;
+        }
+    }
+    
+    // Fix security file references that don't exist
+    const securityFiles = ['basic-auth.md', 'jwt-auth.md'];
+    securityFiles.forEach(file => {
+        const pattern = new RegExp(`\\[([^\\]]+)\\]\\([^)]*security/${file}[^)]*\\)`, 'g');
+        if (content.match(pattern)) {
+            // Convert to plain text since these files don't exist
+            content = content.replace(pattern, '$1');
+            console.log(`  Removed broken link to security/${file}`);
+            modified = true;
+        }
+    });
+    
+    // Fix any remaining broken relative paths by converting to plain text
+    // This is aggressive but ensures no broken links in production
+    const brokenPathPatterns = [
+        /\[([^\]]+)\]\(\.\.\/administration\/harper-studio\/[^)]+\)/g,
+        /\[([^\]]+)\]\(\.\.\/deployments\/harper-cloud\/[^)]+\)/g,
+        /\[([^\]]+)\]\(\.\.\/harper-studio\/[^)]+\)/g,
+        /\[([^\]]+)\]\(\.\.\/harper-cloud\/[^)]+\)/g
+    ];
+    
+    brokenPathPatterns.forEach(pattern => {
+        if (content.match(pattern)) {
+            content = content.replace(pattern, '$1');
+            console.log('  Removed broken relative path links');
+            modified = true;
+        }
+    });
+    
+    // Additional fixes for dev server warnings
+    // Fix version 4.1 specific issues
+    if (version === '4.1') {
+        // Fix path to developers/applications/define-routes.md from custom-functions
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/developers\/applications\/define-routes\.md\)/g, '$1');
+        
+        // Fix root level harper-studio and harper-cloud references
+        content = content.replace(/\[([^\]]+)\]\(harper-studio\/index\.md\)/g, '$1');
+        content = content.replace(/\[([^\]]+)\]\(harper-cloud\/index\.md\)/g, '$1');
+        
+        // Fix README.md reference in linux.md
+        content = content.replace(/\[([^\]]+)\]\(README\.md\)/g, (match, text) => {
+            if (filePath.includes('install-harperdb/linux.md')) {
+                return `[${text}](index.md)`;
+            }
+            return match;
+        });
+    }
+    
+    // Fix broken paths in versions 4.2+
+    if (version && version >= '4.2') {
+        // Fix deployments/harper-cloud paths that don't exist
+        const deploymentPaths = [
+            'alarms.md',
+            'instance-size-hardware-specs.md',
+            'iops-impact.md',
+            'verizon-5g-wavelength-instances.md'
+        ];
+        deploymentPaths.forEach(file => {
+            const pattern = new RegExp(`\\[([^\\]]+)\\]\\([^)]*deployments/harper-cloud/${file}[^)]*\\)`, 'g');
+            if (content.match(pattern)) {
+                content = content.replace(pattern, '$1');
+                console.log(`  Removed broken link to deployments/harper-cloud/${file}`);
+                modified = true;
+            }
+        });
+        
+        // Fix administration/harper-studio paths that don't exist
+        const adminPaths = [
+            'instances.md',
+            'instance-metrics.md',
+            'manage-schemas-browse-data.md',
+            'manage-databases-browse-data.md',
+            'manage-applications.md',
+            'query-instance-data.md'
+        ];
+        adminPaths.forEach(file => {
+            const pattern = new RegExp(`\\[([^\\]]+)\\]\\([^)]*administration/harper-studio/${file}[^)]*\\)`, 'g');
+            if (content.match(pattern)) {
+                content = content.replace(pattern, '$1');
+                console.log(`  Removed broken link to administration/harper-studio/${file}`);
+                modified = true;
+            }
+        });
+        
+        
+        // Fix developers/configuration.md paths
+        content = content.replace(/\[([^\]]+)\]\([^)]*developers\/configuration\.md\)/g, (match, text) => {
+            console.log('  Fixed developers/configuration.md path');
+            modified = true;
+            return `[${text}](../../deployments/configuration.md)`;
+        });
+        
+        // Fix applications/dynamic-schema.md path
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/applications\/dynamic-schema\.md\)/g, '$1');
+        
+        // Fix getting-started paths
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/getting-started\/getting-started\.md\)/g, '$1');
+        
+        // Fix ../../../getting-started.md to ../../../getting-started/
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/getting-started\.md\)/g, (match, text) => {
+            console.log('  Fixed getting-started.md path to getting-started/');
+            return `[${text}](../../../getting-started/)`;
+        });
+    }
+    
+    // Fix defining-schemas.md reference in version 4.5
+    if (version === '4.5' && filePath.includes('getting-started/first-harper-app.md')) {
+        content = content.replace(/\[([^\]]+)\]\(defining-schemas\.md\)/g, '[defining schemas](../developers/applications/defining-schemas.md)');
+        modified = true;
+    }
+    
+    
+    // Remove broken technical-details references
+    const technicalDetailsFiles = [
+        'reference.md',
+        'resource-migration.md',
+        'content-types.md',
+        'transactions.md',
+        'graphql.md'
+    ];
+    technicalDetailsFiles.forEach(file => {
+        const patterns = [
+            new RegExp(`\\[([^\\]]+)\\]\\(\\./${file}\\)`, 'g'),
+            new RegExp(`\\[([^\\]]+)\\]\\([^)]*/${file}\\)`, 'g')
+        ];
+        patterns.forEach(pattern => {
+            if (content.match(pattern)) {
+                content = content.replace(pattern, '$1');
+                console.log(`  Removed broken link to ${file}`);
+                modified = true;
+            }
+        });
+    });
+    
+    // Fix components/reference.md paths
+    content = content.replace(/\[([^\]]+)\]\([^)]*components\/reference\.md\)/g, '$1');
+    
+    // Fix ../../../developers/components/built-in.md in release notes
+    if (filePath.includes('/release-notes/') && filePath.includes('4.5.0.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/developers\/components\/built-in\.md\)/g, (match, text) => {
+            console.log('  Fixed developers/components/built-in.md -> technical-details/reference/components/built-in-extensions#loadenv');
+            return `[${text}](../../reference/components/built-in-extensions#loadenv)`;
+        });
+    }
+    
+    // Fix cross-directory paths to developers/applications/defining-schemas.md
+    content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/developers\/applications\/defining-schemas\.md\)/g, '$1');
+    
+    // Fix developers/rest.md paths from technical-details
+    content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/developers\/rest\.md\)/g, '$1');
+    
+    // Final fix for 4.1 define-routes issue
+    if (version === '4.1' && filePath.includes('custom-functions/define-helpers.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/developers\/applications\/define-routes\.md[^)]*\)/g, 'define routes');
+        modified = true;
+    }
+    
+    
+    // Fix specific absolute docs/ path in analytics.md
+    if (filePath.includes('operations-api/analytics.md')) {
+        content = content.replace(/\[([^\]]+)\]\(docs\/developers\/operations-api\/nosql-operations\.md\)/g, (match, text) => {
+            console.log('  Fixed absolute docs/ path in analytics.md');
+            return `[${text}](./nosql-operations.md)`;
+        });
+        modified = true;
+    }
+    
+    // Fix remaining broken links
+    
+    // Fix developers/security/configuration.md paths in 4.1.0 release notes
+    if (filePath.includes('/release-notes/') && filePath.includes('4.1.0.md')) {
+        // Match any path to developers/security/configuration.md and replace with correct path
+        content = content.replace(/\[([^\]]+)\]\([^)]*developers\/security\/configuration\.md([^)]*)\)/g, (match, text, anchor) => {
+            console.log('  Fixed developers/security/configuration.md path in 4.1.0 release notes');
+            return `[${text}](../../../developers/security/configuration.md${anchor})`;
+        });
+        content = content.replace(/\[([^\]]+)\]\([^)]*administration\/logging\.md([^)]*)\)/g, '$1');
+        modified = true;
+    }
+    
+    // Fix ../../../administration/administration/cloning.md (double administration) in 4.2.0 release notes
+    if (filePath.includes('/release-notes/') && filePath.includes('4.2.0.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/administration\/administration\/cloning\.md\)/g, (match, text) => {
+            console.log('  Fixed double administration path: administration/administration/cloning.md -> administration/cloning.md');
+            return `[${text}](../../../administration/cloning.md)`;
+        });
+    }
+    
+    // Fix ../../deployments/configuration.md in rest.md for version 4.3
+    if (version === '4.3' && filePath.includes('developers/rest.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/deployments\/configuration\.md([^)]*)\)/g, (match, text, anchor) => {
+            console.log('  Fixed deployments/configuration.md path in rest.md');
+            return `[${text}](../deployments/configuration.md${anchor})`;
+        });
+        modified = true;
+    }
+    
+    // Fix ../components/reference.md in data-loader.md
+    if (filePath.includes('developers/applications/data-loader.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/components\/reference\.md([^)]*)\)/g, (match, text, anchor) => {
+            console.log('  Fixed ../components/reference.md -> ../../technical-details/reference/components/');
+            // Map the anchor to the correct page
+            if (anchor === '#extensions') {
+                return `[${text}](../../technical-details/reference/components/extensions)`;
+            }
+            return `[${text}](../../technical-details/reference/components/${anchor})`;
+        });
+        modified = true;
+    }
+    
+    // Fix ./reference.md in built-in-extensions.md
+    if (filePath.includes('reference/components/built-in-extensions.md')) {
+        content = content.replace(/\[([^\]]+)\]\(\.\/reference\.md([^)]*)\)/g, (match, text, anchor) => {
+            console.log('  Fixed ./reference.md link in built-in-extensions.md');
+            // Map the anchor to the correct page
+            if (anchor === '#extensions') {
+                return `[${text}](./extensions)`;
+            } else if (anchor) {
+                // If there's an anchor, try to map to the right file
+                return `[${text}](./${anchor.substring(1)})`;
+            }
+            // If no anchor, just return the text without link
+            return text;
+        });
+        modified = true;
+    }
+    
+    // Fix content-types.md and transactions.md in instance-binding.md
+    if (filePath.includes('reference/resources/instance-binding.md')) {
+        content = content.replace(/\[([^\]]+)\]\(content-types\.md\)/g, (match, text) => {
+            console.log('  Fixed content-types.md -> ../content-types.md');
+            return `[${text}](../content-types.md)`;
+        });
+        content = content.replace(/\[([^\]]+)\]\(transactions\.md\)/g, (match, text) => {
+            console.log('  Fixed transactions.md -> ../transactions.md');
+            return `[${text}](../transactions.md)`;
+        });
+    }
+    
+    // Fix ../../../getting-started.md in current docs
+    if (!version) {
+        content = content.replace(/\[([^\]]+)\]\(\.\.\/\.\.\/\.\.\/getting-started\.md\)/g, (match, text) => {
+            console.log('  Fixed getting-started.md -> getting-started/');
+            return `[${text}](../../../getting-started/)`;
+        });
+    }
 
     // Add frontmatter if missing
     if (!content.startsWith('---')) {
@@ -474,6 +1027,35 @@ function convertFile(filePath, targetPath) {
         // Add sidebar_position: 0 for root index.md
         if (path.basename(filePath) === 'index.md' && path.dirname(filePath) === docsDir) {
             frontmatterFields.sidebar_position = 0;
+        }
+        
+        // Handle release notes ordering
+        if (filePath.includes('/release-notes/')) {
+            const pathParts = filePath.split(path.sep);
+            const releaseNotesIndex = pathParts.indexOf('release-notes');
+            
+            if (releaseNotesIndex >= 0 && releaseNotesIndex < pathParts.length - 2) {
+                const versionDir = pathParts[releaseNotesIndex + 1]; // e.g., "1.alby", "2.penny"
+                const filename = path.basename(filePath, '.md');
+                
+                if (filename === 'index') {
+                    // Version directory index files get position based on major version
+                    // 4.tucker = 1, 3.monkey = 2, 2.penny = 3, 1.alby = 4
+                    const majorVersion = parseInt(versionDir.split('.')[0]) || 0;
+                    frontmatterFields.sidebar_position = 5 - majorVersion;
+                } else if (versionDir && versionDir.match(/^\d+\./)) {
+                    // For release files, calculate position based on version number
+                    // Higher versions get lower positions (appear first)
+                    const versionParts = filename.split('.').map(v => parseInt(v) || 0);
+                    // Create a sortable number from version parts (e.g., 1.3.1 -> 10301)
+                    const versionScore = versionParts[0] * 10000 + (versionParts[1] || 0) * 100 + (versionParts[2] || 0);
+                    // Invert the score so higher versions get lower positions
+                    frontmatterFields.sidebar_position = 99999 - versionScore;
+                }
+            } else if (path.basename(filePath, '.md') === 'index' && pathParts[pathParts.length - 2] === 'release-notes') {
+                // Main release-notes index
+                frontmatterFields.sidebar_position = 0;
+            }
         }
         
         // Build frontmatter
@@ -508,7 +1090,7 @@ function convertFile(filePath, targetPath) {
 }
 
 // Recursively process all markdown files
-function processDirectory(dirPath, targetDirPath) {
+function processDirectory(dirPath, targetDirPath, docsDir = dirPath, outputDir = targetDirPath, options = {}) {
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     
     // Create target directory if specified
@@ -545,6 +1127,31 @@ function processDirectory(dirPath, targetDirPath) {
         console.log(`  Created category file for: ${categoryPath}`);
     }
     
+    // Special handling for release notes version directories
+    if (dirPath.includes('/release-notes/') && dirPath.match(/\/\d+\.\w+$/)) {
+        const versionMatch = dirPath.match(/\/(\d+)\.(\w+)$/);
+        if (versionMatch) {
+            const majorVersion = parseInt(versionMatch[1]);
+            const versionName = versionMatch[2];
+            
+            const categoryPath = targetDirPath 
+                ? path.join(targetDirPath, '_category_.json')
+                : path.join(dirPath, '_category_.json');
+            
+            const categoryContent = {
+                label: `HarperDB ${versionName.charAt(0).toUpperCase() + versionName.slice(1)} (Version ${majorVersion})`,
+                position: 5 - majorVersion, // 4.tucker = 1, 3.monkey = 2, etc.
+                link: {
+                    type: 'doc',
+                    id: 'index'
+                }
+            };
+            
+            fs.writeFileSync(categoryPath, JSON.stringify(categoryContent, null, 2));
+            console.log(`  Created category file for release version: ${categoryPath}`);
+        }
+    }
+    
     for (const entry of entries) {
         const fullPath = path.join(dirPath, entry.name);
         const targetPath = targetDirPath 
@@ -552,7 +1159,7 @@ function processDirectory(dirPath, targetDirPath) {
             : null;
         
         if (entry.isDirectory()) {
-            processDirectory(fullPath, targetPath);
+            processDirectory(fullPath, targetPath, docsDir, outputDir, options);
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
             // Skip blank index.md files when there's a README.md in the same directory
             if (entry.name === 'index.md') {
@@ -563,19 +1170,37 @@ function processDirectory(dirPath, targetDirPath) {
                     continue;
                 }
             }
-            convertFile(fullPath, targetPath);
+            convertFile(fullPath, targetPath, docsDir, outputDir, options);
         }
     }
 }
 
-if (outputDir) {
-    console.log(`Starting GitBook to Docusaurus conversion`);
-    console.log(`  Source: ${docsDir}`);
-    console.log(`  Output: ${outputDir}`);
-    processDirectory(docsDir, outputDir);
-} else {
-    console.log(`Starting GitBook to Docusaurus conversion in: ${docsDir}`);
-    console.log(`  Converting files in place`);
-    processDirectory(docsDir, null);
+// Export functions for use by other scripts
+module.exports = {
+    processDirectory,
+    convertFile
+};
+
+// Run conversion if called directly (not required by another module)
+if (require.main === module) {
+    docsDir = process.argv[2];
+    outputDir = process.argv[3]; // Optional output directory
+    
+    if (!docsDir) {
+        console.error('Usage: convert-gitbook-to-docusaurus.js <docs-directory> [output-directory]');
+        console.error('  If output-directory is not specified, files will be converted in place');
+        process.exit(1);
+    }
+    
+    if (outputDir) {
+        console.log(`Starting GitBook to Docusaurus conversion`);
+        console.log(`  Source: ${docsDir}`);
+        console.log(`  Output: ${outputDir}`);
+        processDirectory(docsDir, outputDir);
+    } else {
+        console.log(`Starting GitBook to Docusaurus conversion in: ${docsDir}`);
+        console.log(`  Converting files in place`);
+        processDirectory(docsDir, null);
+    }
+    console.log('Conversion complete!');
 }
-console.log('Conversion complete!');
