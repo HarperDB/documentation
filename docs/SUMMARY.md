@@ -138,6 +138,7 @@
     * [4.6.2](technical-details/release-notes/4.tucker/4.6.2.md)
     * [4.6.1](technical-details/release-notes/4.tucker/4.6.1.md)
     * [4.6.0](technical-details/release-notes/4.tucker/4.6.0.md)
+    * [4.5.17](technical-details/release-notes/4.tucker/4.5.17.md)
     * [4.5.16](technical-details/release-notes/4.tucker/4.5.16.md)
     * [4.5.15](technical-details/release-notes/4.tucker/4.5.15.md)
     * [4.5.14](technical-details/release-notes/4.tucker/4.5.14.md)
@@ -240,6 +241,7 @@
     * [4.0.1](technical-details/release-notes/4.tucker/4.0.1.md)
     * [4.0.0](technical-details/release-notes/4.tucker/4.0.0.md)
     * [Tucker](technical-details/release-notes/4.tucker/tucker.md)
+
   * [HarperDB Monkey (Version 3)](technical-details/release-notes/3.monkey/README.md)
     * [3.3.0](technical-details/release-notes/3.monkey/3.3.0.md)
     * [3.2.1](technical-details/release-notes/3.monkey/3.2.1.md)

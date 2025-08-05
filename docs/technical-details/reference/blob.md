@@ -49,6 +49,7 @@ let stream = record.data.stream();
 ```
 
 This can be powerful functionality for large media content, where content can be streamed into storage as it streamed out in real-time to users as it is received.
+
 Alternately, we can also wait for the blob to be fully written to storage before creating a record that references the blob:
 
 ```javascript
@@ -67,12 +68,13 @@ Because blobs can be streamed and referenced prior to their completion, there is
 
 ```javascript
 export class MyEndpoint extends MyTable {
-	let blob = this.data;
-	blob.on('error', () => {
-		// if this was a caching table, we may want to invalidate or delete this record:
-  		this.invalidate();
-	});
 	async get() {
+		let blob = this.data;
+			// this event will be called if the blob had previously been interrupted and is incomplete:
+		blob.on('error', () => {
+			// if this was a caching table, we may want to invalidate or delete this record:
+			this.invalidate();
+		});
 		return {
 			status: 200,
 			headers: {},
