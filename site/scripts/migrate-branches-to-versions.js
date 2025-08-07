@@ -29,6 +29,14 @@ const RELEASE_BRANCHES = [
 ];
 
 // Map branch names to version numbers
+// Version-specific exclusions - paths that shouldn't be migrated
+const VERSION_EXCLUSIONS = {
+    '4.3': ['custom-functions'], // Not in SUMMARY.md, not part of actual docs
+    '4.5': ['getting-started.md'], // Root-level file not in SUMMARY.md for 4.5, causes broken links
+    // Add more version-specific exclusions as needed
+    // '4.4': ['some-other-folder'],
+};
+
 function branchToVersion(branch) {
     return branch.replace('release_', '');
 }
@@ -81,7 +89,7 @@ function restoreState(state) {
 }
 
 // Copy directory recursively
-function copyDirectory(src, dest) {
+function copyDirectory(src, dest, excludePaths = []) {
     fs.mkdirSync(dest, { recursive: true });
     
     const entries = fs.readdirSync(src, { withFileTypes: true });
@@ -89,8 +97,19 @@ function copyDirectory(src, dest) {
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
         
+        // Check if this path should be excluded
+        const shouldExclude = excludePaths.some(excludePath => {
+            const fullExcludePath = path.resolve(src, excludePath);
+            return srcPath === fullExcludePath || srcPath.startsWith(fullExcludePath + path.sep);
+        });
+        
+        if (shouldExclude) {
+            console.log(`  Skipping excluded path: ${srcPath}`);
+            continue;
+        }
+        
         if (entry.isDirectory()) {
-            copyDirectory(srcPath, destPath);
+            copyDirectory(srcPath, destPath, excludePaths);
         } else {
             fs.copyFileSync(srcPath, destPath);
         }
@@ -113,8 +132,15 @@ function processBranch(branch, isLatest = false) {
     
     // Copy docs and images to temp directory
     console.log('Copying docs and images...');
+    
+    // Get version-specific exclusions
+    const excludePaths = VERSION_EXCLUSIONS[version] || [];
+    if (excludePaths.length > 0) {
+        console.log(`  Excluding paths for version ${version}: ${excludePaths.join(', ')}`);
+    }
+    
     if (fs.existsSync(DOCS_DIR)) {
-        copyDirectory(DOCS_DIR, path.join(tempVersionDir, 'docs'));
+        copyDirectory(DOCS_DIR, path.join(tempVersionDir, 'docs'), excludePaths);
     }
     if (fs.existsSync(IMAGES_DIR)) {
         copyDirectory(IMAGES_DIR, path.join(tempVersionDir, 'images'));
@@ -499,23 +525,10 @@ async function migrate() {
             }
         }
         
-        // Move site/docs to replace root docs AFTER switching branches
-        console.log('\nReplacing GitBook docs with converted Docusaurus docs...');
-        const siteDocsPath = path.join(SITE_DIR, 'docs');
-        const rootDocsPath = path.join(REPO_ROOT, 'docs');
-        
-        if (fs.existsSync(siteDocsPath)) {
-            // Remove existing docs
-            if (fs.existsSync(rootDocsPath)) {
-                console.log(`  Removing existing GitBook docs at ${rootDocsPath}`);
-                fs.rmSync(rootDocsPath, { recursive: true, force: true });
-            }
-            
-            // Move site/docs to root docs
-            console.log(`  Moving ${siteDocsPath} to ${rootDocsPath}`);
-            fs.renameSync(siteDocsPath, rootDocsPath);
-            console.log('  ✓ Docs replaced successfully');
-        }
+        // Keep docs in site directory - don't overwrite root docs
+        console.log('\nDocs have been migrated to site directory.');
+        console.log('  Current docs: site/docs');
+        console.log('  Versioned docs: site/versioned_docs');
     }
 }
 

@@ -53,7 +53,7 @@ const config: Config = {
 			{
 				docs: {
 					// Use converted docs from DOCS_PATH or default location
-					path: process.env.DOCS_PATH || '../docs',
+					path: process.env.DOCS_PATH || 'docs',
 					sidebarPath: './sidebars.ts',
 					routeBasePath: 'docs',
 					editUrl: ({ docPath }) => {
@@ -72,7 +72,7 @@ const config: Config = {
 					versions: {
 						current: {
 							label: 'Latest',
-							path: 'latest',
+							path: '',
 						},
 						'4.6': {
 							label: '4.6',
@@ -144,15 +144,15 @@ const config: Config = {
 					items: [
 						{
 							label: 'Getting Started',
-							to: '/docs/latest/getting-started/',
+							to: '/docs/getting-started',
 						},
 						{
 							label: 'Developers',
-							to: '/docs/latest/category/developers',
+							to: '/docs/category/developers',
 						},
 						{
-							label: 'Administration',
-							to: '/docs/latest/category/administration',
+							label: 'Administration', 
+							to: '/docs/administration',
 						},
 					],
 				},

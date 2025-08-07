@@ -33,8 +33,13 @@ if [ ! -d "$SITE_DIR/versioned_docs" ] || [ ! -f "$SITE_DIR/versions.json" ]; th
 fi
 
 # Convert current docs (from main branch) to Docusaurus format
-echo "Converting current docs to Docusaurus format..."
-node "$SCRIPT_DIR/convert-gitbook-to-docusaurus.js" "$REPO_ROOT/docs" "$SITE_DIR/docs"
+# Only do this if we don't already have docs from the migration
+if [ ! -d "$SITE_DIR/docs" ] || [ -z "$(ls -A "$SITE_DIR/docs")" ]; then
+    echo "Converting current docs to Docusaurus format..."
+    node "$SCRIPT_DIR/convert-gitbook-to-docusaurus.js" "$REPO_ROOT/docs" "$SITE_DIR/docs"
+else
+    echo "Docs already exist from version migration, skipping current branch conversion"
+fi
 
 if [ $? -ne 0 ]; then
     echo "Conversion failed!"
