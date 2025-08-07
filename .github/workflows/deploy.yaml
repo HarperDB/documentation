@@ -31,15 +31,40 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Debug - Show directory structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Repository root contents:"
+          ls -la
+          echo "Site directory contents:"
+          ls -la site/ || echo "Site directory not found"
+          echo "Looking for package.json files:"
+          find . -name "package.json" -type f
 
       - name: Install root dependencies
-        run: npm ci
+        run: |
+          echo "Installing root dependencies from $(pwd)"
+          npm ci || (echo "Root npm ci failed, uploading logs" && exit 1)
 
       - name: Install site dependencies
-        run: npm run site:install
+        run: |
+          echo "Installing site dependencies..."
+          npm run site:install || (echo "Site install failed" && exit 1)
 
       - name: Build Docusaurus site
-        run: npm run site:build
+        run: |
+          echo "Building Docusaurus site..."
+          npm run site:build || (echo "Site build failed" && exit 1)
+
+      - name: Upload npm logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: |
+            ~/.npm/_logs/
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
