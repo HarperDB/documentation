@@ -126,6 +126,7 @@
   * [Blob](technical-details/reference/blob.md)
 * [Release Notes](technical-details/release-notes/README.md)
   * [Harper Tucker (Version 4)](technical-details/release-notes/4.tucker/README.md)
+    * [4.5.20](technical-details/release-notes/4.tucker/4.5.20.md)
     * [4.5.19](technical-details/release-notes/4.tucker/4.5.19.md)
     * [4.5.18](technical-details/release-notes/4.tucker/4.5.18.md)
     * [4.5.17](technical-details/release-notes/4.tucker/4.5.17.md)
