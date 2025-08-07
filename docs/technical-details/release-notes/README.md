@@ -12,6 +12,12 @@
 
 [4.6.0 Tucker](4.tucker/4.6.0.md)
 
+[4.5.20 Tucker](4.tucker/4.5.20.md)
+
+[4.5.19 Tucker](4.tucker/4.5.19.md)
+
+[4.5.18 Tucker](4.tucker/4.5.18.md)
+
 [4.5.17 Tucker](4.tucker/4.5.17.md)
 
 [4.5.16 Tucker](4.tucker/4.5.16.md)
