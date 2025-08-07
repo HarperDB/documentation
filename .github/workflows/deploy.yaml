@@ -1,10 +1,22 @@
 name: Deploy Docusaurus to GitHub Pages
 
 on:
+  # Trigger the workflow on pull requests and pushes to specific branches
   pull_request:
   push:
     branches:
       - main
+      - docs-in-hdb
+      - gh-pages-workflow
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these deployments to complete.
+# This shouldn't be necessary for most cases, but it can help avoid conflicts if multiple pushes happen in quick succession.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -32,11 +44,14 @@ jobs:
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build
+          path: site/build
 
   deploy:
-    name: Deploy to GitHub Pages
     needs: build
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    # Only deploy on push to specific branches, not on PRs
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docs-in-hdb' || github.ref == 'refs/heads/gh-pages-workflow')
 
     permissions:
       pages: write
@@ -46,7 +61,6 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    runs-on: ubuntu-latest
 
     steps:
       - name: Deploy to GitHub Pages
