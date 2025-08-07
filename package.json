@@ -8,6 +8,7 @@
 		"site:build": "bash site/scripts/build-local.sh",
 		"site:serve": "bash site/scripts/serve-local.sh",
 		"site:clear": "cd site && npm run clear",
+		"site:reset": "rm -rf site/docs/ site/static/img/v* site/version*",
 		"sync:to-harperdb": "bash site/scripts/sync-and-convert.sh",
 		"sync:to-harperdb:sample": "bash site/scripts/sync-and-convert.sh -s",
 		"sync:to-harperdb:dry": "bash site/scripts/sync-and-convert.sh -d",
