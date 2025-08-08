@@ -58,21 +58,78 @@ function gitExec(command, options = {}) {
 
 // Save current branch and changes
 function saveCurrentState() {
-    const currentBranch = gitExec('rev-parse --abbrev-ref HEAD');
+    let currentBranch = gitExec('rev-parse --abbrev-ref HEAD');
+    const currentCommit = gitExec('rev-parse HEAD');
     const hasChanges = gitExec('status --porcelain');
+    
+    // Check if we're in detached HEAD state (common in CI)
+    if (currentBranch === 'HEAD') {
+        console.log('Detected detached HEAD state (common in CI)');
+        console.log(`Current commit: ${currentCommit}`);
+        
+        // Try to find which branch we're on by checking which branches contain this commit
+        try {
+            const branches = gitExec(`branch -r --contains ${currentCommit}`);
+            console.log('Branches containing current commit:', branches);
+            
+            // In CI, we might want to use the commit hash directly
+            currentBranch = currentCommit;
+            console.log(`Will restore to commit: ${currentCommit}`);
+        } catch (e) {
+            console.log('Could not determine branch from commit');
+        }
+    } else {
+        console.log(`Starting from branch: ${currentBranch}`);
+    }
+    
+    console.log(`Current working directory: ${process.cwd()}`);
     
     if (hasChanges) {
         console.log('Stashing current changes...');
         gitExec('stash push -m "migrate-branches-to-versions temporary stash"');
     }
     
-    return { currentBranch, hasChanges: !!hasChanges };
+    return { 
+        currentBranch, 
+        currentCommit,
+        isDetachedHead: currentBranch === currentCommit,
+        hasChanges: !!hasChanges, 
+        startingDir: process.cwd() 
+    };
 }
 
 // Restore original state
 function restoreState(state) {
-    console.log(`Switching back to ${state.currentBranch}...`);
-    gitExec(`checkout ${state.currentBranch}`);
+    console.log(`\nRestoring original state...`);
+    const currentLocation = gitExec('rev-parse --abbrev-ref HEAD');
+    console.log(`Current location: ${currentLocation}`);
+    console.log(`Current directory: ${process.cwd()}`);
+    
+    if (state.isDetachedHead) {
+        // In CI with detached HEAD, checkout the specific commit
+        console.log(`Restoring to commit: ${state.currentCommit}`);
+        gitExec(`checkout ${state.currentCommit}`);
+        
+        // Verify we're at the right commit
+        const actualCommit = gitExec('rev-parse HEAD');
+        if (actualCommit !== state.currentCommit) {
+            console.error(`Warning: Expected commit ${state.currentCommit} but at ${actualCommit}`);
+        } else {
+            console.log(`✓ Successfully restored to commit ${state.currentCommit}`);
+        }
+    } else {
+        // Normal branch checkout
+        console.log(`Switching back to branch: ${state.currentBranch}...`);
+        gitExec(`checkout ${state.currentBranch}`);
+        
+        // Verify we're on the right branch
+        const actualBranch = gitExec('rev-parse --abbrev-ref HEAD');
+        if (actualBranch !== state.currentBranch) {
+            console.error(`Warning: Expected to be on ${state.currentBranch} but actually on ${actualBranch}`);
+        } else {
+            console.log(`✓ Successfully restored to branch ${state.currentBranch}`);
+        }
+    }
     
     if (state.hasChanges) {
         console.log('Restoring stashed changes...');
@@ -516,6 +573,35 @@ async function migrate() {
     } finally {
         // Restore original state
         restoreState(originalState);
+        
+        // After switching back, ensure the site directory exists
+        // In CI, switching branches might have removed it
+        console.log(`\nChecking if site directory exists at: ${SITE_DIR}`);
+        if (!fs.existsSync(SITE_DIR)) {
+            console.error('\n⚠️  Warning: Site directory was removed during branch switching.');
+            console.error(`Expected site directory at: ${SITE_DIR}`);
+            console.error('This can happen in CI when switching to older branches.');
+            console.error('The site directory should be restored by Git, but it may not be immediate.');
+            
+            // Try to force Git to restore the directory
+            console.log('Attempting to restore site directory from Git...');
+            try {
+                gitExec('checkout HEAD -- site');
+                console.log('✓ Restored site directory from Git');
+                
+                // Verify it was restored
+                if (fs.existsSync(SITE_DIR)) {
+                    console.log('✓ Site directory now exists');
+                } else {
+                    console.error('✗ Site directory still missing after restore attempt');
+                }
+            } catch (e) {
+                console.error('Could not restore site directory:', e.message);
+                console.error('Git may not have the site directory in the current branch');
+            }
+        } else {
+            console.log('✓ Site directory exists');
+        }
         
         // Update and write docusaurus config after returning to original branch
         if (docusaurusConfig && fs.existsSync(DOCUSAURUS_CONFIG_PATH)) {
