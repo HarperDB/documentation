@@ -181,7 +181,8 @@ const BROKEN_LINKS = {
         'deployments/harper-cloud/alarms.md',
         'deployments/harper-cloud/instance-size-hardware-specs.md',
         'deployments/harper-cloud/iops-impact.md',
-        'deployments/harper-cloud/verizon-5g-wavelength-instances.md'
+        'deployments/harper-cloud/verizon-5g-wavelength-instances.md',
+        'content-types.md'
     ],
     
     byVersion: {
@@ -923,16 +924,34 @@ function applyVersionSpecificFixes(content, filePath, version) {
         // Alarms links should work correctly with harper-studio name
     }
     
-    // Add general fixes for all versions >= 4.2
-    if (version && parseFloat(version) >= 4.2) {
+    // Add general fixes for all versions >= 4.1
+    if (version && parseFloat(version) >= 4.1) {
         // Fix broken-reference links (these should be removed as they're GitBook artifacts)
         content = content.replace(/\]\(broken-reference\)/g, '');
         
-        // Additional comprehensive fixes for all 4.2+ versions
-        // Fix getting-started/getting-started links (should just be getting-started/)
-        content = content.replace(/\/getting-started\/getting-started/g, '/getting-started/');
-        content = content.replace(/\.\.\/getting-started\/getting-started/g, '../getting-started/');
-        content = content.replace(/\.\.\/\.\.\/getting-started\/getting-started/g, '../../getting-started/');
+        // Fix getting-started/getting-started patterns BEFORE adding ./ prefix
+        // These patterns should just be getting-started/
+        // Match the pattern anywhere in the link, not just in parentheses
+        content = content.replace(/getting-started\/getting-started\.md/g, 'getting-started/');
+        content = content.replace(/getting-started\/getting-started(?![-\w])/g, 'getting-started/');
+        
+        // Fix logging links in administration/logging index files BEFORE adding ./ prefix
+        if (filePath.includes('/administration/logging/') && (filePath.endsWith('/index.md') || filePath.endsWith('/README.md'))) {
+            content = content.replace(/\]\(logging\.md\)/g, '](standard-logging.md)');
+            content = content.replace(/\]\(logging\)/g, '](standard-logging)');
+            modified = true;
+        }
+        
+        // Fix relative paths that don't start with ./ or ../ or / or http
+        // This ensures all relative links are properly formatted for Docusaurus
+        content = content.replace(/\]\(([^.\/\#\)][^:)]*)\)/g, (match, path) => {
+            // Skip if it's an external link or anchor
+            if (path.includes('://') || path.startsWith('http')) {
+                return match;
+            }
+            modified = true;
+            return `](./${path})`;
+        });
         
         // Fix double administration paths
         content = content.replace(/\/administration\/administration\//g, '/administration/');
@@ -1201,6 +1220,10 @@ function fixLinks(content, filePath, version) {
                 return `${marker}[${linkText}](standard-logging.md)`;
             });
         }
+        // Also handle the case where .md was already removed and ./ was added
+        content = content.replace(/\]\(\.\/logging\)/g, '](./standard-logging)');
+        // And handle case where just 'logging' without .md
+        content = content.replace(/\]\(logging\)/g, '](standard-logging)');
     }
     
     // Fix links to logging/logging.md throughout all files (should be logging/standard-logging.md)
@@ -1212,11 +1235,28 @@ function fixLinks(content, filePath, version) {
         });
     }
     
-    // Remove .md extensions from internal links
-    content = content.replace(/(\[[^\]]+\]\()([^)]+)(\.md)([)#])/g, (match, prefix, path, ext, suffix) => {
-        if (!path.includes('http://') && !path.includes('https://')) {
+    // Remove .md extensions from internal links - comprehensive fix
+    // This handles all markdown link patterns with .md extensions
+    content = content.replace(/(\[[^\]]+\]\()([^)]+\.md)([\)#])/g, (match, prefix, pathWithExt, suffix) => {
+        // Only process if it's not an external link
+        if (!pathWithExt.includes('http://') && !pathWithExt.includes('https://')) {
             modified = true;
-            return prefix + path + suffix;
+            // Remove the .md extension
+            const pathWithoutExt = pathWithExt.replace(/\.md$/, '');
+            return prefix + pathWithoutExt + suffix;
+        }
+        return match;
+    });
+    
+    // Also handle .md extensions in HTML links within tables (GitBook specific)
+    // This pattern catches href attributes in <a> tags
+    content = content.replace(/(<a\s+[^>]*href=")([^"]+\.md)(")/g, (match, prefix, pathWithExt, suffix) => {
+        // Only process if it's not an external link
+        if (!pathWithExt.includes('http://') && !pathWithExt.includes('https://')) {
+            modified = true;
+            // Remove the .md extension
+            const pathWithoutExt = pathWithExt.replace(/\.md$/, '');
+            return prefix + pathWithoutExt + suffix;
         }
         return match;
     });
@@ -1644,10 +1684,32 @@ function processDirectory(dirPath, targetDirPath, docsDir = dirPath, outputDir =
     // Create category file if needed
     createCategoryFile(dirPath, targetDirPath);
     
+    // Check if we have both index.md and README.md, and prefer README if index is blank
+    const hasIndex = entries.some(e => e.name === 'index.md');
+    const hasReadme = entries.some(e => e.name === 'README.md');
+    
+    if (hasIndex && hasReadme) {
+        const indexPath = path.join(dirPath, 'index.md');
+        const indexContent = fs.readFileSync(indexPath, 'utf8');
+        
+        // Check if index.md is essentially blank (contains only the comment about blank index)
+        if (indexContent.includes('blank index file needed to avoid "index" being added to URLs') || 
+            indexContent.trim().length < 50) {
+            // Remove the blank index.md so README.md will be used instead
+            fs.unlinkSync(indexPath);
+            console.log(`  Removed blank index.md in favor of README.md in ${dirPath}`);
+        }
+    }
+    
     // Process entries
     for (const entry of entries) {
         let entryName = entry.name;
         let actualSourcePath = path.join(dirPath, entry.name);
+        
+        // Skip if this was the blank index.md we just removed
+        if (!fs.existsSync(actualSourcePath)) {
+            continue;
+        }
         
         // Fix directories starting with numbers (webpack issue)
         // Rename them to prefix with 'v' (e.g., '1.alby' -> 'v1-alby')
