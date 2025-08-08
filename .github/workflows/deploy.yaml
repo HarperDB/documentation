@@ -1,0 +1,92 @@
+name: Deploy Docusaurus to GitHub Pages
+
+on:
+  # Trigger the workflow on pull requests and pushes to specific branches
+  pull_request:
+  push:
+    branches:
+      - main
+      - docs-in-hdb
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these deployments to complete.
+# This shouldn't be necessary for most cases, but it can help avoid conflicts if multiple pushes happen in quick succession.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build Docusaurus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: 'package-lock.json'
+
+      - name: Debug - Show directory structure
+        run: |
+          echo "Current directory: $(pwd)"
+          echo "Repository root contents:"
+          ls -la
+          echo "Site directory contents:"
+          ls -la site/ || echo "Site directory not found"
+          echo "Looking for package.json files:"
+          find . -name "package.json" -type f
+
+      - name: Install root dependencies
+        run: |
+          echo "Installing root dependencies from $(pwd)"
+          npm ci || (echo "Root npm ci failed, uploading logs" && exit 1)
+
+      - name: Install site dependencies
+        run: |
+          echo "Installing site dependencies..."
+          npm run site:install || (echo "Site install failed" && exit 1)
+
+      - name: Build Docusaurus site
+        run: |
+          echo "Building Docusaurus site..."
+          npm run site:build || (echo "Site build failed" && exit 1)
+
+      - name: Upload npm logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: npm-logs
+          path: |
+            ~/.npm/_logs/
+
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/build
+
+  deploy:
+    needs: build
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    # Only deploy on push to specific branches, not on PRs
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/docs-in-hdb')
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
