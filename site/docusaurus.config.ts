@@ -70,7 +70,7 @@ const config: Config = {
 					lastVersion: 'current',
 					includeCurrentVersion: true,
 					versions: {
-						current: {
+						'current': {
 							label: 'Latest',
 							path: '',
 						},
@@ -109,7 +109,7 @@ const config: Config = {
 
 	themeConfig: {
 		// Replace with your project's social card
-		// image: 'img/docusaurus-social-card.jpg',
+		image: 'img/HarperOpenGraph.jpg',
 		navbar: {
 			logo: {
 				alt: 'Harper Logo',
