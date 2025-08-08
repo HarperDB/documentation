@@ -53,8 +53,11 @@ jobs:
           npm run site:install || (echo "Site install failed" && exit 1)
 
       - name: Build Docusaurus site
+        env:
+          DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
         run: |
           echo "Building Docusaurus site..."
+          echo "Using DOCUSAURUS_BASE_URL: $DOCUSAURUS_BASE_URL"
           npm run site:build || (echo "Site build failed" && exit 1)
 
       - name: Upload npm logs on failure
