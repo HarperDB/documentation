@@ -20,6 +20,18 @@ if (process.env.NODE_ENV === 'production') {
 	scripts.push({ src: 'js/reo.js' });
 }
 
+// Determine base URL from environment variable or use defaults
+// For GitHub Pages deployment: DOCUSAURUS_BASE_URL=/documentation/
+// For local development: DOCUSAURUS_BASE_URL=/ (or unset)
+// Can also be set via command line: npm run build -- --base-url /documentation/
+const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/';
+
+// URL can also be overridden if needed
+const url = process.env.DOCUSAURUS_URL || 'https://docs.harperdb.io';
+
+// Always log configuration at build time
+console.log('Docusaurus URL config:', { url, baseUrl });
+
 const config: Config = {
 	title: 'Harper Docs',
 	tagline:
@@ -32,9 +44,9 @@ const config: Config = {
 	},
 
 	// Set the production url of your site here
-	url: 'https://docs.harperdb.io',
+	url: url,
 	// Set the /<baseUrl>/ pathname under which your site is served
-	baseUrl: '/',
+	baseUrl: baseUrl,
 
 	// Serve images from the repository root or from env var path
 	staticDirectories: process.env.IMAGES_PATH ? ['static', process.env.IMAGES_PATH] : ['static', '../images'],
