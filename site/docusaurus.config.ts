@@ -46,7 +46,7 @@ const config: Config = {
 	// Set the production url of your site here
 	url: url,
 	// Set the /<baseUrl>/ pathname under which your site is served
-	baseUrl: baseUrl,
+	baseUrl,
 
 	// Serve images from the repository root or from env var path
 	staticDirectories: process.env.IMAGES_PATH ? ['static', process.env.IMAGES_PATH] : ['static', '../images'],
@@ -67,7 +67,8 @@ const config: Config = {
 					// Use converted docs from DOCS_PATH or default location
 					path: process.env.DOCS_PATH || 'docs',
 					sidebarPath: './sidebars.ts',
-					routeBasePath: 'docs',
+					// Docs are always at the root of the baseUrl
+					routeBasePath: '/',
 					editUrl: ({ docPath }) => {
 						// Find where docs/ starts in the path and use everything from there
 						const docsIndex = docPath.indexOf('docs/');
@@ -156,15 +157,15 @@ const config: Config = {
 					items: [
 						{
 							label: 'Getting Started',
-							to: '/docs/getting-started',
+							to: '/getting-started',
 						},
 						{
 							label: 'Developers',
-							to: '/docs/category/developers',
+							to: '/category/developers',
 						},
 						{
 							label: 'Administration', 
-							to: '/docs/administration',
+							to: '/administration',
 						},
 					],
 				},
