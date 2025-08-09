@@ -1272,6 +1272,75 @@ function fixLinks(content, filePath, version) {
 }
 
 /**
+ * Convert GitBook card tables to Docusaurus-compatible card layout
+ */
+function convertGitBookCards(content) {
+    let modified = false;
+    
+    // Match GitBook card tables
+    const cardTablePattern = /<table[^>]*data-view="cards"[^>]*>[\s\S]*?<\/table>/g;
+    
+    content = content.replace(cardTablePattern, (match) => {
+        modified = true;
+        
+        // Extract card data from the table
+        const cards = [];
+        const rowPattern = /<tr>[\s\S]*?<\/tr>/g;
+        const rows = match.match(rowPattern) || [];
+        
+        // Skip header row
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            
+            // Extract cells from row
+            const cellPattern = /<td>[\s\S]*?<\/td>/g;
+            const cells = row.match(cellPattern) || [];
+            
+            if (cells.length >= 2) {
+                // First cell contains the link and title
+                const titleCell = cells[0];
+                const titleMatch = titleCell.match(/<a[^>]*href="([^"]*)"[^>]*><strong>(.*?)<\/strong><\/a>/);
+                
+                // Second cell contains the description
+                const descCell = cells[1];
+                const descMatch = descCell.match(/<td>(.*?)<\/td>/);
+                
+                if (titleMatch && descMatch) {
+                    cards.push({
+                        href: titleMatch[1],
+                        title: titleMatch[2],
+                        description: descMatch[1]
+                    });
+                }
+            }
+        }
+        
+        // Generate simplified card grid
+        // Using a simple grid layout that will work with Docusaurus
+        let cardHtml = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin: 2rem 0;">\n';
+        
+        for (const card of cards) {
+            cardHtml += `  <div style="border: 1px solid #e0e0e0; border-radius: 8px; padding: 1.5rem; transition: box-shadow 0.2s;">
+    <h3 style="margin-top: 0;">
+      <a href="${card.href}" style="text-decoration: none; color: inherit;">
+        ${card.title}
+      </a>
+    </h3>
+    <p style="margin-bottom: 0; color: #666;">
+      ${card.description}
+    </p>
+  </div>\n`;
+        }
+        
+        cardHtml += '</div>';
+        
+        return cardHtml;
+    });
+    
+    return { content, modified };
+}
+
+/**
  * Main conversion function
  */
 function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
@@ -1292,32 +1361,37 @@ function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
     // Apply conversions in order
     let result;
     
-    // 1. GitBook syntax conversion
+    // 1. GitBook cards conversion (do this early before other HTML processing)
+    result = convertGitBookCards(content);
+    content = result.content;
+    totalModified = totalModified || result.modified;
+    
+    // 2. GitBook syntax conversion
     result = convertGitBookSyntax(content);
     content = result.content;
     totalModified = totalModified || result.modified;
     
-    // 2. MDX syntax fixes
+    // 3. MDX syntax fixes
     result = fixMDXSyntax(content, filePath);
     content = result.content;
     totalModified = totalModified || result.modified;
     
-    // 3. Image path fixes
+    // 4. Image path fixes
     result = fixImagePaths(content, version);
     content = result.content;
     totalModified = totalModified || result.modified;
     
-    // 4. Version-specific fixes FIRST (before general fixes)
+    // 5. Version-specific fixes FIRST (before general fixes)
     result = applyVersionSpecificFixes(content, filePath, version);
     content = result.content;
     totalModified = totalModified || result.modified;
     
-    // 5. General link fixes (after version-specific)
+    // 6. General link fixes (after version-specific)
     result = fixLinks(content, filePath, version);
     content = result.content;
     totalModified = totalModified || result.modified;
     
-    // 6. Release notes processing
+    // 7. Release notes processing
     result = processReleaseNotes(content, filePath, version);
     content = result.content;
     totalModified = totalModified || result.modified;
