@@ -1748,6 +1748,12 @@ function processDirectory(dirPath, targetDirPath, docsDir = dirPath, outputDir =
             : null;
         
         if (entry.isDirectory()) {
+            // Skip custom-functions directory for versions 4.2+ (doesn't exist in live docs, use redirects)
+            // But keep it for version 4.1 which needs it for its sidebar
+            if (entry.name === 'custom-functions' && options?.version && options.version !== '4.1') {
+                console.log(`  Skipping custom-functions directory for version ${options.version} (will use redirects instead)`);
+                continue;
+            }
             processDirectory(actualSourcePath, targetPath, docsDir, outputDir, options);
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
             convertFile(actualSourcePath, targetPath, docsDir, outputDir, options);
