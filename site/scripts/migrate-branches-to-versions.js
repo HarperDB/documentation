@@ -31,10 +31,13 @@ const RELEASE_BRANCHES = [
 // Map branch names to version numbers
 // Version-specific exclusions - paths that shouldn't be migrated
 const VERSION_EXCLUSIONS = {
+    // '4.1': [], // Version 4.1 needs custom-functions for its sidebar structure
+    '4.2': ['custom-functions'], // Custom functions deprecated, use redirects instead
     '4.3': ['custom-functions'], // Not in SUMMARY.md, not part of actual docs
-    '4.5': ['getting-started.md'], // Root-level file not in SUMMARY.md for 4.5, causes broken links
+    '4.4': ['custom-functions'], // Custom functions deprecated, use redirects instead
+    '4.5': ['getting-started.md', 'custom-functions'], // Root-level file not in SUMMARY.md for 4.5, custom functions deprecated
+    '4.6': ['custom-functions'], // Custom functions deprecated, use redirects instead
     // Add more version-specific exclusions as needed
-    // '4.4': ['some-other-folder'],
 };
 
 function branchToVersion(branch) {
@@ -220,6 +223,21 @@ function processBranch(branch, isLatest = false) {
         process.env.IMAGES_PATH = originalImagesPath;
     } else {
         delete process.env.IMAGES_PATH;
+    }
+    
+    // Fix version-specific broken links
+    if (version !== '4.1') {
+        // Fix the link to custom-functions/define-helpers in define-routes.md
+        const defineRoutesPath = path.join(outputPath, 'developers', 'applications', 'define-routes.md');
+        if (fs.existsSync(defineRoutesPath)) {
+            console.log(`Fixing broken link in define-routes.md for version ${version}...`);
+            let content = fs.readFileSync(defineRoutesPath, 'utf8');
+            content = content.replace(
+                '[Define Helpers](../../custom-functions/define-helpers)',
+                '[Helper Methods](#helper-methods)'
+            );
+            fs.writeFileSync(defineRoutesPath, content);
+        }
     }
     
     // Always create versioned docs
