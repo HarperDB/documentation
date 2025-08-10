@@ -86,11 +86,9 @@ const config: Config = {
 					versions: {
 						'current': {
 							label: 'Latest',
-							path: '',
 						},
 						'4.6': {
-							label: '4.6',
-							banner: 'none',
+							banner: 'none', // No banner for this version
 						},
 					},
 					remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],

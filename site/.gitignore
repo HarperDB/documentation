@@ -4,6 +4,9 @@
 # Production
 /build
 
+# Latest (/docs/) is a build time copy of the latest version
+/docs
+
 # Generated files
 .docusaurus
 .cache-loader

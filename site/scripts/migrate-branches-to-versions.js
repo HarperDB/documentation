@@ -177,7 +177,7 @@ function copyDirectory(src, dest, excludePaths = []) {
 }
 
 // Process a single release branch
-function processBranch(branch, isLatest = false) {
+function processBranch(branch) {
     const version = branchToVersion(branch);
     console.log(`\n=== Processing ${branch} (version ${version}) ===`);
     
@@ -248,14 +248,6 @@ function processBranch(branch, isLatest = false) {
     
     // Generate sidebar for this version
     generateVersionedSidebar(version, versionedPath);
-    
-    // If this is the latest version, ALSO copy to main docs directory
-    if (isLatest) {
-        console.log('Also copying latest version to main docs directory...');
-        const mainDocsPath = path.join(SITE_DIR, 'docs');
-        fs.rmSync(mainDocsPath, { recursive: true, force: true });
-        copyDirectory(outputPath, mainDocsPath);
-    }
     
     // Copy images to static directory with version prefix
     const versionedImagesPath = path.join(SITE_DIR, 'static', 'img', `v${version}`);
@@ -556,10 +548,9 @@ async function migrate() {
         const versions = [];
         for (let i = 0; i < RELEASE_BRANCHES.length; i++) {
             const branch = RELEASE_BRANCHES[i];
-            const isLatest = i === RELEASE_BRANCHES.length - 1;
             
             try {
-                const version = processBranch(branch, isLatest);
+                const version = processBranch(branch);
                 versions.push(version); // Add all versions, including the latest
             } catch (error) {
                 console.error(`Failed to process ${branch}:`, error.message);
@@ -569,6 +560,45 @@ async function migrate() {
         
         // Generate versions.json
         generateVersionsJson(versions);
+        
+        // Process main branch docs (current/vNext content) and convert them in-place
+        console.log('\n=== Processing main branch docs (current/vNext) ===');
+        console.log('Converting main branch /docs from GitBook to Docusaurus format (in-place)...');
+        
+        if (fs.existsSync(DOCS_DIR)) {
+            // Create temp directory for main branch conversion
+            const tempMainDir = path.join(TEMP_DIR, 'main-branch');
+            fs.mkdirSync(tempMainDir, { recursive: true });
+            
+            // Copy main branch docs and images to temp
+            copyDirectory(DOCS_DIR, path.join(tempMainDir, 'docs'));
+            if (fs.existsSync(IMAGES_DIR)) {
+                copyDirectory(IMAGES_DIR, path.join(tempMainDir, 'images'));
+            }
+            
+            // Set IMAGES_PATH for conversion
+            const originalImagesPath = process.env.IMAGES_PATH;
+            process.env.IMAGES_PATH = path.join(tempMainDir, 'images');
+            
+            // Convert main branch docs
+            const mainDocsInput = path.join(tempMainDir, 'docs');
+            const mainDocsOutput = path.join(tempMainDir, 'converted-docs');
+            convertGitBookToDocusaurus(mainDocsInput, mainDocsOutput, mainDocsInput, mainDocsOutput);
+            
+            // Replace root /docs with converted version
+            console.log('Replacing root /docs with converted Docusaurus format...');
+            fs.rmSync(DOCS_DIR, { recursive: true, force: true });
+            copyDirectory(mainDocsOutput, DOCS_DIR);
+            
+            // Restore IMAGES_PATH
+            if (originalImagesPath) {
+                process.env.IMAGES_PATH = originalImagesPath;
+            } else {
+                delete process.env.IMAGES_PATH;
+            }
+            
+            console.log('✓ Main branch /docs converted to Docusaurus format (in-place)');
+        }
         
         // Clean up temp directory
         console.log('\nCleaning up temporary files...');
