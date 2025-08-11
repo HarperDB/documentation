@@ -81,12 +81,9 @@ const config: Config = {
 						// Fallback if docs/ is not found
 						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 					},
-					lastVersion: 'current',
-					includeCurrentVersion: true,
+					lastVersion: '4.6',
+					includeCurrentVersion: false,
 					versions: {
-						'current': {
-							label: 'Latest',
-						},
 						'4.6': {
 							banner: 'none', // No banner for this version
 						},
