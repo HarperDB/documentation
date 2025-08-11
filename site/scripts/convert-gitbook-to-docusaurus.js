@@ -638,9 +638,9 @@ function applyVersionSpecificFixes(content, filePath, version) {
         
         // Fix paths in developers/applications
         if (filePath.includes('/developers/applications/')) {
-            // Fix relative paths to resources - use correct singular form for 4.2
-            content = content.replace(/\/docs\/technical-details\/reference\/resources/g, '/4.2/technical-details/reference/resource');
-            content = content.replace(/\/technical-details\/reference\/resources/g, '/4.2/technical-details/reference/resource');
+            // Fix relative paths to resources - use correct singular form and relative paths
+            content = content.replace(/\/docs\/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
+            content = content.replace(/\/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
             // Fix relative paths within applications
             content = content.replace(/\.\.\/\.\.\/developers\/applications\//g, './');
             content = content.replace(/\.\.\/developers\/applications\//g, './');
@@ -666,19 +666,21 @@ function applyVersionSpecificFixes(content, filePath, version) {
             content = content.replace(/\.\/developers\/applications\//g, '../applications/');
             content = content.replace(/\.\.\/\/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
             content = content.replace(/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
-            content = content.replace(/\/docs\/technical-details\/reference\/resources/g, '/4.2/technical-details/reference/resource');
-            content = content.replace(/\/technical-details\/reference\/resources/g, '/4.2/technical-details/reference/resource');
+            // Fix resource reference links - use relative paths
+            content = content.replace(/\/docs\/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
+            content = content.replace(/\/technical-details\/reference\/resources/g, '../../technical-details/reference/resource');
             // Fix writing-extensions resource link
             content = content.replace(/\.\.\/\.\.\/\.\.\/reference\/resource/g, '../../technical-details/reference/resource');
-            // Fix incorrect references to harperdb-cloud and harperdb-studio
-            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-cloud\//g, '/4.2/deployments/harperdb-cloud/');
-            content = content.replace(/\.\.\/\.\.\/\.\.\/administration\/harperdb-studio\//g, '/4.2/administration/harperdb-studio/');
+            // Fix incorrect references to harperdb-cloud and harperdb-studio - use relative paths
+            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-cloud\//g, '../../deployments/harperdb-cloud/');
+            content = content.replace(/\.\.\/\.\.\/\.\.\/administration\/harperdb-studio\//g, '../../administration/harperdb-studio/');
             modified = true;
         }
         
-        // Fix configuration links for clustering
+        // Fix configuration links for clustering - use relative paths
         if (filePath.includes('/clustering/') || filePath.includes('/security/')) {
-            content = content.replace(/\.\.\/\.\.\/developers\/configuration/g, '/4.2/deployments/configuration');
+            // Configuration moved from developers to deployments - fix the path
+            content = content.replace(/\.\.\/\.\.\/developers\/configuration/g, '../../deployments/configuration');
             modified = true;
         }
         
@@ -696,8 +698,8 @@ function applyVersionSpecificFixes(content, filePath, version) {
         // Fix define-routes in custom-functions
         if (filePath.includes('/custom-functions/')) {
             // Fix various define-routes patterns - the file moved to developers/applications
-            // Use absolute paths since relative paths across sections don't work properly
-            content = content.replace(/\]\(\.\.\/\.\.\/developers\/applications\/define-routes\)/g, '](/4.3/developers/applications/define-routes)');
+            // Use relative paths
+            content = content.replace(/\]\(\.\.\/\.\.\/developers\/applications\/define-routes\)/g, '](../../developers/applications/define-routes)');
             content = content.replace(/\]\(define-routes\.md\)/g, '](../developers/applications/define-routes)');
             content = content.replace(/\]\(define-routes\)/g, '](../developers/applications/define-routes)');
             content = content.replace(/\]\(\.\/define-routes\)/g, '](../developers/applications/define-routes)');
@@ -733,14 +735,16 @@ function applyVersionSpecificFixes(content, filePath, version) {
             content = content.replace(/\.\.\/\.\.\/\.\.\/reference\/resource\.md/g, '../../technical-details/reference/resource');
             content = content.replace(/\.\.\/\.\.\/\.\.\/reference\/resource/g, '../../technical-details/reference/resource');
             // Fix incorrect references to harperdb-cloud and harperdb-studio
-            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-cloud\//g, '/4.3/deployments/harperdb-cloud/');
-            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-studio\//g, '/4.3/administration/harperdb-studio/');
+            // From /developers/components/ these should be ../../ not ../../../
+            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-cloud\//g, '../../deployments/harperdb-cloud/');
+            content = content.replace(/\.\.\/\.\.\/\.\.\/harperdb-studio\//g, '../../administration/harperdb-studio/');
             modified = true;
         }
         
         // Fix configuration links for clustering
         if (filePath.includes('/clustering/') || filePath.includes('/security/')) {
-            content = content.replace(/\.\.\/\.\.\/developers\/configuration/g, '/4.3/deployments/configuration');
+            // Configuration moved from developers to deployments - fix the path
+            content = content.replace(/\.\.\/\.\.\/developers\/configuration/g, '../../deployments/configuration');
             modified = true;
         }
         
@@ -750,15 +754,21 @@ function applyVersionSpecificFixes(content, filePath, version) {
             modified = true;
         }
         
-        // Fix REST configuration link - needs absolute path to stay within version
+        // Fix REST configuration link - use relative path
         if (filePath.includes('/developers/rest')) {
-            content = content.replace(/\]\(\.\.\/\.\.\/deployments\/configuration\.md#http\)/g, '](/4.3/deployments/configuration#http)');
-            content = content.replace(/\]\(\.\.\/\.\.\/deployments\/configuration#http\)/g, '](/4.3/deployments/configuration#http)');
+            content = content.replace(/\]\(\.\.\/\.\.\/deployments\/configuration\.md#http\)/g, '](../../deployments/configuration#http)');
+            content = content.replace(/\]\(\.\.\/\.\.\/deployments\/configuration#http\)/g, '](../../deployments/configuration#http)');
             modified = true;
         }
         
-        // Fix release notes numbered directory links
+        // Fix release notes numbered directory links and paths
         if (filePath.includes('/technical-details/release-notes/')) {
+            // Fix paths that go up too many levels (../../../../ should be ../../../)
+            // These would escape the version boundary
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/deployments\//g, '](../../../deployments/');
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/developers\//g, '](../../../developers/');
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/administration\//g, '](../../../administration/');
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/technical-details\//g, '](../../../technical-details/');
             // These directories get renamed to v#-name format
             // Handle both patterns with and without technical-details
             content = content.replace(/\.\.\/\.\.\/technical-details\/release-notes\/4\.tucker/g, './v4-tucker');
@@ -770,6 +780,16 @@ function applyVersionSpecificFixes(content, filePath, version) {
             content = content.replace(/\.\.\/\.\.\/release-notes\/3\.monkey/g, './v3-monkey');
             content = content.replace(/\.\.\/\.\.\/release-notes\/2\.penny/g, './v2-penny');
             content = content.replace(/\.\.\/\.\.\/release-notes\/1\.alby/g, './v1-alby');
+            modified = true;
+        }
+    }
+    
+    if (version === '4.6') {
+        // Fix release notes configuration links that escape the version
+        if (filePath.includes('/technical-details/release-notes/')) {
+            // These links should stay within the version
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/deployments\/configuration/g, '](../../../deployments/configuration');
+            content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/deployments\/configuration/g, '](../../../deployments/configuration');
             modified = true;
         }
     }
@@ -838,10 +858,10 @@ function applyVersionSpecificFixes(content, filePath, version) {
             
             // Fix first-harper-app links
             content = content.replace(/\]\(defining-schemas/g, '](../developers/applications/defining-schemas');
-            // Fix graphql link to include version
+            // Fix graphql link with relative path
             if (filePath.includes('/first-harper-app')) {
-                content = content.replace(/\]\(\.\.\/\.\.\/technical-details\/reference\/graphql\.md\)/g, '](/4.5/technical-details/reference/graphql)');
-                content = content.replace(/\]\(\.\.\/\.\.\/technical-details\/reference\/graphql\)/g, '](/4.5/technical-details/reference/graphql)');
+                content = content.replace(/\]\(\.\.\/\.\.\/technical-details\/reference\/graphql\.md\)/g, '](../../technical-details/reference/graphql)');
+                content = content.replace(/\]\(\.\.\/\.\.\/technical-details\/reference\/graphql\)/g, '](../../technical-details/reference/graphql)');
             }
             modified = true;
         }
@@ -970,65 +990,131 @@ function applyVersionSpecificFixes(content, filePath, version) {
             content = content.replace(/\.\.\/\.\.\/release-notes\//g, '../../technical-details/release-notes/');
             
             // Fix component links to point to the correct version's documentation
-            // 4.2.0 release notes should link to 4.2 docs, 4.5.0 to 4.5 docs, etc.
+            // 4.2.0 release notes should use relative paths
             if (filePath.includes('/4.2.0')) {
-                // Link to 4.2 docs where components directory exists (with or without trailing slash)
-                content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/?\)/g, '](/4.2/developers/components)');
+                // Use relative path to components directory (with or without trailing slash)
+                content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/?\)/g, '](../../../developers/components)');
             }
             // For 4.5.0 release notes, fix the built-in component link
             // This appears in multiple versions, so we need to fix it everywhere
             if (filePath.includes('/4.5.0')) {
-                // Replace all variations of the built-in link to point to 4.5 docs
+                // Replace all variations of the built-in link with relative paths
                 // Handle both with and without .md extension
-                content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/built-in(?:\.md)?\)/g, '](/4.5/developers/components/built-in)');
+                content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/built-in(?:\.md)?\)/g, '](../../../developers/components/built-in)');
                 modified = true;
             }
             // For older versions (4.2-4.5), the links within their own version are fine as-is
             
-            // For other component paths with specific files (keep absolute paths for cross-version links)
-            content = content.replace(/\.\.\/\.\.\/developers\/components\//g, `/docs/${version}/developers/components/`);
-            content = content.replace(/\.\.\/\.\.\/developers\/applications\//g, `/docs/${version}/developers/applications/`);
-            content = content.replace(/\.\.\/\.\.\/developers\/real-time/g, `/docs/${version}/developers/real-time`);
-            content = content.replace(/\.\.\/\.\.\/developers\/rest/g, `/docs/${version}/developers/rest`);
-            content = content.replace(/\.\.\/\.\.\/administration\//g, `/docs/${version}/administration/`);
-            
-            // Fix broken administration links
-            content = content.replace(/\.\.\/\.\.\/\.\.\/administration\/administration\//g, `/docs/${version}/administration/`);
-            
-            // Fix cross-version release notes links - these reference specific features in specific versions
-            // For 4.2.0 release notes
-            if (filePath.includes('/4.2.0')) {
-                // Components don't exist in 4.2 or 4.3, they were introduced in 4.6
-                // Update these links to point to 4.6 where the documentation actually exists
-                content = content.replace(/\/docs\/4\.2\/technical-details\/reference\/components\//g, '/4.6/technical-details/reference/components/');
-                content = content.replace(/\/docs\/4\.3\/technical-details\/reference\/components\/extensions/g, '/4.6/technical-details/reference/components/extensions');
+            // For other component paths with specific files - use relative paths
+            // When version is provided, we're in versioned docs; otherwise we're in unversioned/latest docs
+            if (version) {
+                // In versioned docs, use relative paths
+                content = content.replace(/\.\.\/\.\.\/developers\/components\//g, `../../../developers/components/`);
+                content = content.replace(/\.\.\/\.\.\/developers\/applications\//g, `../../../developers/applications/`);
+                content = content.replace(/\.\.\/\.\.\/developers\/real-time/g, `../../../developers/real-time`);
+                content = content.replace(/\.\.\/\.\.\/developers\/rest/g, `../../../developers/rest`);
+                content = content.replace(/\.\.\/\.\.\/administration\//g, `../../../administration/`);
+            } else {
+                // In unversioned docs, also use relative paths
+                content = content.replace(/\.\.\/\.\.\/developers\/components\//g, `../../developers/components/`);
+                content = content.replace(/\.\.\/\.\.\/developers\/applications\//g, `../../developers/applications/`);
+                content = content.replace(/\.\.\/\.\.\/developers\/real-time/g, `../../developers/real-time`);
+                content = content.replace(/\.\.\/\.\.\/developers\/rest/g, `../../developers/rest`);
+                content = content.replace(/\.\.\/\.\.\/administration\//g, `../../administration/`);
             }
             
-            // For 4.3.0 release notes
-            if (filePath.includes('/4.3.0')) {
+            // Fix broken administration links
+            if (version) {
+                content = content.replace(/\.\.\/\.\.\/\.\.\/administration\/administration\//g, `../../../administration/`);
+            } else {
+                content = content.replace(/\.\.\/\.\.\/\.\.\/administration\/administration\//g, `../../administration/`);
+            }
+            
+            // Fix cross-version release notes links - these reference specific features in specific versions
+            // For 4.2.0 release notes  
+            if (filePath.includes('/4.2.0')) {
+                // IMPORTANT FIX: The source files have paths like ../../../developers/components/writing-extensions.md
+                // These are being incorrectly transformed to ../../../../ somewhere
+                // We need to PRESERVE these 3-level paths as they're correct for versioned docs
+                
+                // Explicitly preserve the correct 3-level paths by marking them
+                const preservedPaths = [
+                    'writing-extensions',
+                    'installing'
+                ];
+                
+                // Mark these paths so they won't be modified later
+                for (const file of preservedPaths) {
+                    const pattern = new RegExp(`\\]\\((\\.\\.\\/){3,4}developers/components/${file}(?:\\.md)?\\)`, 'g');
+                    content = content.replace(pattern, `](../../../developers/components/${file})`);
+                }
+                
+                // Only fix broken-reference if it exists (which it shouldn't in 4.2)
+                const brokenRefCount = (content.match(/\]\(broken-reference\)/g) || []).length;
+                if (brokenRefCount > 0) {
+                    console.log(`  WARNING: Found unexpected broken-reference in 4.2.0: ${filePath}`);
+                    content = content.replace(/\]\(broken-reference\)/g, function(match, offset) {
+                        const before = content.substring(Math.max(0, offset - 100), offset);
+                        if (before.includes('well-defined interface')) {
+                            return '](../../../developers/components/writing-extensions)';
+                        } else if (before.includes('NPM and Github')) {
+                            return '](../../../developers/components/installing)';
+                        }
+                        return match;
+                    });
+                }
+                
+                // Update these links to use relative paths
+                content = content.replace(/\/docs\/4\.2\/technical-details\/reference\/components\//g, '../../../technical-details/reference/components/');
+                content = content.replace(/\/docs\/4\.3\/technical-details\/reference\/components\/extensions/g, '../../../technical-details/reference/components/extensions');
+            }
+            
+            // For 4.3.0 release notes (which includes 4.2.0 in its history)
+            if (filePath.includes('/4.3.0') || (filePath.includes('/4.2.0') && version === '4.3')) {
+                // Same fix as above - preserve 3-level paths
+                const preservedPaths = ['writing-extensions', 'installing'];
+                for (const file of preservedPaths) {
+                    const pattern = new RegExp(`\\]\\((\\.\\.\\/){3,4}developers/components/${file}(?:\\.md)?\\)`, 'g');
+                    content = content.replace(pattern, `](../../../developers/components/${file})`);
+                }
+                
+                // Fix broken-reference links if they exist
+                content = content.replace(/\]\(broken-reference\)/g, function(match, offset) {
+                    const before = content.substring(Math.max(0, offset - 100), offset);
+                    if (before.includes('well-defined interface')) {
+                        return '](../../../developers/components/writing-extensions)';
+                    } else if (before.includes('NPM and Github')) {
+                        return '](../../../developers/components/installing)';
+                    }
+                    return match;
+                });
                 // harper-cli moved to deployments
-                content = content.replace(/\/docs\/4\.3\/deployments\/harper-cli/g, '/4.3/deployments/harperdb-cli');
+                content = content.replace(/\/docs\/4\.3\/deployments\/harper-cli/g, '../../../deployments/harperdb-cli');
             }
             
             // For 4.5.0 release notes
             if (filePath.includes('/4.5.0')) {
-                // built-in-extensions doesn't exist in 4.5
-                content = content.replace(/\/docs\/4\.5\/technical-details\/reference\/components\/built-in-extensions/g, '/4.6/technical-details/reference/components/built-in-extensions');
+                // Preserve the 3-level path for built-in
+                const pattern = new RegExp(`\\]\\((\\.\\.\\/){3,4}developers/components/built-in(?:\\.md)?\\)`, 'g');
+                content = content.replace(pattern, `](../../../developers/components/built-in)`);
+                
+                // Fix broken-reference links if they exist
+                content = content.replace(/\]\(broken-reference\)/g, '](../../../developers/components/built-in)');
+                // built-in-extensions - use relative path
+                content = content.replace(/\/docs\/4\.5\/technical-details\/reference\/components\/built-in-extensions/g, '../../../technical-details/reference/components/built-in-extensions');
             }
             
             modified = true;
         }
         
-        // Fix deployments configuration links
-        if (content.includes('../../../deployments/configuration')) {
-            content = content.replace(/\.\.\/\.\.\/\.\.\/deployments\/configuration/g, `/docs/${version}/deployments/configuration`);
-            modified = true;
-        }
+        // NOTE: Don't modify ../../../deployments/configuration paths
+        // They're correct for the file locations they appear in
         
-        // Fix security links
+        // Fix security links - use relative paths  
         if (content.includes('../../../security/')) {
-            content = content.replace(/\.\.\/\.\.\/\.\.\/security\/basic-auth/g, `/docs/${version}/developers/security/basic-auth`);
-            content = content.replace(/\.\.\/\.\.\/\.\.\/security\/jwt-auth/g, `/docs/${version}/developers/security/jwt-auth`);
+            // Security is under developers in newer versions, fix the path
+            content = content.replace(/\.\.\/\.\.\/\.\.\/security\/basic-auth/g, '../../../developers/security/basic-auth');
+            content = content.replace(/\.\.\/\.\.\/\.\.\/security\/jwt-auth/g, '../../../developers/security/jwt-auth');
             modified = true;
         }
         
@@ -1114,10 +1200,10 @@ function processReleaseNotes(content, filePath, version) {
     
     let modified = false;
     
-    // Fix component links in release notes to point to the correct version
+    // Fix component links in release notes to use relative paths
     if (filePath.includes('/4.2.0')) {
-        // Link to 4.2 docs where components directory exists
-        content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/?\)/g, '](/4.2/developers/components)');
+        // Use relative path to components directory
+        content = content.replace(/\]\(\.\.\/\.\.\/\.\.\/developers\/components\/?\)/g, '](../../../developers/components)');
         modified = true;
     }
     // The 4.5.0 built-in link fix is now handled in applyVersionSpecificFixes
@@ -1397,9 +1483,25 @@ function convertFile(filePath, targetPath, docsDir, outputDir, options = {}) {
     totalModified = totalModified || result.modified;
     
     // 7. Fix broken links from GitBook to Docusaurus (final cleanup)
+    // DEBUG: Check for 4-level paths before fixBrokenLinks
+    if (filePath.includes('4.2.0') && filePath.includes('release-notes')) {
+        const fourLevelPaths = content.match(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/developers\/components\//g);
+        if (fourLevelPaths) {
+            console.log(`  DEBUG BEFORE fixBrokenLinks: Found ${fourLevelPaths.length} 4-level component paths in ${filePath}`);
+        }
+    }
+    
     result = fixBrokenLinks(content, filePath, version);
     content = result.content;
     totalModified = totalModified || result.modified;
+    
+    // DEBUG: Check for 4-level paths after fixBrokenLinks
+    if (filePath.includes('4.2.0') && filePath.includes('release-notes')) {
+        const fourLevelPaths = content.match(/\]\(\.\.\/\.\.\/\.\.\/\.\.\/developers\/components\//g);
+        if (fourLevelPaths) {
+            console.log(`  DEBUG AFTER fixBrokenLinks: Found ${fourLevelPaths.length} 4-level component paths in ${filePath}`);
+        }
+    }
     
     // 8. Fix links to numbered directories (they get renamed to avoid webpack issues)
     // Convert links like 1.alby/ to v1-alby/
@@ -1538,14 +1640,29 @@ function fixBrokenLinks(content, filePath, version) {
     
     // FIX: Cross-version references in release notes
     // When in versioned docs, fix references like ../docs/4.2/... to proper relative paths
+    // NOTE: This should NOT apply to paths that already have the correct relative depth
     if (version && filePath.includes('/release-notes/')) {
+        // Only fix patterns that actually have /docs/version/ in them
+        // Don't match paths that are already relative without /docs/
+        
         // Fix patterns like ../docs/4.2/deployments/configuration
         const crossVersionPattern = new RegExp(`\\.\\./docs/${version}/`, 'g');
-        content = content.replace(crossVersionPattern, '../../../');
+        const matches1 = content.match(crossVersionPattern);
+        if (matches1) {
+            console.log(`  DEBUG fixBrokenLinks: Found ${matches1.length} instances of ../docs/${version}/ in ${filePath}`);
+            content = content.replace(crossVersionPattern, '../../../');
+            modified = true;
+        }
         
         // Fix patterns like ../../docs/4.2/administration/logging
+        // These should become ../../../ not ../../../../ to stay within version boundaries
         const crossVersionPattern2 = new RegExp(`\\.\\./\\.\\./docs/${version}/`, 'g');
-        content = content.replace(crossVersionPattern2, '../../../../');
+        const matches2 = content.match(crossVersionPattern2);
+        if (matches2) {
+            console.log(`  DEBUG fixBrokenLinks: Found ${matches2.length} instances of ../../docs/${version}/ in ${filePath}`);
+            content = content.replace(crossVersionPattern2, '../../../');
+            modified = true;
+        }
     }
     
     // FIX: Resource vs Resources naming
@@ -1565,16 +1682,40 @@ function fixBrokenLinks(content, filePath, version) {
     
     // CATEGORY 5: Fix specific version patterns
     if (version) {
-        // Fix clustering links
-        content = content.replace(new RegExp(`/docs/${version}/clustering/index`, 'g'), `/docs/${version}/clustering/`);
+        // Fix clustering links - use relative paths
+        content = content.replace(/clustering\/index(?=\)|\]|$)/g, 'clustering/');
         
         // Fix harperdb-studio links for different versions
         if (parseFloat(version) >= 4.2 && parseFloat(version) <= 4.5) {
             // In these versions, studio is under administration
             if (filePath.includes('/custom-functions/')) {
                 content = content.replace(/\.\.\/harperdb-studio/g, '../administration/harperdb-studio');
-                content = content.replace(new RegExp(`/docs/${version}/harperdb-studio/`, 'g'), `/docs/${version}/administration/harperdb-studio/`);
+                // Don't use absolute paths - fix relative references instead
+                content = content.replace(/harperdb-studio\//g, 'administration/harperdb-studio/');
             }
+        }
+        
+    }
+    
+    // Fix broken links in version 4.6 and unversioned (next) documentation by removing the links
+    // In 4.6, /developers/components doesn't exist, so these links break
+    if (version === '4.6' || !version) {
+        if (filePath.includes('/release-notes/') && filePath.includes('/4.2.0')) {
+            // Remove the link entirely since the target doesn't exist in 4.6
+            // Be flexible with the URL ending - may or may not have trailing slash or .md
+            content = content.replace(
+                /\[full component architecture\]\(\.\.\/\.\.\/\.\.\/developers\/components(?:\/|\.md|\/index\.md)?\)/g,
+                'full component architecture'
+            );
+        }
+        
+        if (filePath.includes('/release-notes/') && filePath.includes('/4.5.0')) {
+            // Remove the link entirely since the target doesn't exist in 4.6
+            // Be flexible with the URL ending - handle .md extension or no extension
+            content = content.replace(
+                /\[new `loadEnv` component loader\]\(\.\.\/\.\.\/\.\.\/developers\/components\/built-in(?:\.md)?\)/g,
+                'new `loadEnv` component loader'
+            );
         }
     }
     
@@ -1604,17 +1745,17 @@ function fixBrokenLinks(content, filePath, version) {
     }
     
     // Fix versioned links if we're in a versioned docs directory
+    // NOTE: When processing versioned docs, we should NOT create absolute paths
+    // All links should remain relative within the version boundary
     if (version && version !== 'latest') {
-        // Update absolute links to include version, but skip if already versioned
-        // This regex skips links that already have a version number (4.x)
-        const versionedLinkPattern = /\(\/docs\/(?!latest\/)(?!4\.\d+\/)([^)]+)\)/g;
-        if (content.match(versionedLinkPattern)) {
-            content = content.replace(versionedLinkPattern, (match, path) => {
-                // Don't add version if path already starts with the version
-                if (path.startsWith(`${version}/`)) {
-                    return `(/docs/${path})`;
-                }
-                return `(/docs/${version}/${path})`;
+        // Convert absolute /docs/ paths to relative paths
+        const absoluteDocsPattern = /\(\/docs\/(?!latest\/)(?!4\.\d+\/)([^)]+)\)/g;
+        if (content.match(absoluteDocsPattern)) {
+            content = content.replace(absoluteDocsPattern, (match, path) => {
+                // Convert to relative path - this is tricky as we need to know current depth
+                // For now, just remove the /docs/ prefix to make it relative
+                // The path resolution will be handled by Docusaurus
+                return `(${path})`;
             });
             modified = true;
         }

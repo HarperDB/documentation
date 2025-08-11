@@ -27,11 +27,16 @@ if (process.env.NODE_ENV === 'production') {
 // Can also be set via command line: npm run build -- --base-url /documentation/
 const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/';
 
+// Determine route base path for docs
+// Can be set to '/docs/' if we need docs under a subdirectory
+// Default is '/' to serve docs at the root
+const routeBasePath = process.env.DOCUSAURUS_ROUTE_BASE_PATH || '/';
+
 // URL can also be overridden if needed
 const url = process.env.DOCUSAURUS_URL || 'https://docs.harperdb.io';
 
 // Always log configuration at build time
-console.log('Docusaurus URL config:', { url, baseUrl });
+console.log('Docusaurus URL config:', { url, baseUrl, routeBasePath });
 
 const config: Config = {
 	title: 'Harper Docs',
@@ -45,7 +50,7 @@ const config: Config = {
 	},
 
 	// Set the production url of your site here
-	url: url,
+	url,
 	// Set the /<baseUrl>/ pathname under which your site is served
 	baseUrl,
 
@@ -66,10 +71,10 @@ const config: Config = {
 			{
 				docs: {
 					// Use converted docs from DOCS_PATH or default location
-					path: process.env.DOCS_PATH || 'docs',
+					path: process.env.DOCS_PATH || '../docs',
 					sidebarPath: './sidebars.ts',
-					// Docs are always at the root of the baseUrl
-					routeBasePath: '/',
+					// Docs are served at the configured route base path
+					routeBasePath,
 					editUrl: ({ docPath }) => {
 						// Find where docs/ starts in the path and use everything from there
 						const docsIndex = docPath.indexOf('docs/');
@@ -172,10 +177,10 @@ const config: Config = {
 							label: 'Getting Started',
 							to: '/getting-started',
 						},
-						{
-							label: 'Developers',
-							to: '/category/developers',
-						},
+						// {
+						// 	label: 'Developers',
+						// 	to: '/developers',
+						// },
 						{
 							label: 'Administration',
 							to: '/administration',

@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "sync-latest": "node scripts/sync-latest-version.js",
-    "build": "npm run sync-latest && docusaurus build",
+    "build": "docusaurus build",
     "version": "node scripts/cut-version.js",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

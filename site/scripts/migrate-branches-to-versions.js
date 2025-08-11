@@ -246,6 +246,9 @@ function processBranch(branch) {
     fs.rmSync(versionedPath, { recursive: true, force: true });
     copyDirectory(outputPath, versionedPath);
     
+    // Fix release notes ordering with category files
+    fixReleaseNotesOrdering(versionedPath);
+    
     // Generate sidebar for this version
     generateVersionedSidebar(version, versionedPath);
     
@@ -258,6 +261,38 @@ function processBranch(branch) {
     }
     
     return version;
+}
+
+// Fix release notes ordering by adding category configuration files
+function fixReleaseNotesOrdering(versionedPath) {
+    const releaseNotesPath = path.join(versionedPath, 'technical-details', 'release-notes');
+    if (!fs.existsSync(releaseNotesPath)) {
+        return;
+    }
+    
+    // Get all subdirectories
+    const dirs = fs.readdirSync(releaseNotesPath, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory())
+        .map(dirent => dirent.name);
+    
+    // Create category files with proper position to force descending order
+    dirs.forEach(dir => {
+        const match = dir.match(/^v?(\d+)[-.](.*)/) || [];
+        const versionNum = parseInt(match[1]) || 0;
+        
+        // Position: Use negative numbers so higher versions come first
+        // v4 gets position -4, v3 gets -3, etc.
+        const position = -versionNum;
+        
+        const versionName = match[2] ? match[2].charAt(0).toUpperCase() + match[2].slice(1) : '';
+        const categoryConfig = {
+            label: `HarperDB ${versionName} (Version ${versionNum})`,
+            position: position
+        };
+        
+        const categoryPath = path.join(releaseNotesPath, dir, '_category_.json');
+        fs.writeFileSync(categoryPath, JSON.stringify(categoryConfig, null, 2));
+    });
 }
 
 // Helper to generate release notes sidebar in reverse order
@@ -279,14 +314,16 @@ function generateReleaseNotesSidebar(docsPath) {
         items.push('release-notes/index');
     }
     
-    // Get all subdirectories (e.g., 4.tucker, 3.monkey, etc.)
+    // Get all subdirectories (e.g., v4-tucker, v3-monkey, etc.)
     const dirs = fs.readdirSync(releaseNotesPath, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name)
         .sort((a, b) => {
-            // Extract numbers for sorting
-            const aNum = parseInt(a.split('.')[0]) || 0;
-            const bNum = parseInt(b.split('.')[0]) || 0;
+            // Extract numbers for sorting (handle both v4-tucker and 4.tucker formats)
+            const aMatch = a.match(/^v?(\d+)[-.]/) || [];
+            const bMatch = b.match(/^v?(\d+)[-.]/) || [];
+            const aNum = parseInt(aMatch[1]) || 0;
+            const bNum = parseInt(bMatch[1]) || 0;
             return bNum - aNum; // Reverse order (newest first: 4, 3, 2, 1)
         });
     
@@ -295,9 +332,10 @@ function generateReleaseNotesSidebar(docsPath) {
         // Add category for this version series
         // Since dirs are already sorted correctly (newest first),
         // they will appear in the correct order in the sidebar
-        const parts = dir.split('.');
-        const versionNum = parts[0];
-        const versionName = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
+        // Handle both v4-tucker and 4.tucker formats
+        const match = dir.match(/^v?(\d+)[-.](.*)/);
+        const versionNum = match ? match[1] : '';
+        const versionName = match && match[2] ? match[2].charAt(0).toUpperCase() + match[2].slice(1) : '';
         
         items.push({
             type: 'category',
@@ -586,10 +624,10 @@ async function migrate() {
             convertGitBookToDocusaurus(mainDocsInput, mainDocsOutput, mainDocsInput, mainDocsOutput);
             
             // Write converted docs to /docs-tmp instead of replacing /docs
-            // TODO: For final migration, change this to replace /docs directly
+            // The source /docs should remain untouched as the "next" version source
             const DOCS_TMP_DIR = path.join(REPO_ROOT, 'docs-tmp');
             console.log('Writing converted Docusaurus format to /docs-tmp...');
-            console.log('(For final migration, this will replace /docs directly)');
+            console.log('(Preserving /docs as source for next version)');
             fs.rmSync(DOCS_TMP_DIR, { recursive: true, force: true });
             copyDirectory(mainDocsOutput, DOCS_TMP_DIR);
             
@@ -617,8 +655,8 @@ async function migrate() {
         console.log('2. Test the site with: npm run start');
         console.log('3. Adjust sidebar configurations as needed');
         console.log('4. Update image references if necessary');
-        console.log('\nNote: Main branch docs written to /docs-tmp to avoid Git conflicts');
-        console.log('      For final migration, these will replace /docs directly');
+        console.log('\nNote: Main branch docs written to /docs-tmp to preserve /docs as source');
+        console.log('      The build process will use /docs-tmp for the current/unversioned docs');
         
     } catch (error) {
         console.error('\n❌ Migration failed:', error.message);

@@ -32,15 +32,25 @@ if [ ! -d "$SITE_DIR/versioned_docs" ] || [ ! -f "$SITE_DIR/versions.json" ]; th
     fi
 fi
 
+# Set DOCS_PATH to use the converted docs
+export DOCS_PATH="$REPO_ROOT/docs-tmp"
+export IMAGES_PATH="$REPO_ROOT/images"
+
+# Optional: Set route base path for docs
+# Uncomment and set to '/docs/' if you want docs under a subdirectory
+# export DOCUSAURUS_ROUTE_BASE_PATH="/docs/"
+
 # Run the appropriate Docusaurus command
 cd "$SITE_DIR"
 case "$COMMAND" in
     start)
         echo "Starting Docusaurus development server..."
+        echo "Using docs from: $DOCS_PATH"
         npm run "$COMMAND"
         ;;
     build)
         echo "Building Docusaurus site..."
+        echo "Using docs from: $DOCS_PATH"
         npm run "$COMMAND"
         ;;
     *)
