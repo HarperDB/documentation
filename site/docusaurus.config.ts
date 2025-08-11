@@ -87,6 +87,13 @@ const config: Config = {
 						'4.6': {
 							banner: 'none', // No banner for this version
 						},
+						'4.5': {
+							// No banner for 4.5 as its still actively maintained. Docusaurus doesn't allow us to set custom
+							// text for the banner. Only option is to eject swizzle DocVersionBanner (`npm run swizzle @docusaurus/theme-classic DocVersionBanner -- --eject`)
+							// and modify the internal rendering logic based on the version number. Cannot even add a new `banner` option without even more hackery.
+							// Here is a relevant discussion thread: https://github.com/facebook/docusaurus/discussions/7112 if we really want this, we should look to contribute this feature.
+							banner: 'none',
+						},
 					},
 					remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
 				},
@@ -170,7 +177,7 @@ const config: Config = {
 							to: '/category/developers',
 						},
 						{
-							label: 'Administration', 
+							label: 'Administration',
 							to: '/administration',
 						},
 					],
