@@ -30,35 +30,35 @@ Returns the registration data of the Harper instance.
 ## Install Usage License
 
 Install a Harper license for a block of usage. Multiple usage blocks may be installed, and they will be used up sequentially, with the earliest installed blocks used first. A license is installed
-by creating a string that consists of three base64 encoded blocks, separated by dots. The three blocks consist of:
-* header: This is a JSON object with two properties:
-  * typ: should be "Harper-License"
-  * alg: should be "EdDSA"
+by creating a string that consists of three base64url encoded blocks, separated by dots. The three blocks consist of:
+- `header`: This is a JSON object with two properties:
+  - `typ`: should be "Harper-License"
+  - `alg`: should be "EdDSA"
 
-This JSON object should be converted to base64 (conversion from utf-8 to base64) and is the first base64 block.
+This JSON object should be converted to base64url (conversion from utf-8 to base64url) and is the first base64url block.
 
-* license payload: This is a JSON object with properties:
-  * id _(required)_ - A unique id for the license
-  * level _(required)_ - Usage level number
-  * regiondId _(required)_ - The region id where this license can be used
-  * reads _(required)_ - The number of allowed reads
-  * readBytes _(required)_ - The number of allowed read bytes
-  * writes _(required)_ - The number of allowed writes
-  * writeBytes _(required)_ - The number of allowed write bytes
-  * realTimeMessages _(required)_ - The number of allowed real-time messages
-  * realTimeBytes _(required)_ - The number of allowed real-time message bytes
-  * cpuTime _(optional)_ - The allowed amount of CPU time consumed by application code
-  * storage _(optional)_ - Maximum of storage that may be used
-  * expiration _(required_) - The date when this block expires, as an ISO date
+- license payload: This is a JSON object with properties:
+  - `id` _(required)_ - A unique id for the license
+  - `level` _(required)_ - Usage level number
+  - `region` _(required)_ - The region id where this license can be used
+  - `reads` _(required)_ - The number of allowed reads
+  - `readBytes` _(required)_ - The number of allowed read bytes
+  - `writes` _(required)_ - The number of allowed writes
+  - `writeBytes` _(required)_ - The number of allowed write bytes
+  - `realTimeMessages` _(required)_ - The number of allowed real-time messages
+  - `realTimeBytes` _(required)_ - The number of allowed real-time message bytes
+  - `cpuTime` _(optional)_ - The allowed amount of CPU time consumed by application code
+  - `storage` _(optional)_ - Maximum of storage that may be used
+  - `expiration` _(required)_ - The date when this block expires, as an ISO date
 
-This JSON object should be converted to base64 (conversion from utf-8 to base64) and is the second base64 block.
+This JSON object should be converted to base64url (conversion from utf-8 to base64url) and is the second base64url block.
 
 For example:
 ```json
 {
 	"id": "license-717b-4c6c-b69d-b29014054ab7",
 	"level": 2,
-	"regionId": "us-nw-2",
+	"region": "us-nw-2",
 	"reads": 2000000000,
 	"readBytes": 8000000000000,
 	"writes": 500000000,
@@ -67,16 +67,17 @@ For example:
 	"realTimeBytes": 40000000000000,
 	"cpuTime": 108000,
 	"storage": 400000000000000,
-	"expiration":"2025-07-25T21:17:21.248Z" 
+	"expiration": "2025-07-25T21:17:21.248Z"
 }
 ```
 
-* signature: This is the cryptographic signature, signed by Harper, of the first two blocks, separated by a dot, `header.payload`. This is also converted to base64.
+- `signature`: This is the cryptographic signature, signed by Harper, of the first two blocks, separated by a dot, `header.payload`. This is also converted to base64url.
 
-The three base64 blocks are combined to form the `license` property value in the operation.
+The three base64url blocks are combined to form the `license` property value in the operation.
 
-- operation _(required)_ - must always be `install_usage_license`
-- license _(required)_ - This is the combination of the three blocks in the form header.payload.signature
+- `operation` _(required)_ - must always be `install_usage_license`
+- `license` _(required)_ - This is the combination of the three blocks in the form `header.payload.signature`
+
 ### Body
 
 ```json
@@ -100,7 +101,7 @@ The three base64 blocks are combined to form the `license` property value in the
 
 This will retrieve and return all active usage licenses, with counts of how much of the limits have been consumed.
 
-- operation _(required)_ - must always be `install_usage_license`
+- `operation` _(required)_ - must always be `get_usage_licenses`
 
 ### Body
 
@@ -117,7 +118,7 @@ This will retrieve and return all active usage licenses, with counts of how much
 	{
 		"id": "license-717b-4c6c-b69d-b29014054ab7",
 		"level": 2,
-		"regionId": "us-nw-2",
+		"region": "us-nw-2",
 		"reads": 2000000000,
 		"usedReads": 1100000000,
 		"readBytes": 8000000000000,
@@ -133,12 +134,12 @@ This will retrieve and return all active usage licenses, with counts of how much
 		"cpuTime": 108000,
 		"usedCpuTime": 41000,
 		"storage": 400000000000000,
-		"expiration":"2025-07-25T21:17:21.248Z"
+		"expiration": "2025-07-25T21:17:21.248Z"
 	},
 	{
 		"id": "license-4c6c-b69d-b29014054ab7-717b",
 		"level": 2,
-		"regionId": "us-nw-2",
+		"region": "us-nw-2",
 		"reads": 2000000000,
 		"usedReads": 0,
 		"readBytes": 8000000000000,
@@ -154,14 +155,30 @@ This will retrieve and return all active usage licenses, with counts of how much
 		"cpuTime": 108000,
 		"usedCpuTime": 0,
 		"storage": 400000000000000,
-		"expiration":"2025-09-25T21:17:21.248Z"
+		"expiration": "2025-09-25T21:17:21.248Z"
 	},
 	{
 		"id": "license-4c6c-b69d-b29014054ab7-717b",
 		"level": 2,
-		"regionId": "us-se-2",
-		... usage licenses for other regions may be in here as well 
-		]
+		"region": "us-se-2",
+		"reads": 2000000000,
+		"usedReads": 0,
+		"readBytes": 8000000000000,
+		"usedReadBytes": 0,
+		"writes": 500000000,
+		"usedWrites": 0,
+		"writeBytes": 1000000000000,
+		"usedWriteBytes": 0,
+		"realTimeMessages": 10000000000,
+		"usedRealTimeMessages": 0,
+		"realTimeBytes": 40000000000000,
+		"usedRealTimeBytes": 0,
+		"cpuTime": 108000,
+		"usedCpuTime": 0,
+		"storage": 400000000000000,
+		"expiration": "2025-11-25T21:17:21.248Z"
+	}
+]
 ```
 
 ---
