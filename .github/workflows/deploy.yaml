@@ -60,7 +60,10 @@ jobs:
           IMAGES_PATH: ${{ vars.IMAGES_PATH }}
         run: |
           echo "Building Docusaurus site..."
+          echo "Using DOCS_PATH: $DOCS_PATH"
           echo "Using DOCUSAURUS_BASE_URL: $DOCUSAURUS_BASE_URL"
+          echo "Using DOCUSAURUS_URL: $DOCUSAURUS_URL"
+          echo "Using IMAGES_PATH: $IMAGES_PATH"
           npm run site:build || (echo "Site build failed" && exit 1)
 
       - name: Upload npm logs on failure
