@@ -585,10 +585,13 @@ async function migrate() {
             const mainDocsOutput = path.join(tempMainDir, 'converted-docs');
             convertGitBookToDocusaurus(mainDocsInput, mainDocsOutput, mainDocsInput, mainDocsOutput);
             
-            // Replace root /docs with converted version
-            console.log('Replacing root /docs with converted Docusaurus format...');
-            fs.rmSync(DOCS_DIR, { recursive: true, force: true });
-            copyDirectory(mainDocsOutput, DOCS_DIR);
+            // Write converted docs to /docs-tmp instead of replacing /docs
+            // TODO: For final migration, change this to replace /docs directly
+            const DOCS_TMP_DIR = path.join(REPO_ROOT, 'docs-tmp');
+            console.log('Writing converted Docusaurus format to /docs-tmp...');
+            console.log('(For final migration, this will replace /docs directly)');
+            fs.rmSync(DOCS_TMP_DIR, { recursive: true, force: true });
+            copyDirectory(mainDocsOutput, DOCS_TMP_DIR);
             
             // Restore IMAGES_PATH
             if (originalImagesPath) {
@@ -597,7 +600,7 @@ async function migrate() {
                 delete process.env.IMAGES_PATH;
             }
             
-            console.log('✓ Main branch /docs converted to Docusaurus format (in-place)');
+            console.log('✓ Main branch /docs converted to Docusaurus format and written to /docs-tmp');
         }
         
         // Clean up temp directory
@@ -610,10 +613,12 @@ async function migrate() {
         console.log(`   - ${VERSIONED_DOCS_DIR}`);
         console.log(`   - ${VERSIONED_SIDEBARS_DIR}`);
         console.log(`   - ${VERSIONS_FILE}`);
-        console.log('2. Docs replacement will happen after branch switch');
-        console.log('3. Test the site with: npm run start');
-        console.log('4. Adjust sidebar configurations as needed');
-        console.log('5. Update image references if necessary');
+        console.log('   - /docs-tmp (converted main branch docs)');
+        console.log('2. Test the site with: npm run start');
+        console.log('3. Adjust sidebar configurations as needed');
+        console.log('4. Update image references if necessary');
+        console.log('\nNote: Main branch docs written to /docs-tmp to avoid Git conflicts');
+        console.log('      For final migration, these will replace /docs directly');
         
     } catch (error) {
         console.error('\n❌ Migration failed:', error.message);
