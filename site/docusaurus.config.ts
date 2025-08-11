@@ -128,7 +128,12 @@ const config: Config = {
 				language: ['en'],
 				indexDocs: true,
 				indexBlog: false,
+				indexPages: false,
+				docsRouteBasePath: routeBasePath,
 				highlightSearchTermsOnTargetPage: true,
+				searchResultLimits: 8,
+				// Explicitly set the search bar position
+				searchBarPosition: 'right',
 			},
 		],
 		'@docusaurus/theme-mermaid',
