@@ -8,7 +8,7 @@ HarperDB Custom Functions projects are managed by HarperDB’s process manager. 
 
 
 
-For local debugging and development, it is recommended that you use standard console log statements for logging. For production use, you may want to use HarperDB's logging facilities, so you aren't logging to the console. The [HarperDB Custom Functions template](https:/github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](../configuration).
+For local debugging and development, it is recommended that you use standard console log statements for logging. For production use, you may want to use HarperDB's logging facilities, so you aren't logging to the console. The [HarperDB Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template) includes the HarperDB logger module in the primary function parameters with the name `logger`. This logger can be used to output messages directly to the HarperDB log using standardized logging level functions, described below. The log level can be set in the [HarperDB Configuration File](../configuration).
 
 HarperDB Logger Functions
 * `trace(message)`: Write a 'trace' level log, if the configured level allows for it.
@@ -24,7 +24,7 @@ For debugging purposes, it is recommended to use `notify` as these messages will
 
 ## Viewing the Log
 
-The HarperDB Log can be found on the [Studio Status page](../harperdb-studio/instance-metrics) or in the local Custom Functions log file, `<HDBROOT>/log/custom_functions.log`. Additionally, you can use the [`read_log` operation](https:/api.harperdb.io/#7f718dd1-afa5-49ce-bc0c-564e17b1c9cf) to query the HarperDB log.
+The HarperDB Log can be found on the [Studio Status page](../harperdb-studio/instance-metrics) or in the local Custom Functions log file, `<HDBROOT>/log/custom_functions.log`. Additionally, you can use the [`read_log` operation](https://api.harperdb.io/#7f718dd1-afa5-49ce-bc0c-564e17b1c9cf) to query the HarperDB log.
 
 ### Example 1: Execute Query and Log Results
 

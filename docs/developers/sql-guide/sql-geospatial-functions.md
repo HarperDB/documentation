@@ -8,9 +8,9 @@ Harper encourages developers to utilize other querying tools over SQL for perfor
 
 # SQL Geospatial Functions
 
-Harper geospatial features require data to be stored in a single column using the [GeoJSON standard](http:/geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
+Harper geospatial features require data to be stored in a single column using the [GeoJSON standard](https://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
 
-If you are new to GeoJSON you should check out the full specification here: http:/geojson.org/. There are a few important things to point out before getting started.
+If you are new to GeoJSON you should check out the full specification here: https://geojson.org/. There are a few important things to point out before getting started.
 
 1. All GeoJSON coordinates are stored in `[longitude, latitude]` format.
 1. Coordinates or GeoJSON geometries must be passed as string when written directly in a SQL statement.
@@ -303,7 +303,7 @@ WHERE geoContains(geo_data, '{
 
 # geoEqual
 
-Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see https:/developers.arcgis.com/documentation/spatial-references/. Returns a Boolean.
+Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see https://developers.arcgis.com/documentation/spatial-references/. Returns a Boolean.
 
 ## Syntax
 

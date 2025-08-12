@@ -18,7 +18,7 @@ Harper Cloud utilizes AWS Elastic Block Storage (EBS) General Purpose SSD (gp3) 
 
 AWS EBS gp3 volumes have a baseline performance level of 3,000 IOPS, as a result, all Harper Cloud storage options will offer 3,000 IOPS. We plan to offer scalable IOPS as an option in the future.
 
-You can read more about AWS EBS volume IOPS here: https:/docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html.
+You can read more about AWS EBS volume IOPS here: [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
 
 ## Estimating IOPS for Harper Instance
 

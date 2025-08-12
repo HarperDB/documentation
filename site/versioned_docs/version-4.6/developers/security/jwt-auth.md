@@ -93,4 +93,4 @@ Token timeouts are configurable in [harperdb-config.yaml](../../deployments/conf
 - `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation_token expires (default 1d).
 - `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh_token expires (default 30d).
 
-A full list of valid values for both parameters can be found [here](https:/github.com/vercel/ms).
+A full list of valid values for both parameters can be found [here](https://github.com/vercel/ms).

@@ -20,7 +20,7 @@ Ingests CSV data, provided directly in the operation as an `insert`, `update` or
   "database": "dev",
   "action": "insert",
   "table": "breed",
-  "data": "id,name,section,country,image\n1,ENGLISH POINTER,British and Irish Pointers and Setters,GREAT BRITAIN,http:/www.fci.be/Nomenclature/Illustrations/001g07.jpg\n2,ENGLISH SETTER,British and Irish Pointers and Setters,GREAT BRITAIN,http:/www.fci.be/Nomenclature/Illustrations/002g07.jpg\n3,KERRY BLUE TERRIER,Large and medium sized Terriers,IRELAND,\n"
+  "data": "id,name,section,country,image\n1,ENGLISH POINTER,British and Irish Pointers and Setters,GREAT BRITAIN,https://www.fci.be/Nomenclature/Illustrations/001g07.jpg\n2,ENGLISH SETTER,British and Irish Pointers and Setters,GREAT BRITAIN,https://www.fci.be/Nomenclature/Illustrations/002g07.jpg\n3,KERRY BLUE TERRIER,Large and medium sized Terriers,IRELAND,\n"
 }
 ```
 
@@ -82,7 +82,7 @@ Ingests CSV data, provided via URL, as an `insert`, `update` or `upsert` into th
   "action": "insert",
   "database": "dev",
   "table": "breed",
-  "csv_url": "https:/s3.amazonaws.com/complimentarydata/breeds.csv"
+  "csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
 }
 ```
 

@@ -42,12 +42,12 @@ _Please visit our [configuration docs](../configuration) for a more comprehensiv
 ## Project Structure
 **project folder**
 
-The name of the folder that holds your project files serves as the root prefix for all the routes you create.  All routes created in the **dogs** project folder will have a URL like this: **https:/my-server-url.com:9926/dogs/my/route**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
+The name of the folder that holds your project files serves as the root prefix for all the routes you create.  All routes created in the **dogs** project folder will have a URL like this: **[https://my-server-url.com:9926/dogs/my/route](https://my-server-url.com:9926/dogs/my/route)**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
 
 
 **/routes folder**
 
-Files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https:/www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
+Files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {

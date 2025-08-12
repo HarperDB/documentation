@@ -24,7 +24,7 @@ Otherwise, to create a project, you have the following options:
    _This requires a local installation. Remove the .git directory for a clean slate of git history._
 
 ```bash
-> git clone https:/github.com/HarperDB/harperdb-custom-functions-template.git ~/hdb/custom_functions/dogs
+> git clone https://github.com/HarperDB/harperdb-custom-functions-template.git ~/hdb/custom_functions/dogs
 ```
 
 1. **Create a project folder in your Custom Functions root directory** and **initialize**

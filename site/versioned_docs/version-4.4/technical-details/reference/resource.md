@@ -79,7 +79,7 @@ export class MyTable extends tables.MyTable {
 
 Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in your schema, so that you aren't exporting the same table/class name twice.
 
-All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https:/developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
+All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
 
 ## Global Variables
 
@@ -152,7 +152,7 @@ It is important to note that `this` is the resource instance for a specific reco
 - Arguments
   - `query`: The [Query](#query) object to use for the search
 - Return value
-  - An [AsyncIterable](https:/developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator) of records that match the query
+  * An [AsyncIterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncIterator) of records that match the query
 
 This performs a query on this resource, searching for records that are descendants. By default, this is called by `get(query)` from a collection resource. When this is called for the root resource (like `/Table/`) it searches through all records in the table. However, if you call search from an instance with a specific ID like `1` from a path like `Table/1`, it will only return records that are descendants of that record, like `[1, 1]` (path of Table/1/1) and `[1, 2]` (path of Table/1/2). If you want to do a standard search of the table, make you call the static method like `Table.search(...)`. You can define or override this method to define how records should be queried. The default `search` method on tables (`super.search(query)`) will perform a query and return an AsyncIterable of results. The query object can be used to specify the desired query.
 

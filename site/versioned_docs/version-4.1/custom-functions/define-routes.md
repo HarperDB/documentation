@@ -4,7 +4,7 @@ title: Define Routes
 
 # Define Routes
 
-HarperDB’s Custom Functions is built on top of [Fastify](https:/www.fastify.io/), so our route definitions follow their specifications. Below is a very simple example of a route declaration.
+HarperDB’s Custom Functions is built on top of [Fastify](https://www.fastify.io/), so our route definitions follow their specifications. Below is a very simple example of a route declaration.
 
 
 

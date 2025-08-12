@@ -246,7 +246,7 @@ Let's add some more Harper doggies! We can add as many dog objects as we want in
 
 We need to populate the 'breed' table with some data so we can reference it later. For larger data sets, we recommend using our CSV upload option.
 
-Each header in a column will be considered as an attribute, and each row in the file will be a row in the table. Simply specify the file path and the table to upload to, and HarperDB will take care of the rest. You can pull the breeds.csv file from here: https:/s3.amazonaws.com/complimentarydata/breeds.csv
+Each header in a column will be considered as an attribute, and each row in the file will be a row in the table. Simply specify the file path and the table to upload to, and HarperDB will take care of the rest. You can pull the breeds.csv file from here: [https://s3.amazonaws.com/complimentarydata/breeds.csv](https://s3.amazonaws.com/complimentarydata/breeds.csv)
 
 ### Body
 
@@ -254,7 +254,7 @@ Each header in a column will be considered as an attribute, and each row in the 
 {
     "operation": "csv_url_load",
     "table": "breed",
-    "csv_url": "https:/s3.amazonaws.com/complimentarydata/breeds.csv"
+    "csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
 }
 ```
 

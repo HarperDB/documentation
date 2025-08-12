@@ -8,7 +8,7 @@ title: Login and Password Reset
 
 To log into your existing HarperDB Studio account:
 
-1) Navigate to the [HarperDB Studio](https:/studio.harperdb.io/). 
+1) Navigate to the [HarperDB Studio](https://studio.harperdb.io/).
 2) Enter your email address. 
 3) Enter your password. 
 4) Click **sign in**. 

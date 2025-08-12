@@ -28,7 +28,7 @@ myTarBall:
 myLocal:
   package: /Users/harper/local # install from local path
 myWebsite:
-  package: https:/harperdb-component # install from URL
+  package: https://harperdb-component # install from URL
 ```
 
 When HarperDB is run or restarted it checks to see if there are any new or updated components. If there are, it will dynamically create a package.json file in the `rootPath` directory and call `npm install`.
@@ -44,7 +44,7 @@ The package.json file that is created will look something like this.
     "myNPMComponent": "npm:harperdb",
     "myTarBall": "file:/Users/harper/cool-component.tar",
     "myLocal": "file:/Users/harper/local",
-    "myWebsite": "https:/harperdb-component"
+    "myWebsite": "https://harperdb-component"
   }
 }
 ```

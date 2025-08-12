@@ -6,7 +6,7 @@ title: Instance Example Code
 
 Example code prepopulated with the instance URL and authorization token for the logged in database user can be found on the **example code** page of the HarperDB Studio. Code samples are generated based on the HarperDB API Documentation Postman collection. Code samples accessed with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 2) Click the appropriate organization that the instance belongs to.
 

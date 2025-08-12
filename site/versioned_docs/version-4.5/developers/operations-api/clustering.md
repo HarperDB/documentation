@@ -152,7 +152,7 @@ _Operation is restricted to super\_user roles only_
     {
       "replicateByDefault": true,
       "replicates": true,
-      "url": "wss:/server-2.domain.com:9933",
+      "url": "wss://server-2.domain.com:9933",
       "name": "server-2.domain.com",
       "subscriptions": null,
       "database_sockets": [
@@ -259,7 +259,7 @@ _Operation is restricted to super\_user roles only_
 {
     "operation": "cluster_set_routes",
     "routes": [
-      "wss:/server-two:9925",
+      "wss://server-two:9925",
       {
         "hostname": "server-three",
         "port": 9930
@@ -274,7 +274,7 @@ _Operation is restricted to super\_user roles only_
 {
     "message": "cluster routes successfully set",
     "set": [
-      "wss:/server-two:9925",
+      "wss://server-two:9925",
       {
         "hostname": "server-three",
         "port": 9930
@@ -306,7 +306,7 @@ _Operation is restricted to super\_user roles only_
 
 ```json
 [
-  "wss:/server-two:9925",
+  "wss://server-two:9925",
   {
     "hostname": "server-three",
     "port": 9930

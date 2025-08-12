@@ -10,7 +10,7 @@ HarperDB instance clustering and replication can be configured directly through 
 
 All clustering configuration is handled through the **cluster** page of the HarperDB Studio, accessed with the following instructions:
 
-1) Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 2) Click the appropriate organization that the instance belongs to.
 

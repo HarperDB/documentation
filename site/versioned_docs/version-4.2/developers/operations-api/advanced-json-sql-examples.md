@@ -84,7 +84,7 @@ Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_lo
     "operation": "csv_url_load",
     "database": "movies",
     "table": "movie",
-    "csv_url": "https:/search-json-sample-data.s3.us-east-2.amazonaws.com/movie.csv"
+    "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/movie.csv"
 }
 ```
 
@@ -108,7 +108,7 @@ Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_
     "operation": "csv_url_load",
     "database": "movies",
     "table": "credits",
-    "csv_url": "https:/search-json-sample-data.s3.us-east-2.amazonaws.com/credits.csv"
+    "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/credits.csv"
 }
 ```
 

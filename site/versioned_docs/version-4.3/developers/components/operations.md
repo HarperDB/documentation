@@ -25,7 +25,7 @@ HarperDB Studio manages your applications using nine HarperDB operations. You ma
     Deletes the specified file.
 *   **add\_component\_project**
 
-    Creates a new project folder in the applications root project directory. It also inserts into the new directory the contents of our applications Project template, which is available publicly, here: https:/github.com/HarperDB/harperdb-custom-functions-template.
+    Creates a new project folder in the applications root project directory. It also inserts into the new directory the contents of our applications Project template, which is available publicly, here: [https://github.com/HarperDB/harperdb-custom-functions-template](https://github.com/HarperDB/harperdb-custom-functions-template).
 *   **drop\_component\_project**
 
     Deletes the specified project folder and all of its contents.

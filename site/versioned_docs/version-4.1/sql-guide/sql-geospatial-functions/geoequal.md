@@ -3,7 +3,7 @@ title: geoEqual
 ---
 
 # geoEqual
-Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see https:/developers.arcgis.com/documentation/spatial-references/. Returns a Boolean.
+Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see [https://developers.arcgis.com/documentation/spatial-references/](https://developers.arcgis.com/documentation/spatial-references/). Returns a Boolean.
 
 ## Syntax
 geoEqual(_geo1_, _geo2_)

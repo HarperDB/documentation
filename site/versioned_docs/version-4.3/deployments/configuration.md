@@ -4,7 +4,7 @@ title: Configuration File
 
 # Configuration File
 
-HarperDB is configured through a [YAML](https:/yaml.org/) file called `harperdb-config.yaml` located in the HarperDB root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the HarperDB root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
 Some configuration will be populated by default in the config file on install, regardless of whether it is used.
 
@@ -413,7 +413,7 @@ clustering:
 
 ### `localStudio`
 
-The `localStudio` section configures the local HarperDB Studio, a GUI for HarperDB hosted on the server. A hosted version of the HarperDB Studio with licensing and provisioning options is available at https:/studio.harperdb.io. Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
+The `localStudio` section configures the local HarperDB Studio, a GUI for HarperDB hosted on the server. A hosted version of the HarperDB Studio with licensing and provisioning options is available at [https://studio.harperdb.io](https://studio.harperdb.io). Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -558,11 +558,11 @@ This will enable cookie-based sessions to maintain an authenticated session. Thi
 
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time an operation token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time an operation token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time a refresh token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time a refresh token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 ### `operationsApi`
 
@@ -957,7 +957,7 @@ The name of the component. This will be used to name the folder where the compon
 A reference to your [component](../developers/components/installing) package.This could be a remote git repo, a local folder/file or an NPM package. 
 HarperDB will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
-Read more about npm install [here](https:/docs.npmjs.com/cli/v8/commands/npm-install)
+Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
 `port` - _Type_: number _Default_: whatever is set in `http.port`
 

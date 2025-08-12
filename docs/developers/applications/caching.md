@@ -33,8 +33,8 @@ Next, you need to define the source for your cache. External data sources could 
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-		return (await fetch(`http:/some-api.com/${this.getId()}`)).json();
-	}
+  return (await fetch(`https://some-api.com/${this.getId()}`)).json();
+ }
 }
 ```
 
@@ -49,10 +49,10 @@ Now we have a fully configured and connected caching table. If you access data f
 
 ```mermaid
 flowchart TD
-	  Client1(Client 1)-->Cache(Caching Table)
-	  Client2(Client 2)-->Cache
-	  Cache-->Resource(Data Source Connector)
-	  Resource-->API(Remote Data Source API)
+   Client1(Client 1)-->Cache(Caching Table)
+   Client2(Client 2)-->Cache
+   Cache-->Resource(Data Source Connector)
+   Resource-->API(Remote Data Source API)
 ```
 
 Harper handles waiting for an existing cache resolution to finish and uses its result. This prevents a "cache stampede" when entries expire, ensuring that multiple requests to a cache entry will all wait on a single request to the data source.
@@ -69,11 +69,11 @@ In the example above, we simply retrieved data to fulfill a cache request. We ma
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	async get() {
-		let response = await fetch(`http:/some-api.com/${this.getId()}`);
-		this.getContext().lastModified = response.headers.get('Last-Modified');
-		return response.json();
-	}
+ async get() {
+  let response = await fetch(`https://some-api.com/${this.getId()}`);
+  this.getContext().lastModified = response.headers.get('Last-Modified');
+  return response.json();
+ }
 }
 ```
 
@@ -83,19 +83,19 @@ In addition, we can also specify when a cached record "expires". When a cached r
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	async get() {
-		const context = this.getContext();
-		let headers = new Headers();
-		if (context.replacingVersion) / this is the existing cached record
-			headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
-		let response = await fetch(`http:/some-api.com/${this.getId()}`, { headers });
-		let cacheInfo = response.headers.get('Cache-Control');
-		let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
-		if (maxAge) / we can set a specific expiration time by setting context.expiresAt
-			context.expiresAt = Date.now() + maxAge * 1000; / convert from seconds to milliseconds and add to current time
-		/ we can just revalidate and return the record if the origin has confirmed that it has the same version:
-		if (response.status === 304) return context.replacingRecord;
-		...
+ async get() {
+  const context = this.getContext();
+  let headers = new Headers();
+  if (context.replacingVersion) / this is the existing cached record
+   headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
+  let response = await fetch(`https://some-api.com/${this.getId()}`, { headers });
+  let cacheInfo = response.headers.get('Cache-Control');
+  let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
+  if (maxAge) / we can set a specific expiration time by setting context.expiresAt
+   context.expiresAt = Date.now() + maxAge * 1000; / convert from seconds to milliseconds and add to current time
+  / we can just revalidate and return the record if the origin has confirmed that it has the same version:
+  if (response.status === 304) return context.replacingRecord;
+  ...
 ```
 
 ## Active Caching and Invalidation
@@ -109,11 +109,11 @@ One way to provide more active caching is to specifically invalidate individual 
 ```javascript
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
-	async post(data) {
-		if (data.invalidate)
-			/ use this flag as a marker
-			this.invalidate();
-	}
+ async post(data) {
+  if (data.invalidate)
+   / use this flag as a marker
+   this.invalidate();
+ }
 }
 ```
 
@@ -125,20 +125,20 @@ We can provide more control of an active cache with subscriptions. If there is a
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	async *subscribe() {
+ async *subscribe() {
       setInterval(() => { / every second retrieve more data
-			/ get the next data change event from the source
-			let update = (await fetch(`http:/some-api.com/latest-update`)).json();
-			const event = { / define the change event (which will update the cache)
-				type: 'put', / this would indicate that the event includes the new data value
-				id: / the primary key of the record that updated
-				value: / the new value of the record that updated
-				timestamp: / the timestamp of when the data change occurred
-			};
-			yield event; / this returns this event, notifying the cache of the change
+   / get the next data change event from the source
+   let update = (await fetch(`https://some-api.com/latest-update`)).json();
+   const event = { / define the change event (which will update the cache)
+    type: 'put', / this would indicate that the event includes the new data value
+    id: / the primary key of the record that updated
+    value: / the new value of the record that updated
+    timestamp: / the timestamp of when the data change occurred
+   };
+   yield event; / this returns this event, notifying the cache of the change
       }, 1000);
-	}
-	async get() {
+ }
+ async get() {
 ...
 ```
 
@@ -165,24 +165,24 @@ By default, Harper will only run the subscribe method on one thread. Harper is m
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	static subscribeOnThisThread(threadIndex) {
-		return threadIndex < 2; / run on two threads (the first two threads)
-	}
-	async *subscribe() {
-		....
+ static subscribeOnThisThread(threadIndex) {
+  return threadIndex < 2; / run on two threads (the first two threads)
+ }
+ async *subscribe() {
+  ....
 ```
 
 An alternative to using asynchronous generators is to use a subscription stream and send events to it. A default subscription stream (that doesn't generate its own events) is available from the Resource's default subscribe method:
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	subscribe() {
-		const subscription = super.subscribe();
-		setupListeningToRemoteService().on('update', (event) => {
-			subscription.send(event);
-		});
-		return subscription;
-	}
+ subscribe() {
+  const subscription = super.subscribe();
+  setupListeningToRemoteService().on('update', (event) => {
+   subscription.send(event);
+  });
+  return subscription;
+ }
 }
 ```
 
@@ -196,18 +196,18 @@ The cache we have defined so far only has data flowing from the data source to t
 
 ```javascript
 class ThirdPartyAPI extends Resource {
-	async put(data) {
-		await fetch(`http:/some-api.com/${this.getId()}`, {
-			method: 'PUT',
-			body: JSON.stringify(data)
-		});
-	}
-	async delete() {
-		await fetch(`http:/some-api.com/${this.getId()}`, {
-			method: 'DELETE',
-		});
-	}
-	...
+ async put(data) {
+  await fetch(`https://some-api.com/${this.getId()}`, {
+   method: 'PUT',
+   body: JSON.stringify(data)
+  });
+ }
+ async delete() {
+  await fetch(`https://some-api.com/${this.getId()}`, {
+   method: 'DELETE',
+  });
+ }
+ ...
 ```
 
 When doing an insert or update to the MyCache table, the data will be sent to the underlying data source through the `put` method and the new record value will be stored in the cache as well.
@@ -218,12 +218,12 @@ When you are using a caching table, it is important to remember that any resourc
 
 ```javascript
 class MyCache extends tables.MyCache {
-	async post(data) {
-		/ if the data is not cached locally, retrieves from source:
-		await this.ensuredLoaded();
-		/ now we can be sure that the data is loaded, and can access properties
-		this.quantity = this.quantity - data.purchases;
-	}
+ async post(data) {
+  / if the data is not cached locally, retrieves from source:
+  await this.ensuredLoaded();
+  / now we can be sure that the data is loaded, and can access properties
+  this.quantity = this.quantity - data.purchases;
+ }
 }
 ```
 
@@ -238,8 +238,8 @@ With our passive update examples, we have provided a data source handler with a 
 ```javascript
 const { Post, Comment } = tables;
 class BlogSource extends Resource {
-	get() {
-		const post = await (await fetch(`http:/my-blog-server/${this.getId()}`).json());
+ get() {
+  const post = await (await fetch(`https://my-blog-server/${this.getId()}`).json());
 		for (let comment of post.comments) {
 			await Comment.put(comment, this); / save this comment as part of our current context and transaction
 		}

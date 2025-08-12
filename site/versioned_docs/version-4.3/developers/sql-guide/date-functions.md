@@ -8,9 +8,9 @@ HarperDB encourages developers to utilize other querying tools over SQL for perf
 
 # SQL Date Functions
 
-HarperDB utilizes [Coordinated Universal Time (UTC)](https:/en.wikipedia.org/wiki/Coordinated_Universal_Time) in all internal SQL operations. This means that date values passed into any of the functions below will be assumed to be in UTC or in a format that can be translated to UTC.
+HarperDB utilizes [Coordinated Universal Time (UTC)](https://en.wikipedia.org/wiki/Coordinated_Universal_Time) in all internal SQL operations. This means that date values passed into any of the functions below will be assumed to be in UTC or in a format that can be translated to UTC.
 
-When parsing date values passed to SQL date functions in HDB, we first check for [ISO 8601](https:/en.wikipedia.org/wiki/ISO_8601) formats, then for [RFC 2822](https:/tools.ietf.org/html/rfc2822#section-3.3) date-time format and then fall back to new Date(date_string)if a known format is not found.
+When parsing date values passed to SQL date functions in HDB, we first check for [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) formats, then for [RFC 2822](https://tools.ietf.org/html/rfc2822#section-3.3) date-time format and then fall back to new Date(date_string)if a known format is not found.
 
 ### CURRENT_DATE()
 
@@ -121,7 +121,7 @@ AS date_diff_result" returns
 
 ### DATE_FORMAT(date, format)
 
-Formats and returns a date value in the String format provided. Find more details on accepted format values in the [moment.js docs](https:/momentjs.com/docs/#/displaying/format/).
+Formats and returns a date value in the String format provided. Find more details on accepted format values in the [moment.js docs](https://momentjs.com/docs/#/displaying/format/).
 
 ```
 "SELECT DATE_FORMAT(1524412627973, 'YYYY-MM-DD HH:mm:ss')

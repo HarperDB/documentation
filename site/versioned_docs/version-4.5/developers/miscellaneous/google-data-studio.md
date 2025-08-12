@@ -4,9 +4,9 @@ title: Google Data Studio
 
 # Google Data Studio
 
-[Google Data Studio](https:/datastudio.google.com/) is a free collaborative visualization tool which enables users to build configurable charts and tables quickly. The Harper Google Data Studio connector seamlessly integrates your Harper data with Google Data Studio so you can build custom, real-time data visualizations.
+[Google Data Studio](https://datastudio.google.com/) is a free collaborative visualization tool which enables users to build configurable charts and tables quickly. The Harper Google Data Studio connector seamlessly integrates your Harper data with Google Data Studio so you can build custom, real-time data visualizations.
 
-The Harper Google Data Studio Connector is subject to our [Terms of Use](https:/harperdb.io/legal/harperdb-cloud-terms-of-service/) and [Privacy Policy](https:/harperdb.io/legal/privacy-policy/).
+The Harper Google Data Studio Connector is subject to our [Terms of Use](https://harperdb.io/legal/harperdb-cloud-terms-of-service/) and [Privacy Policy](https://harperdb.io/legal/privacy-policy/).
 
 ## Requirements
 
@@ -14,13 +14,13 @@ The Harper database must be accessible through the Internet in order for Google 
 
 ## Get Started
 
-Get started by selecting the Harper connector from the [Google Data Studio Partner Connector Gallery](https:/datastudio.google.com/u/0/datasources/create).
+Get started by selecting the Harper connector from the [Google Data Studio Partner Connector Gallery](https://datastudio.google.com/u/0/datasources/create).
 
-1. Log in to https:/datastudio.google.com/.
-1. Add a new Data Source using the Harper connector. The current release version can be added as a data source by following this link: [Harper Google Data Studio Connector](https:/datastudio.google.com/datasources/create?connectorId=AKfycbxBKgF8FI5R42WVxO-QCOq7dmUys0HJrUJMkBQRoGnCasY60_VJeO3BhHJPvdd20-S76g).
+1. Log in to [https://datastudio.google.com/](https://datastudio.google.com/).
+1. Add a new Data Source using the Harper connector. The current release version can be added as a data source by following this link: [Harper Google Data Studio Connector](https://datastudio.google.com/datasources/create?connectorId=AKfycbxBKgF8FI5R42WVxO-QCOq7dmUys0HJrUJMkBQRoGnCasY60_VJeO3BhHJPvdd20-S76g).
 1. Authorize the connector to access other servers on your behalf (this allows the connector to contact your database).
 1. Enter the Web URL to access your database (preferably with HTTPS), as well as the Basic Auth key you use to access the database. Just include the key, not the word “Basic” at the start of it.
-1. Check the box for “Secure Connections Only” if you want to always use HTTPS connections for this data source; entering a Web URL that starts with https:/ will do the same thing, if you prefer.
+1. Check the box for “Secure Connections Only” if you want to always use HTTPS connections for this data source; entering a Web URL that starts with https:// will do the same thing, if you prefer.
 1. Check the box for “Allow Bad Certs” if your Harper instance does not have a valid SSL certificate. [Harper Cloud](../../deployments/harper-cloud/) always has valid certificates, and so will never require this to be checked. Instances you set up yourself may require this, if you are using self-signed certs. If you are using [Harper Cloud](../../deployments/harper-cloud/) or another instance you know should always have valid SSL certificates, do not check this box.
 1. Choose your Query Type. This determines what information the configuration will ask for after pressing the Next button.
    * Table will ask you for a Schema and a Table to return all fields of using `SELECT *`.

@@ -8,7 +8,7 @@ Harper is more than a database, it's a distributed clustering platform allowing 
 
 In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper application, a fundamental building-block of the Harper ecosystem.
 
-When working through this guide, we recommend you use the [Harper Application Template](https:/github.com/HarperDB/application-template) repo as a reference.
+When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 Before we get started, let's clarify some terminology that is used throughout the documentation.
 
@@ -22,7 +22,7 @@ Before we get started, let's clarify some terminology that is used throughout th
 
 All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
 
-Extensions can also depend on other extensions. For example, the [`@harperdb/apollo`](https:/github.com/HarperDB/apollo) extension depends on the built-in `graphqlSchema` extension to create a cache table for Apollo queries. Applications can then use the `@harperdb/apollo` extension to implement an Apollo GraphQL backend server.
+Extensions can also depend on other extensions. For example, the [`@harperdb/apollo`](https://github.com/HarperDB/apollo) extension depends on the built-in `graphqlSchema` extension to create a cache table for Apollo queries. Applications can then use the `@harperdb/apollo` extension to implement an Apollo GraphQL backend server.
 
 ```mermaid
 flowchart TD
@@ -71,7 +71,7 @@ flowchart TD
 
 Beyond applications and extensions, components are further classified as built-in or custom. **Built-in** components are included with Harper by default and can be directly referenced by their name. The `graphqlSchema`, `rest`, and `jsResource` extensions used in the previous application example are all examples of built-in extensions. **Custom** components must use external references, generally npm or GitHub packages, and are often included as dependencies within the `package.json` of the component.
 
-> Harper maintains a number of custom components that are available on `npm` and `GitHub`, such as the [`@harperdb/nextjs`](https:/github.com/HarperDB/nextjs) extension or the [`@harperdb/status-check`](https:/github.com/HarperDB/status-check) application.
+> Harper maintains a number of custom components that are available on `npm` and `GitHub`, such as the [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs) extension or the [`@harperdb/status-check`](https://github.com/HarperDB/status-check) application.
 
 Harper does not currently include any built-in applications, making "custom applications" a bit redundant. Generally, we just say "application". However, there is a multitude of both built-in and custom extensions, and so the documentation refers to them as such. A complete list of built-in extensions is available in the [Built-In Extensions](../../technical-details/reference/components/built-in-extensions) documentation page, and the list of custom extensions and applications is available below.
 
@@ -202,7 +202,7 @@ const { Breed } = tables; / our Breed table
 class BreedSource extends Resource {
 	/ define a data source
 	async get(target) {
-		return (await fetch(`http:/best-dog-site.com/${target}`)).json();
+  return (await fetch(`https://best-dog-site.com/${target}`)).json();
 	}
 }
 / define that our breed table is a cache of data from the data source above, with a specified expiration

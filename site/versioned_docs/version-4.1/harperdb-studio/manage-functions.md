@@ -35,7 +35,7 @@ On the **functions** page of the HarperDB Studio you are presented with a functi
     Only displayed if there is an existing project. Displays the helper files contained within the selected project.
 * **/project_name/static**
 
-    Only displayed if there is an existing project. Displays the static file count and a link to the static files contained within the selected project. Note, static files cannot currently be deployed through the Studio and must be deployed via the [HarperDB API](https:/api.harperdb.io/) or manually to the server (not applicable with HarperDB Cloud).
+    Only displayed if there is an existing project. Displays the static file count and a link to the static files contained within the selected project. Note, static files cannot currently be deployed through the Studio and must be deployed via the [HarperDB API](https://api.harperdb.io/) or manually to the server (not applicable with HarperDB Cloud).
 * **Root File Directory**
 
     Displays the root file directory where the Custom Functions projects reside on this instance.
@@ -54,7 +54,7 @@ HarperDB Custom Functions Projects can be initialized with the following instruc
 
 3) Click the check mark icon next the appropriate instance.
 
-4) The Studio will take a few moments to provision a new project based on the [Custom Functions template](https:/github.com/HarperDB/harperdb-custom-functions-template).
+4) The Studio will take a few moments to provision a new project based on the [Custom Functions template](https://github.com/HarperDB/harperdb-custom-functions-template).
 
 5) The Custom Functions project is now created and ready to modify.
 

@@ -36,7 +36,7 @@ Harper is more than just a database, with Harper you build "database application
 
 To set up a Harper cloud instance, simply sign up and create a new instance:
 
-1. [Sign up for the Harper Studio](https:/studio.harperdb.io/sign-up)
+1. [Sign up for the Harper Studio](https://studio.harperdb.io/sign-up)
 1. Create a new Harper Cloud instance
 
 Note that a local instance and cloud instance are not mutually exclusive. You can register your local instance in the Harper Studio, and a common development flow is to develop locally and then deploy your application to your cloud instance.
@@ -66,7 +66,7 @@ The Operations API provides extensive administrative capabilities for Harper, an
 The Harper Operations API is single endpoint, which means the only thing that needs to change across different calls is the body. For example purposes, a basic cURL command is shown below to create a database called dev. To change this behavior, swap out the operation in the `data-raw` body parameter.
 
 ```
-curl --location --request POST 'https:/instance-subdomain.harperdbcloud.com' \
+curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 --header 'Authorization: Basic YourBase64EncodedInstanceUser:Pass' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -77,8 +77,8 @@ curl --location --request POST 'https:/instance-subdomain.harperdbcloud.com' \
 
 ## Support and Learning More
 
-If you find yourself in need of additional support you can submit a [Harper support ticket](https:/harperdbhelp.zendesk.com/hc/en-us/requests/new). You can also learn more about available Harper projects by searching [Github](https:/github.com/search?q=harperdb).
+If you find yourself in need of additional support you can submit a [Harper support ticket](https://harperdbhelp.zendesk.com/hc/en-us/requests/new). You can also learn more about available Harper projects by searching [Github](https://github.com/search?q=harperdb).
 
 ### Video Tutorials
 
-[Harper video tutorials are available on our YouTube channel](https:/www.youtube.com/@harperdbio). Harper and the Harper Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[Harper video tutorials are available on our YouTube channel](https://www.youtube.com/@harperdbio). Harper and the Harper Studio are constantly changing, as such, there may be small discrepancies in UI/UX.

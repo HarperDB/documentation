@@ -25,7 +25,7 @@ To start clone run `harperdb` in the CLI with either of the following variables 
 
 For example:
 ```
-HDB_LEADER_URL=https:/node-1.my-domain.com:9925 REPLICATION_HOSTNAME=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
+HDB_LEADER_URL=https://node-1.my-domain.com:9925 REPLICATION_HOSTNAME=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
 ```
 
 #### Command line variables
@@ -37,7 +37,7 @@ HDB_LEADER_URL=https:/node-1.my-domain.com:9925 REPLICATION_HOSTNAME=node-1.my-d
 
 For example:
 ```
-harperdb --HDB_LEADER_URL https:/node-1.my-domain.com:9925 --REPLICATION_HOSTNAME node-1.my-domain.com --HDB_LEADER_USERNAME ... --HDB_LEADER_PASSWORD ...
+harperdb --HDB_LEADER_URL https://node-1.my-domain.com:9925 --REPLICATION_HOSTNAME node-1.my-domain.com --HDB_LEADER_USERNAME ... --HDB_LEADER_PASSWORD ...
 ```
 
 Each time clone is run it will set a value `cloned: true` in `harperdb-config.yaml`. This value will prevent clone from 
@@ -140,7 +140,7 @@ docker run -d \
   -v <host directory>:/home/harperdb/hdb \
   -e HDB_LEADER_PASSWORD=password \
   -e HDB_LEADER_USERNAME=admin \
-  -e HDB_LEADER_URL=https:/1.123.45.6:9925 \
+  -e HDB_LEADER_URL=https://1.123.45.6:9925 \
   -e REPLICATION_HOSTNAME=1.123.45.6 \
   -p 9925:9925 \
   -p 9926:9926 \

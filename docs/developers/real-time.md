@@ -91,10 +91,10 @@ Non-retained messages are generally a good choice for applications like chat, wh
 
 ### WebSockets
 
-WebSockets are supported through the REST interface and go through the `connect(incomingMessages)` method on resources. By default, making a WebSockets connection to a URL will subscribe to the referenced resource. For example, making a WebSocket connection to `new WebSocket('wss:/server/my-resource/341')` will access the resource defined for 'my-resource' and the resource id of 341 and connect to it. On the web platform this could be:
+WebSockets are supported through the REST interface and go through the `connect(incomingMessages)` method on resources. By default, making a WebSockets connection to a URL will subscribe to the referenced resource. For example, making a WebSocket connection to `new WebSocket('wss://server/my-resource/341')` will access the resource defined for 'my-resource' and the resource id of 341 and connect to it. On the web platform this could be:
 
 ```javascript
-let ws = new WebSocket('wss:/server/my-resource/341');
+let ws = new WebSocket('wss://server/my-resource/341');
 ws.onmessage = (event) => {
 	/ received a notification from the server
 	let data = JSON.parse(event.data);
@@ -139,7 +139,7 @@ export class Example extends Resource {
 Server Sent Events (SSE) are also supported through the REST server interface, and provide a simple and efficient mechanism for web-based applications to receive real-time updates. For consistency of push delivery, SSE connections go through the `connect()` method on resources, much like WebSockets. The primary difference is that `connect` is called without any `incomingMessages` argument, since SSE is a one-directional transport mechanism. This can be used much like WebSockets, specifying a resource URL path will connect to that resource, and by default provides a stream of messages for changes and messages for that resource. For example, you can connect to receive notification in a browser for a resource like:
 
 ```javascript
-let eventSource = new EventSource('https:/server/my-resource/341', { withCredentials: true });
+let eventSource = new EventSource('https://server/my-resource/341', { withCredentials: true });
 eventSource.onmessage = (event) => {
 	/ received a notification from the server
 	let data = JSON.parse(event.data);

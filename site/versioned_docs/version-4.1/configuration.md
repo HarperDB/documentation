@@ -4,7 +4,7 @@ title: Configuration File
 
 # Configuration File
 
-HarperDB is configured through a [YAML](https:/yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
 All available configuration will be populated by default in the config file on install, regardless of whether it is used.
 
@@ -389,7 +389,7 @@ The port the IPC server runs on. The default is `9383`.
 
 ### `localStudio`
 
-The `localStudio` section configures the local HarperDB Studio, a simplified GUI for HarperDB hosted on the server. A more comprehensive GUI is hosted by HarperDB at https:/studio.harperdb.io. Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
+The `localStudio` section configures the local HarperDB Studio, a simplified GUI for HarperDB hosted on the server. A more comprehensive GUI is hosted by HarperDB at [https://studio.harperdb.io](https://studio.harperdb.io). Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -401,7 +401,6 @@ localStudio:
 ```
 
 ---
-
 
 ### `logging`
 
@@ -417,6 +416,7 @@ logging:
 ```
 
 To access the audit logs, use the API operation `read_audit_log`. It will provide a history of the data, including original records and changes made, in a specified table.
+
 ```json
 {
   "operation": "read_audit_log",
@@ -424,6 +424,7 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
   "table": "dog"
 }
 ````
+
 `file` - _Type_: boolean; _Default_: true
 
 Defines whether or not to log to a file.
@@ -441,6 +442,7 @@ Control the verbosity of logs.
 logging:
   level: error
 ```
+
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `fatal`, the only entries logged will be `fatal` and `notify`. The default value is `error`.
 
 `root` - _Type_: string; _Default_: &lt;ROOTPATH>/log
@@ -467,6 +469,7 @@ logging:
     maxSize: 100K
     path: /user/hdb/log
 ```
+
 <div style={{paddingLeft: '30px'}}>
 
 `enabled` - _Type_: boolean; _Default_: false
@@ -491,7 +494,6 @@ Where to store the rotated log file. File naming convention is `HDB-YYYY-MM-DDT-
 
 </div>
 
-
 `stdStreams` - _Type_: boolean; _Default_: false
 
 Log HarperDB logs to the standard output and error streams. The `operationsApi.foreground` flag must be enabled in order to receive the stream.
@@ -502,7 +504,6 @@ logging:
 ```
 
 ---
-
 
 ### `operationsApi`
 
@@ -521,11 +522,11 @@ operationsApi:
 
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time an operation token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time an operation token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time a refresh token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time a refresh token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 </div>
 
 `foreground` - _Type_: boolean; _Default_: false

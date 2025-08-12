@@ -146,7 +146,7 @@ _Operation is restricted to super\_user roles only_
   "type": "cluster-status",
   "connections": [
     {
-      "url": "wss:/server-two:9925",
+      "url": "wss://server-two:9925",
       "subscriptions": [
         {
           "schema": "dev",
@@ -252,7 +252,7 @@ _Operation is restricted to super\_user roles only_
 {
     "operation": "cluster_set_routes",
     "routes": [
-      "wss:/server-two:9925",
+      "wss://server-two:9925",
       {
         "hostname": "server-three",
         "port": 9930
@@ -267,7 +267,7 @@ _Operation is restricted to super\_user roles only_
 {
     "message": "cluster routes successfully set",
     "set": [
-      "wss:/server-two:9925",
+      "wss://server-two:9925",
       {
         "hostname": "server-three",
         "port": 9930
@@ -299,7 +299,7 @@ _Operation is restricted to super\_user roles only_
 
 ```json
 [
-  "wss:/server-two:9925",
+  "wss://server-two:9925",
   {
     "hostname": "server-three",
     "port": 9930

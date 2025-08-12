@@ -24,7 +24,7 @@ This SQL keywords reference contains the SQL functions available in Harper.
 | ARRAY*          | ARRAY(_expression_)                                                 | Returns a list of data as a field.                                                                                                                      |
 | DISTINCT_ARRAY* | DISTINCT_ARRAY(_expression_)                                        | When placed around a standard ARRAY() function, returns a distinct (deduplicated) results set.                                                          |
 
-*For more information on ARRAY() and DISTINCT_ARRAY() see [this blog](https:/www.harperdb.io/post/sql-queries-to-complex-objects).
+*For more information on ARRAY() and DISTINCT_ARRAY() see [this blog](https://www.harperdb.io/post/sql-queries-to-complex-objects).
 
 ### Conversion
 

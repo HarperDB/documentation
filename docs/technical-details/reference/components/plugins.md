@@ -10,7 +10,7 @@ Similar to the existing extension API, a plugin must specify an `pluginModule` o
 
 If the plugin is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `pluginModule: ./dist/index.js`)
 
-It is also recommended that all extensions have a `package.json` that specifies JavaScript package metadata such as name, version, type, etc. Since plugins are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin](https:/docs.npmjs.com/cli/configuring-npm/package-json#bin) property). It can be published to npm. The possibilities are endless!
+It is also recommended that all extensions have a `package.json` that specifies JavaScript package metadata such as name, version, type, etc. Since plugins are just JavaScript packages, they can do anything a JavaScript package can normally do. It can be written in TypeScript, and compiled to JavaScript. It can export an executable (using the [bin](https://docs.npmjs.com/cli/configuring-npm/package-json#bin) property). It can be published to npm. The possibilities are endless!
 
 The key to a plugin is the [`handleApplication()`](#function-handleapplicationscope-scope-void--promisevoid) method. It must be exported by the `pluginModule`, and cannot coexist with any of the other extension methods such as `start`, `handleFile`, etc. The component loader will throw an error if both are defined.
 
@@ -173,7 +173,7 @@ This is the only method a plugin module must export. It can be async and is awai
 
 ## Class: `Scope`
 
-- Extends [`EventEmitter`](https:/nodejs.org/docs/latest/api/events.html#class-eventemitter)
+- Extends [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
 ### Event: `'close'`
 
@@ -323,7 +323,7 @@ Returns: `string` - The directory of the application. This is the root directory
 
 ## Class: `OptionsWatcher`
 
-- Extends [`EventEmitter`](https:/nodejs.org/docs/latest/api/events.html#class-eventemitter)
+- Extends [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
 ### Event: `'change'`
 
@@ -414,7 +414,7 @@ Any valid configuration value type. Essentially, the primitive types, an array o
 
 ## Class: `EntryHandler`
 
-Extends: [`EventEmitter`](https:/nodejs.org/docs/latest/api/events.html#class-eventemitter)
+Extends: [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
 Created by calling [`scope.handleEntry()`](#scopehandleentry) method.
 
@@ -522,7 +522,7 @@ This method returns a promise associated with the ready event of the updated han
 
 ### Interface: `BaseEntry`
 
-- **stats** - [`fs.Stats`](https:/nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
+- **stats** - [`fs.Stats`](https://nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
 - **urlPath** - `string` - The recommended URL path of the entry.
 - **absolutePath** - `string` - The absolute path of the entry.
 

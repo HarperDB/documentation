@@ -5,7 +5,7 @@ title: What is Harper
 # What is Harper
 
 :::info
-[Connect with our team!](https:/www.harpersystems.dev/contact)
+[Connect with our team!](https://www.harpersystems.dev/contact)
 :::
 
 ## What is Harper? Performance, Simplicity, and Scale.
@@ -24,7 +24,7 @@ What we realized is that networking systems together in this way is inefficient 
 
 ## Build With Harper
 
-Start by running Harper locally with [npm](https:/www.npmjs.com/package/harperdb) or [Docker](https:/hub.docker.com/r/harperdb/harperdb).
+Start by running Harper locally with [npm](https://www.npmjs.com/package/harperdb) or [Docker](https://hub.docker.com/r/harperdb/harperdb).
 
 Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](../developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
 
@@ -37,7 +37,7 @@ Finally, when it’s time to deploy, explore [replication](../developers/replica
 If you would like to jump into the most advanced capabilities, learn about [components](../technical-details/reference/components/).
 
 :::warning
-Need help? Please don’t hesitate to [reach out](https:/www.harpersystems.dev/contact).
+Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
 :::
 
 ## Popular Use Cases
@@ -46,7 +46,7 @@ With so much functionality built in, the use cases span nearly all application s
 
 ### Online Catalogs & Content Delivery
 
-For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https:/github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https:/www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
+For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
 
 ### Data Delivery Networks
 
@@ -56,4 +56,4 @@ For use cases like real-time sports updates, flight tracking, and zero-day softw
 
 Capturing, storing, and processing real-time data streams from client and IoT systems typically requires a stack of technology. Harper’s selective data replication and self-healing connections make for an ideal multi-tier system where edge and cloud systems both run Harper, making everything more performant.
 
-[We’re happy](https:/www.harpersystems.dev/contact) to walk you through how to do this.
+[We’re happy](https://www.harpersystems.dev/contact) to walk you through how to do this.

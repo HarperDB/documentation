@@ -4,7 +4,7 @@ title: Configuration File
 
 # Configuration File
 
-HarperDB is configured through a [YAML](https:/yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the operations API root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
 All available configuration will be populated by default in the config file on install, regardless of whether it is used.
 
@@ -340,7 +340,7 @@ clustering:
 
 ### `localStudio`
 
-The `localStudio` section configures the local HarperDB Studio, a simplified GUI for HarperDB hosted on the server. A more comprehensive GUI is hosted by HarperDB at https:/studio.harperdb.io. Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
+The `localStudio` section configures the local HarperDB Studio, a simplified GUI for HarperDB hosted on the server. A more comprehensive GUI is hosted by HarperDB at [https://studio.harperdb.io](https://studio.harperdb.io). Note, all database traffic from either `localStudio` or HarperDB Studio is made directly from your browser to the instance.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -485,11 +485,11 @@ This will enable cookie-based sessions to maintain an authenticated session. Thi
 
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time an operation token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time an operation token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time a refresh token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time a refresh token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 ### `operationsApi`
 

@@ -6,7 +6,7 @@ title: Instance Metrics
 
 The HarperDB Studio display instance status and metrics on the instance status page, which can be accessed with the following instructions:
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Select your desired instance.
 1. Click **status** in the instance control bar.

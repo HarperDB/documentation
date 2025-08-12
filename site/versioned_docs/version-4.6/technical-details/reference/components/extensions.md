@@ -12,7 +12,7 @@ Furthermore, what defines an extension separately from a component is that it le
 
 All extensions must define a `config.yaml` file and declare an `extensionModule` option. This must be a path to the extension module source code. The path must resolve from the root of the module directory.
 
-For example, the [Harper Next.js Extension](https:/github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
+For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
 
 If the plugin is being written in something other than JavaScript (such as TypeScript), ensure that the path resolves to the built version, (i.e. `extensionModule: ./dist/index.js`)
 
@@ -30,9 +30,9 @@ Other than their execution behavior, the `handleFile()` and `setupFile()` method
 
 Any [Resource Extension](#resource-extension) can be configured with the `files` and `urlPath` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
-> Harper relies on the [fast-glob](https:/github.com/mrmlnc/fast-glob) library for glob pattern matching.
+> Harper relies on the [fast-glob](https://github.com/mrmlnc/fast-glob) library for glob pattern matching.
 
-- **files** - `string | string[] | Object` - _required_ - A [glob pattern](https:/github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
+- **files** - `string | string[] | Object` - _required_ - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
   - **source** - `string | string[]` - _required_ - The glob pattern string or array of strings.
   - **only** - `'all' | 'files' | 'directories'` - _optional_ - The glob pattern will match only the specified entry type. Defaults to `'all'`.
   - **ignore** - `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
@@ -154,13 +154,13 @@ Returns: `boolean | void | Promise<boolean | void>`
 
 ## Protocol Extension
 
-A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension](https:/github.com/HarperDB/nextjs) handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../globals#server) global API documentation for more information).
+A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../globals#server) global API documentation for more information).
 
 ### Protocol Extension Configuration
 
 In addition to the `files` and `urlPath` [Resource Extension configuration](#resource-extension-configuration) options, and the `package` [Custom Component configuration](#custom-component-configuration) option, Protocol Extensions can also specify additional configuration options. Any options added to the extension configuration (in `config.yaml`), will be passed through to the `options` object of the `start()` and `startOnMainThread()` methods.
 
-For example, the [Harper Next.js Extension](https:/github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following `config.yaml`:
+For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#options) specifies multiple option that can be included in its configuration. For example, a Next.js app using `@harperdb/nextjs` may specify the following `config.yaml`:
 
 ```yaml
 '@harperdb/nextjs':

@@ -5,13 +5,14 @@ title: Users and Roles
 # Users and Roles
 
 ## List Roles
-Returns a list of all roles. Learn more about HarperDB roles here: https:/harperdb.io/docs/security/users-roles/.
+Returns a list of all roles. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `list_roles`
 
 ### Body
+
 ```json
 {
   "operation": "list_roles"
@@ -19,6 +20,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -72,7 +74,8 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Add Role
-Creates a new role with the specified permissions. Learn more about HarperDB roles here: [https:/harperdb.io/docs/security/users-roles/](https:/harperdb.io/docs/security/users-roles/).
+
+Creates a new role with the specified permissions. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
@@ -83,6 +86,7 @@ _Operation is restricted to super_user roles only_
   * structure_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
 
 ### Body
+
 ```json
 {
     "operation": "add_role",
@@ -113,6 +117,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "role": "develope3r",
@@ -147,7 +152,8 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter Role
-Modifies an existing role with the specified permissions. updates permissions from an existing role. Learn more about HarperDB roles here: [https:/harperdb.io/docs/security/users-roles/](https:/harperdb.io/docs/security/users-roles/).
+
+Modifies an existing role with the specified permissions. updates permissions from an existing role. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
@@ -191,6 +197,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "id": "a7cb91e9-32e4-4dbf-a327-fab4fa9191ea",
@@ -224,7 +231,8 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Drop Role
-Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. Learn more about HarperDB roles here: https:/harperdb.io/docs/security/users-roles/.
+
+Deletes an existing role from the database. NOTE: Role with associated users cannot be dropped. Learn more about HarperDB roles here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
@@ -232,6 +240,7 @@ _Operation is restricted to super_user roles only_
 * id _(required)_ - this is the id of the role you are dropping
 
 ### Body
+
 ```json
 {
     "operation": "drop_role",
@@ -240,6 +249,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "developer successfully deleted"
@@ -249,13 +259,15 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## List Users
-Returns a list of all users. Learn more about HarperDB users here: https:/harperdb.io/docs/security/users-roles/.
+
+Returns a list of all users. Learn more about HarperDB users here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `list_users`
 
 ### Body
+
 ```json
 {
     "operation": "list_users"
@@ -263,6 +275,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 [
     {
@@ -360,11 +373,13 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## User Info
+
 Returns user data for the associated user credentials.
 
 * operation _(required)_ - must always be `user_info`
 
 ### Body
+
 ```json
 {
     "operation": "user_info"
@@ -372,6 +387,7 @@ Returns user data for the associated user credentials.
 ```
 
 ### Response: 200
+
 ```json
 {
     "__createdtime__": 1610749235611,
@@ -393,7 +409,8 @@ Returns user data for the associated user credentials.
 ---
 
 ## Add User
-Creates a new user with the specified role and credentials. Learn more about HarperDB users here: https:/harperdb.io/docs/security/users-roles/.
+
+Creates a new user with the specified role and credentials. Learn more about HarperDB users here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 
@@ -404,6 +421,7 @@ _Operation is restricted to super_user roles only_
 * active _(required)_ - boolean value for status of user's access to your HarperDB instance. If set to false, user will not be able to access your instance of HarperDB.
 
 ### Body
+
 ```json
 {
   "operation": "add_user",
@@ -415,6 +433,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "hdb_user successfully added"
@@ -424,17 +443,19 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Alter User
-Modifies an existing user's role and/or credentials. Learn more about HarperDB users here: https:/harperdb.io/docs/security/users-roles/.
+
+Modifies an existing user's role and/or credentials. Learn more about HarperDB users here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super\_user roles only_
 
-  * operation _(required)_ - must always be `alter_user`
-  * username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
-  * password _(optional)_ - clear text for password. HarperDB will encrypt the password upon receipt
-  * role _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
-  * active _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
+* operation _(required)_ - must always be `alter_user`
+* username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
+* password _(optional)_ - clear text for password. HarperDB will encrypt the password upon receipt
+* role _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
+* active _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
 
 ### Body
+
 ```json
 {
   "operation": "alter_user",
@@ -446,6 +467,7 @@ _Operation is restricted to super\_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
   "message": "updated 1 of 1 records",
@@ -461,7 +483,8 @@ _Operation is restricted to super\_user roles only_
 ---
 
 ## Drop User
-Deletes an existing user by username. Learn more about HarperDB users here: https:/harperdb.io/docs/security/users-roles/.
+
+Deletes an existing user by username. Learn more about HarperDB users here: [https://harperdb.io/docs/security/users-roles/](https://harperdb.io/docs/security/users-roles/).
 
 _Operation is restricted to super_user roles only_
 

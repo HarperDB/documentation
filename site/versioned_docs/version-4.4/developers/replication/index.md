@@ -28,7 +28,7 @@ In this example, the current node is `server-one`, and it will connect to `serve
 replication:
   hostname: server-one
   routes:
-    - wss:/server-two:9925 # URL based route
+    - wss://server-two:9925 # URL based route
     - hostname: server-three # define a hostname and port
       port: 9930
 ```
@@ -45,7 +45,7 @@ You can also use the [operations API](../operations-api/clustering) to dynamical
 
 These operations will also dynamically generating certificates as needed, if there are no existing signed certificates, or if the existing certificates are not valid for the new node.
 
-Harper will also automatically replicate node information to other nodes in a cluster ([gossip-style discovery](https:/highscalability.com/gossip-protocol-explained/)). This means that you only need to connect to one node in an existing cluster, and Harper will automatically detect and connect to other nodes in the cluster (bidirectionally).
+Harper will also automatically replicate node information to other nodes in a cluster ([gossip-style discovery](https://highscalability.com/gossip-protocol-explained/)). This means that you only need to connect to one node in an existing cluster, and Harper will automatically detect and connect to other nodes in the cluster (bidirectionally).
 
 By default, Harper will replicate all the data in all the databases. You can configure which databases are replicated, and then override this behavior on a per-table basis. For example, you can indicate which databases should be replicated by default, here indicating you want to replicate the `data` and `system` databases:
 

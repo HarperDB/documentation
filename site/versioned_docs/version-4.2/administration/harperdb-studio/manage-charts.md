@@ -6,7 +6,7 @@ title: Manage Charts
 
 The HarperDB Studio includes a charting feature within an instance. They are generated in real time based on your existing data and automatically refreshed every 15 seconds. Instance charts can be accessed with the following instructions:
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Select your desired instance.
 1. Click **charts** in the instance control bar.

@@ -6,7 +6,7 @@ title: Custom Functions Operations
 
 One way to manage Custom Functions is through [HarperDB Studio](../harperdb-studio/). It performs all the necessary operations automatically. To get started, navigate to your instance in HarperDB Studio and click the subnav link for “functions”. If you have not yet enabled Custom Functions, it will walk you through the process. Once configuration is complete, you can manage and deploy Custom Functions in minutes.
 
-HarperDB Studio manages your Custom Functions using nine HarperDB operations. You may view these operations within our [API Docs](https:/api.harperdb.io/). A brief overview of each of the operations is below:
+HarperDB Studio manages your Custom Functions using nine HarperDB operations. You may view these operations within our [API Docs](https://api.harperdb.io/). A brief overview of each of the operations is below:
 
 
 
@@ -32,7 +32,7 @@ HarperDB Studio manages your Custom Functions using nine HarperDB operations. Yo
 
 * **add_custom_function_project**
 
-   Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: https:/github.com/HarperDB/harperdb-custom-functions-template.
+   Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: [https://github.com/HarperDB/harperdb-custom-functions-template](https://github.com/HarperDB/harperdb-custom-functions-template).
 
 * **drop_custom_function_project**
 

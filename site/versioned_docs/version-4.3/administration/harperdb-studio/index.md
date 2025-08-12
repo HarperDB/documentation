@@ -5,9 +5,9 @@ title: HarperDB Studio
 # HarperDB Studio
 HarperDB Studio is the web-based GUI for HarperDB. Studio enables you to administer, navigate, and monitor all of your HarperDB instances in a simple, user-friendly interface without any knowledge of the underlying HarperDB API. It’s free to sign up, get started today!
 
-[Sign up for free!](https:/studio.harperdb.io/sign-up)
+[Sign up for free!](https://studio.harperdb.io/sign-up)
 
-HarperDB now includes a simplified local Studio that is packaged with all HarperDB installations and served directly from the instance. It can be enabled in the [configuration file](../../deployments/configuration#localstudio). This section is dedicated to the hosted Studio accessed at [studio.harperdb.io](https:/studio.harperdb.io).
+HarperDB now includes a simplified local Studio that is packaged with all HarperDB installations and served directly from the instance. It can be enabled in the [configuration file](../../deployments/configuration#localstudio). This section is dedicated to the hosted Studio accessed at [studio.harperdb.io](https://studio.harperdb.io).
 
 ---
 ## How does Studio Work?

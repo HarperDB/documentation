@@ -6,7 +6,7 @@ title: Query Instance Data
 
 SQL queries can be executed directly through the Harper Studio with the following instructions:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Select your desired instance.
 1. Click **query** in the instance control bar.

@@ -77,7 +77,7 @@ _Operation is restricted to super_user roles only_
 		"hostname": "node1",
 		"databases": "*",
 		"routes": null,
-		"url": "wss:/127.0.0.1:9925"
+  "url": "wss://127.0.0.1:9925"
 	},
 	"componentsRoot": "/Users/hdb/components",
 	"localStudio": {
