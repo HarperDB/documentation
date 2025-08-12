@@ -1,102 +1,109 @@
-# Harper Documentation Site (Docusaurus)
+# Harper Documentation Site
 
-This directory contains the Docusaurus site for Harper documentation.
+This directory contains the Docusaurus configuration and build files for the Harper documentation site.
 
-## ⚠️ Important: GitBook to Docusaurus Migration
+## 🚀 Quick Start
 
-**Current State**: The documentation repository contains GitBook-formatted docs. This Docusaurus site requires converted docs to function properly.
-
-## Prerequisites
-
-- Both repositories must be on the `docs-in-hdb` branch
-- Repositories must be in sibling directories:
-  ```
-  parent-directory/
-  ├── documentation/  (on docs-in-hdb branch)
-  └── harperdb/      (on docs-in-hdb branch)
-  ```
-
-## Quick Start
-
-From the documentation repository:
 ```bash
 # Install dependencies
-npm run site:install
+npm install
 
-# Sync and preview docs
-npm run site:sync-and-dev
+# Start development server
+npm start
+# Opens at http://localhost:3000
+
+# Build for production
+npm run build
+
+# Serve production build locally
+npm run serve
 ```
 
-From the harperdb repository:
+## 📁 Directory Structure
+
+```
+site/
+├── build/              # Production build output
+├── src/                # React components and custom pages
+│   ├── css/           # Custom styles
+│   └── pages/         # Custom pages
+├── static/            # Static assets
+│   ├── img/          # Images and logos
+│   └── js/           # JavaScript files
+├── versioned_docs/    # Documentation for previous versions
+├── versioned_sidebars/ # Sidebar configurations for versions
+├── docusaurus.config.ts # Main Docusaurus configuration
+├── sidebars.ts        # Sidebar navigation structure
+├── redirects.ts       # URL redirects configuration
+└── versions.json      # Version configuration
+```
+
+## 🛠️ Development
+
+### Running Locally
+
 ```bash
-# Sync docs and preview
-npm run docs:sync:sample
-npm run docs:dev
+# Start the development server with hot reload
+npm start
+
+# Clear cache if you encounter issues
+npm run clear
 ```
 
-## How It Works
+The development server runs at `http://localhost:3000` and automatically reloads when you make changes.
 
-1. **Source**: GitBook-formatted docs in `documentation/docs/`
-1. **Conversion**: Scripts convert GitBook syntax to Docusaurus format
-1. **Destination**: Converted docs go to `harperdb/docs/`
-1. **Preview**: Docusaurus always reads from `harperdb/docs/`
+### Building
 
-## Available Scripts
+```bash
+# Create production build
+npm run build
 
-### From documentation repo (`npm run`):
-- `site:install` - Install Docusaurus dependencies
-- `site:dev` - Preview converted docs from harperdb (shows warning)
-- `site:build` - Build production site from harperdb docs
-- `site:sync-and-dev` - Sync sample docs and start preview
-- `sync:to-harperdb` - Full sync to harperdb
-- `sync:to-harperdb:sample` - Sync sample files only
-
-### From harperdb repo (`npm run`):
-- `docs:init` - Install dependencies
-- `docs:sync` - Sync all docs from documentation repo
-- `docs:sync:sample` - Sync sample files for testing
-- `docs:dev` - Start preview server
-- `docs:build` - Build production site
-
-### Direct Docusaurus commands (from site directory):
-- `npm start` - Start dev server (requires DOCS_PATH env var)
-- `npm run build` - Build production site
-- `npm run serve` - Serve production build
-- `npm run clear` - Clear cache
-
-## Architecture
-
-```
-documentation/              harperdb/
-├── docs/         →→→      ├── docs/
-│   (GitBook)     sync     │   (Docusaurus)
-│                 and      │
-├── site/         convert  └── (preview from here)
-│   (Docusaurus)
-│
-└── images/       →→→      └── docs/images/
+# Test production build locally
+npm run serve
 ```
 
-## Conversion Features
+The production build is optimized and outputs to the `build/` directory.
 
-The sync scripts handle:
-- GitBook hints → Docusaurus admonitions
-- GitBook tabs → Docusaurus tabs
-- README.md → index.md
-- Link fixing (removes .md extensions)
-- Image path updates
-- Title extraction from headings
-- Category generation for directories
+## 📋 Cutting a New Version
 
-## Future State
+When releasing a new version of Harper documentation:
 
-Once the migration is complete:
-- Documentation repo will contain Docusaurus-formatted docs
-- No conversion will be needed
-- Can preview directly from documentation repo
+```bash
+# Cut a new version (e.g., 4.7)
+npm run version
 
-## Learn More
+# This will:
+# 1. Copy current docs to versioned_docs/version-4.7
+# 2. Copy current sidebars to versioned_sidebars
+# 3. Update versions.json
+```
 
-- [Docusaurus Documentation](https://docusaurus.io/)
-- [Migration Plan](../DOCUSAURUS_MIGRATION_PLAN.md)
-- [Migration Status](../DOCUSAURUS_MIGRATION_STATUS.md)
+After cutting a version:
+1. The current `/docs` becomes the new "next" version
+2. The previous latest version is archived
+3. Update `docusaurus.config.ts` to set the new `lastVersion`
+
+## 🔧 Configuration
+
+- **`docusaurus.config.ts`** - Main site configuration (metadata, plugins, themes)
+- **`sidebars.ts`** - Documentation navigation structure
+- **`redirects.ts`** - URL redirect rules
+- **`versions.json`** - Available documentation versions
+
+## 🔍 Search
+
+The site includes local search that indexes all documentation content at build time, providing fast client-side search without external dependencies.
+
+## 📝 Other Commands
+
+```bash
+# Type checking
+npm run typecheck
+
+# Clean all generated files and caches
+npm run clear
+```
+
+## 🚢 Deployment
+
+The site builds to static HTML/CSS/JS files that can be deployed to any static hosting service. The production build is in the `build/` directory after running `npm run build`.
