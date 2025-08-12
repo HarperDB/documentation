@@ -40,11 +40,11 @@ A summary view of all instances within an organization can be viewed by clicking
    1. Select Instance Specs
       1. Select Instance RAM
 
-         _Harper Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ _More on instance specs__._
+         _Harper Cloud Instances are billed based on Instance RAM, this will select the size of your provisioned instance._ _More on instance specs\_\_._
 
       1. Select Storage Size
 
-         _Each instance has a mounted storage volume where your Harper data will reside. Storage is provisioned based on space and IOPS._ _More on IOPS Impact on Performance__._
+         _Each instance has a mounted storage volume where your Harper data will reside. Storage is provisioned based on space and IOPS._ _More on IOPS Impact on Performance\_\_._
 
       1. Select Instance Region
 

@@ -1,12 +1,10 @@
 {
-  "label": "Administration",
-  "position": 2,
-  "link": {
-    "type": "generated-index",
-    "title": "Administration Documentation",
-    "description": "Guides for managing and administering HarperDB instances",
-    "keywords": [
-      "administration"
-    ]
-  }
+	"label": "Administration",
+	"position": 2,
+	"link": {
+		"type": "generated-index",
+		"title": "Administration Documentation",
+		"description": "Guides for managing and administering HarperDB instances",
+		"keywords": ["administration"]
+	}
 }

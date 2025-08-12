@@ -10,11 +10,11 @@ Resources, including tables, can be configured as RESTful endpoints. Make sure y
 
 The default path structure provides access to resources at several levels:
 
-* `/my-resource` - The root path of a resource usually has a description of the resource (like a describe operation for a table).
-* `/my-resource/` - The trailing slash in a path indicates it is a collection of the records. The root collection for a table represents all the records in a table, and usually you will append query parameters to query and search for more specific records.
-* `/my-resource/record-id` - This resource locator represents a specific record, referenced by its id. This is typically how you can retrieve, update, and delete individual records.
-* `/my-resource/record-id/` - Again, a trailing slash indicates a collection; here it is the collection of the records that begin with the specified id prefix.
-* `/my-resource/record-id/with/multiple/parts` - A record id can consist of multiple path segments.
+- `/my-resource` - The root path of a resource usually has a description of the resource (like a describe operation for a table).
+- `/my-resource/` - The trailing slash in a path indicates it is a collection of the records. The root collection for a table represents all the records in a table, and usually you will append query parameters to query and search for more specific records.
+- `/my-resource/record-id` - This resource locator represents a specific record, referenced by its id. This is typically how you can retrieve, update, and delete individual records.
+- `/my-resource/record-id/` - Again, a trailing slash indicates a collection; here it is the collection of the records that begin with the specified id prefix.
+- `/my-resource/record-id/with/multiple/parts` - A record id can consist of multiple path segments.
 
 ## GET
 
@@ -79,13 +79,13 @@ Generally the POST method can be used for custom actions since POST has the broa
 
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
-````http
+`````http
 ````http
 POST /MyTable/
 Content-Type: application/json
 
 `{ "name": "some data" }`
-````
+`````
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
@@ -264,7 +264,7 @@ When selecting properties from a related table without any constraints on the re
 
 
 ### Many-to-many Relationships (Array of Foreign Keys)
-Many-to-many relationships are also supported, and can easily be created using an array of foreign key values, without requiring the traditional use of a junction table. This can be done by simply creating a relationship on an array-typed property that references a local array of foreign keys. For example, we could create a relationship to the resellers of a product (each product can have multiple resellers, each ) 
+Many-to-many relationships are also supported, and can easily be created using an array of foreign key values, without requiring the traditional use of a junction table. This can be done by simply creating a relationship on an array-typed property that references a local array of foreign keys. For example, we could create a relationship to the resellers of a product (each product can have multiple resellers, each )
 
 ```graphql
 type Product @table @export {
@@ -289,7 +289,7 @@ PUT /Product/123
 Content-Type: application/json
 
 { "id": "123", "resellerIds": ["first-reseller-id", "second-reseller-id", "last-reseller-id"],
-...} 
+...}
 ```
 
 ### Type Conversion
@@ -355,3 +355,4 @@ Content-Type: image/gif
 
 ...image data...
 ```
+````

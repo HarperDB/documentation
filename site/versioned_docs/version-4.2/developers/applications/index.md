@@ -14,7 +14,7 @@ When working through this guide, we recommend you use the [HarperDB Application 
 
 ## Understanding the Component Application Architecture
 
-HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node\_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed in `node_modules`.
+HarperDB provides several types of components. Any package that is added to HarperDB is called a "component", and components are generally categorized as either "applications", which deliver a set of endpoints for users, or "extensions", which are building blocks for features like authentication, additional protocols, and connectors that can be used by other components. Components can be added to the `hdb/components` directory and will be loaded by HarperDB when it starts. Components that are remotely deployed to HarperDB (through the studio or the operation API) are installed into the hdb/node_modules directory. Using `harperdb run .` or `harperdb dev .` allows us to specifically load a certain application in addition to any that have been manually added to `hdb/components` or installed in `node_modules`.
 
 ```mermaid
 flowchart LR
@@ -68,8 +68,9 @@ To create your own application from scratch, you'll may want to initialize it as
 Here's an example for a github repo:
 
 ```shell
-> git remote set-url origin git@github.com:/<github-user>/<github-repo> 
+> git remote set-url origin git@github.com:/<github-user>/<github-repo>
 ```
+
 Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](#deploying-your-application).
 
 </details>
@@ -185,7 +186,7 @@ If-None-Match: "etag-id" # browsers can automatically provide this
 
 ## Querying
 
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query\_string).
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
 In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing. We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 
@@ -227,9 +228,9 @@ Congratulations, you now have created a secure database application backend with
 
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
-* Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-* Go to the applications section of your target cloud instance in the [HarperDB Studio](https://studio.harperdb.io)
-* In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
+- Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
+- Go to the applications section of your target cloud instance in the [HarperDB Studio](https://studio.harperdb.io)
+- In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components#deploy-component).
 
@@ -291,8 +292,7 @@ Here we have focused on customizing how we retrieve data, but we may also want t
 ```javascript
 export class CustomDog extends Dog {
 	async post(data) {
-		if (data.action === 'add-trick')
-			this.tricks.push(data.trick);
+		if (data.action === 'add-trick') this.tricks.push(data.trick);
 	}
 }
 ```
@@ -329,9 +329,10 @@ We can also directly implement the Resource class and use it to create new data 
 
 ```javascript
 const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
+class BreedSource extends Resource {
+	// define a data source
 	async get() {
-  return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
+		return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
@@ -350,10 +351,10 @@ This config file allows you define a location for static files, as well (that ar
 
 Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
 
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/**".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
+- `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
+- `path`: This is the URL path that is handled by this component.
+- `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
+- `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
 
 ## Define Fastify Routes
 

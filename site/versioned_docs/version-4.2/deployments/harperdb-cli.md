@@ -35,7 +35,7 @@ harperdb install
 harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_PASSWORD password --ROOTPATH /tmp/hdb/ --OPERATIONSAPI_NETWORK_PORT 9925
 ```
 
-***
+---
 
 ## Starting HarperDB
 
@@ -45,7 +45,7 @@ To start HarperDB after it is installed, run the following command:
 harperdb start
 ```
 
-***
+---
 
 ## Stopping HarperDB
 
@@ -55,7 +55,7 @@ To stop HarperDB once it is running, run the following command:
 harperdb stop
 ```
 
-***
+---
 
 ## Restarting HarperDB
 
@@ -64,7 +64,8 @@ To restart HarperDB once it is running, run the following command:
 ```bash
 harperdb restart
 ```
-***
+
+---
 
 ## Getting the HarperDB Version
 

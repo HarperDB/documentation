@@ -84,8 +84,7 @@ Here we have focused on customizing how we retrieve data, but we may also want t
 ```javascript
 export class CustomDog extends Dog {
 	async post(data) {
-		if (data.action === 'add-trick')
-			this.tricks.push(data.trick);
+		if (data.action === 'add-trick') this.tricks.push(data.trick);
 	}
 }
 ```
@@ -122,9 +121,10 @@ We can also directly implement the Resource class and use it to create new data 
 
 ```javascript
 const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
+class BreedSource extends Resource {
+	// define a data source
 	async get() {
-  return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
+		return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
@@ -143,10 +143,10 @@ This config file allows you define a location for static files, as well (that ar
 
 Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
 
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/**".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
+- `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
+- `path`: This is the URL path that is handled by this component.
+- `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
+- `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
 
 ## Define Fastify Routes
 

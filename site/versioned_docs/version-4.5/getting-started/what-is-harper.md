@@ -36,7 +36,6 @@ Finally, when it’s time to deploy, explore [replication](../developers/replica
 
 If you would like to jump into the most advanced capabilities, learn about [components](../developers/components/).
 
-
 :::warning
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
 :::

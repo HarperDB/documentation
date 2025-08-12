@@ -4,16 +4,13 @@ title: Joins
 
 # Joins
 
-HarperDB allows developers to join any  number of tables and currently supports the following join types:
+HarperDB allows developers to join any number of tables and currently supports the following join types:
 
-* INNER JOIN LEFT 
-* INNER JOIN LEFT 
-* OUTER JOIN
-
+- INNER JOIN LEFT
+- INNER JOIN LEFT
+- OUTER JOIN
 
 Here’s a basic example joining two tables from our Get Started example- joining a dogs table with a breeds table:
-
-
 
 ```
 SELECT d.id, d.dog_name, d.owner_name, b.name, b.section

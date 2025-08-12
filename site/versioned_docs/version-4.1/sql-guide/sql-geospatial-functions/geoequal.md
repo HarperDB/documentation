@@ -3,18 +3,22 @@ title: geoEqual
 ---
 
 # geoEqual
+
 Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see [https://developers.arcgis.com/documentation/spatial-references/](https://developers.arcgis.com/documentation/spatial-references/). Returns a Boolean.
 
 ## Syntax
+
 geoEqual(_geo1_, _geo2_)
 
 ## Parameters
-| Parameter	 | Description                            |
-|------------|----------------------------------------|
-| geo1	      | Required. GeoJSON geometry or feature. |
-| geo2	      | Required. GeoJSON geometry or feature. |
+
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| geo1      | Required. GeoJSON geometry or feature. |
+| geo2      | Required. GeoJSON geometry or feature. |
 
 ### Example
+
 Find HarperDB Headquarters within all locations within the database.
 
 ```

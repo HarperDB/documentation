@@ -29,8 +29,8 @@ Next, you need to define the source for your cache. External data sources could 
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-  return (await fetch(`https://some-api.com/${this.getId()}`)).json();
- }
+		return (await fetch(`https://some-api.com/${this.getId()}`)).json();
+	}
 }
 ```
 
@@ -65,11 +65,11 @@ In the example above, we simply retrieved data to fulfill a cache request. We ma
 
 ```javascript
 class ThirdPartyAPI extends Resource {
- async get() {
-  let response = await fetch(`https://some-api.com/${this.getId()}`);
-  this.getContext().lastModified = response.headers.get('Last-Modified');
-  return response.json();
- }
+	async get() {
+		let response = await fetch(`https://some-api.com/${this.getId()}`);
+		this.getContext().lastModified = response.headers.get('Last-Modified');
+		return response.json();
+	}
 }
 ```
 
@@ -105,10 +105,11 @@ One way to provide more active caching is to specifically invalidate individual 
 ```javascript
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
- async post(data) {
-  if (data.invalidate) // use this flag as a marker
-   this.invalidate();
- }
+	async post(data) {
+		if (data.invalidate)
+			// use this flag as a marker
+			this.invalidate();
+	}
 }
 ```
 
@@ -139,20 +140,20 @@ class ThirdPartyAPI extends Resource {
 
 Notification events should always include an `id` to indicate the primary key of the updated record. The event should have a `value` for `put` and `message` event types. The `timestamp` is optional and can be used to indicate the exact timestamp of the change. The following event `type`s are supported:
 
-* `put` - This indicates that the record has been updated and provides the new value of the record
-* `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
-* `delete` - This indicates that the record has been deleted.
-* `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time).
-* `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
+- `put` - This indicates that the record has been updated and provides the new value of the record
+- `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
+- `delete` - This indicates that the record has been deleted.
+- `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time).
+- `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
 
 And the following properties can be defined on event objects:
 
-* `type`: The event type as described above.
-* `id`: The primary key of the record that updated
-* `value`: The new value of the record that updated (for put and message)
-* `writes`: An array of event properties that are part of a transaction (used in conjunction with the transaction event type).
-* `table`: The name of the table with the record that was updated. This can be used with events within a transaction to specify events across multiple tables.
-* `timestamp`: The timestamp of when the data change occurred
+- `type`: The event type as described above.
+- `id`: The primary key of the record that updated
+- `value`: The new value of the record that updated (for put and message)
+- `writes`: An array of event properties that are part of a transaction (used in conjunction with the transaction event type).
+- `table`: The name of the table with the record that was updated. This can be used with events within a transaction to specify events across multiple tables.
+- `timestamp`: The timestamp of when the data change occurred
 
 With an active external data source with a `subscribe` method, the data source will proactively notify the cache, ensuring a fresh and efficient active cache. Note that with an active data source, we still use the `sourcedFrom` method to register the source for a caching table, and the table will automatically detect and call the subscribe method on the data source.
 
@@ -171,13 +172,13 @@ An alternative to using asynchronous generators is to use a subscription stream 
 
 ```javascript
 class ThirdPartyAPI extends Resource {
- subscribe() {
-  const subscription = super.subscribe();
-  setupListeningToRemoteService().on('update', (event) => {
-   subscription.send(event);
-  });
-  return subscription;
- }
+	subscribe() {
+		const subscription = super.subscribe();
+		setupListeningToRemoteService().on('update', (event) => {
+			subscription.send(event);
+		});
+		return subscription;
+	}
 }
 ```
 
@@ -213,12 +214,12 @@ When you are using a caching table, it is important to remember that any resourc
 
 ```javascript
 class MyCache extends tables.MyCache {
- async post(data) {
-        // if the data is not cached locally, retrieves from source:
-        await this.ensuredLoaded();
-        // now we can be sure that the data is loaded, and can access properties
-        this.quantity = this.quantity - data.purchases;
- }
+	async post(data) {
+		// if the data is not cached locally, retrieves from source:
+		await this.ensuredLoaded();
+		// now we can be sure that the data is loaded, and can access properties
+		this.quantity = this.quantity - data.purchases;
+	}
 }
 ```
 

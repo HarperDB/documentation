@@ -12,7 +12,6 @@ The first option is `read_transaction_log`. The transaction log is built upon cl
 
 If you would like to use the transaction log, but have not set up clustering yet, please see ["How to Cluster"](./clustering/).
 
-
 ## Transaction Log Operations
 
 ### read_transaction_log
@@ -21,12 +20,12 @@ The `read_transaction_log` operation returns a prescribed set of records, based 
 
 ```json
 {
-    "operation": "read_transaction_log",
-    "schema": "dev",
-    "table": "dog",
-    "from": 1598290235769,
-    "to": 1660249020865,
-    "limit": 2
+	"operation": "read_transaction_log",
+	"schema": "dev",
+	"table": "dog",
+	"from": 1598290235769,
+	"to": 1660249020865,
+	"limit": 2
 }
 ```
 
@@ -34,38 +33,37 @@ _See example response below._
 
 ### read_transaction_log Response
 
-
 ```json
 [
-    {
-        "operation": "insert",
-        "user": "admin",
-        "timestamp": 1660165619736,
-        "records": [
-            {
-                "id": 1,
-                "dog_name": "Penny",
-                "owner_name": "Kyle",
-                "breed_id": 154,
-                "age": 7,
-                "weight_lbs": 38,
-                "__updatedtime__": 1660165619688,
-                "__createdtime__": 1660165619688
-            }
-        ]
-    },
-    {
-        "operation": "update",
-        "user": "admin",
-        "timestamp": 1660165620040,
-        "records": [
-            {
-                "id": 1,
-                "dog_name": "Penny B",
-                "__updatedtime__": 1660165620036
-            }
-        ]
-    }
+	{
+		"operation": "insert",
+		"user": "admin",
+		"timestamp": 1660165619736,
+		"records": [
+			{
+				"id": 1,
+				"dog_name": "Penny",
+				"owner_name": "Kyle",
+				"breed_id": 154,
+				"age": 7,
+				"weight_lbs": 38,
+				"__updatedtime__": 1660165619688,
+				"__createdtime__": 1660165619688
+			}
+		]
+	},
+	{
+		"operation": "update",
+		"user": "admin",
+		"timestamp": 1660165620040,
+		"records": [
+			{
+				"id": 1,
+				"dog_name": "Penny B",
+				"__updatedtime__": 1660165620036
+			}
+		]
+	}
 ]
 ```
 
@@ -77,10 +75,10 @@ The `delete_transaction_logs_before` operation will delete transaction log data 
 
 ```json
 {
-    "operation": "delete_transaction_logs_before",
-    "schema": "dev",
-    "table": "dog",
-    "timestamp": 1598290282817
+	"operation": "delete_transaction_logs_before",
+	"schema": "dev",
+	"table": "dog",
+	"timestamp": 1598290282817
 }
 ```
 

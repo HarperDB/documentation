@@ -8,7 +8,7 @@ If you wish to install locally or already have a configured server, see the basi
 
 The following is a recommended way to configure Linux and install HarperDB. These instructions should work reasonably well for any public cloud or on-premises Linux instance.
 
-***
+---
 
 These instructions assume that the following has already been completed:
 
@@ -22,7 +22,7 @@ While you will need to access HarperDB through port 9925 for the administration 
 
 For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
 
-***
+---
 
 ### (Optional) LVM Configuration
 
@@ -85,7 +85,7 @@ Run `lsblk` and note the device name of the additional volume
 lsblk
 ```
 
-Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb\_vg/hdb\_lv)
+Create an ext4 filesystem on the volume (The below commands assume the device name is nvme1n1. If you used LVM to create logical volume, replace /dev/nvme1n1 with /dev/hdb_vg/hdb_lv)
 
 ```bash
 sudo mkfs.ext4 -L hdb_data /dev/nvme1n1
@@ -175,6 +175,7 @@ harperdb start \
 ```
 
 You can also use a custom configuration file to set values on install, use the CLI/ENV variable `HDB_CONFIG` and set it to the path of your [custom configuration file](../../deployments/configuration):
+
 ```bash
 npm install -g harperdb
 harperdb start \
@@ -185,6 +186,7 @@ harperdb start \
 ```
 
 #### Start HarperDB on Boot
+
 HarperDB will automatically start after installation. If you wish HarperDB to start when the OS boots, you have two options:
 
 You can set up a crontab:

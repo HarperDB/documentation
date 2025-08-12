@@ -8,9 +8,9 @@ HarperDB is a highly extensible database application platform with support for a
 
 There are three general categories of components for HarperDB:
 
-* **protocol extensions** that provide and define ways for clients to access data
-* **resource extensions** that handle and interpret different types of files
-* **consumer data sources** that provide a way to access and retrieve data from other sources.
+- **protocol extensions** that provide and define ways for clients to access data
+- **resource extensions** that handle and interpret different types of files
+- **consumer data sources** that provide a way to access and retrieve data from other sources.
 
 Server protocol extensions can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
 
@@ -48,10 +48,10 @@ Here, the `request` object will have the following structure (this is based on N
 
 ```typescript
 interface Request {
-   method: string
-   headers: Headers // use request.headers.get(headerName) to get header values
-   body: Stream
-   data: any // deserialized data from the request body
+	method: string;
+	headers: Headers; // use request.headers.get(headerName) to get header values
+	body: Stream;
+	data: any; // deserialized data from the request body
 }
 ```
 
@@ -59,10 +59,10 @@ The returned `response` object should have the following structure (again, follo
 
 ```typescript
 interface Response {
-	status?: number
-	headers?: {} // an object with header name/values
-	data?: any // object/value that will be serialized into the body
-	body?: Stream
+	status?: number;
+	headers?: {}; // an object with header name/values
+	data?: any; // object/value that will be serialized into the body
+	body?: Stream;
 }
 ```
 
@@ -76,7 +76,7 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 			// get some token for the user and determine the user
 			// if we want to use harperdb's user database
 			let user = server.getUser(username, password);
-			request.user = user; // authenticate user object goes on the request	
+			request.user = user; // authenticate user object goes on the request
 		}
 		// continue on to the next layer
 		return nextLayer(request);

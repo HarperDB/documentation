@@ -4,12 +4,12 @@ title: Support
 
 # Support
 
-HarperDB support is available with all paid instances. Support tickets are managed via our [Zendesk portal](https://harperdbhelp.zendesk.com/hc/en-us/requests/new). Once a ticket is submitted the HarperDB team will triage your request and get back to you as soon as possible. Additionally, you can join our [Slack community](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/) where HarperDB team members and others in the community are frequently active to help answer questions.
+HarperDB support is available with all paid instances. Support tickets are managed via our [Zendesk portal](https://harperdbhelp.zendesk.com/hc/en-us/requests/new). Once a ticket is submitted the HarperDB team will triage your request and get back to you as soon as possible. Additionally, you can join our [Slack community](https://harperdbcommunity.slack.com/join/shared_invite/zt-e8w6u1pu-2UFAXl_f4ZHo7F7DVkHIDA#/) where HarperDB team members and others in the community are frequently active to help answer questions.
 
-* [Submit a Support Ticket](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
-* [Join Our Slack Community](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
+- [Submit a Support Ticket](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
+- [Join Our Slack Community](https://harperdbcommunity.slack.com/join/shared_invite/zt-e8w6u1pu-2UFAXl_f4ZHo7F7DVkHIDA#/)
 
-***
+---
 
 ### Common Issues
 
@@ -23,9 +23,9 @@ HarperDB should be installed using a specific user for HarperDB. This allows you
 
 **Error: Must execute as User**
 
-You may have gotten an error like, `Error: Must execute as <<username>>.` This means that you installed HarperDB as `<<user>>`. Because HarperDB stores files directly to the file system, we only allow the HarperDB executable to be run by a single user. This prevents permissions issues on files. For example if you installed as user\_a, but later wanted to run as user\_b. User\_b may not have access to the database files HarperDB needs. This also keeps HarperDB more secure as it allows you to lock files down to a specific user and prevents other users from accessing your files.
+You may have gotten an error like, `Error: Must execute as <<username>>.` This means that you installed HarperDB as `<<user>>`. Because HarperDB stores files directly to the file system, we only allow the HarperDB executable to be run by a single user. This prevents permissions issues on files. For example if you installed as user_a, but later wanted to run as user_b. User_b may not have access to the database files HarperDB needs. This also keeps HarperDB more secure as it allows you to lock files down to a specific user and prevents other users from accessing your files.
 
-***
+---
 
 ### Frequently Asked Questions (FAQs)
 
@@ -65,7 +65,7 @@ When using HarperDB, primary keys are case-sensitive. This can cause confusion f
 
 HarperDB’s data directory can be moved from one location to another by simply updating the `rootPath` in the config file (where the data lives, which you specified during installation) to a new location.
 
-Next, edit HarperDB’s hdb\_boot\_properties.file to point HarperDB to the new location by updating the settings\_path variable. Substitute the NEW\_HDB\_ROOT variable in the snippets below with the new path to your new data directory, making sure you escape any slashes.
+Next, edit HarperDB’s hdb_boot_properties.file to point HarperDB to the new location by updating the settings_path variable. Substitute the NEW_HDB_ROOT variable in the snippets below with the new path to your new data directory, making sure you escape any slashes.
 
 On MacOS/OSX
 
@@ -81,4 +81,4 @@ sed -i -E 's/^(settings_path[[:blank:]]*=[[:blank:]]*).*/\1NEW_HDB_ROOT\/harperd
 
 Finally, edit the config file in the root folder you just moved:
 
-* Edit the `rootPath` parameter to reflect the new location of your data directory.
+- Edit the `rootPath` parameter to reflect the new location of your data directory.

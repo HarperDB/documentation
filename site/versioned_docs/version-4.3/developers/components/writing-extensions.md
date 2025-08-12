@@ -8,9 +8,9 @@ HarperDB is a highly extensible database application platform with support for a
 
 There are three general categories of components for HarperDB:
 
-* **protocol extensions** that provide and define ways for clients to access data
-* **resource extensions** that handle and interpret different types of files
-* **consumer data sources** that provide a way to access and retrieve data from other sources.
+- **protocol extensions** that provide and define ways for clients to access data
+- **resource extensions** that handle and interpret different types of files
+- **consumer data sources** that provide a way to access and retrieve data from other sources.
 
 Server protocol extensions can be used to implement new protocols like MQTT, AMQP, Kafka, or maybe a retro-style Gopher interface. It can also be used to augment existing protocols like HTTP with "middleware" that can add authentication, analytics, or additional content negotiation, or add layer protocols on top of WebSockets.
 
@@ -48,10 +48,10 @@ Here, the `request` object will have the following structure (this is based on N
 
 ```typescript
 interface Request {
-   method: string
-   headers: Headers // use request.headers.get(headerName) to get header values
-   body: Stream
-   data: any // deserialized data from the request body
+	method: string;
+	headers: Headers; // use request.headers.get(headerName) to get header values
+	body: Stream;
+	data: any; // deserialized data from the request body
 }
 ```
 
@@ -59,10 +59,10 @@ The returned `response` object should have the following structure (again, follo
 
 ```typescript
 interface Response {
-	status?: number
-	headers?: {} // an object with header name/values
-	data?: any // object/value that will be serialized into the body
-	body?: Stream
+	status?: number;
+	headers?: {}; // an object with header name/values
+	data?: any; // object/value that will be serialized into the body
+	body?: Stream;
 }
 ```
 
@@ -77,7 +77,7 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 			// get some token for the user and determine the user
 			// if we want to use harperdb's user database
 			let user = server.getUser(username, password);
-			request.user = user; // authenticate user object goes on the request	
+			request.user = user; // authenticate user object goes on the request
 		}
 		// continue on to the next layer
 		return nextLayer(request);
@@ -88,6 +88,7 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 ```
 
 #### Direct Socket Server
+
 If you were implementing a new protocol, you can directly interact with the sockets and listen for new incoming TCP connections:
 
 ```javascript
@@ -97,7 +98,9 @@ export function start(options: { port: number, server: {}}) {
 	});
 })
 ```
+
 #### WebSockets
+
 If you were implementing a protocol using WebSockets, you can define a listener for incoming WebSocket connections and indicate the WebSockets (sub)protocol to specifically handle (which will select your listener if the `Sec-WebSocket-Protocol` header matches your protocol):
 
 ```javascript
@@ -147,11 +150,12 @@ Data source components implement the `Resource` interface to provide access to v
 ## Content Type Extensions
 
 HarperDB uses content negotiation to determine how to deserialize content incoming data from HTTP requests (and any other protocols that support content negotiation) and to serialize data into responses. This negotiation is performed by comparing the `Content-Type` header with registered content type handler to determine how to deserialize content into structured data that is processed and stored, and comparing the `Accept` header with registered content type handlers to determine how to serialize structured data. HarperDB comes with a rich set of content type handlers including JSON, CBOR, MessagePack, CSV, Event-Stream, and more. However, you can also add your own content type handlers by adding new entries (or even replacing existing entries) to the `contentTypes` exported map from the `server` global (or `harperdb` export). This map is keyed by the MIME type, and the value is an object with properties (all optional):
-* `serialize(data): Buffer|Uint8Array|string`: If defined, this will be called with the data structure and should return the data serialized as binary data (NodeJS Buffer or Uint8Array) or a string, for the response.
-* `serializeStream(data): ReadableStream`: If defined, this will be called with the data structure and should return the data serialized as a ReadableStream. This is generally necessary for handling asynchronous iteratables.
-* `deserialize(Buffer|string): any`: If defined (and deserializeStream is not defined), this will be called with the raw data received from the incoming request and should return the deserialized data structure. This will be called with a string for text MIME types ("text/..."), and a Buffer for all others.
-* `deserializeStream(ReadableStream): any`: If defined, this will be called with the raw data stream (if there is one) received from the incoming request and should return the deserialized data structure (potentially as an asynchronous iterable).
-* `q: number`: This is an indication of this serialization quality between 0 and 1, and if omitted, defaults to 1. It is called "content negotiation" instead of "content demanding" because both client and server may have multiple supported content types, and the server needs to choose the best for both. This is determined by finding the content type (of all supported) with the highest product of client q and server q (1 is a perfect representation of the data, 0 is worst, 0.5 is medium quality).
+
+- `serialize(data): Buffer|Uint8Array|string`: If defined, this will be called with the data structure and should return the data serialized as binary data (NodeJS Buffer or Uint8Array) or a string, for the response.
+- `serializeStream(data): ReadableStream`: If defined, this will be called with the data structure and should return the data serialized as a ReadableStream. This is generally necessary for handling asynchronous iteratables.
+- `deserialize(Buffer|string): any`: If defined (and deserializeStream is not defined), this will be called with the raw data received from the incoming request and should return the deserialized data structure. This will be called with a string for text MIME types ("text/..."), and a Buffer for all others.
+- `deserializeStream(ReadableStream): any`: If defined, this will be called with the raw data stream (if there is one) received from the incoming request and should return the deserialized data structure (potentially as an asynchronous iterable).
+- `q: number`: This is an indication of this serialization quality between 0 and 1, and if omitted, defaults to 1. It is called "content negotiation" instead of "content demanding" because both client and server may have multiple supported content types, and the server needs to choose the best for both. This is determined by finding the content type (of all supported) with the highest product of client q and server q (1 is a perfect representation of the data, 0 is worst, 0.5 is medium quality).
 
 For example, if you wanted to define an XML serializer (that can respond with XML to requests with `Accept: text/xml`) you could write:
 

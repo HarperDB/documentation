@@ -12,22 +12,22 @@ To add a single node and create one or more subscriptions use `add_node`.
 
 ```json
 {
-    "operation": "add_node",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "schema": "dev",
-            "table": "dog",
-            "publish": false,
-            "subscribe": true
-        },
-        {
-            "schema": "dev",
-            "table": "chicken",
-            "publish": true,
-            "subscribe": true
-        }
-    ]
+	"operation": "add_node",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"schema": "dev",
+			"table": "dog",
+			"publish": false,
+			"subscribe": true
+		},
+		{
+			"schema": "dev",
+			"table": "chicken",
+			"publish": true,
+			"subscribe": true
+		}
+	]
 }
 ```
 
@@ -37,16 +37,16 @@ To update one or more subscriptions with a single node use `update_node`.
 
 ```json
 {
-    "operation": "update_node",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "schema": "dev",
-            "table": "dog",
-            "publish": true,
-            "subscribe": true
-        }
-    ]
+	"operation": "update_node",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"schema": "dev",
+			"table": "dog",
+			"publish": true,
+			"subscribe": true
+		}
+	]
 }
 ```
 
@@ -56,37 +56,37 @@ To add or update subscriptions with one or more nodes in one API call use `confi
 
 ```json
 {
-    "operation": "configure_cluster",
-    "connections": [
-        {
-            "node_name": "Node2",
-            "subscriptions": [
-                {
-                    "schema": "dev",
-                    "table": "chicken",
-                    "publish": false,
-                    "subscribe": true
-                },
-                {
-                    "schema": "prod",
-                    "table": "dog",
-                    "publish": true,
-                    "subscribe": true
-                }
-            ]
-        },
-        {
-            "node_name": "Node3",
-            "subscriptions": [
-                {
-                    "schema": "dev",
-                    "table": "chicken",
-                    "publish": true,
-                    "subscribe": false
-                }
-            ]
-        }
-    ]
+	"operation": "configure_cluster",
+	"connections": [
+		{
+			"node_name": "Node2",
+			"subscriptions": [
+				{
+					"schema": "dev",
+					"table": "chicken",
+					"publish": false,
+					"subscribe": true
+				},
+				{
+					"schema": "prod",
+					"table": "dog",
+					"publish": true,
+					"subscribe": true
+				}
+			]
+		},
+		{
+			"node_name": "Node3",
+			"subscriptions": [
+				{
+					"schema": "dev",
+					"table": "chicken",
+					"publish": true,
+					"subscribe": false
+				}
+			]
+		}
+	]
 }
 ```
 
@@ -100,17 +100,17 @@ There is an optional property called `start_time` that can be passed in the subs
 
 ```json
 {
-    "operation": "add_node",
-    "node_name": "Node2",
-    "subscriptions": [
-        {
-            "schema": "dev",
-            "table": "dog",
-            "publish": false,
-            "subscribe": true,
-            "start_time": "2022-09-02T20:06:35.993Z"
-        }
-    ]
+	"operation": "add_node",
+	"node_name": "Node2",
+	"subscriptions": [
+		{
+			"schema": "dev",
+			"table": "dog",
+			"publish": false,
+			"subscribe": true,
+			"start_time": "2022-09-02T20:06:35.993Z"
+		}
+	]
 }
 ```
 
@@ -126,8 +126,8 @@ To remove a node and all its subscriptions use `remove_node`.
 
 ```json
 {
-    "operation":"remove_node",
-    "node_name":"Node2"
+	"operation": "remove_node",
+	"node_name": "Node2"
 }
 ```
 
@@ -137,32 +137,32 @@ To get the status of all connected nodes and see their subscriptions use `cluste
 
 ```json
 {
-    "node_name": "Node1",
-    "is_enabled": true,
-    "connections": [
-        {
-            "node_name": "Node2",
-            "status": "open",
-            "ports": {
-                "clustering": 9932,
-                "operations_api": 9925
-            },
-            "latency_ms": 65,
-            "uptime": "11m 19s",
-            "subscriptions": [
-                {
-                    "schema": "dev",
-                    "table": "dog",
-                    "publish": true,
-                    "subscribe": true
-                }
-            ],
-            "system_info": {
-                "hdb_version": "4.0.0",
-                "node_version": "16.17.1",
-                "platform": "linux"
-            }
-        }
-    ]
+	"node_name": "Node1",
+	"is_enabled": true,
+	"connections": [
+		{
+			"node_name": "Node2",
+			"status": "open",
+			"ports": {
+				"clustering": 9932,
+				"operations_api": 9925
+			},
+			"latency_ms": 65,
+			"uptime": "11m 19s",
+			"subscriptions": [
+				{
+					"schema": "dev",
+					"table": "dog",
+					"publish": true,
+					"subscribe": true
+				}
+			],
+			"system_info": {
+				"hdb_version": "4.0.0",
+				"node_version": "16.17.1",
+				"platform": "linux"
+			}
+		}
+	]
 }
 ```

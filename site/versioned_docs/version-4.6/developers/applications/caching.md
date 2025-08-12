@@ -33,8 +33,8 @@ Next, you need to define the source for your cache. External data sources could 
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-  return (await fetch(`https://some-api.com/${this.getId()}`)).json();
- }
+		return (await fetch(`https://some-api.com/${this.getId()}`)).json();
+	}
 }
 ```
 
@@ -69,11 +69,11 @@ In the example above, we simply retrieved data to fulfill a cache request. We ma
 
 ```javascript
 class ThirdPartyAPI extends Resource {
- async get() {
-  let response = await fetch(`https://some-api.com/${this.getId()}`);
-  this.getContext().lastModified = response.headers.get('Last-Modified');
-  return response.json();
- }
+	async get() {
+		let response = await fetch(`https://some-api.com/${this.getId()}`);
+		this.getContext().lastModified = response.headers.get('Last-Modified');
+		return response.json();
+	}
 }
 ```
 
@@ -109,11 +109,11 @@ One way to provide more active caching is to specifically invalidate individual 
 ```javascript
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
- async post(data) {
-  if (data.invalidate)
-   // use this flag as a marker
-   this.invalidate();
- }
+	async post(data) {
+		if (data.invalidate)
+			// use this flag as a marker
+			this.invalidate();
+	}
 }
 ```
 
@@ -176,13 +176,13 @@ An alternative to using asynchronous generators is to use a subscription stream 
 
 ```javascript
 class ThirdPartyAPI extends Resource {
- subscribe() {
-  const subscription = super.subscribe();
-  setupListeningToRemoteService().on('update', (event) => {
-   subscription.send(event);
-  });
-  return subscription;
- }
+	subscribe() {
+		const subscription = super.subscribe();
+		setupListeningToRemoteService().on('update', (event) => {
+			subscription.send(event);
+		});
+		return subscription;
+	}
 }
 ```
 
@@ -218,12 +218,12 @@ When you are using a caching table, it is important to remember that any resourc
 
 ```javascript
 class MyCache extends tables.MyCache {
- async post(data) {
-  // if the data is not cached locally, retrieves from source:
-  await this.ensuredLoaded();
-  // now we can be sure that the data is loaded, and can access properties
-  this.quantity = this.quantity - data.purchases;
- }
+	async post(data) {
+		// if the data is not cached locally, retrieves from source:
+		await this.ensuredLoaded();
+		// now we can be sure that the data is loaded, and can access properties
+		this.quantity = this.quantity - data.purchases;
+	}
 }
 ```
 

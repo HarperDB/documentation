@@ -3,18 +3,22 @@ title: geoLength
 ---
 
 # geoLength
+
 Takes a GeoJSON and measures its length in the specified units (default is kilometers).
 
 ## Syntax
+
 geoLength(_geoJSON_[_, units_])
 
 ## Parameters
-| Parameter	 | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| geoJSON	   | Required. GeoJSON to measure.                                                                                         |
-| units	     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+
+| Parameter | Description                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------- |
+| geoJSON   | Required. GeoJSON to measure.                                                                                         |
+| units     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
+
 Calculate the length, in kilometers, of a manually passed GeoJSON linestring.
 
 ```
@@ -32,6 +36,7 @@ SELECT geoLength('{
 ```
 
 ### Example 2
+
 Find all data plus the calculated length in miles of the GeoJSON, restrict the response to only lengths less than 5 miles, and return the data in order of lengths smallest to largest.
 
 ```

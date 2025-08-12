@@ -18,25 +18,31 @@ Charts are generated based on SQL queries, therefore to build a new chart you fi
 1. Click **query** in the instance control bar.
 1. Enter the SQL query you would like to generate a chart from.
 
-    _For example, using the dog demo data from the API Docs, we can get the average dog age per owner with the following query: `SELECT AVG(age) as avg_age, owner_name FROM dev.dog GROUP BY owner_name`._
+   _For example, using the dog demo data from the API Docs, we can get the average dog age per owner with the following query: `SELECT AVG(age) as avg_age, owner_name FROM dev.dog GROUP BY owner_name`._
+
 1. Click **Execute**.
 1. Click **create chart** at the top right of the results table.
 1. Configure your chart.
    1. Choose chart type.
 
-       _HarperDB Studio offers many standard charting options like line, bar, etc._
+      _HarperDB Studio offers many standard charting options like line, bar, etc._
+
    1. Choose a data column.
 
-       _This column will be used to plot the data point. Typically, this is the values being calculated in the `SELECT` statement. Depending on the chart type, you can select multiple data columns to display on a single chart._
+      _This column will be used to plot the data point. Typically, this is the values being calculated in the `SELECT` statement. Depending on the chart type, you can select multiple data columns to display on a single chart._
+
    1. Depending on the chart type, you will need to select a grouping.
 
-       _This could be labeled as x-axis, label, etc. This will be used to group the data, typically this is what you used in your **GROUP BY** clause._
+      _This could be labeled as x-axis, label, etc. This will be used to group the data, typically this is what you used in your **GROUP BY** clause._
+
    1. Enter a chart name.
 
-       _Used for identification purposes and will be displayed at the top of the chart._
+      _Used for identification purposes and will be displayed at the top of the chart._
+
    1. Choose visible to all org users toggle.
 
-       _Leaving this option off will limit chart visibility to just your HarperDB Studio user. Toggling it on will enable all users with this Organization to view this chart._
+      _Leaving this option off will limit chart visibility to just your HarperDB Studio user. Toggling it on will enable all users with this Organization to view this chart._
+
    1. Click **Add Chart**.
    1. The chart will now be visible on the **charts** page.
 

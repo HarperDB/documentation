@@ -3,9 +3,11 @@ title: Create Your First Application
 ---
 
 # Create Your First Application
+
 Now that you've set up Harper, let's build a simple API. Harper lets you build powerful APIs with minimal effort. In just a few minutes, you'll have a functional REST API with automatic validation, indexing, and querying—all without writing a single line of code.
 
 ## Setup Your Project
+
 Start by cloning the Harper application template:
 
 ```bash
@@ -14,6 +16,7 @@ cd my-app
 ```
 
 ## Creating our first Table
+
 The core of a Harper application is the database, so let's create a database table.
 
 A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
@@ -39,10 +42,13 @@ Now we tell Harper to run this as an application:
 ```bash
 harperdb dev . # tell Harper cli to run current directory as an application in dev mode
 ```
+
 Harper will now create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any Harper instance).
 
 ## Adding Attributes to our Table
+
 Next, let's expand our `Dog` table by adding additional typed attributes for dog `name`, `breed` and `age`.
+
 ```graphql
 type Dog @table {
 	id: ID @primaryKey
@@ -69,6 +75,7 @@ type Dog @table @sealed {
 ```
 
 ## Adding an Endpoint
+
 Now that we have a running application with a database (with data if you imported any data), let's make this data accessible from a RESTful URL by adding an endpoint. To do this, we simply add the `@export` directive to our `Dog` table:
 
 ```graphql
@@ -98,6 +105,7 @@ Content-Type: application/json
 With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command curl `http:/localhost:9926/Dog/<id>` will achieve the same thing.
 
 ## Authenticating Endpoints
+
 Now that you've created your first API endpoints, it's important to ensure they're protected. Without authentication, anyone could potentially access, misuse, or overload your APIs, whether by accident or malicious intent. Authentication verifies who is making the request and enables you to control access based on identity, roles, or permissions. It’s a foundational step in building secure, reliable applications.
 
 Endpoints created with Harper automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../developers/security/) for more information on different levels of access.
@@ -105,6 +113,7 @@ Endpoints created with Harper automatically support `Basic`, `Cookie`, and `JWT`
 By default, Harper also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../deployments/configuration#authentication).
 
 ### Content Negotiation
+
 These endpoints support various content types, including `JSON`, `CBOR`, `MessagePack` and `CSV`. Simply include an `Accept` header in your requests with the preferred content type. We recommend `CBOR` as a compact, efficient encoding with rich data types, but `JSON` is familiar and great for web application development, and `CSV` can be useful for exporting data to spreadsheets or other processing.
 
 Harper works with other important standard HTTP headers as well, and these endpoints are even capable of caching interaction:
@@ -123,12 +132,12 @@ In order to maintain reasonable query speed on a database as it grows in size, i
 
 ```graphql
 type Dog @table {
-  id: ID @primaryKey
-  name: String @indexed
-  breed: String @indexed
-  owner: String
-  age: Int
-  tricks: [String]
+	id: ID @primaryKey
+	name: String @indexed
+	breed: String @indexed
+	owner: String
+	age: Int
+	tricks: [String]
 }
 ```
 
@@ -157,6 +166,6 @@ Congratulations, you now have created a secure database application backend with
 
 > Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../../technical-details/reference/graphql).
 
-
 ## Key Takeaway
+
 Harper's schema-driven approach means you can build production-ready APIs in minutes, not hours. Start with pure schema definitions to get 90% of your functionality, then add custom code only where needed. This gives you the best of both worlds: rapid development with the flexibility to customize when required.

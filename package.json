@@ -2,7 +2,7 @@
 	"name": "@harperdb/documentation",
 	"private": true,
 	"scripts": {
-		"format": "prettier --write 'docs/**/*' package.json",
+		"format": "prettier --write .",
 		"site:install": "cd site && npm install",
 		"site:dev": "cd site && npm run start",
 		"site:build": "cd site && npm run build",

@@ -79,6 +79,7 @@ npm run version
 ```
 
 After cutting a version:
+
 1. The current `/docs` becomes the new "next" version
 2. The previous latest version is archived
 3. Update `docusaurus.config.ts` to set the new `lastVersion`

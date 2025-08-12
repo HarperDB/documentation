@@ -166,7 +166,7 @@ Harper will generate a `package.json` like:
 		"myNPMComponent": "npm:harperdb",
 		"myTarBall": "file:/Users/harper/cool-component.tar",
 		"myLocal": "file:/Users/harper/local",
-  "myWebsite": "https://harperdb-component"
+		"myWebsite": "https://harperdb-component"
 	}
 }
 ```

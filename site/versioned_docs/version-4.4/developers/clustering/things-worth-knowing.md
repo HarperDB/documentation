@@ -6,21 +6,21 @@ title: Things Worth Knowing
 
 Additional information that will help you define your clustering topology.
 
-***
+---
 
 ### Transactions
 
 Transactions that are replicated across the cluster are:
 
-* Insert
-* Update
-* Upsert
-* Delete
-* Bulk loads
-  * CSV data load
-  * CSV file load
-  * CSV URL load
-  * Import from S3
+- Insert
+- Update
+- Upsert
+- Delete
+- Bulk loads
+  - CSV data load
+  - CSV file load
+  - CSV URL load
+  - Import from S3
 
 When adding or updating a node any databases and tables in the subscription that don’t exist on the remote node will be automatically created.
 
@@ -28,13 +28,13 @@ When adding or updating a node any databases and tables in the subscription that
 
 Users and roles are not replicated across the cluster.
 
-***
+---
 
 ### Queueing
 
 Harper has built-in resiliency for when network connectivity is lost within a subscription. When connections are reestablished, a catchup routine is executed to ensure data that was missed, specific to the subscription, is sent/received as defined.
 
-***
+---
 
 ### Topologies
 

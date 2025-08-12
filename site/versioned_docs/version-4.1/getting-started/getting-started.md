@@ -43,11 +43,11 @@ curl --location --request POST 'https://instance-subdomain.harperdbcloud.com' \
 
 Breaking it down, there are only a few requirements for interacting with HarperDB:
 
-* Using the HTTP POST method.
-* Providing the URL of the HarperDB instance.
-* Providing the Authorization header (more on using Basic authentication).
-* Providing the Content-Type header.
-* Providing a JSON body with the desired operation and any additional operation properties (shown in the --data-raw parameter). This is the only parameter that needs to be changed to execute alternative operations on HarperDB.
+- Using the HTTP POST method.
+- Providing the URL of the HarperDB instance.
+- Providing the Authorization header (more on using Basic authentication).
+- Providing the Content-Type header.
+- Providing a JSON body with the desired operation and any additional operation properties (shown in the --data-raw parameter). This is the only parameter that needs to be changed to execute alternative operations on HarperDB.
 
 ### Video Tutorials
 

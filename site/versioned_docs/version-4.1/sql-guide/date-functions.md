@@ -40,6 +40,7 @@ Referencing this variable will evaluate as the current Unix Timestamp in millise
       "current_timestamp_result": 1587568845765
     }
 ```
+
 ### DATE([date_string])
 
 Formats and returns the date_string argument in UTC in `YYYY-MM-DDTHH:mm:ss.SSSZZ` String format.
@@ -64,9 +65,8 @@ If a date_string is not provided, the function will return the current UTC date/
 
 Adds the defined amount of time to the date provided in UTC and returns the resulting Unix Timestamp in milliseconds. Accepted interval values: Either string value (key or shorthand) can be passed as the interval argument.
 
-
 | Key          | Shorthand |
-|--------------|-----------|
+| ------------ | --------- |
 | years        | y         |
 | quarters     | Q         |
 | months       | M         |
@@ -76,7 +76,6 @@ Adds the defined amount of time to the date provided in UTC and returns the resu
 | minutes      | m         |
 | seconds      | s         |
 | milliseconds | ms        |
-
 
 ```
 "SELECT DATE_ADD(1587568845765, 1, 'days') AS date_add_result" AND
@@ -99,13 +98,14 @@ AS date_add_result2" returns
 Returns the difference between the two date values passed based on the interval as a Number. If an interval is not provided, the function will return the difference value in milliseconds.
 
 Accepted interval values:
-* years 
-* months 
-* weeks 
-* days 
-* hours 
-* minutes 
-* seconds
+
+- years
+- months
+- weeks
+- days
+- hours
+- minutes
+- seconds
 
 ```
 "SELECT DATE_DIFF(CURRENT_TIMESTAMP, 1650643129017, 'hours')
@@ -132,7 +132,7 @@ AS date_format_result" returns
 Subtracts the defined amount of time from the date provided in UTC and returns the resulting Unix Timestamp in milliseconds. Accepted date_sub interval values- Either string value (key or shorthand) can be passed as the interval argument.
 
 | Key          | Shorthand |
-|--------------|-----------|
+| ------------ | --------- |
 | years        | y         |
 | quarters     | Q         |
 | months       | M         |
@@ -142,7 +142,6 @@ Subtracts the defined amount of time from the date provided in UTC and returns t
 | minutes      | m         |
 | seconds      | s         |
 | milliseconds | ms        |
-
 
 ```
 "SELECT DATE_SUB(1587568845765, 2, 'years') AS date_sub_result" returns
@@ -155,15 +154,15 @@ Subtracts the defined amount of time from the date provided in UTC and returns t
 
 Extracts and returns the date_part requested as a String value. Accepted date_part values below show value returned for date = “2020-03-26T15:13:02.041+000”
 
-| date_part    | 	Example return value* |
-|--------------|------------------------|
-| year	        | “2020”                 |
-| month	       | “3”                    |
-| day	         | “26”                   |
- | hour	        | “15”                   |
-| minute	      | “13”                   |
-| second	      | “2”                    |
-|  millisecond | 	“41”                  |
+| date_part   | Example return value\* |
+| ----------- | ---------------------- |
+| year        | “2020”                 |
+| month       | “3”                    |
+| day         | “26”                   |
+| hour        | “15”                   |
+| minute      | “13”                   |
+| second      | “2”                    |
+| millisecond | “41”                   |
 
 ```
 "SELECT EXTRACT(1587568845765, 'year') AS extract_result" returns
@@ -184,6 +183,7 @@ Returns the current Unix Timestamp in milliseconds.
 ```
 
 ### GET_SERVER_TIME()
+
 Returns the current date/time value based on the server’s timezone in `YYYY-MM-DDTHH:mm:ss.SSSZZ` String format.
 
 ```
@@ -194,6 +194,7 @@ Returns the current date/time value based on the server’s timezone in `YYYY-MM
 ```
 
 ### OFFSET_UTC(date, offset)
+
 Returns the UTC date time value with the offset provided included in the return String value formatted as `YYYY-MM-DDTHH:mm:ss.SSSZZ`. The offset argument will be added as minutes unless the value is less than 16 and greater than -16, in which case it will be treated as hours.
 
 ```
@@ -211,6 +212,7 @@ Returns the UTC date time value with the offset provided included in the return 
 ```
 
 ### NOW()
+
 Returns the current Unix Timestamp in milliseconds.
 
 ```
@@ -219,4 +221,3 @@ Returns the current Unix Timestamp in milliseconds.
       "now_result": 1587568845765
     }
 ```
-

@@ -21,7 +21,7 @@ Here we installed HarperDB globally (and we recommend this) to make it easy to r
 You can run HarperDB by running:
 
 ```javascript
-harperdb
+harperdb;
 ```
 
 You can now use HarperDB as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.

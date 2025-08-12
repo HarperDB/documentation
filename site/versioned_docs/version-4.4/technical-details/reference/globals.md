@@ -38,7 +38,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a database](../../getting-started) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake\_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a database](../../getting-started) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ## `databases`
 
@@ -76,13 +76,14 @@ Returns an array of server instances based on the specified `options.port` and `
 Example:
 
 ```js
-server.http((request, next) => {
-	return request.url === '/graphql'
-		? handleGraphQLRequest(request)
-		: next(request);
-}, {
-	runFirst: true, // run this handler first
-});
+server.http(
+	(request, next) => {
+		return request.url === '/graphql' ? handleGraphQLRequest(request) : next(request);
+	},
+	{
+		runFirst: true, // run this handler first
+	}
+);
 ```
 
 #### `RequestListener`
@@ -96,6 +97,7 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
 
 #### `Request`
+
 A `Request` object is passed to the direct static REST handlers, and preserved as the context for instance methods, and has the following properties:
 
 - `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `https://example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
@@ -103,7 +105,7 @@ A `Request` object is passed to the direct static REST handlers, and preserved a
 - `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
 - `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
 - `protocol` - This is the protocol of the request, like `http` or `https`.
-- `data` - This is the deserialized body of the request (based on the type of data specified by `Content-Type`  header).
+- `data` - This is the deserialized body of the request (based on the type of data specified by `Content-Type` header).
 - `ip` - This is the remote IP address of the client that made the request (or the remote IP address of the last proxy to connect to Harper).
 - `host` - This is the host of the request, like `example.com`.
 - `sendEarlyHints(link: string, headers?: object): void` - This method sends an early hints response to the client, prior to actually returning a response. This is useful for sending a link header to the client to indicate that another resource should be preloaded. The `headers` argument can be used to send additional headers with the early hints response, in addition to the `link`.
@@ -162,15 +164,15 @@ Example:
 
 ```js
 server.ws((ws, request, chainCompletion) => {
- chainCompletion.then(() => {
-  ws.on('error', console.error);
+	chainCompletion.then(() => {
+		ws.on('error', console.error);
 
-  ws.on('message', function message(data) {
-   console.log('received: %s', data);
-  });
+		ws.on('message', function message(data) {
+			console.log('received: %s', data);
+		});
 
-  ws.send('something');
- });
+		ws.send('something');
+	});
 });
 ```
 
@@ -192,10 +194,10 @@ Type: `Object`
 
 Properties:
 
-* `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which WebSocket secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 ### `server.upgrade(listener: UpgradeListener, options: UpgradeOptions): void`
 
@@ -236,9 +238,9 @@ Type: `Object`
 
 Properties:
 
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which HTTP secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTP secure server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 ### `server.config`
 
@@ -248,8 +250,8 @@ This provides access to the Harper configuration object. This comes from the [ha
 
 This records the provided value as a metric into Harper's analytics. Harper efficiently records and tracks these metrics and makes them available through [analytics API](./analytics). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
-* `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
-* `metric` - This is the name of the metric.
-* `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
-* `method` - Optional method to group by.
-* `type` - Optional type to group by.
+- `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
+- `metric` - This is the name of the metric.
+- `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
+- `method` - Optional method to group by.
+- `type` - Optional type to group by.

@@ -21,7 +21,7 @@ Here we installed Harper globally (and we recommend this) to make it easy to run
 You can run Harper by running:
 
 ```javascript
-harperdb
+harperdb;
 ```
 
 You can now use Harper as a standalone database. You can also create a cloud instance (see below), which is also an easy way to get started.

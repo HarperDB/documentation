@@ -13,7 +13,7 @@ on:
 # However, do NOT cancel in-progress runs as we want to allow these deployments to complete.
 # This shouldn't be necessary for most cases, but it can help avoid conflicts if multiple pushes happen in quick succession.
 concurrency:
-  group: "pages"
+  group: 'pages'
   cancel-in-progress: false
 
 jobs:
@@ -92,7 +92,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
 
     steps:
       - name: Deploy to GitHub Pages
