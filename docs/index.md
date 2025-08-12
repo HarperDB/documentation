@@ -5,7 +5,7 @@ title: Harper Docs
 # Harper Docs
 
 :::info
-[Connect with our team!](https:/www.harpersystems.dev/contact)
+[Connect with our team!](https://www.harpersystems.dev/contact)
 :::
 
 Welcome to the Harper Documentation! Here, you'll find all things Harper, and everything you need to get started, troubleshoot issues, and make the most of our platform.

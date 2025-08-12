@@ -8,7 +8,7 @@ If you're new to Harper, this section will guide you through the essential resou
 
 Follow the steps in this documentation to discover how Harper can simplify your backend stack, eliminate many inter-process communication delays, and achieve a more predictable and performant application experience.
 
-For more advanced concepts in Harper, see our [blog](https:/www.harpersystems.dev/blog).
+For more advanced concepts in Harper, see our [blog](https://www.harpersystems.dev/blog).
 
 ## Harper Basics
 

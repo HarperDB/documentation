@@ -163,7 +163,7 @@ type Product @table {
 }
 ```
 
-For more in-depth information on computed properties, visit our blog [here](https:/www.harpersystems.dev/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
+For more in-depth information on computed properties, visit our blog [here](https://www.harpersystems.dev/development/tutorials/how-to-create-custom-indexes-with-computed-properties)
 
 ### Field Directives
 
