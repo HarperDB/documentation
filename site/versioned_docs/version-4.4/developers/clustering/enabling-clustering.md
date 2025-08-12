@@ -23,8 +23,8 @@ _Note: When making any changes to the `harperdb-config.yaml` file Harper must be
 
 ```json
 {
-    "operation": "set_configuration",
-    "clustering_enabled": true
+	"operation": "set_configuration",
+	"clustering_enabled": true
 }
 ```
 

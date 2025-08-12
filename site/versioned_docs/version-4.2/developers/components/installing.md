@@ -8,8 +8,8 @@ Components can be easily added by adding a new top level element to your `harper
 
 The configuration comprises two values:
 
-* component name - can be anything, as long as it follows valid YAML syntax.
-* package - a reference to your component.
+- component name - can be anything, as long as it follows valid YAML syntax.
+- package - a reference to your component.
 
 ```yaml
 myComponentName:
@@ -20,7 +20,7 @@ Under the hood HarperDB is calling npm install on all components, this means tha
 
 ```yaml
 myGithubComponent:
-  package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub 
+  package: HarperDB-Add-Ons/package#v2.2.0 # install from GitHub
 myNPMComponent:
   package: harperdb # install from NPM
 myTarBall:
@@ -39,13 +39,13 @@ The package.json file that is created will look something like this.
 
 ```json
 {
-  "dependencies": {
-    "myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
-    "myNPMComponent": "npm:harperdb",
-    "myTarBall": "file:/Users/harper/cool-component.tar",
-    "myLocal": "file:/Users/harper/local",
-    "myWebsite": "https://harperdb-component"
-  }
+	"dependencies": {
+		"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
+		"myNPMComponent": "npm:harperdb",
+		"myTarBall": "file:/Users/harper/cool-component.tar",
+		"myLocal": "file:/Users/harper/local",
+		"myWebsite": "https://harperdb-component"
+	}
 }
 ```
 
@@ -62,9 +62,9 @@ To add a component using the operations API use the `deploy_component` operation
 
 ```json
 {
-  "operation": "deploy_component",
-  "project": "my-cool-component",
-  "package": "HarperDB-Add-Ons/package/mycc"
+	"operation": "deploy_component",
+	"project": "my-cool-component",
+	"package": "HarperDB-Add-Ons/package/mycc"
 }
 ```
 
@@ -72,8 +72,8 @@ Another option is to pass `deploy_component` a base64-encoded string representat
 
 ```json
 {
-  "operation": "deploy_component",
-  "project": "my-cool-component",
-  "payload": "NzY1IAAwMDAwMjQgADAwMDAwMDAwMDAwIDE0NDIwMDQ3...."
+	"operation": "deploy_component",
+	"project": "my-cool-component",
+	"payload": "NzY1IAAwMDAwMjQgADAwMDAwMDAwMDAwIDE0NDIwMDQ3...."
 }
 ```

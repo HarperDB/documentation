@@ -38,7 +38,6 @@ Clustering offers a lot of different configurations, however in a majority of ca
 - `clustering.nodeName` The name of your node, must be unique within the cluster.
 - `clustering.user` The name of the user credentials used for Inter-node authentication.
 
-
 `enabled` - _Type_: boolean; _Default_: false
 
 Enable clustering.
@@ -47,7 +46,7 @@ _Note: If you enabled clustering but do not create and add a cluster user you wi
 
 ```yaml
 clustering:
-  enabled: true  
+  enabled: true
 ```
 
 `clustering.hubServer.cluster`
@@ -81,6 +80,7 @@ The port the hub server uses to accept cluster connections
 `routes` - _Type_: array, _Default_: null
 
 An object array that represent the host and port this server will cluster to. Each object must have two properties `port` and `host`. Multiple entries can be added to create network resiliency in the event one server is unavailable. Routes can be added, updated and removed either by directly editing the `harperdb-config.yaml` file or by using the `cluster_set_routes` or `cluster_delete_routes` API endpoints.
+
 </div>
 
 <div style={{paddingLeft: '60px'}}>
@@ -91,7 +91,7 @@ The host of the remote instance you are creating the connection with.
 
 `port` - _Type_: integer
 
-The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance. 
+The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
 
 </div>
 
@@ -160,6 +160,7 @@ The host of the remote instance you are creating the connection with.
 `port` - _Type_: integer
 
 The port of the remote instance you are creating the connection with. This is likely going to be the `clustering.hubServer.cluster.network.port` on the remote instance.
+
 </div>
 
 <br/>
@@ -183,6 +184,7 @@ How many messages may be in a stream. Oldest messages are removed if the stream 
 The directory where all the streams are kept.
 
 ---
+
 `logLevel` - _Type_: string; _Default_: error
 
 Control the verbosity of clustering logs.
@@ -193,7 +195,6 @@ clustering:
 ```
 
 There exists a log level hierarchy in order as `trace`, `debug`, `info`, `warn`, and `error`. When the level is set to `trace` logs will be created for all possible levels. Whereas if the level is set to `warn`, the only entries logged will be `warn` and `error`. The default value is `error`.
-
 
 `nodeName` - _Type_: string; _Default_: null
 
@@ -238,7 +239,7 @@ When true, will skip certificate verification. For use only with self-signed cer
 
 `republishMessages` - _Type_: boolean; _Default_: true
 
-When true, all transactions that are received from other nodes are republished to this node's stream. When subscriptions are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better data replication performance. When false, you need to ensure all subscriptions are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.  
+When true, all transactions that are received from other nodes are republished to this node's stream. When subscriptions are not fully connected between all nodes, this ensures that messages are routed to all nodes through intermediate nodes. This also ensures that all writes, whether local or remote, are written to the NATS transaction log. However, there is additional overhead with republishing, and setting this is to false can provide better data replication performance. When false, you need to ensure all subscriptions are fully connected between every node to every other node, and be aware that the NATS transaction log will only consist of local writes.
 
 `verify` - _Type_: boolean; _Default_: true
 
@@ -256,11 +257,10 @@ The user can be created either through the API using an `add_user` request with 
 
 ```yaml
 clustering:
-  user: cluster_person    
+  user: cluster_person
 ```
 
 ---
-
 
 ### `customFunctions`
 
@@ -272,7 +272,7 @@ Enable the Custom Function server or not.
 
 ```yaml
 customFunctions:
-  enabled: true  
+  enabled: true
 ```
 
 `customFunctions.network`
@@ -287,7 +287,7 @@ customFunctions:
     https: false
     keepAliveTimeout: 5000
     port: 9926
-    timeout: 120000 
+    timeout: 120000
 ```
 
 <div style={{paddingLeft: '30px'}}>
@@ -319,6 +319,7 @@ The port used to access the Custom Functions server.
 `timeout` - _Type_: integer; _Default_: Defaults to 120,000 milliseconds (2 minutes)
 
 The length of time in milliseconds after which a request will timeout.
+
 </div>
 
 `nodeEnv` - _Type_: string; _Default_: production
@@ -365,9 +366,7 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
-
 ---
-
 
 ### `ipc`
 
@@ -383,9 +382,7 @@ ipc:
 
 The port the IPC server runs on. The default is `9383`.
 
-
 ---
-
 
 ### `localStudio`
 
@@ -419,11 +416,11 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 ```json
 {
-  "operation": "read_audit_log",
-  "schema": "dev",
-  "table": "dog"
+	"operation": "read_audit_log",
+	"schema": "dev",
+	"table": "dog"
 }
-````
+```
 
 `file` - _Type_: boolean; _Default_: true
 
@@ -527,6 +524,7 @@ Defines the length of time an operation token will be valid until it expires. Ex
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
 Defines the length of time a refresh token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
+
 </div>
 
 `foreground` - _Type_: boolean; _Default_: false
@@ -552,6 +550,7 @@ operationsApi:
     port: 9925
     timeout: 120000
 ```
+
 <div style={{paddingLeft: '30px'}}>
 
 `cors` - _Type_: boolean; _Default_: true
@@ -633,11 +632,12 @@ http:
   threads: 11
 ```
 
-`sessionAffinity` - _Type_:  string; _Default_: null
+`sessionAffinity` - _Type_: string; _Default_: null
 
 HarperDB is a multi-threaded server designed to scale to utilize many CPU cores with high concurrency. Session affinity can help improve the efficiency and fairness of thread utilization by routing multiple requests from the same client to the same thread. This provides a fairer method of request handling by keeping a single user contained to a single thread, can improve caching locality (multiple requests from a single user are more likely to access the same data), and can provide the ability to share information in-memory in user sessions. Enabling session affinity will cause subsequent requests from the same client to be routed to the same thread.
 
 To enable `sessionAffinity`, you need to specify how clients will be identified from the incoming requests. If you are using HarperDB to directly serve HTTP requests from users from different remote addresses, you can use a setting of `ip`. However, if you are using HarperDB behind a proxy server or application server, all the remote ip addresses will be the same and HarperDB will effectively only run on a single thread. Alternately, you can specify a header to use for identification. If you are using basic authentication, you could use the "Authorization" header to route requests to threads by the user's credentials. If you have another header that uniquely identifies users/clients, you can use that as the value of sessionAffinity. But be careful to ensure that the value does provide sufficient uniqueness and that requests are effectively distributed to all the threads and fully utilizing all your CPU cores.
+
 ```yaml
 http:
   sessionAffinity: ip
@@ -677,7 +677,6 @@ storage:
   caching: true
 ```
 
-
 `compression` - _Type_: boolean; _Default_: false
 
 The `compression` option enables compression of records in the database. This can be helpful for very large databases in reducing storage requirements and potentially allowing more data to be cached. This uses the very fast LZ4 compression algorithm, but this still incurs extra costs for compressing and decompressing.
@@ -686,7 +685,6 @@ The `compression` option enables compression of records in the database. This ca
 storage:
   compression: false
 ```
-
 
 `noReadAhead` - _Type_: boolean; _Default_: true
 
@@ -697,7 +695,6 @@ storage:
   noReadAhead: true
 ```
 
-
 `prefetchWrites` - _Type_: boolean; _Default_: true
 
 The `prefetchWrites` option loads data prior to write transactions. This should be enabled for databases that are larger than memory (although it can be faster to disable this for smaller databases).
@@ -706,7 +703,6 @@ The `prefetchWrites` option loads data prior to write transactions. This should 
 storage:
   prefetchWrites: true
 ```
-
 
 `path` - _Type_: string; _Default_: `<rootPath>/schema`
 
@@ -723,7 +719,7 @@ storage:
 
 ### `schemas`
 
-The `schemas` section is an optional configuration that can be used to define where database files should reside down to the table level. 
+The `schemas` section is an optional configuration that can be used to define where database files should reside down to the table level.
 <br/><br/>This configuration should be set before the schema and table have been created.
 <br/><br/>The configuration will not create the directories in the path, that must be done by the user.
 <br/>
@@ -753,6 +749,7 @@ schemas:
   nameOfSchema:
     auditPath: /path/to/schema
 ```
+
 <br/>
 
 **Setting the schemas section through the command line, environment variables or API**
@@ -760,27 +757,32 @@ schemas:
 When using command line variables,environment variables or the API to configure the schemas section a slightly different convention from the regular one should be used. To add one or more configurations use a JSON object array.
 
 Using command line variables:
+
 ```bash
 --SCHEMAS [{\"nameOfSchema\":{\"tables\":{\"nameOfTable\":{\"path\":\"\/path\/to\/table\"}}}}]
 ```
 
 Using environment variables:
+
 ```bash
 SCHEMAS=[{"nameOfSchema":{"tables":{"nameOfTable":{"path":"/path/to/table"}}}}]
 ```
 
 Using the API:
+
 ```json
 {
-  "operation": "set_configuration",
-  "schemas": [{
-    "nameOfSchema": {
-      "tables": {
-        "nameOfTable": {
-          "path": "/path/to/table"
-        }
-      }
-    }
-  }]
+	"operation": "set_configuration",
+	"schemas": [
+		{
+			"nameOfSchema": {
+				"tables": {
+					"nameOfTable": {
+						"path": "/path/to/table"
+					}
+				}
+			}
+		}
+	]
 }
 ```

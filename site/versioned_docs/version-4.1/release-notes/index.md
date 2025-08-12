@@ -28,7 +28,6 @@ title: Release Notes
 
 [4.0.0 Tucker](./v4-tucker/4.0.0)
 
-
 ### Past Releases
 
 [Meet Monkey](./v3-monkey/) Our 3rd Release Pup
@@ -51,7 +50,7 @@ title: Release Notes
 
 [3.0.0 Monkey](./v3-monkey/3.0.0)
 
-***
+---
 
 [Meet Penny](./v2-penny/) Our 2nd Release Pup
 
@@ -67,7 +66,7 @@ title: Release Notes
 
 [2.1.1 Penny](./v2-penny/2.1.1)
 
-***
+---
 
 [Meet Alby](./v1-alby/) Our 1st Release Pup
 

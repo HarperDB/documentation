@@ -10,14 +10,12 @@ HarperDB Studio resources are available regardless of whether or not you are log
 
 The [HarperDB Marketplace](https://studio.harperdb.io/resources/marketplace/active) is a collection of SDKs and connectors that enable developers to expand upon HarperDB for quick and easy solution development. Extensions are built and supported by the HarperDB Community. Each extension is hosted on the appropriate package manager or host.
 
-
-
 To download a Marketplace extension:
 
-1) Navigate to the [HarperDB Marketplace](https://studio.harperdb.io/resources/marketplace/active) page.
-2) Identity the extension you would like to use.
-3) Either click the link to the package.
-4) Follow the extension’s instructions to proceed.
+1. Navigate to the [HarperDB Marketplace](https://studio.harperdb.io/resources/marketplace/active) page.
+2. Identity the extension you would like to use.
+3. Either click the link to the package.
+4. Follow the extension’s instructions to proceed.
 
 You can submit your rating for each extension by clicking on the stars.
 
@@ -27,10 +25,10 @@ HarperDB offers standard drivers to connect real-time HarperDB data with BI, ana
 
 To download a driver:
 
-1) Navigate to the [HarperDB Drivers](https://studio.harperdb.io/resources/marketplace/active) page.
-2) Identity the driver you would like to use.
-3) Click the download link.
-4) For additional instructions, visit the support link on the driver card.
+1. Navigate to the [HarperDB Drivers](https://studio.harperdb.io/resources/marketplace/active) page.
+2. Identity the driver you would like to use.
+3. Click the download link.
+4. For additional instructions, visit the support link on the driver card.
 
 ## Video Tutorials
 

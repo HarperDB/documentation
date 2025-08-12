@@ -306,8 +306,8 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `read_audit_log`
 - schema _(required)_ - schema under which the transaction log resides
 - table _(required)_ - table under which the transaction log resides
-- search_type _(optional)_ - possibilities are `hash_value`, `timestamp` and `username`
-- search_values _(optional)_ - an array of string or numbers relating to search_type
+- search*type *(optional)\_ - possibilities are `hash_value`, `timestamp` and `username`
+- search*values *(optional)\_ - an array of string or numbers relating to search_type
 
 ### Body
 
@@ -401,8 +401,8 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `read_audit_log`
 - schema _(required)_ - schema under which the transaction log resides
 - table _(required)_ - table under which the transaction log resides
-- search_type _(optional)_ - timestamp
-- search_values _(optional)_ - an array containing a maximum of two values \[`from_timestamp`, `to_timestamp`] defining the range of transactions you would like to view.
+- search*type *(optional)\_ - timestamp
+- search*values *(optional)\_ - an array containing a maximum of two values \[`from_timestamp`, `to_timestamp`] defining the range of transactions you would like to view.
   - Timestamp format is millisecond-based epoch in UTC
   - If no items are supplied then all transactions are returned
   - If only one entry is supplied then all transactions after the supplied timestamp will be returned
@@ -522,8 +522,8 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `read_audit_log`
 - schema _(required)_ - schema under which the transaction log resides
 - table _(required)_ - table under which the transaction log resides
-- search_type _(optional)_ - username
-- search_values _(optional)_ - the Harper user for whom you would like to view transactions
+- search*type *(optional)\_ - username
+- search*values *(optional)\_ - the Harper user for whom you would like to view transactions
 
 ### Body
 
@@ -642,8 +642,8 @@ _Operation is restricted to super_user roles only_
 - operation _(required)_ - must always be `read_audit_log`
 - schema _(required)_ - schema under which the transaction log resides
 - table _(required)_ - table under which the transaction log resides
-- search_type _(optional)_ - hash_value
-- search_values _(optional)_ - an array of hash_attributes for which you wish to see transaction logs
+- search*type *(optional)\_ - hash_value
+- search*values *(optional)\_ - an array of hash_attributes for which you wish to see transaction logs
 
 ### Body
 

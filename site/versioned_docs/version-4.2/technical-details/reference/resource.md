@@ -20,13 +20,13 @@ You can create classes that extend Resource to define your own data sources, typ
 export class MyExternalData extends Resource {
 	get() {
 		// fetch data from an external source, using our primary key
-		this.fetch(this.id)
+		this.fetch(this.id);
 	}
 	put(data) {
 		// send the data into the external source
 	}
 	delete() {
-		// delete an entity in the external data source 
+		// delete an entity in the external data source
 	}
 	subscribe(options) {
 		// if the external data source is capable of real-time notification of changes, can subscribe
@@ -52,7 +52,7 @@ export class MyTable extends tables.MyTable {
 		super.put(data);
 	}
 	delete() {
-		super.delete(); 
+		super.delete();
 	}
 	post(data) {
 		// providing a post handler (for HTTP POST requests) is a common way to create additional
@@ -60,6 +60,7 @@ export class MyTable extends tables.MyTable {
 	}
 }
 ```
+
 Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in the your schema, so that you aren't exporting the same table/class twice.
 
 ## Global Variables
@@ -123,6 +124,7 @@ get(query) {
 	...
 }
 ```
+
 If `get` is called for a single record (for a request like `/Table/some-id`), the default action is to return `this` instance of the resource. If `get` is called on a collection (`/Table/?name=value`), the default action is to `search` and return an AsyncIterable of results.
 
 ### `search(query: Query)`: AsyncIterable
@@ -169,11 +171,11 @@ The returned (promise resolves to) Subscription object is an `AsyncIterable` tha
 
 The `subscriptionRequest` object supports the following properties (all optional):
 
-* `id` - The primary key of the record (or topic) that you want to subscribe to. If omitted, this will be a subscription to the whole table.
-* `isCollection` - If this is enabled and the `id` was included, this will create a subscription to all the record updates/messages that are prefixed with the id. For example, a subscription request of `{id:'sub', isCollection: true}` would return events for any update with an id/topic of the form sub/\* (like `sub/1`).
-* `startTime` - This will begin the subscription at a past point in time, returning all updates/messages since the start time (a catch-up of historical messages). This can be used to resume a subscription, getting all messages since the last subscription.
-* `previousCount` - This specifies the number of previous updates/messages to deliver. For example, `previousCount: 10` would return the last ten messages. Note that `previousCount` can not be used in conjunction with `startTime`.
-* `omitCurrent` - Indicates that the current (or retained) record should _not_ be immediately sent as the first update in the subscription (if no `startTime` or `previousCount` was used). By default, the current record is sent as the first update.
+- `id` - The primary key of the record (or topic) that you want to subscribe to. If omitted, this will be a subscription to the whole table.
+- `isCollection` - If this is enabled and the `id` was included, this will create a subscription to all the record updates/messages that are prefixed with the id. For example, a subscription request of `{id:'sub', isCollection: true}` would return events for any update with an id/topic of the form sub/\* (like `sub/1`).
+- `startTime` - This will begin the subscription at a past point in time, returning all updates/messages since the start time (a catch-up of historical messages). This can be used to resume a subscription, getting all messages since the last subscription.
+- `previousCount` - This specifies the number of previous updates/messages to deliver. For example, `previousCount: 10` would return the last ten messages. Note that `previousCount` can not be used in conjunction with `startTime`.
+- `omitCurrent` - Indicates that the current (or retained) record should _not_ be immediately sent as the first update in the subscription (if no `startTime` or `previousCount` was used). By default, the current record is sent as the first update.
 
 ### `connect(incomingMessages?: AsyncIterable<any>): AsyncIterable<any>`
 
@@ -215,23 +217,23 @@ Returns the context for this resource. The context contains information about th
 
 The `Context` object has the following (potential) properties:
 
-* `user` - This is the user object, which includes information about the username, role, and authorizations.
-* `transaction` - The current transaction If the current method was triggered by an HTTP request, the following properties are available:
-* `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that modification should cause this timestamp to be updated.
+- `user` - This is the user object, which includes information about the username, role, and authorizations.
+- `transaction` - The current transaction If the current method was triggered by an HTTP request, the following properties are available:
+- `lastModified` - This value is used to indicate the last modified or updated timestamp of any resource(s) that are accessed and will inform the response's `ETag` (or `Last-Modified`) header. This can be updated by application code if it knows that modification should cause this timestamp to be updated.
 
 When a resource gets a request through HTTP, the request object is the context, which has the following properties:
 
-* `url` - The local path/URL of the request (this will not include the protocol or host name, but will start at the path and includes the query string).
-* `method` - The method of the HTTP request.
-* `headers` - This is an object with the headers that were included in the HTTP request. You can access headers by calling `context.headers.get(headerName)`.
-* `responseHeaders` - This is an object with the headers that will be included in the HTTP response. You can set headers by calling `context.responseHeaders.set(headerName, value)`.
-* `pathname` - This provides the path part of the URL (no querystring).
-* `host` - This provides the host name of the request (from the `Host` header).
-* `ip` - This provides the ip address of the client that made the request.
+- `url` - The local path/URL of the request (this will not include the protocol or host name, but will start at the path and includes the query string).
+- `method` - The method of the HTTP request.
+- `headers` - This is an object with the headers that were included in the HTTP request. You can access headers by calling `context.headers.get(headerName)`.
+- `responseHeaders` - This is an object with the headers that will be included in the HTTP response. You can set headers by calling `context.responseHeaders.set(headerName, value)`.
+- `pathname` - This provides the path part of the URL (no querystring).
+- `host` - This provides the host name of the request (from the `Host` header).
+- `ip` - This provides the ip address of the client that made the request.
 
 When a resource is accessed as a data source:
 
-* `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource.
+- `requestContext` - For resources that are acting as a data source for another resource, this provides access to the context of the resource that is making a request for data from the data source resource.
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
@@ -252,7 +254,7 @@ The get, put, delete, subscribe, and connect methods all have static equivalents
 This will retrieve a resource instance by id. For example, if you want to retrieve comments by id in the retrieval of a blog post you could do:
 
 ```javascript
-const { MyTable } = tables; 
+const { MyTable } = tables;
 ...
 // in class:
 	async get() {
@@ -264,16 +266,19 @@ const { MyTable } = tables;
 ```
 
 Type definition for `Id`:
+
 ```
 Id = string|number|array<string|number>
 ```
 
 ### `put(record: object, context?: Resource|Context): Promise<void>`
+
 ### `put(id: Id, record: object, context?: Resource|Context): Promise<void>`
 
 This will save the provided record or data to this resource. This will fully replace the existing record. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `patch(recordUpdate: object, context?: Resource|Context): Promise<void>`
+
 ### `patch(id: Id, recordUpdate: object, context?: Resource|Context): Promise<void>`
 
 This will save the provided updates to the record. The `recordUpdate` object's properties will be applied to the existing record, overwriting the existing records properties, and preserving any properties in the record that are not specified in the `recordUpdate` object. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
@@ -283,6 +288,7 @@ This will save the provided updates to the record. The `recordUpdate` object's p
 Deletes this resource's record or data. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
 
 ### `publish(message: object, context?: Resource|Context): Promise<void>`
+
 ### `publish(topic: Id, message: object, context?: Resource|Context): Promise<void>`
 
 Publishes the given message to the record entry specified by the id in the context. Make sure to `await` this function to ensure it finishes execution within the surrounding transaction.
@@ -323,6 +329,7 @@ This is called by static methods when they are responding to a URL (from HTTP re
 ```
 
 ### `isCollection(resource: Resource): boolean`
+
 This returns a boolean indicating if the provide resource instance represents a collection (can return a query result) or a single record/entity.
 
 ### Context and Transactions
@@ -341,10 +348,10 @@ const { Comment } = tables;
 export class BlogPost extends tables.BlogPost {
 	post(comment) {
 		// add a comment record to the comment table, using this resource as the source for the context
-		Comment.put(comment, this); 
+		Comment.put(comment, this);
 		this.comments.push(comment.id); // add the id for the record to our array of comment ids
 		// Both of these actions will be committed atomically as part of the same transaction
-	}	
+	}
 }
 ```
 
@@ -354,14 +361,14 @@ Please see the [transaction documentation](./transactions) for more information 
 
 The `get`/`search` methods accept a Query object that can be used to specify a query for data. The query is an object that has the following properties, which are all optional:
 
-* `conditions`: This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
-  * `attribute`: Name of the property/attribute to match on.
-  * `value`: The value to match.
-  * `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater\_than", "greater\_than\_equal", "less\_than", "less\_than\_equal", "starts\_with", "contains", "ends\_with", "between", and "not_equal".
-* `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
-* `limit`: This specifies the limit of the number of records that should be returned from the query.
-* `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
-* `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
+- `conditions`: This is an array of objects that specify the conditions to use the match records (if conditions are omitted or it is an empty array, this is a search for everything in the table). Each condition object has the following properties:
+  - `attribute`: Name of the property/attribute to match on.
+  - `value`: The value to match.
+  - `comparator`: This can specify how the value is compared. This defaults to "equals", but can also be "greater_than", "greater_than_equal", "less_than", "less_than_equal", "starts_with", "contains", "ends_with", "between", and "not_equal".
+- `operator`: Specifies if the conditions should be applied as an `"and"` (records must match all conditions), or as an "or" (records must match at least one condition). This defaults to `"and"`.
+- `limit`: This specifies the limit of the number of records that should be returned from the query.
+- `offset`: This specifies the number of records that should be skipped prior to returning records in the query. This is often used with `limit` to implement "paging" of records.
+- `select`: This specifies the specific properties that should be included in each record that is returned. This can be a string value, to specify that the value of the specified property should be returned for each iteration/element in the results. This can be an array, to specify a set of properties that should be included in the returned objects. The array can specify an `select.asArray = true` property and the query results will return a set of arrays of values of the specified properties instead of objects; this can be used to return more compact results.
 
 The query results are returned as an `AsyncIterable`. In order to access the elements of the query results, you must use a `for await` loop (it does _not_ return an array, you can not access the results by index).
 
@@ -377,11 +384,12 @@ let results = Product.search({
 	offset: 20,
 	limit: 10,
 	select: ['id', 'name', 'price', 'rating'],
-})
+});
 for await (let record of results) {
 	// iterate through each record in the query results
 }
 ```
+
 `AsyncIterable`s can be returned from resource methods, and will be properly serialized in responses. When a query is performed, this will open/reserve a read transaction until the query results are iterated, either through your own `for await` loop or through serialization. Failing to iterate the results this will result in a long-lived read transaction which can degrade performance (including write performance), and may eventually be aborted.
 
 ### Interacting with the Resource Data Model
@@ -404,7 +412,7 @@ export class CustomProduct extends Product {
 	get(query) {
 		let name = this.name; // this is the name of the current product
 		let rating = this.rating; // this is the rating of the current product
-		this.rating = 3 // we can also modify the rating for the current instance
+		this.rating = 3; // we can also modify the rating for the current instance
 		// (with a get this won't be saved by default, but will be used when serialized)
 		return super.get(query);
 	}
@@ -417,8 +425,7 @@ Likewise, we can interact with resource instances in the same way when retrievin
 let product1 = await Product.get(1);
 let name = product1.name; // this is the name of the product with a primary key of 1
 let rating = product1.rating; // this is the rating of the product with a primary key of 1
-product1.rating = 3 // modify the rating for this instance (this will be saved without a call to update())
-
+product1.rating = 3; // modify the rating for this instance (this will be saved without a call to update())
 ```
 
 If there are additional properties on (some) products that aren't defined in the schema, we can still access them through the resource instance, but since they aren't declared, there won't be getter/setter definition for direct property access, but we can access properties with the `get(propertyName)` method and modify properties with the `set(propertyName, value)` method:
@@ -426,7 +433,7 @@ If there are additional properties on (some) products that aren't defined in the
 ```javascript
 let product1 = await Product.get(1);
 let additionalInformation = product1.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
-product1.set('newProperty', 'some value'); // we can assign any properties we want with set 
+product1.set('newProperty', 'some value'); // we can assign any properties we want with set
 ```
 
 And likewise, we can do this in an instance method, although you will probably want to use super.get()/set() so you don't have to write extra logic to avoid recursion:
@@ -435,7 +442,7 @@ And likewise, we can do this in an instance method, although you will probably w
 export class CustomProduct extends Product {
 	get(query) {
 		let additionalInformation = super.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
-		super.set('newProperty', 'some value'); // we can assign any properties we want with set 
+		super.set('newProperty', 'some value'); // we can assign any properties we want with set
 	}
 }
 ```

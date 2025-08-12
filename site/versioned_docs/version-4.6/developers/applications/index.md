@@ -202,7 +202,7 @@ const { Breed } = tables; // our Breed table
 class BreedSource extends Resource {
 	// define a data source
 	async get(target) {
-  return (await fetch(`https://best-dog-site.com/${target}`)).json();
+		return (await fetch(`https://best-dog-site.com/${target}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration

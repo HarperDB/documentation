@@ -25,6 +25,7 @@ We have a few recommended options for enabling HTTPS in a production setting.
 To enable HTTPS, set the `operationsApi.network.https` and `customFunctions.network.https` to `true` and restart HarperDB.
 
 To replace the certificates, either replace the contents of the existing certificate files at `<ROOTPATH>/keys/`, or update the HarperDB configuration with the path of your new certificate files, and then restart HarperDB.
+
 ```yaml
 operationsApi:
   tls:
@@ -32,6 +33,7 @@ operationsApi:
     certificateAuthority: ~/hdb/keys/ca.pem
     privateKey: ~/hdb/keys/privateKey.pem
 ```
+
 ```yaml
 customFunctions:
   tls:
@@ -42,7 +44,7 @@ customFunctions:
 
 ### Option: Nginx Reverse Proxy
 
-Instead of enabling HTTPS for HarperDB, Nginx can be used as a reverse proxy for HarperDB.  
+Instead of enabling HTTPS for HarperDB, Nginx can be used as a reverse proxy for HarperDB.
 
 Install Nginx, configure Nginx to use certificates issued from your own CA or a public CA, then configure Nginx to listen for HTTPS requests and forward to HarperDB as HTTP requests.
 

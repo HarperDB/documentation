@@ -40,10 +40,10 @@ type TableName @table
 
 By default the table name is inherited from the type name (in this case the table name would be "TableName"). The `@table` directive supports several optional arguments (all of these are optional and can be freely combined):
 
-* `@table(table: "table_name")` - This allows you to explicitly specify the table name.
-* `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
-* `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
-* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration#logging).
+- `@table(table: "table_name")` - This allows you to explicitly specify the table name.
+- `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
+- `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
+- `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration#logging).
 
 #### `@export`
 
@@ -134,7 +134,7 @@ type Product @table {
 
 ```javascript
 tables.Product.setComputedAttribute('totalPrice', (record) => {
-  return record.price + (record.price * record.taxRate);
+	return record.price + record.price * record.taxRate;
 });
 ```
 
@@ -169,7 +169,7 @@ The field directives can be used for information about each attribute in table t
 
 #### `@primaryKey`
 
-The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys). 
+The `@primaryKey` directive specifies that an attribute is the primary key for a table. These must be unique and when records are created, this will be auto-generated if no primary key is provided. When a primary key is auto-generated, it will be a UUID (as a string) if the primary key type is `String` or `ID`. If the primary key type is `Int`, `Long`, or `Any`, then the primary key will be an auto-incremented number. Using numeric primary keys is more efficient than using UUIDs. Note that if the type is `Int`, the primary key will be limited to 32-bit, which can be limiting and problematic for large tables. It is recommended that if you will be relying on auto-generated keys, that you use a primary key type of `Long` or `Any` (the latter will allow you to also use strings as primary keys).
 
 #### `@indexed`
 
@@ -195,16 +195,16 @@ If you do not define a schema for a table and create a table through the operati
 
 Harper supports the following field types in addition to user defined (object) types:
 
-* `String`: String/text.
-* `Int`: A 32-bit signed integer (from -2147483648 to 2147483647).
-* `Long`: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
-* `Float`: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available).
-* `BigInt`: Any integer (negative or positive) with less than 300 digits. (Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.)
-* `Boolean`: true or false.
-* `ID`: A string (but indicates it is not intended to be human readable).
-* `Any`: Any primitive, object, or array is allowed.
-* `Date`: A Date object.
-* `Bytes`: Binary data (as a Buffer or Uint8Array).
+- `String`: String/text.
+- `Int`: A 32-bit signed integer (from -2147483648 to 2147483647).
+- `Long`: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
+- `Float`: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available).
+- `BigInt`: Any integer (negative or positive) with less than 300 digits. (Note that `BigInt` is a distinct and separate type from standard numbers in JavaScript, so custom code should handle this type appropriately.)
+- `Boolean`: true or false.
+- `ID`: A string (but indicates it is not intended to be human readable).
+- `Any`: Any primitive, object, or array is allowed.
+- `Date`: A Date object.
+- `Bytes`: Binary data (as a Buffer or Uint8Array).
 
 #### Renaming Tables
 

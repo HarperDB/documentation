@@ -16,7 +16,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `add_node`
 - hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
-- verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
+- verify*tls *(optional)\_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
 - authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
 - retain*authorization *(optional)\_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
 - revoked*certificates *(optional)\_ - an array of revoked certificates serial numbers. If a certificate is revoked, it will not be accepted for any connections.
@@ -260,12 +260,12 @@ _Operation is restricted to super_user roles only_
 {
 	"operation": "cluster_set_routes",
 	"routes": [
-  "wss://server-two:9925",
-  {
-   "hostname": "server-three",
-   "port": 9930
-  }
- ]
+		"wss://server-two:9925",
+		{
+			"hostname": "server-three",
+			"port": 9930
+		}
+	]
 }
 ```
 
@@ -273,15 +273,15 @@ _Operation is restricted to super_user roles only_
 
 ```json
 {
- "message": "cluster routes successfully set",
- "set": [
-  "wss://server-two:9925",
-  {
-   "hostname": "server-three",
-   "port": 9930
-  }
- ],
- "skipped": []
+	"message": "cluster routes successfully set",
+	"set": [
+		"wss://server-two:9925",
+		{
+			"hostname": "server-three",
+			"port": 9930
+		}
+	],
+	"skipped": []
 }
 ```
 
@@ -299,7 +299,7 @@ _Operation is restricted to super_user roles only_
 
 ```json
 {
- "operation": "cluster_get_routes"
+	"operation": "cluster_get_routes"
 }
 ```
 
@@ -307,7 +307,7 @@ _Operation is restricted to super_user roles only_
 
 ```json
 [
- "wss://server-two:9925",
+	"wss://server-two:9925",
 	{
 		"hostname": "server-three",
 		"port": 9930

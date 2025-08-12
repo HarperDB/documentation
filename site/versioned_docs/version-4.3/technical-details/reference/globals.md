@@ -38,7 +38,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a database](../../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake\_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a database](../../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ## `databases`
 
@@ -63,7 +63,7 @@ This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `n
 
 ## `server`
 
-The `server` global object provides a number of functions and objects to interact with Harper's HTTP service. 
+The `server` global object provides a number of functions and objects to interact with Harper's HTTP service.
 
 ### `server.http(listener: RequestListener, options: HttpOptions): HttpServer[]`
 
@@ -76,13 +76,14 @@ Returns an array of server instances based on the specified `options.port` and `
 Example:
 
 ```js
-server.http((request, next) => {
-	return request.url === '/graphql'
-		? handleGraphQLRequest(request)
-		: next(request);
-}, {
-	runFirst: true, // run this handler first
-});
+server.http(
+	(request, next) => {
+		return request.url === '/graphql' ? handleGraphQLRequest(request) : next(request);
+	},
+	{
+		runFirst: true, // run this handler first
+	}
+);
 ```
 
 #### `RequestListener`
@@ -107,6 +108,7 @@ Properties:
 
 <!-- Internal Use Only - `mtls` - _optional_ - `boolean` -->
 <!-- Internal Use Only - `isOperationsServer` - _optional_ - `boolean`  -->
+
 - `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
 - `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
 - `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
@@ -142,15 +144,15 @@ Example:
 
 ```js
 server.ws((ws, request, chainCompletion) => {
- chainCompletion.then(() => {
-  ws.on('error', console.error);
+	chainCompletion.then(() => {
+		ws.on('error', console.error);
 
-  ws.on('message', function message(data) {
-   console.log('received: %s', data);
-  });
+		ws.on('message', function message(data) {
+			console.log('received: %s', data);
+		});
 
-  ws.send('something');
- });
+		ws.send('something');
+	});
 });
 ```
 
@@ -173,6 +175,7 @@ Properties:
 
 <!-- Internal Use Only - `mtls` - _optional_ - `boolean` -->
 <!-- Internal Use Only - `isOperationsServer` - _optional_ - `boolean`  -->
+
 - `maxPayload` - _optional_ - `number` - Set the max payload size for the WebSocket server. Defaults to 100 MB.
 - `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
 - `port` - _optional_ - `number` - Specify which WebSocket server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
@@ -229,8 +232,8 @@ This provides access to the HarperDB configuration object. This comes from the [
 
 This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](./analytics). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
-* `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
-* `metric` - This is the name of the metric.
-* `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
-* `method` - Optional method to group by.
-* `type` - Optional type to group by.
+- `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
+- `metric` - This is the name of the metric.
+- `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
+- `method` - Optional method to group by.
+- `type` - Optional type to group by.

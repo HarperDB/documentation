@@ -70,7 +70,7 @@ title: Release Notes
 
 [3.0.0 Monkey](./v3-monkey/3.0.0)
 
-***
+---
 
 [Meet Penny](../../technical-details/release-notes/v2-penny) Our 2nd Release Pup
 
@@ -86,7 +86,7 @@ title: Release Notes
 
 [2.1.1 Penny](./v2-penny/2.1.1)
 
-***
+---
 
 [Meet Alby](../../technical-details/release-notes/v1-alby) Our 1st Release Pup
 

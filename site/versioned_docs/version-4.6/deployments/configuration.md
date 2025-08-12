@@ -557,9 +557,9 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 ```json
 {
- "operation": "read_audit_log",
- "schema": "dev",
- "table": "dog"
+	"operation": "read_audit_log",
+	"schema": "dev",
+	"table": "dog"
 }
 ```
 
@@ -702,7 +702,7 @@ This section defines log configuration for HTTP logging. By default, HTTP reques
 - `timing` - This will log timing information
 - `headers` - This will log the headers in each request (which can be very verbose)
 - `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
-Note that the `level` will determine which HTTP requests are logged:
+  Note that the `level` will determine which HTTP requests are logged:
 - `info` (or more verbose) - All HTTP requests
 - `warn` - HTTP requests with a status code of 400 or above
 - `error` - HTTP requests with a status code of 500
@@ -711,10 +711,10 @@ For example:
 
 ```yaml
 http:
-  logging: 
+  logging:
     timing: true
     level: info
-    path: ~/hdb/log/http.log 
+    path: ~/hdb/log/http.log
   ... rest of http config
 ```
 
@@ -746,7 +746,7 @@ This section defines log configuration for setting up and reading the database f
 
 This section defines log configuration for analytics. This takes the standard logging configuration options of `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`.
 
-***
+---
 
 ### `authentication`
 

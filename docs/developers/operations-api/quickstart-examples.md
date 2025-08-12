@@ -240,9 +240,9 @@ Each header in a column will be considered as an attribute, and each row in the 
 
 ```json
 {
- "operation": "csv_url_load",
- "table": "breed",
- "csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
+	"operation": "csv_url_load",
+	"table": "breed",
+	"csv_url": "https://s3.amazonaws.com/complimentarydata/breeds.csv"
 }
 ```
 

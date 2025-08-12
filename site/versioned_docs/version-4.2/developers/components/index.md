@@ -6,12 +6,12 @@ title: Components
 
 HarperDB is a highly extensible database application platform with support for a rich variety of composable modular components and components that can be used and combined to build applications and add functionality to existing applications. HarperDB tools, components, and add-ons can be found in a few places:
 
-* [SDK libraries](./sdks) are available for connecting to HarperDB from different languages.
-* [Drivers](./drivers) are available for connecting to HarperDB from different products and tools.
-* [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
-* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
-* You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb\&type=repositories)
-* [Google Data Studio](./google-data-studio) is a visualization tool for building charts and tables from HarperDB data.
+- [SDK libraries](./sdks) are available for connecting to HarperDB from different languages.
+- [Drivers](./drivers) are available for connecting to HarperDB from different products and tools.
+- [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
+- [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
+- You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb&type=repositories)
+- [Google Data Studio](./google-data-studio) is a visualization tool for building charts and tables from HarperDB data.
 
 ## Components
 

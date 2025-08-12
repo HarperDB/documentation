@@ -81,7 +81,7 @@ _Operation is restricted to super_user roles only_
 - payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 - restart _(optional)_ - must be either a boolean or the string `rolling`. If set to `rolling`, a rolling restart will be triggered after the component is deployed, meaning that each node in the cluster will be sequentially restarted (waiting for the last restart to start the next). If set to `true`, the restart will not be rolling, all nodes will be restarted in parallel. If `replicated` is `true`, the restart operations will be replicated across the cluster.
 - replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
-- install_command _(optional)_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
+- install*command *(optional)\_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
 
 ### Body
 
@@ -120,7 +120,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `package_component`
 - project _(required)_ - the name of the project you wish to package
-- skip_node_modules _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
+- skip*node_modules *(optional)\_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
 
 ### Body
 
@@ -334,7 +334,7 @@ _Operation is restricted to super_user roles only_
 - key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
 - host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key.
 - hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-- known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- known*hosts *(optional)\_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
 - replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
@@ -389,7 +389,7 @@ _Operation is restricted to super_user roles only_
 - key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
 - host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key.
 - hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-- known_hosts _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- known*hosts *(optional)\_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
 - replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
@@ -476,7 +476,7 @@ Sets the SSH known_hosts file. This will overwrite the file.
 _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `set_ssh_known_hosts`
-- known_hosts _(required)_ - The contents to set the known_hosts to. Line breaks must be delimite d with&#x20;
+- known*hosts *(required)\_ - The contents to set the known_hosts to. Line breaks must be delimite d with&#x20;
 - replicated _(optional)_ - if true, Harper will replicate the known hosts to all nodes in the cluster. Must be a boolean.
 
 ### Body

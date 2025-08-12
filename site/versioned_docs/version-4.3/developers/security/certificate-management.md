@@ -28,9 +28,9 @@ To replace the certificates, either replace the contents of the existing certifi
 
 ```yaml
 tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
+  certificate: ~/hdb/keys/certificate.pem
+  certificateAuthority: ~/hdb/keys/ca.pem
+  privateKey: ~/hdb/keys/privateKey.pem
 ```
 
 `operationsApi.tls` configuration is optional. If it is not set HarperDB will default to the values in the `tls` section.

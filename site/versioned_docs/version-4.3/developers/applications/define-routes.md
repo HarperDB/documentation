@@ -16,23 +16,23 @@ fastifyRoutes: # This loads files that define fastify routes using fastify's aut
 
 By default, route URLs are configured to be:
 
-* \[**Instance URL**]:\[**HTTP Port**]/\[**Project Name**]/\[**Route URL**]
+- \[**Instance URL**]:\[**HTTP Port**]/\[**Project Name**]/\[**Route URL**]
 
 However, you can specify the path to be `/` if you wish to have your routes handling the root path of incoming URLs.
 
-* The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http:/localhost:9926/dogs/breeds**.
+- The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http:/localhost:9926/dogs/breeds**.
 
 In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
 
 ```javascript
 export default async (server, { hdbCore, logger }) => {
-    server.route({
-        url: '/',
-        method: 'POST',
-        preValidation: hdbCore.preValidation,
-        handler: hdbCore.request,
-    })
-}
+	server.route({
+		url: '/',
+		method: 'POST',
+		preValidation: hdbCore.preValidation,
+		handler: hdbCore.request,
+	});
+};
 ```
 
 ## Custom Handlers
@@ -69,20 +69,20 @@ Below is an example of a route that uses a custom validation hook:
 import customValidation from '../helpers/customValidation';
 
 export default async (server, { hdbCore, logger }) => {
-    server.route({
-        url: '/:id',
-        method: 'GET',
-        preValidation: (request) => customValidation(request, logger),
-        handler: (request) => {
-            request.body= {
-                operation: 'sql',
-                sql: `SELECT * FROM dev.dog WHERE id = ${request.params.id}`
-            };
+	server.route({
+		url: '/:id',
+		method: 'GET',
+		preValidation: (request) => customValidation(request, logger),
+		handler: (request) => {
+			request.body = {
+				operation: 'sql',
+				sql: `SELECT * FROM dev.dog WHERE id = ${request.params.id}`,
+			};
 
-         return hdbCore.requestWithoutAuthentication(request);
-        }
-    });
-}
+			return hdbCore.requestWithoutAuthentication(request);
+		},
+	});
+};
 ```
 
 Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Define Helpers](#helper-methods).
@@ -95,24 +95,25 @@ When declaring routes, you are given access to 2 helper methods: hdbCore and log
 
 hdbCore contains three functions that allow you to authenticate an inbound request, and execute operations against HarperDB directly, by passing the standard Operations API.
 
-*   **preValidation**
+- **preValidation**
 
-    This is an array of functions used for fastify authentication. The second function takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API (for example, `hdbCore.preValidation[1](./req, resp, callback)`). It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
-*   **request**
+  This is an array of functions used for fastify authentication. The second function takes the authorization header from the inbound request and executes the same authentication as the standard HarperDB Operations API (for example, `hdbCore.preValidation[1](./req, resp, callback)`). It will determine if the user exists, and if they are allowed to perform this operation. **If you use the request method, you have to use preValidation to get the authenticated user**.
 
-    This will execute a request with HarperDB using the operations API. The `request.body` should contain a standard HarperDB operation and must also include the `hdb_user` property that was in `request.body` provided in the callback.
-*   **requestWithoutAuthentication**
+- **request**
 
-    Executes a request against HarperDB without any security checks around whether the inbound user is allowed to make this request. For security purposes, you should always take the following precautions when using this method:
+  This will execute a request with HarperDB using the operations API. The `request.body` should contain a standard HarperDB operation and must also include the `hdb_user` property that was in `request.body` provided in the callback.
 
-    * Properly handle user-submitted values, including url params. User-submitted values should only be used for `search_value` and for defining values in records. Special care should be taken to properly escape any values if user-submitted values are used for SQL.
+- **requestWithoutAuthentication**
+
+  Executes a request against HarperDB without any security checks around whether the inbound user is allowed to make this request. For security purposes, you should always take the following precautions when using this method:
+  - Properly handle user-submitted values, including url params. User-submitted values should only be used for `search_value` and for defining values in records. Special care should be taken to properly escape any values if user-submitted values are used for SQL.
 
 **logger**
 
 This helper allows you to write directly to the log file, hdb.log. It’s useful for debugging during development, although you may also use the console logger. There are 5 functions contained within logger, each of which pertains to a different **logging.level** configuration in your harperdb-config.yaml file.
 
-* logger.trace(‘Starting the handler for /dogs’)
-* logger.debug(‘This should only fire once’)
-* logger.warn(‘This should never ever fire’)
-* logger.error(‘This did not go well’)
-* logger.fatal(‘This did not go very well at all’)
+- logger.trace(‘Starting the handler for /dogs’)
+- logger.debug(‘This should only fire once’)
+- logger.warn(‘This should never ever fire’)
+- logger.error(‘This did not go well’)
+- logger.fatal(‘This did not go very well at all’)

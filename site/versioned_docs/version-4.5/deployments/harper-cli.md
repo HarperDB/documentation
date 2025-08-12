@@ -37,7 +37,7 @@ harperdb install
 harperdb install --TC_AGREEMENT yes --HDB_ADMIN_USERNAME HDB_ADMIN --HDB_ADMIN_PASSWORD password --ROOTPATH /tmp/hdb/ --OPERATIONSAPI_NETWORK_PORT 9925
 ```
 
-***
+---
 
 ### Starting Harper
 
@@ -47,7 +47,7 @@ To start Harper after it is installed, run the following command:
 harperdb start
 ```
 
-***
+---
 
 ### Stopping Harper
 
@@ -57,7 +57,7 @@ To stop Harper once it is running, run the following command:
 harperdb stop
 ```
 
-***
+---
 
 ### Restarting Harper
 
@@ -67,7 +67,7 @@ To restart Harper once it is running, run the following command:
 harperdb restart
 ```
 
-***
+---
 
 ### Getting the Harper Version
 
@@ -77,7 +77,7 @@ To check the version of Harper that is installed run the following command:
 harperdb version
 ```
 
-***
+---
 
 ### Renew self-signed certificates
 
@@ -87,7 +87,7 @@ To renew the Harper generated self-signed certificates, run:
 harperdb renew-certs
 ```
 
-***
+---
 
 ### Copy a database with compaction
 
@@ -103,7 +103,7 @@ For example, to copy the default database:
 harperdb copy-db data /home/user/hdb/database/copy.mdb
 ```
 
-***
+---
 
 ### Get all available CLI commands
 
@@ -113,7 +113,7 @@ To display all available Harper CLI commands along with a brief description run:
 harperdb help
 ```
 
-***
+---
 
 ### Get the status of Harper and clustering
 
@@ -123,13 +123,13 @@ To display the status of the Harper process, the clustering hub and leaf process
 harperdb status
 ```
 
-***
+---
 
 ### Backups
 
 Harper uses a transactional commit process that ensures that data on disk is always transactionally consistent with storage. This means that Harper maintains database integrity in the event of a crash. It also means that you can use any standard volume snapshot tool to make a backup of a Harper database. Database files are stored in the hdb/database directory. As long as the snapshot is an atomic snapshot of these database files, the data can be copied/moved back into the database directory to restore a previous backup (with Harper shut down) , and database integrity will be preserved. Note that simply copying an in-use database file (using `cp`, for example) is _not_ a snapshot, and this would progressively read data from the database at different points in time, which yields unreliable copy that likely will not be usable. Standard copying is only reliable for a database file that is not in use.
 
-***
+---
 
 ## Operations API through the CLI
 

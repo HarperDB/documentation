@@ -12,7 +12,7 @@ Harper automatically indexes all top level attributes in a row / object written 
 
 ## Syntax
 
-SEARCH_JSON(_expression, attribute_)
+SEARCH*JSON(\_expression, attribute*)
 
 Executes the supplied string _expression_ against data of the defined top level _attribute_ for each row. The expression both filters and defines output from the JSON document.
 

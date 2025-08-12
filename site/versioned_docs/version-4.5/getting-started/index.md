@@ -11,6 +11,7 @@ Follow the steps in this documentation to discover how Harper can simplify your 
 For more advanced concepts in Harper, see our [blog](https://www.harpersystems.dev/blog).
 
 ## Harper Basics
+
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>

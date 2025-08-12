@@ -8,13 +8,13 @@ HarperDB Cloud instance alarms are triggered when certain conditions are met. On
 
 ### Heading Definitions
 
-* **Alarm**: Title of the alarm.
-* **Threshold**: Definition of the alarm threshold.
-* **Intervals**: The number of occurrences before an alarm is triggered and the period that the metric is evaluated over.
-* **Proposed Remedy**: Recommended solution to avoid the alert in the future.
+- **Alarm**: Title of the alarm.
+- **Threshold**: Definition of the alarm threshold.
+- **Intervals**: The number of occurrences before an alarm is triggered and the period that the metric is evaluated over.
+- **Proposed Remedy**: Recommended solution to avoid the alert in the future.
 
-| Alarm   | Threshold  | Intervals | Proposed Remedy                                                                                                                  |
-| ------- | ---------- | --------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Alarm   | Threshold  | Intervals | Proposed Remedy                                                                                                               |
+| ------- | ---------- | --------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | Storage | > 90% Disk | 1 x 5min  | [Increased storage volume](../../administration/harperdb-studio/instance-configuration#update-instance-storage)               |
 | CPU     | > 90% Avg  | 2 x 5min  | [Increase instance size for additional CPUs](../../administration/harperdb-studio/instance-configuration#update-instance-ram) |
 | Memory  | > 90% RAM  | 2 x 5min  | [Increase instance size](../../administration/harperdb-studio/instance-configuration#update-instance-ram)                     |

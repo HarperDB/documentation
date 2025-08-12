@@ -8,7 +8,7 @@ HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb
 
 All available configuration will be populated by default in the config file on install, regardless of whether it is used.
 
-***
+---
 
 ## Using the Configuration File and Naming Conventions
 
@@ -32,7 +32,7 @@ To use a custom configuration file to set values on install, use the CLI/ENV var
 
 To install HarperDB overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
 
-***
+---
 
 ## Configuration Options
 
@@ -55,7 +55,7 @@ For HTTP clients that support (Brotli) compression encoding, responses that are 
 
 ```yaml
 http:
-  compressionThreshold:  1200
+  compressionThreshold: 1200
 ```
 
 `cors` - _Type_: boolean; _Default_: true
@@ -88,18 +88,18 @@ The length of time in milliseconds after which a request will timeout.
 
 ```yaml
 http:
-    cors: true
-    corsAccessList:
-      - null
-    headersTimeout: 60000
-    https: false
-    keepAliveTimeout: 30000
-    port: 9926
-    securePort: null
-    timeout: 120000 
+  cors: true
+  corsAccessList:
+    - null
+  headersTimeout: 60000
+  https: false
+  keepAliveTimeout: 30000
+  port: 9926
+  securePort: null
+  timeout: 120000
 ```
 
-***
+---
 
 ### `threads`
 
@@ -111,7 +111,7 @@ The `threads` option specifies the number of threads that will be used to servic
 threads: 11
 ```
 
-***
+---
 
 ### `clustering`
 
@@ -119,11 +119,11 @@ The `clustering` section configures the clustering engine, this is used to repli
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
-* `clustering.enabled` Enable the clustering processes.
-* `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
-* `clustering.hubServer.cluster.network.routes`The connections to other instances.
-* `clustering.nodeName` The name of your node, must be unique within the cluster.
-* `clustering.user` The name of the user credentials used for Inter-node authentication.
+- `clustering.enabled` Enable the clustering processes.
+- `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
+- `clustering.hubServer.cluster.network.routes`The connections to other instances.
+- `clustering.nodeName` The name of your node, must be unique within the cluster.
+- `clustering.user` The name of the user credentials used for Inter-node authentication.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -133,7 +133,7 @@ _Note: If you enabled clustering but do not create and add a cluster user you wi
 
 ```yaml
 clustering:
-  enabled: true  
+  enabled: true
 ```
 
 `clustering.hubServer.cluster`
@@ -240,7 +240,6 @@ The port of the remote instance you are creating the connection with. This is li
 
 \
 
-
 `clustering.leafServer.streams`
 
 `maxAge` - _Type_: integer; _Default_: null
@@ -259,7 +258,7 @@ How many messages may be in a stream. Oldest messages are removed if the stream 
 
 The directory where all the streams are kept.
 
-***
+---
 
 `logLevel` - _Type_: string; _Default_: error
 
@@ -321,7 +320,7 @@ When true, all transactions that are received from other nodes are republished t
 
 When true, hub server will verify client certificate using the CA certificate.
 
-***
+---
 
 `user` - _Type_: string; _Default_: null
 
@@ -333,10 +332,10 @@ The user can be created either through the API using an `add_user` request with 
 
 ```yaml
 clustering:
-  user: cluster_person    
+  user: cluster_person
 ```
 
-***
+---
 
 ### `localStudio`
 
@@ -351,7 +350,7 @@ localStudio:
   enabled: false
 ```
 
-***
+---
 
 ### `logging`
 
@@ -372,9 +371,9 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 ```json
 {
-  "operation": "read_audit_log",
-  "schema": "dev",
-  "table": "dog"
+	"operation": "read_audit_log",
+	"schema": "dev",
+	"table": "dog"
 }
 ```
 
@@ -456,7 +455,7 @@ logging:
   stdStreams: false
 ```
 
-***
+---
 
 ### `authentication`
 
@@ -563,7 +562,7 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
-***
+---
 
 #### `componentsRoot`
 
@@ -575,7 +574,7 @@ The path to the folder containing the local component files.
 componentsRoot: ~/hdb/components
 ```
 
-***
+---
 
 #### `rootPath`
 
@@ -587,7 +586,7 @@ The HarperDB database and applications/API/interface are decoupled from each oth
 rootPath: /Users/jonsnow/hdb
 ```
 
-***
+---
 
 #### `storage`
 
@@ -647,7 +646,7 @@ storage:
 
 _**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
-***
+---
 
 #### `tls`
 
@@ -655,9 +654,9 @@ Transport Layer Security
 
 ```yaml
 tls:
-    certificate: ~/hdb/keys/certificate.pem
-    certificateAuthority: ~/hdb/keys/ca.pem
-    privateKey: ~/hdb/keys/privateKey.pem
+  certificate: ~/hdb/keys/certificate.pem
+  certificateAuthority: ~/hdb/keys/ca.pem
+  privateKey: ~/hdb/keys/privateKey.pem
 ```
 
 `certificate` - _Type_: string; _Default_: \<ROOTPATH>/keys/certificate.pem
@@ -672,7 +671,7 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
-***
+---
 
 #### `databases`
 
@@ -681,7 +680,6 @@ The `databases` section is an optional configuration that can be used to define 
 This configuration should be set before the database and table have been created.\
 \
 The configuration will not create the directories in the path, that must be done by the user.\
-
 
 To define where a database and all its tables should reside use the name of your database and the `path` parameter.
 
@@ -711,7 +709,6 @@ databases:
 
 \
 
-
 **Setting the database section through the command line, environment variables or API**
 
 When using command line variables,environment variables or the API to configure the databases section a slightly different convention from the regular one should be used. To add one or more configurations use a JSON object array.
@@ -732,15 +729,17 @@ Using the API:
 
 ```json
 {
-  "operation": "set_configuration",
-  "databases": [{
-    "nameOfDatabase": {
-      "tables": {
-        "nameOfTable": {
-          "path": "/path/to/table"
-        }
-      }
-    }
-  }]
+	"operation": "set_configuration",
+	"databases": [
+		{
+			"nameOfDatabase": {
+				"tables": {
+					"nameOfTable": {
+						"path": "/path/to/table"
+					}
+				}
+			}
+		}
+	]
 }
 ```

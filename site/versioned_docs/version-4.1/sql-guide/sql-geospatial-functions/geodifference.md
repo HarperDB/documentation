@@ -3,18 +3,22 @@ title: geoDifference
 ---
 
 # geoDifference
+
 Returns a new polygon with the difference of the second polygon clipped from the first polygon.
 
 ## Syntax
+
 geoDifference(_polygon1, polygon2_)
 
 ## Parameters
-| Parameter	 | Description                                                                |
-|------------|----------------------------------------------------------------------------|
-| polygon1	  | Required. Polygon or MultiPolygon GeoJSON feature.                         |
-| polygon2	  | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
+
+| Parameter | Description                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| polygon1  | Required. Polygon or MultiPolygon GeoJSON feature.                         |
+| polygon2  | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
 
 ### Example
+
 Return a GeoJSON Polygon that removes City Park (_polygon2_) from Colorado (_polygon1_).
 
 ```

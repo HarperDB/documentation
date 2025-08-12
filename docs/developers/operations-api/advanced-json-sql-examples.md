@@ -90,7 +90,7 @@ Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_lo
 	"operation": "csv_url_load",
 	"database": "movies",
 	"table": "movie",
- "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/movie.csv"
+	"csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/movie.csv"
 }
 ```
 
@@ -98,7 +98,7 @@ Inserts data from a hosted CSV file into the "movie" table using the 'csv_url_lo
 
 ```json
 {
- "message": "Starting job with id 1889eee4-23c1-4945-9bb7-c805fc20726c"
+	"message": "Starting job with id 1889eee4-23c1-4945-9bb7-c805fc20726c"
 }
 ```
 
@@ -112,10 +112,10 @@ Inserts data from a hosted CSV file into the "credits" table using the 'csv_url_
 
 ```json
 {
- "operation": "csv_url_load",
- "database": "movies",
- "table": "credits",
- "csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/credits.csv"
+	"operation": "csv_url_load",
+	"database": "movies",
+	"table": "credits",
+	"csv_url": "https://search-json-sample-data.s3.us-east-2.amazonaws.com/credits.csv"
 }
 ```
 

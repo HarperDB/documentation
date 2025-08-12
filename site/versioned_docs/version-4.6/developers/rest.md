@@ -81,13 +81,13 @@ Generally the POST method can be used for custom actions since POST has the broa
 
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
-````http
+`````http
 ````http
 POST /MyTable/
 Content-Type: application/json
 
 `{ "name": "some data" }`
-````
+`````
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
@@ -402,3 +402,4 @@ Content-Type: image/gif
 
 ...image data...
 ```
+````

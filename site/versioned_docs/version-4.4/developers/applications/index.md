@@ -68,7 +68,7 @@ To create your own application from scratch, you'll may want to initialize it as
 Here's an example for a github repo:
 
 ```shell
-> git remote set-url origin git@github.com:/<github-user>/<github-repo> 
+> git remote set-url origin git@github.com:/<github-user>/<github-repo>
 ```
 
 Locally developing your application and then committing your app to a source control is a great way to manage your code and configuration, and then you can [directly deploy from your repository](./#deploying-your-application).
@@ -230,9 +230,9 @@ Congratulations, you now have created a secure database application backend with
 
 This guide assumes that you're building a Harper application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
-* Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-* Go to the applications section of your target cloud instance in the Harper Studio.
-* In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
+- Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
+- Go to the applications section of your target cloud instance in the Harper Studio.
+- In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components#deploy-component).
 
@@ -294,8 +294,7 @@ Here we have focused on customizing how we retrieve data, but we may also want t
 ```javascript
 export class CustomDog extends Dog {
 	async post(data) {
-		if (data.action === 'add-trick')
-			this.tricks.push(data.trick);
+		if (data.action === 'add-trick') this.tricks.push(data.trick);
 	}
 }
 ```
@@ -332,9 +331,10 @@ We can also directly implement the Resource class and use it to create new data 
 
 ```javascript
 const { Breed } = tables; // our Breed table
-class BreedSource extends Resource { // define a data source
+class BreedSource extends Resource {
+	// define a data source
 	async get() {
-  return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
+		return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 // define that our breed table is a cache of data from the data source above, with a specified expiration
@@ -353,10 +353,10 @@ This config file allows you define a location for static files, as well (that ar
 
 Each configuration entry can have the following properties, in addition to properties that may be specific to the individual component:
 
-* `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/**".
-* `path`: This is the URL path that is handled by this component.
-* `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
-* `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
+- `files`: This specifies the set of files that should be handled the component. This is a glob pattern, so a set of files can be specified like "directory/\*\*".
+- `path`: This is the URL path that is handled by this component.
+- `root`: This specifies the root directory for mapping file paths to the URLs. For example, if you want all the files in `web/**` to be available in the root URL path via the static handler, you could specify a root of `web`, to indicate that the web directory maps to the root URL path.
+- `package`: This is used to specify that this component is a third party package, and can be loaded from the specified package reference (which can be an NPM package, Github reference, URL, etc.).
 
 ## Define Fastify Routes
 

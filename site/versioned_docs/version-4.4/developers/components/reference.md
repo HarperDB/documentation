@@ -40,9 +40,9 @@ Any custom component **must** be configured with the `package` option in order f
 
 ```json
 {
-  "dependencies": {
-    "@harperdb/nextjs": "^1.0.0"
-  }
+	"dependencies": {
+		"@harperdb/nextjs": "^1.0.0"
+	}
 }
 ```
 
@@ -58,9 +58,9 @@ Since npm allows for a [variety of dependency configurations](https://docs.npmjs
 
 ```json
 {
-  "dependencies": {
-    "harper-nextjs-test-feature": "HarperDB/nextjs#test-feature"
-  }
+	"dependencies": {
+		"harper-nextjs-test-feature": "HarperDB/nextjs#test-feature"
+	}
 }
 ```
 
@@ -129,9 +129,9 @@ Other than their execution behavior, the `handleFile()` and `setupFile()` method
 
 Any [Resource Extension](#resource-extension) can be configured with the `files`, `path`, and `root` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
-- **files** - `string` - *required* - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
-- **path** - `string` - *optional* - Specifies the URL path to be handled by the component.
-- **root** - `string` - *optional* - Specifies the root directory for mapping file paths to the URLs.
+- **files** - `string` - _required_ - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
+- **path** - `string` - _optional_ - Specifies the URL path to be handled by the component.
+- **root** - `string` - _optional_ - Specifies the root directory for mapping file paths to the URLs.
 
 For example, to configure the [static](./built-in#static) component to server all files from `web` to the root URL path:
 
@@ -161,28 +161,29 @@ export function setupDirectory() {}
 function handleDirectory() {}
 function setupFile() {}
 
-module.exports = { handleDirectory, setupFile }
+module.exports = { handleDirectory, setupFile };
 ```
 
 When returned by a [Protocol Extension](#protocol-extension), these methods should be defined on the object instead:
 
 ```js
 export function start() {
-  return {
-    handleFile () {}
-  }
+	return {
+		handleFile() {},
+	};
 }
 ```
 
 ##### `handleFile(contents, urlPath, path, resources): void | Promise<void>`
+
 ##### `setupFile(contents, urlPath, path, resources): void | Promise<void>`
 
 These methods are for processing individual files. They can be async.
 
 > Remember!
-> 
+>
 > `setupFile()` is executed **once** on the **main thread** during the main start sequence.
-> 
+>
 > `handleFile()` is executed on **worker threads** and is executed again during restarts.
 
 Parameters:
@@ -196,6 +197,7 @@ Parameters:
 Returns: `void | Promise<void>`
 
 ##### `handleDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
+
 ##### `setupDirectory(urlPath, path, resources): boolean | void | Promise<boolean | void>`
 
 These methods are for processing directories. They can be async.
@@ -203,9 +205,9 @@ These methods are for processing directories. They can be async.
 If the function returns or resolves a truthy value, then the component loading sequence will end and no other entries within the directory will be processed.
 
 > Remember!
-> 
+>
 > `setupFile()` is executed **once** on the **main thread** during the main start sequence.
-> 
+>
 > `handleFile()` is executed on **worker threads** and is executed again during restarts.
 
 Parameters:
@@ -242,6 +244,7 @@ Many protocol extensions will use the `port` and `securePort` options for config
 A Protocol Extension is made up of two distinct methods, [`start()`](#startoptions-resourceextension--promiseresourceextension) and [`startOnMainThread()`](#startonmainthreadoptions-resourceextension--promiseresourceextension). Similar to a Resource Extension, the `start()` method is executed on _all worker threads_, and _executed again on restarts_. The `startOnMainThread()` method is **only** executed **once** during the initial system start sequence. These methods have identical `options` object parameter, and can both return a Resource Extension (i.e. an object containing one or more of the methods listed above).
 
 ##### `start(options): ResourceExtension | Promise<ResourceExtension>`
+
 ##### `startOnMainThread(options): ResourceExtension | Promise<ResourceExtension>`
 
 Parameters:

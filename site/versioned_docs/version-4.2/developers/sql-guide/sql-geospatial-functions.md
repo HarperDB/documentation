@@ -6,13 +6,11 @@ title: SQL Geospatial Functions
 
 HarperDB geospatial features require data to be stored in a single column using the [GeoJSON standard](https://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
 
-
-
 If you are new to GeoJSON you should check out the full specification here: [https://geojson.org/](https://geojson.org/). There are a few important things to point out before getting started.
 
-1) All GeoJSON coordinates are stored in `[longitude, latitude]` format.
-2) Coordinates or GeoJSON geometries must be passed as string when written directly in a SQL statement.
-3) Note if you are using Postman for you testing. Due to limitations in the Postman client, you will need to escape quotes in your strings and your SQL will need to be passed on a single line.
+1. All GeoJSON coordinates are stored in `[longitude, latitude]` format.
+2. Coordinates or GeoJSON geometries must be passed as string when written directly in a SQL statement.
+3. Note if you are using Postman for you testing. Due to limitations in the Postman client, you will need to escape quotes in your strings and your SQL will need to be passed on a single line.
 
 In the examples contained in the left-hand navigation, schema and table names may change, but all GeoJSON data will be stored in a column named geo_data.
 
@@ -27,7 +25,7 @@ geoArea(_geoJSON_)
 ### Parameters
 
 | Parameter | Description                     |
-|-----------|---------------------------------|
+| --------- | ------------------------------- |
 | geoJSON   | Required. One or more features. |
 
 #### Example 1
@@ -68,10 +66,10 @@ geoLength(_geoJSON_[_, units_])
 
 ## Parameters
 
-| Parameter  | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| geoJSON    | Required. GeoJSON to measure.                                                                                         |
-| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| Parameter | Description                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------- |
+| geoJSON   | Required. GeoJSON to measure.                                                                                         |
+| units     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
 
@@ -112,10 +110,10 @@ geoDifference(_polygon1, polygon2_)
 
 ## Parameters
 
-| Parameter  | Description                                                                |
-|------------|----------------------------------------------------------------------------|
-| polygon1   | Required. Polygon or MultiPolygon GeoJSON feature.                         |
-| polygon2   | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
+| Parameter | Description                                                                |
+| --------- | -------------------------------------------------------------------------- |
+| polygon1  | Required. Polygon or MultiPolygon GeoJSON feature.                         |
+| polygon2  | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
 
 ### Example
 
@@ -169,11 +167,11 @@ geoDistance(_point1, point2_[_, units_])
 
 ## Parameters
 
-| Parameter  | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| point1     | Required. GeoJSON Point specifying the origin.                                                                        |
-| point2     | Required. GeoJSON Point specifying the destination.                                                                   |
-| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| Parameter | Description                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------- |
+| point1    | Required. GeoJSON Point specifying the origin.                                                                        |
+| point2    | Required. GeoJSON Point specifying the destination.                                                                   |
+| units     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
 
@@ -204,12 +202,12 @@ geoNear(_point1, point2, distance_[_, units_])
 
 ## Parameters
 
-| Parameter  | Description                                                                                                           |
-|------------|-----------------------------------------------------------------------------------------------------------------------|
-| point1     | Required. GeoJSON Point specifying the origin.                                                                        |
-| point2     | Required. GeoJSON Point specifying the destination.                                                                   |
-| distance   | Required. The maximum distance in units as an integer or decimal.                                                     |
-| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| Parameter | Description                                                                                                           |
+| --------- | --------------------------------------------------------------------------------------------------------------------- |
+| point1    | Required. GeoJSON Point specifying the origin.                                                                        |
+| point2    | Required. GeoJSON Point specifying the destination.                                                                   |
+| distance  | Required. The maximum distance in units as an integer or decimal.                                                     |
+| units     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
 
@@ -242,10 +240,10 @@ geoContains(_geo1, geo2_)
 
 ## Parameters
 
-| Parameter  | Description                                                                       |
-|------------|-----------------------------------------------------------------------------------|
-| geo1       | Required. Polygon or MultiPolygon GeoJSON feature.                                |
-| geo2       | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
+| Parameter | Description                                                                       |
+| --------- | --------------------------------------------------------------------------------- |
+| geo1      | Required. Polygon or MultiPolygon GeoJSON feature.                                |
+| geo2      | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
 
 ### Example 1
 
@@ -304,15 +302,18 @@ WHERE geoContains(geo_data, '{
 Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see [https://developers.arcgis.com/documentation/spatial-references/](https://developers.arcgis.com/documentation/spatial-references/). Returns a Boolean.
 
 ## Syntax
+
 geoEqual(_geo1_, _geo2_)
 
 ## Parameters
-| Parameter	 | Description                            |
-|------------|----------------------------------------|
-| geo1	      | Required. GeoJSON geometry or feature. |
-| geo2	      | Required. GeoJSON geometry or feature. |
+
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| geo1      | Required. GeoJSON geometry or feature. |
+| geo2      | Required. GeoJSON geometry or feature. |
 
 ### Example
+
 Find HarperDB Headquarters within all locations within the database.
 
 ```
@@ -339,18 +340,22 @@ WHERE geoEqual(geo_data, '{
 ```
 
 # geoCrosses
+
 Determines if the geometries cross over each other. Returns boolean.
 
 ## Syntax
+
 geoCrosses(_geo1, geo2_)
 
 ## Parameters
-| Parameter	 | Description                             |
-|------------|-----------------------------------------|
-| geo1       | 	Required. GeoJSON geometry or feature. |
-| geo2	      | Required. GeoJSON geometry or feature.  |
+
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| geo1      | Required. GeoJSON geometry or feature. |
+| geo2      | Required. GeoJSON geometry or feature. |
 
 ### Example
+
 Find all locations that cross over a highway.
 
 ```
@@ -384,16 +389,19 @@ WHERE geoCrosses(
 Converts a series of coordinates into a GeoJSON of the specified type.
 
 ## Syntax
+
 geoConvert(_coordinates, geo_type_[, _properties_])
 
 ## Parameters
-| Parameter	   | Description                                                                                                                        |
-|--------------|------------------------------------------------------------------------------------------------------------------------------------|
-| coordinates	 | Required. One or more coordinates                                                                                                  |
-| geo_type	    | Required. GeoJSON geometry type. Options are ‘point’, ‘lineString’, ‘multiLineString’, ‘multiPoint’, ‘multiPolygon’, and ‘polygon’ |
-| properties   | 	Optional. Escaped JSON array with properties to be added to the GeoJSON output.                                                   |
+
+| Parameter   | Description                                                                                                                        |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| coordinates | Required. One or more coordinates                                                                                                  |
+| geo_type    | Required. GeoJSON geometry type. Options are ‘point’, ‘lineString’, ‘multiLineString’, ‘multiPoint’, ‘multiPolygon’, and ‘polygon’ |
+| properties  | Optional. Escaped JSON array with properties to be added to the GeoJSON output.                                                    |
 
 ### Example
+
 Convert a given coordinate into a GeoJSON point with specified properties.
 
 ```

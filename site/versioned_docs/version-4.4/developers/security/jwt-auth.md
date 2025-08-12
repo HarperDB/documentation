@@ -8,8 +8,8 @@ Harper uses token based authentication with JSON Web Tokens, JWTs.
 
 This consists of two primary operations `create_authentication_tokens` and `refresh_operation_token`. These generate two types of tokens, as follows:
 
-* The `operation_token` which is used to authenticate all Harper operations in the Bearer Token Authorization Header. The default expiry is one day.
-* The `refresh_token` which is used to generate a new `operation_token` upon expiry. This token is used in the Bearer Token Authorization Header for the `refresh_operation_token` operation only. The default expiry is thirty days.
+- The `operation_token` which is used to authenticate all Harper operations in the Bearer Token Authorization Header. The default expiry is one day.
+- The `refresh_token` which is used to generate a new `operation_token` upon expiry. This token is used in the Bearer Token Authorization Header for the `refresh_operation_token` operation only. The default expiry is thirty days.
 
 The `create_authentication_tokens` operation can be used at any time to refresh both tokens in the event that both have expired or been lost.
 
@@ -19,9 +19,9 @@ Users must initially create tokens using their Harper credentials. The following
 
 ```json
 {
-    "operation": "create_authentication_tokens",
-    "username": "username",
-    "password": "password"
+	"operation": "create_authentication_tokens",
+	"username": "username",
+	"password": "password"
 }
 ```
 
@@ -41,8 +41,8 @@ An example expected return object is:
 
 ```json
 {
-    "operation_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWF0IjoxNjA0OTc4MjAwLCJleHAiOjE2MDUwNjQ2MDAsInN1YiI6Im9wZXJhdGlvbiJ9.MpQA-9CMjA-mn-7mHyUXSuSC_-kqMqJXp_NDiKLFtbtMRbodCuY3DzH401rvy_4vb0yCELf0B5EapLVY1545sv80nxSl6FoZFxQaDWYXycoia6zHpiveR8hKlmA6_XTWHJbY2FM1HAFrdtt3yUTiF-ylkdNbPG7u7fRjTmHfsZ78gd2MNWIDkHoqWuFxIyqk8XydQpsjULf2Uacirt9FmHfkMZ-Jr_rRpcIEW0FZyLInbm6uxLfseFt87wA0TbZ0ofImjAuaW_3mYs-3H48CxP152UJ0jByPb0kHsk1QKP7YHWx1-Wce9NgNADfG5rfgMHANL85zvkv8sJmIGZIoSpMuU3CIqD2rgYnMY-L5dQN1fgfROrPMuAtlYCRK7r-IpjvMDQtRmCiNG45nGsM4DTzsa5GyDrkGssd5OBhl9gr9z9Bb5HQVYhSKIOiy72dK5dQNBklD4eGLMmo-u322zBITmE0lKaBcwYGJw2mmkYcrjDOmsDseU6Bf_zVUd9WF3FqwNkhg4D7nrfNSC_flalkxPHckU5EC_79cqoUIX2ogufBW5XgYbU4WfLloKcIpb51YTZlZfwBHlHPSyaq_guaXFaeCUXKq39_i1n0HRF_mRaxNru0cNDFT9Fm3eD7V8axFijSVAMDyQs_JR7SY483YDKUfN4l-vw-EVynImr4",
-    "refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWF0IjoxNjA0OTc4MjAwLCJleHAiOjE2MDc1NzAyMDAsInN1YiI6InJlZnJlc2gifQ.acaCsk-CJWIMLGDZdGnsthyZsJfQ8ihXLyE8mTji8PgGkpbwhs7e1O0uitMgP_pGjHq2tey1BHSwoeCL49b18WyMIB10hK-q2BXGKQkykltjTrQbg7VsdFi0h57mGfO0IqAwYd55_hzHZNnyJMh4b0iPQFDwU7iTD7x9doHhZAvzElpkWbc_NKVw5_Mw3znjntSzbuPN105zlp4Niurin-_5BnukwvoJWLEJ-ZlF6hE4wKhaMB1pWTJjMvJQJE8khTTvlUN8tGxmzoaDYoe1aCGNxmDEQnx8Y5gKzVd89sylhqi54d2nQrJ2-ElfEDsMoXpR01Ps6fNDFtLTuPTp7ixj8LvgL2nCjAg996Ga3PtdvXJAZPDYCqqvaBkZZcsiqOgqLV0vGo3VVlfrcgJXQImMYRr_Inu0FCe47A93IAWuQTs-KplM1KdGJsHSnNBV6oe6QEkROJT5qZME-8xhvBYvOXqp9Znwg39bmiBCMxk26Ce66_vw06MNgoa3D5AlXPWemfdVKPZDnj_aLVjZSs0gAfFElcVn7l9yjWJOaT2Muk26U8bJl-2BEq_DSclqKHODuYM5kkPKIdE4NFrsqsDYuGxcA25rlNETFyl0q-UXj1aoz_joy5Hdnr4mFELmjnoo4jYQuakufP9xeGPsj1skaodKl0mmoGcCD6v1F60"
+	"operation_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWF0IjoxNjA0OTc4MjAwLCJleHAiOjE2MDUwNjQ2MDAsInN1YiI6Im9wZXJhdGlvbiJ9.MpQA-9CMjA-mn-7mHyUXSuSC_-kqMqJXp_NDiKLFtbtMRbodCuY3DzH401rvy_4vb0yCELf0B5EapLVY1545sv80nxSl6FoZFxQaDWYXycoia6zHpiveR8hKlmA6_XTWHJbY2FM1HAFrdtt3yUTiF-ylkdNbPG7u7fRjTmHfsZ78gd2MNWIDkHoqWuFxIyqk8XydQpsjULf2Uacirt9FmHfkMZ-Jr_rRpcIEW0FZyLInbm6uxLfseFt87wA0TbZ0ofImjAuaW_3mYs-3H48CxP152UJ0jByPb0kHsk1QKP7YHWx1-Wce9NgNADfG5rfgMHANL85zvkv8sJmIGZIoSpMuU3CIqD2rgYnMY-L5dQN1fgfROrPMuAtlYCRK7r-IpjvMDQtRmCiNG45nGsM4DTzsa5GyDrkGssd5OBhl9gr9z9Bb5HQVYhSKIOiy72dK5dQNBklD4eGLMmo-u322zBITmE0lKaBcwYGJw2mmkYcrjDOmsDseU6Bf_zVUd9WF3FqwNkhg4D7nrfNSC_flalkxPHckU5EC_79cqoUIX2ogufBW5XgYbU4WfLloKcIpb51YTZlZfwBHlHPSyaq_guaXFaeCUXKq39_i1n0HRF_mRaxNru0cNDFT9Fm3eD7V8axFijSVAMDyQs_JR7SY483YDKUfN4l-vw-EVynImr4",
+	"refresh_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXJuYW1lIiwiaWF0IjoxNjA0OTc4MjAwLCJleHAiOjE2MDc1NzAyMDAsInN1YiI6InJlZnJlc2gifQ.acaCsk-CJWIMLGDZdGnsthyZsJfQ8ihXLyE8mTji8PgGkpbwhs7e1O0uitMgP_pGjHq2tey1BHSwoeCL49b18WyMIB10hK-q2BXGKQkykltjTrQbg7VsdFi0h57mGfO0IqAwYd55_hzHZNnyJMh4b0iPQFDwU7iTD7x9doHhZAvzElpkWbc_NKVw5_Mw3znjntSzbuPN105zlp4Niurin-_5BnukwvoJWLEJ-ZlF6hE4wKhaMB1pWTJjMvJQJE8khTTvlUN8tGxmzoaDYoe1aCGNxmDEQnx8Y5gKzVd89sylhqi54d2nQrJ2-ElfEDsMoXpR01Ps6fNDFtLTuPTp7ixj8LvgL2nCjAg996Ga3PtdvXJAZPDYCqqvaBkZZcsiqOgqLV0vGo3VVlfrcgJXQImMYRr_Inu0FCe47A93IAWuQTs-KplM1KdGJsHSnNBV6oe6QEkROJT5qZME-8xhvBYvOXqp9Znwg39bmiBCMxk26Ce66_vw06MNgoa3D5AlXPWemfdVKPZDnj_aLVjZSs0gAfFElcVn7l9yjWJOaT2Muk26U8bJl-2BEq_DSclqKHODuYM5kkPKIdE4NFrsqsDYuGxcA25rlNETFyl0q-UXj1aoz_joy5Hdnr4mFELmjnoo4jYQuakufP9xeGPsj1skaodKl0mmoGcCD6v1F60"
 }
 ```
 
@@ -90,7 +90,7 @@ The `refresh_token` also expires at a set interval, but a longer interval. Once 
 
 Token timeouts are configurable in [harperdb-config.yaml](../../deployments/configuration) with the following parameters:
 
-* `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation\_token expires (default 1d).
-* `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh\_token expires (default 30d).
+- `operationsApi.authentication.operationTokenTimeout`: Defines the length of time until the operation_token expires (default 1d).
+- `operationsApi.authentication.refreshTokenTimeout`: Defines the length of time until the refresh_token expires (default 30d).
 
 A full list of valid values for both parameters can be found [here](https://github.com/vercel/ms).

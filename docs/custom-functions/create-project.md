@@ -10,7 +10,7 @@ Otherwise, to create a project, you have the following options:
 
 1. **Use the add_custom_function_project operation**
 
-    This operation creates a new project folder, and populates it with templates for the routes, helpers, and static subfolders.
+   This operation creates a new project folder, and populates it with templates for the routes, helpers, and static subfolders.
 
 ```json
 {

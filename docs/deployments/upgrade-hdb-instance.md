@@ -12,11 +12,11 @@ Upgrading Harper is a two-step process. First the latest version of Harper must 
 
 1. Install the latest version of Harper using `npm install -g harperdb`.
 
-    Note `-g` should only be used if you installed Harper globally (which is recommended).
+   Note `-g` should only be used if you installed Harper globally (which is recommended).
 
 1. Run `harperdb` to initiate the upgrade process.
 
-    Harper will then prompt you for all appropriate inputs and then run the upgrade directives.
+   Harper will then prompt you for all appropriate inputs and then run the upgrade directives.
 
 ## Node Version Manager (nvm)
 
@@ -130,7 +130,7 @@ replication:
 {
 	"operation": "add_node",
 	"hostname:": "node-1",
- "url": "wss://my-cluster-node-1:9925"
+	"url": "wss://my-cluster-node-1:9925"
 }
 ```
 

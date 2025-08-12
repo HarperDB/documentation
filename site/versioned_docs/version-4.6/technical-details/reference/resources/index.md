@@ -420,11 +420,11 @@ This will return the number of records in the table. By default, this will retur
 
 This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will parse `.property` suffixes for accessing properties and specifying preferred content type in the URL (and for older tables it will convert a multi-segment path to multipart an array id). However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
 
-````javascript
+```javascript
 	static parsePath(path) {
 		return path; // return the path as the id
 	}
-````
+```
 
 ### `getRecordCount: Promise<{}>`
 

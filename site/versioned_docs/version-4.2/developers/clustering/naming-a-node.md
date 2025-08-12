@@ -27,8 +27,8 @@ _Note: When making any changes to the `harperdb-config.yaml` file HarperDB must 
 
 ```json
 {
-    "operation": "set_configuration",
-    "clustering_nodeName":"Node1"
+	"operation": "set_configuration",
+	"clustering_nodeName": "Node1"
 }
 ```
 

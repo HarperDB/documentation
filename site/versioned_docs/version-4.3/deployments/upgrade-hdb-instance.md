@@ -12,10 +12,11 @@ Upgrading HarperDB is a two-step process. First the latest version of HarperDB m
 
 1. Install the latest version of HarperDB using `npm install -g harperdb`.
 
-    Note `-g` should only be used if you installed HarperDB globally (which is recommended).
+   Note `-g` should only be used if you installed HarperDB globally (which is recommended).
+
 1. Run `harperdb` to initiate the upgrade process.
 
-    HarperDB will then prompt you for all appropriate inputs and then run the upgrade directives.
+   HarperDB will then prompt you for all appropriate inputs and then run the upgrade directives.
 
 ## Node Version Manager (nvm)
 

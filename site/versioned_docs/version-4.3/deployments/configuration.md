@@ -8,7 +8,7 @@ HarperDB is configured through a [YAML](https://yaml.org/) file called `harperdb
 
 Some configuration will be populated by default in the config file on install, regardless of whether it is used.
 
-***
+---
 
 ## Using the Configuration File and Naming Conventions
 
@@ -32,7 +32,7 @@ To use a custom configuration file to set values on install, use the CLI/ENV var
 
 To install HarperDB overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
 
-***
+---
 
 ## Configuration Options
 
@@ -55,7 +55,7 @@ For HTTP clients that support (Brotli) compression encoding, responses that are 
 
 ```yaml
 http:
-  compressionThreshold:  1200
+  compressionThreshold: 1200
 ```
 
 `cors` - _Type_: boolean; _Default_: true
@@ -92,16 +92,16 @@ The length of time in milliseconds after which a request will timeout.
 
 ```yaml
 http:
-    cors: true
-    corsAccessList:
-      - null
-    headersTimeout: 60000
-    maxHeaderSize: 8192 
-    https: false
-    keepAliveTimeout: 30000
-    port: 9926
-    securePort: null
-    timeout: 120000 
+  cors: true
+  corsAccessList:
+    - null
+  headersTimeout: 60000
+  maxHeaderSize: 8192
+  https: false
+  keepAliveTimeout: 30000
+  port: 9926
+  securePort: null
+  timeout: 120000
 ```
 
 `mlts` - _Type_: boolean | object; _Default_: false
@@ -123,7 +123,9 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 http:
   mtls: true
 ```
+
 or
+
 ```yaml
 http:
   mtls:
@@ -131,8 +133,7 @@ http:
     user: user-name
 ```
 
-
-***
+---
 
 ### `threads`
 
@@ -171,8 +172,7 @@ threads:
 
 This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
 
-
-***
+---
 
 ### `clustering`
 
@@ -180,11 +180,11 @@ The `clustering` section configures the clustering engine, this is used to repli
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
-* `clustering.enabled` Enable the clustering processes.
-* `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
-* `clustering.hubServer.cluster.network.routes`The connections to other instances.
-* `clustering.nodeName` The name of your node, must be unique within the cluster.
-* `clustering.user` The name of the user credentials used for Inter-node authentication.
+- `clustering.enabled` Enable the clustering processes.
+- `clustering.hubServer.cluster.network.port` The port other nodes will connect to. This port must be accessible from other cluster nodes.
+- `clustering.hubServer.cluster.network.routes`The connections to other instances.
+- `clustering.nodeName` The name of your node, must be unique within the cluster.
+- `clustering.user` The name of the user credentials used for Inter-node authentication.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -194,7 +194,7 @@ _Note: If you enabled clustering but do not create and add a cluster user you wi
 
 ```yaml
 clustering:
-  enabled: true  
+  enabled: true
 ```
 
 `clustering.hubServer.cluster`
@@ -324,15 +324,16 @@ clustering:
       maxConsumeMsgs: 100
       maxIngestThreads: 2
 ```
+
 `maxConsumeMsgs` - _Type_: integer; _Default_: 100
 
 The maximum number of messages a consumer can process in one go.
 
 `maxIngestThreads` - _Type_: integer; _Default_: 2
 
-The number of HarperDB threads that are delegated to ingesting messages. 
+The number of HarperDB threads that are delegated to ingesting messages.
 
-***
+---
 
 `logLevel` - _Type_: string; _Default_: error
 
@@ -394,7 +395,7 @@ When true, all transactions that are received from other nodes are republished t
 
 When true, hub server will verify client certificate using the CA certificate.
 
-***
+---
 
 `user` - _Type_: string; _Default_: null
 
@@ -406,10 +407,10 @@ The user can be created either through the API using an `add_user` request with 
 
 ```yaml
 clustering:
-  user: cluster_person    
+  user: cluster_person
 ```
 
-***
+---
 
 ### `localStudio`
 
@@ -424,7 +425,7 @@ localStudio:
   enabled: false
 ```
 
-***
+---
 
 ### `logging`
 
@@ -445,9 +446,9 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 ```json
 {
-  "operation": "read_audit_log",
-  "schema": "dev",
-  "table": "dog"
+	"operation": "read_audit_log",
+	"schema": "dev",
+	"table": "dog"
 }
 ```
 
@@ -529,7 +530,7 @@ logging:
   stdStreams: false
 ```
 
-***
+---
 
 ### `authentication`
 
@@ -595,7 +596,7 @@ An array of allowable domains with CORS
 
 `domainSocket` - _Type_: string; _Default_: \<ROOTPATH>/hdb/operations-server
 
-The path to the Unix domain socket used to provide the Operations API through the CLI 
+The path to the Unix domain socket used to provide the Operations API through the CLI
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -641,7 +642,7 @@ Path to the certificate authority file.
 
 Path to the private key file.
 
-***
+---
 
 ### `componentsRoot`
 
@@ -653,7 +654,7 @@ The path to the folder containing the local component files.
 componentsRoot: ~/hdb/components
 ```
 
-***
+---
 
 ### `rootPath`
 
@@ -665,7 +666,7 @@ The HarperDB database and applications/API/interface are decoupled from each oth
 rootPath: /Users/jonsnow/hdb
 ```
 
-***
+---
 
 ### `storage`
 
@@ -760,8 +761,8 @@ The `path` configuration sets where all database files should reside.
 storage:
   path: /users/harperdb/storage
 ```
-_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
+_**Note:**_ This configuration applies to all database files, which includes system tables that are used internally by HarperDB. For this reason if you wish to use a non default `path` value you must move any existing schemas into your `path` location. Existing schemas is likely to include the system schema which can be found at `<rootPath>/schema/system`.
 
 `pageSize` - _Type_: number; _Default_: Defaults to the default page size of the OS
 
@@ -772,7 +773,7 @@ storage:
   pageSize: 4096
 ```
 
-***
+---
 
 ### `tls`
 
@@ -808,16 +809,15 @@ tls:
   - certificate: ~/hdb/keys/certificate1.pem
     certificateAuthority: ~/hdb/keys/ca1.pem
     privateKey: ~/hdb/keys/privateKey1.pem
-    host: example.com # the host is optional, and if not provided, this certificate's common name will be used as the host name. 
+    host: example.com # the host is optional, and if not provided, this certificate's common name will be used as the host name.
   - certificate: ~/hdb/keys/certificate2.pem
     certificateAuthority: ~/hdb/keys/ca2.pem
     privateKey: ~/hdb/keys/privateKey2.pem
-
 ```
 
 Note that a `tls` section can also be defined in the `operationsApi` section, which will override the root `tls` section for the operations API.
 
-***
+---
 
 ### `mqtt`
 
@@ -869,6 +869,7 @@ This can be enabled to require client certificates (mTLS) for all incoming MQTT 
 This can define a specific path to use for the certificate authority. By default, certificate authorization checks against the CA specified at `tls.certificateAuthority`, but if you need a specific/distinct CA for MQTT, you can set this.
 
 For example, you could specify that mTLS is required and will authenticate as "user-name":
+
 ```yaml
 mqtt:
   network:
@@ -877,7 +878,7 @@ mqtt:
       required: true
 ```
 
-***
+---
 
 ### `databases`
 
@@ -931,20 +932,22 @@ Using the API:
 
 ```json
 {
-  "operation": "set_configuration",
-  "databases": [{
-    "nameOfDatabase": {
-      "tables": {
-        "nameOfTable": {
-          "path": "/path/to/table"
-        }
-      }
-    }
-  }]
+	"operation": "set_configuration",
+	"databases": [
+		{
+			"nameOfDatabase": {
+				"tables": {
+					"nameOfTable": {
+						"path": "/path/to/table"
+					}
+				}
+			}
+		}
+	]
 }
 ```
 
-***
+---
 
 ### Components
 
@@ -954,7 +957,7 @@ The name of the component. This will be used to name the folder where the compon
 
 `package` - _Type_: string
 
-A reference to your [component](../developers/components/installing) package.This could be a remote git repo, a local folder/file or an NPM package. 
+A reference to your [component](../developers/components/installing) package.This could be a remote git repo, a local folder/file or an NPM package.
 HarperDB will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)

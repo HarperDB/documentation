@@ -35,6 +35,7 @@ Returns the registration data of the Harper instance.
 
 Install a Harper license for a block of usage. Multiple usage blocks may be installed, and they will be used up sequentially, with the earliest installed blocks used first. A license is installed
 by creating a string that consists of three base64url encoded blocks, separated by dots. The three blocks consist of:
+
 - `header`: This is a JSON object with two properties:
   - `typ`: should be "Harper-License"
   - `alg`: should be "EdDSA"
@@ -58,6 +59,7 @@ This JSON object should be converted to base64url (conversion from utf-8 to base
 This JSON object should be converted to base64url (conversion from utf-8 to base64url) and is the second base64url block.
 
 For example:
+
 ```json
 {
 	"id": "license-717b-4c6c-b69d-b29014054ab7",
@@ -87,7 +89,7 @@ The three base64url blocks are combined to form the `license` property value in 
 ```json
 {
 	"operation": "install_usage_license",
-	"license": "abc...0123.abc...0123.abc...0123",
+	"license": "abc...0123.abc...0123.abc...0123"
 }
 ```
 
@@ -186,7 +188,6 @@ This will retrieve and return all active usage licenses, with counts of how much
 ```
 
 ---
-
 
 ## Get Fingerprint
 

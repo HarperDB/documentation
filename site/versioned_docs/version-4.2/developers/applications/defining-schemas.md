@@ -40,10 +40,10 @@ type TableName @table
 
 By default the table name is inherited from the type name (in this case the table name would be "TableName"). The `@table` directive supports several optional arguments (all of these are optional and can be freely combined):
 
-* `@table(table: "table_name")` - This allows you to explicitly specify the table name.
-* `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
-* `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
-* `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration#logging).
+- `@table(table: "table_name")` - This allows you to explicitly specify the table name.
+- `@table(database: "database_name")` - This allows you to specify which database the table belongs to. This defaults to the "data" database.
+- `@table(expiration: 3600)` - Sets an expiration time on entries in the table before they are automatically cleared (primarily useful for caching tables). This is specified in seconds.
+- `@table(audit: true)` - This enables the audit log for the table so that a history of record changes are recorded. This defaults to [configuration file's setting for `auditLog`](../../deployments/configuration#logging).
 
 #### `@export`
 
@@ -89,14 +89,14 @@ If you do not define a schema for a table and create a table through the operati
 
 HarperDB supports the following field types in addition to user defined (object) types:
 
-* String: String/text.
-* Int: A 32-bit signed integer (from -2147483648 to 2147483647).
-* Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
-* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
-* Boolean: true or false.
-* ID: A string (but indicates it is not intended to be legible).
-* Any: Any primitive, object, or array is allowed.
-* Date: A Date object.
+- String: String/text.
+- Int: A 32-bit signed integer (from -2147483648 to 2147483647).
+- Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
+- Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format). Note that all numbers are stored in the most compact representation available).
+- Boolean: true or false.
+- ID: A string (but indicates it is not intended to be legible).
+- Any: Any primitive, object, or array is allowed.
+- Date: A Date object.
 
 #### Renaming Tables
 

@@ -10,11 +10,11 @@ _Note: ‘local’ and ‘remote’ will often be referred to. In the context of
 
 A subscription consists of:
 
-`schema` - the name of the schema that the table you are creating the subscription for belongs to. 
+`schema` - the name of the schema that the table you are creating the subscription for belongs to.
 
-`table` - the name of the table the subscription will apply to. 
+`table` - the name of the table the subscription will apply to.
 
-`publish` - a boolean which determines if transactions on the local table should be replicated on the remote table. 
+`publish` - a boolean which determines if transactions on the local table should be replicated on the remote table.
 
 `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table.
 

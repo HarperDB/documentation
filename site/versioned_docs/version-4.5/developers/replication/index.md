@@ -37,10 +37,9 @@ You can also use the [operations API](../operations-api/clustering) to dynamical
 
 ```json
 {
-  "operation": "add_node",
-  "hostname": "server-two"
+	"operation": "add_node",
+	"hostname": "server-two"
 }
-
 ```
 
 These operations will also dynamically generating certificates as needed, if there are no existing signed certificates, or if the existing certificates are not valid for the new node.
@@ -60,8 +59,8 @@ By default, all tables within a replicated database will be replicated. Transact
 
 ```graphql
 type LocalTableForNode @table(replicate: false) {
-  id: ID!
-  name: String!
+	id: ID!
+	name: String!
 }
 ```
 
@@ -81,6 +80,7 @@ Harper supports the highest levels of security through public key infrastructure
 #### Provide your own certificates
 
 If you want to secure your Harper connections with your own signed certificates, you can easily do so. Whether you have certificates from a public authority (like Let's Encrypt or Digicert) or a corporate certificate authority, you can use them to authenticate nodes securely. You can then allow nodes to authorize each other by checking the certificate against the standard list of root certificate authorities by enabling the `enableRootCAs` option in the config:
+
 ```
 replication
   enableRootCAs: true
@@ -125,13 +125,13 @@ Example configuration:
 
 ```json
 {
-  "operation": "add_node",
-  "hostname": "server-two",
-  "verify_tls": false,
-  "authorization": {
-    "username": "admin",
-    "password": "password"
-  }
+	"operation": "add_node",
+	"hostname": "server-two",
+	"verify_tls": false,
+	"authorization": {
+		"username": "admin",
+		"password": "password"
+	}
 }
 ```
 
@@ -139,8 +139,8 @@ When you connect to another node (e.g., `server-two`), Harper uses secure WebSoc
 
 If you’re working with a fresh install, you’ll need to set `verify_tls` to `false` temporarily, so the self-signed certificate is accepted. Once the connection is made, Harper will automatically handle the certificate signing process:
 
-* It creates a certificate signing request (CSR), sends it to `server-two`, which then signs it and returns the signed certificate along with the certificate authority (CA).
-* The signed certificate is stored for future connections between the nodes, ensuring secure communication.
+- It creates a certificate signing request (CSR), sends it to `server-two`, which then signs it and returns the signed certificate along with the certificate authority (CA).
+- The signed certificate is stored for future connections between the nodes, ensuring secure communication.
 
 **Important:** Your credentials are not stored—they are discarded immediately after use.
 
@@ -156,9 +156,9 @@ To utilize the `revoked_certificates` attribute in the `hdb_nodes` table, you ca
 
 ```json
 {
-  "operation": "update_node",
-  "hostname": "server-two",
-  "revoked_certificates": ["1769F7D6A"]
+	"operation": "update_node",
+	"hostname": "server-two",
+	"revoked_certificates": ["1769F7D6A"]
 }
 ```
 
@@ -180,8 +180,8 @@ Nodes can be removed from the cluster using the [`remove_node` operation](../ope
 
 ```json
 {
-  "operation": "remove_node",
-  "hostname": "server-two"
+	"operation": "remove_node",
+	"hostname": "server-two"
 }
 ```
 
@@ -217,14 +217,16 @@ Example configuration:
 
 ```json
 {
-  "operation": "add_node",
-  "hostname": "server-two", 
-  "subscriptions": [{
-    "database": "dev",
-    "table": "my-table",
-    "publish": true,
-    "subscribe": false
-  }]
+	"operation": "add_node",
+	"hostname": "server-two",
+	"subscriptions": [
+		{
+			"database": "dev",
+			"table": "my-table",
+			"publish": true,
+			"subscribe": false
+		}
+	]
 }
 ```
 
@@ -234,14 +236,16 @@ Here we are updating the subscription to receive transactions on the `dev.my-tab
 
 ```json
 {
-  "operation": "update_node",
-  "hostname": "server-two", 
-  "subscriptions": [{
-    "database": "dev",
-    "table": "my-table",
-    "publish": true,
-    "subscribe": true
-  }]
+	"operation": "update_node",
+	"hostname": "server-two",
+	"subscriptions": [
+		{
+			"database": "dev",
+			"table": "my-table",
+			"publish": true,
+			"subscribe": true
+		}
+	]
 }
 ```
 
@@ -251,7 +255,7 @@ You can monitor the status of replication through the operations API. You can us
 
 ```json
 {
-  "operation": "cluster_status"
+	"operation": "cluster_status"
 }
 ```
 
@@ -263,14 +267,14 @@ You may also specify a `start_time` in the `add_node` to specify that when a dat
 
 **Advanced Configuration**
 
-You can also check the configuration of the replication system, including the current known nodes and certificates, by querying the hdb\_nodes and hdb\_certificate table:
+You can also check the configuration of the replication system, including the current known nodes and certificates, by querying the hdb_nodes and hdb_certificate table:
 
 ```json
 {
-  "operation": "search_by_value",
-  "database": "system",
-  "table": "hdb_nodes",
-  "search_attribute": "name",
-  "search_value": "*"
+	"operation": "search_by_value",
+	"database": "system",
+	"table": "hdb_nodes",
+	"search_attribute": "name",
+	"search_value": "*"
 }
 ```

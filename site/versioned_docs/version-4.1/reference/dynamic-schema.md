@@ -16,8 +16,8 @@ HarperDB schemas are analogous to a namespace that groups tables together. A sch
 
 HarperDB tables group records together with a common data pattern. To create a table users must provide a table name and a primary key.
 
-* **Table Name**: Used to identify the table.
-* **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB.
+- **Table Name**: Used to identify the table.
+- **Primary Key**: This is a required attribute that serves as the unique identifier for a record and is also known as the `hash_attribute` in HarperDB.
 
 Primary Key
 
@@ -31,8 +31,8 @@ Additional attributes are reflexively added via insert and update operations (in
 
 HarperDB automatically creates two audit attributes used on each record.
 
-* `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
-* `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
+- `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
+- `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
 
 ### Dynamic Schema Example
 
@@ -64,7 +64,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](/img/v4.1/reference/dynamic\_schema\_2\_create\_table.png.webp)
+![](/img/v4.1/reference/dynamic_schema_2_create_table.png.webp)
 
 **Insert Record**
 
@@ -85,7 +85,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](/img/v4.1/reference/dynamic\_schema\_3\_insert\_record.png.webp)
+![](/img/v4.1/reference/dynamic_schema_3_insert_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
@@ -109,7 +109,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](/img/v4.1/reference/dynamic\_schema\_4\_insert\_additional\_record.png.webp)
+![](/img/v4.1/reference/dynamic_schema_4_insert_additional_record.png.webp)
 
 **Update Existing Record**
 
@@ -130,7 +130,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](/img/v4.1/reference/dynamic\_schema\_5\_update\_existing\_record.png.webp)
+![](/img/v4.1/reference/dynamic_schema_5_update_existing_record.png.webp)
 
 **Query Table with SQL**
 
@@ -145,4 +145,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](/img/v4.1/reference/dynamic\_schema\_6\_query\_table\_with\_sql.png.webp)
+![](/img/v4.1/reference/dynamic_schema_6_query_table_with_sql.png.webp)

@@ -23,6 +23,7 @@ For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instan
 ---
 
 ### (Optional) LVM Configuration
+
 Logical Volume Manager (LVM) can be used to stripe multiple disks together to form a single logical volume. If striping disks together is not a requirement, skip these steps.
 
 Find disk that already has a partition
@@ -104,6 +105,7 @@ echo "LABEL=hdb_data /home/ubuntu/hdb ext4 defaults,noatime 0 1" | sudo tee -a /
 ```
 
 ### Configure Linux and Install Prerequisites
+
 If a swap file or partition does not already exist, create and enable a 2GB swap file
 
 ```bash
@@ -140,6 +142,7 @@ nvm install <the node version>
 ```
 
 ### Install and Start HarperDB
+
 Here is an example of installing HarperDB with minimal configuration.
 
 ```bash

@@ -3,18 +3,22 @@ title: geoContains
 ---
 
 # geoContains
+
 Determines if geo2 is completely contained by geo1. Returns a Boolean.
 
 ## Syntax
+
 geoContains(_geo1, geo2_)
 
 ## Parameters
-| Parameter	 | Description                                                                       |
-|------------|-----------------------------------------------------------------------------------|
-| geo1	      | Required. Polygon or MultiPolygon GeoJSON feature.                                |
-| geo2	      | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
+
+| Parameter | Description                                                                       |
+| --------- | --------------------------------------------------------------------------------- |
+| geo1      | Required. Polygon or MultiPolygon GeoJSON feature.                                |
+| geo2      | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
 
 ### Example 1
+
 Return all locations within the state of Colorado (passed as a GeoJSON string).
 
 ```
@@ -39,6 +43,7 @@ WHERE geoContains('{
 ```
 
 ### Example 2
+
 Return all locations which contain HarperDB Headquarters.
 
 ```

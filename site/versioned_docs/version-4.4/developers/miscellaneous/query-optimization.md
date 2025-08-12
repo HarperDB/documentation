@@ -28,8 +28,8 @@ Conditions can be applied to primary key fields or other indexed fields (known a
 
 Harper supports relationships between tables, allowing for "join" queries that. This does result in more complex queries with potentially larger performance overhead, as more lookups are necessary to connect matched or selected data with other tables. Similar principles apply to conditions which use relationships. Indexed fields and comparators that leverage the ordering are still valuable for performance. It is also important that if a condition on a table is connected to another table's foreign key, that that foreign key also be indexed. Likewise, if a query `select`s data from a related table that uses a foreign key to relate, that it is indexed. The same principles of higher cardinality applies here as well, more unique values allow for efficient lookups.
 
-
 ### Sorting
+
 Queries can also specify a sort order. This can also significantly impact performance. If a query specifies a sort order on an indexed field, the database can use the index to quickly retrieve the data in the specified order. A sort order can be used in conjunction with a condition on the same (indexed) field can utilize the index for ordering. However, if the sort order is not on an indexed field, or the query specifies conditions on different fields, Harper will generally need to sort the data after retrieving it, which can be slow for large datasets. The same principles apply to sorting as they do to conditions. Sorting on a primary key is generally faster than sorting on a secondary index, if the condition aligns with the sort order.
 
 ### Streaming

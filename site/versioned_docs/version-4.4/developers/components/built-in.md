@@ -6,14 +6,14 @@ title: Built-In Components
 
 Harper provides extended features using built-in components. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike external components which have their own semantic versions, built-in components follow Harper's semantic version.
 
-* [Built-In Components](./built-in#built-in-components)
-  * [fastifyRoutes](./built-in#fastifyroutes)
-  * [graphql](./built-in#graphql)
-  * [graphqlSchema](./built-in#graphqlschema)
-  * [jsResource](./built-in#jsresource)
-  * [rest](./built-in#rest)
-  * [roles](./built-in#roles)
-  * [static](./built-in#static)
+- [Built-In Components](./built-in#built-in-components)
+  - [fastifyRoutes](./built-in#fastifyroutes)
+  - [graphql](./built-in#graphql)
+  - [graphqlSchema](./built-in#graphqlschema)
+  - [jsResource](./built-in#jsresource)
+  - [rest](./built-in#rest)
+  - [roles](./built-in#roles)
+  - [static](./built-in#static)
 
 ## fastifyRoutes
 

@@ -38,7 +38,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a schema](../../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake\_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a schema](../../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ### `databases`
 
@@ -73,8 +73,8 @@ This provides access to the HarperDB configuration object. This comes from the [
 
 This records the provided value as a metric into HarperDB's analytics. HarperDB efficiently records and tracks these metrics and makes them available through [analytics API](./analytics). The values are aggregated and statistical information is computed when many operations are performed. The optional parameters can be used to group statistics. For the parameters, make sure you are not grouping on too fine of a level for useful aggregation. The parameters are:
 
-* `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
-* `metric` - This is the name of the metric.
-* `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
-* `method` - Optional method to group by.
-* `type` - Optional type to group by.
+- `value` - This is a numeric value for the metric that is being recorded. This can be a value measuring time or bytes, for example.
+- `metric` - This is the name of the metric.
+- `path` - This is an optional path (like a URL path). For a URL like /my-resource/, you would typically include a path of "my-resource", not including the id so you can group by all the requests to "my-resource" instead of individually aggregating by each individual id.
+- `method` - Optional method to group by.
+- `type` - Optional type to group by.

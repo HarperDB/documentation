@@ -3,18 +3,22 @@ title: geoCrosses
 ---
 
 # geoCrosses
+
 Determines if the geometries cross over each other. Returns boolean.
 
 ## Syntax
+
 geoCrosses(_geo1, geo2_)
 
 ## Parameters
-| Parameter	 | Description                             |
-|------------|-----------------------------------------|
-| geo1       | 	Required. GeoJSON geometry or feature. |
-| geo2	      | Required. GeoJSON geometry or feature.  |
+
+| Parameter | Description                            |
+| --------- | -------------------------------------- |
+| geo1      | Required. GeoJSON geometry or feature. |
+| geo2      | Required. GeoJSON geometry or feature. |
 
 ### Example
+
 Find all locations that cross over a highway.
 
 ```
