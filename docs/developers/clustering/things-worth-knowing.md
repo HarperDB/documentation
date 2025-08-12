@@ -1,3 +1,7 @@
+---
+title: Things Worth Knowing
+---
+
 # Things Worth Knowing
 
 Additional information that will help you define your clustering topology.
@@ -36,4 +40,4 @@ Harper has built-in resiliency for when network connectivity is lost within a su
 
 Harper clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
-![](../../../images/clustering/figure6.png)
+![](/clustering/figure6.png)

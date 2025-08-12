@@ -1,3 +1,7 @@
+---
+title: Registration
+---
+
 # Registration
 
 ## Registration Info

@@ -1,3 +1,7 @@
+---
+title: Requirements And Definitions
+---
+
 # Requirements And Definitions
 
 Before you get started with Custom Functions, here’s a primer on the basic configuration and the structure of a Custom Functions Project.
@@ -35,17 +39,17 @@ customFunctions:
 - **`root`**
   This is the root directory where your Custom Functions projects and their files will live. By default, it’s in your \<ROOTPATH>, but you can locate it anywhere--in a developer folder next to your other development projects, for example.
 
-_Please visit our [configuration docs](../configuration.md) for a more comprehensive look at these settings._
+_Please visit our [configuration docs](../configuration) for a more comprehensive look at these settings._
 
 ## Project Structure
 
 **project folder**
 
-The name of the folder that holds your project files serves as the root prefix for all the routes you create. All routes created in the **dogs** project folder will have a URL like this: **https://my-server-url.com:9926/dogs/my/route**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
+The name of the folder that holds your project files serves as the root prefix for all the routes you create. All routes created in the **dogs** project folder will have a URL like this: **https:/my-server-url.com:9926/dogs/my/route**. As such, it’s important that any project folders you create avoid any characters that aren’t URL-friendly. You should avoid URL delimiters in your folder names.
 
 **/routes folder**
 
-By default, files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https://www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
+By default, files in the **routes** folder define the requests that your Custom Functions server will handle. They are [standard Fastify route declarations](https:/www.fastify.io/docs/latest/Reference/Routes/), so if you’re familiar with them, you should be up and running in no time. The default components for a route are the url, method, preValidation, and handler.
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {

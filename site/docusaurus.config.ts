@@ -5,14 +5,6 @@ import { redirects as redirectList, createRedirects } from './redirects';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-// Debug: Log environment variables
-if (process.env.DOCS_PATH) {
-	console.log('Using DOCS_PATH:', process.env.DOCS_PATH);
-}
-if (process.env.IMAGES_PATH) {
-	console.log('Using IMAGES_PATH:', process.env.IMAGES_PATH);
-}
-
 const scripts = [];
 
 // `npm run site:build` and `docusaurus build` sets this to 'production'
@@ -70,8 +62,7 @@ const config: Config = {
 			'@docusaurus/preset-classic',
 			{
 				docs: {
-					// Use converted docs from DOCS_PATH or default location
-					path: process.env.DOCS_PATH || '../docs',
+					path: '../docs',
 					sidebarPath: './sidebars.ts',
 					// Docs are served at the configured route base path
 					routeBasePath,

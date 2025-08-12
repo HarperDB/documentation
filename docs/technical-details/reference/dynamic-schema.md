@@ -1,3 +1,7 @@
+---
+title: Dynamic Schema
+---
+
 # Dynamic Schema
 
 When tables are created without any schema, through the operations API (without specifying attributes) or studio, the tables follow "dynamic-schema" behavior. Generally it is best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity and precise control over indexing, without dependency on data itself. However, it can often be simpler and quicker to simply create a table and let the data auto-generate the schema dynamically with everything being auto-indexed for broad querying.
@@ -17,7 +21,7 @@ Harper tables group records together with a common data pattern. To create a tab
 
 ## Primary Key
 
-The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [Harper Storage Algorithm](storage-algorithm.md) utilizes this value for indexing.
+The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [Harper Storage Algorithm](storage-algorithm) utilizes this value for indexing.
 
 **Standard Attributes**
 
@@ -27,12 +31,12 @@ With tables that are using dynamic schemas, additional attributes are reflexivel
 
 Harper automatically creates two audit attributes used on each record if the table is created without a schema.
 
-- `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
-- `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
+- `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
+- `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
 
 ### Dynamic Schema Example
 
-To better understand the behavior let’s take a look at an example. This example utilizes [Harper API operations](../../developers/operations-api/databases-and-tables.md).
+To better understand the behavior let’s take a look at an example. This example utilizes [Harper API operations](../../developers/operations-api/databases-and-tables).
 
 **Create a Database**
 
@@ -60,7 +64,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](../../../images/reference/dynamic_schema_2_create_table.png.webp)
+![](/reference/dynamic_schema_2_create_table.png.webp)
 
 **Insert Record**
 
@@ -81,7 +85,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](../../../images/reference/dynamic_schema_3_insert_record.png.webp)
+![](/reference/dynamic_schema_3_insert_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
@@ -105,7 +109,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](../../../images/reference/dynamic_schema_4_insert_additional_record.png.webp)
+![](/reference/dynamic_schema_4_insert_additional_record.png.webp)
 
 **Update Existing Record**
 
@@ -126,7 +130,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](../../../images/reference/dynamic_schema_5_update_existing_record.png.webp)
+![](/reference/dynamic_schema_5_update_existing_record.png.webp)
 
 **Query Table with SQL**
 
@@ -141,4 +145,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](../../../images/reference/dynamic_schema_6_query_table_with_sql.png.webp)
+![](/reference/dynamic_schema_6_query_table_with_sql.png.webp)

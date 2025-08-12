@@ -1,3 +1,7 @@
+---
+title: Analytics Operations
+---
+
 # Analytics Operations
 
 ## get_analytics
@@ -8,7 +12,7 @@ Retrieves analytics data from the server.
 * start_time _(optional)_ - Unix timestamp in seconds
 * end_time _(optional)_ - Unix timestamp in seconds
 * get_attributes _(optional)_ - array of attribute names to retrieve
-* conditions _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](docs/developers/operations-api/nosql-operations.md) for details)
+* conditions _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](developers/operations-api/nosql-operations) for details)
 
 ### Body
 

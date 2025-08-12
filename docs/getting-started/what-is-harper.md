@@ -1,8 +1,12 @@
+---
+title: What is Harper
+---
+
 # What is Harper
 
-{% hint style="info" %}
-[Connect with our team!](https://www.harpersystems.dev/contact)
-{% endhint %}
+:::info
+[Connect with our team!](https:/www.harpersystems.dev/contact)
+:::
 
 ## What is Harper? Performance, Simplicity, and Scale.
 
@@ -10,7 +14,7 @@ Harper is an all-in-one backend technology that fuses database technologies, cac
 
 Harper simplifies scaling with clustering and native data replication. At scale, architectures tend to include 4 to 16 redundant, geo-distributed nodes located near every user population center. This ensures that every user experiences minimal network latency and maximum reliability in addition to the already rapid server responses.
 
-<figure><img src="./images/harperstack.jpg" alt="Comparison of Harper&#x27;s all-in-one technology (left) versus traditional multi-system approaches (right), highlighting Harper&#x27;s speed, simplicity, and efficiency with no intermediary processes, against the latency and complexity of legacy strategies."><figcaption></figcaption></figure>
+![](/harperstack.jpg)
 
 ## Understanding the Paradigm Shift
 
@@ -20,11 +24,11 @@ What we realized is that networking systems together in this way is inefficient 
 
 ## Build With Harper
 
-Start by running Harper locally with [npm](https://www.npmjs.com/package/harperdb) or [Docker](https://hub.docker.com/r/harperdb/harperdb).
+Start by running Harper locally with [npm](https:/www.npmjs.com/package/harperdb) or [Docker](https:/hub.docker.com/r/harperdb/harperdb).
 
 Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](../developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
 
-If you would like to [query](../developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](../developers/rest.md), [MQTT](../developers/real-time.md#mqtt), or [WebSocket](../developers/real-time.md#websockets) endpoints.
+If you would like to [query](../developers/applications/#adding-an-endpoint) this data, add the `@export` directive to our data schema and test out the [REST](../developers/rest), [MQTT](../developers/real-time#mqtt), or [WebSocket](../developers/real-time#websockets) endpoints.
 
 When you are ready for something a little more advanced, start [customizing your application](../developers/applications/#custom-functionality-with-javascript).
 
@@ -32,9 +36,9 @@ Finally, when it’s time to deploy, explore [replication](../developers/replica
 
 If you would like to jump into the most advanced capabilities, learn about [components](../technical-details/reference/components/).
 
-{% hint style="warning" %}
-Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
-{% endhint %}
+:::warning
+Need help? Please don’t hesitate to [reach out](https:/www.harpersystems.dev/contact).
+:::
 
 ## Popular Use Cases
 
@@ -42,14 +46,14 @@ With so much functionality built in, the use cases span nearly all application s
 
 ### Online Catalogs & Content Delivery
 
-For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
+For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https:/github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https:/www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
 
 ### Data Delivery Networks
 
-For use cases like real-time sports updates, flight tracking, and zero-day software update distribution, Harper is rapidly gaining popularity. Harper’s ability to receive and broadcast messages while simultaneously handling application logic and data storage streamlines operations and eliminates the need for multiple separate systems. To build an understanding of our messaging system function, refer to our [real-time documentation](../developers/real-time.md).
+For use cases like real-time sports updates, flight tracking, and zero-day software update distribution, Harper is rapidly gaining popularity. Harper’s ability to receive and broadcast messages while simultaneously handling application logic and data storage streamlines operations and eliminates the need for multiple separate systems. To build an understanding of our messaging system function, refer to our [real-time documentation](../developers/real-time).
 
 ### Edge Inference Systems
 
 Capturing, storing, and processing real-time data streams from client and IoT systems typically requires a stack of technology. Harper’s selective data replication and self-healing connections make for an ideal multi-tier system where edge and cloud systems both run Harper, making everything more performant.
 
-[We’re happy](https://www.harpersystems.dev/contact) to walk you through how to do this.
+[We’re happy](https:/www.harpersystems.dev/contact) to walk you through how to do this.

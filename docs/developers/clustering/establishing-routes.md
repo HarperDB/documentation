@@ -1,3 +1,7 @@
+---
+title: Establishing Routes
+---
+
 # Establishing Routes
 
 A route is a connection between two nodes. It is how the clustering network is established.
@@ -28,14 +32,14 @@ clustering:
             port: 9932
 ```
 
-![figure 1](../../../images/clustering/figure1.png)
+![figure 1](/clustering/figure1.png)
 
 This diagram shows one way of using routes to connect a network of nodes. Node2 and Node3 do not reference any routes in their config. Node1 contains routes for Node2 and Node3, which is enough to establish a network between all three nodes.
 
 There are multiple ways to set routes, they are:
 
 1. Directly editing the `harperdb-config.yaml` file (refer to code snippet above).
-2. Calling `cluster_set_routes` through the API.
+1. Calling `cluster_set_routes` through the API.
 
 ```json
 {
@@ -47,13 +51,13 @@ There are multiple ways to set routes, they are:
 
 _Note: When making any changes to Harper configuration Harper must be restarted for the changes to take effect._
 
-3. From the command line.
+1. From the command line.
 
 ```bash
 --CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES "[{\"host\": \"3.735.184.8\", \"port\": 9932}]"
 ```
 
-4. Using environment variables.
+1. Using environment variables.
 
 ```bash
 CLUSTERING_HUBSERVER_CLUSTER_NETWORK_ROUTES=[{"host": "3.735.184.8", "port": 9932}]

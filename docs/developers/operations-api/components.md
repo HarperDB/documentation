@@ -1,3 +1,7 @@
+---
+title: Components
+---
+
 # Components
 
 ## Add Component
@@ -35,10 +39,10 @@ Will deploy a component using either a base64-encoded string representation of a
 
 If deploying with the `payload` option, Harper will decrypt the base64-encoded string, reconstitute the .tar file of your project folder, and extract it to the component root project directory.
 
-If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. Then npm install will be utilized to install the component in the `node_modules` directory located in the hdb root. The value is a package reference, which should generally be a [URL reference, as described here](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#urls-as-dependencies) (it is also possible to include NPM registerd packages and file paths). URL package references can directly reference tarballs that can be installed as a package. However, the most common and recommended usage is to install from a Git repository, which can be combined with a tag to deploy a specific version directly from versioned source control. When using tags, we highly recommend that you use the `semver` directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers. Here is an example URL package reference to a (public) Git repository that doesn't require authentication:
+If deploying with the `package` option, the package value will be written to `harperdb-config.yaml`. Then npm install will be utilized to install the component in the `node_modules` directory located in the hdb root. The value is a package reference, which should generally be a [URL reference, as described here](https:/docs.npmjs.com/cli/v10/configuring-npm/package-json#urls-as-dependencies) (it is also possible to include NPM registerd packages and file paths). URL package references can directly reference tarballs that can be installed as a package. However, the most common and recommended usage is to install from a Git repository, which can be combined with a tag to deploy a specific version directly from versioned source control. When using tags, we highly recommend that you use the `semver` directive to ensure consistent and reliable installation by NPM. In addition to tags, you can also reference branches or commit numbers. Here is an example URL package reference to a (public) Git repository that doesn't require authentication:
 
 ```
-https://github.com/HarperDB/application-template#semver:v1.0.0
+https:/github.com/HarperDB/application-template#semver:v1.0.0
 ```
 
 or this can be shortened to:
@@ -50,24 +54,22 @@ HarperDB/application-template#semver:v1.0.0
 You can also install from private repository if you have installed SSH keys on the server. Ensure the `host` portion of the url exactly matches the `host` used when adding ssh keys to ensure proper authentication.
 
 ```
-git+ssh://git@github.com:my-org/my-app.git#semver:v1.0.0
-
-git+ssh://git@harperdb-private-component.github.com:my-org/my-app.git#semver:v1.0.0
+git+ssh:/git@github.com:my-org/my-app.git#semver:v1.0.0
 ```
 
 Or you can use a Github token:
 
 ```
-https://<my-token>@github.com/my-org/my-app#semver:v1.0.0
+https:/<my-token>@github.com/my-org/my-app#semver:v1.0.0
 ```
 
 Or you can use a GitLab Project Access Token:
 
 ```
-https://my-project:<my-token>@gitlab.com/my-group/my-project#semver:v1.0.0
+https:/my-project:<my-token>@gitlab.com/my-group/my-project#semver:v1.0.0
 ```
 
-Note that your component will be installed by NPM. If your component has dependencies, NPM will attempt to download and install these as well. NPM normally uses the public registry.npmjs.org registry. If you are installing without network access to this, you may wish to define [custom registry locations](https://docs.npmjs.com/cli/v8/configuring-npm/npmrc) if you have any dependencies that need to be installed. NPM will install the deployed component and any dependencies in node_modules in the hdb root directory (typically `~/hdb/node_modules`).
+Note that your component will be installed by NPM. If your component has dependencies, NPM will attempt to download and install these as well. NPM normally uses the public registry.npmjs.org registry. If you are installing without network access to this, you may wish to define [custom registry locations](https:/docs.npmjs.com/cli/v8/configuring-npm/npmrc) if you have any dependencies that need to be installed. NPM will install the deployed component and any dependencies in node_modules in the hdb root directory (typically `~/hdb/node_modules`).
 
 _Note: After deploying a component a restart may be required_
 
@@ -214,7 +216,7 @@ _Operation is restricted to super_user roles only_
 					"size": 1070
 				},
 				{
-					"name": "README.md",
+					"name": "index.md",
 					"mtime": "2023-08-22T16:00:40.287Z",
 					"size": 1207
 				},
@@ -281,7 +283,7 @@ _Operation is restricted to super_user roles only_
 
 ```json
 {
-	"message": "/**export class MyCustomResource extends tables.TableName {\n\t// we can define our own custom POST handler\n\tpost(content) {\n\t\t// do something with the incoming content;\n\t\treturn super.post(content);\n\t}\n\t// or custom GET handler\n\tget() {\n\t\t// we can modify this resource before returning\n\t\treturn super.get();\n\t}\n}\n */\n// we can also define a custom resource without a specific table\nexport class Greeting extends Resource {\n\t// a \"Hello, world!\" handler\n\tget() {\n\t\treturn { greeting: 'Hello, world!' };\n\t}\n}"
+	"message": "/**export class MyCustomResource extends tables.TableName {\n\t/ we can define our own custom POST handler\n\tpost(content) {\n\t\t/ do something with the incoming content;\n\t\treturn super.post(content);\n\t}\n\t/ or custom GET handler\n\tget() {\n\t\t/ we can modify this resource before returning\n\t\treturn super.get();\n\t}\n}\n */\n/ we can also define a custom resource without a specific table\nexport class Greeting extends Resource {\n\t/ a \"Hello, world!\" handler\n\tget() {\n\t\treturn { greeting: 'Hello, world!' };\n\t}\n}"
 }
 ```
 
@@ -367,9 +369,9 @@ Host harperdb-private-component.github.com
 ```
 
 ```
-"package": "git+ssh://git@<host>:<github-repo-path>.git#semver:v1.2.3"
+"package": "git+ssh:/git@<host>:<github-repo-path>.git#semver:v1.2.3"
 
-"package": "git+ssh://git@harperdb-private-component.github.com:HarperDB/harperdb-private-component.git#semver:v1.2.3"
+"package": "git+ssh:/git@harperdb-private-component.github.com:HarperDB/harperdb-private-component.git#semver:v1.2.3"
 ```
 
 Note that `deploy_component` with a package uses `npm install` so the url must be a valid npm format url. The above is an example of a url using a tag in the repo to install.
@@ -529,7 +531,7 @@ _Operation is restricted to super_user roles only_
 
 - operation _(required)_ - must always be `install_node_modules`
 - projects _(required)_ - must ba an array of custom functions projects.
-- dry*run *(optional)\_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
+- dry*run *(optional)\_ - refers to the npm --dry-run flag: [https:/docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https:/docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
 
 ### Body
 

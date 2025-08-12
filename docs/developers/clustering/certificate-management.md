@@ -1,8 +1,12 @@
+---
+title: Certificate Management
+---
+
 # Certificate Management
 
 ## Development
 
-Out of the box Harper generates certificates that are used when Harper nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the Harper node, the following settings (see the full [configuration file](../../deployments/configuration.md) docs for more details) are defaulted & recommended for ease of development:
+Out of the box Harper generates certificates that are used when Harper nodes are clustered together to securely share data between nodes. These certificates are meant for testing and development purposes. Because these certificates do not have Common Names (CNs) that will match the Fully Qualified Domain Name (FQDN) of the Harper node, the following settings (see the full [configuration file](../../deployments/configuration) docs for more details) are defaulted & recommended for ease of development:
 
 ```
 clustering:
@@ -64,13 +68,13 @@ If you are having TLS issues with clustering, use the following steps to verify 
 openssl x509 -in <certificate>.pem -noout -text`
 ```
 
-2. Make sure the certificate validates with the CA:
+1. Make sure the certificate validates with the CA:
 
 ```
 openssl verify -CAfile <certificateAuthority>.pem <certificate>.pem`
 ```
 
-3. Make sure the certificate and private key are a valid pair by verifying that the output of the following commands match:
+1. Make sure the certificate and private key are a valid pair by verifying that the output of the following commands match:
 
 ```
 openssl rsa -modulus -noout -in <privateKey>.pem | openssl md5

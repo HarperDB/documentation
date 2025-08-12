@@ -1,3 +1,7 @@
+---
+title: Built-In Extensions
+---
+
 # Built-In Extensions
 
 Harper provides extended features using built-in extensions. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike custom extensions which have their own semantic versions, built-in extensions follow Harper's semantic version.
@@ -26,9 +30,9 @@ For more information read the [Components, Applications, and Extensions](../../.
 
 Load data from JSON or YAML files into Harper tables as part of component deployment.
 
-This component is an [Extension](./reference.md#extensions) and can be configured with the `files` configuration option.
+This component is an [Extension](..#extensions) and can be configured with the `files` configuration option.
 
-Complete documentation for this feature is available here: [Data Loader](../../../developers/applications/data-loader.md)
+Complete documentation for this feature is available here: [Data Loader](../../../developers/applications/data-loader)
 
 ```yaml
 dataLoader:
@@ -37,11 +41,11 @@ dataLoader:
 
 ## fastifyRoutes
 
-Specify custom endpoints using [Fastify](https://fastify.dev/).
+Specify custom endpoints using [Fastify](https:/fastify.dev/).
 
-This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Define Fastify Routes](../../../developers/applications/define-routes.md)
+Complete documentation for this feature is available here: [Define Fastify Routes](../../../developers/applications/define-routes)
 
 ```yaml
 fastifyRoutes:
@@ -54,7 +58,7 @@ fastifyRoutes:
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
-Complete documentation for this feature is available here: [GraphQL](../graphql.md)
+Complete documentation for this feature is available here: [GraphQL](../graphql)
 
 ```yaml
 graphql: true
@@ -64,9 +68,9 @@ graphql: true
 
 Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
-This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Schemas](../../../developers/applications/defining-schemas.md)
+Complete documentation for this feature is available here: [Defining Schemas](../../../developers/applications/defining-schemas)
 
 ```yaml
 graphqlSchema:
@@ -77,9 +81,9 @@ graphqlSchema:
 
 Specify custom, JavaScript based Harper resources.
 
-Refer to the Application [Custom Functionality with JavaScript](../../../developers/applications/README.md#custom-functionality-with-javascript) guide, or [Resource Class](../resources/README.md) reference documentation for more information on custom resources.
+Refer to the Application [Custom Functionality with JavaScript](../../../developers/applications/#custom-functionality-with-javascript) guide, or [Resource Class](../resources/) reference documentation for more information on custom resources.
 
-This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
 ```yaml
 jsResource:
@@ -90,7 +94,7 @@ jsResource:
 
 Load environment variables via files like `.env`.
 
-This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
 Ensure this component is specified first in `config.yaml` so that environment variables are loaded prior to loading any other components.
 
@@ -121,7 +125,7 @@ loadEnv:
 
 Enable automatic REST endpoint generation for exported resources with this component.
 
-Complete documentation for this feature is available here: [REST](../../../developers/rest.md)
+Complete documentation for this feature is available here: [REST](../../../developers/rest)
 
 ```yaml
 rest: true
@@ -147,9 +151,9 @@ rest:
 
 Specify roles for Harper tables and resources.
 
-This component is a [Resource Extension](./extensions.md#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions.md#resource-extension-configuration) configuration options.
+This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Roles](../../../developers/applications/defining-roles.md)
+Complete documentation for this feature is available here: [Defining Roles](../../../developers/applications/defining-roles)
 
 ```yaml
 roles:
@@ -160,7 +164,7 @@ roles:
 
 Serve static files via HTTP.
 
-The `static` plugin serves static files based on the `files` and `urlPath` [plugin configuration options](./plugins.md#configuration). It supports additional features via other options (detailed below), but the core to the plugin is to statically serve the files matched by the `files` pattern. The plugin will serve files relative to the longest non-ambiguous path within the pattern. The `urlPath` can be specified to customize the URL path that the files are served from, otherwise they match the file pattern. For example, given an application directory structure:
+Use the [Resource Extension](./extensions#resource-extension) configuration options [`files` and `urlPath`](./extensions#resource-extension-configuration) to specify the files to be served.
 
 ```
 my-app/

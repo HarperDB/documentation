@@ -1,10 +1,14 @@
+---
+title: REST
+---
+
 # REST
 
 ## REST
 
 Harper provides a powerful, efficient, and standard-compliant HTTP REST interface for interacting with tables and other resources. The REST interface is the recommended interface for data access, querying, and manipulation (for HTTP interactions), providing the best performance and HTTP interoperability with different clients.
 
-Resources, including tables, can be configured as RESTful endpoints. Make sure you review the [application introduction](applications/) and [defining schemas](applications/defining-schemas.md) to properly define your schemas and select which tables are exported and available through REST interface, as tables are not exported by default. The name of the [exported](applications/defining-schemas.md#export) resource defines the basis of the endpoint path available at the application HTTP server port [configured here](../deployments/configuration.md#http) (the default being `9926`). From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
+Resources, including tables, can be configured as RESTful endpoints. Make sure you review the [application introduction](applications/) and [defining schemas](applications/defining-schemas) to properly define your schemas and select which tables are exported and available through REST interface, as tables are not exported by default. The name of the [exported](applications/defining-schemas#export) resource defines the basis of the endpoint path available at the application HTTP server port [configured here](../deployments/configuration#http) (the default being `9926`). From there, a record id or query can be appended. Following uniform interface principles, HTTP methods define different actions with resources. For each method, this describes the default action.
 
 The default path structure provides access to resources at several levels:
 
@@ -78,11 +82,11 @@ Generally the POST method can be used for custom actions since POST has the broa
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
 ````http
-```http
+````http
 POST /MyTable/
 Content-Type: application/json
 
-{ "name": "some data" }
+`{ "name": "some data" }`
 ````
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
@@ -91,7 +95,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 URL query parameters provide a powerful language for specifying database queries in Harper. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
 
-```http
+````http
 GET /my-resource/?property=value
 ```
 
@@ -103,7 +107,7 @@ GET /my-resource/?property=value&property2=another-value
 
 Note that only one of the attributes needs to be indexed for this query to execute.
 
-We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
+We can also specify different comparators such as less than and greater than queries using [FIQL](https:/datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
 ```http
 GET /my-resource/?age=gt=20

@@ -54,13 +54,11 @@ jobs:
 
       - name: Build Docusaurus site
         env:
-          DOCS_PATH: ${{ vars.DOCS_PATH }}
           DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
           DOCUSAURUS_URL: ${{ vars.DOCUSAURUS_URL }}
           IMAGES_PATH: ${{ vars.IMAGES_PATH }}
         run: |
           echo "Building Docusaurus site..."
-          echo "Using DOCS_PATH: $DOCS_PATH"
           echo "Using DOCUSAURUS_BASE_URL: $DOCUSAURUS_BASE_URL"
           echo "Using DOCUSAURUS_URL: $DOCUSAURUS_URL"
           echo "Using IMAGES_PATH: $IMAGES_PATH"
