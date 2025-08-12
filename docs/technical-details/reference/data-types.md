@@ -1,6 +1,10 @@
+---
+title: Data Types
+---
+
 # Data Types
 
-Harper supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (Harper’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. Harper supports [MessagePack and CBOR](content-types.md), which allows for all of Harper supported data types. [Schema definitions can specify the expected types for fields, with GraphQL Schema Types](../../developers/applications/defining-schemas.md), which are used for validation of incoming typed data (JSON, MessagePack), and is used for auto-conversion of untyped data (CSV, [query parameters](../../developers/rest.md)). Available data types include:
+Harper supports a rich set of data types for use in records in databases. Various data types can be used from both direct JavaScript interfaces in Custom Functions and the HTTP operations APIs. Using JSON for communication naturally limits the data types to those available in JSON (Harper’s supports all of JSON data types), but JavaScript code and alternate data formats facilitate the use of additional data types. Harper supports MessagePack and CBOR, which allows for all of Harper supported data types. [Schema definitions can specify the expected types for fields, with GraphQL Schema Types](../../developers/applications/defining-schemas), which are used for validation of incoming typed data (JSON, MessagePack), and is used for auto-conversion of untyped data (CSV, [query parameters](../../developers/rest)). Available data types include:
 
 (Note that these labels are descriptive, they do not necessarily correspond to the GraphQL schema type names, but the schema type names are noted where possible)
 
@@ -16,7 +20,7 @@ Strings, or text, are a sequence of any unicode characters and are internally en
 
 Numbers can be stored as signed integers up to a 1000 bits of precision (about 300 digits) or floating point with 64-bit floating point precision, and numbers are automatically stored using the most optimal type. With JSON, numbers are automatically parsed and stored in the most appropriate format. Custom components and applications may use BigInt numbers to store/access integers that are larger than 53-bit. The following GraphQL schema type name are supported:
 
-- `Float` - Any number that can be represented with [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision_floating-point_format) ("double")
+- `Float` - Any number that can be represented with [64-bit double precision floating point number](https:/en.wikipedia.org/wiki/Double-precision_floating-point_format) ("double")
 - `Int` - Any integer between from -2147483648 to 2147483647
 - `Long` - Any integer between from -9007199254740992 to 9007199254740992
 - `BigInt` - Any integer (negative or positive) with less than 300 digits
@@ -49,7 +53,7 @@ JSON doesn’t have any support for encoding binary data, but MessagePack and CB
 
 ### Blobs
 
-Binary data can also be stored with [`Blob`s](blob.md), which can scale much better for larger content than `Bytes`, as it is designed to be streamed and does not need to be held entirely in memory. It is recommended that `Blob`s are used for content larger than 20KB.
+Binary data can also be stored with [`Blob`s](blob), which can scale much better for larger content than `Bytes`, as it is designed to be streamed and does not need to be held entirely in memory. It is recommended that `Blob`s are used for content larger than 20KB.
 
 ## Explicit Map/Set
 

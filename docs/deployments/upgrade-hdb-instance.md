@@ -1,3 +1,7 @@
+---
+title: Upgrade a Harper Instance
+---
+
 # Upgrade a Harper Instance
 
 This document describes best practices for upgrading self-hosted Harper instances. Harper can be upgraded using a combination of npm and built-in Harper upgrade scripts. Whenever upgrading your Harper installation it is recommended you make a backup of your data first. Note: This document applies to self-hosted Harper instances only. All [Harper Cloud instances](harper-cloud/) will be upgraded by the Harper Cloud team.
@@ -6,19 +10,19 @@ This document describes best practices for upgrading self-hosted Harper instance
 
 Upgrading Harper is a two-step process. First the latest version of Harper must be downloaded from npm, then the Harper upgrade scripts will be utilized to ensure the newest features are available on the system.
 
-1.  Install the latest version of Harper using `npm install -g harperdb`.
+1. Install the latest version of Harper using `npm install -g harperdb`.
 
     Note `-g` should only be used if you installed Harper globally (which is recommended).
 
-2.  Run `harperdb` to initiate the upgrade process.
+1. Run `harperdb` to initiate the upgrade process.
 
     Harper will then prompt you for all appropriate inputs and then run the upgrade directives.
 
 ## Node Version Manager (nvm)
 
-[Node Version Manager (nvm)](http://nvm.sh/) is an easy way to install, remove, and switch between different versions of Node.js as required by various applications. More information, including directions on installing nvm can be found here: https://nvm.sh/.
+[Node Version Manager (nvm)](http:/nvm.sh/) is an easy way to install, remove, and switch between different versions of Node.js as required by various applications. More information, including directions on installing nvm can be found here: https:/nvm.sh/.
 
-Harper supports Node.js versions 14.0.0 and higher, however, **please check our** [**NPM page**](https://www.npmjs.com/package/harperdb) **for our recommended Node.js version.** To install a different version of Node.js with nvm, run the command:
+Harper supports Node.js versions 14.0.0 and higher, however, **please check our** [**NPM page**](https:/www.npmjs.com/package/harperdb) **for our recommended Node.js version.** To install a different version of Node.js with nvm, run the command:
 
 ```bash
 nvm install <the node version>
@@ -96,11 +100,11 @@ The core of this upgrade is the _bridge node_. This node will run both NATS and 
 
 ### Enabling Plexus
 
-To enable Plexus on a node that is already running NATS, you will need to update [two values](configuration.md) in the `harperdb-config.yaml` file:
+To enable Plexus on a node that is already running NATS, you will need to update [two values](configuration) in the `harperdb-config.yaml` file:
 
 ```yaml
 replication:
-  url: wss://my-cluster-node-1:9925
+  url: wss:/my-cluster-node-1:9925
   hostname: node-1
 ```
 
@@ -115,22 +119,22 @@ replication:
    - On this node, follow the "Enabling Plexus" steps from the previous section, but **do not disable NATS clustering on this instance.**
    - Stop the instance and perform the upgrade.
    - Start the instance. This node should now be running both Plexus and NATS.
-2. Upgrade a node:
+1. Upgrade a node:
    - Choose a node that needs upgrading and enable Plexus by following the "Enable Plexus" steps.
    - Disable NATS by setting `clustering.enabled` to `false`.
    - Stop the instance and upgrade it.
    - Start the instance.
-   - Call [`add_node`](../developers/operations-api/clustering.md#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node. _Note: depending on your setup, you may need to expand this `add_node` call to include_ [_authorization and/or tls information_](../developers/operations-api/clustering.md#add-node)_._
+   - Call [`add_node`](../developers/operations-api/clustering#add-node) on the upgraded instance. In this call, omit `subscriptions` so that a fully replicating cluster is built. The target node for this call should be the bridge node. _Note: depending on your setup, you may need to expand this `add_node` call to include_ [_authorization and/or tls information_](../developers/operations-api/clustering#add-node)_._
 
 ```json
 {
 	"operation": "add_node",
 	"hostname:": "node-1",
-	"url": "wss://my-cluster-node-1:9925"
+	"url": "wss:/my-cluster-node-1:9925"
 }
 ```
 
-3. Repeat Step 2 on all remaining nodes that need to be upgraded.
-4. Disable NATS on the bridge node by setting `clustering.enabled` to `false` and restart the instance.
+1. Repeat Step 2 on all remaining nodes that need to be upgraded.
+1. Disable NATS on the bridge node by setting `clustering.enabled` to `false` and restart the instance.
 
 Your cluster upgrade should now be complete, with no NATS processes running on any of the nodes.

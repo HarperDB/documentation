@@ -1,3 +1,7 @@
+---
+title: Users & Roles
+---
+
 # Users & Roles
 
 Harper utilizes a Role-Based Access Control (RBAC) framework to manage access to Harper instances. A user is assigned a role that determines the user’s permissions to access database resources and run core operations.
@@ -9,13 +13,13 @@ Role permissions in Harper are broken into two categories – permissions around
 **Database Manipulation**: A role defines CRUD (create, read, update, delete) permissions against database resources (i.e. data) in a Harper instance.
 
 1. At the table-level access, permissions must be explicitly defined when adding or altering a role – _i.e. Harper will assume CRUD access to be FALSE if not explicitly provided in the permissions JSON passed to the `add_role` and/or `alter_role` API operations._
-2. At the attribute-level, permissions for attributes in all tables included in the permissions set will be assigned based on either the specific attribute-level permissions defined in the table’s permission set or, if there are no attribute-level permissions defined, permissions will be based on the table’s CRUD set.
+1. At the attribute-level, permissions for attributes in all tables included in the permissions set will be assigned based on either the specific attribute-level permissions defined in the table’s permission set or, if there are no attribute-level permissions defined, permissions will be based on the table’s CRUD set.
 
 **Database Definition**: Permissions related to managing databases, tables, roles, users, and other system settings and operations are restricted to the built-in `super_user` role.
 
 **Built-In Roles**
 
-There are three built-in roles within Harper. See full breakdown of operations restricted to only super_user roles [here](users-and-roles.md#Role-Based-Operation-Restrictions).
+There are three built-in roles within Harper. See full breakdown of operations restricted to only super_user roles [here](users-and-roles#role-based-operation-restrictions).
 
 - `super_user` - This role provides full access to all operations and methods within a Harper instance, this can be considered the admin role.
   - This role provides full access to all Database Definition operations and the ability to run Database Manipulation operations across the entire database schema with no restrictions.
@@ -96,17 +100,17 @@ Each table that a role should be given some level of CRUD permissions to must be
 
 ```json
 {
-  "table_name": { // the name of the table to define CRUD perms for
-    "read": boolean, // access to read from this table
-    "insert": boolean, // access to insert data to table
-    "update": boolean, // access to update data in table
-    "delete": boolean, // access to delete row data in table
-    "attribute_permissions": [ // permissions for specific table attributes
+  "table_name": { / the name of the table to define CRUD perms for
+    "read": boolean, / access to read from this table
+    "insert": boolean, / access to insert data to table
+    "update": boolean, / access to update data in table
+    "delete": boolean, / access to delete row data in table
+    "attribute_permissions": [ / permissions for specific table attributes
         {
-          "attribute_name": "attribute_name", // attribute to assign permissions to
-          "read": boolean, // access to read this attribute from table
-          "insert": boolean, // access to insert this attribute into the table
-          "update": boolean // access to update this attribute in the table
+          "attribute_name": "attribute_name", / attribute to assign permissions to
+          "read": boolean, / access to read this attribute from table
+          "insert": boolean, / access to insert this attribute into the table
+          "update": boolean / access to update this attribute in the table
         }
     ]
 }
@@ -115,29 +119,29 @@ Each table that a role should be given some level of CRUD permissions to must be
 **Important Notes About Table Permissions**
 
 1. If a database and/or any of its tables are not included in the permissions JSON, the role will not have any CRUD access to the database and/or tables.
-2. If a table-level CRUD permission is set to false, any attribute-level with that same CRUD permission set to true will return an error.
+1. If a table-level CRUD permission is set to false, any attribute-level with that same CRUD permission set to true will return an error.
 
 **Important Notes About Attribute Permissions**
 
 1. If there are attribute-specific CRUD permissions that need to be enforced on a table, those need to be explicitly described in the `attribute_permissions` array.
-2. If a non-hash attribute is given some level of CRUD access, that same access will be assigned to the table’s `hash_attribute` (also referred to as the `primary_key`), even if it is not explicitly defined in the permissions JSON.
+1. If a non-hash attribute is given some level of CRUD access, that same access will be assigned to the table’s `hash_attribute` (also referred to as the `primary_key`), even if it is not explicitly defined in the permissions JSON.
 
    _See table_name1’s permission set for an example of this – even though the table’s hash attribute is not specifically defined in the attribute_permissions array, because the role has CRUD access to ‘attribute1’, the role will have the same access to the table’s hash attribute._
 
-3. If attribute-level permissions are set – _i.e. attribute_permissions.length > 0_ – any table attribute not explicitly included will be assumed to have not CRUD access (with the exception of the `hash_attribute` described in #2).
+1. If attribute-level permissions are set – _i.e. attribute_permissions.length > 0_ – any table attribute not explicitly included will be assumed to have not CRUD access (with the exception of the `hash_attribute` described in #2).
 
    _See table_name1’s permission set for an example of this – in this scenario, the role will have the ability to create, insert and update ‘attribute1’ and the table’s hash attribute but no other attributes on that table._
 
-4. If an `attribute_permissions` array is empty, the role’s access to a table’s attributes will be based on the table-level CRUD permissions.
+1. If an `attribute_permissions` array is empty, the role’s access to a table’s attributes will be based on the table-level CRUD permissions.
 
    _See table_name2’s permission set for an example of this._
 
-5. The `__createdtime__` and `__updatedtime__` attributes that Harper manages internally can have read perms set but, if set, all other attribute-level permissions will be ignored.
-6. Please note that DELETE permissions are not included as a part of an individual attribute-level permission set. That is because it is not possible to delete individual attributes from a row, rows must be deleted in full.
+1. The `__createdtime__` and `__updatedtime__` attributes that Harper manages internally can have read perms set but, if set, all other attribute-level permissions will be ignored.
+1. Please note that DELETE permissions are not included as a part of an individual attribute-level permission set. That is because it is not possible to delete individual attributes from a row, rows must be deleted in full.
    - If a role needs the ability to delete rows from a table, that permission should be set on the table-level.
    - The practical approach to deleting an individual attribute of a row would be to set that attribute to null via an update statement.
 
-## Role-Based Operation Restrictions <a href="#role-based-operation-restrictions" id="role-based-operation-restrictions"></a>
+## `Role-Based Operation Restrictions <a href="#role-based-operation-restrictions" id="role-based-operation-restrictions"></a>`
 
 The table below includes all API operations available in Harper and indicates whether or not the operation is restricted to super_user roles.
 

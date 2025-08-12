@@ -1,3 +1,7 @@
+---
+title: Databases and Tables
+---
+
 # Databases and Tables
 
 ## Describe All

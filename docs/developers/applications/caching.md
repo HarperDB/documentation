@@ -1,10 +1,14 @@
+---
+title: Caching
+---
+
 # Caching
 
 Harper has integrated support for caching data from external sources. With built-in caching capabilities and distributed high-performance low-latency responsiveness, Harper makes an ideal data caching server. Harper can store cached data in standard tables, as queryable structured data, so data can easily be consumed in one format (for example JSON or CSV) and provided to end users in different formats with different selected properties (for example MessagePack, with a subset of selected properties), or even with customized querying capabilities. Harper also manages and provides timestamps/tags for proper caching control, facilitating further downstreaming caching. With these combined capabilities, Harper is an extremely fast, interoperable, flexible, and customizable caching server.
 
 ## Configuring Caching
 
-To set up caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](./) for more information on setting up the application (and the [defining schemas documentation](defining-schemas.md)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
+To set up caching, first you will need to define a table that you will use as your cache (to store the cached data). You can review the [introduction to building applications](./) for more information on setting up the application (and the [defining schemas documentation](defining-schemas)), but once you have defined an application folder with a schema, you can add a table for caching to your `schema.graphql`:
 
 ```graphql
 type MyCache @table(expiration: 3600) @export {
@@ -29,7 +33,7 @@ Next, you need to define the source for your cache. External data sources could 
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-		return (await fetch(`http://some-api.com/${this.getId()}`)).json();
+		return (await fetch(`http:/some-api.com/${this.getId()}`)).json();
 	}
 }
 ```
@@ -66,7 +70,7 @@ In the example above, we simply retrieved data to fulfill a cache request. We ma
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async get() {
-		let response = await fetch(`http://some-api.com/${this.getId()}`);
+		let response = await fetch(`http:/some-api.com/${this.getId()}`);
 		this.getContext().lastModified = response.headers.get('Last-Modified');
 		return response.json();
 	}
@@ -82,14 +86,14 @@ class ThirdPartyAPI extends Resource {
 	async get() {
 		const context = this.getContext();
 		let headers = new Headers();
-		if (context.replacingVersion) // this is the existing cached record
+		if (context.replacingVersion) / this is the existing cached record
 			headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
-		let response = await fetch(`http://some-api.com/${this.getId()}`, { headers });
+		let response = await fetch(`http:/some-api.com/${this.getId()}`, { headers });
 		let cacheInfo = response.headers.get('Cache-Control');
 		let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
-		if (maxAge) // we can set a specific expiration time by setting context.expiresAt
-			context.expiresAt = Date.now() + maxAge * 1000; // convert from seconds to milliseconds and add to current time
-		// we can just revalidate and return the record if the origin has confirmed that it has the same version:
+		if (maxAge) / we can set a specific expiration time by setting context.expiresAt
+			context.expiresAt = Date.now() + maxAge * 1000; / convert from seconds to milliseconds and add to current time
+		/ we can just revalidate and return the record if the origin has confirmed that it has the same version:
 		if (response.status === 304) return context.replacingRecord;
 		...
 ```
@@ -107,7 +111,7 @@ const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
 	async post(data) {
 		if (data.invalidate)
-			// use this flag as a marker
+			/ use this flag as a marker
 			this.invalidate();
 	}
 }
@@ -122,16 +126,16 @@ We can provide more control of an active cache with subscriptions. If there is a
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async *subscribe() {
-      setInterval(() => { // every second retrieve more data
-			// get the next data change event from the source
-			let update = (await fetch(`http://some-api.com/latest-update`)).json();
-			const event = { // define the change event (which will update the cache)
-				type: 'put', // this would indicate that the event includes the new data value
-				id: // the primary key of the record that updated
-				value: // the new value of the record that updated
-				timestamp: // the timestamp of when the data change occurred
+      setInterval(() => { / every second retrieve more data
+			/ get the next data change event from the source
+			let update = (await fetch(`http:/some-api.com/latest-update`)).json();
+			const event = { / define the change event (which will update the cache)
+				type: 'put', / this would indicate that the event includes the new data value
+				id: / the primary key of the record that updated
+				value: / the new value of the record that updated
+				timestamp: / the timestamp of when the data change occurred
 			};
-			yield event; // this returns this event, notifying the cache of the change
+			yield event; / this returns this event, notifying the cache of the change
       }, 1000);
 	}
 	async get() {
@@ -143,7 +147,7 @@ Notification events should always include an `id` property to indicate the prima
 - `put` - This indicates that the record has been updated and provides the new value of the record.
 - `invalidate` - Alternately, you can notify with an event type of `invalidate` to indicate that the data has changed, but without the overhead of actually sending the data (the `value` property is not needed), so the data only needs to be sent if and when the data is requested through the cache. An `invalidate` will evict the entry and update the timestamp to indicate that there is new data that should be requested (if needed).
 - `delete` - This indicates that the record has been deleted.
-- `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time.md).
+- `message` - This indicates a message is being passed through the record. The record value has not changed, but this is used for [publish/subscribe messaging](../real-time).
 - `transaction` - This indicates that there are multiple writes that should be treated as a single atomic transaction. These writes should be included as an array of data notification events in the `writes` property.
 
 And the following properties can be defined on event objects:
@@ -162,7 +166,7 @@ By default, Harper will only run the subscribe method on one thread. Harper is m
 ```javascript
 class ThirdPartyAPI extends Resource {
 	static subscribeOnThisThread(threadIndex) {
-		return threadIndex < 2; // run on two threads (the first two threads)
+		return threadIndex < 2; / run on two threads (the first two threads)
 	}
 	async *subscribe() {
 		....
@@ -184,7 +188,7 @@ class ThirdPartyAPI extends Resource {
 
 ## Downstream Caching
 
-It is highly recommended that you utilize the [REST interface](../rest.md) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest.md#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in Harper. Caching tables also have [subscription capabilities](caching.md#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of Harper, both as passive or active caches.
+It is highly recommended that you utilize the [REST interface](../rest) for accessing caching tables, as it facilitates downstreaming caching for clients. Timestamps are recorded with all cached entries. Timestamps are then used for incoming [REST requests to specify the `ETag` in the response](../rest#cachingconditional-requests). Clients can cache data themselves and send requests using the `If-None-Match` header to conditionally get a 304 and preserve their cached data based on the timestamp/`ETag` of the entries that are cached in Harper. Caching tables also have [subscription capabilities](caching#subscribing-to-caching-tables), which means that downstream caches can be fully "layered" on top of Harper, both as passive or active caches.
 
 ## Write-Through Caching
 
@@ -193,13 +197,13 @@ The cache we have defined so far only has data flowing from the data source to t
 ```javascript
 class ThirdPartyAPI extends Resource {
 	async put(data) {
-		await fetch(`http://some-api.com/${this.getId()}`, {
+		await fetch(`http:/some-api.com/${this.getId()}`, {
 			method: 'PUT',
 			body: JSON.stringify(data)
 		});
 	}
 	async delete() {
-		await fetch(`http://some-api.com/${this.getId()}`, {
+		await fetch(`http:/some-api.com/${this.getId()}`, {
 			method: 'DELETE',
 		});
 	}
@@ -215,9 +219,9 @@ When you are using a caching table, it is important to remember that any resourc
 ```javascript
 class MyCache extends tables.MyCache {
 	async post(data) {
-		// if the data is not cached locally, retrieves from source:
+		/ if the data is not cached locally, retrieves from source:
 		await this.ensuredLoaded();
-		// now we can be sure that the data is loaded, and can access properties
+		/ now we can be sure that the data is loaded, and can access properties
 		this.quantity = this.quantity - data.purchases;
 	}
 }
@@ -235,9 +239,9 @@ With our passive update examples, we have provided a data source handler with a 
 const { Post, Comment } = tables;
 class BlogSource extends Resource {
 	get() {
-		const post = await (await fetch(`http://my-blog-server/${this.getId()}`).json());
+		const post = await (await fetch(`http:/my-blog-server/${this.getId()}`).json());
 		for (let comment of post.comments) {
-			await Comment.put(comment, this); // save this comment as part of our current context and transaction
+			await Comment.put(comment, this); / save this comment as part of our current context and transaction
 		}
 		return post;
 	}

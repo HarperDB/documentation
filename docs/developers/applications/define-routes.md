@@ -1,13 +1,17 @@
+---
+title: Define Fastify Routes
+---
+
 # Define Fastify Routes
 
-Harper’s applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with Harper's [REST interface](../rest.md) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
+Harper’s applications provide an extension for loading [Fastify](https:/www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with Harper's [REST interface](../rest) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
 
-The fastify route handler can be configured in your application's config.yaml (this is the default config if you used the [application template](https://github.com/HarperDB/application-template)):
+The fastify route handler can be configured in your application's config.yaml (this is the default config if you used the [application template](https:/github.com/HarperDB/application-template)):
 
 ```yaml
 fastifyRoutes: # This loads files that define fastify routes using fastify's auto-loader
   files: routes/*.js # specify the location of route definition modules
-  path: . # relative to the app-name, like  http://server/app-name/route-name
+  path: . # relative to the app-name, like  http:/server/app-name/route-name
 ```
 
 By default, route URLs are configured to be:
@@ -16,7 +20,7 @@ By default, route URLs are configured to be:
 
 However, you can specify the path to be `/` if you wish to have your routes handling the root path of incoming URLs.
 
-- The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http://localhost:9926/dogs/breeds**.
+- The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http:/localhost:9926/dogs/breeds**.
 
 In effect, this route is just a pass-through to Harper. The same result could have been achieved by hitting the core Harper API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
 
@@ -81,7 +85,7 @@ export default async (server, { hdbCore, logger }) => {
 };
 ```
 
-Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Helper Methods](define-routes.md#helper-methods).
+Notice we imported customValidation from the **helpers** directory. To include a helper, and to see the actual code within customValidation, see [Helper Methods](define-routes#helper-methods).
 
 ## Helper Methods
 

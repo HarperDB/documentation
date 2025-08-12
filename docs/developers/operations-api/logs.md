@@ -1,8 +1,12 @@
+---
+title: Logs
+---
+
 # Logs
 
 ## Read Harper Log
 
-Returns log outputs from the primary Harper log based on the provided search criteria. [Read more about Harper logging here](../../administration/logging/logging.md#read-logs-via-the-api).
+Returns log outputs from the primary Harper log based on the provided search criteria. [Read more about Harper logging here](../../administration/logging/standard-logging#read-logs-via-the-api).
 
 _Operation is restricted to super_user roles only_
 
@@ -60,7 +64,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Transaction Log
 
-Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. [Read more about Harper transaction logs here](logs.md#read-transaction-log).
+Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. [Read more about Harper transaction logs here](logs#read-transaction-log).
 
 _Operation is restricted to super_user roles only_
 
@@ -295,7 +299,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log
 
-AuditLog must be enabled in the Harper configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. [Read more about Harper transaction logs here.](../../administration/logging/transaction-logging.md#read_transaction_log)
+AuditLog must be enabled in the Harper configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. [Read more about Harper transaction logs here.](../../administration/logging/transaction-logging#read_transaction_log)
 
 _Operation is restricted to super_user roles only_
 
@@ -390,7 +394,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by timestamp
 
-AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. [Read more about Harper transaction logs here](logs.md#read-transaction-log).
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. [Read more about Harper transaction logs here](logs#read-transaction-log).
 
 _Operation is restricted to super_user roles only_
 
@@ -511,7 +515,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by username
 
-AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. [Read more about Harper transaction logs here](../../administration/logging/transaction-logging.md#read_transaction_log).
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. [Read more about Harper transaction logs here](../../administration/logging/transaction-logging#read_transaction_log).
 
 _Operation is restricted to super_user roles only_
 
@@ -631,7 +635,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by hash_value
 
-AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). [Read more about Harper transaction logs here](../../administration/logging/transaction-logging.md#read_transaction_log).
+AuditLog must be enabled in the Harper configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). [Read more about Harper transaction logs here](../../administration/logging/transaction-logging#read_transaction_log).
 
 _Operation is restricted to super_user roles only_
 
