@@ -44,7 +44,7 @@ export function start(options: { port: number, server: {}}) {
 }
 ```
 
-Here, the `request` object will have the following structure (this is based on Node's request, but augmented to conform to a subset of the [WHATWG Request API](https:/developer.mozilla.org/en-US/docs/Web/API/Request)):
+Here, the `request` object will have the following structure (this is based on Node's request, but augmented to conform to a subset of the [WHATWG Request API](https://developer.mozilla.org/en-US/docs/Web/API/Request)):
 
 ```typescript
 interface Request {
@@ -55,7 +55,7 @@ interface Request {
 }
 ```
 
-The returned `response` object should have the following structure (again, following a structural subset of the [WHATWG Response API](https:/developer.mozilla.org/en-US/docs/Web/API/Response)):
+The returned `response` object should have the following structure (again, following a structural subset of the [WHATWG Response API](https://developer.mozilla.org/en-US/docs/Web/API/Response)):
 
 ```typescript
 interface Response {
@@ -150,4 +150,4 @@ contentTypes.set('text/xml', {
 
 Extensions will also be categorized as trusted or untrusted. For some HarperDB installations, administrators may choose to constrain users to only using trusted extensions for security reasons (such multi-tenancy requirements or added defense in depth). Most installations do not impose such constraints, but this may exist in some situations.
 
-An extension can be automatically considered trusted if it conforms to the requirements of [Secure EcmaScript](https:/www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted extensions/components. An extension can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all extensions. Untrusted extensions can access any other packages/modules, and may have many additional capabilities.
+An extension can be automatically considered trusted if it conforms to the requirements of [Secure EcmaScript](https://www.npmjs.com/package/ses/v/0.7.0) (basically strict mode code that doesn't modify any global objects), and either does not use any other modules, or only uses modules from other trusted extensions/components. An extension can be marked as trusted by review by the HarperDB team as well, but developers should not expect that HarperDB can review all extensions. Untrusted extensions can access any other packages/modules, and may have many additional capabilities.

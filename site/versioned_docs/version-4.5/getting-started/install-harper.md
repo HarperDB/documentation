@@ -7,7 +7,7 @@ title: Install Harper
 There are three ways to install a Harper instance: using a package manager like npm, deploying it as a Docker container, and offline installation. Below is a step-by-step tutorial for each method.
 
 ## Installing via NPM
-Before you begin, ensure you have [Node.js](https:/nodejs.org/) LTS version or newer. Node.js comes with npm, which will be used to install Harper.
+Before you begin, ensure you have [Node.js](https://nodejs.org/) LTS version or newer. Node.js comes with npm, which will be used to install Harper.
 
 Open your terminal or command prompt and install Harper globally by executing the command below. Installing globally allows the `harperdb` command to be accessible from anywhere on your machine, making it easier to manage multiple projects.
 
@@ -26,7 +26,7 @@ This launches Harper as a standalone, where you can define your schemas, endpoin
 At this point, your local Harper instance is up and running, giving you the ability to develop and test your database applications using your favorite local development tools, including debuggers and version control systems.
 
 ## Installing via Docker
-Using Docker to run Harper is an efficient way to manage a containerized instance that encapsulates all of Harper’s functionality. First, ensure that Docker is installed and running on your system. If it isn’t, download it from the [official Docker website](https:/docs.docker.com/engine/install/) and complete the installation process.
+Using Docker to run Harper is an efficient way to manage a containerized instance that encapsulates all of Harper’s functionality. First, ensure that Docker is installed and running on your system. If it isn’t, download it from the [official Docker website](https://docs.docker.com/engine/install/) and complete the installation process.
 
 Next, open your terminal and pull the latest Harper image by running the following command:
 
@@ -43,7 +43,7 @@ docker run -d -p 9925:9925 harperdb/harperdb
 In this command, the `-d` flag runs the container in detached mode, allowing it to operate in the background, and the `-p 9925:9925` flag maps port 9925 on your local machine to port 9925 within the container, which is Harper’s default port. This port mapping lets you interact with the Harper instance directly from your local environment.
 
 ### How to Use this Image
-[Harper configuration settings⁠](https:/harperdb.io/docs/reference/configuration-file/) can be passed as Docker run environment variables. If no environment variables are provided, Harper will operate with default configuration settings, such as:
+[Harper configuration settings⁠](https://harperdb.io/docs/reference/configuration-file/) can be passed as Docker run environment variables. If no environment variables are provided, Harper will operate with default configuration settings, such as:
 - ROOTPATH=/home/harperdb/hdb
 - OPERATIONSAPI_NETWORK_PORT=9925
 - HDB_ADMIN_USERNAME=HDB_ADMIN
@@ -120,7 +120,7 @@ docker logs <container_id>
 Once verified, you can access your Harper instance by opening your web browser and navigating to http:/localhost:9925 (or the appropriate port based on your configuration).
 
 ### Raw binary installation
-There's a different way to install Harper. You can choose your version and download the npm package and install it directly (you’ll still need Node.js and NPM). Click [this link](https:/products-harperdb-io.s3.us-east-2.amazonaws.com/index.html) to download and install the package. Once you’ve downloaded the .tgz file, run the following command from the directory where you’ve placed it:
+There's a different way to install Harper. You can choose your version and download the npm package and install it directly (you’ll still need Node.js and NPM). Click [this link](https://products-harperdb-io.s3.us-east-2.amazonaws.com/index.html) to download and install the package. Once you’ve downloaded the .tgz file, run the following command from the directory where you’ve placed it:
 
 ```bash
 npm install -g harperdb-X.X.X.tgz harperdb install

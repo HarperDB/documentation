@@ -10,7 +10,7 @@ HarperDB was set up to require very minimal configuration to work out of the box
 
 ## CORS
 
-HarperDB allows for managing [cross-origin HTTP requests](https:/developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). By default, HarperDB enables CORS for all domains if you need to disable CORS completely or set up an access list of domains you can do the following:
+HarperDB allows for managing [cross-origin HTTP requests](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS). By default, HarperDB enables CORS for all domains if you need to disable CORS completely or set up an access list of domains you can do the following:
 
 1) Open the harperdb-config.yaml file this can be found in &lt;ROOTPATH>, the location you specified during install.
 
@@ -27,7 +27,7 @@ HarperDB allows for managing [cross-origin HTTP requests](https:/developer.mozil
      
       2) To create an access list you set `corsAccessList` to a comma-separated list of domains.
      
-         i.e. `corsAccessList` is `http:/harperdb.io,http:/products.harperdb.io`
+         i.e. `corsAccessList` is `https://harperdb.io,https://products.harperdb.io`
      
       3) To clear out the access list and allow all domains: `corsAccessList` is `[null]`
      

@@ -17,19 +17,19 @@ An organization is automatically created for you when you sign up for Harper Stu
 
 ## List Organizations
 
-A summary view of all organizations your user belongs to can be viewed on the [Harper Studio Organizations](https:/studio.harperdb.io/?redirect=/organizations) page. You can navigate to this page at any time by clicking the **all organizations** link at the top of the Harper Studio.
+A summary view of all organizations your user belongs to can be viewed on the [Harper Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page. You can navigate to this page at any time by clicking the **all organizations** link at the top of the Harper Studio.
 
 ## Create a New Organization
 
 A new organization can be created as follows:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/?redirect=/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page.
 1. Click the **Create a New Organization** card.
 1. Fill out new organization details
    - Enter Organization Name
      _This is used for descriptive purposes only._
    - Enter Organization Subdomain
-     _Part of the URL that will be used to identify your Harper Cloud Instances. For example, with subdomain “demo” and instance name “c1” the instance URL would be: https:/c1-demo.harperdbcloud.com._
+     _Part of the URL that will be used to identify your Harper Cloud Instances. For example, with subdomain “demo” and instance name “c1” the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com)._
 1. Click Create Organization.
 
 ## Delete an Organization
@@ -52,7 +52,7 @@ Harper Studio organization owners can manage users including inviting new users,
 
 A new user can be invited to an organization as follows:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/?redirect=/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page.
 1. Click the appropriate organization card.
 1. Click **users** at the top of the screen.
 1. In the **add user** box, enter the new user’s email address.
@@ -78,7 +78,7 @@ Organization owners have full access to the organization including the ability t
 
 Users may be removed from an organization at any time. Removing a user from an organization will not delete their Harper Studio account, it will only remove their access to the specified organization. A user can be removed from an organization as follows:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/?redirect=/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page.
 1. Click the appropriate organization card.
 1. Click **users** at the top of the screen.
 1. Click the appropriate user from the **existing users** section.
@@ -92,7 +92,7 @@ Users may be removed from an organization at any time. Removing a user from an o
 
 Billing is configured per organization and will be billed to the stored credit card at appropriate intervals (monthly or annually depending on the registered instance). Billing settings can be configured as follows:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/?redirect=/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/?redirect=/organizations) page.
 1. Click the appropriate organization card.
 1. Click **billing** at the top of the screen.
 

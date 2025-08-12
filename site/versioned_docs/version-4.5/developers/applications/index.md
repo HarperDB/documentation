@@ -10,7 +10,7 @@ Harper is more than a database, it's a distributed clustering platform allowing 
 
 In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
 
-When working through this guide, we recommend you use the [Harper Application Template](https:/github.com/HarperDB/application-template) repo as a reference.
+When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 ## Understanding the Component Application Architecture
 
@@ -124,7 +124,7 @@ We can also directly implement the Resource class and use it to create new data 
 const { Breed } = tables; / our Breed table
 class BreedSource extends Resource { / define a data source
 	async get() {
-		return (await fetch(`http:/best-dog-site.com/${this.getId()}`)).json();
+  return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 / define that our breed table is a cache of data from the data source above, with a specified expiration
@@ -137,7 +137,7 @@ Harper provides a powerful JavaScript API with significant capabilities that go 
 
 ## Configuring Applications/Components
 
-Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https:/github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
+Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
 
 This config file allows you define a location for static files, as well (that are directly delivered as-is for incoming HTTP requests).
 

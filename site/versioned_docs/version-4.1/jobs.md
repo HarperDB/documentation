@@ -16,19 +16,19 @@ The job status can be **COMPLETE** or **IN_PROGRESS**.
 
 Example job operations include:
 
-[csv data load](https:/api.harperdb.io/#0186bc25-b9ae-44e7-bd9e-8edc0f289aa2)
+[csv data load](https://api.harperdb.io/#0186bc25-b9ae-44e7-bd9e-8edc0f289aa2)
 
-[csv file load](https:/api.harperdb.io/#c4b71011-8a1d-4cb2-8678-31c0363fea5e)
+[csv file load](https://api.harperdb.io/#c4b71011-8a1d-4cb2-8678-31c0363fea5e)
 
-[csv url load](https:/api.harperdb.io/#d1e9f433-e250-49db-b44d-9ce2dcd92d32)
+[csv url load](https://api.harperdb.io/#d1e9f433-e250-49db-b44d-9ce2dcd92d32)
 
-[import from s3](https:/api.harperdb.io/#820b3947-acbe-41f9-858b-2413cabc3a18)
+[import from s3](https://api.harperdb.io/#820b3947-acbe-41f9-858b-2413cabc3a18)
 
-[delete_records_before](https:/api.harperdb.io/#8de87e47-73a8-4298-b858-ca75dc5765c2)
+[delete_records_before](https://api.harperdb.io/#8de87e47-73a8-4298-b858-ca75dc5765c2)
 
-[export_local](https:/api.harperdb.io/#49a02517-ada9-4198-b48d-8707db905be0)
+[export_local](https://api.harperdb.io/#49a02517-ada9-4198-b48d-8707db905be0)
 
-[export_to_s3](https:/api.harperdb.io/#f6393e9f-e272-4180-a42c-ff029d93ddd4)
+[export_to_s3](https://api.harperdb.io/#f6393e9f-e272-4180-a42c-ff029d93ddd4)
 
 Example Response from a Job Operation
 
@@ -42,7 +42,7 @@ Whenever one of these operations is initiated, an asynchronous job is created an
 
 ## Managing Jobs
 
-To check on a job's status, use the [get_job](https:/api.harperdb.io/#d501bef7-dbb7-4714-b535-e466f6583dce) operation.
+To check on a job's status, use the [get_job](https://api.harperdb.io/#d501bef7-dbb7-4714-b535-e466f6583dce) operation.
 
 Get Job Request
 
@@ -77,7 +77,7 @@ Get Job Response
 
 ## Finding Jobs
 
-To find jobs (if the id is not know) use the [search_jobs_by_start_date](https:/api.harperdb.io/#4474ca16-e4c2-4740-81b5-14ed98c5eeab) operation.
+To find jobs (if the id is not know) use the [search_jobs_by_start_date](https://api.harperdb.io/#4474ca16-e4c2-4740-81b5-14ed98c5eeab) operation.
 
 Search Jobs Request
 

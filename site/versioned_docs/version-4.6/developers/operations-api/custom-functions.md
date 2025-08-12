@@ -164,7 +164,7 @@ _Operation is restricted to super_user roles only_
 
 ## Add Custom Function Project
 
-Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: https:/github.com/HarperDB/harperdb-custom-functions-template.
+Creates a new project folder in the Custom Functions root project directory. It also inserts into the new directory the contents of our Custom Functions Project template, which is available publicly, here: [https://github.com/HarperDB/harperdb-custom-functions-template](https://github.com/HarperDB/harperdb-custom-functions-template).
 
 _Operation is restricted to super_user roles only_
 

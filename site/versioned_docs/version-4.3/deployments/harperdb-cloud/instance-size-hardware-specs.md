@@ -20,4 +20,4 @@ While HarperDB Cloud bills by RAM, each instance has other specifications associ
 | m5.16xlarge           | 256       | 64      | 20             | Up to 3.1 GHz Intel Xeon Platinum 8000 |
 | m5.24xlarge           | 384       | 96      | 25             | Up to 3.1 GHz Intel Xeon Platinum 8000 |
 
-\*Specifications are subject to change. For the most up to date information, please refer to AWS documentation: [https:/aws.amazon.com/ec2/instance-types/](https:/aws.amazon.com/ec2/instance-types/).
+\*Specifications are subject to change. For the most up to date information, please refer to AWS documentation: [https://aws.amazon.com/ec2/instance-types/](https://aws.amazon.com/ec2/instance-types/).

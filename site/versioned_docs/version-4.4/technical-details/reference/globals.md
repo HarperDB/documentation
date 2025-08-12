@@ -93,13 +93,14 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 
 ### `Request` and `Response`
 
-The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https:/developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https:/developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https:/developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https:/developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
+The `Request` and `Response` classes are based on the WHATWG APIs for the [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) classes. Requests and responses are based on these standard-based APIs to facilitate reuse with modern web code. While Node.js' HTTP APIs are powerful low-level APIs, the `Request`/`Response` APIs provide excellent composability characteristics, well suited for layered middleware and for clean mapping to [RESTful method handlers](./resource) with promise-based responses, as well as interoperability with other standards-based APIs like [streams](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream) used with [`Blob`s](https://developer.mozilla.org/en-US/docs/Web/API/Blob). However, the Harper implementation of these classes is not a direct implementation of the WHATWG APIs, but implements additional/distinct properties for the the Harper server environment:
 
 #### `Request`
 A `Request` object is passed to the direct static REST handlers, and preserved as the context for instance methods, and has the following properties:
-- `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `http:/example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
+
+- `url` - This is the request target, which is the portion of the URL that was received by the server. If a client sends a request to `https://example.com:8080/path?query=string`, the actual received request is `GET /path?query=string` and the `url` property will be `/path?query=string`.
 - `method` - This is the HTTP method of the request. This is a string like `GET`, `POST`, `PUT`, `DELETE`, etc.
-- `headers` - This is a [`Headers`](https:/developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
+- `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the request.
 - `pathname` - This is the path portion of the URL, without the query string. For example, if the URL is `/path?query=string`, the `pathname` will be `/path`.
 - `protocol` - This is the protocol of the request, like `http` or `https`.
 - `data` - This is the deserialized body of the request (based on the type of data specified by `Content-Type`  header).
@@ -108,16 +109,17 @@ A `Request` object is passed to the direct static REST handlers, and preserved a
 - `sendEarlyHints(link: string, headers?: object): void` - This method sends an early hints response to the client, prior to actually returning a response. This is useful for sending a link header to the client to indicate that another resource should be preloaded. The `headers` argument can be used to send additional headers with the early hints response, in addition to the `link`.
 - `login(username, password): Promise<void>` - This method can be called to start an authenticated session. The login will authenticate the user by username and password. If the authentication was successful, a session will be created and a cookie will be set on the response header that references the session. All subsequent requests from the client that sends the cookie in requests will be authenticated as the user that logged in and the session record will be attached to the request. This method returns a promise that resolves when the login is successful, and rejects if the login is unsuccessful.
 - `session` - This is the session object that is associated with current cookie-maintained session. This object is used to store session data for the current session. This is `Table` record instance, and can be updated by calling `request.session.update({ key: value })` or session can be retrieved with `request.session.get()`. If the cookie has not been set yet, a cookie will be set the first time a session is updated or a login occurs.
-- `_nodeRequest` - This is the underlying Node.js [`http.IncomingMessage`](https:/nodejs.org/api/http.html#http_class_http_incomingmessage) object. This can be used to access the raw request data, such as the raw headers, raw body, etc. However, this is discouraged and should be used with caution since it will likely break any other server handlers that depends on the layered `Request` call with `Response` return pattern.
-- `_nodeResponse` - This is the underlying Node.js [`http.ServerResponse`](https:/nodejs.org/api/http.html#http_class_http_serverresponse) object. This can be used to access the raw response data, such as the raw headers. Again, this is discouraged and can cause problems for middleware, should only be used if you are certain that other server handlers will not attempt to return a different `Response` object.
+- `_nodeRequest` - This is the underlying Node.js [`http.IncomingMessage`](https://nodejs.org/api/http.html#http_class_http_incomingmessage) object. This can be used to access the raw request data, such as the raw headers, raw body, etc. However, this is discouraged and should be used with caution since it will likely break any other server handlers that depends on the layered `Request` call with `Response` return pattern.
+- `_nodeResponse` - This is the underlying Node.js [`http.ServerResponse`](https://nodejs.org/api/http.html#http_class_http_serverresponse) object. This can be used to access the raw response data, such as the raw headers. Again, this is discouraged and can cause problems for middleware, should only be used if you are certain that other server handlers will not attempt to return a different `Response` object.
 
 #### `Response`
 
 REST methods can directly return data that is serialized and returned to users, or it can return a `Response` object (or a promise to a `Response`), or it can return a `Response`-like object with the following properties (or again, a promise to it):
+
 - `status` - This is the HTTP status code of the response. This is a number like `200`, `404`, `500`, etc.
-- `headers` - This is a [`Headers`](https:/developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the response.
-- `data` - This is the data to be returned of the response. This will be serialized using Harper's content negotiation. 
-- `body` - Alternately (to `data`), the raw body can be returned as a `Buffer`, string, stream (Node.js or [`ReadableStream`](https:/developer.mozilla.org/en-US/docs/Web/API/ReadableStream)), or a [`Blob`](https:/developer.mozilla.org/en-US/docs/Web/API/Blob).
+- `headers` - This is a [`Headers`](https://developer.mozilla.org/en-US/docs/Web/API/Headers) object that contains the headers of the response.
+- `data` - This is the data to be returned of the response. This will be serialized using Harper's content negotiation.
+- `body` - Alternately (to `data`), the raw body can be returned as a `Buffer`, string, stream (Node.js or [`ReadableStream`](https://developer.mozilla.org/en-US/docs/Web/API/ReadableStream)), or a [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob).
 
 #### `HttpOptions`
 
@@ -125,13 +127,13 @@ Type: `Object`
 
 Properties:
 
-* `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
-* `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
-* `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
+- `runFirst` - _optional_ - `boolean` - Add listener to the front of the middleware chain. Defaults to `false`
+- `port` - _optional_ - `number` - Specify which HTTP server middleware chain to add the listener to. Defaults to the Harper system default HTTP port configured by `harperdb-config.yaml`, generally `9926`
+- `securePort` - _optional_ - `number` - Specify which HTTPS server middleware chain to add the listener to. Defaults to the Harper system default HTTP secure port configured by `harperdb-config.yaml`, generally `9927`
 
 #### `HttpServer`
 
-Node.js [`http.Server`](https:/nodejs.org/api/http.html#class-httpserver) or [`https.SecureServer`](https:/nodejs.org/api/https.html#class-httpsserver) instance.
+Node.js [`http.Server`](https://nodejs.org/api/http.html#class-httpserver) or [`https.SecureServer`](https://nodejs.org/api/https.html#class-httpsserver) instance.
 
 ### `server.socket(listener: ConnectionListener, options: SocketOptions): SocketServer`
 
@@ -141,16 +143,16 @@ Only one socket server will be created. A `securePort` takes precedence.
 
 #### `ConnectionListener`
 
-Node.js socket server connection listener as documented in [`net.createServer`](https:/nodejs.org/api/net.html#netcreateserveroptions-connectionlistener) or [`tls.createServer`](https:/nodejs.org/api/tls.html#tlscreateserveroptions-secureconnectionlistener)
+Node.js socket server connection listener as documented in [`net.createServer`](https://nodejs.org/api/net.html#netcreateserveroptions-connectionlistener) or [`tls.createServer`](https://nodejs.org/api/tls.html#tlscreateserveroptions-secureconnectionlistener)
 
 #### `SocketOptions`
 
-* `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https:/nodejs.org/api/net.html#class-netserver) instance.
-* `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https:/nodejs.org/api/tls.html#class-tlsserver) instance.
+- `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https://nodejs.org/api/net.html#class-netserver) instance.
+- `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
 
 #### `SocketServer`
 
-Node.js [`net.Server`](https:/nodejs.org/api/net.html#class-netserver) or [`tls.Server`](https:/nodejs.org/api/tls.html#class-tlsserver) instance.
+Node.js [`net.Server`](https://nodejs.org/api/net.html#class-netserver) or [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
 
 ### `server.ws(listener: WsListener, options: WsOptions): HttpServer[]`
 
@@ -160,15 +162,15 @@ Example:
 
 ```js
 server.ws((ws, request, chainCompletion) => {
-	chainCompletion.then(() => {
-		ws.on('error', console.error);
+ chainCompletion.then(() => {
+  ws.on('error', console.error);
 
-		ws.on('message', function message(data) {
-			console.log('received: %s', data);
-		});
+  ws.on('message', function message(data) {
+   console.log('received: %s', data);
+  });
 
-		ws.send('something');
-	});
+  ws.send('something');
+ });
 });
 ```
 
@@ -178,8 +180,9 @@ Type: `(ws: WebSocket, request: Request, chainCompletion: ChainCompletion, next:
 
 The WebSocket connection listener.
 
-* The `ws` argument is the [WebSocket](https:/github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
-* The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https:/github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server.
+- The `ws` argument is the [WebSocket](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
+- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server.
+
 * The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
 * The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
 
@@ -196,13 +199,13 @@ Properties:
 
 ### `server.upgrade(listener: UpgradeListener, options: UpgradeOptions): void`
 
-Add a listener to the HTTP Server [upgrade](https:/nodejs.org/api/http.html#event-upgrade_1) event. If a WebSocket connection listener is added using [`server.ws()`](./globals#serverwslistener-wslistener-options-wsoptions-httpserver), a default upgrade handler will be added as well. The default upgrade handler will add a `__harperdb_request_upgraded` boolean to the `request` argument to signal the connection has already been upgraded. It will also check for this boolean _before_ upgrading and if it is `true`, it will pass the arguments along to the `next` listener.
+Add a listener to the HTTP Server [upgrade](https://nodejs.org/api/http.html#event-upgrade_1) event. If a WebSocket connection listener is added using [`server.ws()`](./globals#serverwslistener-wslistener-options-wsoptions-httpserver), a default upgrade handler will be added as well. The default upgrade handler will add a `__harperdb_request_upgraded` boolean to the `request` argument to signal the connection has already been upgraded. It will also check for this boolean _before_ upgrading and if it is `true`, it will pass the arguments along to the `next` listener.
 
 This method should be used to delegate HTTP upgrade events to an external WebSocket server instance.
 
 Example:
 
-> This example is from the Harper Next.js component. See the complete source code [here](https:/github.com/HarperDB/nextjs/blob/main/extension.js)
+> This example is from the Harper Next.js component. See the complete source code [here](https://github.com/HarperDB/nextjs/blob/main/extension.js)
 
 ```js
 server.upgrade(
@@ -225,7 +228,7 @@ server.upgrade(
 
 Type: `(request, socket, head, next) => void`
 
-The arguments are passed to the middleware chain from the HTTP server [`'upgrade'`](https:/nodejs.org/api/http.html#event-upgrade_1) event.
+The arguments are passed to the middleware chain from the HTTP server [`'upgrade'`](https://nodejs.org/api/http.html#event-upgrade_1) event.
 
 #### `UpgradeOptions`
 

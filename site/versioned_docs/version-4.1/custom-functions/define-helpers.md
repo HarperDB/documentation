@@ -18,7 +18,7 @@ Below is code from the customValidation helper that is referenced in [Define Rou
 
 ```javascript
 const customValidation = async (request,logger) => {
-    let response = await fetch('https:/jsonplaceholder.typicode.com/todos/1', { headers: { authorization: request.headers.authorization } });
+    let response = await fetch('https://jsonplaceholder.typicode.com/todos/1', { headers: { authorization: request.headers.authorization } });
     let result = await response.json();
     
    /*

@@ -19,7 +19,7 @@ To run clone node either of the following variables must be set:
 
 For example:
 ```
-HDB_LEADER_URL=https:/node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
+HDB_LEADER_URL=https://node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-1.my-domain.com HDB_LEADER_USERNAME=... HDB_LEADER_PASSWORD=... harperdb
 ```
 
 #### Command line variables
@@ -31,7 +31,7 @@ HDB_LEADER_URL=https:/node-1.my-domain.com:9925 HDB_LEADER_CLUSTERING_HOST=node-
 
 For example:
 ```
-harperdb --HDB_LEADER_URL https:/node-1.my-domain.com:9925 --HDB_LEADER_CLUSTERING_HOST node-1.my-domain.com --HDB_LEADER_USERNAME ... --HDB_LEADER_PASSWORD ...
+harperdb --HDB_LEADER_URL https://node-1.my-domain.com:9925 --HDB_LEADER_CLUSTERING_HOST node-1.my-domain.com --HDB_LEADER_USERNAME ... --HDB_LEADER_PASSWORD ...
 ```
 
 If an instance already exists in the location you are cloning to, clone node will not run. It will instead proceed with starting HarperDB. 

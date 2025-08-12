@@ -23,7 +23,7 @@ AWS EBS gp3 volumes have a baseline performance level of 3,000 IOPS, as a result
 
 
 
-You can read more about AWS EBS volume IOPS here: https:/docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html.
+You can read more about AWS EBS volume IOPS here: [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html).
 
 ## Estimating IOPS for HarperDB Instance
 

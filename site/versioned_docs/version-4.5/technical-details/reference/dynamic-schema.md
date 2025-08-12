@@ -31,8 +31,8 @@ With tables that are using dynamic schemas, additional attributes are reflexivel
 
 Harper automatically creates two audit attributes used on each record if the table is created without a schema.
 
-* `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
-* `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
+* `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
+* `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
 
 ### Dynamic Schema Example
 

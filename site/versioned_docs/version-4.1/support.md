@@ -4,10 +4,10 @@ title: Support
 
 # Support
 
-HarperDB support is available with all paid instances. Support tickets are managed via our [Zendesk portal](https:/harperdbhelp.zendesk.com/hc/en-us/requests/new). Once a ticket is submitted the HarperDB team will triage your request and get back to you as soon as possible. Additionally, you can join our [Slack community](https:/harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/) where HarperDB team members and others in the community are frequently active to help answer questions.
+HarperDB support is available with all paid instances. Support tickets are managed via our [Zendesk portal](https://harperdbhelp.zendesk.com/hc/en-us/requests/new). Once a ticket is submitted the HarperDB team will triage your request and get back to you as soon as possible. Additionally, you can join our [Slack community](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/) where HarperDB team members and others in the community are frequently active to help answer questions.
 
-* [Submit a Support Ticket](https:/harperdbhelp.zendesk.com/hc/en-us/requests/new)
-* [Join Our Slack Community](https:/harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
+* [Submit a Support Ticket](https://harperdbhelp.zendesk.com/hc/en-us/requests/new)
+* [Join Our Slack Community](https://harperdbcommunity.slack.com/join/shared\_invite/zt-e8w6u1pu-2UFAXl\_f4ZHo7F7DVkHIDA#/)
 
 ***
 

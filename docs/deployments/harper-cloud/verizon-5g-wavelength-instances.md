@@ -8,7 +8,7 @@ These instances are only accessible from the Verizon network. When accessing you
 
 Harper on Verizon 5G Wavelength brings Harper closer to the end user exclusively on the Verizon network resulting in as little as single-digit millisecond response time from Harper to the client.
 
-Instances are built via AWS Wavelength. You can read more about [AWS Wavelength here](https:/aws.amazon.com/wavelength/).
+Instances are built via AWS Wavelength. You can read more about [AWS Wavelength here](https://aws.amazon.com/wavelength/).
 
 Harper 5G Wavelength Instance Specs While Harper 5G Wavelength bills by RAM, each instance has other specifications associated with the RAM selection. The following table describes each instance size in detail\*.
 
@@ -18,7 +18,7 @@ Harper 5G Wavelength Instance Specs While Harper 5G Wavelength bills by RAM, eac
 | t3.xlarge             | 16        | 4       | Up to 5        | Up to 3.1 GHz Intel Xeon Platinum Processor |
 | r5.2xlarge            | 64        | 8       | Up to 10       | Up to 3.1 GHz Intel Xeon Platinum Processor |
 
-\*Specifications are subject to change. For the most up to date information, please refer to [AWS documentation](https:/aws.amazon.com/ec2/instance-types/).
+\*Specifications are subject to change. For the most up to date information, please refer to [AWS documentation](https://aws.amazon.com/ec2/instance-types/).
 
 ## Harper 5G Wavelength Storage
 
@@ -28,4 +28,4 @@ AWS EBS gp2 volumes have a baseline performance level, which determines the numb
 
 Smaller gp2 volumes are perfect for trying out the functionality of Harper, and might also work well for applications that don’t perform many database transactions. For applications that perform a moderate or high number of transactions, we recommend that you use a larger Harper volume. Learn more about the [impact of IOPS on performance here](iops-impact).
 
-You can read more about [AWS EBS gp2 volume IOPS here](https:/docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#ebsvolumetypes_gp2).
+You can read more about [AWS EBS gp2 volume IOPS here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html#ebsvolumetypes_gp2).

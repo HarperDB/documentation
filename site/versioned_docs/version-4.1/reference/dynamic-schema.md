@@ -31,12 +31,12 @@ Additional attributes are reflexively added via insert and update operations (in
 
 HarperDB automatically creates two audit attributes used on each record.
 
-* `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
-* `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https:/www.epochconverter.com/) format.
+* `__createdtime__`: The time the record was created in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
+* `__updatedtime__`: The time the record was updated in [Unix Epoch with milliseconds](https://www.epochconverter.com/) format.
 
 ### Dynamic Schema Example
 
-To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](https:/api.harperdb.io/).
+To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](https://api.harperdb.io/).
 
 **Create a Schema**
 

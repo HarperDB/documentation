@@ -4,7 +4,7 @@ title: SQL Features Matrix
 
 # SQL Features Matrix
 
-HarperDB provides access to most SQL functions, and we’re always expanding that list. Check below to see if we cover what you need. If not, feel free to [add a Feature Request](https:/feedback.harperdb.io/).
+HarperDB provides access to most SQL functions, and we’re always expanding that list. Check below to see if we cover what you need. If not, feel free to [add a Feature Request](https://feedback.harperdb.io/).
 
 
 | INSERT                             |     |

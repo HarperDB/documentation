@@ -46,7 +46,7 @@ Then, within `config.yaml` it can be enabled and configured using:
   # ...
 ```
 
-Since npm allows for a [variety of dependency configurations](https:/docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this can be used to create custom references. For example, to depend on a specific GitHub branch, first update the `package.json`:
+Since npm allows for a [variety of dependency configurations](https://docs.npmjs.com/cli/configuring-npm/package-json#dependencies), this can be used to create custom references. For example, to depend on a specific GitHub branch, first update the `package.json`:
 
 ```json
 {

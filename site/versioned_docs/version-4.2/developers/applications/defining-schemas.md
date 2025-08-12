@@ -6,7 +6,7 @@ title: Defining Schemas
 
 Schemas define tables and their attributes. Schemas can be declaratively defined in HarperDB's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
 
-Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https:/graphql.org/learn/schema/).
+Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
 
 An example schema that defines a couple tables might look like:
 
@@ -92,7 +92,7 @@ HarperDB supports the following field types in addition to user defined (object)
 * String: String/text.
 * Int: A 32-bit signed integer (from -2147483648 to 2147483647).
 * Long: A 54-bit signed integer (from -9007199254740992 to 9007199254740992).
-* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https:/en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
+* Float: Any number (any number that can be represented as a [64-bit double precision floating point number](https://en.wikipedia.org/wiki/Double-precision\_floating-point\_format). Note that all numbers are stored in the most compact representation available).
 * Boolean: true or false.
 * ID: A string (but indicates it is not intended to be legible).
 * Any: Any primitive, object, or array is allowed.

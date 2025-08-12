@@ -11,7 +11,7 @@ Now that you've set up Harper, let's build a simple API. Harper lets you build p
 Start by cloning the Harper application template:
 
 ```bash
-git clone https:/github.com/HarperDB/application-template my-app
+git clone https://github.com/HarperDB/application-template my-app
 cd my-app
 ```
 
@@ -19,7 +19,7 @@ cd my-app
 
 The core of a Harper application is the database, so let's create a database table.
 
-A quick and expressive way to define a table is through a [GraphQL Schema](https:/graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
+A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
 
 ```graphql
 type Dog @table {
@@ -126,7 +126,7 @@ If-None-Match: "etag-id" # browsers can automatically provide this
 
 ## Querying
 
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../developers/rest). Simple queries can be crafted through [URL query parameters](https:/en.wikipedia.org/wiki/Query_string).
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../developers/rest). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
 In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing. We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 

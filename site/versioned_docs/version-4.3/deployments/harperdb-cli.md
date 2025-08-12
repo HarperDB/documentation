@@ -153,7 +153,7 @@ last_updated_record: 1724483231970.9949
 
 `harperdb set_configuration logging_level=error`
 
-`harperdb deploy_component project=my-cool-app package=https:/github.com/HarperDB/application-template`
+`harperdb deploy_component project=my-cool-app package=https://github.com/HarperDB/application-template`
 
 `harperdb get_components`
 

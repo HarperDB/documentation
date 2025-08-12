@@ -8,18 +8,15 @@ Harper encourages developers to utilize other querying tools over SQL for perfor
 
 # SQL Geospatial Functions
 
-Harper geospatial features require data to be stored in a single column using the [GeoJSON standard](http:/geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
+Harper geospatial features require data to be stored in a single column using the [GeoJSON standard](https://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
 
 
 
-If you are new to GeoJSON you should check out the full specification here: http:/geojson.org/. There are a few important things to point out before getting started.
+If you are new to GeoJSON you should check out the full specification here: [https://geojson.org/](https://geojson.org/). There are a few important things to point out before getting started.
 
-
-
-1) All GeoJSON coordinates are stored in `[longitude, latitude]` format. 
-2) Coordinates or GeoJSON geometries must be passed as string when written directly in a SQL statement. 
+1) All GeoJSON coordinates are stored in `[longitude, latitude]` format.
+2) Coordinates or GeoJSON geometries must be passed as string when written directly in a SQL statement.
 3) Note if you are using Postman for you testing. Due to limitations in the Postman client, you will need to escape quotes in your strings and your SQL will need to be passed on a single line.
-
 
 In the examples contained in the left-hand navigation, database and table names may change, but all GeoJSON data will be stored in a column named geo_data.
 
@@ -28,14 +25,17 @@ In the examples contained in the left-hand navigation, database and table names 
 The geoArea() function returns the area of one or more features in square meters.
 
 ### Syntax
+
 geoArea(_geoJSON_)
 
 ### Parameters
+
 | Parameter | Description                     |
 |-----------|---------------------------------|
 | geoJSON   | Required. One or more features. |
 
 #### Example 1
+
 Calculate the area, in square meters, of a manually passed GeoJSON polygon.
 
 ```
@@ -54,6 +54,7 @@ SELECT geoArea('{
 ```
 
 #### Example 2
+
 Find all records that have an area less than 1 square mile (or 2589988 square meters).
 
 ```
@@ -62,18 +63,22 @@ WHERE geoArea(geo_data) < 2589988
 ```
 
 # geoLength
+
 Takes a GeoJSON and measures its length in the specified units (default is kilometers).
 
 ## Syntax
+
 geoLength(_geoJSON_[_, units_])
 
 ## Parameters
-| Parameter	 | Description                                                                                                           |
+
+| Parameter  | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
-| geoJSON	   | Required. GeoJSON to measure.                                                                                         |
-| units	     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| geoJSON    | Required. GeoJSON to measure.                                                                                         |
+| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
+
 Calculate the length, in kilometers, of a manually passed GeoJSON linestring.
 
 ```
@@ -91,6 +96,7 @@ SELECT geoLength('{
 ```
 
 ### Example 2
+
 Find all data plus the calculated length in miles of the GeoJSON, restrict the response to only lengths less than 5 miles, and return the data in order of lengths smallest to largest.
 
 ```
@@ -99,19 +105,24 @@ FROM dev.locations
 WHERE geoLength(geo_data, 'miles') < 5
 ORDER BY length ASC
 ```
+
 # geoDifference
+
 Returns a new polygon with the difference of the second polygon clipped from the first polygon.
 
 ## Syntax
+
 geoDifference(_polygon1, polygon2_)
 
 ## Parameters
-| Parameter	 | Description                                                                |
+
+| Parameter  | Description                                                                |
 |------------|----------------------------------------------------------------------------|
-| polygon1	  | Required. Polygon or MultiPolygon GeoJSON feature.                         |
-| polygon2	  | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
+| polygon1   | Required. Polygon or MultiPolygon GeoJSON feature.                         |
+| polygon2   | Required. Polygon or MultiPolygon GeoJSON feature to remove from polygon1. |
 
 ### Example
+
 Return a GeoJSON Polygon that removes City Park (_polygon2_) from Colorado (_polygon1_).
 
 ```
@@ -153,19 +164,23 @@ SELECT geoDifference('{
 ```
 
 # geoDistance
+
 Calculates the distance between two points in units (default is kilometers).
 
 ## Syntax
+
 geoDistance(_point1, point2_[_, units_])
 
 ## Parameters
-| Parameter	 | Description                                                                                                           |
+
+| Parameter  | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
-| point1	    | Required. GeoJSON Point specifying the origin.                                                                        |
-| point2	    | Required. GeoJSON Point specifying the destination.                                                                   |
-| units	     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| point1     | Required. GeoJSON Point specifying the origin.                                                                        |
+| point2     | Required. GeoJSON Point specifying the destination.                                                                   |
+| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
+
 Calculate the distance, in miles, between Harper’s headquarters and the Washington Monument.
 
 ```
@@ -173,6 +188,7 @@ SELECT geoDistance('[-104.979127,39.761563]', '[-77.035248,38.889475]', 'miles')
 ```
 
 ### Example 2
+
 Find all locations that are within 40 kilometers of a given point, return that distance in miles, and sort by distance in an ascending order.
 
 ```
@@ -183,20 +199,24 @@ ORDER BY distance ASC
 ```
 
 # geoNear
+
 Determines if point1 and point2 are within a specified distance from each other, default units are kilometers. Returns a Boolean.
 
 ## Syntax
+
 geoNear(_point1, point2, distance_[_, units_])
 
 ## Parameters
-| Parameter	 | Description                                                                                                           |
+
+| Parameter  | Description                                                                                                           |
 |------------|-----------------------------------------------------------------------------------------------------------------------|
-| point1	    | Required. GeoJSON Point specifying the origin.                                                                        |
-| point2	    | Required. GeoJSON Point specifying the destination.                                                                   |
-| distance	  | Required. The maximum distance in units as an integer or decimal.                                                     |
-| units	     | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
+| point1     | Required. GeoJSON Point specifying the origin.                                                                        |
+| point2     | Required. GeoJSON Point specifying the destination.                                                                   |
+| distance   | Required. The maximum distance in units as an integer or decimal.                                                     |
+| units      | Optional. Specified as a string. Options are ‘degrees’, ‘radians’, ‘miles’, or ‘kilometers’. Default is ‘kilometers’. |
 
 ### Example 1
+
 Return all locations within 50 miles of a given point.
 
 ```
@@ -206,6 +226,7 @@ WHERE geoNear('[-104.979127,39.761563]', geo_data, 50, 'miles')
 ```
 
 ### Example 2
+
 Return all locations within 2 degrees of the earth of a given point. (Each degree lat/long is about 69 miles [111 kilometers]). Return all data and the distance in miles, sorted by ascending distance.
 
 ```
@@ -216,18 +237,22 @@ ORDER BY distance ASC
 ```
 
 # geoContains
+
 Determines if geo2 is completely contained by geo1. Returns a Boolean.
 
 ## Syntax
+
 geoContains(_geo1, geo2_)
 
 ## Parameters
-| Parameter	 | Description                                                                       |
+
+| Parameter  | Description                                                                       |
 |------------|-----------------------------------------------------------------------------------|
-| geo1	      | Required. Polygon or MultiPolygon GeoJSON feature.                                |
-| geo2	      | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
+| geo1       | Required. Polygon or MultiPolygon GeoJSON feature.                                |
+| geo2       | Required. Polygon or MultiPolygon GeoJSON feature tested to be contained by geo1. |
 
 ### Example 1
+
 Return all locations within the state of Colorado (passed as a GeoJSON string).
 
 ```
@@ -252,6 +277,7 @@ WHERE geoContains('{
 ```
 
 ### Example 2
+
 Return all locations which contain Harper Headquarters.
 
 ```
@@ -278,7 +304,8 @@ WHERE geoContains(geo_data, '{
 ```
 
 # geoEqual
-Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see https:/developers.arcgis.com/documentation/spatial-references/. Returns a Boolean.
+
+Determines if two GeoJSON features are the same type and have identical X,Y coordinate values. For more information see [https://developers.arcgis.com/documentation/spatial-references/](https://developers.arcgis.com/documentation/spatial-references/). Returns a Boolean.
 
 ## Syntax
 geoEqual(_geo1_, _geo2_)

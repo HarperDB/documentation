@@ -4,7 +4,7 @@ title: SQL JSON Search
 
 # SQL JSON Search
 
-HarperDB automatically indexes all top level attributes in a row / object written to a table. However, any attributes which holds JSON does not have its nested attributes indexed. In order to make searching and/or transforming these JSON documents easy, HarperDB offers a special SQL function called SEARCH_JSON. The SEARCH_JSON function works in SELECT & WHERE clauses allowing queries to perform powerful filtering on any element of your JSON by implementing the [JSONata library](http:/docs.jsonata.org/overview.html) into our SQL engine.
+HarperDB automatically indexes all top level attributes in a row / object written to a table. However, any attributes which holds JSON does not have its nested attributes indexed. In order to make searching and/or transforming these JSON documents easy, HarperDB offers a special SQL function called SEARCH_JSON. The SEARCH_JSON function works in SELECT & WHERE clauses allowing queries to perform powerful filtering on any element of your JSON by implementing the [JSONata library](https://docs.jsonata.org/overview.html) into our SQL engine.
 
 ## Syntax
 
@@ -174,8 +174,6 @@ As seen above we execute the same name filter against the cast array, the primar
 
 
 
-To see further SEARCH_JSON examples in action view our Postman Collection that provides a sample schema & data with query examples: https:/api.harperdb.io/
+To see further SEARCH_JSON examples in action view our Postman Collection that provides a sample schema & data with query examples: [https://api.harperdb.io/](https://api.harperdb.io/)
 
-
-
-To learn more about how to build expressions check out the JSONata documentation: http:/docs.jsonata.org/overview
+To learn more about how to build expressions check out the JSONata documentation: [https://docs.jsonata.org/overview](https://docs.jsonata.org/overview)

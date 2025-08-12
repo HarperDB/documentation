@@ -5,7 +5,7 @@ title: HarperDB Studio
 # HarperDB Studio
 HarperDB Studio is the web-based GUI for HarperDB. Studio enables you to administer, navigate, and monitor all of your HarperDB instances in a simple, user friendly interface without any knowledge of the underlying HarperDB API. It’s free to sign up, get started today!
 
-[Sign up for free!](https:/studio.harperdb.io/sign-up)
+[Sign up for free!](https://studio.harperdb.io/sign-up)
 
 ---
 ## How does Studio Work?

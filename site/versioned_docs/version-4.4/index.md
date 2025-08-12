@@ -24,7 +24,7 @@ What we realized is that networking systems together in this way is inefficient 
 
 ## Build With Harper
 
-Start by running Harper locally with [npm](https:/www.npmjs.com/package/harperdb) or [Docker](https:/hub.docker.com/r/harperdb/harperdb).
+Start by running Harper locally with [npm](https://www.npmjs.com/package/harperdb) or [Docker](https://hub.docker.com/r/harperdb/harperdb).
 
 Since technology tends to be built around the storage, processing, and transfer of data, start by [defining your schema](./developers/applications/#creating-our-first-table) with the `schema.graphql` file in the root of the application directory.
 
@@ -48,7 +48,7 @@ With so much functionality built in, the use cases span nearly all application s
 
 ### Online Catalogs & Content Delivery
 
-For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https:/github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
+For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
 
 ### Data Delivery Networks
 

@@ -22,7 +22,7 @@ Harper provides extended features using built-in components. They do **not** nee
 
 ## fastifyRoutes
 
-Specify custom endpoints using [Fastify](https:/fastify.dev/).
+Specify custom endpoints using [Fastify](https://fastify.dev/).
 
 This component is a [Resource Extension](./reference#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference#resource-extension-configuration) configuration options.
 
@@ -143,7 +143,7 @@ roles:
 
 ## static
 
-Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https:/www.npmjs.com/package/send) and [serve-static](https:/www.npmjs.com/package/serve-static) modules.
+Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https://www.npmjs.com/package/send) and [serve-static](https://www.npmjs.com/package/serve-static) modules.
 
 This component is a [Resource Extension](./reference#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference#resource-extension-configuration) configuration options.
 

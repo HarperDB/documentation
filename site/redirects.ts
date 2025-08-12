@@ -9,7 +9,10 @@ type RedirectRule = {
 // Function to generate redirects with the appropriate base path
 export function generateRedirects(basePath: string): RedirectRule[] {
 	// Helper to add base path to a route
-	const withBase = (path: string) => `${basePath}${path}`;
+	const withBase = (path: string) => {
+		// If basePath is just '/', return path as-is to avoid double slashes
+		return basePath === '/' ? path : `${basePath}${path}`;
+	};
 	
 	return [
 		// Operations API

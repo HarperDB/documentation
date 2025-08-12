@@ -46,7 +46,7 @@ Instead of enabling HTTPS for HarperDB, Nginx can be used as a reverse proxy for
 
 Install Nginx, configure Nginx to use certificates issued from your own CA or a public CA, then configure Nginx to listen for HTTPS requests and forward to HarperDB as HTTP requests.
 
-[Certbot](https:/certbot.eff.org/) is a great tool for automatically requesting and renewing Let’s Encrypt certificates used by Nginx.
+[Certbot](https://certbot.eff.org/) is a great tool for automatically requesting and renewing Let’s Encrypt certificates used by Nginx.
 
 ### Option: External Reverse Proxy
 

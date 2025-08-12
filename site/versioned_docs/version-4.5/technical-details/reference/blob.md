@@ -59,7 +59,7 @@ await blob.save(MyTable);
 await MyTable.put({ id: 'my-record', data: blob });
 ```
 
-Note that this means that blobs are _not_ atomic or [ACID](https:/en.wikipedia.org/wiki/ACID) compliant; streaming functionality achieves the opposite behavior of ACID/atomic writes that would prevent access to data as it is being written.  
+Note that this means that blobs are _not_ atomic or [ACID](https://en.wikipedia.org/wiki/ACID) compliant; streaming functionality achieves the opposite behavior of ACID/atomic writes that would prevent access to data as it is being written.  
 
 ### Error Handling
 Because blobs can be streamed and referenced prior to their completion, there is a chance that an error or interruption could occur while streaming data to the blob (after the record is committed). We can create an error handler for the blob to handle the case of an interrupted blob:

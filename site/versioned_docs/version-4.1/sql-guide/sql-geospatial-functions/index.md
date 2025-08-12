@@ -4,11 +4,11 @@ title: SQL Geospatial Functions
 
 # SQL Geospatial Functions
 
-HarperDB geospatial features require data to be stored in a single column using the [GeoJSON standard](http:/geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
+HarperDB geospatial features require data to be stored in a single column using the [GeoJSON standard](https://geojson.org/), a standard commonly used in geospatial technologies. Geospatial functions are available to be used in SQL statements.
 
 
 
-If you are new to GeoJSON you should check out the full specification here: http:/geojson.org/. There are a few important things to point out before getting started.
+If you are new to GeoJSON you should check out the full specification here: [https://geojson.org/](https://geojson.org/). There are a few important things to point out before getting started.
 
 
 

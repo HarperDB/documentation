@@ -17,7 +17,7 @@ Harper provides extended features using built-in components. They do **not** nee
 
 ## fastifyRoutes
 
-Specify custom endpoints using [Fastify](https:/fastify.dev/).
+Specify custom endpoints using [Fastify](https://fastify.dev/).
 
 This component is a [Resource Extension](./reference#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference#resource-extension-configuration) configuration options.
 
@@ -30,7 +30,7 @@ fastifyRoutes:
 
 ## graphql
 
-> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https:/graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full [specification](https:/spec.graphql.org/) of resolvers, subscribers, and mutations).
+> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https://graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full [specification](https://spec.graphql.org/) of resolvers, subscribers, and mutations).
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
@@ -107,7 +107,7 @@ roles:
 
 ## static
 
-Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https:/www.npmjs.com/package/send) and [serve-static](https:/www.npmjs.com/package/serve-static) modules.
+Specify which files to server statically from the Harper HTTP endpoint. Built using the [send](https://www.npmjs.com/package/send) and [serve-static](https://www.npmjs.com/package/serve-static) modules.
 
 This component is a [Resource Extension](./reference#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference#resource-extension-configuration) configuration options.
 

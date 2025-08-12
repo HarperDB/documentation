@@ -128,7 +128,7 @@ echo "ubuntu hard nofile 1000000" | sudo tee -a /etc/security/limits.conf
 Install Node Version Manager (nvm)
 
 ```bash
-curl -o- https:/raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
 
 Load nvm (or logout and then login)
@@ -137,7 +137,7 @@ Load nvm (or logout and then login)
 . ~/.nvm/nvm.sh
 ```
 
-Install Node.js using nvm ([read more about specific Node version requirements](https:/www.npmjs.com/package/harperdb#prerequisites))
+Install Node.js using nvm ([read more about specific Node version requirements](https://www.npmjs.com/package/harperdb#prerequisites))
 
 ```bash
 nvm install <the node version>

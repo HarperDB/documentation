@@ -10,7 +10,7 @@ Get started by setting `graphql: true` in `config.yaml`.
 
 This automatically enables a `/graphql` endpoint that can be used for GraphQL queries.
 
-> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https:/graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full [specification](https:/spec.graphql.org/) of resolvers, subscribers, and mutations).
+> GraphQL querying provides functionality for mapping GraphQL querying functionality to exported resources, and is based on the [GraphQL Over HTTP / GraphQL specifications](https://graphql.github.io/graphql-over-http/draft/#) (it is designed to intuitively map queries to Harper resources, but does not implement the full [specification](https://spec.graphql.org/) of resolvers, subscribers, and mutations).
 
 Queries can either be `GET` or `POST` requests, and both follow essentially the same request format. `GET` requests must use search parameters, and `POST` requests use the request body.
 
@@ -45,7 +45,7 @@ Accept: application/graphql-response+json
 
 > Tip: For the best user experience, include the `Accept: application/graphql-response+json` header in your request. This provides better status codes for errors.
 
-The Harper GraphQL querying system is strictly limited to exported Harper Resources. For many users, this will typically be a table that uses the `@exported` directive in its schema. Queries can only specify Harper Resources and their attributes in the selection set. Queries can filter using [arguments](https:/graphql.org/learn/queries/#arguments) on the top-level Resource field. Harper provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource#query) for more complex queries.
+The Harper GraphQL querying system is strictly limited to exported Harper Resources. For many users, this will typically be a table that uses the `@exported` directive in its schema. Queries can only specify Harper Resources and their attributes in the selection set. Queries can filter using [arguments](https://graphql.org/learn/queries/#arguments) on the top-level Resource field. Harper provides a short form pattern for simple queries, and a long form pattern based off of the [Resource Query API](./resource#query) for more complex queries.
 
 Unlike REST queries, GraphQL queries can specify multiple resources simultaneously:
 
@@ -78,8 +78,8 @@ GET /Owner/?select(id,name,occupation)
 There are three request parameters for GraphQL queries: `query`, `operationName`, and `variables`
 
 1. `query` - _Required_ - The string representation of the GraphQL document.
-   1. Limited to [Executable Definitions](https:/spec.graphql.org/October2021/#executabledefinition) only.
-   1. i.e. GraphQL [`query`](https:/graphql.org/learn/queries/#fields) or `mutation` (coming soon) operations, and [fragments](https:/graphql.org/learn/queries/#fragments).
+   1. Limited to [Executable Definitions](https://spec.graphql.org/October2021/#executabledefinition) only.
+   1. i.e. GraphQL [`query`](https://graphql.org/learn/queries/#fields) or `mutation` (coming soon) operations, and [fragments](https://graphql.org/learn/queries/#fragments).
    1. If an shorthand, unnamed, or singular named query is provided, they will be executed by default. Otherwise, if there are multiple queries, the `operationName` parameter must be used.
 1. `operationName` - _Optional_ - The name of the query operation to execute if multiple queries are provided in the `query` parameter
 1. `variables` - _Optional_ - A map of variable values to be used for the specified query

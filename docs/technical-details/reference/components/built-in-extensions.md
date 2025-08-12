@@ -41,7 +41,7 @@ dataLoader:
 
 ## fastifyRoutes
 
-Specify custom endpoints using [Fastify](https:/fastify.dev/).
+Specify custom endpoints using [Fastify](https://fastify.dev/).
 
 This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 

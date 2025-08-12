@@ -8,7 +8,7 @@ Harper users and roles can be managed directly through the Harper Studio. It is 
 
 Instance user configuration is handled through the **users** page of the Harper Studio, accessed with the following instructions:
 
-1. Navigate to the [Harper Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [Harper Studio Organizations](https://studio.harperdb.io/organizations) page.
 
 1. Click the appropriate organization that the instance belongs to.
 

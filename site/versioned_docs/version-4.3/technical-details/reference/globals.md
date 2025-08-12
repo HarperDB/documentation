@@ -93,11 +93,11 @@ The HTTP request listener to be added to the middleware chain. To continue chain
 
 #### `Request`
 
-An implementation of WHATWG [Request](https:/developer.mozilla.org/en-US/docs/Web/API/Request) class. 
+An implementation of WHATWG [Request](https://developer.mozilla.org/en-US/docs/Web/API/Request) class.
 
 #### `Response`
 
-An implementation of WHATWG [Response](https:/developer.mozilla.org/en-US/docs/Web/API/Response) class.
+An implementation of WHATWG [Response](https://developer.mozilla.org/en-US/docs/Web/API/Response) class.
 
 #### `HttpOptions`
 
@@ -113,7 +113,7 @@ Properties:
 
 #### `HttpServer`
 
-Node.js [`http.Server`](https:/nodejs.org/api/http.html#class-httpserver) or [`https.SecureServer`](https:/nodejs.org/api/https.html#class-httpsserver) instance.
+Node.js [`http.Server`](https://nodejs.org/api/http.html#class-httpserver) or [`https.SecureServer`](https://nodejs.org/api/https.html#class-httpsserver) instance.
 
 ### `server.socket(listener: ConnectionListener, options: SocketOptions): SocketServer`
 
@@ -123,16 +123,16 @@ Only one socket server will be created. A `securePort` takes precedence.
 
 #### `ConnectionListener`
 
-Node.js socket server connection listener as documented in [`net.createServer`](https:/nodejs.org/api/net.html#netcreateserveroptions-connectionlistener) or [`tls.createServer`](https:/nodejs.org/api/tls.html#tlscreateserveroptions-secureconnectionlistener)
+Node.js socket server connection listener as documented in [`net.createServer`](https://nodejs.org/api/net.html#netcreateserveroptions-connectionlistener) or [`tls.createServer`](https://nodejs.org/api/tls.html#tlscreateserveroptions-secureconnectionlistener)
 
 #### `SocketOptions`
 
-- `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https:/nodejs.org/api/net.html#class-netserver) instance.
-- `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https:/nodejs.org/api/tls.html#class-tlsserver) instance.
+- `port` - _optional_ - `number` - Specify the port for the [`net.Server`](https://nodejs.org/api/net.html#class-netserver) instance.
+- `securePort` - _optional_ - `number` - Specify the port for the [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
 
 #### `SocketServer`
 
-Node.js [`net.Server`](https:/nodejs.org/api/net.html#class-netserver) or [`tls.Server`](https:/nodejs.org/api/tls.html#class-tlsserver) instance.
+Node.js [`net.Server`](https://nodejs.org/api/net.html#class-netserver) or [`tls.Server`](https://nodejs.org/api/tls.html#class-tlsserver) instance.
 
 ### `server.ws(listener: WsListener, options: WsOptions): HttpServer[]`
 
@@ -142,15 +142,15 @@ Example:
 
 ```js
 server.ws((ws, request, chainCompletion) => {
-	chainCompletion.then(() => {
-		ws.on('error', console.error);
+ chainCompletion.then(() => {
+  ws.on('error', console.error);
 
-		ws.on('message', function message(data) {
-			console.log('received: %s', data);
-		});
+  ws.on('message', function message(data) {
+   console.log('received: %s', data);
+  });
 
-		ws.send('something');
-	});
+  ws.send('something');
+ });
 });
 ```
 
@@ -160,8 +160,8 @@ Type: `(ws: WebSocket, request: Request, chainCompletion: ChainCompletion, next:
 
 The WebSocket connection listener.
 
-- The `ws` argument is the [WebSocket](https:/github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
-- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https:/github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server. 
+- The `ws` argument is the [WebSocket](https://github.com/websockets/ws/blob/master/doc/ws.md#class-websocket) instance as defined by the `ws` module.
+- The `request` argument is Harper's transformation of the `IncomingMessage` argument of the standard ['connection'](https://github.com/websockets/ws/blob/master/doc/ws.md#event-connection) listener event for a WebSocket server.
 - The `chainCompletion` argument is a `Promise` of the associated HTTP server's request chain. Awaiting this promise enables the user to ensure the HTTP request has finished being processed before operating on the WebSocket.
 - The `next` argument is similar to that of other `next` arguments in Harper's server middlewares. To continue execution of the WebSocket connection listener middleware chain, pass all of the other arguments to this one such as: `next(ws, request, chainCompletion)`
 
@@ -180,13 +180,13 @@ Properties:
 
 ### `server.upgrade(listener: UpgradeListener, options: UpgradeOptions): void`
 
-Add a listener to the HTTP Server [upgrade](https:/nodejs.org/api/http.html#event-upgrade_1) event. If a WebSocket connection listener is added using [`server.ws()`](#serverwslistener-wslistener-options-wsoptions-httpserver), a default upgrade handler will be added as well. The default upgrade handler will add a `__harperdb_request_upgraded` boolean to the `request` argument to signal the connection has already been upgraded. It will also check for this boolean _before_ upgrading and if it is `true`, it will pass the arguments along to the `next` listener.
+Add a listener to the HTTP Server [upgrade](https://nodejs.org/api/http.html#event-upgrade_1) event. If a WebSocket connection listener is added using [`server.ws()`](#serverwslistener-wslistener-options-wsoptions-httpserver), a default upgrade handler will be added as well. The default upgrade handler will add a `__harperdb_request_upgraded` boolean to the `request` argument to signal the connection has already been upgraded. It will also check for this boolean _before_ upgrading and if it is `true`, it will pass the arguments along to the `next` listener.
 
 This method should be used to delegate HTTP upgrade events to an external WebSocket server instance.
 
 Example:
 
-> This example is from the HarperDB Next.js component. See the complete source code [here](https:/github.com/HarperDB/nextjs/blob/main/extension.js)
+> This example is from the HarperDB Next.js component. See the complete source code [here](https://github.com/HarperDB/nextjs/blob/main/extension.js)
 
 ```js
 server.upgrade(
@@ -209,7 +209,7 @@ server.upgrade(
 
 Type: `(request, socket, head, next) => void`
 
-The arguments are passed to the middleware chain from the HTTP server [`'upgrade'`](https:/nodejs.org/api/http.html#event-upgrade_1) event.
+The arguments are passed to the middleware chain from the HTTP server [`'upgrade'`](https://nodejs.org/api/http.html#event-upgrade_1) event.
 
 #### `UpgradeOptions`
 

@@ -4,7 +4,7 @@ title: Configuration File
 
 # Configuration File
 
-Harper is configured through a [YAML](https:/yaml.org/) file called `harperdb-config.yaml` located in the Harper root directory (by default this is a directory named `hdb` located in the home directory of the current user).
+Harper is configured through a [YAML](https://yaml.org/) file called `harperdb-config.yaml` located in the Harper root directory (by default this is a directory named `hdb` located in the home directory of the current user).
 
 Some configuration will be populated by default in the config file on install, regardless of whether it is used.
 
@@ -90,7 +90,7 @@ An array of allowable domains with CORS
 
 `corsAccessControlAllowHeaders` - _Type_: string; _Default_: 'Accept, Content-Type, Authorization'
 
-A string representation of a comma separated list of header keys for the [Access-Control-Allow-Headers](https:/developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers) header for OPTIONS requests.
+A string representation of a comma separated list of header keys for the [Access-Control-Allow-Headers](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Headers) header for OPTIONS requests.
 
 `headersTimeout` - _Type_: integer; _Default_: 60,000 milliseconds (1 minute)
 
@@ -207,10 +207,10 @@ The `replication` section configures [Harper replication](../developers/replicat
 ```yaml
 replication:
   hostname: server-one
-  url: wss:/server-one:9925
+  url: wss://server-one:9925
   databases: '*'
   routes:
-    - wss:/server-two:9925
+    - wss://server-two:9925
   port: null
   securePort: 9933,
   enableRootCAs: true
@@ -252,7 +252,7 @@ replication:
   copyTablesToCatchUp: true
   hostname: server-one
   routes:
-    - wss:/server-two:9925 # URL based route
+    - wss://server-two:9925 # URL based route
     - hostname: server-three # define a hostname and port
       port: 9930
       startTime: 2024-02-06T15:30:00Z
@@ -287,7 +287,7 @@ This defines the shard id of this instance and is used in conjunction with the [
 
 The `clustering` section configures the NATS clustering engine, this is used to replicate data between instances of Harper.
 
-_Note: There exist two ways to create clusters and replicate data in Harper. One option is to use native Harper replication over Websockets. The other option is to use_ [_NATS_](https:/nats.io/about/) _to facilitate the cluster._
+_Note: There exist two ways to create clusters and replicate data in Harper. One option is to use native Harper replication over Websockets. The other option is to use_ [_NATS_](https://nats.io/about/) _to facilitate the cluster._
 
 Clustering offers a lot of different configurations, however in a majority of cases the only options you will need to pay attention to are:
 
@@ -525,7 +525,7 @@ clustering:
 
 ### `localStudio`
 
-The `localStudio` section configures the local Harper Studio, a GUI for Harper hosted on the server. A hosted version of the Harper Studio with licensing and provisioning options is available at https:/studio.harperdb.io. Note, all database traffic from either `localStudio` or Harper Studio is made directly from your browser to the instance.
+The `localStudio` section configures the local Harper Studio, a GUI for Harper hosted on the server. A hosted version of the Harper Studio with licensing and provisioning options is available at [https://studio.harperdb.io](https://studio.harperdb.io). Note, all database traffic from either `localStudio` or Harper Studio is made directly from your browser to the instance.
 
 `enabled` - _Type_: boolean; _Default_: false
 
@@ -557,9 +557,9 @@ To access the audit logs, use the API operation `read_audit_log`. It will provid
 
 ```json
 {
-	"operation": "read_audit_log",
-	"schema": "dev",
-	"table": "dog"
+ "operation": "read_audit_log",
+ "schema": "dev",
+ "table": "dog"
 }
 ```
 
@@ -687,6 +687,7 @@ Harper's logger supports defining multiple logging configurations for different 
 `logging.external`
 
 The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../technical-details/reference/globals). For example:
+
 ```yaml
 logging:
   external:
@@ -697,15 +698,17 @@ logging:
 `http.logging`
 
 This section defines log configuration for HTTP logging. By default, HTTP requests are not logged, but defining this section will enable HTTP logging. Note that there can be substantive overhead to logging all HTTP requests. In addition to the standard logging configuration, the `http.logging` section also allows the following configuration properties to be set:
-* `timing` - This will log timing information
-* `headers` - This will log the headers in each request (which can be very verbose)
-* `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
+
+- `timing` - This will log timing information
+- `headers` - This will log the headers in each request (which can be very verbose)
+- `id` - This will assign a unique id to each request and log it in the entry for each request. This is assigned as the `request.requestId` property and can be used to by other logging to track a request.
 Note that the `level` will determine which HTTP requests are logged:
-* `info` (or more verbose) - All HTTP requests
-* `warn` - HTTP requests with a status code of 400 or above
-* `error` - HTTP requests with a status code of 500
+- `info` (or more verbose) - All HTTP requests
+- `warn` - HTTP requests with a status code of 400 or above
+- `error` - HTTP requests with a status code of 500
 
 For example:
+
 ```yaml
 http:
   logging: 
@@ -772,11 +775,11 @@ This will enable cookie-based sessions to maintain an authenticated session. Thi
 
 `operationTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time an operation token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time an operation token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 `refreshTokenTimeout` - _Type_: string; _Default_: 1d
 
-Defines the length of time a refresh token will be valid until it expires. Example values: https:/github.com/vercel/ms.
+Defines the length of time a refresh token will be valid until it expires. Example values: [https://github.com/vercel/ms](https://github.com/vercel/ms).
 
 ### `operationsApi`
 
@@ -1191,7 +1194,7 @@ The name of the component. This will be used to name the folder where the compon
 
 A reference to your [component](../technical-details/reference/components/applications#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
-Read more about npm install [here](https:/docs.npmjs.com/cli/v8/commands/npm-install)
+Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 
 `port` - _Type_: number _Default_: whatever is set in `http.port`
 

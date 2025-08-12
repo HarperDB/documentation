@@ -105,7 +105,7 @@ GET /my-resource/?property=value&property2=another-value
 
 Note that only one of the attributes needs to be indexed for this query to execute.
 
-We can also specify different comparators such as less than and greater than queries using [FIQL](https:/datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
+We can also specify different comparators such as less than and greater than queries using [FIQL](https://datatracker.ietf.org/doc/html/draft-nottingham-atompub-fiql-00) syntax. If we want to specify records with an `age` value greater than 20:
 
 ```http
 GET /my-resource/?age=gt=20

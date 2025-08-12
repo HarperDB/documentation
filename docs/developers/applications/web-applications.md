@@ -22,11 +22,11 @@ using popular frameworks is a simple and straightforward process.
 
 Get started today with one of our examples:
 
-- [Next.js](https:/github.com/HarperDB/nextjs-example)
-- [React SSR](https:/github.com/HarperDB/react-ssr-example)
-- [Vue SSR](https:/github.com/HarperDB/vue-ssr-example)
-- [Svelte SSR](https:/github.com/HarperDB/svelte-ssr-example)
-- [Solid SSR](https:/github.com/HarperDB/solid-ssr-example)
+- [Next.js](https://github.com/HarperDB/nextjs-example)
+- [React SSR](https://github.com/HarperDB/react-ssr-example)
+- [Vue SSR](https://github.com/HarperDB/vue-ssr-example)
+- [Svelte SSR](https://github.com/HarperDB/svelte-ssr-example)
+- [Solid SSR](https://github.com/HarperDB/solid-ssr-example)
 
 ## Cookie Support
 
@@ -59,5 +59,5 @@ Harper includes built-in support for Cross-Origin Resource Sharing (CORS), which
 
 Make sure to check out our developer videos too:
 
-- [Next.js on Harper | Step-by-Step Guide for Next Level Next.js Performance](https:/youtu.be/GqLEwteFJYY)
-- [Server-side Rendering (SSR) with Multi-Tier Cache Demo](https:/youtu.be/L-tnBNhO9Fc)
+- [Next.js on Harper | Step-by-Step Guide for Next Level Next.js Performance](https://youtu.be/GqLEwteFJYY)
+- [Server-side Rendering (SSR) with Multi-Tier Cache Demo](https://youtu.be/L-tnBNhO9Fc)

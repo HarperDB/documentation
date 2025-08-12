@@ -14,11 +14,11 @@ All interactions between the Studio and your instances take place directly from 
 
 ## Organization Instance List
 
-A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and Enterprise instances are listed together.
+A summary view of all instances within an organization can be viewed by clicking on the appropriate organization from the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page. Each instance gets their own card. HarperDB Cloud and Enterprise instances are listed together.
 
 ## Create a New Instance
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization for the instance to be created under.
 1. Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
 1. Select your desired Instance Type.
@@ -26,7 +26,7 @@ A summary view of all instances within an organization can be viewed by clicking
    1. Fill out Instance Info.
       1. Enter Instance Name
 
-          _This will be used to build your instance URL. For example, with subdomain “demo” and instance name “c1” the instance URL would be: https:/c1-demo.harperdbcloud.com. The Instance URL will be previewed below._
+          _This will be used to build your instance URL. For example, with subdomain “demo” and instance name “c1” the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com). The Instance URL will be previewed below._
       1. Enter Instance Username
 
           _This is the username of the initial HarperDB instance super user._
@@ -46,14 +46,14 @@ A summary view of all instances within an organization can be viewed by clicking
           _The geographic area where your instance will be provisioned._
    1. Click **Confirm Instance Details** to move to the next page.
    1. Review your Instance Details, if there is an error, use the back button to correct it.
-   1. Review the [Privacy Policy](https:/harperdb.io/legal/privacy-policy/) and [Terms of Service](https:/harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
+   1. Review the [Privacy Policy](https://harperdb.io/legal/privacy-policy/) and [Terms of Service](https://harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
    1. Click **Add Instance**.
    1. Your HarperDB Cloud instance will be provisioned in the background. Provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
 
 ## Register Enterprise Instance
 
-1) Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1) Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 2) Click the appropriate organization for the instance to be created under.
 3) Click the **Create New HarperDB Cloud Instance + Register Enterprise Instance** card.
 4) Select **Register Enterprise Instance**.
@@ -83,7 +83,7 @@ A summary view of all instances within an organization can be viewed by clicking
           _HarperDB instances are billed based on Instance RAM. Selecting additional RAM will enable the ability for faster and more complex queries._
    1. Click **Confirm Instance Details** to move to the next page.
    1. Review your Instance Details, if there is an error, use the back button to correct it.
-   1. Review the [Privacy Policy](https:/harperdb.io/legal/privacy-policy/) and [Terms of Service](https:/harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
+   1. Review the [Privacy Policy](https://harperdb.io/legal/privacy-policy/) and [Terms of Service](https://harperdb.io/legal/harperdb-cloud-terms-of-service/), if you agree, click the **I agree** radio button to confirm.
    1. Click **Add Instance**.
    1. The HarperDB Studio will register your instance and restart it for the registration to take effect. Your instance will be immediately available after this is complete.
 
@@ -96,7 +96,7 @@ Instance deletion has two different behaviors depending on the instance type.
 
 An instance can be deleted as follows:
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Identify the proper instance card and click the trash can icon.
 1. Enter the instance name into the text box.
@@ -112,14 +112,14 @@ HarperDB instances can be resized on the [Instance Configuration](./instance-con
 
 The Studio enables users to log in and out of different database users from the instance control panel. To log out of an instance:
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Identify the proper instance card and click the lock icon.
 1. You will immediately be logged out of the instance.
 
 To log in to an instance:
 
-1. Navigate to the [HarperDB Studio Organizations](https:/studio.harperdb.io/organizations) page.
+1. Navigate to the [HarperDB Studio Organizations](https://studio.harperdb.io/organizations) page.
 1. Click the appropriate organization that the instance belongs to.
 1. Identify the proper instance card, it will have an unlocked icon and a status reading PLEASE LOG IN, and click the center of the card.
 1. Enter the database username.

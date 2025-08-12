@@ -150,7 +150,7 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Add Node
-Registers an additional HarperDB instance with associated subscriptions. Learn more about HarperDB clustering here: https:/harperdb.io/docs/clustering/.
+Registers an additional HarperDB instance with associated subscriptions. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 
@@ -164,6 +164,7 @@ _Operation is restricted to super_user roles only_
   * start_time _(optional)_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
   
 ### Body
+
 ```json
 {
     "operation": "add_node",
@@ -181,6 +182,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully added 'ec2-3-22-181-22' to manifest"
@@ -190,7 +192,8 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Update Node
-Modifies an existing HarperDB instance registration and associated subscriptions. Learn more about HarperDB clustering here: https:/harperdb.io/docs/clustering/. 
+
+Modifies an existing HarperDB instance registration and associated subscriptions. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 
@@ -203,6 +206,7 @@ _Operation is restricted to super_user roles only_
   * publish -  a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
+
 ```json
 {
     "operation": "update_node",
@@ -219,6 +223,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully updated 'ec2-3-22-181-22'"
@@ -228,13 +233,15 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Cluster Status
-Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about HarperDB clustering here: https:/harperdb.io/docs/clustering/.
+
+Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 
 * operation _(required)_ - must always be `cluster_status`
 
 ### Body
+
 ```json
 {
     "operation": "cluster_status"
@@ -242,6 +249,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "node_name": "ec2-18-221-143-69",
@@ -269,11 +277,11 @@ _Operation is restricted to super_user roles only_
 }
 ```
 
-
 ---
 
 ## Cluster Network
-Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about HarperDB clustering here: [https:/harperdb.io/docs/clustering/](https:/harperdb.io/docs/clustering/).
+
+Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 
@@ -291,6 +299,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "nodes": [
@@ -318,7 +327,8 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Remove Node
-Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about HarperDB clustering here: https:/harperdb.io/docs/clustering/.
+
+Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 
@@ -326,6 +336,7 @@ _Operation is restricted to super_user roles only_
 * name _(required)_ - The name of the node you are de-registering
 
 ### Body
+
 ```json
 {
     "operation": "remove_node",
@@ -334,6 +345,7 @@ _Operation is restricted to super_user roles only_
 ```
 
 ### Response: 200
+
 ```json
 {
     "message": "Successfully removed 'ec2-3-22-181-22' from manifest"
@@ -343,8 +355,9 @@ _Operation is restricted to super_user roles only_
 ---
 
 ## Configure Cluster
+
 Bulk create/remove subscriptions for any number of remote nodes. Resets and replaces any existing clustering setup.
-Learn more about HarperDB clustering here: https:/harperdb.io/docs/clustering/.
+Learn more about HarperDB clustering here: [https://harperdb.io/docs/clustering/](https://harperdb.io/docs/clustering/).
 
 _Operation is restricted to super_user roles only_
 

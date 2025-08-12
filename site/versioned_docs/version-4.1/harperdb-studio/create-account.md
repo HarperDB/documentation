@@ -3,7 +3,7 @@ title: Create a Studio Account
 ---
 
 # Create a Studio Account
-Start at the [HarperDB Studio sign up page](https:/studio.harperdb.io/sign-up).
+Start at the [HarperDB Studio sign up page](https://studio.harperdb.io/sign-up).
 
 1) Provide the following information:
    * First Name
@@ -11,7 +11,7 @@ Start at the [HarperDB Studio sign up page](https:/studio.harperdb.io/sign-up).
    * Email Address
    * Subdomain
    
-     *Part of the URL that will be used to identify your HarperDB Cloud Instances. For example, with subdomain “demo” and instance name “c1” the instance URL would be: https:/c1-demo.harperdbcloud.com.*
+     *Part of the URL that will be used to identify your HarperDB Cloud Instances. For example, with subdomain “demo” and instance name “c1” the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com).*
    * Coupon Code (optional)
 2) Review the Privacy Policy and Terms of Service.
 3) Click the sign up for free button.

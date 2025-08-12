@@ -57,7 +57,7 @@ export class MyTable extends tables.MyTable {
 
 Make sure that if are extending and `export`ing your table with this class, that you remove the `@export` directive in your schema, so that you aren't exporting the same table/class name twice.
 
-All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https:/developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
+All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
 
 ## Global Variables
 

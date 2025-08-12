@@ -23,4 +23,4 @@ While HarperDB Cloud bills by RAM, each instance has other specifications associ
 
 
 
-*Specifications are subject to change. For the most up to date information, please refer to AWS documentation: https:/aws.amazon.com/ec2/instance-types/.
+*Specifications are subject to change. For the most up to date information, please refer to AWS documentation: [https://aws.amazon.com/ec2/instance-types/](https://aws.amazon.com/ec2/instance-types/).

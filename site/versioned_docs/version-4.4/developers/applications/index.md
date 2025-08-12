@@ -10,7 +10,7 @@ Harper is more than a database, it's a distributed clustering platform allowing 
 
 In this guide, we are going to explore the evermore extensible architecture that Harper provides by building a Harper component, a fundamental building-block of the Harper ecosystem.
 
-When working through this guide, we recommend you use the [Harper Application Template](https:/github.com/HarperDB/application-template) repo as a reference.
+When working through this guide, we recommend you use the [Harper Application Template](https://github.com/HarperDB/application-template) repo as a reference.
 
 ## Understanding the Component Application Architecture
 
@@ -40,10 +40,10 @@ We assume you are running Harper version 4.2 or greater, which supports Harper A
 
 ### Scaffolding our Application Directory
 
-Let's create and initialize a new directory for our application. It is recommended that you start by using the [Harper application template](https:/github.com/HarperDB/application-template). Assuming you have `git` installed, you can create your project directory by cloning:
+Let's create and initialize a new directory for our application. It is recommended that you start by using the [Harper application template](https://github.com/HarperDB/application-template). Assuming you have `git` installed, you can create your project directory by cloning:
 
 ```shell
-> git clone https:/github.com/HarperDB/application-template my-app
+> git clone https://github.com/HarperDB/application-template my-app
 > cd my-app
 ```
 
@@ -79,7 +79,7 @@ Locally developing your application and then committing your app to a source con
 
 The core of a Harper application is the database, so let's create a database table!
 
-A quick and expressive way to define a table is through a [GraphQL Schema](https:/graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
+A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
 
 ```graphql
 type Dog @table {
@@ -186,7 +186,7 @@ If-None-Match: "etag-id" # browsers can automatically provide this
 
 ## Querying
 
-Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest). Simple queries can be crafted through [URL query parameters](https:/en.wikipedia.org/wiki/Query_string).
+Querying your application database is straightforward and easy, as tables exported with the `@export` directive are automatically exposed via [REST endpoints](../rest). Simple queries can be crafted through [URL query parameters](https://en.wikipedia.org/wiki/Query_string).
 
 In order to maintain reasonable query speed on a database as it grows in size, it is critical to select and establish the proper indexes. So, before we add the `@export` declaration to our `Dog` table and begin querying it, let's take a moment to target some table properties for indexing. We'll use `name` and `breed` as indexed table properties on our `Dog` table. All we need to do to accomplish this is tag these properties with the `@indexed` directive:
 
@@ -232,7 +232,7 @@ This guide assumes that you're building a Harper application locally. If you hav
 
 * Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
 * Go to the applications section of your target cloud instance in the Harper Studio.
-* In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https:/docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https:/github.com/HarperDB/application-template`, for example, that npm knows how to install).
+* In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
 You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components#deploy-component).
 
@@ -334,7 +334,7 @@ We can also directly implement the Resource class and use it to create new data 
 const { Breed } = tables; / our Breed table
 class BreedSource extends Resource { / define a data source
 	async get() {
-		return (await fetch(`http:/best-dog-site.com/${this.getId()}`)).json();
+  return (await fetch(`https://best-dog-site.com/${this.getId()}`)).json();
 	}
 }
 / define that our breed table is a cache of data from the data source above, with a specified expiration
@@ -347,7 +347,7 @@ Harper provides a powerful JavaScript API with significant capabilities that go 
 
 ## Configuring Applications/Components
 
-Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https:/github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
+Every application or component can define their own configuration in a `config.yaml`. If you are using the application template, you will have a [default configuration in this config file](https://github.com/HarperDB/application-template/blob/main/config.yaml) (which is default configuration if no config file is provided). Within the config file, you can configure how different files and resources are loaded and handled. The default configuration file itself is documented with directions. Each entry can specify any `files` that the loader will handle, and can also optionally specify what, if any, URL `path`s it will handle. A path of `/` means that the root URLs are handled by the loader, and a path of `.` indicates that the URLs that start with this application's name are handled.
 
 This config file allows you define a location for static files, as well (that are directly delivered as-is for incoming HTTP requests).
 

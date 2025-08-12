@@ -8,9 +8,9 @@ HarperDB is a highly extensible database application platform with support for a
 
 * [SDK libraries](./sdks) are available for connecting to HarperDB from different languages.
 * [Drivers](./drivers) are available for connecting to HarperDB from different products and tools.
-* [HarperDB-Add-Ons repositories](https:/github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
-* [HarperDB repositories](https:/github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
-* You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https:/github.com/search?q=harperdb\&type=repositories)
+* [HarperDB-Add-Ons repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) lists various templates and add-ons for HarperDB.
+* [HarperDB repositories](https://github.com/orgs/HarperDB-Add-Ons/repositories) include additional tools for HarperDB.
+* You can also [search github.com for ever-growing list of projects that use, or work with, HarperDB](https://github.com/search?q=harperdb\&type=repositories)
 * [Google Data Studio](./google-data-studio) is a visualization tool for building charts and tables from HarperDB data.
 
 ## Components
