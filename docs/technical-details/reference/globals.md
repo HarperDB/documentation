@@ -81,7 +81,7 @@ server.http(
 		return request.url === '/graphql' ? handleGraphQLRequest(request) : next(request);
 	},
 	{
-		runFirst: true, / run this handler first
+		runFirst: true, // run this handler first
 	}
 );
 ```
@@ -113,7 +113,7 @@ A `Request` object is passed to the direct static REST handlers, and preserved a
 ```javascript
 class Origin {
 	async get(request) {
-		/ if we are fetching data from origin, send early hints
+		// if we are fetching data from origin, send early hints
 		this.getContext().requestContext.sendEarlyHints('<link rel="preload" href="/my-resource" as="fetch">');
 		let response = await fetch(request);
 		...

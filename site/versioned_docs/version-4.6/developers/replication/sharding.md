@@ -75,7 +75,7 @@ Additionally, you can specify `replicateTo` and `replicatedConfirmation` paramet
 class MyTable extends tables.MyTable {
 	put(record) {
 		const context = this.getContext();
-		context.replicateTo = 2; / or an array of node names
+		context.replicateTo = 2; // or an array of node names
 		context.replicatedConfirmation = 1;
 		return super.put(record);
 	}
@@ -132,7 +132,7 @@ Alternately you can define a custom sharding strategy based on the primary key a
 
 ```javascript
 MyTable.setResidencyById((id) => {
-	return id % 2 === 0 ? 1 : 2; / return shard number
+	return id % 2 === 0 ? 1 : 2; // return shard number
 });
 ```
 
@@ -140,7 +140,7 @@ or
 
 ```javascript
 MyTable.setResidencyById((id) => {
-	return id % 2 === 0 ? ['node1'] : ['node2']; / return array of node hostnames
+	return id % 2 === 0 ? ['node1'] : ['node2']; // return array of node hostnames
 });
 ```
 

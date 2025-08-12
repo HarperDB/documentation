@@ -84,7 +84,7 @@ The plugin module can export a `defaultTimeout` variable (in milliseconds) that 
 For example:
 
 ```typescript
-export const defaultTimeout = 60_000; / 60 seconds
+export const defaultTimeout = 60_000; // 60 seconds
 ```
 
 Additionally, users can specify a `timeout` option in their application's `config.yaml` file for a specific plugin. This option takes precedence over the plugin's `defaultTimeout` and the system default.
@@ -110,7 +110,7 @@ export function handleApplication(scope) {
 
 	scope.options.on('change', (key, value, config) => {
 		if (key[0] === 'files' || key[0] === 'urlPath') {
-			/ If the files or urlPath options change, we need to reinitialize the static files map
+			// If the files or urlPath options change, we need to reinitialize the static files map
 			staticFiles.clear();
 			logger.info(`Static files reinitialized due to change in ${key.join('.')}`);
 		}
@@ -125,11 +125,11 @@ export function handleApplication(scope) {
 		switch (entry.eventType) {
 			case 'add':
 			case 'change':
-				/ Store / Update the file contents in memory for serving
+				// Store // Update the file contents in memory for serving
 				staticFiles.set(entry.urlPath, entry.contents);
 				break;
 			case 'unlink':
-				/ Remove the file from memory when it is deleted
+				// Remove the file from memory when it is deleted
 				staticFiles.delete(entry.urlPath);
 				break;
 		}
@@ -139,7 +139,7 @@ export function handleApplication(scope) {
 		(req, next) => {
 			if (req.method !== 'GET') return next(req);
 
-			/ Attempt to retrieve the requested static file from memory
+			// Attempt to retrieve the requested static file from memory
 			const staticFile = staticFiles.get(req.pathname);
 
 			return staticFile
@@ -213,15 +213,15 @@ For example:
 
 ```js
 export function handleApplication(scope) {
-	/ Get the default EntryHandler instance
+	// Get the default EntryHandler instance
 	const defaultEntryHandler = scope.handleEntry();
 
-	/ Assign a handler for the 'all' event on the default EntryHandler
+	// Assign a handler for the 'all' event on the default EntryHandler
 	scope.handleEntry((entry) => {
 		/* ... */
 	});
 
-	/ Create a new EntryHandler for the 'src/**/*.js' files option with a custom `'all'` event handler.
+	// Create a new EntryHandler for the 'src/**/*.js' files option with a custom `'all'` event handler.
 	const customEntryHandler = scope.handleEntry(
 		{
 			files: 'src/**/*.js',
@@ -231,7 +231,7 @@ export function handleApplication(scope) {
 		}
 	);
 
-	/ Create another custom EntryHandler for the 'src/**/*.ts' files option, but without a `'all'` event handler.
+	// Create another custom EntryHandler for the 'src/**/*.ts' files option, but without a `'all'` event handler.
 	const anotherCustomEntryHandler = scope.handleEntry({
 		files: 'src/**/*.ts',
 	});
@@ -280,7 +280,7 @@ And has the following `handleApplication(scope)` implementation:
 export function handleApplication(scope) {
 	scope.options.on('change', (key, value, config) => {
 		if (key[0] === 'files') {
-			/ Handle the change in the files option
+			// Handle the change in the files option
 			scope.logger.info(`Files option changed to: ${value}`);
 		}
 	});
@@ -348,9 +348,9 @@ For example, if the `files` option for `customPlugin` is changed to `web/**/*.js
 
 ```js
 scope.options.on('change', (key, value, config) => {
-	key; / ['files']
-	value; / 'web/**/*.js'
-	config; / { files: 'web/**/*.js' }
+	key; // ['files']
+	value; // 'web/**/*.js'
+	config; // { files: 'web/**/*.js' }
 });
 ```
 
@@ -431,19 +431,19 @@ async function handleApplication(scope) {
 	scope.handleEntry((entry) => {
 		switch (entry.eventType) {
 			case 'add':
-				/ Handle file addition
+				// Handle file addition
 				break;
 			case 'change':
-				/ Handle file change
+				// Handle file change
 				break;
 			case 'unlink':
-				/ Handle file deletion
+				// Handle file deletion
 				break;
 			case 'addDir':
-				/ Handle directory addition
+				// Handle directory addition
 				break;
 			case 'unlinkDir':
-				/ Handle directory deletion
+				// Handle directory deletion
 				break;
 		}
 	});

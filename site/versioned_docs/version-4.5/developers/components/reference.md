@@ -153,11 +153,11 @@ graphqlSchema:
 In order for an extension to be classified as a Resource Extension it must implement at least one of the `handleFile()`, `handleDirectory()`, `setupFile()`, or `setupDirectory()` methods. As a standalone extension, these methods should be named and exported directly. For example:
 
 ```js
-/ ESM
+// ESM
 export function handleFile() {}
 export function setupDirectory() {}
 
-/ or CJS
+// or CJS
 function handleDirectory() {}
 function setupFile() {}
 

@@ -34,24 +34,24 @@ You can create classes that extend `Resource` to define your own data sources, t
 
 ```javascript
 export class MyExternalData extends Resource {
-	static loadAsInstance = false; / enable the updated API
+	static loadAsInstance = false; // enable the updated API
 	async get(target) {
-		/ fetch data from an external source, using our id
+		// fetch data from an external source, using our id
 		let response = await this.fetch(target.id);
-		/ do something with the response
+		// do something with the response
 	}
 	put(target, data) {
-		/ send the data into the external source
+		// send the data into the external source
 	}
 	delete(target) {
-		/ delete an entity in the external data source
+		// delete an entity in the external data source
 	}
 	subscribe(subscription) {
-		/ if the external data source is capable of real-time notification of changes, can subscribe
+		// if the external data source is capable of real-time notification of changes, can subscribe
 	}
 }
-/ we can export this class from resources.json as our own endpoint, or use this as the source for
-/ a Harper data to store and cache the data coming from this data source:
+// we can export this class from resources.json as our own endpoint, or use this as the source for
+// a Harper data to store and cache the data coming from this data source:
 tables.MyCache.sourcedFrom(MyExternalData);
 ```
 
@@ -59,21 +59,21 @@ You can also extend table classes in the same way, overriding the instance metho
 
 ```javascript
 export class MyTable extends tables.MyTable {
-	static loadAsInstance = false; / enable the updated API
+	static loadAsInstance = false; // enable the updated API
 	get(target) {
-		/ we can add properties or change properties before returning data:
-		return { ...super.get(target), newProperty: 'newValue', existingProperty: 42 }; / returns the record, with additional properties
+		// we can add properties or change properties before returning data:
+		return { ...super.get(target), newProperty: 'newValue', existingProperty: 42 }; // returns the record, with additional properties
 	}
 	put(target, data) {
-		/ can change data any way we want
+		// can change data any way we want
 		super.put(target, data);
 	}
 	delete(target) {
 		super.delete(target);
 	}
 	post(target, data) {
-		/ providing a post handler (for HTTP POST requests) is a common way to create additional
-		/ actions that aren't well described with just PUT or DELETE
+		// providing a post handler (for HTTP POST requests) is a common way to create additional
+		// actions that aren't well described with just PUT or DELETE
 	}
 }
 ```
@@ -139,10 +139,10 @@ The `target` object represents the target of a request and can be used to access
 class extends Resource {
 	static loadAsInstance = false;
 	get(target) {
-		let param1 = target.get('param1'); / returns 'value'
-		let id = target.id; / returns 'some-id'
-		let path = target.pathname; / returns /some-id
-		let fullTarget = target.target; / returns /some-id?param1=value
+		let param1 = target.get('param1'); // returns 'value'
+		let id = target.id; // returns 'some-id'
+		let path = target.pathname; // returns /some-id
+		let fullTarget = target.target; // returns /some-id?param1=value
 		...
 	}
 ```
@@ -291,11 +291,11 @@ This will retrieve a resource instance by id. For example, if you want to retrie
 ```javascript
 const { MyTable, Comment } = tables;
 ...
-/ in class:
+// in class:
 	async get() {
 		for (let commentId of this.commentIds) {
 			let comment = await Comment.get(commentId, this);
-			/ now you can do something with the comment record
+			// now you can do something with the comment record
 		}
 	}
 ```
@@ -416,15 +416,13 @@ This will be mapped to the resource with a primary key of `test?foo=bar`, and no
 
 This will return the number of records in the table. By default, this will return an approximate count of records, which is fast and efficient. If you want an exact count, you can pass `{ exactCount: true }` as the first argument, but this will be slower and more expensive. The return value will be a Promise that resolves to an object with a `recordCount` property, which is the number of records in the table. If this was not an exact count, it will also include `estimatedRange` array with estimate range of the count.
 
-````javascript
-
 ### `parsePath(path, context, query) {`
 
 This is called by static methods when they are responding to a URL (from HTTP request, for example), and translates the path to an id. By default, this will parse `.property` suffixes for accessing properties and specifying preferred content type in the URL (and for older tables it will convert a multi-segment path to multipart an array id). However, in some situations you may wish to preserve the path directly as a string. You can override `parsePath` for simpler path to id preservation:
 
 ````javascript
 	static parsePath(path) {
-		return path; / return the path as the id
+		return path; // return the path as the id
 	}
 ````
 
@@ -444,15 +442,15 @@ When using an export resource class, the REST interface will automatically creat
 
 For example, if we had a method to post a comment on a blog, and when this happens we also want to update an array of comment IDs on the blog record, but then add the comment to a separate comment table. We might do this:
 
-````javascript
+```javascript
 const { Comment } = tables;
 
 export class BlogPost extends tables.BlogPost {
 	post(comment) {
-		/ add a comment record to the comment table, using this resource as the source for the context
+		// add a comment record to the comment table, using this resource as the source for the context
 		Comment.put(comment, this);
-		this.comments.push(comment.id); / add the id for the record to our array of comment ids
-		/ Both of these actions will be committed atomically as part of the same transaction
+		this.comments.push(comment.id); // add the id for the record to our array of comment ids
+		// Both of these actions will be committed atomically as part of the same transaction
 	}
 }
 ```
@@ -570,7 +568,7 @@ let results = Product.search({
 	sort: { attribute: 'price' },
 });
 for await (let record of results) {
-	/ iterate through each record in the query results
+	// iterate through each record in the query results
 }
 ```
 
@@ -640,9 +638,9 @@ If we have extended this table class with our own `get()` we can interact with t
 export class CustomProduct extends Product {
 	async get(target) {
 		let record = await super.get(target);
-		let name = record.name; / this is the name of the current product
-		let rating = record.rating; / this is the rating of the current product
-		/ we can't directly modify the record (it is frozen), but we can copy if we want to return a modification
+		let name = record.name; // this is the name of the current product
+		let rating = record.rating; // this is the rating of the current product
+		// we can't directly modify the record (it is frozen), but we can copy if we want to return a modification
 		record = { ...record, rating: 3 };
 		return record;
 	}
@@ -653,9 +651,9 @@ Likewise, we can interact with resource instances in the same way when retrievin
 
 ```javascript
 let product1 = await Product.get(1);
-let name = product1.name; / this is the name of the product with a primary key of 1
-let rating = product1.rating; / this is the rating of the product with a primary key of 1
-/ if we want to update a single property:
+let name = product1.name; // this is the name of the product with a primary key of 1
+let rating = product1.rating; // this is the rating of the product with a primary key of 1
+// if we want to update a single property:
 await Product.patch(1, { rating: 3 });
 ```
 
@@ -667,7 +665,7 @@ export class CustomProduct extends Product {
 		let record = this.update(target);
 		record.name = data.name;
 		record.description = data.description;
-		/ both of these changes will be saved automatically as this transaction commits
+		// both of these changes will be saved automatically as this transaction commits
 	}
 }
 ```
@@ -700,12 +698,12 @@ export class CustomProduct extends Product {
 		let record = this.update(target);
 		let brandName = record.brand.name;
 		let firstVariationPrice = record.variations[0].price;
-		let additionalInfoOnBrand = record.brand.additionalInfo; / not defined in schema, but can still try to access property
-		/ make some changes
-		record.variations.splice(0, 1); / remove first variation
-		record.variations.push({ name: 'new variation', price: 9.99 }); / add a new variation
+		let additionalInfoOnBrand = record.brand.additionalInfo; // not defined in schema, but can still try to access property
+		// make some changes
+		record.variations.splice(0, 1); // remove first variation
+		record.variations.push({ name: 'new variation', price: 9.99 }); // add a new variation
 		record.brand.name = 'new brand name';
-		/ all these change will be saved
+		// all these change will be saved
 	}
 }
 ```

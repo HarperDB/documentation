@@ -66,7 +66,7 @@ A sample of this data from the movie The Avengers looks like
 [
 	{
 		"cast_id": 46,
-		"character": "Tony Stark / Iron Man",
+		"character": "Tony Stark // Iron Man",
 		"credit_id": "52fe4495c3a368484e02b251",
 		"gender": "male",
 		"id": 3223,
@@ -75,7 +75,7 @@ A sample of this data from the movie The Avengers looks like
 	},
 	{
 		"cast_id": 2,
-		"character": "Steve Rogers / Captain America",
+		"character": "Steve Rogers // Captain America",
 		"credit_id": "52fe4495c3a368484e02b19b",
 		"gender": "male",
 		"id": 16828,
@@ -84,7 +84,7 @@ A sample of this data from the movie The Avengers looks like
 	},
 	{
 		"cast_id": 307,
-		"character": "Bruce Banner / The Hulk",
+		"character": "Bruce Banner // The Hulk",
 		"credit_id": "5e85e8083344c60015411cfa",
 		"gender": "male",
 		"id": 103,
@@ -133,15 +133,15 @@ So far, we’ve iterated the array and filtered out rows, but we also want the r
 [
 	{
 		"actor": "Robert Downey Jr.",
-		"character": "Tony Stark / Iron Man"
+		"character": "Tony Stark // Iron Man"
 	},
 	{
 		"actor": "Chris Evans",
-		"character": "Steve Rogers / Captain America"
+		"character": "Steve Rogers // Captain America"
 	},
 	{
 		"actor": "Mark Ruffalo",
-		"character": "Bruce Banner / The Hulk"
+		"character": "Bruce Banner // The Hulk"
 	}
 ]
 ```
