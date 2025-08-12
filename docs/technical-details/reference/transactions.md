@@ -19,7 +19,7 @@ This executes the callback in a transaction, providing a context that can be use
 ```javascript
 import { tables } from 'harperdb';
 const { MyTable } = tables;
-if (isMainThread) / only on main thread
+if (isMainThread) // only on main thread
 	setInterval(async () => {
 		let someData = await (await fetch(... some URL ...)).json();
 		transaction((txn) => {
@@ -27,7 +27,7 @@ if (isMainThread) / only on main thread
 				MyTable.put(item, txn);
 			}
 		});
-	}, 3600000); / every hour
+	}, 3600000); // every hour
 ```
 
 You can provide your own context object for the transaction to attach to. If you call `transaction` with a context that already has a transaction started, it will simply use the current transaction, execute the callback and immediately return (this can be useful for ensuring that a transaction has started).

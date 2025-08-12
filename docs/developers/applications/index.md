@@ -86,16 +86,16 @@ This guide is going to walk you through building a basic Harper application usin
 To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
 
 ```javascript
-/ resources.js:
-const { Dog } = tables; / get the Dog table from the Harper provided set of tables (in the default database)
+// resources.js:
+const { Dog } = tables; // get the Dog table from the Harper provided set of tables (in the default database)
 
 export class DogWithHumanAge extends Dog {
 	static loadAsInstance = false;
 	async get(target) {
 		const record = await super.get(target);
 		return {
-			...record, / include all properties from the record
-			humanAge: 15 + record.age * 5, / silly calculation of human age equivalent
+			...record, // include all properties from the record
+			humanAge: 15 + record.age * 5, // silly calculation of human age equivalent
 		};
 	}
 }
@@ -123,14 +123,14 @@ We use the new table's (static) `get()` method to retrieve a breed by id. Harper
 The resource methods are automatically wrapped with a transaction and will automatically commit the changes when the method finishes. This allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
 ```javascript
-/resource.js:
-const { Dog, Breed } = tables; / get the Breed table too
+//resource.js:
+const { Dog, Breed } = tables; // get the Breed table too
 export class DogWithBreed extends Dog {
 	static loadAsInstance = false;
 	async get(target) {
-		/ get the Dog record
+		// get the Dog record
 		const record = await super.get(target);
-		/ get the Breed record
+		// get the Breed record
 		let breedDescription = await Breed.get(record.breed);
 		return {
 			...record,
@@ -168,10 +168,10 @@ export class CustomDog extends Dog {
 	async post(target, data) {
 		if (data.action === 'add-trick') {
 			const context = this.getContext();
-			/ if we want to skip the default permission checks, we can turn off checkPermissions:
+			// if we want to skip the default permission checks, we can turn off checkPermissions:
 			target.checkPermissions = false;
 			const record = this.update(target);
-			/ and do our own/custom permission check:
+			// and do our own/custom permission check:
 			if (record.owner !== context.user?.username) {
 				throw new Error('Can not update this record');
 			}
@@ -186,7 +186,7 @@ Any methods that are not defined will fall back to Harper's default authorizatio
 You can also use the `default` export to define the root path resource handler. For example:
 
 ```javascript
-/ resources.json
+// resources.json
 export default class CustomDog extends Dog {
 	...
 ```
@@ -198,14 +198,14 @@ This will allow requests to url like / to be directly resolved to this resource.
 We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 
 ```javascript
-const { Breed } = tables; / our Breed table
+const { Breed } = tables; // our Breed table
 class BreedSource extends Resource {
-	/ define a data source
+	// define a data source
 	async get(target) {
   return (await fetch(`https://best-dog-site.com/${target}`)).json();
 	}
 }
-/ define that our breed table is a cache of data from the data source above, with a specified expiration
+// define that our breed table is a cache of data from the data source above, with a specified expiration
 Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 ```
 

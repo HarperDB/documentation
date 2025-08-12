@@ -81,7 +81,7 @@ server.http((request, next) => {
 		? handleGraphQLRequest(request)
 		: next(request);
 }, {
-	runFirst: true, / run this handler first
+	runFirst: true, // run this handler first
 });
 ```
 

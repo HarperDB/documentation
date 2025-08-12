@@ -195,7 +195,7 @@ HNSW indexing finds the nearest neighbors to a search vector. To use this, you c
 ```javascript
 let results = Product.search({
 	sort: { attribute: 'textEmbeddings', target: searchVector },
-	limit: 5, / get the five nearest neighbors
+	limit: 5, // get the five nearest neighbors
 });
 ```
 
@@ -205,7 +205,7 @@ This can be used in combination with other conditions as well, for example:
 let results = Product.search({
 	conditions: [{ attribute: 'price', comparator: 'lt', value: 50 }],
 	sort: { attribute: 'textEmbeddings', target: searchVector },
-	limit: 5, / get the five nearest neighbors
+	limit: 5, // get the five nearest neighbors
 });
 ```
 

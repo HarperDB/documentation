@@ -27,15 +27,15 @@ Previous code with a `get` method:
 ```javascript
 export class MyData extends tables.MyData {
 	async get(query) {
-		let id = this.getId(); / get the id
+		let id = this.getId(); // get the id
 		if (query?.size > 0) {
-			/ check number of query parameters
-			let idWithQuery = id + query.toString(); / add query parameters
-			let resource = await tables.MyData.get(idWithQuery, this); / retrieve another record
-			resource.newProperty = 'value'; / assign a new value to the returned resource instance
+			// check number of query parameters
+			let idWithQuery = id + query.toString(); // add query parameters
+			let resource = await tables.MyData.get(idWithQuery, this); // retrieve another record
+			resource.newProperty = 'value'; // assign a new value to the returned resource instance
 			return resource;
 		} else {
-			this.newProperty = 'value'; / assign a new value to this instance
+			this.newProperty = 'value'; // assign a new value to this instance
 			return super.get(query);
 		}
 	}
@@ -46,19 +46,19 @@ Updated code:
 
 ```javascript
 export class MyData extends tables.MyData {
-	static loadAsInstance = false; / opt in to updated behavior
+	static loadAsInstance = false; // opt in to updated behavior
 	async get(target) {
-		let id = target.id; / get the id
+		let id = target.id; // get the id
 		let record;
 		if (target.size > 0) {
-			/ check number of query parameters
-			let idWithQuery = target.toString(); / this is the full target with the path query parameters
-			/ we can retrieve another record from this table directly with this.get/super.get or with tables.MyData.get
+			// check number of query parameters
+			let idWithQuery = target.toString(); // this is the full target with the path query parameters
+			// we can retrieve another record from this table directly with this.get/super.get or with tables.MyData.get
 			record = await super.get(idWithQuery);
 		} else {
-			record = await super.get(target); / we can just directly use the target as well
+			record = await super.get(target); // we can just directly use the target as well
 		}
-		/ the record itself is frozen, but we can copy/assign to a new object with additional properties if we want
+		// the record itself is frozen, but we can copy/assign to a new object with additional properties if we want
 		return { ...record, newProperty: 'value' };
 	}
 }
@@ -70,11 +70,11 @@ Previous code with a `get` method:
 ```javascript
 export class MyData extends tables.MyData {
 	allowRead(user) {
-		/ allow any authenticated user
+		// allow any authenticated user
 		return user ? true : false;
 	}
 	async get(query) {
-		/ any get logic
+		// any get logic
 		return super.get(query);
 	}
 }
@@ -82,14 +82,14 @@ export class MyData extends tables.MyData {
 
 ```javascript
 export class MyData extends tables.MyData {
-	static loadAsInstance = false; / opt in to updated behavior
+	static loadAsInstance = false; // opt in to updated behavior
 	async get(target) {
-		/ While you can still use allowRead, it is not called before get is called, and it is generally encouraged
-		/ to perform/call authorization explicitly in direct get, put, post methods rather than using allow* methods.
+		// While you can still use allowRead, it is not called before get is called, and it is generally encouraged
+		// to perform/call authorization explicitly in direct get, put, post methods rather than using allow* methods.
 		if (!this.getContext().user) throw new Error('Unauthorized');
-		target.checkPermissions = false; / authorization complete, no need to further check permissions below
-		/ target.checkPermissions is set to true or left in place, this default get method will perform the default permissions checks
-		return super.get(target); / we can just directly use the query as well
+		target.checkPermissions = false; // authorization complete, no need to further check permissions below
+		// target.checkPermissions is set to true or left in place, this default get method will perform the default permissions checks
+		return super.get(target); // we can just directly use the query as well
 	}
 }
 ```
@@ -102,12 +102,12 @@ export class MyData extends tables.MyData {
 	async post(data, query) {
 		let resource = await tables.MyData.get(data.id, this);
 		if (resource) {
-			/ update a property
+			// update a property
 			resource.someProperty = 'value';
-			/ or
+			// or
 			tables.MyData.patch(data.id, { someProperty: 'value' }, this);
 		} else {
-			/ create a new record
+			// create a new record
 			MyData.create(data, this);
 		}
 	}
@@ -118,18 +118,18 @@ Updated code:
 
 ```javascript
 export class MyData extends tables.MyData {
-	static loadAsInstance = false; / opt in to updated behavior
-	/ IMPORTANT: arguments are reversed:
+	static loadAsInstance = false; // opt in to updated behavior
+	// IMPORTANT: arguments are reversed:
 	async post(target, data) {
 		let record = await this.get(data.id);
 		if (record) {
-			/ update a property
-			const updatable = await this.update(data.id); / we can alternately pass a target to update
+			// update a property
+			const updatable = await this.update(data.id); // we can alternately pass a target to update
 			updatable.someProperty = 'value';
-			/ or
+			// or
 			this.patch(data.id, { someProperty: 'value' });
 		} else {
-			/ create a new record
+			// create a new record
 			this.create(data);
 		}
 	}

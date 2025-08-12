@@ -57,7 +57,7 @@ Additionally, you can specify `replicateTo` and `replicatedConfirmation` paramet
 class MyTable extends tables.MyTable {
 	put(record) {
 		const context = this.getContext();
-		context.replicateTo = 2; / or an array of node names
+		context.replicateTo = 2; // or an array of node names
 		context.replicatedConfirmation = 1;
 		return super.put(record);
 	}

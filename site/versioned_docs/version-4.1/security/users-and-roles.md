@@ -115,17 +115,17 @@ Each table that a role should be given some level of CRUD permissions to must be
 
 ```json
 {
-  "table_name": { / the name of the table to define CRUD perms for
-    "read": boolean, / access to read from this table
-    "insert": boolean, / access to insert data to table
-    "update": boolean, / access to update data in table
-    "delete": boolean, / access to delete row data in table
-    "attribute_permissions": [ / permissions for specific table attributes
+  "table_name": { // the name of the table to define CRUD perms for
+    "read": boolean, // access to read from this table
+    "insert": boolean, // access to insert data to table
+    "update": boolean, // access to update data in table
+    "delete": boolean, // access to delete row data in table
+    "attribute_permissions": [ // permissions for specific table attributes
         {
-          "attribute_name": "attribute_name", / attribute to assign permissions to
-          "read": boolean, / access to read this attribute from table
-          "insert": boolean, / access to insert this attribute into the table
-          "update": boolean / access to update this attribute in the table
+          "attribute_name": "attribute_name", // attribute to assign permissions to
+          "read": boolean, // access to read this attribute from table
+          "insert": boolean, // access to insert this attribute into the table
+          "update": boolean // access to update this attribute in the table
         }
     ]
 }

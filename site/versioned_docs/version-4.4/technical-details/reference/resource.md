@@ -34,22 +34,22 @@ You can create classes that extend `Resource` to define your own data sources, t
 ```javascript
 export class MyExternalData extends Resource {
     async get() {
-        / fetch data from an external source, using our id
+        // fetch data from an external source, using our id
         let response = await this.fetch(this.id);
-        / do something with the response
+        // do something with the response
     }
     put(data) {
-		/ send the data into the external source
+		// send the data into the external source
 	}
 	delete() {
-		/ delete an entity in the external data source 
+		// delete an entity in the external data source 
 	}
 	subscribe(options) {
-		/ if the external data source is capable of real-time notification of changes, can subscribe
+		// if the external data source is capable of real-time notification of changes, can subscribe
 	}
 }
-/ we can export this class from resources.json as our own endpoint, or use this as the source for
-/ a Harper data to store and cache the data coming from this data source:
+// we can export this class from resources.json as our own endpoint, or use this as the source for
+// a Harper data to store and cache the data coming from this data source:
 tables.MyCache.sourcedFrom(MyExternalData);
 ```
 
@@ -58,21 +58,21 @@ You can also extend table classes in the same way, overriding the instance metho
 ```javascript
 export class MyTable extends tables.MyTable {
 	get() {
-		/ we can add properties or change properties before returning data:
+		// we can add properties or change properties before returning data:
 		this.newProperty = 'newValue';
 		this.existingProperty = 44;
-		return super.get(); / returns the record, modified with the changes above
+		return super.get(); // returns the record, modified with the changes above
 	}
 	put(data) {
-		/ can change data any way we want
+		// can change data any way we want
 		super.put(data);
 	}
 	delete() {
 		super.delete(); 
 	}
 	post(data) {
-		/ providing a post handler (for HTTP POST requests) is a common way to create additional
-		/ actions that aren't well described with just PUT or DELETE
+		// providing a post handler (for HTTP POST requests) is a common way to create additional
+		// actions that aren't well described with just PUT or DELETE
 	}
 }
 ```
@@ -136,9 +136,9 @@ The query object can be used to access any query parameters that were included i
 
 ```javascript
 get(query) {
-	/ note that query will only exist (as an object) if there is a query string
-	let param1 = query?.get?.('param1'); / returns 'value'
-	let id = this.getId(); / returns 'some-id'
+	// note that query will only exist (as an object) if there is a query string
+	let param1 = query?.get?.('param1'); // returns 'value'
+	let id = this.getId(); // returns 'some-id'
 	...
 }
 ```
@@ -170,7 +170,7 @@ The `query` argument is used to represent any additional query parameters that w
 
 ```javascript
 put(data, query) {
-    let param1 = query?.get?.('param1'); / returns 'value'
+    let param1 = query?.get?.('param1'); // returns 'value'
     ...
 }
 ```
@@ -299,11 +299,11 @@ This will retrieve a resource instance by id. For example, if you want to retrie
 ```javascript
 const { MyTable, Comment } = tables; 
 ...
-/ in class:
+// in class:
 	async get() {
 		for (let commentId of this.commentIds) {
 			let comment = await Comment.get(commentId, this);
-			/ now you can do something with the comment record
+			// now you can do something with the comment record
 		}
 	}
 ```
@@ -416,7 +416,7 @@ This is called by static methods when they are responding to a URL (from HTTP re
 
 ```javascript
 	static parsePath(path) {
-		return path; / return the path as the id
+		return path; // return the path as the id
 	}
 ```
 
@@ -439,10 +439,10 @@ const { Comment } = tables;
 
 export class BlogPost extends tables.BlogPost {
 	post(comment) {
-		/ add a comment record to the comment table, using this resource as the source for the context
+		// add a comment record to the comment table, using this resource as the source for the context
 		Comment.put(comment, this); 
-		this.comments.push(comment.id); / add the id for the record to our array of comment ids
-		/ Both of these actions will be committed atomically as part of the same transaction
+		this.comments.push(comment.id); // add the id for the record to our array of comment ids
+		// Both of these actions will be committed atomically as part of the same transaction
 	}	
 }
 ```
@@ -557,7 +557,7 @@ let results = Product.search({
 	sort: { attribute: 'price' }
 })
 for await (let record of results) {
-	/ iterate through each record in the query results
+	// iterate through each record in the query results
 }
 ```
 
@@ -581,10 +581,10 @@ If we have extended this table class with our get() we can interact with any the
 ```javascript
 export class CustomProduct extends Product {
 	get(query) {
-		let name = this.name; / this is the name of the current product
-		let rating = this.rating; / this is the rating of the current product
-		this.rating = 3 / we can also modify the rating for the current instance
-		/ (with a get this won't be saved by default, but will be used when serialized)
+		let name = this.name; // this is the name of the current product
+		let rating = this.rating; // this is the rating of the current product
+		this.rating = 3 // we can also modify the rating for the current instance
+		// (with a get this won't be saved by default, but will be used when serialized)
 		return super.get(query);
 	}
 }
@@ -594,9 +594,9 @@ Likewise, we can interact with resource instances in the same way when retrievin
 
 ```javascript
 let product1 = await Product.get(1);
-let name = product1.name; / this is the name of the product with a primary key of 1
-let rating = product1.rating; / this is the rating of the product with a primary key of 1
-product1.rating = 3 / modify the rating for this instance (this will be saved without a call to update())
+let name = product1.name; // this is the name of the product with a primary key of 1
+let rating = product1.rating; // this is the rating of the product with a primary key of 1
+product1.rating = 3 // modify the rating for this instance (this will be saved without a call to update())
 
 ```
 
@@ -604,8 +604,8 @@ If there are additional properties on (some) products that aren't defined in the
 
 ```javascript
 let product1 = await Product.get(1);
-let additionalInformation = product1.get('additionalInformation'); / get the additionalInformation property value even though it isn't defined in the schema
-product1.set('newProperty', 'some value'); / we can assign any properties we want with set 
+let additionalInformation = product1.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
+product1.set('newProperty', 'some value'); // we can assign any properties we want with set 
 ```
 
 And likewise, we can do this in an instance method, although you will probably want to use super.get()/set() so you don't have to write extra logic to avoid recursion:
@@ -613,8 +613,8 @@ And likewise, we can do this in an instance method, although you will probably w
 ```javascript
 export class CustomProduct extends Product {
 	get(query) {
-		let additionalInformation = super.get('additionalInformation'); / get the additionalInformation property value even though it isn't defined in the schema
-		super.set('newProperty', 'some value'); / we can assign any properties we want with set 
+		let additionalInformation = super.get('additionalInformation'); // get the additionalInformation property value even though it isn't defined in the schema
+		super.set('newProperty', 'some value'); // we can assign any properties we want with set 
 	}
 }
 ```
@@ -627,7 +627,7 @@ If you want to save the changes you make, you can call the \`update()\`\` method
 let product1 = await Product.get(1);
 product1.rating = 3;
 product1.set('newProperty', 'some value');
-product1.update(); / save both of these property changes
+product1.update(); // save both of these property changes
 ```
 
 Updates are automatically saved inside modifying methods like put and post:
@@ -637,7 +637,7 @@ export class CustomProduct extends Product {
 	post(data) {
 		this.name = data.name;
 		this.set('description', data.description);
-		/ both of these changes will be saved automatically as this transaction commits
+		// both of these changes will be saved automatically as this transaction commits
 	}
 }
 ```
@@ -669,12 +669,12 @@ export class CustomProduct extends Product {
 	post(data) {
 		let brandName = this.brand.name;
 		let firstVariationPrice = this.variations[0].price;
-		let additionalInfoOnBrand = this.brand.get('additionalInfo'); / not defined in schema, but can still try to access property
-		/ make some changes
-		this.variations.splice(0, 1); / remove first variation
-		this.variations.push({ name: 'new variation', price: 9.99 }); / add a new variation
+		let additionalInfoOnBrand = this.brand.get('additionalInfo'); // not defined in schema, but can still try to access property
+		// make some changes
+		this.variations.splice(0, 1); // remove first variation
+		this.variations.push({ name: 'new variation', price: 9.99 }); // add a new variation
 		this.brand.name = 'new brand name';
-		/ all these change will be saved
+		// all these change will be saved
 	}
 }
 ```
@@ -693,7 +693,7 @@ You can also get "plain" object representation of a resource instance by calling
 let product1 = await Product.get(1);
 let plainObject = product1.toJSON();
 for (let key in plainObject) {
-	/ can iterate through the properties of this record
+	// can iterate through the properties of this record
 }
 ```
 

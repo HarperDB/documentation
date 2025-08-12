@@ -37,7 +37,7 @@ Once a user has configured an extension, HarperDB will attempt to load the exten
 ```javascript
 export function start(options: { port: number, server: {}}) {
 	options.server.http(async (request, nextLayer) => {
-		/ we can directly return a response here, or do some processing on the request and delegate to the next layer
+		// we can directly return a response here, or do some processing on the request and delegate to the next layer
 		let response = await nextLayer(request);
 		return response;
 	});
@@ -49,9 +49,9 @@ Here, the `request` object will have the following structure (this is based on N
 ```typescript
 interface Request {
    method: string
-   headers: Headers / use request.headers.get(headerName) to get header values
+   headers: Headers // use request.headers.get(headerName) to get header values
    body: Stream
-   data: any / deserialized data from the request body
+   data: any // deserialized data from the request body
 }
 ```
 
@@ -60,8 +60,8 @@ The returned `response` object should have the following structure (again, follo
 ```typescript
 interface Response {
 	status?: number
-	headers?: {} / an object with header name/values
-	data?: any / object/value that will be serialized into the body
+	headers?: {} // an object with header name/values
+	data?: any // object/value that will be serialized into the body
 	body?: Stream
 }
 ```
@@ -73,15 +73,15 @@ export function start(options: { port: number, server: {}, resources: Map}) {
 	options.server.http((request, nextLayer) => {
 		let authorization = request.headers.authorization;
 		if (authorization) {
-			/ get some token for the user and determine the user
-			/ if we want to use harperdb's user database
+			// get some token for the user and determine the user
+			// if we want to use harperdb's user database
 			let user = server.getUser(username, password);
-			request.user = user; / authenticate user object goes on the request	
+			request.user = user; // authenticate user object goes on the request	
 		}
-		/ continue on to the next layer
+		// continue on to the next layer
 		return nextLayer(request);
 	});
-	/ if you needed to add a login resource, could add it as well:
+	// if you needed to add a login resource, could add it as well:
 	resources.set('/login', LoginResource);
 }
 ```
@@ -112,8 +112,8 @@ And in our extension module, we could implement `handleFile`:
 
 ```javascript
 export function handleFile?(contents, relative_path, file_path, resources) {
-	/ will be called for each .ejs file.
-   / We can then add the generate resource:
+	// will be called for each .ejs file.
+   // We can then add the generate resource:
    resources.set(relative_path, GeneratedResource);
 }
 ```

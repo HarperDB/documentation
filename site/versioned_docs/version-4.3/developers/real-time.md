@@ -77,7 +77,7 @@ WebSockets are supported through the REST interface and go through the `connect(
 ```javascript
 let ws = new WebSocket('wss://server/my-resource/341');
 ws.onmessage = (event) => {
-	/ received a notification from the server
+	// received a notification from the server
 	let data = JSON.parse(event.data);
 };
 ```
@@ -87,8 +87,8 @@ By default, the resources will make a subscription to that resource, monitoring 
 ```javascript
 export class Echo extends Resource {
 	async *connect(incomingMessages) {
-		for await (let message of incomingMessages) { / wait for each incoming message from the client
-			/ and send the message back to the client
+		for await (let message of incomingMessages) { // wait for each incoming message from the client
+			// and send the message back to the client
 			yield message;
 		}
 	}
@@ -102,13 +102,13 @@ export class Example extends Resource {
 		let outgoingMessages = super.connect();
 		let timer = setInterval(() => {
 			  outgoingMessages.send({greeting: 'hi again!'});
-		}, 1000);  / send a message once a second
+		}, 1000);  // send a message once a second
 		incomingMessages.on('data', (message) => {
-			/ another way of echo-ing the data back to the client
+			// another way of echo-ing the data back to the client
 			outgoingMessages.send(message);
 		});
 		outgoingMessages.on('close', () => {
-			/ make sure we end the timer once the connection is closed
+			// make sure we end the timer once the connection is closed
 			clearInterval(timer);
 		});
 		return outgoingMessages;
@@ -122,7 +122,7 @@ Server Sent Events (SSE) are also supported through the REST server interface, a
 ```javascript
 let eventSource = new EventSource('https://server/my-resource/341', { withCredentials: true });
 eventSource.onmessage = (event) => {
-	/ received a notification from the server
+	// received a notification from the server
 	let data = JSON.parse(event.data);
 };
 ```

@@ -34,7 +34,7 @@ export class MyEndpoint extends MyTable {
 		return {
 			status: 200,
 			headers: {},
-			body: this.data, / this.data is a blob
+			body: this.data, // this.data is a blob
 		});
 	}
 }
@@ -44,11 +44,11 @@ One of the important characteristics of blobs is they natively support asynchron
 
 ```javascript
 let blob = await createBlob(stream);
-/ at this point the blob exists, but the data is still being written to storage
+// at this point the blob exists, but the data is still being written to storage
 await MyTable.put({ id: 'my-record', data: blob });
-/ we now have written a record that references the blob
+// we now have written a record that references the blob
 let record = await MyTable.get('my-record');
-/ we now have a record that gives us access to the blob. We can asynchronously access the blob's data or stream the data, and it will be available as blob the stream is written to the blob.
+// we now have a record that gives us access to the blob. We can asynchronously access the blob's data or stream the data, and it will be available as blob the stream is written to the blob.
 let stream = record.data.stream();
 ```
 
@@ -57,9 +57,9 @@ Alternately, we can also wait for the blob to be fully written to storage before
 
 ```javascript
 let blob = await createBlob(stream);
-/ at this point the blob exists, but the data is was not been written to storage
+// at this point the blob exists, but the data is was not been written to storage
 await blob.save(MyTable);
-/ we now know the blob is fully written to storage
+// we now know the blob is fully written to storage
 await MyTable.put({ id: 'my-record', data: blob });
 ```
 
@@ -73,7 +73,7 @@ Because blobs can be streamed and referenced prior to their completion, there is
 export class MyEndpoint extends MyTable {
 	let blob = this.data;
 	blob.on('error', () => {
-		/ if this was a caching table, we may want to invalidate or delete this record:
+		// if this was a caching table, we may want to invalidate or delete this record:
   		this.invalidate();
 	});
 	async get() {
@@ -93,11 +93,11 @@ Blobs that are created from streams may not have the standard `size` property av
 ```javascript
 let record = await MyTable.get('my-record');
 let blob = record.data;
-blob.size / will be available if it was saved with a known size
-let stream blob.stream(); / start streaming the data
+blob.size // will be available if it was saved with a known size
+let stream blob.stream(); // start streaming the data
 if (blob.size === undefined) {
 	blob.on('size', (size) => {
-		/ will be called once the size is available
+		// will be called once the size is available
 	})
 }
 
