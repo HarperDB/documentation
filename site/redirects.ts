@@ -6,119 +6,152 @@ type RedirectRule = {
 	from: string | string[];
 };
 
-export const redirects: RedirectRule[] = [
-	// Operations API
-	{ from: '/developers/operations-api/utilities', to: '/developers/operations-api/system-operations' },
+// Function to generate redirects with the appropriate base path
+export function generateRedirects(basePath: string): RedirectRule[] {
+	// Helper to add base path to a route
+	const withBase = (path: string) => `${basePath}${path}`;
 	
-	// Installation paths
-	{ from: '/install-harperdb', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/linux', to: '/deployments/install-harper/linux' },
-	{ from: '/install-harperdb/other', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/docker', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/mac', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/windows', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/linux-quickstart', to: '/deployments/install-harper/linux' },
-	{ from: '/install-harperdb/offline', to: '/deployments/install-harper/' },
-	{ from: '/install-harperdb/node-ver-requirement', to: '/deployments/install-harper/' },
-	{ from: '/deployments/install-harperdb', to: '/deployments/install-harper/' },
-	{ from: '/deployments/install-harperdb/linux', to: '/deployments/install-harper/linux' },
-	
-	// Harper Studio (old HarperDB Studio paths)
-	{ from: '/harperdb-studio', to: '/administration/harper-studio/' },
-	{ from: '/harperdb-studio/create-account', to: '/administration/harper-studio/create-account' },
-	{ from: '/harperdb-studio/login-password-reset', to: '/administration/harper-studio/login-password-reset' },
-	{ from: ['/harperdb-studio/resources', '/administration/harper-studio/resources'], to: '/administration/harper-studio/' },
-	{ from: '/harperdb-studio/organizations', to: '/administration/harper-studio/organizations' },
-	{ from: '/harperdb-studio/instances', to: '/administration/harper-studio/instances' },
-	{ from: '/harperdb-studio/query-instance-data', to: '/administration/harper-studio/query-instance-data' },
-	{ from: '/harperdb-studio/manage-schemas-browse-data', to: '/administration/harper-studio/manage-databases-browse-data' },
-	{ from: ['/harperdb-studio/manage-charts', '/administration/harper-studio/manage-charts'], to: '/administration/harper-studio/query-instance-data' },
-	{ from: '/harperdb-studio/manage-clustering', to: '/administration/harper-studio/manage-replication' },
-	{ from: '/harperdb-studio/manage-instance-users', to: '/administration/harper-studio/manage-instance-users' },
-	{ from: '/harperdb-studio/manage-instance-roles', to: '/administration/harper-studio/manage-instance-users' },
-	{ from: '/harperdb-studio/manage-functions', to: '/administration/harper-studio/manage-applications' },
-	{ from: '/harperdb-studio/instance-metrics', to: '/administration/harper-studio/instance-metrics' },
-	{ from: '/harperdb-studio/instance-configuration', to: '/administration/harper-studio/instance-configuration' },
-	{ from: '/harperdb-studio/enable-mixed-content', to: '/administration/harper-studio/enable-mixed-content' },
-	
-	// Harper Cloud (old HarperDB Cloud paths)
-	{ from: '/harperdb-cloud', to: '/deployments/harper-cloud/' },
-	
-	// Security
-	{ from: '/security', to: '/developers/security/' },
-	{ from: '/security/jwt-auth', to: '/developers/security/jwt-auth' },
-	{ from: '/security/basic-auth', to: '/developers/security/basic-auth' },
-	{ from: '/security/configuration', to: '/developers/security/configuration' },
-	{ from: '/security/users-and-roles', to: '/developers/security/users-and-roles' },
-	
-	// Custom Functions → Applications
-	{ from: '/custom-functions', to: '/developers/applications/' },
-	{ from: '/custom-functions/define-routes', to: '/developers/applications/define-routes' },
-	{ from: ['/custom-functions/using-npm-git', '/developers/custom-functions/create-project'], to: '/developers/applications/' },
-	{ from: '/custom-functions/custom-functions-operations', to: '/developers/operations-api/' },
-	{ from: '/custom-functions/debugging-custom-function', to: '/developers/applications/debugging' },
-	{ from: '/custom-functions/example-projects', to: '/developers/applications/example-projects' },
-	
-	// Add-ons and SDKs
-	{ from: '/add-ons-and-sdks', to: '/developers/applications/' },
-	{ from: '/add-ons-and-sdks/google-data-studio', to: '/developers/miscellaneous/google-data-studio' },
-	
-	// SQL Guide
-	{ from: '/sql-guide', to: '/developers/sql-guide/' },
-	
-	// CLI
-	{ from: '/harperdb-cli', to: '/deployments/harper-cli' },
-	{ from: '/deployments/harperdb-cli', to: '/deployments/harper-cli' },
-	
-	// Top-level paths
-	{ from: '/configuration', to: '/deployments/configuration' },
-	{ from: '/logging', to: '/administration/logging/standard-logging' },
-	{ from: '/transaction-logging', to: '/administration/logging/transaction-logging' },
-	{ from: '/audit-logging', to: '/administration/logging/audit-logging' },
-	{ from: '/jobs', to: '/administration/jobs' },
-	{ from: '/upgrade-hdb-instance', to: '/deployments/upgrade-hdb-instance' },
-	{ from: '/reference', to: '/technical-details/reference/' },
-	{ from: '/operations-api', to: '/developers/operations-api/' },
-	{ from: '/rest', to: '/developers/rest' },
-	{ from: '/api', to: '/developers/operations-api/' },
-	
-	// File rename redirect
-	{ from: '/administration/logging/logging', to: '/administration/logging/standard-logging' },
-];
+	return [
+		// Operations API
+		{ from: withBase('/developers/operations-api/utilities'), to: withBase('/developers/operations-api/system-operations') },
+		
+		// Installation paths
+		{ from: withBase('/install-harperdb'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/linux'), to: withBase('/deployments/install-harper/linux') },
+		{ from: withBase('/install-harperdb/other'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/docker'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/mac'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/windows'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/linux-quickstart'), to: withBase('/deployments/install-harper/linux') },
+		{ from: withBase('/install-harperdb/offline'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/install-harperdb/node-ver-requirement'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/deployments/install-harperdb'), to: withBase('/deployments/install-harper/') },
+		{ from: withBase('/deployments/install-harperdb/linux'), to: withBase('/deployments/install-harper/linux') },
+		
+		// Harper Studio (old HarperDB Studio paths)
+		{ from: withBase('/harperdb-studio'), to: withBase('/administration/harper-studio/') },
+		{ from: withBase('/harperdb-studio/create-account'), to: withBase('/administration/harper-studio/create-account') },
+		{ from: withBase('/harperdb-studio/login-password-reset'), to: withBase('/administration/harper-studio/login-password-reset') },
+		{ from: [withBase('/harperdb-studio/resources'), withBase('/administration/harper-studio/resources')], to: withBase('/administration/harper-studio/') },
+		{ from: withBase('/harperdb-studio/organizations'), to: withBase('/administration/harper-studio/organizations') },
+		{ from: withBase('/harperdb-studio/instances'), to: withBase('/administration/harper-studio/instances') },
+		{ from: withBase('/harperdb-studio/query-instance-data'), to: withBase('/administration/harper-studio/query-instance-data') },
+		{ from: withBase('/harperdb-studio/manage-schemas-browse-data'), to: withBase('/administration/harper-studio/manage-databases-browse-data') },
+		{ from: [withBase('/harperdb-studio/manage-charts'), withBase('/administration/harper-studio/manage-charts')], to: withBase('/administration/harper-studio/query-instance-data') },
+		{ from: withBase('/harperdb-studio/manage-clustering'), to: withBase('/administration/harper-studio/manage-replication') },
+		{ from: withBase('/harperdb-studio/manage-instance-users'), to: withBase('/administration/harper-studio/manage-instance-users') },
+		{ from: withBase('/harperdb-studio/manage-instance-roles'), to: withBase('/administration/harper-studio/manage-instance-users') },
+		{ from: withBase('/harperdb-studio/manage-functions'), to: withBase('/administration/harper-studio/manage-applications') },
+		{ from: withBase('/harperdb-studio/instance-metrics'), to: withBase('/administration/harper-studio/instance-metrics') },
+		{ from: withBase('/harperdb-studio/instance-configuration'), to: withBase('/administration/harper-studio/instance-configuration') },
+		{ from: withBase('/harperdb-studio/enable-mixed-content'), to: withBase('/administration/harper-studio/enable-mixed-content') },
+		
+		// Harper Cloud (old HarperDB Cloud paths)
+		{ from: withBase('/harperdb-cloud'), to: withBase('/deployments/harper-cloud/') },
+		
+		// Security
+		{ from: withBase('/security'), to: withBase('/developers/security/') },
+		{ from: withBase('/security/jwt-auth'), to: withBase('/developers/security/jwt-auth') },
+		{ from: withBase('/security/basic-auth'), to: withBase('/developers/security/basic-auth') },
+		{ from: withBase('/security/configuration'), to: withBase('/developers/security/configuration') },
+		{ from: withBase('/security/users-and-roles'), to: withBase('/developers/security/users-and-roles') },
+		
+		// Custom Functions → Applications
+		{ from: withBase('/custom-functions'), to: withBase('/developers/applications/') },
+		{ from: withBase('/custom-functions/define-routes'), to: withBase('/developers/applications/define-routes') },
+		{ from: [withBase('/custom-functions/using-npm-git'), withBase('/developers/custom-functions/create-project')], to: withBase('/developers/applications/') },
+		{ from: withBase('/custom-functions/custom-functions-operations'), to: withBase('/developers/operations-api/') },
+		{ from: withBase('/custom-functions/debugging-custom-function'), to: withBase('/developers/applications/debugging') },
+		{ from: withBase('/custom-functions/example-projects'), to: withBase('/developers/applications/example-projects') },
+		
+		// Add-ons and SDKs
+		{ from: withBase('/add-ons-and-sdks'), to: withBase('/developers/applications/') },
+		{ from: withBase('/add-ons-and-sdks/google-data-studio'), to: withBase('/developers/miscellaneous/google-data-studio') },
+		
+		// SQL Guide
+		{ from: withBase('/sql-guide'), to: withBase('/developers/sql-guide/') },
+		
+		// CLI
+		{ from: withBase('/harperdb-cli'), to: withBase('/deployments/harper-cli') },
+		{ from: withBase('/deployments/harperdb-cli'), to: withBase('/deployments/harper-cli') },
+		
+		// Top-level paths
+		{ from: withBase('/configuration'), to: withBase('/deployments/configuration') },
+		{ from: withBase('/logging'), to: withBase('/administration/logging/standard-logging') },
+		{ from: withBase('/transaction-logging'), to: withBase('/administration/logging/transaction-logging') },
+		{ from: withBase('/audit-logging'), to: withBase('/administration/logging/audit-logging') },
+		{ from: withBase('/jobs'), to: withBase('/administration/jobs') },
+		{ from: withBase('/upgrade-hdb-instance'), to: withBase('/deployments/upgrade-hdb-instance') },
+		{ from: withBase('/reference'), to: withBase('/technical-details/reference/') },
+		{ from: withBase('/operations-api'), to: withBase('/developers/operations-api/') },
+		{ from: withBase('/rest'), to: withBase('/developers/rest') },
+		{ from: withBase('/api'), to: withBase('/developers/operations-api/') },
+		
+		// File rename redirect
+		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
+	];
+}
+
+// For backward compatibility, export a default set with empty base path
+export const redirects = generateRedirects('');
 
 // Function to create wildcard redirects for moved sections
-export function createRedirects(existingPath: string): string[] | undefined {
+// This handles dynamic redirects for paths not explicitly defined in the main redirect list
+export function createRedirects(existingPath: string, basePath: string = ''): string[] | undefined {
 	const redirects: string[] = [];
 	
-	// Handle wildcard redirects for paths with subpaths
-	if (existingPath.startsWith('/administration/harper-studio/')) {
-		const subpath = existingPath.replace('/administration/harper-studio/', '');
-		if (subpath) {  // Only add redirect if there's an actual subpath
-			redirects.push(`/administration/harperdb-studio/${subpath}`);
+	// Only create wildcard redirects for paths that aren't already explicitly defined
+	// Check if this is a path we handle with wildcard redirects
+	
+	// Harper Studio - only for subpaths not already defined
+	if (existingPath.startsWith(`${basePath}/administration/harper-studio/`)) {
+		const subpath = existingPath.replace(`${basePath}/administration/harper-studio/`, '');
+		// Skip paths that are already explicitly redirected
+		const explicitStudioPaths = [
+			'create-account', 'login-password-reset', 'organizations', 'instances',
+			'query-instance-data', 'manage-databases-browse-data', 'manage-replication',
+			'manage-instance-users', 'manage-applications', 'instance-metrics',
+			'instance-configuration', 'enable-mixed-content'
+		];
+		if (subpath && !explicitStudioPaths.includes(subpath)) {
+			redirects.push(`${basePath}/administration/harperdb-studio/${subpath}`);
 		}
 	}
 	
-	if (existingPath.startsWith('/deployments/harper-cloud/')) {
-		const subpath = existingPath.replace('/deployments/harper-cloud/', '');
-		if (subpath) {  // Only add redirect if there's an actual subpath
-			redirects.push(`/harperdb-cloud/${subpath}`);
-			redirects.push(`/deployments/harperdb-cloud/${subpath}`);
+	// Harper Cloud - only for subpaths not already defined
+	if (existingPath.startsWith(`${basePath}/deployments/harper-cloud/`)) {
+		const subpath = existingPath.replace(`${basePath}/deployments/harper-cloud/`, '');
+		// The main harper-cloud redirect is explicit, only handle other subpaths
+		if (subpath) {
+			redirects.push(`${basePath}/deployments/harperdb-cloud/${subpath}`);
 		}
 	}
 	
-	if (existingPath.startsWith('/developers/clustering/')) {
-		const subpath = existingPath.replace('/developers/clustering/', '');
-		if (subpath) {  // Only add redirect if there's an actual subpath
-			redirects.push(`/clustering/${subpath}`);
+	// Install Harper - only for subpaths not already defined
+	if (existingPath.startsWith(`${basePath}/deployments/install-harper/`)) {
+		const subpath = existingPath.replace(`${basePath}/deployments/install-harper/`, '');
+		// Skip 'linux' as it's explicitly defined
+		if (subpath && subpath !== 'linux') {
+			redirects.push(`${basePath}/deployments/install-harperdb/${subpath}`);
 		}
 	}
 	
-	if (existingPath.startsWith('/developers/sql-guide/')) {
-		const subpath = existingPath.replace('/developers/sql-guide/', '');
-		if (subpath) {  // Only add redirect if there's an actual subpath
-			redirects.push(`/sql-guide/${subpath}`);
+	// Custom Functions - handle subpaths
+	if (existingPath.startsWith(`${basePath}/developers/custom-functions/`)) {
+		const subpath = existingPath.replace(`${basePath}/developers/custom-functions/`, '');
+		// Skip paths that are explicitly defined
+		const explicitCustomPaths = ['define-routes', 'debugging-custom-function', 'example-projects'];
+		if (subpath && !explicitCustomPaths.includes(subpath)) {
+			redirects.push(`${basePath}/custom-functions/${subpath}`);
 		}
 	}
+	
+	// Don't create wildcard redirects for these as they're all explicitly defined:
+	// - /developers/security/* (all subpaths are explicit)
+	// - /deployments/harper-cli (explicit)
+	// - /developers/sql-guide/* (has explicit redirect)
+	// - /developers/operations-api/* (has explicit redirects)
+	// - /technical-details/reference/* (has explicit redirect)
 	
 	return redirects.length > 0 ? redirects : undefined;
 }
