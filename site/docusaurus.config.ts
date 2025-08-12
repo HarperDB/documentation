@@ -66,16 +66,16 @@ const config: Config = {
 					sidebarPath: './sidebars.ts',
 					// Docs are served at the configured route base path
 					routeBasePath,
-					editUrl: ({ docPath }) => {
-						// Find where docs/ starts in the path and use everything from there
-						const docsIndex = docPath.indexOf('docs/');
-						if (docsIndex !== -1) {
-							const cleanPath = docPath.substring(docsIndex);
-							// TODO: When implementing versioned docs, this will need to handle version branches
-							return `https://github.com/HarperDB/documentation/blob/main/${cleanPath}`;
+					editUrl: ({ versionDocsDirPath, docPath }) => {
+						// For versioned docs: versionDocsDirPath is like 'versioned_docs/version-4.6'
+						// For current docs: versionDocsDirPath is 'docs'
+						if (versionDocsDirPath.startsWith('versioned_docs')) {
+							// Versioned docs are in site/versioned_docs/version-X.X/
+							return `https://github.com/HarperDB/documentation/blob/main/site/${versionDocsDirPath}/${docPath}`;
+						} else {
+							// Current docs are in the root docs/ directory
+							return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 						}
-						// Fallback if docs/ is not found
-						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 					},
 					lastVersion: '4.6',
 					includeCurrentVersion: false,

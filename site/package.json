@@ -3,13 +3,14 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
+		"prebuild": "node scripts/prebuild.js",
 		"docusaurus": "docusaurus",
-		"start": "docusaurus start",
-		"build": "docusaurus build",
+		"start": "npm run prebuild && docusaurus start",
+		"build": "npm run prebuild && docusaurus build",
 		"version": "node scripts/cut-version.js",
 		"swizzle": "docusaurus swizzle",
 		"deploy": "docusaurus deploy",
-		"clear": "docusaurus clear",
+		"clear": "npm run prebuild -- clean && docusaurus clear",
 		"serve": "docusaurus serve",
 		"typecheck": "tsc"
 	},

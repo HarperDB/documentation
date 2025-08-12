@@ -7,6 +7,9 @@
 # Latest (/docs/) is a build time copy of the latest version
 /docs
 
+# Root index page is conditionally generated if docs is not at the root
+/src/pages/index.tsx
+
 # Generated files
 .docusaurus
 .cache-loader
