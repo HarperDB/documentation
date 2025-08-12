@@ -157,7 +157,7 @@ const config: Config = {
 					dropdownActiveClassDisabled: true,
 				},
 				{
-					href: 'https://github.com/HarperDB/harperdb',
+					href: 'https://github.com/HarperDB/documentation',
 					label: 'GitHub',
 					position: 'right',
 				},
