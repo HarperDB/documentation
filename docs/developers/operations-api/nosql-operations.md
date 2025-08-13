@@ -8,10 +8,10 @@ title: NoSQL Operations
 
 Adds one or more rows of data to a database table. Primary keys of the inserted JSON record may be supplied on insert. If a primary key is not provided, then a GUID or incremented number (depending on type) will be generated for each record.
 
-- operation _(required)_ - must always be `insert`
-- database _(optional)_ - database where the table you are inserting records into lives. The default is `data`
-- table _(required)_ - table where you want to insert records
-- records _(required)_ - array of one or more records for insert
+- `operation` _(required)_ - must always be `insert`
+- `database` _(optional)_ - database where the table you are inserting records into lives. The default is `data`
+- `table` _(required)_ - table where you want to insert records
+- `records` _(required)_ - array of one or more records for insert
 
 ### Body
 
@@ -53,10 +53,10 @@ Adds one or more rows of data to a database table. Primary keys of the inserted 
 
 Changes the values of specified attributes in one or more rows in a database table as identified by the primary key. NOTE: Primary key of the updated JSON record(s) MUST be supplied on update.
 
-- operation _(required)_ - must always be `update`
-- database _(optional)_ - database of the table you are updating records in. The default is `data`
-- table _(required)_ - table where you want to update records
-- records _(required)_ - array of one or more records for update
+- `operation` _(required)_ - must always be `update`
+- `database` _(optional)_ - database of the table you are updating records in. The default is `data`
+- `table` _(required)_ - table where you want to update records
+- `records` _(required)_ - array of one or more records for update
 
 ### Body
 
@@ -95,10 +95,10 @@ Changes the values of specified attributes in one or more rows in a database tab
 
 Changes the values of specified attributes for rows with matching primary keys that exist in the table. Adds rows to the database table for primary keys that do not exist or are not provided.
 
-- operation _(required)_ - must always be `upsert`
-- database _(optional)_ - database of the table you are updating records in. The default is `data`
-- table _(required)_ - table where you want to update records
-- records _(required)_ - array of one or more records for update
+- `operation` _(required)_ - must always be `upsert`
+- `database` _(optional)_ - database of the table you are updating records in. The default is `data`
+- `table` _(required)_ - table where you want to update records
+- `records` _(required)_ - array of one or more records for update
 
 ### Body
 
@@ -144,10 +144,10 @@ Changes the values of specified attributes for rows with matching primary keys t
 
 Removes one or more rows of data from a specified table.
 
-- operation _(required)_ - must always be `delete`
-- database _(optional)_ - database where the table you are deleting records lives. The default is `data`
-- table _(required)_ - table where you want to deleting records
-- ids _(required)_ - array of one or more primary key values, which identifies records to delete
+- `operation` _(required)_ - must always be `delete`
+- `database` _(optional)_ - database where the table you are deleting records lives. The default is `data`
+- `table` _(required)_ - table where you want to deleting records
+- `ids` _(required)_ - array of one or more primary key values, which identifies records to delete
 
 ### Body
 
@@ -176,11 +176,11 @@ Removes one or more rows of data from a specified table.
 
 Returns data from a table for one or more primary keys.
 
-- operation _(required)_ - must always be `search_by_id`
-- database _(optional)_ - database where the table you are searching lives. The default is `data`
-- table _(required)_ - table you wish to search
-- ids _(required)_ - array of primary keys to retrieve
-- get*attributes *(required)_ - define which attributes you want returned. \_Use `['*']` to return all attributes_
+- `operation` _(required)_ - must always be `search_by_id`
+- `database` _(optional)_ - database where the table you are searching lives. The default is `data`
+- `table` _(required)_ - table you wish to search
+- `ids` _(required)_ - array of primary keys to retrieve
+- `get_attributes` _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes
 
 ### Body
 
@@ -215,12 +215,12 @@ Returns data from a table for one or more primary keys.
 
 Returns data from a table for a matching value.
 
-- operation _(required)_ - must always be `search_by_value`
-- database _(optional)_ - database where the table you are searching lives. The default is `data`
-- table _(required)_ - table you wish to search
-- search*attribute *(required)\_ - attribute you wish to search can be any attribute
-- search*value *(required)\_ - value you wish to search - wild cards are allowed
-- get*attributes *(required)\_ - define which attributes you want returned. Use `['*']` to return all attributes
+- `operation` _(required)_ - must always be `search_by_value`
+- `database` _(optional)_ - database where the table you are searching lives. The default is `data`
+- `table` _(required)_ - table you wish to search
+- `search_attribute` _(required)_ - attribute you wish to search can be any attribute
+- `search_value` _(required)_ - value you wish to search - wild cards are allowed
+- `get_attributes` _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes
 
 ### Body
 
@@ -254,24 +254,24 @@ Returns data from a table for a matching value.
 
 Returns data from a table for one or more matching conditions. This supports grouping of conditions to indicate order of operations as well.
 
-- operation _(required)_ - must always be `search_by_conditions`
-- database _(optional)_ - database where the table you are searching lives. The default is `data`
-- table _(required)_ - table you wish to search
-- operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
-- offset _(optional)_ - the number of records that the query results will skip. The default is `0`
-- limit _(optional)_ - the number of records that the query results will include. The default is `null`, resulting in no limit
-- sort _optional_ - This is an object that indicates the sort order. It has the following properties:
-  - attribute _(required)_ - The attribute to sort by
-  - descending _(optional)_ - If true, will sort in descending order (defaults to ascending order)
-  - next _(optional)_ - This can define the next sort object that will be used to break ties for sorting when there are multiple records with the same value for the first attribute (follows the same structure as `sort`, and can recursive additional attributes).
-- get*attributes *(required)\_ - define which attributes you want returned. Use `['*']` to return all attributes
-- conditions _(required)_ - the array of conditions objects, specified below, to filter by. Must include one or more object in the array that are a condition or a grouped set of conditions. A condition has the following properties:
-  - search*attribute *(required)\_ - the attribute you wish to search, can be any attribute
-  - search*type *(required)\_ - the type of search to perform - `equals`, `contains`, `starts_with`, `ends_with`, `greater_than`, `greater_than_equal`, `less_than`, `less_than_equal`, `between`
-  - search*value *(required)\_ - case-sensitive value you wish to search. If the `search_type` is `between` then use an array of two values to search between
+- `operation` _(required)_ - must always be `search_by_conditions`
+- `database` _(optional)_ - database where the table you are searching lives. The default is `data`
+- `table` _(required)_ - table you wish to search
+- `operator` _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
+- `offset` _(optional)_ - the number of records that the query results will skip. The default is `0`
+- `limit` _(optional)_ - the number of records that the query results will include. The default is `null`, resulting in no limit
+- `sort` _optional_ - This is an object that indicates the sort order. It has the following properties:
+  - `attribute` _(required)_ - The attribute to sort by
+  - `descending` _(optional)_ - If true, will sort in descending order (defaults to ascending order)
+  - `next` _(optional)_ - This can define the next sort object that will be used to break ties for sorting when there are multiple records with the same value for the first attribute (follows the same structure as `sort`).
+- `get_attributes` _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes
+- `conditions` _(required)_ - the array of conditions objects, specified below, to filter by. Must include one or more object in the array that are a condition or a grouped set of conditions. A condition has the following properties:
+  - `search_attribute` _(required)_ - the attribute you wish to search, can be any attribute
+  - `search_type` _(required)_ - the type of search to perform - `equals`, `contains`, `starts_with`, `ends_with`, `greater_than`, `greater_than_equal`, `less_than`, `less_than_equal`, `between`
+  - `search_value` _(required)_ - case-sensitive value you wish to search. If the `search_type` is `between` then use an array of two values to search between
     Or a set of grouped conditions has the following properties:
-  - operator _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
-  - conditions _(required)_ - the array of conditions objects as described above.
+  - `operator` _(optional)_ - the operator used between each condition - `and`, `or`. The default is `and`
+  - `conditions` _(required)_ - the array of conditions objects as described above.
 
 ### Body
 
@@ -286,7 +286,7 @@ Returns data from a table for one or more matching conditions. This supports gro
 	"sort": {
 		"attribute": "id",
 		"next": {
-			"dog_name": "age",
+			"attribute": "age",
 			"descending": true
 		}
 	},
