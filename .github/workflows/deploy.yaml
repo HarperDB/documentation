@@ -1,25 +1,32 @@
-name: Deploy Docusaurus to GitHub Pages
+name: Build and deploy Docusaurus site
 
 on:
-  # Trigger the workflow on pull requests and pushes to specific branches
-  pull_request:
+  # Trigger on pushes to main branch
   push:
     branches:
       - main
-  # Allows you to run this workflow manually from the Actions tab
+  # Trigger on pull request events targeting main branch
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened, closed]
+  # Allow manual trigger
   workflow_dispatch:
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these deployments to complete.
-# This shouldn't be necessary for most cases, but it can help avoid conflicts if multiple pushes happen in quick succession.
+# Concurrency settings
 concurrency:
-  group: 'pages'
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # Shared build job for all deployments
   build:
+    # Skip build for PR close events
+    if: github.event.action != 'closed'
     name: Build Docusaurus
     runs-on: ubuntu-latest
+    outputs:
+      preview-url: ${{ steps.vars.outputs.preview-url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -31,69 +38,222 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
-      - name: Debug - Show directory structure
+      - name: Set deployment variables
+        id: vars
         run: |
-          echo "Current directory: $(pwd)"
-          echo "Repository root contents:"
-          ls -la
-          echo "Site directory contents:"
-          ls -la site/ || echo "Site directory not found"
-          echo "Looking for package.json files:"
-          find . -name "package.json" -type f
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            # PR preview configuration
+            # Use BASE_URL with preview path and ROUTE_BASE_PATH="/" for flat build structure
+            echo "BASE_URL=/documentation/__preview/${{ github.event.pull_request.number }}/" >> $GITHUB_ENV
+            echo "ROUTE_BASE_PATH=/" >> $GITHUB_ENV
+            echo "DOCUSAURUS_URL=https://${{ github.repository_owner }}.github.io" >> $GITHUB_ENV
+            echo "preview-url=https://${{ github.repository_owner }}.github.io/documentation/__preview/${{ github.event.pull_request.number }}/" >> $GITHUB_OUTPUT
+            echo "ARTIFACT_NAME=pr-preview-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          else
+            # Production configuration
+            echo "BASE_URL=${{ vars.DOCUSAURUS_BASE_URL || '/' }}" >> $GITHUB_ENV
+            echo "ROUTE_BASE_PATH=${{ vars.DOCUSAURUS_ROUTE_BASE_PATH || '/' }}" >> $GITHUB_ENV
+            echo "DOCUSAURUS_URL=${{ vars.DOCUSAURUS_URL || 'https://docs.harperdb.io' }}" >> $GITHUB_ENV
+            echo "ARTIFACT_NAME=github-pages" >> $GITHUB_ENV
+          fi
 
-      - name: Install root dependencies
+      - name: Install dependencies
         run: |
-          echo "Installing root dependencies from $(pwd)"
-          npm ci || (echo "Root npm ci failed, uploading logs" && exit 1)
-
-      - name: Install site dependencies
-        run: |
-          echo "Installing site dependencies..."
+          echo "Installing dependencies..."
+          npm ci || (echo "Root npm ci failed" && exit 1)
           npm run site:install || (echo "Site install failed" && exit 1)
 
       - name: Build Docusaurus site
         env:
-          DOCUSAURUS_ROUTE_BASE_PATH: ${{ vars.DOCUSAURUS_ROUTE_BASE_PATH }}
-          DOCUSAURUS_BASE_URL: ${{ vars.DOCUSAURUS_BASE_URL }}
-          DOCUSAURUS_URL: ${{ vars.DOCUSAURUS_URL }}
+          DOCUSAURUS_ROUTE_BASE_PATH: ${{ env.ROUTE_BASE_PATH }}
+          DOCUSAURUS_BASE_URL: ${{ env.BASE_URL }}
+          DOCUSAURUS_URL: ${{ env.DOCUSAURUS_URL }}
           IMAGES_PATH: ${{ vars.IMAGES_PATH }}
         run: |
           echo "Building Docusaurus site..."
-          echo "Using DOCUSAURUS_ROUTE_BASE_PATH: $DOCUSAURUS_ROUTE_BASE_PATH"
-          echo "Using DOCUSAURUS_BASE_URL: $DOCUSAURUS_BASE_URL"
-          echo "Using DOCUSAURUS_URL: $DOCUSAURUS_URL"
-          echo "Using IMAGES_PATH: $IMAGES_PATH"
+          echo "Event: ${{ github.event_name }}"
+          echo "DOCUSAURUS_ROUTE_BASE_PATH: $DOCUSAURUS_ROUTE_BASE_PATH"
+          echo "DOCUSAURUS_BASE_URL: $DOCUSAURUS_BASE_URL"
+          echo "DOCUSAURUS_URL: $DOCUSAURUS_URL"
           npm run site:build || (echo "Site build failed" && exit 1)
 
-      - name: Upload npm logs on failure
-        if: failure()
+      - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: npm-logs
-          path: |
-            ~/.npm/_logs/
+          name: ${{ env.ARTIFACT_NAME }}
+          path: site/build
+          retention-days: ${{ github.event_name == 'pull_request' && 7 || 30 }}
 
-      - name: Upload Build Artifact
+      - name: Upload Pages artifact (production only)
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: site/build
 
-  deploy:
+  # Deploy PR preview
+  deploy-pr-preview:
+    if: github.event_name == 'pull_request' && github.event.action != 'closed'
+    needs: build
+    name: Deploy PR Preview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    environment:
+      name: pr-preview
+      url: ${{ needs.build.outputs.preview-url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: pr-preview-${{ github.event.pull_request.number }}
+          path: ./pr-build
+
+      - name: Deploy PR preview
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # PR number for this preview
+          PR_NUM="${{ github.event.pull_request.number }}"
+          
+          # Clean up any existing preview assets
+          # Remove the specific preview directory if it exists
+          if [ -d "__preview/${PR_NUM}" ]; then
+            git rm -rf "__preview/${PR_NUM}"
+            git commit -m "Clean up existing preview for PR #${PR_NUM}" || true
+          fi
+          
+          # Create the preview directory
+          mkdir -p "__preview/${PR_NUM}"
+          
+          # Copy build artifacts to the preview directory
+          # Since we're building with BASE_URL="/__preview/{number}/" and ROUTE_BASE_PATH="/"
+          # the build is flat at root, so we copy everything to the preview subdirectory
+          cp -r pr-build/* "__preview/${PR_NUM}/"
+          
+          # Verify the structure (for debugging)
+          echo "Preview directory structure:"
+          ls -la "__preview/${PR_NUM}/" | head -20
+          
+          # Add and commit all changes
+          git add .
+          git commit -m "Deploy PR preview for #${PR_NUM}" || echo "No changes to commit"
+          git push origin gh-pages
+
+      - name: Comment PR with preview URL
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const url = '${{ needs.build.outputs.preview-url }}';
+            const prNumber = ${{ github.event.pull_request.number }};
+            const body = `### 🚀 PR Preview Deployed!
+            
+            Preview URL: ${url}
+            
+            ---
+            _This preview will be updated automatically with new commits._`;
+            
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.find(comment => 
+              comment.user?.type === 'Bot' && 
+              comment.body?.includes('PR Preview Deployed!')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
+
+  # Deploy to production GitHub Pages
+  deploy-production:
+    if: github.event_name != 'pull_request'
     needs: build
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    # Only deploy on push to main or manual trigger, not on PRs
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
-
     permissions:
       pages: write
       id-token: write
-
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Clean up PR preview when closed
+  cleanup-pr-preview:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    name: Cleanup PR Preview
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove PR preview
+        run: |
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Remove PR preview directory
+          PREVIEW_DIR="__preview/${{ github.event.pull_request.number }}"
+          if [ -d "$PREVIEW_DIR" ]; then
+            git rm -rf "$PREVIEW_DIR"
+            if git diff --cached --quiet; then
+              echo "No changes to commit (preview may have been already removed)"
+            else
+              git commit -m "Remove PR preview for closed PR #${{ github.event.pull_request.number }}"
+              git push origin gh-pages
+              echo "Removed PR preview directory: $PREVIEW_DIR"
+            fi
+          else
+            echo "PR preview directory not found: $PREVIEW_DIR"
+          fi
+
+      - name: Comment PR about cleanup
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = ${{ github.event.pull_request.number }};
+            const body = `### 🧹 PR Preview Cleaned Up
+            
+            The preview deployment for this PR has been removed.`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+              body: body
+            });
