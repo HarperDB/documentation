@@ -71,7 +71,7 @@ const config: Config = {
 						// All docs are now versioned
 						return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
 					},
-					lastVersion: process.env.NODE_ENV === 'production' ? '4.6' : '4.7',
+					lastVersion: '4.6',
 					includeCurrentVersion: false,
 					onlyIncludeVersions: process.env.NODE_ENV === 'production' ? ['4.6', '4.5', '4.4', '4.3', '4.2', '4.1'] : undefined,
 					versions: {
