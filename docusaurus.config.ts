@@ -46,8 +46,8 @@ const config: Config = {
 	// Set the /<baseUrl>/ pathname under which your site is served
 	baseUrl,
 
-	// Serve images from the repository root or from env var path
-	staticDirectories: process.env.IMAGES_PATH ? ['static', process.env.IMAGES_PATH] : ['static', '../images'],
+	// Static assets directory
+	staticDirectories: ['static'],
 
 	// GitHub pages deployment config.
 	// If you aren't using GitHub pages, you don't need these.
@@ -62,24 +62,24 @@ const config: Config = {
 			'@docusaurus/preset-classic',
 			{
 				docs: {
-					path: '../docs',
-					sidebarPath: './sidebars.ts',
+					// No docs folder anymore, everything is versioned
+					path: 'versioned_docs/version-4.7', // Points to latest version
+					disableVersioning: false,
 					// Docs are served at the configured route base path
 					routeBasePath,
 					editUrl: ({ versionDocsDirPath, docPath }) => {
-						// For versioned docs: versionDocsDirPath is like 'versioned_docs/version-4.6'
-						// For current docs: versionDocsDirPath is 'docs'
-						if (versionDocsDirPath.startsWith('versioned_docs')) {
-							// Versioned docs are in site/versioned_docs/version-X.X/
-							return `https://github.com/HarperDB/documentation/blob/main/site/${versionDocsDirPath}/${docPath}`;
-						} else {
-							// Current docs are in the root docs/ directory
-							return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
-						}
+						// All docs are now versioned
+						return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
 					},
-					lastVersion: '4.6',
+					lastVersion: process.env.NODE_ENV === 'production' ? '4.6' : '4.7',
 					includeCurrentVersion: false,
+					onlyIncludeVersions: process.env.NODE_ENV === 'production' ? ['4.6', '4.5', '4.4', '4.3', '4.2', '4.1'] : undefined,
 					versions: {
+						'4.7': {
+							label: '4.7 (next)',
+							// Only show unreleased banner in development
+							banner: process.env.NODE_ENV === 'production' ? 'none' : 'unreleased',
+						},
 						'4.6': {
 							banner: 'none', // No banner for this version
 						},

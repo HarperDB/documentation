@@ -40,4 +40,4 @@ Harper has built-in resiliency for when network connectivity is lost within a su
 
 Harper clustering creates a mesh network between nodes giving end users the ability to create an infinite number of topologies. subscription topologies can be simple or as complex as needed.
 
-![](/clustering/figure6.png)
+![](/img/v4.7/clustering/figure6.png)

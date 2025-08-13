@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 
 /**
- * Script to cut a new version from the repository's /docs directory
- * This is used for creating new versions (4.7+) after the GitBook migration
+ * Script to cut a new version from the latest versioned docs
+ * Since we no longer have a /docs directory, we copy from the latest version
  *
- * Usage: npm run version <version>
- * Example: npm run version 4.7
+ * Usage: npm run version [version]
+ * Example: npm run version 4.8
+ * 
+ * If no version is provided, it will auto-increment the latest version
  */
 
 const fs = require('node:fs');
 const path = require('node:path');
-const { execSync } = require('node:child_process');
 
-const SCRIPT_DIR = __dirname;
-const SITE_DIR = path.dirname(SCRIPT_DIR);
-const REPO_ROOT = path.dirname(SITE_DIR);
-const REPO_DOCS = path.join(REPO_ROOT, 'docs');
-const SITE_DOCS = path.join(SITE_DIR, 'docs');
+const REPO_ROOT = path.dirname(__dirname);
+const VERSIONED_DOCS = path.join(REPO_ROOT, 'versioned_docs');
+const VERSIONED_SIDEBARS = path.join(REPO_ROOT, 'versioned_sidebars');
+const VERSIONS_FILE = path.join(REPO_ROOT, 'versions.json');
 
 function copyDirectory(src, dest) {
 	// Create destination directory
@@ -39,76 +39,80 @@ function copyDirectory(src, dest) {
 	}
 }
 
-function removeDirectory(dir) {
-	if (fs.existsSync(dir)) {
-		fs.rmSync(dir, { recursive: true, force: true });
-	}
+function getLatestVersion() {
+	const versions = JSON.parse(fs.readFileSync(VERSIONS_FILE, 'utf8'));
+	return versions[0]; // First version is the latest
+}
+
+function incrementVersion(version) {
+	const [major, minor] = version.split('.').map(Number);
+	return `${major}.${minor + 1}`;
 }
 
 function main() {
-	const version = process.argv[2];
+	let newVersion = process.argv[2];
+	const latestVersion = getLatestVersion();
 
-	if (!version) {
-		console.error('Usage: npm run version <version>');
-		console.error('Example: npm run version 4.7');
-		process.exit(1);
+	// If no version provided, auto-increment
+	if (!newVersion) {
+		newVersion = incrementVersion(latestVersion);
+		console.log(`No version specified, auto-incrementing from ${latestVersion} to ${newVersion}`);
 	}
 
 	// Validate version format
-	if (!/^\d+\.\d+$/.test(version)) {
-		console.error(`Error: Invalid version format "${version}". Expected format: X.Y (e.g., 4.7)`);
+	if (!/^\d+\.\d+$/.test(newVersion)) {
+		console.error(`Error: Invalid version format "${newVersion}". Expected format: X.Y (e.g., 4.8)`);
 		process.exit(1);
 	}
 
-	console.log(`\nCutting version ${version} from repository docs...`);
+	console.log(`\nCutting version ${newVersion} from version ${latestVersion}...`);
 
-	// Check if repo docs exist
-	if (!fs.existsSync(REPO_DOCS)) {
-		console.error(`Error: Repository docs not found at ${REPO_DOCS}`);
-		console.error('After migration, the repository /docs directory should contain vNext documentation.');
+	const sourceDocsDir = path.join(VERSIONED_DOCS, `version-${latestVersion}`);
+	const targetDocsDir = path.join(VERSIONED_DOCS, `version-${newVersion}`);
+	const sourceSidebarFile = path.join(VERSIONED_SIDEBARS, `version-${latestVersion}-sidebars.json`);
+	const targetSidebarFile = path.join(VERSIONED_SIDEBARS, `version-${newVersion}-sidebars.json`);
+
+	// Check if source exists
+	if (!fs.existsSync(sourceDocsDir)) {
+		console.error(`Error: Source docs not found at ${sourceDocsDir}`);
 		process.exit(1);
 	}
 
-	// Remove existing site/docs if it exists (it's just a build-time copy)
-	if (fs.existsSync(SITE_DOCS)) {
-		console.log('Removing existing site/docs (build-time copy)...');
-		removeDirectory(SITE_DOCS);
+	// Check if target already exists
+	if (fs.existsSync(targetDocsDir)) {
+		console.error(`Error: Version ${newVersion} already exists at ${targetDocsDir}`);
+		process.exit(1);
 	}
 
 	try {
-		// Copy repo docs to site docs
-		console.log('Copying repository docs to site/docs...');
-		copyDirectory(REPO_DOCS, SITE_DOCS);
+		// Copy docs
+		console.log(`Copying docs from version-${latestVersion} to version-${newVersion}...`);
+		copyDirectory(sourceDocsDir, targetDocsDir);
 
-		// Run Docusaurus version command
-		console.log(`\nRunning Docusaurus version command for ${version}...`);
-		execSync(`npm run docusaurus docs:version ${version}`, {
-			cwd: SITE_DIR,
-			stdio: 'inherit',
-		});
+		// Copy sidebar
+		console.log(`Copying sidebar configuration...`);
+		fs.copyFileSync(sourceSidebarFile, targetSidebarFile);
 
-		console.log(`\n✅ Successfully created version ${version}`);
-		console.log(`   - Versioned docs created at: versioned_docs/version-${version}/`);
+		// Update versions.json
+		console.log('Updating versions.json...');
+		const versions = JSON.parse(fs.readFileSync(VERSIONS_FILE, 'utf8'));
+		versions.unshift(newVersion); // Add new version at the beginning
+		fs.writeFileSync(VERSIONS_FILE, JSON.stringify(versions, null, 0) + '\n');
+
+		console.log(`\n✅ Successfully created version ${newVersion}`);
+		console.log(`   - Versioned docs created at: versioned_docs/version-${newVersion}/`);
+		console.log(`   - Sidebar created at: versioned_sidebars/version-${newVersion}-sidebars.json`);
 		console.log(`   - Version added to versions.json`);
-
-		// Clean up - remove the temporary site/docs (it's in .gitignore anyway)
-		console.log('\nCleaning up temporary site/docs...');
-		removeDirectory(SITE_DOCS);
 
 		console.log('\n🎉 Version creation complete!');
 		console.log('\nNext steps:');
-		console.log('1. Create a PR with the new versioned docs and updated versions.json');
-		console.log('2. Site will deploy automatically when PR is merged');
-		console.log(`\nNote: Version ${version} is now the latest and will be synced to site/docs during build`);
+		console.log(`1. Update docusaurus.config.ts to set lastVersion to '${newVersion}'`);
+		console.log(`2. Update the version config in docusaurus.config.ts for the new version`);
+		console.log(`3. If this is a release, update onlyIncludeVersions in production to include '${latestVersion}'`);
+		console.log('4. Create a PR with the changes');
+		console.log(`\nNote: Version ${newVersion} is now the latest development version`);
 	} catch (error) {
 		console.error('\n❌ Error creating version:', error.message || error);
-
-		// Clean up on error
-		if (fs.existsSync(SITE_DOCS)) {
-			console.log('Cleaning up temporary site/docs...');
-			removeDirectory(SITE_DOCS);
-		}
-
 		process.exit(1);
 	}
 }
