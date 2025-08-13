@@ -1,6 +1,5 @@
 name: 🐛 Platform Bug
 description: Report issues with the documentation site's functionality (broken features, UI problems, performance issues)
-title: '[Platform Bug]: '
 labels: ['platform', 'bug']
 body:
   - type: markdown
