@@ -49,6 +49,29 @@ function incrementVersion(version) {
 	return `${major}.${minor + 1}`;
 }
 
+function updateImagePaths(dir, oldVersion, newVersion) {
+	// Recursively find all .md files and update image paths
+	const files = fs.readdirSync(dir, { withFileTypes: true });
+	
+	for (const file of files) {
+		const filePath = path.join(dir, file.name);
+		
+		if (file.isDirectory()) {
+			updateImagePaths(filePath, oldVersion, newVersion);
+		} else if (file.name.endsWith('.md')) {
+			let content = fs.readFileSync(filePath, 'utf8');
+			const oldPath = `/img/v${oldVersion}/`;
+			const newPath = `/img/v${newVersion}/`;
+			
+			if (content.includes(oldPath)) {
+				content = content.replace(new RegExp(oldPath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), newPath);
+				fs.writeFileSync(filePath, content, 'utf8');
+				console.log(`   Updated: ${path.relative(REPO_ROOT, filePath)}`);
+			}
+		}
+	}
+}
+
 function main() {
 	let newVersion = process.argv[2];
 	const latestVersion = getLatestVersion();
@@ -88,6 +111,18 @@ function main() {
 		// Copy docs
 		console.log(`Copying docs from version-${latestVersion} to version-${newVersion}...`);
 		copyDirectory(sourceDocsDir, targetDocsDir);
+
+		// Update image paths in the new version
+		console.log(`Updating image paths from /img/v${latestVersion}/ to /img/v${newVersion}/...`);
+		updateImagePaths(targetDocsDir, latestVersion, newVersion);
+
+		// Copy images for the new version
+		const staticImgSource = path.join(REPO_ROOT, 'static', 'img', `v${latestVersion}`);
+		const staticImgTarget = path.join(REPO_ROOT, 'static', 'img', `v${newVersion}`);
+		if (fs.existsSync(staticImgSource)) {
+			console.log(`Copying images from static/img/v${latestVersion} to static/img/v${newVersion}...`);
+			copyDirectory(staticImgSource, staticImgTarget);
+		}
 
 		// Copy sidebar
 		console.log(`Copying sidebar configuration...`);
