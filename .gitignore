@@ -1,50 +1,36 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# Dependencies
+node_modules
 
-# Other files and folders
-.settings/
+# Production
+build
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# Generated files
+.docusaurus
+.cache-loader
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Root index page is conditionally generated if docs is not at the root
+/src/pages/index.tsx
+
+# Misc
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
 .idea/workspace.xml
 .idea/documentation.iml
 .idea/modules.xml
 .idea/vcs.xml
+.settings/
 
-node_modules
+# OS files
+Thumbs.db
 
-# Site .gitignore so its picked up by prettier
-# Dependencies
-site/node_modules
-
-# Production
-site/build
-
-# Latest (/docs/) is a build time copy of the latest version
-site/docs
-
-# Generated files
-site/.docusaurus
-site/.cache-loader
-
-# Misc
-site/.DS_Store
-site/.env.local
-site/.env.development.local
-site/.env.test.local
-site/.env.production.local
-
-site/npm-debug.log*
-site/yarn-debug.log*
-site/yarn-error.log*
+# Old site directory (cleanup)
+site/

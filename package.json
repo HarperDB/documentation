@@ -1,17 +1,56 @@
 {
 	"name": "@harperdb/documentation",
+	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"format": "prettier --write .",
-		"site:install": "cd site && npm install",
-		"site:dev": "cd site && npm run start",
-		"site:build": "cd site && npm run build",
-		"site:serve": "cd site && npm run serve",
-		"site:clear": "cd site && npm run clear"
+		"prebuild": "node scripts/prebuild.js",
+		"docusaurus": "docusaurus",
+		"start": "npm run prebuild && docusaurus start",
+		"dev": "npm run prebuild && docusaurus start",
+		"build": "npm run prebuild && docusaurus build",
+		"version": "node scripts/cut-version.js",
+		"swizzle": "docusaurus swizzle",
+		"deploy": "docusaurus deploy",
+		"clear": "npm run prebuild -- clean && docusaurus clear",
+		"serve": "docusaurus serve",
+		"typecheck": "tsc",
+		"format": "prettier --write ."
+	},
+	"dependencies": {
+		"@docusaurus/core": "^3.8.1",
+		"@docusaurus/plugin-client-redirects": "^3.8.1",
+		"@docusaurus/preset-classic": "^3.8.1",
+		"@docusaurus/remark-plugin-npm2yarn": "^3.8.1",
+		"@docusaurus/theme-mermaid": "^3.8.1",
+		"@easyops-cn/docusaurus-search-local": "^0.52.1",
+		"@mdx-js/react": "^3.0.0",
+		"clsx": "^2.0.0",
+		"prism-react-renderer": "^2.3.0",
+		"react": "^19.1.1",
+		"react-dom": "^19.1.1"
 	},
 	"devDependencies": {
+		"@docusaurus/module-type-aliases": "^3.8.1",
+		"@docusaurus/tsconfig": "^3.8.1",
+		"@docusaurus/types": "^3.8.1",
 		"@harperdb/code-guidelines": "^0.0.2",
-		"prettier": "^3.6.1"
+		"prettier": "^3.6.1",
+		"typescript": "^5.9.2"
+	},
+	"browserslist": {
+		"production": [
+			">0.5%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 3 chrome version",
+			"last 3 firefox version",
+			"last 5 safari version"
+		]
+	},
+	"engines": {
+		"node": ">=22.0"
 	},
 	"prettier": "@harperdb/code-guidelines/prettier"
 }
