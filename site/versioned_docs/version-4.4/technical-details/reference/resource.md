@@ -531,7 +531,7 @@ Table.search({ select: 'id', conditions: ...})
 
 This defines the sort order, and should be an object that can have the following properties:
 
-- `attributes`: The attribute to sort on.
+- `attribute`: The attribute to sort on.
 - `descending`: If true, will sort in descending order (optional and defaults to `false`).
 - `next`: Specifies the next sort order to resolve ties. This is an object that follows the same structure as `sort`.
 
