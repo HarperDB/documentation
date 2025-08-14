@@ -9,12 +9,24 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these deployments to complete.
-# This shouldn't be necessary for most cases, but it can help avoid conflicts if multiple pushes happen in quick succession.
+# Concurrency configuration to manage parallel workflow runs
+# 
+# Group composition: pages-<event_type>-<unique_identifier>
+# - event_type: 'pull_request', 'push', or 'workflow_dispatch'
+# - unique_identifier: PR number for PRs, branch ref for pushes/manual runs
+#
+# Examples of group names:
+# - PR #123: "pages-pull_request-123"
+# - Push to main: "pages-push-refs/heads/main"
+# - Manual run on main: "pages-workflow_dispatch-refs/heads/main"
+#
+# Behavior:
+# - PRs: New commits cancel previous runs (cancel-in-progress: true)
+# - Main branch: Runs complete without cancellation (cancel-in-progress: false)
+# - Manual dispatch: Runs complete without cancellation (cancel-in-progress: false)
 concurrency:
-  group: 'pages'
-  cancel-in-progress: false
+  group: pages-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
