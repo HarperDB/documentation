@@ -32,7 +32,7 @@ clustering:
             port: 9932
 ```
 
-![figure 1](/clustering/figure1.png)
+![figure 1](/img/v4.7/clustering/figure1.png)
 
 This diagram shows one way of using routes to connect a network of nodes. Node2 and Node3 do not reference any routes in their config. Node1 contains routes for Node2 and Node3, which is enough to establish a network between all three nodes.
 

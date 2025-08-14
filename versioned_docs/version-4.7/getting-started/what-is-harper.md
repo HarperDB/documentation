@@ -14,7 +14,7 @@ Harper is an all-in-one backend technology that fuses database technologies, cac
 
 Harper simplifies scaling with clustering and native data replication. At scale, architectures tend to include 4 to 16 redundant, geo-distributed nodes located near every user population center. This ensures that every user experiences minimal network latency and maximum reliability in addition to the already rapid server responses.
 
-![](/harperstack.jpg)
+![](/img/v4.7/harperstack.jpg)
 
 ## Understanding the Paradigm Shift
 
