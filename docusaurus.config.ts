@@ -7,8 +7,8 @@ import { generateRedirects, createRedirects as createRedirectsBase } from './red
 
 const scripts = [];
 
-// `npm run site:build` and `docusaurus build` sets this to 'production'
-// `npm run site:dev` and `docusaurus start` sets it to 'development'
+// `npm run build` sets this to 'production'
+// `npm start` and `npm run dev` sets it to 'development'
 if (process.env.NODE_ENV === 'production') {
 	scripts.push({ src: '/js/reo.js' });
 }
@@ -70,8 +70,8 @@ const config: Config = {
 						// For versioned docs: versionDocsDirPath is like 'versioned_docs/version-4.6'
 						// For current docs: versionDocsDirPath is 'docs'
 						if (versionDocsDirPath.startsWith('versioned_docs')) {
-							// Versioned docs are in site/versioned_docs/version-X.X/
-							return `https://github.com/HarperDB/documentation/blob/main/site/${versionDocsDirPath}/${docPath}`;
+							// Versioned docs are in versioned_docs/version-X.X/
+							return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
 						} else {
 							// Current docs are in the root docs/ directory
 							return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
