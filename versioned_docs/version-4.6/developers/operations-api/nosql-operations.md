@@ -218,8 +218,10 @@ Returns data from a table for a matching value.
 - `operation` _(required)_ - must always be `search_by_value`
 - `database` _(optional)_ - database where the table you are searching lives. The default is `data`
 - `table` _(required)_ - table you wish to search
-- `search_attribute` _(required)_ - attribute you wish to search can be any attribute
-- `search_value` _(required)_ - value you wish to search - wild cards are allowed
+- `attribute` _(required)_ - attribute you wish to search can be any attribute
+- `search_attribute` - deprecated in favor of `attribute`
+- `value` _(required)_ - value you wish to search - wild cards are allowed
+- `search_value` - deprecated in favor of `value`
 - `get_attributes` _(required)_ - define which attributes you want returned. Use `['*']` to return all attributes
 
 ### Body
@@ -229,8 +231,8 @@ Returns data from a table for a matching value.
 	"operation": "search_by_value",
 	"database": "dev",
 	"table": "dog",
-	"search_attribute": "owner_name",
-	"search_value": "Ky*",
+	"attribute": "owner_name",
+	"value": "Ky*",
 	"get_attributes": ["id", "dog_name"]
 }
 ```
