@@ -45,6 +45,8 @@ const config: Config = {
 	url,
 	// Set the /<baseUrl>/ pathname under which your site is served
 	baseUrl,
+	// Remove trailing slashes - GitHub Pages handles this fine and makes relative paths intuitive
+	trailingSlash: false,
 
 	// Serve images from the repository root or from env var path
 	staticDirectories: process.env.IMAGES_PATH ? ['static', process.env.IMAGES_PATH] : ['static', '../images'],
