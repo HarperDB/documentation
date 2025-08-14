@@ -10,7 +10,7 @@ const scripts = [];
 // `npm run site:build` and `docusaurus build` sets this to 'production'
 // `npm run site:dev` and `docusaurus start` sets it to 'development'
 if (process.env.NODE_ENV === 'production') {
-	scripts.push({ src: 'js/reo.js' });
+	scripts.push({ src: '/js/reo.js' });
 }
 
 // Determine base URL from environment variable or use defaults
