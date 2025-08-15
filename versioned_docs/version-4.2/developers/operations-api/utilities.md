@@ -10,7 +10,7 @@ Restarts the HarperDB instance.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `restart`
+- `operation` _(required)_ - must always be `restart`
 
 ### Body
 
@@ -36,8 +36,8 @@ Restarts servers for the specified HarperDB service.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `restart_service`
-- service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
+- `operation` _(required)_ - must always be `restart_service`
+- `service` _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
 
 ### Body
 
@@ -64,8 +64,8 @@ Returns detailed metrics on the host system.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `system_information`
-- attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'replication']
+- `operation` _(required)_ - must always be `system_information`
+- `attributes` _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'replication']
 
 ### Body
 
@@ -83,10 +83,10 @@ Delete data before the specified timestamp on the specified database table exclu
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `delete_records_before`
-- date _(required)_ - records older than this date will be deleted. Supported format looks like: `YYYY-MM-DDThh:mm:ss.sZ`
-- schema _(required)_ - name of the schema where you are deleting your data
-- table _(required)_ - name of the table where you are deleting your data
+- `operation` _(required)_ - must always be `delete_records_before`
+- `date` _(required)_ - records older than this date will be deleted. Supported format looks like: `YYYY-MM-DDThh:mm:ss.sZ`
+- `schema` _(required)_ - name of the schema where you are deleting your data
+- `table` _(required)_ - name of the table where you are deleting your data
 
 ### Body
 
@@ -114,10 +114,10 @@ _Operation is restricted to super_user roles only_
 
 Exports data based on a given search operation to a local file in JSON or CSV format.
 
-- operation _(required)_ - must always be `export_local`
-- format _(required)_ - the format you wish to export the data, options are `json` & `csv`
-- path _(required)_ - path local to the server to export the data
-- search*operation *(required)\_ - search_operation of `search_by_hash`, `search_by_value` or `sql`
+- `operation` _(required)_ - must always be `export_local`
+- `format` _(required)_ - the format you wish to export the data, options are `json` & `csv`
+- `path` _(required)_ - path local to the server to export the data
+- `search_operation` _(required)_ - search_operation of `search_by_hash`, `search_by_value` or `sql`
 
 ### Body
 
@@ -147,10 +147,10 @@ Exports data based on a given search operation to a local file in JSON or CSV fo
 
 Exports data based on a given search operation from table to AWS S3 in JSON or CSV format.
 
-- operation _(required)_ - must always be `export_to_s3`
-- format _(required)_ - the format you wish to export the data, options are `json` & `csv`
-- s3 _(required)_ - details your access keys, bucket, bucket region and key for saving the data to S3
-- search*operation *(required)\_ - search_operation of `search_by_hash`, `search_by_value` or `sql`
+- `operation` _(required)_ - must always be `export_to_s3`
+- `format` _(required)_ - the format you wish to export the data, options are `json` & `csv`
+- `s3` _(required)_ - details your access keys, bucket, bucket region and key for saving the data to S3
+- `search_operation` _(required)_ - search_operation of `search_by_hash`, `search_by_value` or `sql`
 
 ### Body
 
@@ -189,9 +189,9 @@ Executes npm install against specified custom function projects.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `install_node_modules`
-- projects _(required)_ - must ba an array of custom functions projects.
-- dry*run *(optional)\_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
+- `operation` _(required)_ - must always be `install_node_modules`
+- `projects` _(required)_ - must ba an array of custom functions projects.
+- `dry_run` _(optional)_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
 
 ### Body
 
@@ -211,9 +211,9 @@ Modifies the HarperDB configuration file parameters. Must follow with a restart 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_configuration`
-- logging*level *(example/optional)\_ - one or more configuration keywords to be updated in the HarperDB configuration file
-- clustering*enabled *(example/optional)\_ - one or more configuration keywords to be updated in the HarperDB configuration file
+- `operation` _(required)_ - must always be `set_configuration`
+- `logging_level` _(optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
+- `clustering_enabled` _(optional)_ - one or more configuration keywords to be updated in the HarperDB configuration file
 
 ### Body
 
@@ -241,7 +241,7 @@ Returns the HarperDB configuration parameters.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_configuration`
+- `operation` _(required)_ - must always be `get_configuration`
 
 ### Body
 

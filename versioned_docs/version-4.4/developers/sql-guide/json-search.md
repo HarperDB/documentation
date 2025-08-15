@@ -12,7 +12,7 @@ Harper automatically indexes all top level attributes in a row / object written 
 
 ## Syntax
 
-SEARCH_JSON(_expression, attribute_)
+`SEARCH_JSON(expression, attribute)`
 
 Executes the supplied string _expression_ against data of the defined top level _attribute_ for each row. The expression both filters and defines output from the JSON document.
 
@@ -117,7 +117,7 @@ SEARCH_JSON(
 )
 ```
 
-The first argument passed to SEARCH_JSON is the expression to execute against the second argument which is the cast attribute on the credits table. This expression will execute for every row. Looking into the expression it starts with “$\[…]” this tells the expression to iterate all elements of the cast array.
+The first argument passed to SEARCH_JSON is the expression to execute against the second argument which is the cast attribute on the credits table. This expression will execute for every row. Looking into the expression it starts with "$[…]" this tells the expression to iterate all elements of the cast array.
 
 Then the expression tells the function to only return entries where the name attribute matches any of the actors defined in the array:
 
@@ -125,7 +125,7 @@ Then the expression tells the function to only return entries where the name att
 name in ["Robert Downey Jr.", "Chris Evans", "Scarlett Johansson", "Mark Ruffalo", "Chris Hemsworth", "Jeremy Renner", "Clark Gregg", "Samuel L. Jackson", "Gwyneth Paltrow", "Don Cheadle"]
 ```
 
-So far, we’ve iterated the array and filtered out rows, but we also want the results formatted in a specific way, so we’ve chained an expression on our filter with: `{“actor”: name, “character”: character}`. This tells the function to create a specific object for each matching entry.
+So far, we’ve iterated the array and filtered out rows, but we also want the results formatted in a specific way, so we’ve chained an expression on our filter with: `{"actor": name, "character": character}`. This tells the function to create a specific object for each matching entry.
 
 **Sample Result**
 

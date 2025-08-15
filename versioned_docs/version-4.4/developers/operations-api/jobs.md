@@ -8,8 +8,8 @@ title: Jobs
 
 Returns job status, metrics, and messages for the specified job ID.
 
-- operation _(required)_ - must always be `get_job`
-- id _(required)_ - the id of the job you wish to view
+- `operation` _(required)_ - must always be `get_job`
+- `id` _(required)_ - the id of the job you wish to view
 
 ### Body
 
@@ -50,9 +50,9 @@ Returns a list of job statuses, metrics, and messages for all jobs executed with
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `search_jobs_by_start_date`
-- from*date *(required)\_ - the date you wish to start the search
-- to*date *(required)\_ - the date you wish to end the search
+- `operation` _(required)_ - must always be `search_jobs_by_start_date`
+- `from_date` _(required)_ - the date you wish to start the search
+- `to_date` _(required)_ - the date you wish to end the search
 
 ### Body
 

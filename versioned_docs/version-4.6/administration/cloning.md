@@ -11,7 +11,7 @@ only clone config, databases and replication that do not already exist.
 
 Clone node is triggered when Harper is installed or started with certain environment or command line (CLI) variables set (see below).
 
-**Leader node** - the instance of Harper you are cloning.\
+**Leader node** - the instance of Harper you are cloning.
 **Clone node** - the new node which will be a clone of the leader node.
 
 To start clone run `harperdb` in the CLI with either of the following variables set:

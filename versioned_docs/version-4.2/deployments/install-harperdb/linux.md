@@ -20,7 +20,7 @@ These instructions assume that the following has already been completed:
 
 While you will need to access HarperDB through port 9925 for the administration through the operations API, and port 9932 for clustering, for higher level of security, you may want to consider keeping both of these ports restricted to a VPN or VPC, and only have the application interface (9926 by default) exposed to the public Internet.
 
-For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
+For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default "ubuntu" user account.
 
 ---
 

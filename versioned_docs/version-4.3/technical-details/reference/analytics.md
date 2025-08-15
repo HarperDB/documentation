@@ -104,14 +104,14 @@ And a summary record looks like:
 
 The following are general resource usage statistics that are tracked:
 
-- memory - This includes RSS, heap, buffer and external data usage.
-- utilization - How much of the time the worker was processing requests.
+- `memory` - This includes RSS, heap, buffer and external data usage.
+- `utilization` - How much of the time the worker was processing requests.
 - mqtt-connections - The number of MQTT connections.
 
 The following types of information is tracked for each HTTP request:
 
-- success - How many requests returned a successful response (20x response code). TTFB - Time to first byte in the response to the client.
-- transfer - Time to finish the transfer of the data to the client.
+- `success` - How many requests returned a successful response (20x response code). TTFB - Time to first byte in the response to the client.
+- `transfer` - Time to finish the transfer of the data to the client.
 - bytes-sent - How many bytes of data were sent to the client.
 
 Requests are categorized by operation name, for the operations API, by the resource (name) with the REST API, and by command for the MQTT interface.

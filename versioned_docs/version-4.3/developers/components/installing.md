@@ -9,7 +9,7 @@ Components can be easily added by adding a new top level element to your `harper
 The configuration comprises two values:
 
 - component name - can be anything, as long as it follows valid YAML syntax.
-- package - a reference to your component.
+- `package` - a reference to your component.
 
 ```yaml
 myComponentName:

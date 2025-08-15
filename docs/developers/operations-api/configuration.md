@@ -10,9 +10,9 @@ Modifies the Harper configuration file parameters. Must follow with a restart or
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_configuration`
-- logging*level *(example/optional)\_ - one or more configuration keywords to be updated in the Harper configuration file
-- clustering*enabled *(example/optional)\_ - one or more configuration keywords to be updated in the Harper configuration file
+- `operation` _(required)_ - must always be `set_configuration`
+- `logging_level` _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
+- `clustering_enabled` _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
 
 ### Body
 
@@ -40,7 +40,7 @@ Returns the Harper configuration parameters.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_configuration`
+- `operation` _(required)_ - must always be `get_configuration`
 
 ### Body
 

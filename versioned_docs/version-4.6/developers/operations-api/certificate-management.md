@@ -12,12 +12,12 @@ If a `private_key` is not passed the operation will search for one that matches 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_certificate`
-- name _(required)_ - a unique name for the certificate
-- certificate _(required)_ - a PEM formatted certificate string
-- is*authority *(required)\_ - a boolean indicating if the certificate is a certificate authority
-- hosts _(optional)_ - an array of hostnames that the certificate is valid for
-- private*key *(optional)\_ - a PEM formatted private key string
+- `operation` _(required)_ - must always be `add_certificate`
+- `name` _(required)_ - a unique name for the certificate
+- `certificate` _(required)_ - a PEM formatted certificate string
+- `is_authority` _(required)_ - a boolean indicating if the certificate is a certificate authority
+- `hosts` _(optional)_ - an array of hostnames that the certificate is valid for
+- `private_key` _(optional)_ - a PEM formatted private key string
 
 ### Body
 
@@ -47,8 +47,8 @@ Removes a certificate from the `hdb_certificate` system table and deletes the co
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `remove_certificate`
-- name _(required)_ - the name of the certificate
+- `operation` _(required)_ - must always be `remove_certificate`
+- `name` _(required)_ - the name of the certificate
 
 ### Body
 
@@ -75,7 +75,7 @@ Lists all certificates in the `hdb_certificate` system table.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `list_certificates`
+- `operation` _(required)_ - must always be `list_certificates`
 
 ### Body
 

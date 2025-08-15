@@ -10,11 +10,11 @@ Adds a route/routes to either the hub or leaf server cluster configuration. This
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_set_routes`
-- server _(required)_ - must always be `hub` or `leaf`, in most cases you should use `hub` here
-- routes _(required)_ - must always be an objects array with a host and port:
-  - host - the host of the remote instance you are clustering to
-  - port - the clustering port of the remote instance you are clustering to, in most cases this is the value in `clustering.hubServer.cluster.network.port` on the remote instance `harperdb-config.yaml`
+- `operation` _(required)_ - must always be `cluster_set_routes`
+- `server` _(required)_ - must always be `hub` or `leaf`, in most cases you should use `hub` here
+- `routes` _(required)_ - must always be an objects array with a host and port:
+  - `host` - the host of the remote instance you are clustering to
+  - `port` - the clustering port of the remote instance you are clustering to, in most cases this is the value in `clustering.hubServer.cluster.network.port` on the remote instance `harperdb-config.yaml`
 
 ### Body
 
@@ -78,7 +78,7 @@ Gets all the hub and leaf server routes from the config file.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_get_routes`
+- `operation` _(required)_ - must always be `cluster_get_routes`
 
 ### Body
 
@@ -122,8 +122,8 @@ Removes route(s) from hub and/or leaf server routes array in config file. Return
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_delete_routes`
-- routes _required_ - Must be an array of route object(s)
+- `operation` _(required)_ - must always be `cluster_delete_routes`
+- `routes` _(required)_ - Must be an array of route object(s)
 
 ### Body
 
@@ -162,14 +162,14 @@ Registers an additional Harper instance with associated subscriptions. Learn mor
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_node`
-- node*name *(required)\_ - the node name of the remote node
-- subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
-  - schema - the schema to replicate from
-  - table - the table to replicate from
-  - subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  - publish - a boolean which determines if transactions on the local table should be replicated on the remote table
-  - start*time *(optional)\_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
+- `operation` _(required)_ - must always be `add_node`
+- `node_name` _(required)_ - the node name of the remote node
+- `subscriptions` _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
+  - `schema` - the schema to replicate from
+  - `table` - the table to replicate from
+  - `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table
+  - `publish` - a boolean which determines if transactions on the local table should be replicated on the remote table
+  - `start_time` _(optional)_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
 
 ### Body
 
@@ -205,14 +205,14 @@ Modifies an existing Harper instance registration and associated subscriptions. 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `update_node`
-- node*name *(required)\_ - the node name of the remote node you are updating
-- subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
-  - schema - the schema to replicate from
-  - table - the table to replicate from
-  - subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  - publish - a boolean which determines if transactions on the local table should be replicated on the remote table
-  - start*time *(optional)\_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
+- `operation` _(required)_ - must always be `update_node`
+- `node_name` _(required)_ - the node name of the remote node you are updating
+- `subscriptions` _(required)_ - The relationship created between nodes. Must be an object array and include `schema`, `table`, `subscribe` and `publish`:
+  - `schema` - the schema to replicate from
+  - `table` - the table to replicate from
+  - `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table
+  - `publish` - a boolean which determines if transactions on the local table should be replicated on the remote table
+  - `start_time` _(optional)_ - How far back to go to get transactions from node being added. Must be in UTC YYYY-MM-DDTHH:mm:ss.sssZ format
 
 ### Body
 
@@ -248,13 +248,13 @@ A more adeptly named alias for add and update node. This operation behaves as a 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_node_replication`
-- node*name *(required)\_ - the node name of the remote node you are updating
-- subscriptions _(required)_ - The relationship created between nodes. Must be an object array and `table`, `subscribe` and `publish`:
-  - database _(optional)_ - the database to replicate from
-  - table _(required)_ - the table to replicate from
-  - subscribe _(required)_ - a boolean which determines if transactions on the remote table should be replicated on the local table
-  - publish _(required)_ - a boolean which determines if transactions on the local table should be replicated on the remote table
+- `operation` _(required)_ - must always be `set_node_replication`
+- `node_name` _(required)_ - the node name of the remote node you are updating
+- `subscriptions` _(required)_ - The relationship created between nodes. Must be an object array and `table`, `subscribe` and `publish`:
+  - `database` _(optional)_ - the database to replicate from
+  - `table` _(required)_ - the table to replicate from
+  - `subscribe` _(required)_ - a boolean which determines if transactions on the remote table should be replicated on the local table
+  - `publish` _(required)_ - a boolean which determines if transactions on the local table should be replicated on the remote table
 -
 
 ### Body
@@ -289,7 +289,7 @@ Returns an array of status objects from a cluster. A status object will contain 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_status`
+- `operation` _(required)_ - must always be `cluster_status`
 
 ### Body
 
@@ -336,10 +336,10 @@ Returns an object array of enmeshed nodes. Each node object will contain the nam
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_- must always be `cluster_network`
-- timeout (_optional_) - the amount of time in milliseconds to wait for a response from the network. Must be a number
-- connected*nodes (\_optional*) - omit `connected_nodes` from the response. Must be a boolean. Defaults to `false`
-- routes (_optional_) - omit `routes` from the response. Must be a boolean. Defaults to `false`
+- `operation` _(required)_- must always be `cluster_network`
+- `timeout` _(optional)_ - the amount of time in milliseconds to wait for a response from the network. Must be a number
+- `connected_nodes` _(optional)_ - omit `connected_nodes` from the response. Must be a boolean. Defaults to `false`
+- `routes` _(optional)_ - omit `routes` from the response. Must be a boolean. Defaults to `false`
 
 ### Body
 
@@ -383,8 +383,8 @@ Removes a Harper instance and associated subscriptions from the cluster. Learn m
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `remove_node`
-- name _(required)_ - The name of the node you are de-registering
+- `operation` _(required)_ - must always be `remove_node`
+- `node_name` _(required)_ - The name of the node you are de-registering
 
 ### Body
 
@@ -412,8 +412,8 @@ Learn more about [Harper clustering here](../clustering/).
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `configure_cluster`
-- connections _(required)_ - must be an object array with each object containing `node_name` and `subscriptions` for that node
+- `operation` _(required)_ - must always be `configure_cluster`
+- `connections` _(required)_ - must be an object array with each object containing `node_name` and `subscriptions` for that node
 
 ### Body
 
@@ -463,10 +463,10 @@ Will purge messages from a stream
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `purge_stream`
-- database _(required)_ - the name of the database where the streams table resides
-- table _(required)_ - the name of the table that belongs to the stream
-- options _(optional)_ - control how many messages get purged. Options are:
+- `operation` _(required)_ - must always be `purge_stream`
+- `database` _(required)_ - the name of the database where the streams table resides
+- `table` _(required)_ - the name of the table that belongs to the stream
+- `options` _(optional)_ - control how many messages get purged. Options are:
   - `keep` - purge will keep this many most recent messages
   - `seq` - purge all messages up to, but not including, this sequence
 

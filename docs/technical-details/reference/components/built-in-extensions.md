@@ -222,10 +222,10 @@ Because this plugin is implemented using the new [Plugin API](./plugins.md), it 
 
 In addition to the general Plugin configuration options (`files`, `urlPath`, and `timeout`), this plugin supports the following configuration options:
 
-- **extensions** - `string[]` - _optional_ - An array of file extensions to try and serve when an exact path is not found. For example, `['html']` and the path `/site/page-1` will match `/site/page-1.html`.
-- **fallthrough** - `boolean` - _optional_ - If `true`, the plugin will fall through to the next handler if the requested file is not found. Make sure to disable this option if you want to customize the 404 Not Found response with the `notFound` option. Defaults to `true`.
-- **index** - `boolean` - _optional_ - If `true`, the plugin will serve an `index.html` file if it exists in the directory specified by the `files` pattern. Defaults to `false`.
-- **notFound** - `string | { file: string; statusCode: number }` - _optional_ - Specify a custom file to be returned for 404 Not Found responses. If you want to specify a different statusCode when a given path cannot be found, use the object form and specify the `file` and `statusCode` properties (this is particularly useful for SPAs).
+- `extensions` - `string[]` - _optional_ - An array of file extensions to try and serve when an exact path is not found. For example, `['html']` and the path `/site/page-1` will match `/site/page-1.html`.
+- `fallthrough` - `boolean` - _optional_ - If `true`, the plugin will fall through to the next handler if the requested file is not found. Make sure to disable this option if you want to customize the 404 Not Found response with the `notFound` option. Defaults to `true`.
+- `index` - `boolean` - _optional_ - If `true`, the plugin will serve an `index.html` file if it exists in the directory specified by the `files` pattern. Defaults to `false`.
+- `notFound` - `string | { file: string; statusCode: number }` - _optional_ - Specify a custom file to be returned for 404 Not Found responses. If you want to specify a different statusCode when a given path cannot be found, use the object form and specify the `file` and `statusCode` properties (this is particularly useful for SPAs).
 
 ### Examples
 

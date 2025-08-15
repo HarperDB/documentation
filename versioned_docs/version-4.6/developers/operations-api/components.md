@@ -10,9 +10,9 @@ Creates a new component project in the component root directory using a predefin
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_component`
-- project _(required)_ - the name of the project you wish to create
-- replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `add_component`
+- `project` _(required)_ - the name of the project you wish to create
+- `replicated` _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -75,13 +75,13 @@ _Note: After deploying a component a restart may be required_
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `deploy_component`
-- project _(required)_ - the name of the project you wish to deploy
-- package _(optional)_ - this can be any valid GitHub or NPM reference
-- payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
-- restart _(optional)_ - must be either a boolean or the string `rolling`. If set to `rolling`, a rolling restart will be triggered after the component is deployed, meaning that each node in the cluster will be sequentially restarted (waiting for the last restart to start the next). If set to `true`, the restart will not be rolling, all nodes will be restarted in parallel. If `replicated` is `true`, the restart operations will be replicated across the cluster.
-- replicated _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
-- install*command *(optional)\_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
+- `operation` _(required)_ - must always be `deploy_component`
+- `project` _(required)_ - the name of the project you wish to deploy
+- `package` _(optional)_ - this can be any valid GitHub or NPM reference
+- `payload` _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
+- `restart` _(optional)_ - must be either a boolean or the string `rolling`. If set to `rolling`, a rolling restart will be triggered after the component is deployed, meaning that each node in the cluster will be sequentially restarted (waiting for the last restart to start the next). If set to `true`, the restart will not be rolling, all nodes will be restarted in parallel. If `replicated` is `true`, the restart operations will be replicated across the cluster.
+- `replicated` _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
+- `install_command` _(optional)_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
 
 ### Body
 
@@ -118,9 +118,9 @@ Creates a temporary `.tar` file of the specified project folder, then reads it i
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `package_component`
-- project _(required)_ - the name of the project you wish to package
-- skip*node_modules *(optional)\_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
+- `operation` _(required)_ - must always be `package_component`
+- `project` _(required)_ - the name of the project you wish to package
+- `skip_node_modules` _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
 
 ### Body
 
@@ -151,11 +151,11 @@ Deletes a file from inside the component project or deletes the complete project
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `drop_component`
-- project _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
-- file _(optional)_ - the path relative to your project folder of the file you wish to delete
-- replicated _(optional)_ - if true, Harper will replicate the component deletion to all nodes in the cluster. Must be a boolean.
-- restart _(optional)_ - if true, Harper will restart after dropping the component. Must be a boolean.
+- `operation` _(required)_ - must always be `drop_component`
+- `project` _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
+- `file` _(optional)_ - the path relative to your project folder of the file you wish to delete
+- `replicated` _(optional)_ - if true, Harper will replicate the component deletion to all nodes in the cluster. Must be a boolean.
+- `restart` _(optional)_ - if true, Harper will restart after dropping the component. Must be a boolean.
 
 ### Body
 
@@ -183,7 +183,7 @@ Gets all local component files and folders and any component config from `harper
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_components`
+- `operation` _(required)_ - must always be `get_components`
 
 ### Body
 
@@ -264,10 +264,10 @@ Gets the contents of a file inside a component project.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_component_file`
-- project _(required)_ - the name of the project where the file is located
-- file _(required)_ - the path relative to your project folder of the file you wish to view
-- encoding _(optional)_ - the encoding that will be passed to the read file call. Defaults to `utf8`
+- `operation` _(required)_ - must always be `get_component_file`
+- `project` _(required)_ - the name of the project where the file is located
+- `file` _(required)_ - the path relative to your project folder of the file you wish to view
+- `encoding` _(optional)_ - the encoding that will be passed to the read file call. Defaults to `utf8`
 
 ### Body
 
@@ -295,12 +295,12 @@ Creates or updates a file inside a component project.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_component_file`
-- project _(required)_ - the name of the project the file is located in
-- file _(required)_ - the path relative to your project folder of the file you wish to set
-- payload _(required)_ - what will be written to the file
-- encoding _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
-- replicated _(optional)_ - if true, Harper will replicate the component update to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `set_component_file`
+- `project` _(required)_ - the name of the project the file is located in
+- `file` _(required)_ - the path relative to your project folder of the file you wish to set
+- `payload` _(required)_ - what will be written to the file
+- `encoding` _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
+- `replicated` _(optional)_ - if true, Harper will replicate the component update to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -329,22 +329,14 @@ Adds an SSH key for deploying components from private repositories. This will al
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_ssh_key`
-- name _(required)_ - the name of the key
-- key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
-- host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
-- hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-- known*hosts *(optional)\_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
-- replicated _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `add_ssh_key`
+- `name` _(required)_ - the name of the key
+- `key` _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
+- `host` _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
+- `hostname` _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
+- `known_hosts` _(optional)_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with `\n`
+- `replicated` _(optional)_ - if true, HarperDB will replicate the key to all nodes in the cluster. Must be a boolean.
   _Operation is restricted to super_user roles only_
-
-* operation _(required)_ - must always be `add_ssh_key`
-* name _(required)_ - the name of the key
-* key _(required)_ - the private key contents. Line breaks must be delimited with&#x20;
-* host _(required)_ - the host for the ssh config (see below). Used as part of the `package` url when deploying a component using this key
-* hostname _(required)_ - the hostname for the ssh config (see below). Used to map `host` to an actual domain (e.g. `github.com`)
-* known*hosts *(optional)\_ - the public SSH keys of the host your component will be retrieved from. If `hostname` is `github.com` this will be retrieved automatically. Line breaks must be delimited with&#x20;
-* replicated _(optional)_ - if true, Harper will replicate the key to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -393,10 +385,10 @@ Updates the private key contents of an existing SSH key.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `update_ssh_key`
-- name _(required)_ - the name of the key to be updated
-- key _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
-- replicated _(optional)_ - if true, Harper will replicate the key update to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `update_ssh_key`
+- `name` _(required)_ - the name of the key to be updated
+- `key` _(required)_ - the private key contents. Must be an ed25519 key. Line breaks must be delimited with `\n` and have a trailing `\n`
+- `replicated` _(optional)_ - if true, Harper will replicate the key update to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -424,9 +416,9 @@ Deletes a SSH key. This will also remove it from the generated SSH config.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `delete_ssh_key`
-- name _(required)_ - the name of the key to be deleted
-- replicated _(optional)_ - if true, Harper will replicate the key deletion to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `delete_ssh_key`
+- `name` _(required)_ - the name of the key to be deleted
+- `replicated` _(optional)_ - if true, Harper will replicate the key deletion to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -452,7 +444,7 @@ List off the names of added SSH keys
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `list_ssh_keys`
+- `operation` _(required)_ - must always be `list_ssh_keys`
 
 ### Body
 
@@ -481,9 +473,9 @@ Sets the SSH known_hosts file. This will overwrite the file.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_ssh_known_hosts`
-- known*hosts *(required)\_ - The contents to set the known_hosts to. Line breaks must be delimite d with&#x20;
-- replicated _(optional)_ - if true, Harper will replicate the known hosts to all nodes in the cluster. Must be a boolean.
+- `operation` _(required)_ - must always be `set_ssh_known_hosts`
+- `known_hosts` _(required)_ - The contents to set the known_hosts to. Line breaks must be delimite d with&#x20;
+- `replicated` _(optional)_ - if true, Harper will replicate the known hosts to all nodes in the cluster. Must be a boolean.
 
 ### Body
 
@@ -508,7 +500,7 @@ Gets the contents of the known_hosts file
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_ssh_known_hosts`
+- `operation` _(required)_ - must always be `get_ssh_known_hosts`
 
 ### Body
 
@@ -535,9 +527,9 @@ Executes npm install against specified custom function projects.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `install_node_modules`
-- projects _(required)_ - must ba an array of custom functions projects.
-- dry*run*(optional)\_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
+- `operation` _(required)_ - must always be `install_node_modules`
+- `projects` _(required)_ - must ba an array of custom functions projects.
+- `dry_run` _(optional)_ - refers to the npm --dry-run flag: [https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run](https://docs.npmjs.com/cli/v8/commands/npm-install#dry-run). Defaults to false.
 
 ### Body
 

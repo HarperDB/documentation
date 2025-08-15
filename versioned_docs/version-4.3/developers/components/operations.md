@@ -4,7 +4,7 @@ title: Operations
 
 # Operations
 
-One way to manage applications and components is through [HarperDB Studio](../../administration/harperdb-studio/). It performs all the necessary operations automatically. To get started, navigate to your instance in HarperDB Studio and click the subnav link for “applications”. Once configuration is complete, you can manage and deploy applications in minutes.
+One way to manage applications and components is through [HarperDB Studio](../../administration/harperdb-studio/). It performs all the necessary operations automatically. To get started, navigate to your instance in HarperDB Studio and click the subnav link for "applications". Once configuration is complete, you can manage and deploy applications in minutes.
 
 HarperDB Studio manages your applications using nine HarperDB operations. You may view these operations within our [API Docs](../operations-api/). A brief overview of each of the operations is below:
 

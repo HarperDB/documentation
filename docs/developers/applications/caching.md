@@ -22,9 +22,9 @@ While you can provide a single expiration time, there are actually several expir
 
 You can provide a single expiration and it defines the behavior for all three. You can also provide three settings for expiration, through table directives:
 
-- expiration - The amount of time until a record goes stale.
-- eviction - The amount of time after expiration before a record can be evicted (defaults to zero).
-- scanInterval - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
+- `expiration` - The amount of time until a record goes stale.
+- `eviction` - The amount of time after expiration before a record can be evicted (defaults to zero).
+- `scanInterval` - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
 ## Define External Data Source
 

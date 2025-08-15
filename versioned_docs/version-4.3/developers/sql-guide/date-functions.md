@@ -156,17 +156,17 @@ Subtracts the defined amount of time from the date provided in UTC and returns t
 
 ### EXTRACT(date, date_part)
 
-Extracts and returns the date_part requested as a String value. Accepted date_part values below show value returned for date = “2020-03-26T15:13:02.041+000”
+Extracts and returns the date_part requested as a String value. Accepted date_part values below show value returned for date = "2020-03-26T15:13:02.041+000"
 
 | date_part   | Example return value\* |
 | ----------- | ---------------------- |
-| year        | “2020”                 |
-| month       | “3”                    |
-| day         | “26”                   |
-| hour        | “15”                   |
-| minute      | “13”                   |
-| second      | “2”                    |
-| millisecond | “41”                   |
+| year        | "2020"                 |
+| month       | "3"                    |
+| day         | "26"                   |
+| hour        | "15"                   |
+| minute      | "13"                   |
+| second      | "2"                    |
+| millisecond | "41"                   |
 
 ```
 "SELECT EXTRACT(1587568845765, 'year') AS extract_result" returns

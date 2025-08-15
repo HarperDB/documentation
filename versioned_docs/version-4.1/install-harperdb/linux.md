@@ -18,7 +18,7 @@ These instructions assume that the following has already been completed:
 1. An additional volume for storing HarperDB files is attached to the Linux instance
 1. Traffic to ports 9925 (HarperDB Operations API,) 9926 (HarperDB Custom Functions,) and 9932 (HarperDB Clustering) is permitted
 
-For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default “ubuntu” user account.
+For this example, we will use an AWS Ubuntu Server 22.04 LTS m5.large EC2 Instance with an additional General Purpose SSD EBS volume and the default "ubuntu" user account.
 
 ---
 

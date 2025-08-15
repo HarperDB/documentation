@@ -10,8 +10,8 @@ Creates a new component project in the component root directory using a predefin
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_component`
-- project _(required)_ - the name of the project you wish to create
+- `operation` _(required)_ - must always be `add_component`
+- `project` _(required)_ - the name of the project you wish to create
 
 ### Body
 
@@ -74,10 +74,10 @@ _Note: After deploying a component a restart may be required_
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `deploy_component`
-- project _(required)_ - the name of the project you wish to deploy
-- package _(optional)_ - this can be any valid GitHub or NPM reference
-- payload _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
+- `operation` _(required)_ - must always be `deploy_component`
+- `project` _(required)_ - the name of the project you wish to deploy
+- `package` _(optional)_ - this can be any valid GitHub or NPM reference
+- `payload` _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 
 ### Body
 
@@ -113,9 +113,9 @@ Creates a temporary `.tar` file of the specified project folder, then reads it i
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `package_component`
-- project _(required)_ - the name of the project you wish to package
-- skip*node_modules *(optional)\_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
+- `operation` _(required)_ - must always be `package_component`
+- `project` _(required)_ - the name of the project you wish to package
+- `skip_node_modules` _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean
 
 ### Body
 
@@ -146,9 +146,9 @@ Deletes a file from inside the component project or deletes the complete project
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `drop_component`
-- project _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
-- file _(optional)_ - the path relative to your project folder of the file you wish to delete
+- `operation` _(required)_ - must always be `drop_component`
+- `project` _(required)_ - the name of the project you wish to delete or to delete from if using the `file` parameter
+- `file` _(optional)_ - the path relative to your project folder of the file you wish to delete
 
 ### Body
 
@@ -176,7 +176,7 @@ Gets all local component files and folders and any component config from `harper
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_components`
+- `operation` _(required)_ - must always be `get_components`
 
 ### Body
 
@@ -257,10 +257,10 @@ Gets the contents of a file inside a component project.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_component_file`
-- project _(required)_ - the name of the project where the file is located
-- file _(required)_ - the path relative to your project folder of the file you wish to view
-- encoding _(optional)_ - the encoding that will be passed to the read file call. Defaults to `utf8`
+- `operation` _(required)_ - must always be `get_component_file`
+- `project` _(required)_ - the name of the project where the file is located
+- `file` _(required)_ - the path relative to your project folder of the file you wish to view
+- `encoding` _(optional)_ - the encoding that will be passed to the read file call. Defaults to `utf8`
 
 ### Body
 
@@ -288,11 +288,11 @@ Creates or updates a file inside a component project.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_component_file`
-- project _(required)_ - the name of the project the file is located in
-- file _(required)_ - the path relative to your project folder of the file you wish to set
-- payload _(required)_ - what will be written to the file
-- encoding _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
+- `operation` _(required)_ - must always be `set_component_file`
+- `project` _(required)_ - the name of the project the file is located in
+- `file` _(required)_ - the path relative to your project folder of the file you wish to set
+- `payload` _(required)_ - what will be written to the file
+- `encoding` _(optional)_ - the encoding that will be passed to the write file call. Defaults to `utf8`
 
 ### Body
 
