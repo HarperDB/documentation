@@ -61,10 +61,12 @@ Likewise, you can specify replicateTo and confirm parameters in the operation ob
 
 or you can specify nodes:
 
-```json
-...,
+```jsonc
+{
+  // ...
   "replicateTo": ["node-1", "node-2"]
-...
+  // ...
+}
 ```
 
 ## Programmatic Replication Control

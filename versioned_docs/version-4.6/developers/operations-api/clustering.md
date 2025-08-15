@@ -167,7 +167,8 @@ _Operation is restricted to super_user roles only_
           "lastReceivedRemoteTime": "Wed, 12 Feb 2025 16:49:29 GMT",
           "lastReceivedLocalTime": "Wed, 12 Feb 2025 16:50:59 GMT",
           "lastSendTime": "Wed, 12 Feb 2025 16:50:59 GMT"
-        },
+        }
+      ]
     }
   ],
   "node_name": "server-1.domain.com",

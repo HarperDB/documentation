@@ -41,7 +41,7 @@ X-Replicate-To: node1,node2
 
 Likewise, you can specify replicateTo and confirm parameters in the operation object when using the Harper API. For example, to specify that data should be replicated to two other nodes, and the response should be returned once confirmation is received from one other node, you can use the following operation object:
 
-```json
+```jsonc
 {
 	"operation": "update",
 	"schema": "dev",
@@ -57,10 +57,12 @@ Likewise, you can specify replicateTo and confirm parameters in the operation ob
 
 or you can specify nodes:
 
-```json
-...,
+```jsonc
+{
+  // ...
   "replicateTo": ["node-1", "node-2"]
-...
+  // ...
+}
 ```
 
 ## Programmatic Replication Control
@@ -104,7 +106,7 @@ MyTable.setResidencyById((id) => {
 
 Normally sharding allows data to be stored in specific nodes, but still allows access to the data from any node. However, you can also disable cross-node access so that data is only returned if is stored on the node where it is accessed. To do this, you can set the `replicateFrom` property on the context of operation to `false`:
 
-```json
+```jsonc
 {
 	"operation": "search_by_id",
 	"table": "MyTable",

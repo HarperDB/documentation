@@ -98,7 +98,7 @@ There are two parts to a permissions set:
 
 Each table that a role should be given some level of CRUD permissions to must be included in the `tables` array for its database in the roles permissions JSON passed to the API (_see example above_).
 
-```json
+```jsonc
 {
   "table_name": { // the name of the table to define CRUD perms for
     "read": boolean, // access to read from this table

@@ -460,10 +460,11 @@ _Operation is restricted to super_user roles only_
 [
     {
         "name": "harperdb-private-component"
-    },
-    ...
+    }
 ]
 ```
+
+_Note: Additional SSH keys would appear as more objects in this array_
 
 ---
 
