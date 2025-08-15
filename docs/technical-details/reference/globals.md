@@ -308,9 +308,9 @@ Execute an operation from the [Operations API](https://docs.harperdb.io/develope
 
 Parameters:
 
-- **operation** - `Object` - Object matching desired operation's request body
-- **context** - `Object` - `{ username: string}` - _optional_ - The specified user
-- **authorize** - `boolean` - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
+- `operation` - `Object` - Object matching desired operation's request body
+- `context` - `Object` - `{ username: string}` - _optional_ - The specified user
+- `authorize` - `boolean` - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
 
 Returns a `Promise` with the operation's response as per the [Operations API documentation](https://docs.harperdb.io/developers/operations-api).
 

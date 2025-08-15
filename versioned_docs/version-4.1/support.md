@@ -55,7 +55,7 @@ HarperDB can be considered column oriented, however, the exploded data model cre
 
 **What do you mean when you say HarperDB is single model?**
 
-HarperDB takes every attribute of a database table object and creates a key:value for both the key and its corresponding value. For example, the attribute eye color will be represented by a key “eye-color” and the corresponding value “green” will be represented by a key with the value “green”. We use LMDB’s lightning-fast key:value store to underpin all these interrelated keys and values, meaning that every “column” is automatically indexed, and you get huge performance in a tiny package.
+HarperDB takes every attribute of a database table object and creates a key:value for both the key and its corresponding value. For example, the attribute eye color will be represented by a key "eye-color" and the corresponding value "green" will be represented by a key with the value "green". We use LMDB’s lightning-fast key:value store to underpin all these interrelated keys and values, meaning that every "column" is automatically indexed, and you get huge performance in a tiny package.
 
 **Are Primary Keys Case-Sensitive?**
 

@@ -26,9 +26,9 @@ As plugins are meant to be used by applications in order to implement some featu
 
 As a brief overview, the general configuration options available for plugins are:
 
-- **files** - `string` | `string[]` | [`FilesOptionsObject`](#interface-filesoptionsobject) - _optional_ - A glob pattern string or array of strings that specifies the files and directories to be handled by the plugin's default `EntryHandler` instance.
-- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries handled by the plugin's default `EntryHandler` instance.
-- **timeout** - `number` - _optional_ - The timeout in milliseconds for the plugin's operations. If not specified, the system default is **30 seconds**. Plugins may override the system default themselves, but this configuration option is the highest priority and takes precedence.
+- `files` - `string` | `string[]` | [`FilesOptionsObject`](#interface-filesoptionsobject) - _optional_ - A glob pattern string or array of strings that specifies the files and directories to be handled by the plugin's default `EntryHandler` instance.
+- `urlPath` - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries handled by the plugin's default `EntryHandler` instance.
+- `timeout` - `number` - _optional_ - The timeout in milliseconds for the plugin's operations. If not specified, the system default is **30 seconds**. Plugins may override the system default themselves, but this configuration option is the highest priority and takes precedence.
 
 ### File Entries
 
@@ -165,7 +165,7 @@ This example is heavily simplified, but it demonstrates how the different key pa
 
 Parameters:
 
-- **scope** - [`Scope`](#class-scope) - An instance of the `Scope` class that provides access to the relative application's configuration, resources, and other APIs.
+- `scope` - [`Scope`](#class-scope) - An instance of the `Scope` class that provides access to the relative application's configuration, resources, and other APIs.
 
 Returns: `void | Promise<void>`
 
@@ -181,7 +181,7 @@ Emitted after the scope is closed via the `close()` method.
 
 ### Event: `'error'`
 
-- **error** - `unknown` - The error that occurred.
+- `error` - `unknown` - The error that occurred.
 
 ### Event: `'ready'`
 
@@ -197,8 +197,8 @@ Closes all associated entry handlers, the associated `scope.options` instance, e
 
 Parameters:
 
-- **files** - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
-- **handler** - [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
+- `files` - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) | [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
+- `handler` - [`onEntryEventHandler`](#function-onentryeventhandlerentryevent-fileentryevent--directoryentryevent-void) - _optional_
 
 Returns: [`EntryHandler`](#class-entryhandler) - An instance of the `EntryHandler` class that can be used to handle entries within the scope.
 
@@ -313,13 +313,13 @@ Returns: `string` - The directory of the application. This is the root directory
 
 ## Interface: `FilesOptionsObject`
 
-- **source** - `string` | `string[]` - _required_ - The glob pattern string or array of strings.
-- **ignore** - `string` | `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
+- `source` - `string` | `string[]` - _required_ - The glob pattern string or array of strings.
+- `ignore` - `string` | `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
 
 ## Interface: `FileAndURLPathConfig`
 
-- **files** - [`FilesOption`](#interface-filesoption) - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
-- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
+- `files` - [`FilesOption`](#interface-filesoption) - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
+- `urlPath` - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
 
 ## Class: `OptionsWatcher`
 
@@ -327,9 +327,9 @@ Returns: `string` - The directory of the application. This is the root directory
 
 ### Event: `'change'`
 
-- **key** - `string[]` - The key of the changed option split into parts (e.g. `foo.bar` becomes `['foo', 'bar']`).
-- **value** - [`ConfigValue`](#interface-configvalue) - The new value of the option.
-- **config** - [`ConfigValue`](#interface-configvalue) - The entire configuration object of the plugin.
+- `key` - `string[]` - The key of the changed option split into parts (e.g. `foo.bar` becomes `['foo', 'bar']`).
+- `value` - [`ConfigValue`](#interface-configvalue) - The new value of the option.
+- `config` - [`ConfigValue`](#interface-configvalue) - The entire configuration object of the plugin.
 
 The `'change'` event is emitted whenever an configuration option is changed in the configuration file relative to the application and respective plugin.
 
@@ -360,11 +360,11 @@ Emitted when the `OptionsWatcher` is closed via the `close()` method. The watche
 
 ### Event: `'error'`
 
-- **error** - `unknown` - The error that occurred.
+- `error` - `unknown` - The error that occurred.
 
 ### Event: `'ready'`
 
-- **config** - [`ConfigValue`](#interface-configvalue) | `undefined` - The configuration object of the plugin, if present.
+- `config` - [`ConfigValue`](#interface-configvalue) | `undefined` - The configuration object of the plugin, if present.
 
 This event can be emitted multiple times. It is first emitted upon the initial load, but will also be emitted after restoring a configuration file or configuration object after a `'remove'` event.
 
@@ -382,7 +382,7 @@ Closes the options watcher, removing all listeners and preventing any further ev
 
 Parameters:
 
-- **key** - `string[]` - The key of the option to get, split into parts (e.g. `foo.bar` is represented as `['foo', 'bar']`).
+- `key` - `string[]` - The key of the option to get, split into parts (e.g. `foo.bar` is represented as `['foo', 'bar']`).
 
 Returns: [`ConfigValue`](#interface-configvalue) | `undefined`
 
@@ -420,7 +420,7 @@ Created by calling [`scope.handleEntry()`](#scopehandleentry) method.
 
 ### Event: `'all'`
 
-- **entry** - [`FileEntry`](#interface-fileentry) | [`DirectoryEntry`](#interface-directoryentry) - The entry that was added, changed, or removed.
+- `entry` - [`FileEntry`](#interface-fileentry) | [`DirectoryEntry`](#interface-directoryentry) - The entry that was added, changed, or removed.
 
 The `'all'` event is emitted for all entry events, including file and directory events. This is the event that the handler method in `scope.handleEntry` is registered for. The event handler receives an `entry` object that contains the entry metadata, such as the file contents, URL path, and absolute path.
 
@@ -452,19 +452,19 @@ async function handleApplication(scope) {
 
 ### Event: `'add'`
 
-- **entry** - [`AddFileEvent`](#interface-addfileevent) - The file entry that was added.
+- `entry` - [`AddFileEvent`](#interface-addfileevent) - The file entry that was added.
 
 The `'add'` event is emitted when a file is created (or the watcher sees it for the first time). The event handler receives an `AddFileEvent` object that contains the file contents, URL path, absolute path, and other metadata.
 
 ### Event: `'addDir'`
 
-- **entry** - [`AddDirEvent`](#interface-adddirevent) - The directory entry that was added.
+- `entry` - [`AddDirEvent`](#interface-adddirevent) - The directory entry that was added.
 
 The `'addDir'` event is emitted when a directory is created (or the watcher sees it for the first time). The event handler receives an `AddDirEvent` object that contains the URL path and absolute path of the directory.
 
 ### Event: `'change'`
 
-- **entry** - [`ChangeFileEvent`](#interface-changefileevent) - The file entry that was changed.
+- `entry` - [`ChangeFileEvent`](#interface-changefileevent) - The file entry that was changed.
 
 The `'change'` event is emitted when a file is modified. The event handler receives a `ChangeFileEvent` object that contains the updated file contents, URL path, absolute path, and other metadata.
 
@@ -474,7 +474,7 @@ Emitted when the entry handler is closed via the [`entryHandler.close()`](#entry
 
 ### Event: `'error'`
 
-- **error** - `unknown` - The error that occurred.
+- `error` - `unknown` - The error that occurred.
 
 ### Event: `'ready'`
 
@@ -482,13 +482,13 @@ Emitted when the entry handler is ready to be used. This is not automatically aw
 
 ### Event: `'unlink'`
 
-- **entry** - [`UnlinkFileEvent`](#interface-unlinkfileevent) - The file entry that was deleted.
+- `entry` - [`UnlinkFileEvent`](#interface-unlinkfileevent) - The file entry that was deleted.
 
 The `'unlink'` event is emitted when a file is deleted. The event handler receives an `UnlinkFileEvent` object that contains the URL path and absolute path of the deleted file.
 
 ### Event: `'unlinkDir'`
 
-- **entry** - [`UnlinkDirEvent`](#interface-unlinkdirevent) - The directory entry that was deleted.
+- `entry` - [`UnlinkDirEvent`](#interface-unlinkdirevent) - The directory entry that was deleted.
 
 The `'unlinkDir'` event is emitted when a directory is deleted. The event handler receives an `UnlinkDirEvent` object that contains the URL path and absolute path of the deleted directory.
 
@@ -514,7 +514,7 @@ Closes the entry handler, removing all listeners and preventing any further even
 
 Parameters:
 
-- **config** - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) - The configuration object for the entry handler.
+- `config` - [`FilesOption`](#interface-filesoption) | [`FileAndURLPathConfig`](#interface-fileandurlpathconfig) - The configuration object for the entry handler.
 
 This method will update an existing entry handler to watch new entries. It will close the underlying watcher and create a new one, but will maintain any existing listeners on the EntryHandler instance itself.
 
@@ -522,9 +522,9 @@ This method returns a promise associated with the ready event of the updated han
 
 ### Interface: `BaseEntry`
 
-- **stats** - [`fs.Stats`](https://nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
-- **urlPath** - `string` - The recommended URL path of the entry.
-- **absolutePath** - `string` - The absolute path of the entry.
+- `stats` - [`fs.Stats`](https://nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
+- `urlPath` - `string` - The recommended URL path of the entry.
+- `absolutePath` - `string` - The absolute path of the entry.
 
 The foundational entry handle event object. The `stats` may or may not be present depending on the event, entry type, and platform.
 
@@ -536,7 +536,7 @@ The `absolutePath` is the file system path for the entry.
 
 Extends [`BaseEntry`](#interface-baseentry)
 
-- **contents** - `Buffer` - The contents of the file.
+- `contents` - `Buffer` - The contents of the file.
 
 A specific extension of the `BaseEntry` interface representing a file entry. We automatically read the contents of the file so the user doesn't have to bother with FS operations.
 
@@ -546,8 +546,8 @@ There is no `DirectoryEntry` since there is no other important metadata aside fr
 
 Extends [`BaseEntry`](#interface-baseentry)
 
-- **eventType** - `string` - The type of entry event.
-- **entryType** - `string` - The type of entry, either a file or a directory.
+- `eventType` - `string` - The type of entry event.
+- `entryType` - `string` - The type of entry, either a file or a directory.
 
 A general interface representing the entry handle event objects.
 
@@ -555,8 +555,8 @@ A general interface representing the entry handle event objects.
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
-- **eventType** - `'add'`
-- **entryType** - `'file'`
+- `eventType` - `'add'`
+- `entryType` - `'file'`
 
 Event object emitted when a file is created (or the watcher sees it for the first time).
 
@@ -564,8 +564,8 @@ Event object emitted when a file is created (or the watcher sees it for the firs
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
-- **eventType** - `'change'`
-- **entryType** - `'file'`
+- `eventType` - `'change'`
+- `entryType` - `'file'`
 
 Event object emitted when a file is modified.
 
@@ -573,8 +573,8 @@ Event object emitted when a file is modified.
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
-- **eventType** - `'unlink'`
-- **entryType** - `'file'`
+- `eventType` - `'unlink'`
+- `entryType` - `'file'`
 
 Event object emitted when a file is deleted.
 
@@ -588,8 +588,8 @@ A union type representing the file entry events. These events are emitted when a
 
 Extends [`EntryEvent`](#interface-entryevent)
 
-- **eventType** - `'addDir'`
-- **entryType** - `'directory'`
+- `eventType` - `'addDir'`
+- `entryType` - `'directory'`
 
 Event object emitted when a directory is created (or the watcher sees it for the first time).
 
@@ -597,8 +597,8 @@ Event object emitted when a directory is created (or the watcher sees it for the
 
 Extends [`EntryEvent`](#interface-entryevent)
 
-- **eventType** - `'unlinkDir'`
-- **entryType** - `'directory'`
+- `eventType` - `'unlinkDir'`
+- `entryType` - `'directory'`
 
 Event object emitted when a directory is deleted.
 
@@ -612,7 +612,7 @@ A union type representing the directory entry events. There are no change events
 
 Parameters:
 
-- **entryEvent** - [`FileEntryEvent`](#interface-fileentryevent) | [`DirectoryEntryEvent`](#interface-directoryentryevent)
+- `entryEvent` - [`FileEntryEvent`](#interface-fileentryevent) | [`DirectoryEntryEvent`](#interface-directoryentryevent)
 
 Returns: `void`
 

@@ -32,11 +32,11 @@ Any [Resource Extension](#resource-extension) can be configured with the `files`
 
 > Harper relies on the [fast-glob](https://github.com/mrmlnc/fast-glob) library for glob pattern matching.
 
-- **files** - `string | string[] | Object` - _required_ - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
-  - **source** - `string | string[]` - _required_ - The glob pattern string or array of strings.
-  - **only** - `'all' | 'files' | 'directories'` - _optional_ - The glob pattern will match only the specified entry type. Defaults to `'all'`.
-  - **ignore** - `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
-- **urlPath** - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
+- `files` - `string | string[] | Object` - _required_ - A [glob pattern](https://github.com/mrmlnc/fast-glob?tab=readme-ov-file#pattern-syntax) string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the extension. If specified as an object, the `source` property is required. By default, Harper **matches files and directories**; this is configurable using the `only` option.
+  - `source` - `string | string[]` - _required_ - The glob pattern string or array of strings.
+  - `only` - `'all' | 'files' | 'directories'` - _optional_ - The glob pattern will match only the specified entry type. Defaults to `'all'`.
+  - `ignore` - `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
+- `urlPath` - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
   - If the value starts with `./`, such as `'./static/'`, the component name will be included in the base url path
   - If the value is `.`, then the component name will be the base url path
   - Note: `..` is an invalid pattern and will result in an error
@@ -121,11 +121,11 @@ These methods are for processing individual files. They can be async.
 
 Parameters:
 
-- **contents** - `Buffer` - The contents of the file
-- **urlPath** - `string` - The recommended URL path of the file
-- **absolutePath** - `string` - The absolute path of the file
+- `contents` - `Buffer` - The contents of the file
+- `urlPath` - `string` - The recommended URL path of the file
+- `absolutePath` - `string` - The absolute path of the file
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
-- **resources** - `Object` - A collection of the currently loaded resources
+- `resources` - `Object` - A collection of the currently loaded resources
 
 Returns: `void | Promise<void>`
 
@@ -145,10 +145,10 @@ If the function returns or resolves a truthy value, then the component loading s
 
 Parameters:
 
-- **urlPath** - `string` - The recommended URL path of the directory
-- **absolutePath** - `string` - The absolute path of the directory
+- `urlPath` - `string` - The recommended URL path of the directory
+- `absolutePath` - `string` - The absolute path of the directory
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
-- **resources** - `Object` - A collection of the currently loaded resources
+- `resources` - `Object` - A collection of the currently loaded resources
 
 Returns: `boolean | void | Promise<boolean | void>`
 
@@ -182,6 +182,6 @@ A Protocol Extension is made up of two distinct methods, [`start()`](#startoptio
 
 Parameters:
 
-- **options** - `Object` - An object representation of the extension's configuration options.
+- `options` - `Object` - An object representation of the extension's configuration options.
 
 Returns: `Object` - An object that implements any of the [Resource Extension APIs](#resource-extension-api)

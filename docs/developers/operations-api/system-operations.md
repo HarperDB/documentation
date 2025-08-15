@@ -10,7 +10,7 @@ Restarts the Harper instance.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `restart`
+- `operation` _(required)_ - must always be `restart`
 
 ### Body
 
@@ -36,9 +36,9 @@ Restarts servers for the specified Harper service.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `restart_service`
-- service _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
-- replicated _(optional)_ - must be a boolean. If set to `true`, Harper will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
+- `operation` _(required)_ - must always be `restart_service`
+- `service` _(required)_ - must be one of: `http_workers`, `clustering_config` or `clustering`
+- `replicated` _(optional)_ - must be a boolean. If set to `true`, Harper will replicate the restart service operation across all nodes in the cluster. The restart will occur as a rolling restart, ensuring that each node is fully restarted before the next node begins restarting.
 
 ### Body
 
@@ -65,8 +65,8 @@ Returns detailed metrics on the host system.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `system_information`
-- attributes _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'metrics', 'threads', 'replication']
+- `operation` _(required)_ - must always be `system_information`
+- `attributes` _(optional)_ - string array of top level attributes desired in the response, if no value is supplied all attributes will be returned. Available attributes are: ['system', 'time', 'cpu', 'memory', 'disk', 'network', 'harperdb_processes', 'table_size', 'metrics', 'threads', 'replication']
 
 ### Body
 
@@ -84,9 +84,9 @@ Sets a status value that can be used for application-specific status tracking. S
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_status`
-- id _(required)_ - the key identifier for the status
-- status _(required)_ - the status value to set (string between 1-512 characters)
+- `operation` _(required)_ - must always be `set_status`
+- `id` _(required)_ - the key identifier for the status
+- `status` _(required)_ - the status value to set (string between 1-512 characters)
 
 ### Body
 
@@ -124,8 +124,8 @@ Retrieves a status value previously set with the set_status operation.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_status`
-- id _(optional)_ - the key identifier for the status to retrieve (defaults to all statuses if not provided)
+- `operation` _(required)_ - must always be `get_status`
+- `id` _(optional)_ - the key identifier for the status to retrieve (defaults to all statuses if not provided)
 
 ### Body
 
@@ -174,8 +174,8 @@ Removes a status entry by its ID.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `clear_status`
-- id _(required)_ - the key identifier for the status to remove
+- `operation` _(required)_ - must always be `clear_status`
+- `id` _(required)_ - the key identifier for the status to remove
 
 ### Body
 

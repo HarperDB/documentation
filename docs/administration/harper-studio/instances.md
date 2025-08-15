@@ -26,7 +26,7 @@ A summary view of all instances within an organization can be viewed by clicking
    1. Fill out Instance Info.
       1. Enter Instance Name
 
-         _This will be used to build your instance URL. For example, with subdomain “demo” and instance name “c1” the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com). The Instance URL will be previewed below._
+         _This will be used to build your instance URL. For example, with subdomain "demo" and instance name "c1" the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com). The Instance URL will be previewed below._
 
       1. Enter Instance Username
 

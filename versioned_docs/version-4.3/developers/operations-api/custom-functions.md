@@ -10,7 +10,7 @@ Returns the state of the Custom functions server. This includes whether it is en
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `custom_function_status`
+- `operation` _(required)_ - must always be `custom_function_status`
 
 ### Body
 
@@ -38,7 +38,7 @@ Returns an array of projects within the Custom Functions root project directory.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_custom_functions`
+- `operation` _(required)_ - must always be `get_custom_functions`
 
 ### Body
 
@@ -68,10 +68,10 @@ Returns the content of the specified file as text. HarperDB Studio uses this cal
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `get_custom_function`
-- project _(required)_ - the name of the project containing the file for which you wish to get content
-- type _(required)_ - the name of the sub-folder containing the file for which you wish to get content - must be either routes or helpers
-- file _(required)_ - The name of the file for which you wish to get content - should not include the file extension (which is always .js)
+- `operation` _(required)_ - must always be `get_custom_function`
+- `project` _(required)_ - the name of the project containing the file for which you wish to get content
+- `type` _(required)_ - the name of the sub-folder containing the file for which you wish to get content - must be either routes or helpers
+- `file` _(required)_ - The name of the file for which you wish to get content - should not include the file extension (which is always .js)
 
 ### Body
 
@@ -100,11 +100,11 @@ Updates the content of the specified file. HarperDB Studio uses this call to sav
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `set_custom_function`
-- project _(required)_ - the name of the project containing the file for which you wish to set content
-- type _(required)_ - the name of the sub-folder containing the file for which you wish to set content - must be either routes or helpers
-- file _(required)_ - the name of the file for which you wish to set content - should not include the file extension (which is always .js)
-- function*content *(required)\_ - the content you wish to save into the specified file
+- `operation` _(required)_ - must always be `set_custom_function`
+- `project` _(required)_ - the name of the project containing the file for which you wish to set content
+- `type` _(required)_ - the name of the sub-folder containing the file for which you wish to set content - must be either routes or helpers
+- `file` _(required)_ - the name of the file for which you wish to set content - should not include the file extension (which is always .js)
+- `function_content` _(required)_ - the content you wish to save into the specified file
 
 ### Body
 
@@ -134,10 +134,10 @@ Deletes the specified file.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `drop_custom_function`
-- project _(required)_ - the name of the project containing the file you wish to delete
-- type _(required)_ - the name of the sub-folder containing the file you wish to delete. Must be either routes or helpers
-- file _(required)_ - the name of the file you wish to delete. Should not include the file extension (which is always .js)
+- `operation` _(required)_ - must always be `drop_custom_function`
+- `project` _(required)_ - the name of the project containing the file you wish to delete
+- `type` _(required)_ - the name of the sub-folder containing the file you wish to delete. Must be either routes or helpers
+- `file` _(required)_ - the name of the file you wish to delete. Should not include the file extension (which is always .js)
 
 ### Body
 
@@ -166,8 +166,8 @@ Creates a new project folder in the Custom Functions root project directory. It 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_custom_function_project`
-- project _(required)_ - the name of the project you wish to create
+- `operation` _(required)_ - must always be `add_custom_function_project`
+- `project` _(required)_ - the name of the project you wish to create
 
 ### Body
 
@@ -194,8 +194,8 @@ Deletes the specified project folder and all of its contents.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `drop_custom_function_project`
-- project _(required)_ - the name of the project you wish to delete
+- `operation` _(required)_ - must always be `drop_custom_function_project`
+- `project` _(required)_ - the name of the project you wish to delete
 
 ### Body
 
@@ -222,9 +222,9 @@ Creates a .tar file of the specified project folder, then reads it into a base64
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `package_custom_function_project`
-- project _(required)_ - the name of the project you wish to package up for deployment
-- skip*node_modules *(optional)\_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean.
+- `operation` _(required)_ - must always be `package_custom_function_project`
+- `project` _(required)_ - the name of the project you wish to package up for deployment
+- `skip_node_modules` _(optional)_ - if true, creates option for tar module that will exclude the project's node_modules directory. Must be a boolean.
 
 ### Body
 
@@ -254,9 +254,9 @@ Takes the output of package_custom_function_project, decrypts the base64-encoded
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `deploy_custom_function_project`
-- project _(required)_ - the name of the project you wish to deploy. Must be a string
-- payload _(required)_ - a base64-encoded string representation of the .tar file. Must be a string
+- `operation` _(required)_ - must always be `deploy_custom_function_project`
+- `project` _(required)_ - the name of the project you wish to deploy. Must be a string
+- `payload` _(required)_ - a base64-encoded string representation of the .tar file. Must be a string
 
 ### Body
 

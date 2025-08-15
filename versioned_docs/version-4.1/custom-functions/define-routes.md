@@ -12,7 +12,7 @@ Route URLs are resolved in the following manner:
 
 - The route below, within the **dogs** project, with a route of **breeds** would be available at **http:/localhost:9926/dogs/breeds**.
 
-In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the “helper methods” section, below.
+In effect, this route is just a pass-through to HarperDB. The same result could have been achieved by hitting the core HarperDB API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the "helper methods" section, below.
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {
@@ -29,7 +29,7 @@ module.exports = async (server, { hdbCore, logger }) => {
 
 For endpoints where you want to execute multiple operations against HarperDB, or perform additional processing (like an ML classification, or an aggregation, or a call to a 3rd party API), you can define your own logic in the handler. The function below will execute a query against the dogs table, and filter the results to only return those dogs over 4 years in age.
 
-**IMPORTANT: This route has NO preValidation and uses hdbCore.requestWithoutAuthentication, which- as the name implies- bypasses all user authentication. See the security concerns and mitigations in the “helper methods” section, below.**
+**IMPORTANT: This route has NO preValidation and uses hdbCore.requestWithoutAuthentication, which- as the name implies- bypasses all user authentication. See the security concerns and mitigations in the "helper methods" section, below.**
 
 ```javascript
 module.exports = async (server, { hdbCore, logger }) => {

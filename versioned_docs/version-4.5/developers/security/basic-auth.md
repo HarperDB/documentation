@@ -8,7 +8,7 @@ Harper uses Basic Auth and JSON Web Tokens (JWTs) to secure our HTTP requests. I
 
 ** \_**You do not need to log in separately. Basic Auth is added to each HTTP request like create_database, create_table, insert etc… via headers.**\_ **
 
-A header is added to each HTTP request. The header key is **“Authorization”** the header value is **“Basic &lt;&lt;your username and password buffer token>>”**
+A header is added to each HTTP request. The header key is **"Authorization"** the header value is **"Basic &lt;&lt;your username and password buffer token>>"**
 
 ## Authentication in Harper Studio
 

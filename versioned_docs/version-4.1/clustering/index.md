@@ -26,14 +26,14 @@ A common use case is an edge application collecting and analyzing sensor data th
 
 HarperDB simplifies the architecture of such an application with its bi-directional, table-level replication:
 
-- The edge instance subscribes to a “thresholds” table on the cloud instance, so the application only makes localhost calls to get the thresholds.
+- The edge instance subscribes to a "thresholds" table on the cloud instance, so the application only makes localhost calls to get the thresholds.
 
-- The application continually pushes sensor data into a “sensor_data” table via the localhost API, comparing it to the threshold values as it does so.
+- The application continually pushes sensor data into a "sensor_data" table via the localhost API, comparing it to the threshold values as it does so.
 
-- When a threshold violation occurs, the application adds a record to the “alerts” table.
+- When a threshold violation occurs, the application adds a record to the "alerts" table.
 
-- The application appends to that record array “sensor_data” entries for the 60 seconds (or minutes, or days) leading up to the threshold violation.
+- The application appends to that record array "sensor_data" entries for the 60 seconds (or minutes, or days) leading up to the threshold violation.
 
-- The edge instance publishes the “alerts” table up to the cloud instance.
+- The edge instance publishes the "alerts" table up to the cloud instance.
 
 By letting HarperDB focus on the fault-tolerant logistics of transporting your data, you get to write less code. By moving data only when and where it’s needed, you lower storage and bandwidth costs. And by restricting your app to only making local calls to HarperDB, you reduce the overall exposure of your application to outside forces.

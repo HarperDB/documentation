@@ -14,16 +14,16 @@ Adds a new Harper instance to the cluster. If `subscriptions` are provided, it w
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_node`
-- hostname or url _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
-- verify_tls _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
-- authorization _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
-- retain_authorization _(optional)_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
-- subscriptions _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
-  - database - the database to replicate
-  - table - the table to replicate
-  - subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  - publish - a boolean which determines if transactions on the local table should be replicated on the remote table
+- `operation` _(required)_ - must always be `add_node`
+- `hostname` or `url` _(required)_ - one of these fields is required. You must provide either the `hostname` or the `url` of the node you want to add
+- `verify_tls` _(optional)_ - a boolean which determines if the TLS certificate should be verified. This will allow the Harper default self-signed certificates to be accepted. Defaults to `true`
+- `authorization` _(optional)_ - an object or a string which contains the authorization information for the node being added. If it is an object, it should contain `username` and `password` fields. If it is a string, it should use HTTP `Authorization` style credentials
+- `retain_authorization` _(optional)_ - a boolean which determines if the authorization credentials should be retained/stored and used everytime a connection is made to this node. If `true`, the authorization will be stored on the node record. Generally this should not be used, as mTLS/certificate based authorization is much more secure and safe, and avoids the need for storing credentials. Defaults to `false`.
+- `subscriptions` _(optional)_ - The relationship created between nodes. If not provided a fully replicated cluster will be setup. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
+  - `database` - the database to replicate
+  - `table` - the table to replicate
+  - `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table
+  - `publish` - a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
 
@@ -57,13 +57,13 @@ _Operation is restricted to super_user roles only_
 
 _Note: will attempt to add the node if it does not exist_
 
-- operation _(required)_ - must always be `update_node`
-- hostname _(required)_ - the `hostname` of the remote node you are updating
-- subscriptions _(required)_ - The relationship created between nodes. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
-  - database - the database to replicate from
-  - table - the table to replicate from
-  - subscribe - a boolean which determines if transactions on the remote table should be replicated on the local table
-  - publish - a boolean which determines if transactions on the local table should be replicated on the remote table
+- `operation` _(required)_ - must always be `update_node`
+- `hostname` _(required)_ - the `hostname` of the remote node you are updating
+- `subscriptions` _(required)_ - The relationship created between nodes. Must be an object array and include `database`, `table`, `subscribe` and `publish`:
+  - `database` - the database to replicate from
+  - `table` - the table to replicate from
+  - `subscribe` - a boolean which determines if transactions on the remote table should be replicated on the local table
+  - `publish` - a boolean which determines if transactions on the local table should be replicated on the remote table
 
 ### Body
 
@@ -98,8 +98,8 @@ Removes a Harper node from the cluster and stops replication, [Learn more about 
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `remove_node`
-- name _(required)_ - The name of the node you are removing
+- `operation` _(required)_ - must always be `remove_node`
+- `name` _(required)_ - The name of the node you are removing
 
 ### Body
 
@@ -128,7 +128,7 @@ Returns an array of status objects from a cluster.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_status`
+- `operation` _(required)_ - must always be `cluster_status`
 
 ### Body
 
@@ -179,8 +179,8 @@ Bulk create/remove subscriptions for any number of remote nodes. Resets and repl
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `configure_cluster`
-- connections _(required)_ - must be an object array with each object following the `add_node` schema.
+- `operation` _(required)_ - must always be `configure_cluster`
+- `connections` _(required)_ - must be an object array with each object following the `add_node` schema.
 
 ### Body
 
@@ -240,8 +240,8 @@ Adds a route/routes to the `replication.routes` configuration. This operation be
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_set_routes`
-- routes _(required)_ - the routes field is an array that specifies the routes for clustering. Each element in the array can be either a string or an object with `hostname` and `port` properties.
+- `operation` _(required)_ - must always be `cluster_set_routes`
+- `routes` _(required)_ - the routes field is an array that specifies the routes for clustering. Each element in the array can be either a string or an object with `hostname` and `port` properties.
 
 ### Body
 
@@ -282,7 +282,7 @@ Gets the replication routes from the Harper config file.
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_get_routes`
+- `operation` _(required)_ - must always be `cluster_get_routes`
 
 ### Body
 
@@ -312,8 +312,8 @@ Removes route(s) from the Harper config file. Returns a deletion success message
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `cluster_delete_routes`
-- routes _required_ - Must be an array of route object(s)
+- `operation` _(required)_ - must always be `cluster_delete_routes`
+- `routes` _(required)_ - Must be an array of route object(s)
 
 ### Body
 

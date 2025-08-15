@@ -10,9 +10,9 @@ Creates the tokens needed for authentication: operation & refresh token.
 
 _Note - this operation does not require authorization to be set_
 
-- operation _(required)_ - must always be `create_authentication_tokens`
-- username _(required)_ - username of user to generate tokens for
-- password _(required)_ - password of user to generate tokens for
+- `operation` _(required)_ - must always be `create_authentication_tokens`
+- `username` _(required)_ - username of user to generate tokens for
+- `password` _(required)_ - password of user to generate tokens for
 
 ### Body
 
@@ -39,8 +39,8 @@ _Note - this operation does not require authorization to be set_
 
 This operation creates a new operation token.
 
-- operation _(required)_ - must always be `refresh_operation_token`
-- refresh*token *(required)\_ - the refresh token that was provided when tokens were created
+- `operation` _(required)_ - must always be `refresh_operation_token`
+- `refresh_token` _(required)_ - the refresh token that was provided when tokens were created
 
 ### Body
 

@@ -10,7 +10,7 @@ Returns a list of all roles. Learn more about HarperDB roles here: [https://harp
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `list_roles`
+- `operation` _(required)_ - must always be `list_roles`
 
 ### Body
 
@@ -80,11 +80,11 @@ Creates a new role with the specified permissions. Learn more about HarperDB rol
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_role`
-- role _(required)_ - name of role you are defining
-- permission _(required)_ - object defining permissions for users associated with this role:
-  - super*user *(optional)\_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
-  - structure_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
+- `operation` _(required)_ - must always be `add_role`
+- `role` _(required)_ - name of role you are defining
+- `permission` _(required)_ - object defining permissions for users associated with this role:
+  - `super_user` _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
+  - `structure_user` _(optional)_ - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
 
 ### Body
 
@@ -158,12 +158,12 @@ Modifies an existing role with the specified permissions. updates permissions fr
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `alter_role`
-- id _(required)_ - the id value for the role you are altering
-- role _(optional)_ - name value to update on the role you are altering
-- permission _(required)_ - object defining permissions for users associated with this role:
-  - super*user *(optional)\_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
-  - structure_user (optional) - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
+- `operation` _(required)_ - must always be `alter_role`
+- `id` _(required)_ - the id value for the role you are altering
+- `role` _(optional)_ - name value to update on the role you are altering
+- `permission` _(required)_ - object defining permissions for users associated with this role:
+  - `super_user` _(optional)_ - boolean which, if set to true, gives users associated with this role full access to all operations and methods. If not included, value will be assumed to be false.
+  - `structure_user` _(optional)_ - boolean OR array of schema names (as strings). If boolean, user can create new schemas and tables. If array of strings, users can only manage tables within the specified schemas. This overrides any individual table permissions for specified schemas, or for all schemas if the value is true.
 
 ### Body
 
@@ -237,8 +237,8 @@ Deletes an existing role from the database. NOTE: Role with associated users can
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - this must always be `drop_role`
-- id _(required)_ - this is the id of the role you are dropping
+- `operation` _(required)_ - this must always be `drop_role`
+- `id` _(required)_ - this is the id of the role you are dropping
 
 ### Body
 
@@ -265,7 +265,7 @@ Returns a list of all users. Learn more about HarperDB users here: [https://harp
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `list_users`
+- `operation` _(required)_ - must always be `list_users`
 
 ### Body
 
@@ -377,7 +377,7 @@ _Operation is restricted to super_user roles only_
 
 Returns user data for the associated user credentials.
 
-- operation _(required)_ - must always be `user_info`
+- `operation` _(required)_ - must always be `user_info`
 
 ### Body
 
@@ -415,11 +415,11 @@ Creates a new user with the specified role and credentials. Learn more about Har
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `add_user`
-- role _(required)_ - 'role' name value of the role you wish to assign to the user. See `add_role` for more detail
-- username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash
-- password _(required)_ - clear text for password. HarperDB will encrypt the password upon receipt
-- active _(required)_ - boolean value for status of user's access to your HarperDB instance. If set to false, user will not be able to access your instance of HarperDB.
+- `operation` _(required)_ - must always be `add_user`
+- `role` _(required)_ - 'role' name value of the role you wish to assign to the user. See `add_role` for more detail
+- `username` _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash
+- `password` _(required)_ - clear text for password. HarperDB will encrypt the password upon receipt
+- `active` _(required)_ - boolean value for status of user's access to your HarperDB instance. If set to false, user will not be able to access your instance of HarperDB.
 
 ### Body
 
@@ -449,11 +449,11 @@ Modifies an existing user's role and/or credentials. Learn more about HarperDB u
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `alter_user`
-- username _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
-- password _(optional)_ - clear text for password. HarperDB will encrypt the password upon receipt
-- role _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
-- active _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
+- `operation` _(required)_ - must always be `alter_user`
+- `username` _(required)_ - username assigned to the user. It can not be altered after adding the user. It serves as the hash.
+- `password` _(optional)_ - clear text for password. HarperDB will encrypt the password upon receipt
+- `role` _(optional)_ - `role` name value of the role you wish to assign to the user. See `add_role` for more detail
+- `active` _(optional)_ - status of user's access to your HarperDB instance. See `add_role` for more detail
 
 ### Body
 
@@ -487,8 +487,8 @@ Deletes an existing user by username. Learn more about HarperDB users here: [htt
 
 _Operation is restricted to super_user roles only_
 
-- operation _(required)_ - must always be `drop_user`
-- username _(required)_ - username assigned to the user
+- `operation` _(required)_ - must always be `drop_user`
+- `username` _(required)_ - username assigned to the user
 
 ### Body
 

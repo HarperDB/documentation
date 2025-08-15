@@ -3,7 +3,7 @@
 /**
  * Pre-build script for Docusaurus
  * Handles dynamic configuration based on environment variables
- * 
+ *
  * Usage:
  *   node prebuild.js        - Setup for build/start
  *   node prebuild.js clean  - Clean generated files
@@ -23,19 +23,19 @@ const pagesDir = path.join(__dirname, '../src/pages');
 
 // Helper function to remove the index page
 function removeIndexPage() {
-  if (fs.existsSync(indexPagePath)) {
-    fs.unlinkSync(indexPagePath);
-    console.log('Removed index.tsx');
-    return true;
-  }
-  return false;
+	if (fs.existsSync(indexPagePath)) {
+		fs.unlinkSync(indexPagePath);
+		console.log('Removed index.tsx');
+		return true;
+	}
+	return false;
 }
 
 if (isCleanMode) {
-  // Clean mode - remove all generated files
-  console.log('Cleaning generated files...');
-  removeIndexPage();
-  process.exit(0);
+	// Clean mode - remove all generated files
+	console.log('Cleaning generated files...');
+	removeIndexPage();
+	process.exit(0);
 }
 
 console.log('Running pre-build setup...');
@@ -43,20 +43,20 @@ console.log(`Route base path: ${routeBasePath}`);
 
 // Setup index redirect page based on route configuration
 if (routeBasePath === '/') {
-  // If docs are at root, remove the index redirect page
-  console.log('Docs are at root (/), removing index redirect page, if it exists...');
-  removeIndexPage();
+	// If docs are at root, remove the index redirect page
+	console.log('Docs are at root (/), removing index redirect page, if it exists...');
+	removeIndexPage();
 } else {
-  // If docs are not at root, ensure the index redirect page exists
-  console.log(`Docs are at ${routeBasePath}, creating index redirect page...`);
-  
-  // Create pages directory if it doesn't exist
-  if (!fs.existsSync(pagesDir)) {
-    fs.mkdirSync(pagesDir, { recursive: true });
-  }
-  
-  // Create the redirect page
-  const redirectContent = `import React from 'react';
+	// If docs are not at root, ensure the index redirect page exists
+	console.log(`Docs are at ${routeBasePath}, creating index redirect page...`);
+
+	// Create pages directory if it doesn't exist
+	if (!fs.existsSync(pagesDir)) {
+		fs.mkdirSync(pagesDir, { recursive: true });
+	}
+
+	// Create the redirect page
+	const redirectContent = `import React from 'react';
 import { Redirect } from '@docusaurus/router';
 
 export default function Home(): JSX.Element {
@@ -64,7 +64,7 @@ export default function Home(): JSX.Element {
   return <Redirect to="${routeBasePath}" />;
 }
 `;
-  
-  fs.writeFileSync(indexPagePath, redirectContent);
-  console.log(`Created index redirect to ${routeBasePath}`);
+
+	fs.writeFileSync(indexPagePath, redirectContent);
+	console.log(`Created index redirect to ${routeBasePath}`);
 }

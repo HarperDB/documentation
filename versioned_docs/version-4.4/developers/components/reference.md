@@ -105,7 +105,7 @@ There are two key types of Harper Extensions: **Resource Extension** and **Proto
 
 Functionally, what makes an extension a component is the contents of `config.yaml`. Unlike the Application Template referenced earlier, which specified multiple components within the `config.yaml`, an extension will specify an `extensionModule` option.
 
-- **extensionModule** - `string` - _required_ - A path to the extension module source code. The path must resolve from the root of the extension module directory.
+- `extensionModule` - `string` - _required_ - A path to the extension module source code. The path must resolve from the root of the extension module directory.
 
 For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) `config.yaml` specifies `extensionModule: ./extension.js`.
 
@@ -129,9 +129,9 @@ Other than their execution behavior, the `handleFile()` and `setupFile()` method
 
 Any [Resource Extension](#resource-extension) can be configured with the `files`, `path`, and `root` options. These options control how _files_ and _directories_ are resolved in order to be passed to the extension's `handleFile()`, `setupFile()`, `handleDirectory()`, and `setupDirectory()` methods.
 
-- **files** - `string` - _required_ - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
-- **path** - `string` - _optional_ - Specifies the URL path to be handled by the component.
-- **root** - `string` - _optional_ - Specifies the root directory for mapping file paths to the URLs.
+- `files` - `string` - _required_ - Specifies the set of files and directories that should be handled by the component. Can be a glob pattern.
+- `path` - `string` - _optional_ - Specifies the URL path to be handled by the component.
+- `root` - `string` - _optional_ - Specifies the root directory for mapping file paths to the URLs.
 
 For example, to configure the [static](./built-in#static) component to server all files from `web` to the root URL path:
 
@@ -188,11 +188,11 @@ These methods are for processing individual files. They can be async.
 
 Parameters:
 
-- **contents** - `Buffer` - The contents of the file
-- **urlPath** - `string` - The recommended URL path of the file
-- **path** - `string` - The relative path of the file
+- `contents` - `Buffer` - The contents of the file
+- `urlPath` - `string` - The recommended URL path of the file
+- `path` - `string` - The relative path of the file
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
-- **resources** - `Object` - A collection of the currently loaded resources
+- `resources` - `Object` - A collection of the currently loaded resources
 
 Returns: `void | Promise<void>`
 
@@ -212,10 +212,10 @@ If the function returns or resolves a truthy value, then the component loading s
 
 Parameters:
 
-- **urlPath** - `string` - The recommended URL path of the file
-- **path** - `string` - The relative path of the directory
+- `urlPath` - `string` - The recommended URL path of the file
+- `path` - `string` - The relative path of the directory
   <!-- TODO: Replace the Object type here with a more specific type representing the resources argument of loadComponent() -->
-- **resources** - `Object` - A collection of the currently loaded resources
+- `resources` - `Object` - A collection of the currently loaded resources
 
 Returns: `boolean | void | Promise<boolean | void>`
 
@@ -249,6 +249,6 @@ A Protocol Extension is made up of two distinct methods, [`start()`](#startoptio
 
 Parameters:
 
-- **options** - `Object` - An object representation of the extension's configuration options.
+- `options` - `Object` - An object representation of the extension's configuration options.
 
 Returns: `Object` - An object that implements any of the [Resource Extension APIs](#resource-extension-api)

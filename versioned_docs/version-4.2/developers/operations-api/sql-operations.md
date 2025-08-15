@@ -8,8 +8,8 @@ title: SQL Operations
 
 Executes the provided SQL statement. The SELECT statement is used to query data from the database.
 
-- operation _(required)_ - must always be `sql`
-- sql _(required)_ - use standard SQL
+- `operation` _(required)_ - must always be `sql`
+- `sql` _(required)_ - use standard SQL
 
 ### Body
 
@@ -44,8 +44,8 @@ Executes the provided SQL statement. The SELECT statement is used to query data 
 
 Executes the provided SQL statement. The INSERT statement is used to add one or more rows to a database table.
 
-- operation _(required)_ - must always be `sql`
-- sql _(required)_ - use standard SQL
+- `operation` _(required)_ - must always be `sql`
+- `sql` _(required)_ - use standard SQL
 
 ### Body
 
@@ -72,8 +72,8 @@ Executes the provided SQL statement. The INSERT statement is used to add one or 
 
 Executes the provided SQL statement. The UPDATE statement is used to change the values of specified attributes in one or more rows in a database table.
 
-- operation _(required)_ - must always be `sql`
-- sql _(required)_ - use standard SQL
+- `operation` _(required)_ - must always be `sql`
+- `sql` _(required)_ - use standard SQL
 
 ### Body
 
@@ -100,8 +100,8 @@ Executes the provided SQL statement. The UPDATE statement is used to change the 
 
 Executes the provided SQL statement. The DELETE statement is used to remove one or more rows of data from a database table.
 
-- operation _(required)_ - must always be `sql`
-- sql _(required)_ - use standard SQL
+- `operation` _(required)_ - must always be `sql`
+- `sql` _(required)_ - use standard SQL
 
 ### Body
 

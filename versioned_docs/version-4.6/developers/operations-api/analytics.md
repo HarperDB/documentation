@@ -8,12 +8,12 @@ title: Analytics Operations
 
 Retrieves analytics data from the server.
 
-- operation _(required)_ - must always be `get_analytics`
-- metric _(required)_ - any value returned by `list_metrics`
-- start*time *(optional)\_ - Unix timestamp in seconds
-- end*time *(optional)\_ - Unix timestamp in seconds
-- get*attributes *(optional)\_ - array of attribute names to retrieve
-- conditions _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](./nosql-operations) for details)
+- `operation` _(required)_ - must always be `get_analytics`
+- `metric` _(required)_ - any value returned by `list_metrics`
+- `start_time` _(optional)_ - Unix timestamp in seconds
+- `end_time` _(optional)_ - Unix timestamp in seconds
+- `get_attributes` _(optional)_ - array of attribute names to retrieve
+- `conditions` _(optional)_ - array of conditions to filter results (see [search_by_conditions docs](./nosql-operations) for details)
 
 ### Body
 
@@ -57,8 +57,8 @@ Retrieves analytics data from the server.
 
 Returns a list of available metrics that can be queried.
 
-- operation _(required)_ - must always be `list_metrics`
-- metric*types *(optional)\_ - array of metric types to filter results; one or both of `custom` and `builtin`; default is `builtin`
+- `operation` _(required)_ - must always be `list_metrics`
+- `metric_types` _(optional)_ - array of metric types to filter results; one or both of `custom` and `builtin`; default is `builtin`
 
 ### Body
 
@@ -79,8 +79,8 @@ Returns a list of available metrics that can be queried.
 
 Provides detailed information about a specific metric, including its structure and available parameters.
 
-- operation _(required)_ - must always be `describe_metric`
-- metric _(required)_ - name of the metric to describe
+- `operation` _(required)_ - must always be `describe_metric`
+- `metric` _(required)_ - name of the metric to describe
 
 ### Body
 

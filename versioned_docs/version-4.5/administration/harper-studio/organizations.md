@@ -29,7 +29,7 @@ A new organization can be created as follows:
    - Enter Organization Name
      _This is used for descriptive purposes only._
    - Enter Organization Subdomain
-     _Part of the URL that will be used to identify your Harper Cloud Instances. For example, with subdomain “demo” and instance name “c1” the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com)._
+     _Part of the URL that will be used to identify your Harper Cloud Instances. For example, with subdomain "demo" and instance name "c1" the instance URL would be: [https://c1-demo.harperdbcloud.com](https://c1-demo.harperdbcloud.com)._
 4. Click Create Organization.
 
 ## Delete an Organization
