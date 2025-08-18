@@ -15,7 +15,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/getting-started/install-harper" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/getting-started/install-harper" style={{textDecoration: 'none', color: 'inherit'}}>
         Install Harper
       </a>
     </h3>
@@ -25,7 +25,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/getting-started/what-is-harper" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/getting-started/what-is-harper" style={{textDecoration: 'none', color: 'inherit'}}>
         What is Harper
       </a>
     </h3>
@@ -35,7 +35,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/getting-started/harper-concepts" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/getting-started/harper-concepts" style={{textDecoration: 'none', color: 'inherit'}}>
         Harper Concepts
       </a>
     </h3>
@@ -50,7 +50,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/developers/applications/" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/developers/applications/" style={{textDecoration: 'none', color: 'inherit'}}>
         Harper Applications
       </a>
     </h3>
@@ -60,7 +60,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/developers/rest" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/developers/rest" style={{textDecoration: 'none', color: 'inherit'}}>
         REST Queries
       </a>
     </h3>
@@ -70,7 +70,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/developers/operations-api/" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/developers/operations-api/" style={{textDecoration: 'none', color: 'inherit'}}>
         Operations API
       </a>
     </h3>
@@ -83,7 +83,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/developers/replication/" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/developers/replication/" style={{textDecoration: 'none', color: 'inherit'}}>
         Clustering &#x26; Replication
       </a>
     </h3>
@@ -93,7 +93,7 @@ Welcome to the Harper Documentation! Here, you'll find all things Harper, and ev
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="/docs/administration/harper-studio/" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/administration/harper-studio/" style={{textDecoration: 'none', color: 'inherit'}}>
         Explore the Harper Studio
       </a>
     </h3>
