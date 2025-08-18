@@ -147,22 +147,14 @@ const config: Config = {
 				href: 'https://www.harpersystems.dev',
 			},
 			items: [
-				{
-					type: 'docSidebar',
-					sidebarId: 'docsSidebar',
-					position: 'left',
-					label: 'Documentation',
-				},
-				{
-					type: 'docsVersionDropdown',
-					position: 'right',
-					dropdownActiveClassDisabled: true,
-				},
-				{
-					href: 'https://github.com/HarperDB/documentation',
-					label: 'GitHub',
-					position: 'right',
-				},
+				{ type: 'docSidebar', sidebarId: 'gettingStartedSidebar',   label: 'Getting Started',    position: 'left', to: `${routeBasePath}getting-started/index` },
+				{ type: 'docSidebar', sidebarId: 'developersSidebar',       label: 'Developers',         position: 'left', to: `${routeBasePath}developers/applications/index` },
+				{ type: 'docSidebar', sidebarId: 'administrationSidebar',   label: 'Administration',     position: 'left', to: `${routeBasePath}administration/administration` },
+				{ type: 'docSidebar', sidebarId: 'deploymentsSidebar',      label: 'Deployments',        position: 'left', to: `${routeBasePath}deployments/install-harper/index` },
+				{ type: 'docSidebar', sidebarId: 'technicalDetailsSidebar', label: 'Technical Details',  position: 'left', to: `${routeBasePath}technical-details/reference/index` },
+
+				{ type: 'docsVersionDropdown', position: 'right', dropdownActiveClassDisabled: true },
+				{ href: 'https://github.com/HarperDB/documentation', label: 'GitHub', position: 'right' }
 			],
 		},
 		footer: {
@@ -176,8 +168,8 @@ const config: Config = {
 							to: `${routeBasePath}/getting-started`,
 						},
 						// {
-						// 	label: 'Developers',
-						// 	to: `${routeBasePath}/developers`,
+						//   label: 'Developers',
+						//   to: `${routeBasePath}/developers`,
 						// },
 						{
 							label: 'Administration',
