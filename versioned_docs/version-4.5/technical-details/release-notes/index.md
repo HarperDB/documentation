@@ -8,6 +8,8 @@ title: Release Notes
 
 [Meet Tucker](./v4-tucker/tucker) Our 4th Release Pup
 
+[4.5.23 Tucker](./v4-tucker/4.5.23)
+
 [4.5.22 Tucker](./v4-tucker/4.5.22)
 
 [4.5.21 Tucker](./v4-tucker/4.5.21)
