@@ -31,7 +31,7 @@ harperdb
 
 HarperDB will automatically start after installation.
 
-If you are setting up a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, and configure your operating system to use as a database server in our linux installation guide](./linux).
+If you are setting up a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, and configure your operating system to use as a database server in our linux installation guide](install-harperdb/linux).
 
 ## With Docker
 
@@ -51,7 +51,7 @@ Once you’ve downloaded the .tgz file, run the following command from the direc
 npm install -g harperdb-X.X.X.tgz harperdb install
 ```
 
-For more information visit the [HarperDB Command Line Interface](../harperdb-cli) guide.
+For more information visit the [HarperDB Command Line Interface](./harperdb-cli) guide.
 
 ## Installation on Less Common Platforms
 

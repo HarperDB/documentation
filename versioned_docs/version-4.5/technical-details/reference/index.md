@@ -6,11 +6,11 @@ title: Reference
 
 This section contains technical details and reference materials for Harper.
 
-- [Resource API](./resource)
-- [Transactions](./transactions)
-- [Storage Algorithm](./storage-algorithm)
-- [Dynamic Schema](./dynamic-schema)
-- [Headers](./headers)
-- [Limitations](./limits)
+- [Resource API](reference/resource)
+- [Transactions](reference/transactions)
+- [Storage Algorithm](reference/storage-algorithm)
+- [Dynamic Schema](reference/dynamic-schema)
+- [Headers](reference/headers)
+- [Limitations](reference/limits)
 - Content Types
-- [Data Types](./data-types)
+- [Data Types](reference/data-types)

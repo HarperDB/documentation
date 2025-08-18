@@ -29,9 +29,9 @@ npm install -g harperdb
 harperdb
 ```
 
-Harper will automatically start after installation. Harper's installation can be configured with numerous options via CLI arguments, for more information visit the [Harper Command Line Interface](../harper-cli) guide.
+Harper will automatically start after installation. Harper's installation can be configured with numerous options via CLI arguments, for more information visit the [Harper Command Line Interface](./harper-cli) guide.
 
-If you are setting up a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, and configure your operating system to use as a database server in our linux installation guide](linux).
+If you are setting up a production server on Linux, [we have much more extensive documentation on how to configure volumes for database storage, set up a systemd script, and configure your operating system to use as a database server in our linux installation guide](install-harper/linux).
 
 ## With Docker
 

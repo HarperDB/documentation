@@ -4,7 +4,7 @@ title: Operations API
 
 # Operations API
 
-The operations API provides a full set of capabilities for configuring, deploying, administering, and controlling Harper. To send operations to the operations API, you send a POST request to the operations API endpoint, which [defaults to port 9925](../../deployments/configuration#operationsapi), on the root path, where the body is the operations object. These requests need to authenticated, which can be done with [basic auth](../security/basic-auth) or [JWT authentication](../security/jwt-auth). For example, a request to create a table would be performed as:
+The operations API provides a full set of capabilities for configuring, deploying, administering, and controlling Harper. To send operations to the operations API, you send a POST request to the operations API endpoint, which [defaults to port 9925](../../deployments/configuration#operationsapi), on the root path, where the body is the operations object. These requests need to authenticated, which can be done with [basic auth](./security#basic-auth) or [JWT authentication](./security#jwt-auth). For example, a request to create a table would be performed as:
 
 ```http
 POST https://my-harperdb-server:9925/
@@ -19,21 +19,21 @@ Content-Type: application/json
 
 The operations API reference is available below and categorized by topic:
 
-- [Quick Start Examples](./quickstart-examples)
-- [Databases and Tables](./databases-and-tables)
-- [NoSQL Operations](./nosql-operations)
-- [Bulk Operations](./bulk-operations)
-- [Users and Roles](./users-and-roles)
-- [Clustering](./clustering)
-- [Clustering with NATS](./clustering-nats)
-- [Components](./components)
-- [Registration](./registration)
-- [Jobs](./jobs)
-- [Logs](./logs)
-- [Utilities](./utilities)
-- [Token Authentication](./token-authentication)
-- [SQL Operations](./sql-operations)
-- [Advanced JSON SQL Examples](./advanced-json-sql-examples)
+- [Quick Start Examples](operations-api/quickstart-examples)
+- [Databases and Tables](operations-api/databases-and-tables)
+- [NoSQL Operations](operations-api/nosql-operations)
+- [Bulk Operations](operations-api/bulk-operations)
+- [Users and Roles](operations-api/users-and-roles)
+- [Clustering](operations-api/clustering)
+- [Clustering with NATS](operations-api/clustering-nats)
+- [Components](operations-api/components)
+- [Registration](operations-api/registration)
+- [Jobs](operations-api/jobs)
+- [Logs](operations-api/logs)
+- [Utilities](operations-api/utilities)
+- [Token Authentication](operations-api/token-authentication)
+- [SQL Operations](operations-api/sql-operations)
+- [Advanced JSON SQL Examples](operations-api/advanced-json-sql-examples)
 
 • [Past Release API Documentation](https://olddocs.harperdb.io)
 

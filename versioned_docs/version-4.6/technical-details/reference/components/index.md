@@ -12,7 +12,7 @@ title: Components
 
 **Extensions** are the building blocks of the Harper component system. Applications depend on extensions to provide the functionality the application is implementing. For example, the built-in `graphqlSchema` extension enables applications to define their databases and tables using GraphQL schemas. Furthermore, the `@harperdb/nextjs` and `@harperdb/apollo` extensions are the building blocks that provide support for building Next.js and Apollo applications.
 
-> As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleApplication` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](./plugins) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
+> As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleApplication` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](components/plugins) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
 
 All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
 
@@ -20,11 +20,11 @@ For more information on the differences between applications and extensions, ref
 
 This technical reference section has detailed information on various component systems:
 
-- [Built-In Extensions](./built-in-extensions)
-- [Configuration](./configuration)
-- [Managing Applications](./applications)
-- [Extensions](./extensions)
-- [(Experimental) Plugins](./plugins)
+- [Built-In Extensions](components/built-in-extensions)
+- [Configuration](components/configuration)
+- [Managing Applications](components/applications)
+- [Extensions](components/extensions)
+- [(Experimental) Plugins](components/plugins)
 
 ## Custom Applications
 
