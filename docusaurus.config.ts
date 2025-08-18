@@ -22,7 +22,7 @@ const baseUrl = process.env.DOCUSAURUS_BASE_URL || '/';
 // Determine route base path for docs
 // Can be set to '/docs/' if we need docs under a subdirectory
 // Default is '/' to serve docs at the root
-const routeBasePath = process.env.DOCUSAURUS_ROUTE_BASE_PATH || '/docs'; // matching the production URL structure since this will currently affect some relative lin
+const routeBasePath = process.env.DOCUSAURUS_ROUTE_BASE_PATH || '/docs'; // matching the production URL structure since this will currently affect some relative links in the docs
 
 // URL can also be overridden if needed
 const url = process.env.DOCUSAURUS_URL || 'https://docs.harperdb.io';
