@@ -451,9 +451,9 @@ _Operation is restricted to super_user roles only_
 
 ```json
 [
-    {
-        "name": "harperdb-private-component"
-    }
+	{
+		"name": "harperdb-private-component"
+	}
 ]
 ```
 

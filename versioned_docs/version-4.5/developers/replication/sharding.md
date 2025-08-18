@@ -52,10 +52,10 @@ Likewise, you can specify replicateTo and confirm parameters in the operation ob
 	"table": "MyTable",
 	"hashValues": [3],
 	"record": {
-		"name": "John Doe"
+		"name": "John Doe",
 	},
 	"replicateTo": 2,
-	"replicatedConfirmation": 1
+	"replicatedConfirmation": 1,
 }
 ```
 
@@ -63,9 +63,9 @@ or you can specify nodes:
 
 ```jsonc
 {
-  // ...
-  "replicateTo": ["node-1", "node-2"]
-  // ...
+	// ...
+	"replicateTo": ["node-1", "node-2"],
+	// ...
 }
 ```
 
@@ -155,7 +155,7 @@ Normally sharding allows data to be stored in specific nodes, but still allows a
 	"operation": "search_by_id",
 	"table": "MyTable",
 	"ids": [3],
-	"replicateFrom": false
+	"replicateFrom": false,
 }
 ```
 

@@ -95,7 +95,7 @@ curl -X POST http://localhost:9926/Dog/ \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Harper",
-    "breed": "Labrador", 
+    "breed": "Labrador",
     "age": 3,
     "tricks": ["sits"]
   }'

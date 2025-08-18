@@ -28,3 +28,11 @@
 	--ifm-color-primary-lightest: #c1faee;
 	--docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+/* Set tab size to 2 spaces for code blocks */
+pre,
+code,
+.prism-code {
+	tab-size: 2;
+	-moz-tab-size: 2;
+}
