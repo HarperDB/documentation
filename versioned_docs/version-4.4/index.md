@@ -34,7 +34,7 @@ When you are ready for something a little more advanced, start [customizing your
 
 Finally, when it’s time to deploy, explore [replication](./developers/replication/) between nodes.
 
-If you would like to jump into the most advanced capabilities, learn about [components](./developers/components/).
+If you would like to jump into the most advanced capabilities, learn about [components](developers/components/).
 
 For a more comprehensive deep dive, take a look at our [Getting Started Guide](./getting-started).
 

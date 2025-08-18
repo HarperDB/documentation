@@ -8,10 +8,10 @@ HarperDB's documentation covers installation, getting started, APIs, security, a
 
 ---
 
-- [Install HarperDB Locally](./install-harperdb/)
-- [Getting Started](./getting-started/)
+- [Install HarperDB Locally](4.1/install-harperdb)
+- [Getting Started](4.1/getting-started)
 - [HarperDB Operations API](https://api.harperdb.io)
-- [HarperDB Studio](./harperdb-studio/)
-- [HarperDB Cloud](./harperdb-cloud/)
+- [HarperDB Studio](4.1/harperdb-studio)
+- [HarperDB Cloud](4.1/harperdb-cloud)
 - [Developer Project Examples](https://github.com/search?q=harperdb)
-- [Support](./support)
+- [Support](4.1/support)

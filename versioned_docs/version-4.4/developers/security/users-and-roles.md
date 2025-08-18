@@ -19,7 +19,7 @@ Role permissions in Harper are broken into two categories – permissions around
 
 **Built-In Roles**
 
-There are three built-in roles within Harper. See full breakdown of operations restricted to only super_user roles [here](./users-and-roles#role-based-operation-restrictions).
+There are three built-in roles within Harper. See full breakdown of operations restricted to only super_user roles [here](#role-based-operation-restrictions).
 
 - `super_user` - This role provides full access to all operations and methods within a Harper instance, this can be considered the admin role.
   - This role provides full access to all Database Definition operations and the ability to run Database Manipulation operations across the entire database schema with no restrictions.
@@ -141,7 +141,7 @@ Each table that a role should be given some level of CRUD permissions to must be
    - If a role needs the ability to delete rows from a table, that permission should be set on the table-level.
    - The practical approach to deleting an individual attribute of a row would be to set that attribute to null via an update statement.
 
-## `Role-Based Operation Restrictions <a href="#role-based-operation-restrictions" id="role-based-operation-restrictions"></a>`
+## Role-Based Operation Restrictions
 
 The table below includes all API operations available in Harper and indicates whether or not the operation is restricted to super_user roles.
 

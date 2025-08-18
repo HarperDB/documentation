@@ -355,7 +355,7 @@ export class BlogPost extends tables.BlogPost {
 }
 ```
 
-Please see the [transaction documentation](./transactions) for more information on how transactions work in HarperDB.
+Please see the [transaction documentation](transactions) for more information on how transactions work in HarperDB.
 
 ### Query
 

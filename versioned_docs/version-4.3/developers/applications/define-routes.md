@@ -4,7 +4,7 @@ title: Define Fastify Routes
 
 # Define Fastify Routes
 
-HarperDB’s applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with HarperDB's [REST interface](../rest) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
+HarperDB's applications provide an extension for loading [Fastify](https://www.fastify.io/) routes as a way to handle endpoints. While we generally recommend building your endpoints/APIs with HarperDB's [REST interface](../rest) for better performance and standards compliance, Fastify's route can provide an extensive API for highly customized path handling. Below is a very simple example of a route declaration.
 
 The fastify route handler can be configured in your application's config.yaml (this is the default config if you used the [application template](https://github.com/HarperDB/application-template)):
 

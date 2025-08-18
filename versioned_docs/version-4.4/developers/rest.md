@@ -26,7 +26,7 @@ These can be used to retrieve individual records or perform searches. This is ha
 
 This can be used to retrieve a record by its primary key. The response will include the record as the body.
 
-**Caching/Conditional Requests**
+##### Caching/Conditional Requests
 
 A `GET` response for a record will include an encoded version, a timestamp of the last modification, of this record in the `ETag` request headers (or any accessed record when used in a custom get method). On subsequent requests, a client (that has a cached copy) may include an `If-None-Match` request header with this tag. If the record has not been updated since this date, the response will have a 304 status and no body. This facilitates significant performance gains since the response data doesn't need to be serialized and transferred over the network.
 

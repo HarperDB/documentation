@@ -21,7 +21,7 @@ HarperDB tables group records together with a common data pattern. To create a t
 
 ## Primary Key
 
-The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](./storage-algorithm) utilizes this value for indexing.
+The primary key (also referred to as the `hash_attribute`) is used to uniquely identify records. Uniqueness is enforced on the primary; inserts with the same primary key will be rejected. If a primary key is not provided on insert, a GUID will be automatically generated and returned to the user. The [HarperDB Storage Algorithm](storage-algorithm) utilizes this value for indexing.
 
 **Standard Attributes**
 

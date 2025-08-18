@@ -10,10 +10,10 @@ The quickest way to get up and running with HarperDB is with HarperDB Cloud, our
 
 ### Set Up a HarperDB Instance
 
-Before you can start using HarperDB you need to set up an instance. Note, if you would prefer to install HarperDB locally, [check out the installation guides including Linux, Mac, and many other options](../install-harperdb/).
+Before you can start using HarperDB you need to set up an instance. Note, if you would prefer to install HarperDB locally, [check out the installation guides including Linux, Mac, and many other options](../4.1/install-harperdb).
 
 1. [Sign up for the HarperDB Studio](https://studio.harperdb.io/sign-up)
-1. [Create a new HarperDB Cloud instance](../harperdb-studio/instances#create-a-new-instance)
+1. [Create a new HarperDB Cloud instance](../4.1/harperdb-studio/instances#create-a-new-instance)
 
 > HarperDB Cloud instance provisioning typically takes 5-15 minutes. You will receive an email notification when your instance is ready.
 
@@ -21,11 +21,11 @@ Before you can start using HarperDB you need to set up an instance. Note, if you
 
 Now that you have a HarperDB instance, you can do pretty much everything you’d like through the Studio. This section links to appropriate articles to get you started interacting with your data.
 
-1. [Create a schema](../harperdb-studio/manage-schemas-browse-data#create-a-schema)
-1. [Create a table](../harperdb-studio/manage-schemas-browse-data#create-a-table)
-1. [Add a record](../harperdb-studio/manage-schemas-browse-data#add-a-record)
-1. [Load CSV data](../harperdb-studio/manage-schemas-browse-data#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
-1. [Query data via SQL](../harperdb-studio/query-instance-data)
+1. [Create a schema](../4.1/harperdb-studio/manage-schemas-browse-data#create-a-schema)
+1. [Create a table](../4.1/harperdb-studio/manage-schemas-browse-data#create-a-table)
+1. [Add a record](../4.1/harperdb-studio/manage-schemas-browse-data#add-a-record)
+1. [Load CSV data](../4.1/harperdb-studio/manage-schemas-browse-data#load-csv-data) (Here’s a sample CSV of the HarperDB team’s dogs)
+1. [Query data via SQL](../4.1/harperdb-studio/query-instance-data)
 
 ### Using the HarperDB API
 
@@ -51,4 +51,4 @@ Breaking it down, there are only a few requirements for interacting with HarperD
 
 ### Video Tutorials
 
-[HarperDB video tutorials are available within the HarperDB Studio](../harperdb-studio/resources#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.
+[HarperDB video tutorials are available within the HarperDB Studio](../4.1/harperdb-studio/resources#video-tutorials). HarperDB and the HarperDB Studio are constantly changing, as such, there may be small discrepancies in UI/UX.

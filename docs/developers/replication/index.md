@@ -33,7 +33,7 @@ replication:
       port: 9933
 ```
 
-You can also use the [operations API](../operations-api/clustering) to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
+You can also use the [operations API](./operations-api/clustering) to dynamically add and remove nodes from the cluster. This is useful for adding new nodes to a running cluster or removing nodes that are no longer needed. For example (note this is the basic form, you would also need to provide the necessary credentials for the operation, see the section on securing connections for more details):
 
 ```json
 {
@@ -64,7 +64,7 @@ type LocalTableForNode @table(replicate: false) {
 }
 ```
 
-You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, Harper will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](sharding).
+You can also control which nodes data is replicated to, and how many nodes data is replicated to. By default, Harper will replicate data to all nodes in the cluster, but you can control where data is replicated to with the [sharding configuration and APIs](replication/sharding).
 
 By default, replication connects to the secure port 9933. You can configure the replication port in the `replication` section.
 
@@ -121,7 +121,7 @@ replication:
 
 #### Cross-generated certificates
 
-Harper can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](../operations-api/clustering) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. \
+Harper can also generate its own certificates for secure connections. This is useful for setting up secure connections between nodes when no existing certificates are available, and can be used in development, testing, or production environments. Certificates will be automatically requested and signed between nodes to support a form of distributed certificate generation and signing. To establish secure connections between nodes using cross-generated certificates, you simply use the [`add_node` operation](./operations-api/clustering) over SSL, and specify the temporary authentication credentials to use for connecting and authorizing the certificate generation and signing. \
 \
 Example configuration:
 
@@ -178,7 +178,7 @@ replication:
 
 #### Removing Nodes
 
-Nodes can be removed from the cluster using the [`remove_node` operation](../operations-api/clustering). This will remove the node from the cluster, and stop replication to and from the node. For example:
+Nodes can be removed from the cluster using the [`remove_node` operation](./operations-api/clustering). This will remove the node from the cluster, and stop replication to and from the node. For example:
 
 ```json
 {
@@ -232,7 +232,7 @@ Example configuration:
 }
 ```
 
-To update an explicit subscription you can use the [`update_node` operation](../operations-api/clustering).
+To update an explicit subscription you can use the [`update_node` operation](./operations-api/clustering).
 
 Here we are updating the subscription to receive transactions on the `dev.my-table` table from the `server-two` node.
 
@@ -253,7 +253,7 @@ Here we are updating the subscription to receive transactions on the `dev.my-tab
 
 #### Monitoring Replication
 
-You can monitor the status of replication through the operations API. You can use the [`cluster_status` operation](../operations-api/clustering) to get the status of replication. For example:
+You can monitor the status of replication through the operations API. You can use the [`cluster_status` operation](./operations-api/clustering) to get the status of replication. For example:
 
 ```json
 {

@@ -142,7 +142,7 @@ Each table that a role should be given some level of CRUD permissions to must be
    - If a role needs the ability to delete rows from a table, that permission should be set on the table-level.
    - The practical approach to deleting an individual attribute of a row would be to set that attribute to null via an update statement.
 
-## `Role-Based Operation Restrictions <a href="#role-based-operation-restrictions" id="role-based-operation-restrictions"></a>`
+## Role-Based Operation Restrictions
 
 The table below includes all API operations available in Harper and indicates whether or not the operation is restricted to super_user roles.
 
