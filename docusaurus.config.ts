@@ -64,7 +64,7 @@ const config: Config = {
 			'@docusaurus/preset-classic',
 			{
 				docs: {
-					path: '../docs',
+					path: './docs',
 					sidebarPath: './sidebars.ts',
 					// Docs are served at the configured route base path
 					routeBasePath,
