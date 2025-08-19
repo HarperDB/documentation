@@ -51,7 +51,7 @@ const { Dog } = databases.dev;
 
 ### `Resource`
 
-This is the base class for all resources, including tables and external data sources. This is provided so that you can extend it to implement custom data source providers. See the [Resource API documentation](./resource) for more details about implementing a Resource class.
+This is the base class for all resources, including tables and external data sources. This is provided so that you can extend it to implement custom data source providers. See the [Resource API documentation](resource) for more details about implementing a Resource class.
 
 ### `auth(username, password?): Promise<User>`
 

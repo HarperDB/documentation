@@ -4,7 +4,7 @@ title: Storage Algorithm
 
 # Storage Algorithm
 
-The HarperDB storage algorithm is fundamental to the HarperDB core functionality, enabling the [Dynamic Schema](./dynamic-schema) and all other user-facing functionality. HarperDB is built on top of Lightning Memory-Mapped Database (LMDB), a key-value store offering industry leading performance and functionality, which allows for our storage algorithm to store data in tables as rows/objects. This document will provide additional details on how data is stored within HarperDB.
+The HarperDB storage algorithm is fundamental to the HarperDB core functionality, enabling the [Dynamic Schema](dynamic-schema) and all other user-facing functionality. HarperDB is built on top of Lightning Memory-Mapped Database (LMDB), a key-value store offering industry leading performance and functionality, which allows for our storage algorithm to store data in tables as rows/objects. This document will provide additional details on how data is stored within HarperDB.
 
 ## Query Language Agnostic
 
@@ -16,7 +16,7 @@ Utilizing Multi-Version Concurrency Control (MVCC) through LMDB, HarperDB offers
 
 ## Universally Indexed
 
-All top level attributes are automatically indexed immediately upon ingestion. The [HarperDB Dynamic Schema](./dynamic-schema) reflexively creates both the attribute and index reflexively as new schema metadata comes in. Indexes are agnostic of datatype, honoring the following order: booleans, numbers ordered naturally, strings ordered lexically. Within the LMDB implementation, table records are grouped together into a single LMDB environment file, where each attribute index is a sub-database (dbi) inside said environment file. An example of the indexing scheme can be seen below.
+All top level attributes are automatically indexed immediately upon ingestion. The [HarperDB Dynamic Schema](dynamic-schema) reflexively creates both the attribute and index reflexively as new schema metadata comes in. Indexes are agnostic of datatype, honoring the following order: booleans, numbers ordered naturally, strings ordered lexically. Within the LMDB implementation, table records are grouped together into a single LMDB environment file, where each attribute index is a sub-database (dbi) inside said environment file. An example of the indexing scheme can be seen below.
 
 ## Additional LMDB Benefits
 

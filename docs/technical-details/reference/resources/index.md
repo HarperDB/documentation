@@ -28,7 +28,7 @@ The REST-based API is a little different from traditional Create-Read-Update-Del
 
 The RESTful HTTP server and other server interfaces will directly call resource methods of the same name to fulfill incoming requests so resources can be defined as endpoints for external interaction. When resources are used by the server interfaces, the static method will be executed (which starts a transaction and does access checks), which will then create the resource instance and call the corresponding instance method. Paths (URL, MQTT topics) are mapped to different resource instances. Using a path that specifies an ID like `/MyResource/3492` will be mapped an instance of MyResource, and will call the instance methods like `get(target)`, `put(target, data)`, and `post(target, data)`, where target is based on the `/3492` part of the path.
 
-It is recommended that you use the latest version (V2) of the Resource API with the legacy instance binding behavior disabled. This is done by setting the static `loadAsInstance` property to `false` on the Resource class. This will become the default behavior in Harper version 5.0. This page is written assuming `loadAsInstance` is set to `false`. If you want to use the legacy instance binding behavior, you can set `loadAsInstance` to `true` on the Resource class. If you have existing code that you want to migrate, please see the [migration guide](./resource-migration) for more information.
+It is recommended that you use the latest version (V2) of the Resource API with the legacy instance binding behavior disabled. This is done by setting the static `loadAsInstance` property to `false` on the Resource class. This will become the default behavior in Harper version 5.0. This page is written assuming `loadAsInstance` is set to `false`. If you want to use the legacy instance binding behavior, you can set `loadAsInstance` to `true` on the Resource class. If you have existing code that you want to migrate, please see the [migration guide](resources/migration) for more information.
 
 You can create classes that extend `Resource` to define your own data sources, typically to interface with external data sources (the `Resource` base class is available as a global variable in the Harper JS environment). In doing this, you will generally be extending and providing implementations for the instance methods below. For example:
 
@@ -98,11 +98,11 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../components/extensions).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](./components/extensions).
 
 ### `transaction`
 
-This provides a function for starting transactions. See the transactions section below for more information.
+This provides a function for starting transactions. See the [transactions documentation](../../technical-details/transactions) for more information.
 
 ### `contentTypes`
 
@@ -455,7 +455,7 @@ export class BlogPost extends tables.BlogPost {
 }
 ```
 
-Please see the [transaction documentation](../transactions) for more information on how transactions work in Harper.
+Please see the [transaction documentation](../../technical-details/transactions) for more information on how transactions work in Harper.
 
 ### Query
 
