@@ -7,7 +7,7 @@
 		"docusaurus": "docusaurus",
 		"start": "npm run prebuild && docusaurus start",
 		"dev": "npm run prebuild && docusaurus start",
-		"build": "npm run prebuild && docusaurus build",
+		"build": "npm run prebuild && docusaurus build && node scripts/postbuild.js",
 		"version": "node scripts/cut-version.js",
 		"swizzle": "docusaurus swizzle",
 		"deploy": "docusaurus deploy",
