@@ -273,9 +273,13 @@ The port to use for secure replication connections.
 
 When true, Harper will verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
 
-`copyTablesToCatchUp` - _Type_: boolean; _Default_: true
+`blobTimeout` - _Type_: number; _Default_: 120000
 
-Replication will first attempt to catch up using the audit log. If unsuccessful, it will perform a full table copy. When set to `false`, replication will only use the audit log.
+Amount of time to wait for a blob to be transferred before timing out, measured in milliseconds.
+
+`failOver` - _Type_: boolean; _Default_: true
+
+When true, Harper will attempt to fail-over to subscribing to a different node if the current node is unreachable, to reach consistency.
 
 `shard` - _Type_: integer;
 
