@@ -13,13 +13,12 @@ Before contributing, please ensure you have the following installed:
 
 ```bash
 npm install
-npm run site:install
 ```
 
 2. Start the development server:
 
 ```bash
-npm run site:dev
+npm run dev
 ```
 
 3. Make and test your changes

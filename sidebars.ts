@@ -10,9 +10,9 @@ const sidebars: SidebarsConfig = {
 		{
 			type: 'category',
 			label: 'Getting Started',
-			'link': {
-				'type': 'doc',
-				'id': 'getting-started/index'
+			link: {
+				type: 'doc',
+				id: 'getting-started/index',
 			},
 			items: [
 				'getting-started/what-is-harper',
