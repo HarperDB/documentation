@@ -59,51 +59,67 @@ const config: Config = {
 	onBrokenLinks: 'warn',
 	onBrokenMarkdownLinks: 'warn',
 
-	presets: [
-		[
-			'@docusaurus/preset-classic',
-			{
-				docs: {
-					path: './docs',
-					sidebarPath: './sidebars.ts',
-					// Docs are served at the configured route base path
-					routeBasePath,
-					editUrl: ({ versionDocsDirPath, docPath }) => {
-						// For versioned docs: versionDocsDirPath is like 'versioned_docs/version-4.6'
-						// For current docs: versionDocsDirPath is 'docs'
-						if (versionDocsDirPath.startsWith('versioned_docs')) {
-							// Versioned docs are in versioned_docs/version-X.X/
-							return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
-						} else {
-							// Current docs are in the root docs/ directory
-							return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
-						}
-					},
-					lastVersion: '4.6',
-					includeCurrentVersion: false,
-					versions: {
-						'4.6': {
-							banner: 'none', // No banner for this version
-						},
-						'4.5': {
-							// No banner for 4.5 as its still actively maintained. Docusaurus doesn't allow us to set custom
-							// text for the banner. Only option is to eject swizzle DocVersionBanner (`npm run swizzle @docusaurus/theme-classic DocVersionBanner -- --eject`)
-							// and modify the internal rendering logic based on the version number. Cannot even add a new `banner` option without even more hackery.
-							// Here is a relevant discussion thread: https://github.com/facebook/docusaurus/discussions/7112 if we really want this, we should look to contribute this feature.
-							banner: 'none',
-						},
-					},
-					remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
-				},
-				blog: false,
-				theme: {
-					customCss: './src/css/custom.css',
-				},
-			} satisfies Preset.Options,
-		],
-	],
-
 	plugins: [
+		// Main documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'default',
+				path: './docs',
+				sidebarPath: './sidebars.ts',
+				routeBasePath,
+				editUrl: ({ versionDocsDirPath, docPath }) => {
+					// For versioned docs: versionDocsDirPath is like 'versioned_docs/version-4.6'
+					// For current docs: versionDocsDirPath is 'docs'
+					if (versionDocsDirPath.startsWith('versioned_docs')) {
+						// Versioned docs are in versioned_docs/version-X.X/
+						return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
+					} else {
+						// Current docs are in the root docs/ directory
+						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
+					}
+				},
+				lastVersion: '4.6',
+				includeCurrentVersion: false,
+				versions: {
+					'4.6': {
+						banner: 'none', // No banner for this version
+					},
+					'4.5': {
+						// No banner for 4.5 as its still actively maintained
+						banner: 'none',
+					},
+				},
+				remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
+			},
+		],
+		
+		// Release Notes documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'release-notes',
+				path: 'release-notes',
+				routeBasePath: 'release-notes',
+				sidebarPath: './sidebarsReleaseNotes.ts',
+				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+				// Reverse order and filter out index files from sidebar
+				async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+					const sidebarItems = await defaultSidebarItemsGenerator(args);
+					return sidebarItems.filter((i: any) => !i.id?.endsWith('/index')).reverse();
+				},
+			},
+		],
+		
+		// Theme
+		[
+			'@docusaurus/theme-classic',
+			{
+				customCss: './src/css/custom.css',
+			},
+		],
+		
+		// Redirects
 		[
 			'@docusaurus/plugin-client-redirects',
 			{
@@ -137,7 +153,7 @@ const config: Config = {
 	},
 
 	themeConfig: {
-		// Replace with your project's social card
+		// Project's social card
 		image: 'img/HarperOpenGraph.png',
 		navbar: {
 			logo: {
@@ -152,6 +168,14 @@ const config: Config = {
 					sidebarId: 'docsSidebar',
 					position: 'left',
 					label: 'Documentation',
+				},
+				{
+					// Link directly to v4 (current version) instead of overview page
+					type: 'doc',
+					docsPluginId: 'release-notes',
+					docId: 'v4-tucker/index',
+					position: 'left',
+					label: 'Release Notes',
 				},
 				{
 					type: 'docsVersionDropdown',
