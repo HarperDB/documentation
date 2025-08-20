@@ -14,7 +14,10 @@
 		"clear": "npm run prebuild -- clean && docusaurus clear",
 		"serve": "docusaurus serve",
 		"typecheck": "tsc",
-		"format": "prettier --write ."
+		"format": "prettier .",
+		"format:check": "npm run format -- --check",
+		"format:write": "npm run format -- --write",
+		"lint": "echo 0;"
 	},
 	"dependencies": {
 		"@docusaurus/core": "^3.8.1",
@@ -50,7 +53,7 @@
 		]
 	},
 	"engines": {
-		"node": ">=22.0"
+		"node": ">=22"
 	},
 	"prettier": "@harperdb/code-guidelines/prettier"
 }
