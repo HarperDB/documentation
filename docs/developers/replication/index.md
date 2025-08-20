@@ -276,7 +276,7 @@ You can also check the configuration of the replication system, including the cu
 	"operation": "search_by_value",
 	"database": "system",
 	"table": "hdb_nodes",
-	"search_attribute": "name",
-	"search_value": "*"
+	"attribute": "name",
+	"value": "*"
 }
 ```
