@@ -146,33 +146,31 @@ _Operation is restricted to super_user roles only_
 
 ```json
 {
-  "type": "cluster-status",
-  "connections": [
-    {
-      "replicateByDefault": true,
-      "replicates": true,
-      "url": "wss://server-2.domain.com:9933",
-      "name": "server-2.domain.com",
-      "subscriptions": null,
-      "database_sockets": [
-        {
-          "database": "data",
-          "connected": true,
-          "latency": 0.70,
-          "thread_id": 1,
-          "nodes": [
-            "server-2.domain.com"
-          ],
-          "lastCommitConfirmed": "Wed, 12 Feb 2025 19:09:34 GMT",
-          "lastReceivedRemoteTime": "Wed, 12 Feb 2025 16:49:29 GMT",
-          "lastReceivedLocalTime": "Wed, 12 Feb 2025 16:50:59 GMT",
-          "lastSendTime": "Wed, 12 Feb 2025 16:50:59 GMT"
-        }
-      ]
-    }
-  ],
-  "node_name": "server-1.domain.com",
-  "is_enabled": true
+	"type": "cluster-status",
+	"connections": [
+		{
+			"replicateByDefault": true,
+			"replicates": true,
+			"url": "wss://server-2.domain.com:9933",
+			"name": "server-2.domain.com",
+			"subscriptions": null,
+			"database_sockets": [
+				{
+					"database": "data",
+					"connected": true,
+					"latency": 0.7,
+					"thread_id": 1,
+					"nodes": ["server-2.domain.com"],
+					"lastCommitConfirmed": "Wed, 12 Feb 2025 19:09:34 GMT",
+					"lastReceivedRemoteTime": "Wed, 12 Feb 2025 16:49:29 GMT",
+					"lastReceivedLocalTime": "Wed, 12 Feb 2025 16:50:59 GMT",
+					"lastSendTime": "Wed, 12 Feb 2025 16:50:59 GMT"
+				}
+			]
+		}
+	],
+	"node_name": "server-1.domain.com",
+	"is_enabled": true
 }
 ```
 

@@ -13,7 +13,7 @@ SQL queries can be executed directly through the Harper Studio with the followin
 5. Enter your SQL query in the SQL query window.
 6. Click **Execute**.
 
-_Please note, the Studio will execute the query exactly as entered. For example, if you attempt to `SELECT _` from a table with millions of rows, you will most likely crash your browser._
+_Please note, the Studio will execute the query exactly as entered. For example, if you attempt to `SELECT *` from a table with millions of rows, you will most likely crash your browser._
 
 ## Browse Query Results Set
 

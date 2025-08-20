@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 # Concurrency configuration to manage parallel workflow runs
-# 
+#
 # Group composition: pages-<event_type>-<unique_identifier>
 # - event_type: 'pull_request', 'push', or 'workflow_dispatch'
 # - unique_identifier: PR number for PRs, branch ref for pushes/manual runs

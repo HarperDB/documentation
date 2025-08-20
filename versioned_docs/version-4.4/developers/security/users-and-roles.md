@@ -65,20 +65,20 @@ Example JSON for `add_role` request
 							"attribute_name": "attribute1",
 							"read": true,
 							"insert": true,
-							"update": true
-						}
-					]
+							"update": true,
+						},
+					],
 				},
 				"table_name2": {
 					"read": true,
 					"insert": true,
 					"update": true,
 					"delete": false,
-					"attribute_permissions": []
-				}
-			}
-		}
-	}
+					"attribute_permissions": [],
+				},
+			},
+		},
+	},
 }
 ```
 
