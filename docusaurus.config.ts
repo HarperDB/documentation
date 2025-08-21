@@ -93,7 +93,7 @@ const config: Config = {
 				remarkPlugins: [[require('@docusaurus/remark-plugin-npm2yarn'), { sync: true }]],
 			},
 		],
-		
+
 		// Release Notes documentation
 		[
 			'@docusaurus/plugin-content-docs',
@@ -110,7 +110,7 @@ const config: Config = {
 				},
 			},
 		],
-		
+
 		// Theme
 		[
 			'@docusaurus/theme-classic',
@@ -118,7 +118,7 @@ const config: Config = {
 				customCss: './src/css/custom.css',
 			},
 		],
-		
+
 		// Redirects
 		[
 			'@docusaurus/plugin-client-redirects',
