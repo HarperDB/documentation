@@ -21,7 +21,7 @@ HarperDB version 4 ([Tucker release](v4-tucker/tucker)) represents major step fo
 - Resource API - 4.6 has updated Resource APIs for ease of use.
 - Data loader - 4.6 introduces a new data loader that allows for ensuring records exist as part of a component.
 
-## [4.5](v4-tucker/4.5.23)
+## [4.5](v4-tucker/4.5.24)
 
 - Blob Storage - 4.5 introduces a new [Blob storage system](/docs/technical-details/reference/blob).
 - Password Hashing Upgrade - two new password hashing algorithms for better security (to replace md5).
