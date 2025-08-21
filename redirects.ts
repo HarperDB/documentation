@@ -6,8 +6,14 @@ type RedirectRule = {
 	from: string | string[];
 };
 
-// Function to generate redirects with the appropriate base path
-export function generateRedirects(basePath: string): RedirectRule[] {
+// Release notes redirects (not affected by base path)
+function generateReleaseNotesRedirects(): RedirectRule[] {
+	return [
+	];
+}
+
+// Documentation redirects
+function generateDocsRedirects(basePath: string): RedirectRule[] {
 	// Helper to add base path to a route
 	const withBase = (path: string) => {
 		// If basePath is just '/', return path as-is to avoid double slashes
@@ -140,6 +146,14 @@ export function generateRedirects(basePath: string): RedirectRule[] {
 
 		// File rename redirect
 		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
+	];
+}
+
+// Combine all redirects
+export function generateRedirects(basePath: string): RedirectRule[] {
+	return [
+		...generateReleaseNotesRedirects(),
+		...generateDocsRedirects(basePath),
 	];
 }
 
