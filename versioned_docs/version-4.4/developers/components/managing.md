@@ -22,7 +22,7 @@ The `harperdb dev .` command will automatically watch for file changes within th
 
 The `dev` command will **not** restart the main thread; if this is a requirement, switch to using `run` instead and manually start/stop the process to execute the main thread.
 
-Stop execution for either of these processes by sending a SIGINT (generally CTRL/CMD+C) signal to the process.
+Stop execution for either of these processes by sending a SIGINT (generally CTRL+C) signal to the process.
 
 ### Deploying to a local Harper instance
 
