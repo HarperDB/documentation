@@ -9,7 +9,7 @@ HarperDB is a globally-distributed edge application platform. It reduces complex
 HarperDB's documentation covers installation, getting started, administrative operation APIs, security, and much more. Browse the topics at left, or choose one of the commonly used documentation sections below.
 
 :::info
-Wondering what's new with HarperDB 4.2? Take a look at our latest [Release Notes](./technical-details/release-notes/v4-tucker/4.2.0).
+Wondering what's new with HarperDB 4.2? Take a look at our latest [Release Notes](/release-notes/v4-tucker/4.2.0).
 :::
 
 ## Getting Started
