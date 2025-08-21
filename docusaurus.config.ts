@@ -103,10 +103,33 @@ const config: Config = {
 				routeBasePath: 'release-notes',
 				sidebarPath: './sidebarsReleaseNotes.ts',
 				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
-				// Reverse order and filter out index files from sidebar
+				// Sort by semantic version and filter out index files from sidebar
 				async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
 					const sidebarItems = await defaultSidebarItemsGenerator(args);
-					return sidebarItems.filter((i: any) => !i.id?.endsWith('/index')).reverse();
+
+					// Create sortable version string by padding numbers with zeros
+					const getSortKey = (id: string): string => {
+						// Extract version and pad each part to 3 digits for sorting
+						const match = id?.match(/(\d+)\.(\d+)\.(\d+)$/);
+						if (match) {
+							// Prefix with 'zzz' so version files sort after non-version files
+							return `zzz.${match[1].padStart(3, '0')}.${match[2].padStart(3, '0')}.${match[3].padStart(3, '0')}`;
+						}
+						// Non-version files (like "tucker") will sort first naturally
+						return id || '';
+					};
+
+					// Sort by padded version string (newest first for versions)
+					const sorted = sidebarItems
+						.filter((i: any) => !i.id?.endsWith('/index'))
+						.sort((a: any, b: any) => {
+							const keyA = getSortKey(a.id);
+							const keyB = getSortKey(b.id);
+							// Reverse comparison so versions are newest first
+							return keyB.localeCompare(keyA);
+						});
+
+					return sorted;
 				},
 			},
 		],
