@@ -8,8 +8,7 @@ type RedirectRule = {
 
 // Release notes redirects (not affected by base path)
 function generateReleaseNotesRedirects(): RedirectRule[] {
-	return [
-	];
+	return [];
 }
 
 // Documentation redirects
@@ -21,7 +20,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 	};
 
 	const redirects: RedirectRule[] = [];
-	
+
 	// Only add root redirect if docs are not at root
 	if (basePath !== '/') {
 		redirects.push({
@@ -29,7 +28,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			to: basePath,
 		});
 	}
-	
+
 	redirects.push(
 		// Operations API
 		{
@@ -155,18 +154,15 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/api'), to: withBase('/developers/operations-api/') },
 
 		// File rename redirect
-		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
+		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') }
 	);
-	
+
 	return redirects;
 }
 
 // Combine all redirects
 export function generateRedirects(basePath: string): RedirectRule[] {
-	return [
-		...generateReleaseNotesRedirects(),
-		...generateDocsRedirects(basePath),
-	];
+	return [...generateReleaseNotesRedirects(), ...generateDocsRedirects(basePath)];
 }
 
 // For backward compatibility, export a default set with empty base path
