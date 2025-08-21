@@ -15,7 +15,7 @@ For more advanced concepts in Harper, see our [blog](https://www.harpersystems.d
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="./install-harper" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="./getting-started/install-harper" style={{textDecoration: 'none', color: 'inherit'}}>
         Install Harper
       </a>
     </h3>
@@ -25,7 +25,7 @@ For more advanced concepts in Harper, see our [blog](https://www.harpersystems.d
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="./what-is-harper" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="./getting-started/what-is-harper" style={{textDecoration: 'none', color: 'inherit'}}>
         What is Harper
       </a>
     </h3>
@@ -35,7 +35,7 @@ For more advanced concepts in Harper, see our [blog](https://www.harpersystems.d
   </div>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="./harper-concepts" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="./getting-started/harper-concepts" style={{textDecoration: 'none', color: 'inherit'}}>
         Harper Concepts
       </a>
     </h3>
