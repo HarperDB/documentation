@@ -20,7 +20,17 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		return basePath === '/' ? path : `${basePath}${path}`;
 	};
 
-	return [
+	const redirects: RedirectRule[] = [];
+	
+	// Only add root redirect if docs are not at root
+	if (basePath !== '/') {
+		redirects.push({
+			from: '/',
+			to: basePath,
+		});
+	}
+	
+	redirects.push(
 		// Operations API
 		{
 			from: withBase('/developers/operations-api/utilities'),
@@ -146,7 +156,9 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 
 		// File rename redirect
 		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
-	];
+	);
+	
+	return redirects;
 }
 
 // Combine all redirects
