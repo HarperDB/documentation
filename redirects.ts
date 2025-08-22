@@ -8,7 +8,29 @@ type RedirectRule = {
 
 // Release notes redirects (not affected by base path)
 function generateReleaseNotesRedirects(): RedirectRule[] {
-	return [];
+	// Generate redirects for all old release notes paths to new location
+	const versions = ['v1-alby', 'v2-penny', 'v3-monkey', 'v4-tucker'];
+	const redirects: RedirectRule[] = [];
+
+	// Main release notes index - redirect from current version (4.6) path
+	redirects.push({
+		from: '/docs/technical-details/release-notes',
+		to: '/release-notes',
+	});
+
+	// Also redirect from each versioned docs path
+	const docVersions = ['4.1', '4.2', '4.3', '4.4', '4.5', '4.6'];
+	for (const docVersion of docVersions) {
+		redirects.push({
+			from: `/docs/${docVersion}/technical-details/release-notes`,
+			to: '/release-notes',
+		});
+	}
+
+	// Version index pages will be handled by the wildcard createRedirects function
+	// to avoid duplicates
+
+	return redirects;
 }
 
 // Documentation redirects
@@ -172,6 +194,21 @@ export const redirects = generateRedirects('');
 // This handles dynamic redirects for paths not explicitly defined in the main redirect list
 export function createRedirects(existingPath: string, basePath: string = ''): string[] | undefined {
 	const redirects: string[] = [];
+
+	// Handle release notes redirects from old location to new
+	if (existingPath.startsWith('/release-notes/')) {
+		// Extract the path after /release-notes/
+		const subpath = existingPath.replace('/release-notes/', '');
+
+		// Add redirects from current version docs (4.6 is served at /docs/)
+		redirects.push(`/docs/technical-details/release-notes/${subpath}`);
+
+		// Also redirect from all versioned docs paths
+		const versions = ['4.1', '4.2', '4.3', '4.4', '4.5', '4.6'];
+		for (const version of versions) {
+			redirects.push(`/docs/${version}/technical-details/release-notes/${subpath}`);
+		}
+	}
 
 	// Only create wildcard redirects for paths that aren't already explicitly defined
 	// Check if this is a path we handle with wildcard redirects
