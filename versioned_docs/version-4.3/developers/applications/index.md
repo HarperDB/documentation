@@ -134,7 +134,7 @@ type Dog @table @sealed {
 }
 ```
 
-If you are using HarperDB Studio, we can now [add JSON-formatted records](../../administration/harperdb-studio/manage-databases-browse-data#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../../administration/harperdb-studio/manage-databases-browse-data#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](../operations-api), which provides full administrative control over your new HarperDB instance and tables.
+If you are using HarperDB Studio, we can now [add JSON-formatted records](../administration/harperdb-studio/manage-databases-browse-data#add-a-record) to this new table in the studio or upload data as [CSV from a local file or URL](../administration/harperdb-studio/manage-databases-browse-data#load-csv-data). A third, more advanced, way to add data to your database is to use the [operations API](./operations-api), which provides full administrative control over your new HarperDB instance and tables.
 
 ## Adding an Endpoint
 
@@ -150,7 +150,7 @@ type Dog @table @export {
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../../deployments/configuration#http)), so the local URL would be [http:/localhost:9926/Dog/](http:/localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be [http:/localhost:9926/Dog/](http:/localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```http
 POST /Dog/
@@ -168,9 +168,9 @@ With this a record will be created and the auto-assigned id will be available th
 
 ## Authenticating Endpoints
 
-These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../security) for more information on different levels of access.
+These endpoints automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](./security) for more information on different levels of access.
 
-By default, HarperDB also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../../deployments/configuration#authentication).
+By default, HarperDB also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../deployments/configuration#authentication).
 
 ### Content Negotiation
 
@@ -222,17 +222,17 @@ http:/localhost:9926/Dog/?breed=Labrador
 http:/localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../rest) and see the [Schema reference](defining-schemas) for more options for defining schemas.
+Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](./rest) and see the [Schema reference](./applications/defining-schemas) for more options for defining schemas.
 
 ## Deploying your Application
 
 This guide assumes that you're building a HarperDB application locally. If you have a cloud instance available, you can deploy it by doing the following:
 
 - Commit and push your application component directory code (i.e., the `my-app` directory) to a Github repo. In this tutorial we started with a clone of the application-template. To commit and push to your own repository, change the origin to your repo: `git remote set-url origin git@github.com:your-account/your-repo.git`
-- Go to the applications section of your target cloud instance in the [HarperDB Studio](../../administration/harperdb-studio/manage-applications).
+- Go to the applications section of your target cloud instance in the [HarperDB Studio](../administration/harperdb-studio/manage-applications).
 - In the left-hand menu of the applications IDE, click 'deploy' and specify a package location reference that follows the [npm package specification](https://docs.npmjs.com/cli/v8/using-npm/package-spec) (i.e., a string like `HarperDB/Application-Template` or a URL like `https://github.com/HarperDB/application-template`, for example, that npm knows how to install).
 
-You can also deploy your application from your repository by directly using the [`deploy_component` operation](../operations-api/components#deploy-component).
+You can also deploy your application from your repository by directly using the [`deploy_component` operation](./operations-api/components#deploy-component).
 
 Once you have deployed your application to a HarperDB cloud instance, you can start scaling your application by adding additional instances in other regions.
 
@@ -242,7 +242,7 @@ Now, with an application that you can deploy, update, and re-deploy, you have an
 
 ## Custom Functionality with JavaScript
 
-So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in HarperDB. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our [Resource API](../../technical-details/reference/resource), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+So far we have built an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in HarperDB. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In HarperDB, data is accessed through our [Resource API](../technical-details/reference/resource), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
 To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
 
@@ -258,7 +258,7 @@ export class DogWithHumanAge extends Dog {
 }
 ```
 
-Here we exported the `DogWithHumanAge` class (exported with the same name), which directly maps to the endpoint path. Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. Resource classes provide getters/setters for every defined attribute so that accessing instance properties like `age`, will get the value from the underlying record. The instance holds information about the primary key of the record so updates and actions can be applied to the correct record. And changing or assigning new properties can be saved or included in the resource as it returned and serialized. The `return super.get(query)` call at the end allows for any query parameters to be applied to the resource, such as selecting individual properties (with a [`select` query parameter](../rest#selectproperties)).
+Here we exported the `DogWithHumanAge` class (exported with the same name), which directly maps to the endpoint path. Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. Resource classes provide getters/setters for every defined attribute so that accessing instance properties like `age`, will get the value from the underlying record. The instance holds information about the primary key of the record so updates and actions can be applied to the correct record. And changing or assigning new properties can be saved or included in the resource as it returned and serialized. The `return super.get(query)` call at the end allows for any query parameters to be applied to the resource, such as selecting individual properties (with a [`select` query parameter](./rest#selectproperties)).
 
 Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
 
@@ -301,7 +301,7 @@ And a POST request to /CustomDog/ would call this `post` method. The Resource cl
 
 The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
 
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../../../technical-details/reference/resource) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
+We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post` method or `put` method to do this, but we may want to separate the logic so these methods can be called separately without authorization checks. The [Resource API](../technical-details/reference/resource) defines `allowRead`, `allowUpdate`, `allowCreate`, and `allowDelete`, or to easily configure individual capabilities. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
@@ -341,7 +341,7 @@ Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 
 The [caching documentation](applications/caching) provides much more information on how to use HarperDB's powerful caching capabilities and set up data sources.
 
-HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../technical-details/reference/globals) and the [Resource interface](../../technical-details/reference/resource).
+HarperDB provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../technical-details/reference/globals) and the [Resource interface](../technical-details/reference/resource).
 
 ## Configuring Applications/Components
 

@@ -12,7 +12,7 @@ Harper replication uses a peer-to-peer model where every node in your cluster ca
 
 ### Replication Configuration
 
-To connect your nodes, you need to provide hostnames or URLs for the nodes to connect to each other. This can be done via configuration or through operations. To configure replication, you can specify connection information the `replication` section of the [harperdb-config.yaml](../../deployments/configuration). Here, you can specify the host name of the current node, and routes to connect to other nodes, for example:
+To connect your nodes, you need to provide hostnames or URLs for the nodes to connect to each other. This can be done via configuration or through operations. To configure replication, you can specify connection information the `replication` section of the [harperdb-config.yaml](../deployments/configuration). Here, you can specify the host name of the current node, and routes to connect to other nodes, for example:
 
 ```yaml
 replication:
@@ -77,7 +77,7 @@ replication:
 
 Harper supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure Harper in several different ways to build a connected cluster.
 
-When using certificate-based authentication, Harper automatically performs OCSP (Online Certificate Status Protocol) verification to check if certificates have been revoked. This ensures that compromised certificates cannot be used for replication connections. Certificate verification settings follow the same configuration as HTTP mTLS connections (see [certificate verification configuration](../../deployments/configuration.md#http)).
+When using certificate-based authentication, Harper automatically performs OCSP (Online Certificate Status Protocol) verification to check if certificates have been revoked. This ensures that compromised certificates cannot be used for replication connections. Certificate verification settings follow the same configuration as HTTP mTLS connections (see [certificate verification configuration](../deployments/configuration.md#http)).
 
 #### Provide your own certificates
 
@@ -189,7 +189,7 @@ Nodes can be removed from the cluster using the [`remove_node` operation](./oper
 
 #### Insecure Connection IP-based Authentication
 
-You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by [configuring the operations API](../../deployments/configuration) to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
+You can completely disable secure connections and use IP addresses to authenticate nodes with each other. This can be useful for development and testing, or within a secure private network, but should never be used for production with publicly accessible servers. To disable secure connections, simply configure replication within an insecure port, either by [configuring the operations API](../deployments/configuration) to run on an insecure port or replication to run on an insecure port. And then set up IP-based routes to connect to other nodes:
 
 ```yaml
 replication:
