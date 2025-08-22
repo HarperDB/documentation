@@ -8,7 +8,7 @@ Harper Studio is the web-based GUI for Harper. Studio enables you to administer,
 
 [Sign up for free!](https://studio.harperdb.io/sign-up)
 
-Harper now includes a simplified local Studio that is packaged with all Harper installations and served directly from the instance. It can be enabled in the [configuration file](../../deployments/configuration#localstudio). This section is dedicated to the hosted Studio accessed at [studio.harperdb.io](https://studio.harperdb.io).
+Harper now includes a simplified local Studio that is packaged with all Harper installations and served directly from the instance. It can be enabled in the [configuration file](../deployments/configuration#localstudio). This section is dedicated to the hosted Studio accessed at [studio.harperdb.io](https://studio.harperdb.io).
 
 ---
 
