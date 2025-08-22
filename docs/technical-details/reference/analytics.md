@@ -102,16 +102,51 @@ And a summary record looks like:
 }
 ```
 
+# Standard Analytics Metrics
+
+While applications can define their own metrics, Harper provides a set of standard metrics that are tracked for all services.
+
+## HTTP
+
+The following metrics are tracked for all HTTP requests:
+
+| `metric`           | `path`        | `method`       | `type`                                     | Unit                                                   | Description                                             |
+|--------------------|---------------|----------------|--------------------------------------------|--------------------------------------------------------|---------------------------------------------------------|
+| `duration`         | resource path | request method | cache-hit or cache-miss if a caching table | duration                                               |
+| `duration`         | route path    | request method | fastify-route                              | duration                                               |
+| `duration`         | operation     |                | operation                                  | duration                                               |
+| `success`          | resource path | request method |                                            | percentage of success                                  |
+| `success`          | route path    | request method | fastify-route                              | percentage of success                                  |
+| `success`          | operation     |                | operation                                  | percentage of success                                  |
+| `bytes-sent`       | resource path | request method |                                            | bytes                                                  |
+| `bytes-sent`       | route path    | request method | fastify-route                              | bytes                                                  |
+| `bytes-sent`       | operation     |                | operation                                  | bytes                                                  |
+| `transfer`         | resource path | request method | operation                                  | duration                                               |
+| `transfer`         | route path    | request method | fastify-route                              | duration                                               |
+| `transfer`         | operation     |                | operation                                  | duration                                               |
+| `socket-routed`    |               |                |                                            | percentage of sockets that could be immediately routed |
+| `tls-handshake`    |               |                |                                            | duration                                               |
+| `tls-reused`       |               |                |                                            | percentage of TLS that reuses sessions                 |
+| `cache-hit`        | table name    |                |                                            | percentage                                             | The percentage of cache hits                            |
+| `cache-resolution` | table name    |                |                                            | duration                                               | The duration of resolving requests for uncached entries |
+
+The following are metrics for real-time MQTT connections:
+| `mqtt-connections` | | | | | The number of open direct MQTT connections |
+| `ws-connections` | | | | | number of open WS connections|
+| `connection` | `mqtt` | `connect` | | | percentage of successful direct MQTT connections |
+| `connection` | `mqtt` | `disconnect` | | | percentage of explicit direct MQTT disconnects |
+| `connection` | `ws` | `connect` | | | percentage of successful WS connections |
+| `connection` | `ws` | `disconnect` | | | percentage of explicit WS disconnects |
+| `bytes-sent` | topic | mqtt command | `mqtt` | bytes | The number of bytes sent for a given command and topic |
+
+The following are metrics for replication:
+
+| `bytes-sent` | node.database | `replication` | `egress` | bytes | The number of bytes sent for replication |
+| `bytes-sent` | node.database | `replication` | `blob` | bytes | The number of bytes sent for replication of blobs |
+| `bytes-received` | node.database | `replication` | `ingress` | bytes | The number of bytes received for replication |
+| `bytes-received` | node.database | `replication` | `blob` | bytes | The number of bytes received for replication of blobs |
+
 The following are general resource usage statistics that are tracked:
 
-- `memory` - This includes RSS, heap, buffer and external data usage.
-- `utilization` - How much of the time the worker was processing requests.
-- `mqtt-connections` - The number of MQTT connections.
-
-The following types of information is tracked for each HTTP request:
-
-- `success` - How many requests returned a successful response (20x response code). TTFB - Time to first byte in the response to the client.
-- `transfer` - Time to finish the transfer of the data to the client.
-- `bytes-sent` - How many bytes of data were sent to the client.
-
-Requests are categorized by operation name, for the operations API, by the resource (name) with the REST API, and by command for the MQTT interface.
+| `memory` | | | | | This includes RSS, heap, buffer and external data usage |
+| `utilization` | | | | | How much of the time the worker was processing requests |
