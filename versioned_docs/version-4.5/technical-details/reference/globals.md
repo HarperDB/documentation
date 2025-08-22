@@ -302,3 +302,59 @@ server.resources.getMatch('/NewResource/some-id');
 / or specify the export/protocol type, to allow it to be limited:
 server.resources.getMatch('/NewResource/some-id', 'my-protocol');
 ```
+
+### `server.contentTypes`
+
+Returns the `Map` of registered content type handlers. Same as the [`contentTypes`](./globals#contenttypes) global.
+
+## `contentTypes`
+
+Returns a [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) of content type handlers for request/response serialization.
+
+HarperDB uses content negotiation to automatically handle data serialization and deserialization for HTTP requests and other protocols. This process works by:
+
+1. **Request Processing**: Comparing the `Content-Type` header with registered handlers to deserialize incoming data into structured formats for processing and storage
+2. **Response Generation**: Comparing the `Accept` header with registered handlers to serialize structured data into the appropriate response format
+
+### Built-in Content Types
+
+HarperDB includes handlers for common formats:
+
+- **JSON** (`application/json`)
+- **CBOR** (`application/cbor`)
+- **MessagePack** (`application/msgpack`)
+- **CSV** (`text/csv`)
+- **Event-Stream** (`text/event-stream`)
+- And more...
+
+### Custom Content Type Handlers
+
+You can extend or replace content type handlers by modifying the `contentTypes` map from the `server` global (or `harperdb` export). The map is keyed by MIME type, with values being handler objects containing these optional properties:
+
+#### Handler Properties
+
+- **`serialize(data: any): Buffer | Uint8Array | string`**  
+  Called to convert data structures into the target format for responses. Should return binary data (Buffer/Uint8Array) or a string.
+
+- **`serializeStream(data: any): ReadableStream`**  
+  Called to convert data structures into streaming format. Useful for handling asynchronous iterables or large datasets.
+
+- **`deserialize(buffer: Buffer | string): any`**  
+  Called to convert incoming request data into structured format. Receives a string for text MIME types (`text/*`) and a Buffer for binary types. Only used if `deserializeStream` is not defined.
+
+- **`deserializeStream(stream: ReadableStream): any`**  
+  Called to convert incoming request streams into structured format. Returns deserialized data (potentially as an asynchronous iterable).
+
+- **`q: number`** _(default: 1)_  
+  Quality indicator between 0 and 1 representing serialization fidelity. Used in content negotiation to select the best format when multiple options are available. The server chooses the content type with the highest product of client quality × server quality values.
+
+For example, if you wanted to define an XML serializer (that can respond with XML to requests with `Accept: text/xml`) you could write:
+
+```javascript
+contentTypes.set('text/xml', {
+	serialize(data) {
+		return '<root>' ... some serialization '</root>';
+	},
+	q: 0.8,
+});
+```

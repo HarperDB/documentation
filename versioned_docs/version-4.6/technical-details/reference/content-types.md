@@ -6,6 +6,12 @@ title: Content Types
 
 Harper supports several different content types (or MIME types) for both HTTP request bodies (describing operations) as well as for serializing content into HTTP response bodies. Harper follows HTTP standards for specifying both request body content types and acceptable response body content types. Any of these content types can be used with any of the standard Harper operations.
 
+:::tip Need a custom content type?
+
+Harper's extensible content type system lets you add support for any serialization format (XML, YAML, proprietary formats, etc.) by registering custom handlers in the [`contentTypes`](./globals.md#contenttypes) global Map. See the linked API reference for detailed implementation types, handler properties, and examples.
+
+:::
+
 For request body content, the content type should be specified with the `Content-Type` header. For example with JSON, use `Content-Type: application/json` and for CBOR, include `Content-Type: application/cbor`. To request that the response body be encoded with a specific content type, use the `Accept` header. If you want the response to be in JSON, use `Accept: application/json`. If you want the response to be in CBOR, use `Accept: application/cbor`.
 
 The following content types are supported:
