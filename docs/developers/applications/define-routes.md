@@ -20,7 +20,7 @@ By default, route URLs are configured to be:
 
 However, you can specify the path to be `/` if you wish to have your routes handling the root path of incoming URLs.
 
-- The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **http:/localhost:9926/dogs/breeds**.
+- The route below, using the default config, within the **dogs** project, with a route of **breeds** would be available at **[http://localhost:9926/dogs/breeds](http://localhost:9926/dogs/breeds)**.
 
 In effect, this route is just a pass-through to Harper. The same result could have been achieved by hitting the core Harper API, since it uses **hdbCore.preValidation** and **hdbCore.request**, which are defined in the "helper methods" section, below.
 

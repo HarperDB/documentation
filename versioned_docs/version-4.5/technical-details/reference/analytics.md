@@ -11,7 +11,7 @@ Harper collects statistics for all operations, URL endpoints, and messaging topi
 There are two "levels" of analytics in the Harper analytics table: the first is the immediate level of raw direct logging of real-time statistics. These analytics entries are recorded once a second (when there is activity) by each thread, and include all recorded activity in the last second, along with system resource information. The records have a primary key that is the timestamp in milliseconds since epoch. This can be queried (with `superuser` permission) using the search_by_conditions operation (this will search for 10 seconds worth of analytics) on the `hdb_raw_analytics` table:
 
 ```
-POST http:/localhost:9925
+POST http://localhost:9925
 Content-Type: application/json
 
 {
@@ -69,7 +69,7 @@ And a typical response looks like:
 The second level of analytics recording is aggregate data. The aggregate records are recorded once a minute, and aggregate the results from all the per-second entries from all the threads, creating a summary of statistics once a minute. The ids for these milliseconds since epoch can be queried from the `hdb_analytics` table. You can query these with an operation like:
 
 ```
-POST http:/localhost:9925
+POST http://localhost:9925
 Content-Type: application/json
 
 {

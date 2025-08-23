@@ -150,7 +150,7 @@ type Dog @table @export {
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be [http:/localhost:9926/Dog/](http:/localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be [http://localhost:9926/Dog/](http://localhost:9926/Dog/) with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```http
 POST /Dog/
@@ -164,7 +164,7 @@ Content-Type: application/json
 }
 ```
 
-With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http:/localhost:9926/Dog/<id>` will achieve the same thing.
+With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
 
 ## Authenticating Endpoints
 
@@ -217,9 +217,9 @@ type Dog @table @export {
 Now we can start querying. Again, we just simply access the endpoint with query parameters (basic GET requests), like:
 
 ```
-http:/localhost:9926/Dog/?name=Harper
-http:/localhost:9926/Dog/?breed=Labrador
-http:/localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
+http://localhost:9926/Dog/?name=Harper
+http://localhost:9926/Dog/?breed=Labrador
+http://localhost:9926/Dog/?breed=Husky&name=Balto&select=id,name,breed
 ```
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](./rest) and see the [Schema reference](./applications/defining-schemas) for more options for defining schemas.

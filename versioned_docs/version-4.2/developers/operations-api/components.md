@@ -53,7 +53,7 @@ HarperDB/application-template#semver:v1.0.0
 You can also install from private repository if you have an installed SSH keys on the server:
 
 ```
-git+ssh:/git@github.com:my-org/my-app.git#semver:v1.0.0
+git+ssh://git@github.com:my-org/my-app.git#semver:v1.0.0
 ```
 
 Or you can use a Github token:
