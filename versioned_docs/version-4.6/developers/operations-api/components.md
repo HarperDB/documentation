@@ -54,7 +54,7 @@ HarperDB/application-template#semver:v1.0.0
 You can also install from private repository if you have an installed SSH keys on the server:
 
 ```
-git+ssh:/git@github.com:my-org/my-app.git#semver:v1.0.0
+git+ssh://git@github.com:my-org/my-app.git#semver:v1.0.0
 ```
 
 Or you can use a Github token:
@@ -370,9 +370,9 @@ Host harperdb-private-component.github.com
 ```
 
 ```
-"package": "git+ssh:/git@<host>:<github-repo-path>.git#semver:v1.2.3"
+"package": "git+ssh://git@<host>:<github-repo-path>.git#semver:v1.2.3"
 
-"package": "git+ssh:/git@harperdb-private-component.github.com:HarperDB/harperdb-private-component.git#semver:v1.2.3"
+"package": "git+ssh://git@harperdb-private-component.github.com:HarperDB/harperdb-private-component.git#semver:v1.2.3"
 ```
 
 Note that `deploy_component` with a package uses `npm install` so the url must be a valid npm format url. The above is an example of a url using a tag in the repo to install.

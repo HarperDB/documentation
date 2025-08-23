@@ -59,7 +59,7 @@ These defaults allow you to quickly start an instance, though you can customize 
 Containers created from this image store all data and Harper configuration at `/home/harperdb/hdb`. To ensure that your data persists beyond the lifecycle of a container, you should mount this directory to a directory on the container host using a Docker volume. This ensures that your database remains available and your settings are not lost when the container is stopped or removed.
 
 :::info
-Test your Harper instance is up and running by querying `curl http:/localhost:9925/health`
+Test your Harper instance is up and running by querying `curl http://localhost:9925/health`
 :::
 
 ### Example Deployments
@@ -123,7 +123,7 @@ If you want to inspect the logs to ensure that Harper has started correctly, use
 docker logs <container_id>
 ```
 
-Once verified, you can access your Harper instance by opening your web browser and navigating to http:/localhost:9925 (or the appropriate port based on your configuration).
+Once verified, you can access your Harper instance by opening your web browser and navigating to [http://localhost:9925](http://localhost:9925) (or the appropriate port based on your configuration).
 
 ### Raw binary installation
 

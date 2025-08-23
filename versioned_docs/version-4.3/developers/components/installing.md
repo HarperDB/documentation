@@ -42,8 +42,8 @@ The package.json file that is created will look something like this.
 	"dependencies": {
 		"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
 		"myNPMComponent": "npm:harperdb",
-		"myTarBall": "file:/Users/harper/cool-component.tar",
-		"myLocal": "file:/Users/harper/local",
+		"myTarBall": "file://Users/harper/cool-component.tar",
+		"myLocal": "file://Users/harper/local",
 		"myWebsite": "https://harperdb-component"
 	}
 }
@@ -53,7 +53,7 @@ The package prefix is automatically added, however you can manually set it in yo
 
 ```yaml
 myCoolComponent:
-  package: file:/Users/harper/cool-component.tar
+  package: file://Users/harper/cool-component.tar
 ```
 
 ## Installing components using the operations API

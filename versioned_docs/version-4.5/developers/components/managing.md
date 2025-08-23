@@ -105,7 +105,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 
 - For components deployed to npm, specify the package name: `package="@harperdb/status-check"`
 - For components on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
-- Private repositories also work if the correct SSH keys are on the server: `package="git+ssh:/git@github.com:HarperDB/secret-component.git"`
+- Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-component.git"`
   - Reference the [SSH Key](../operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
 - Even tarball URLs are supported: `package="https://example.com/component.tar.gz"`
 
@@ -160,8 +160,8 @@ Harper will generate a `package.json` like:
 	"dependencies": {
 		"myGithubComponent": "github:HarperDB-Add-Ons/package#v2.2.0",
 		"myNPMComponent": "npm:harperdb",
-		"myTarBall": "file:/Users/harper/cool-component.tar",
-		"myLocal": "file:/Users/harper/local",
+		"myTarBall": "file://Users/harper/cool-component.tar",
+		"myLocal": "file://Users/harper/local",
 		"myWebsite": "https://harperdb-component"
 	}
 }
@@ -173,7 +173,7 @@ The package prefix is automatically added, however you can manually set it in yo
 
 ```yaml
 myCoolComponent:
-  package: file:/Users/harper/cool-component.tar
+  package: file://Users/harper/cool-component.tar
 ```
 
 By specifying a file path, npm will generate a symlink and then changes will be automatically picked up between restarts.
