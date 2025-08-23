@@ -24,6 +24,8 @@ keywords: [harper, release notes, changelog, version history, updates]
 
 [4.6.0 Tucker](release-notes/v4-tucker/4.6.0)
 
+[4.5.25 Tucker](release-notes/v4-tucker/4.5.25)
+
 [4.5.24 Tucker](release-notes/v4-tucker/4.5.24)
 
 [4.5.23 Tucker](release-notes/v4-tucker/4.5.23)
