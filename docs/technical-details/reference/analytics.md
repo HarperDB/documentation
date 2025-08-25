@@ -111,7 +111,7 @@ While applications can define their own metrics, Harper provides a set of standa
 The following metrics are tracked for all HTTP requests:
 
 | `metric`           | `path`        | `method`       | `type`                                         | Unit         | Description                                             |
-|--------------------|---------------|----------------|------------------------------------------------|--------------|---------------------------------------------------------|
+| ------------------ | ------------- | -------------- | ---------------------------------------------- | ------------ | ------------------------------------------------------- |
 | `duration`         | resource path | request method | `cache-hit` or `cache-miss` if a caching table | milliseconds | Duration of request handler                             |
 | `duration`         | route path    | request method | fastify-route                                  | milliseconds |                                                         |
 | `duration`         | operation     |                | operation                                      | milliseconds |                                                         |
@@ -131,7 +131,7 @@ The following metrics are tracked for all HTTP requests:
 | `cache-resolution` | table name    |                |                                                | milliseconds | The duration of resolving requests for uncached entries |
 
 The following are metrics for real-time MQTT connections:
-| `metric`           | `path`        | `method`       | `type`                                     | Unit                             | Description                                             |
+| `metric` | `path` | `method` | `type` | Unit | Description |
 |--------------------|---------------|----------------|--------------------------------------------|--------------------------------------------------------|---------------------------------------------------------|
 | `mqtt-connections` | | | | | The number of open direct MQTT connections |
 | `ws-connections` | | | | | number of open WS connections|
@@ -144,7 +144,7 @@ The following are metrics for real-time MQTT connections:
 The following are metrics for replication:
 
 | `metric`         | `path`        | `method`      | `type`    | Unit  | Description                                           |
-|------------------|---------------|---------------|-----------|-------|-------------------------------------------------------|
+| ---------------- | ------------- | ------------- | --------- | ----- | ----------------------------------------------------- |
 | `bytes-sent`     | node.database | `replication` | `egress`  | bytes | The number of bytes sent for replication              |
 | `bytes-sent`     | node.database | `replication` | `blob`    | bytes | The number of bytes sent for replication of blobs     |
 | `bytes-received` | node.database | `replication` | `ingress` | bytes | The number of bytes received for replication          |
