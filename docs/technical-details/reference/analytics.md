@@ -152,7 +152,22 @@ The following are metrics for replication:
 
 The following are general resource usage statistics that are tracked:
 
-| `metric`      | `path` | `method` | `type` | Unit | Description                                             |
-|---------------|--------|----------|--------|------|---------------------------------------------------------|
-| `memory`      |        |          |        |      | This includes RSS, heap, buffer and external data usage |
-| `utilization` |        |          |        |      | How much of the time the worker was processing requests |
+| `metric`                  | primary attribute(s)                                                                             | other attribute(s)  | Unit    | Description                                                                                                                   |
+| ------------------------- | ------------------------------------------------------------------------------------------------ | ------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `database-size`           | `size`, `used`, `free`, `audit`                                                                  | `database`          | bytes   | The size of the database in bytes                                                                                             |
+| `main-thread-utilization` | `idle`, `active`, `taskQueueLatency`, `rss`, `heapTotal`, `heapUsed`, `external`, `arrayBuffers` | `time`              | various | Main thread resource usage; including idle time, active time, task queue latency, RSS, heap, buffer and external memory usage |
+| `resource-usage`          |                                                                                                  |                     | various | [See breakout below](#resource-usage)                                                                                                            |
+| `storage-volume`          | `available`, `free`, `size`                                                                      | `database`          | bytes   | The size of the storage volume in bytes                                                                                       |
+| `table-size`              | `size`                                                                                           | `database`, `table` | bytes   | The size of the table in bytes                                                                                                |
+| `utilization`             |                                                                                                  |                     | %       | How much of the time the worker was processing requests                                                                       |
+
+<a id="resource-usage"></a>
+`resource-usage` metrics are everything returned by [node:process.resourceUsage()](https://nodejs.org/api/process.html#processresourceusage)[^1] plus the following additional metrics:
+
+| `metric`         | Unit | Description                                           |
+| ---------------- | ---- | ----------------------------------------------------- |
+| `time`           | ms   | Current time when metric was recorded (Unix time)     |
+| `period`         | ms   | Duration of the metric period                         |
+| `cpuUtilization` | %    | CPU utilization percentage (user and system combined) |
+
+[^1]: The `userCPUTime` and `systemCPUTime` metrics are converted to milliseconds to match the other time-related metrics.
