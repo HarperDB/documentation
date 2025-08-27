@@ -10,5 +10,5 @@ This section contains technical details and reference materials for HarperDB.
 - [Dynamic Schema](reference/dynamic-schema)
 - [Headers](reference/headers)
 - [Limitations](reference/limits)
-- Content Types
+- [Content Types](reference/content-types)
 - [Data Types](reference/data-types)
