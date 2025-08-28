@@ -6,7 +6,7 @@ title: Logs
 
 ## Read HarperDB Log
 
-Returns log outputs from the primary HarperDB log based on the provided search criteria. Read more about HarperDB logging here: [https://docs.harperdb.io/docs/logging#read-logs-via-the-api](https://docs.harperdb.io/docs/logging#read-logs-via-the-api).
+Returns log outputs from the primary HarperDB log based on the provided search criteria. Read more about HarperDB logging here: [https://docs.harperdb.io/docs/4.3/administration/logging#read-logs-via-the-api](../../administration/logging#read-logs-via-the-api).
 
 _Operation is restricted to super_user roles only_
 
@@ -64,7 +64,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Transaction Log
 
-Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/transaction-logging#read_transaction_log](https://docs.harperdb.io/docs/transaction-logging#read_transaction_log).
+Returns all transactions logged for the specified database table. You may filter your results with the optional from, to, and limit fields. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/4.3/administration/logging/transaction-logging#read_transaction_log](../../administration/logging/transaction-logging#read_transaction_log).
 
 _Operation is restricted to super_user roles only_
 
@@ -299,7 +299,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log
 
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/transaction-logging#read_audit_log](https://docs.harperdb.io/docs/transaction-logging#read_audit_log).
+AuditLog must be enabled in the HarperDB configuration file to make this request. Returns a verbose history of all transactions logged for the specified database table, including original data records. You may filter your results with the optional search_type and search_values fields. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/4.3/administration/logging/transaction-logging#read_audit_log](../../administration/logging/transaction-logging#read_audit_log).
 
 _Operation is restricted to super_user roles only_
 
@@ -394,7 +394,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by timestamp
 
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/transaction-logging#read_audit_log](https://docs.harperdb.io/docs/transaction-logging#read_audit_log).
+AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table between the specified time window. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/4.3/administration/logging/transaction-logging#read_audit_log](../../administration/logging/transaction-logging#read_audit_log).
 
 _Operation is restricted to super_user roles only_
 
@@ -515,7 +515,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by username
 
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/transaction-logging#read_audit_log](https://docs.harperdb.io/docs/transaction-logging#read_audit_log).
+AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed by the specified user. Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/4.3/administration/logging/transaction-logging#read_audit_log](../../administration/logging/transaction-logging#read_audit_log).
 
 _Operation is restricted to super_user roles only_
 
@@ -635,7 +635,7 @@ _Operation is restricted to super_user roles only_
 
 ## Read Audit Log by hash_value
 
-AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/transaction-logging#read_audit_log](https://docs.harperdb.io/docs/transaction-logging#read_audit_log).
+AuditLog must be enabled in the HarperDB configuration file to make this request. Returns the transactions logged for the specified database table which were committed to the specified hash value(s). Read more about HarperDB transaction logs here: [https://docs.harperdb.io/docs/4.3/administration/logging/transaction-logging#read_audit_log](../../administration/logging/transaction-logging#read_audit_log).
 
 _Operation is restricted to super_user roles only_
 
