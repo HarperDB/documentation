@@ -150,6 +150,33 @@ const config: Config = {
 				createRedirects: (existingPath: string) => createRedirectsBase(existingPath, routeBasePath),
 			},
 		],
+
+		// Sitemap
+		[
+			'@docusaurus/plugin-sitemap',
+			{
+				createSitemapItems: async (params: any) => {
+					const { defaultCreateSitemapItems, ...rest } = params;
+					const items = await defaultCreateSitemapItems(rest);
+					return items.map((item: any) => {
+						// Versioned docs (e.g., /docs/4.5/, /docs/4.4/) - rarely change. could switch to monthly as the dust settles.
+						if (/\/docs\/\d+\.\d+\//.test(item.url)) {
+							return { ...item, changefreq: 'weekly' };
+						}
+						// Current/latest docs at /docs/ - most frequently updated
+						if (item.url.includes('/docs/')) {
+							return { ...item, changefreq: 'daily' };
+						}
+						// Release notes - fairly frequent updates
+						if (item.url.includes('/release-notes/')) {
+							return { ...item, changefreq: 'weekly' };
+						}
+						// Default for everything else
+						return { ...item, changefreq: 'weekly' };
+					});
+				},
+			},
+		],
 	],
 
 	themes: [
