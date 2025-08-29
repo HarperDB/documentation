@@ -105,9 +105,10 @@ The three base64url blocks are combined to form the `license` property value in 
 
 ## Get Usage Licenses
 
-This will retrieve and return all active usage licenses, with counts of how much of the limits have been consumed.
+This will retrieve and return _all_ usage licenses (including expired, exhausted, and licenses in any other state), with counts of how much of the limits have been consumed.
 
 - `operation` _(required)_ - must always be `get_usage_licenses`
+- `region` _(optional)_ - will filter by region when supplied
 
 ### Body
 
