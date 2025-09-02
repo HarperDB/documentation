@@ -133,12 +133,12 @@ The following metrics are tracked for all HTTP requests:
 The following are metrics for real-time MQTT connections:
 | `metric` | `path` | `method` | `type` | Unit | Description |
 |--------------------|---------------|----------------|--------------------------------------------|--------------------------------------------------------|---------------------------------------------------------|
-| `mqtt-connections` | | | | | The number of open direct MQTT connections |
-| `ws-connections` | | | | | number of open WS connections|
-| `connection` | `mqtt` | `connect` | | | percentage of successful direct MQTT connections |
-| `connection` | `mqtt` | `disconnect` | | | percentage of explicit direct MQTT disconnects |
-| `connection` | `ws` | `connect` | | | percentage of successful WS connections |
-| `connection` | `ws` | `disconnect` | | | percentage of explicit WS disconnects |
+| `mqtt-connections` | | | | count | The number of open direct MQTT connections |
+| `ws-connections` | | | | count | number of open WS connections|
+| `connection` | `mqtt` | `connect` | | % | percentage of successful direct MQTT connections |
+| `connection` | `mqtt` | `disconnect` | | % | percentage of explicit direct MQTT disconnects |
+| `connection` | `ws` | `connect` | | % | percentage of successful WS connections |
+| `connection` | `ws` | `disconnect` | | % | percentage of explicit WS disconnects |
 | `bytes-sent` | topic | mqtt command | `mqtt` | bytes | The number of bytes sent for a given command and topic |
 
 The following are metrics for replication:
