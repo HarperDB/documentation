@@ -39,7 +39,7 @@ fastifyRoutes:
 
 Enables GraphQL querying via a `/graphql` endpoint loosely implementing the GraphQL Over HTTP specification.
 
-Complete documentation for this feature is available here: [GraphQL](../../technical-details/reference/graphql)
+Complete documentation for this feature is available here: [GraphQL](../../reference/graphql)
 
 ```yaml
 graphql: true
@@ -62,7 +62,7 @@ graphqlSchema:
 
 Specify custom, JavaScript based Harper resources.
 
-Refer to the Application [Custom Functionality with JavaScript](../applications/#custom-functionality-with-javascript) guide, or [Resource Class](../../technical-details/reference/resource) reference documentation for more information on custom resources.
+Refer to the Application [Custom Functionality with JavaScript](../applications/#custom-functionality-with-javascript) guide, or [Resource Class](../../reference/resource) reference documentation for more information on custom resources.
 
 This component is a [Resource Extension](./reference#resource-extension) and can be configured with the [`files`, `path`, and `root`](./reference#resource-extension-configuration) configuration options.
 

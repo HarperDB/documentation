@@ -76,7 +76,7 @@ type Brand @table @export {
 }
 ```
 
-Once this is defined we can use the `brand` attribute as a [property in our product instances](../../technical-details/reference/resource) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest).
+Once this is defined we can use the `brand` attribute as a [property in our product instances](../../reference/resource) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest).
 
 Again, the foreign key may be a multi-valued array (array of keys referencing the target table records). For example, if we had a list of features that references a Feature table:
 
@@ -189,7 +189,7 @@ The `@sealed` directive specifies that no additional properties should be allowe
 
 ### Defined vs Dynamic Schemas
 
-If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../technical-details/reference/dynamic-schema). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
+If you do not define a schema for a table and create a table through the operations API (without specifying attributes) or studio, such a table will not have a defined schema and will follow the behavior of a ["dynamic-schema" table](../../reference/dynamic-schema). It is generally best-practice to define schemas for your tables to ensure predictable, consistent structures with data integrity.
 
 ### Field Types
 

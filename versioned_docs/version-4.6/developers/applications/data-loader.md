@@ -15,7 +15,7 @@ dataLoader:
   files: 'data/*.json'
 ```
 
-The Data Loader is an [Extension](../../technical-details/reference/components#extensions) and supports the standard `files` configuration option.
+The Data Loader is an [Extension](../../reference/components#extensions) and supports the standard `files` configuration option.
 
 ## Data File Format
 
@@ -176,6 +176,6 @@ rest: true
 
 ## Related Documentation
 
-- [Built-In Components](../../technical-details/reference/components/built-in-extensions)
-- [Extensions](../../technical-details/reference/components/extensions)
+- [Built-In Components](../../reference/components/built-in-extensions)
+- [Extensions](../../reference/components/extensions)
 - [Bulk Operations](../operations-api/bulk-operations) - For loading data via the Operations API

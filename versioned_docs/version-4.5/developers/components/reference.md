@@ -221,7 +221,7 @@ Returns: `boolean | void | Promise<boolean | void>`
 
 ### Protocol Extension
 
-A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../../technical-details/reference/globals#server) global API documentation for more information).
+A Protocol Extension is a more advanced form of a Resource Extension and is mainly used for implementing higher level protocols. For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs) handles building and running a Next.js project. A Protocol Extension is particularly useful for adding custom networking handlers (see the [`server`](../../reference/globals#server) global API documentation for more information).
 
 #### Protocol Extension Configuration
 
@@ -237,7 +237,7 @@ For example, the [Harper Next.js Extension](https://github.com/HarperDB/nextjs#o
   dev: false
 ```
 
-Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`](../../technical-details/reference/globals#server) global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
+Many protocol extensions will use the `port` and `securePort` options for configuring networking handlers. Many of the [`server`](../../reference/globals#server) global APIs accept `port` and `securePort` options, so components replicated this for simpler pass-through.
 
 #### Protocol Extension API
 

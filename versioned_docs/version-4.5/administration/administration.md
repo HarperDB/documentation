@@ -22,7 +22,7 @@ Harper provides rapid horizontal scaling capabilities through node cloning funct
 
 Harper provides robust capabilities for analytics and observability to facilitate effective and informative monitoring:
 
-- Analytics provides statistics on usage, request counts, load, memory usage with historical tracking. The analytics data can be [accessed through querying](../technical-details/reference/analytics).
+- Analytics provides statistics on usage, request counts, load, memory usage with historical tracking. The analytics data can be [accessed through querying](../reference/analytics).
 - A large variety of real-time statistics about load, system information, database metrics, thread usage can be retrieved through the [`system_information` API](../developers/operations-api/system-operations).
 - Information about the current cluster configuration and status can be found in the [cluster APIs](../developers/operations-api/clustering).
 - Analytics and system information can easily be exported to Prometheus with our [Prometheus exporter component](https://github.com/HarperDB-Add-Ons/prometheus_exporter), making it easy visualize and monitor Harper with Graphana.

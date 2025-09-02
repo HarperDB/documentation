@@ -34,7 +34,7 @@ When you are ready for something a little more advanced, start [customizing your
 
 Finally, when it’s time to deploy, explore [replication](../developers/replication/) between nodes.
 
-If you would like to jump into the most advanced capabilities, learn about [components](../technical-details/reference/components/).
+If you would like to jump into the most advanced capabilities, learn about [components](../reference/components/).
 
 :::warning
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
