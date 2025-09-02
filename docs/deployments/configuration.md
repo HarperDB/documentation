@@ -715,7 +715,7 @@ Harper's logger supports defining multiple logging configurations for different 
 
 `logging.external`
 
-The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../technical-details/reference/globals). For example:
+The `logging.external` section can be used to define logging for all external components that use the [`logger` API](../reference/globals). For example:
 
 ```yaml
 logging:
@@ -1233,7 +1233,7 @@ The name of the component. This will be used to name the folder where the compon
 
 `package` - _Type_: string
 
-A reference to your [component](../technical-details/reference/components/applications#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
+A reference to your [component](../reference/components/applications#adding-components-to-root) package. This could be a remote git repo, a local folder/file or an NPM package. Harper will add this package to a package.json file and call `npm install` on it, so any reference that works with that paradigm will work here.
 
 Read more about npm install [here](https://docs.npmjs.com/cli/v8/commands/npm-install)
 

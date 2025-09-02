@@ -8,7 +8,7 @@ As you begin your journey with Harper, there are a few concepts and definitions 
 
 ## Components
 
-Harper components are a core Harper concept defined as flexible JavaScript based extensions of the highly extensible core Harper platform. They are executed by Harper directly and have complete access to the Harper [Global APIs](../technical-details/reference/globals) (such as Resource, databases, and tables).
+Harper components are a core Harper concept defined as flexible JavaScript based extensions of the highly extensible core Harper platform. They are executed by Harper directly and have complete access to the Harper [Global APIs](../reference/globals) (such as Resource, databases, and tables).
 
 A key aspect to components are their extensibility; components can be built on other components. For example, a [Harper Application](../developers/applications) is a component that uses many other components. The [application template](https://github.com/HarperDB/application-template) demonstrates many of Harper's built-in components such as [rest](../developers/components/built-in#rest) (for automatic REST endpoint generation), [graphqlSchema](../developers/components/built-in#graphqlschema) (for table schema definitions), and many more.
 

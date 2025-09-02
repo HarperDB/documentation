@@ -23,7 +23,7 @@ HarperDB version 4 ([Tucker release](v4-tucker/tucker)) represents major step fo
 
 ## [4.5](v4-tucker/4.5.25)
 
-- Blob Storage - 4.5 introduces a new [Blob storage system](/docs/technical-details/reference/blob).
+- Blob Storage - 4.5 introduces a new [Blob storage system](/docs/reference/blob).
 - Password Hashing Upgrade - two new password hashing algorithms for better security (to replace md5).
 - New resource and storage Analytics
 

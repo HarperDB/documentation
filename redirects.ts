@@ -170,7 +170,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/audit-logging'), to: withBase('/administration/logging/audit-logging') },
 		{ from: withBase('/jobs'), to: withBase('/administration/jobs') },
 		{ from: withBase('/upgrade-hdb-instance'), to: withBase('/deployments/upgrade-hdb-instance') },
-		{ from: withBase('/reference'), to: withBase('/technical-details/reference/') },
+		{ from: withBase('/reference'), to: withBase('/reference/') },
 		{ from: withBase('/operations-api'), to: withBase('/developers/operations-api/') },
 		{ from: withBase('/rest'), to: withBase('/developers/rest') },
 		{ from: withBase('/api'), to: withBase('/developers/operations-api/') },
@@ -269,7 +269,7 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 	// - /deployments/harper-cli (explicit)
 	// - /developers/sql-guide/* (has explicit redirect)
 	// - /developers/operations-api/* (has explicit redirects)
-	// - /technical-details/reference/* (has explicit redirect)
+	// - /reference/* (has explicit redirect)
 
 	return redirects.length > 0 ? redirects : undefined;
 }

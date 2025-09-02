@@ -67,21 +67,21 @@ flowchart TD
 	Rest --> Networking
 ```
 
-> As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleApplication` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](../../technical-details/reference/components/plugins) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
+> As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleApplication` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](../../reference/components/plugins) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
 
 Beyond applications and extensions, components are further classified as built-in or custom. **Built-in** components are included with Harper by default and can be directly referenced by their name. The `graphqlSchema`, `rest`, and `jsResource` extensions used in the previous application example are all examples of built-in extensions. **Custom** components must use external references, generally npm or GitHub packages, and are often included as dependencies within the `package.json` of the component.
 
 > Harper maintains a number of custom components that are available on `npm` and `GitHub`, such as the [`@harperdb/nextjs`](https://github.com/HarperDB/nextjs) extension or the [`@harperdb/status-check`](https://github.com/HarperDB/status-check) application.
 
-Harper does not currently include any built-in applications, making "custom applications" a bit redundant. Generally, we just say "application". However, there is a multitude of both built-in and custom extensions, and so the documentation refers to them as such. A complete list of built-in extensions is available in the [Built-In Extensions](../../technical-details/reference/components/built-in-extensions) documentation page, and the list of custom extensions and applications is available below.
+Harper does not currently include any built-in applications, making "custom applications" a bit redundant. Generally, we just say "application". However, there is a multitude of both built-in and custom extensions, and so the documentation refers to them as such. A complete list of built-in extensions is available in the [Built-In Extensions](../../reference/components/built-in-extensions) documentation page, and the list of custom extensions and applications is available below.
 
 This guide is going to walk you through building a basic Harper application using a set of built-in extensions.
 
-> The Technical Details section of the documentation contains a [complete reference for all aspects of components](../../technical-details/reference/components), applications, extensions, and more.
+> The Reference -> Components section of the documentation contains a [complete reference for all aspects of components](../../reference/components), applications, extensions, and more.
 
 ## Custom Functionality with JavaScript
 
-[The getting started guide](../../getting-started/first-harper-app) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../technical-details/reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+[The getting started guide](../../getting-started/first-harper-app) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
 To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
 
@@ -211,11 +211,11 @@ Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 
 The [caching documentation](caching) provides much more information on how to use Harper's powerful caching capabilities and set up data sources.
 
-Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../technical-details/reference/globals) and the [Resource interface](../../technical-details/reference/resource).
+Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../reference/globals) and the [Resource interface](../../reference/resource).
 
 ## Configuring Applications/Components
 
-For complete information of configuring applications, refer to the [Component Configuration](../../technical-details/reference/components) reference page.
+For complete information of configuring applications, refer to the [Component Configuration](../../reference/components) reference page.
 
 ## Define Fastify Routes
 
