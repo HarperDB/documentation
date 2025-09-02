@@ -36,7 +36,7 @@ HarperDB automatically creates two audit attributes used on each record if the t
 
 ### Dynamic Schema Example
 
-To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../../developers/operations-api/databases-and-tables).
+To better understand the behavior let’s take a look at an example. This example utilizes [HarperDB API operations](../developers/operations-api/databases-and-tables).
 
 **Create a Database**
 

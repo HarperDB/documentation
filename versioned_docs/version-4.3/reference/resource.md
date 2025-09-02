@@ -95,7 +95,7 @@ This is the Resource base class. This can be directly extended for custom resour
 
 ### `server`
 
-This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../../developers/components/writing-extensions).
+This object provides extension points for extension components that wish to implement new server functionality (new protocols, authentication, etc.). See the [extensions documentation for more information](../developers/components/writing-extensions).
 
 ### `transaction`
 
@@ -103,7 +103,7 @@ This provides a function for starting transactions. See the transactions section
 
 ### `contentTypes`
 
-This provides an interface for defining new content type handlers. See the [content type extensions documentation](../../developers/components/writing-extensions) for more information.
+This provides an interface for defining new content type handlers. See the [content type extensions documentation](../developers/components/writing-extensions) for more information.
 
 ### TypeScript Support
 
@@ -271,7 +271,7 @@ When a resource is accessed as a data source:
 
 ### `operation(operationObject: Object, authorize?: boolean): Promise<any>`
 
-This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../../developers/operations-api) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
+This method is available on tables and will execute a HarperDB operation, using the current table as the target of the operation (the `table` and `database` do not need to be specified). See the [operations API](../developers/operations-api) for available operations that can be performed. You can set the second argument to `true` if you want the current user to be checked for authorization for the operation (if `true`, will throw an error if they are not authorized).
 
 ### `allowStaleWhileRevalidate(entry: { version: number, localTime: number, expiresAt: number, value: object }, id): boolean`
 
@@ -452,7 +452,7 @@ Table.search({
 
 ##### Chained Attributes/Properties
 
-Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../../developers/applications/defining-schemas) (in addition to the [schema documentation](../../developers/applications/defining-schemas), see the [REST documentation](../../developers/rest) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
+Chained attribute/property references can be used to search on properties within related records that are referenced by [relationship properties](../developers/applications/defining-schemas) (in addition to the [schema documentation](../developers/applications/defining-schemas), see the [REST documentation](../developers/rest) for more of overview of relationships and querying). Chained property references are specified with an array, with each entry in the array being a property name for successive property references. For example, if a relationship property called `brand` has been defined that references a `Brand` table, we could search products by brand name:
 
 ```javascript
 Product.search({ conditions: [{ attribute: ['brand', 'name'], value: 'HarperDB' }] });

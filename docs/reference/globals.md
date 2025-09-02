@@ -38,7 +38,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a database](../../developers/applications/defining-schemas) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a database](../developers/applications/defining-schemas) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ## `databases`
 
@@ -59,7 +59,7 @@ This returns the user object with permissions/authorization information based on
 
 ## `logger`
 
-This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../../administration/logging/standard-logging) for more information.
+This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../administration/logging/standard-logging) for more information.
 
 ## `server`
 
@@ -256,7 +256,7 @@ Properties:
 
 ### `server.config`
 
-This provides access to the Harper configuration object. This comes from the [harperdb-config.yaml](../../deployments/configuration) (parsed into object form).
+This provides access to the Harper configuration object. This comes from the [harperdb-config.yaml](../deployments/configuration) (parsed into object form).
 
 ### `server.recordAnalytics(value, metric, path?, method?, type?)`
 
@@ -304,7 +304,7 @@ server.resources.getMatch('/NewResource/some-id', 'my-protocol');
 
 ### `server.operation(operation: Object, context?: Object, authorize?: boolean)`
 
-Execute an operation from the [Operations API](../../developers/operations-api)
+Execute an operation from the [Operations API](../developers/operations-api)
 
 Parameters:
 
@@ -312,7 +312,7 @@ Parameters:
 - `context` - `Object` - `{ username: string}` - _optional_ - The specified user
 - `authorize` - `boolean` - _optional_ - Indicate the operation should authorize the user or not. Defaults to `false`
 
-Returns a `Promise` with the operation's response as per the [Operations API documentation](../../developers/operations-api).
+Returns a `Promise` with the operation's response as per the [Operations API documentation](../developers/operations-api).
 
 ### `server.nodes`
 

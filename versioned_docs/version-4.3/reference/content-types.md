@@ -26,4 +26,4 @@ MessagePack is another efficient binary format like CBOR, with support for all H
 
 Comma-separated values is an easy to use and understand format that can be readily imported into spreadsheets or used for data processing. CSV lacks hierarchical structure for most data types, and shouldn't be used for frequent/production use, but when you need it, it is available.
 
-In addition, with the REST interface, you can use file-style extensions to indicate an encoding like [https://host/path.csv](https://host/path.csv) to indicate CSV encoding. See the [REST documentation](../../developers/rest) for more information on how to do this.
+In addition, with the REST interface, you can use file-style extensions to indicate an encoding like [https://host/path.csv](https://host/path.csv) to indicate CSV encoding. See the [REST documentation](../developers/rest) for more information on how to do this.

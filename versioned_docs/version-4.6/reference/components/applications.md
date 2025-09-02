@@ -12,7 +12,7 @@ Harper offers several approaches to managing applications that differ between lo
 
 Harper is designed to be simple to run locally. Generally, Harper should be installed locally on a machine using a global package manager install (i.e. `npm i -g harperdb`).
 
-> Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../../deployments/install-harper/).
+> Before continuing, ensure Harper is installed and the `harperdb` CLI is available. For more information, review the [installation guide](../../deployments/install-harper/).
 
 When developing an application locally there are a number of ways to run it on Harper.
 
@@ -52,7 +52,7 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
 
 Similar to the previous section, if the main thread needs to be restarted, start and stop the Harper instance manually (with the application deployed). Upon Harper startup, the application will automatically be loaded and executed across all threads.
 
-> Not all [component operations](../../../developers/operations-api/components) are available via CLI. When in doubt, switch to using the Operations API via network requests to the local Harper instance.
+> Not all [component operations](../../developers/operations-api/components) are available via CLI. When in doubt, switch to using the Operations API via network requests to the local Harper instance.
 
 For example, to properly _deploy_ a `test-application` locally, the command would look like:
 
@@ -69,7 +69,7 @@ Keep in mind that using a local file path for `package` will only work locally; 
 
 ## Remote Management
 
-Managing applications on a remote Harper instance is best accomplished through [component operations](../../../developers/operations-api/components), similar to using the `deploy` command locally. Before continuing, always backup critical Harper instances. Managing, deploying, and executing applications can directly impact a live system.
+Managing applications on a remote Harper instance is best accomplished through [component operations](../../developers/operations-api/components), similar to using the `deploy` command locally. Before continuing, always backup critical Harper instances. Managing, deploying, and executing applications can directly impact a live system.
 
 Remote Harper instances work very similarly to local Harper instances. The primary application management operations still include `deploy_component`, `drop_component`, and `restart`.
 
@@ -110,7 +110,7 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 - For applications deployed to npm, specify the package name: `package="@harperdb/status-check"`
 - For applications on GitHub, specify the URL: `package="https://github.com/HarperDB/status-check"`, or the shorthand `package=HarperDB/status-check`
 - Private repositories also work if the correct SSH keys are on the server: `package="git+ssh://git@github.com:HarperDB/secret-applications.git"`
-  - Reference the [SSH Key](../../../developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
+  - Reference the [SSH Key](../../developers/operations-api/components#add-ssh-key) operations for more information on managing SSH keys on a remote instance
 - Even tarball URLs are supported: `package="https://example.com/application.tar.gz"`
 
 > When using git tags, we highly recommend that you use the semver directive to ensure consistent and reliable installation by npm. In addition to tags, you can also reference branches or commit numbers.

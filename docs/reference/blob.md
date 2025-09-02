@@ -103,4 +103,4 @@ if (blob.size === undefined) {
 
 ```
 
-See the [configuration](../../deployments/configuration) documentation for more information on configuring where blob are stored.
+See the [configuration](../deployments/configuration) documentation for more information on configuring where blob are stored.

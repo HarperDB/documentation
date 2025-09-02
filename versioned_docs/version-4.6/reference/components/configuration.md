@@ -4,7 +4,7 @@ title: Component Configuration
 
 # Component Configuration
 
-> For information on the distinction between the types of components (applications and extensions), refer to beginning of the [Applications](../../../developers/applications) documentation section.
+> For information on the distinction between the types of components (applications and extensions), refer to beginning of the [Applications](../../developers/applications) documentation section.
 
 Harper components are configured with a `config.yaml` file located in the root of the component module directory. This file is how an components configures other components it depends on. Each entry in the file starts with a component name, and then configuration values are indented below it.
 

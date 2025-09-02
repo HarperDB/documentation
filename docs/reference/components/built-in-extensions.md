@@ -6,7 +6,7 @@ title: Built-In Extensions
 
 Harper provides extended features using built-in extensions. They do **not** need to be installed with a package manager, and simply must be specified in a config to run. These are used throughout many Harper docs, guides, and examples. Unlike custom extensions which have their own semantic versions, built-in extensions follow Harper's semantic version.
 
-For more information read the [Components, Applications, and Extensions](../../../developers/applications/) documentation section.
+For more information read the [Components, Applications, and Extensions](../../developers/applications/) documentation section.
 
 - [Built-In Extensions](#built-in-extensions)
   - [dataLoader](#dataloader)
@@ -32,7 +32,7 @@ Load data from JSON or YAML files into Harper tables as part of component deploy
 
 This component is an [Extension](..#extensions) and can be configured with the `files` configuration option.
 
-Complete documentation for this feature is available here: [Data Loader](../../../developers/applications/data-loader)
+Complete documentation for this feature is available here: [Data Loader](../../developers/applications/data-loader)
 
 ```yaml
 dataLoader:
@@ -45,7 +45,7 @@ Specify custom endpoints using [Fastify](https://fastify.dev/).
 
 This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Define Fastify Routes](../../../developers/applications/define-routes)
+Complete documentation for this feature is available here: [Define Fastify Routes](../../developers/applications/define-routes)
 
 ```yaml
 fastifyRoutes:
@@ -70,7 +70,7 @@ Specify schemas for Harper tables and resources via GraphQL schema syntax.
 
 This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Schemas](../../../developers/applications/defining-schemas)
+Complete documentation for this feature is available here: [Defining Schemas](../../developers/applications/defining-schemas)
 
 ```yaml
 graphqlSchema:
@@ -81,7 +81,7 @@ graphqlSchema:
 
 Specify custom, JavaScript based Harper resources.
 
-Refer to the Application [Custom Functionality with JavaScript](../../../developers/applications/#custom-functionality-with-javascript) guide, or [Resource Class](../resources/) reference documentation for more information on custom resources.
+Refer to the Application [Custom Functionality with JavaScript](../../developers/applications/#custom-functionality-with-javascript) guide, or [Resource Class](../resources/) reference documentation for more information on custom resources.
 
 This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
@@ -125,7 +125,7 @@ loadEnv:
 
 Enable automatic REST endpoint generation for exported resources with this component.
 
-Complete documentation for this feature is available here: [REST](../../../developers/rest)
+Complete documentation for this feature is available here: [REST](../../developers/rest)
 
 ```yaml
 rest: true
@@ -153,7 +153,7 @@ Specify roles for Harper tables and resources.
 
 This component is a [Resource Extension](./extensions#resource-extension) and can be configured with the [`files` and `urlPath`](./extensions#resource-extension-configuration) configuration options.
 
-Complete documentation for this feature is available here: [Defining Roles](../../../developers/applications/defining-roles)
+Complete documentation for this feature is available here: [Defining Roles](../../developers/applications/defining-roles)
 
 ```yaml
 roles:

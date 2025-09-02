@@ -4,7 +4,7 @@ title: GraphQL Querying
 
 # GraphQL Querying
 
-Harper supports GraphQL in a variety of ways. It can be used for [defining schemas](../../developers/applications/defining-schemas), and for querying [Resources](./resources/).
+Harper supports GraphQL in a variety of ways. It can be used for [defining schemas](../developers/applications/defining-schemas), and for querying [Resources](./resources/).
 
 Get started by setting `graphql: true` in `config.yaml`.
 

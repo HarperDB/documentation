@@ -38,7 +38,7 @@ async function getRecord() {
 }
 ```
 
-It is recommended that you [define a schema](../../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
+It is recommended that you [define a schema](../getting-started/) for all the tables that are required to exist in your application. This will ensure that the tables exist on the `tables` object. Also note that the property names follow a CamelCase convention for use in JavaScript and in the GraphQL Schemas, but these are translated to snake_case for the actual table names, and converted back to CamelCase when added to the `tables` object.
 
 ### `databases`
 
@@ -59,7 +59,7 @@ This returns the user object with permissions/authorization information based on
 
 ### `logger`
 
-This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../../administration/logging/standard-logging) for more information.
+This provides methods `trace`, `debug`, `info`, `warn`, `error`, `fatal`, and `notify` for logging. See the [logging documentation](../administration/logging/standard-logging) for more information.
 
 ### `server`
 
@@ -67,7 +67,7 @@ This provides a number of functions and objects to interact with the server incl
 
 #### `server.config`
 
-This provides access to the HarperDB configuration object. This comes from the [harperdb-config.yaml](../../deployments/configuration) (parsed into object form).
+This provides access to the HarperDB configuration object. This comes from the [harperdb-config.yaml](../deployments/configuration) (parsed into object form).
 
 #### `server.recordAnalytics(value, metric, path?, method?, type?)`
 

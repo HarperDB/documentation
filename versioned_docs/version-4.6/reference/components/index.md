@@ -16,7 +16,7 @@ title: Components
 
 All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
 
-For more information on the differences between applications and extensions, refer to the beginning of the [Applications](../../developers/applications/) guide documentation section.
+For more information on the differences between applications and extensions, refer to the beginning of the [Applications](../developers/applications/) guide documentation section.
 
 This technical reference section has detailed information on various component systems:
 
