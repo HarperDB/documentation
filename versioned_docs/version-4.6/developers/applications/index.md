@@ -77,7 +77,7 @@ Harper does not currently include any built-in applications, making "custom appl
 
 This guide is going to walk you through building a basic Harper application using a set of built-in extensions.
 
-> The Technical Details section of the documentation contains a [complete reference for all aspects of components](../reference/components), applications, extensions, and more.
+> The Reference -> Components section of the documentation contains a [complete reference for all aspects of components](../reference/components), applications, extensions, and more.
 
 ## Custom Functionality with JavaScript
 
