@@ -79,7 +79,7 @@ This object provides extension points for extension components that wish to impl
 
 ### `transaction`
 
-This provides a function for starting transactions. See the [transactions documentation](../../../technical-details/transactions) for more information.
+This provides a function for starting transactions. See the [transactions documentation](../transactions) for more information.
 
 ### `contentTypes`
 
@@ -442,7 +442,7 @@ export class BlogPost extends tables.BlogPost {
 }
 ```
 
-Please see the [transaction documentation](../../../technical-details/transactions) for more information on how transactions work in Harper.
+Please see the [transaction documentation](../transactions) for more information on how transactions work in Harper.
 
 ### Query
 
