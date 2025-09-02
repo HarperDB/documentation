@@ -132,7 +132,7 @@ The following metrics are tracked for all HTTP requests:
 
 The following are metrics for real-time MQTT connections:
 | `metric` | `path` | `method` | `type` | Unit | Description |
-|--------------------|---------------|----------------|--------------------------------------------|--------------------------------------------------------|---------------------------------------------------------|
+|---|---|---|---|---|---|
 | `mqtt-connections` | | | | count | The number of open direct MQTT connections |
 | `ws-connections` | | | | count | number of open WS connections|
 | `connection` | `mqtt` | `connect` | | % | percentage of successful direct MQTT connections |
