@@ -150,17 +150,17 @@ Note that some HTTP clients may be overly aggressive in encoding query parameter
 
 Here is a full list of the supported FIQL-style operators/comparators:
 
-* `==`: equal
-* `=lt=`: less than
-* `=le=`: less than or equal
-* `=gt=`: greater than
-* `=ge=`: greater than or equal
-* `=ne=`, !=: not equal
-* `=ct=`: contains the value (for strings)
-* `=sw=`, `==<value>*`: starts with the value (for strings)
-* `=ew=`: ends with the value (for strings)
-* `=`, `===`: strict equality (no type conversion)
-* `!==`: strict inequality (no type conversion)
+- `==`: equal
+- `=lt=`: less than
+- `=le=`: less than or equal
+- `=gt=`: greater than
+- `=ge=`: greater than or equal
+- `=ne=`, !=: not equal
+- `=ct=`: contains the value (for strings)
+- `=sw=`, `==<value>*`: starts with the value (for strings)
+- `=ew=`: ends with the value (for strings)
+- `=`, `===`: strict equality (no type conversion)
+- `!==`: strict inequality (no type conversion)
 
 #### Unions
 
@@ -187,7 +187,7 @@ GET /Product/?rating=5&[tag=fast|tag=scalable|tag=efficient]
 And the tags could be safely generated from user inputs in a tag array like:
 
 ```javascript
-let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`
+let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`;
 ```
 
 More complex queries can be created by further nesting groups:
@@ -204,11 +204,11 @@ Harper has several special query functions that use "call" syntax. These can be 
 
 This function allows you to specify which properties should be included in the responses. This takes several forms:
 
-* `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
-* `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
-* `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
-* `?select(property{subProperty1,subProperty2{subSubProperty,..}},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
+- `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
+- `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
+- `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
+- `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
+- `?select(property{subProperty1,subProperty2{subSubProperty,..}},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
 
 To get a list of product names with a category of software:
 
@@ -340,13 +340,13 @@ Content-Type: application/json
 
 Queries parameters are simply text, so there are several features for converting parameter values to properly typed values for performing correct searches. For the FIQL comparators, which includes `==`, `!=`, `=gt=`, `=lt=`, `=ge=`, `=gt=`, the parser will perform type conversion, according to the following rules:
 
-* `name==null`: Will convert the value to `null` for searching.
-* `name==123`: Will convert the value to a number _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
-* `name==true`: Will convert the value to a boolean _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
-* `name==number:123`: Will explicitly convert the value after "number:" to a number.
-* `name==boolean:true`: Will explicitly convert the value after "boolean:" to a boolean.
-* `name==string:some%20text`: Will explicitly keep the value after "string:" as a string (and perform URL component decoding)
-* `name==date:2024-01-05T20%3A07%3A27.955Z`: Will explicitly convert the value after "date:" to a Date object.
+- `name==null`: Will convert the value to `null` for searching.
+- `name==123`: Will convert the value to a number _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+- `name==true`: Will convert the value to a boolean _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+- `name==number:123`: Will explicitly convert the value after "number:" to a number.
+- `name==boolean:true`: Will explicitly convert the value after "boolean:" to a boolean.
+- `name==string:some%20text`: Will explicitly keep the value after "string:" as a string (and perform URL component decoding)
+- `name==date:2024-01-05T20%3A07%3A27.955Z`: Will explicitly convert the value after "date:" to a Date object.
 
 If the attribute specifies a type (like `Float`) in the schema definition, the value will always be converted to the specified type before searching.
 

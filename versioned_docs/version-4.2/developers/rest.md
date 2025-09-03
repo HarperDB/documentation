@@ -128,10 +128,10 @@ HarperDB has several special query functions that use "call" syntax. These can b
 
 This allows you to specify which properties should be included in the responses. This takes several forms:
 
-* `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
-* `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
-* `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
+- `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
+- `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
+- `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
+- `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
 
 To get a list of product names with a category of software:
 
