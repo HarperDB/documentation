@@ -266,12 +266,19 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 		}
 	}
 
+	// Old Technical Details -> Reference paths
+	if (existingPath.startsWith(`${basePath}/reference/`)) {
+		const subpath = existingPath.replace(`${basePath}/reference/`, '');
+		if (subpath) {
+			redirects.push(`${basePath}/technical-details/reference/${subpath}`);
+		}
+	}
+
 	// Don't create wildcard redirects for these as they're all explicitly defined:
 	// - /developers/security/* (all subpaths are explicit)
 	// - /deployments/harper-cli (explicit)
 	// - /developers/sql-guide/* (has explicit redirect)
 	// - /developers/operations-api/* (has explicit redirects)
-	// - /technical-details/reference/* (has explicit redirect)
 
 	return redirects.length > 0 ? redirects : undefined;
 }
