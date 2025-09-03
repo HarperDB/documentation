@@ -34,12 +34,12 @@ npm run format
 
 This site is powered by Docusaurus and leverages the file-system based versioning capabilities of the framework.
 
-All published content is available within the `site/` directory. Specific pages are organized into subdirectories based on their version.
+There are two directories where actual documentation content lives.
 
-The root of the site is mapped to the `site/versioned_docs/version-4.6` directory.
+The first, `docs/` contains the "latest" or "next" version of the documentation. We do not publish or render this directory, and the content here is meant to represent on-going development.
 
-So for example the page https://docs.harperdb.io/docs/getting-started/first-harper-app maps to the file `site/versioned_docs/version-4.6/getting-started/first-harper-app.md`. And then the previous 4.5 version of it can be found at `site/versioned_docs/version-4.5/getting-started/first-harper-app.md`. Not all files exist across all versions, and generally you only need to update content across versions 4.6 and 4.5 unless you're specifically targeting an older version.
+The second, `versioned_docs` contains all of the specific Harper version documentation organized by minor version. The latest version within this directory maps to the default path on the site. For example, if the latest version is `versioned_docs/version-4.6/` then the page https://docs.harperdb.io/docs/getting-started/first-harper-app maps to the file `site/versioned_docs/version-4.6/getting-started/first-harper-app.md`. And for the previous 4.5 version the page http://localhost:3000/docs/4.5/getting-started/first-harper-app can be found at `site/versioned_docs/version-4.5/getting-started/first-harper-app.md`.
 
-The root `docs/` directory contains doc files intended for the next version release so depending on your intended changes you may want to copy them to the respective files within that directory too.
+Depending on the specific change, you may need to make updates to similar files across multiple version directories as well as the root `docs/`.
 
 The site organization is ever evolving so make sure to revisit this file over time to stay up to date with the latest structure.
