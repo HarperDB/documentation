@@ -81,13 +81,12 @@ Generally the POST method can be used for custom actions since POST has the broa
 
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
-`````http
-````http
+```http
 POST /MyTable/
 Content-Type: application/json
 
-`{ "name": "some data" }`
-`````
+{ "name": "some data" }
+```
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
@@ -95,7 +94,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 URL query parameters provide a powerful language for specifying database queries in Harper. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
 
-````http
+```http
 GET /my-resource/?property=value
 ```
 
@@ -402,4 +401,3 @@ Content-Type: image/gif
 
 ...image data...
 ```
-````
