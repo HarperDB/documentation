@@ -1,0 +1,79 @@
+---
+title: Harper Docs
+---
+
+import CustomDocCardList from '@site/src/components/CustomDocCardList';
+
+# Harper Docs
+
+:::info
+[Connect with our team!](https://www.harpersystems.dev/contact)
+:::
+
+Welcome to the Harper Documentation! Here, you'll find all things Harper, and everything you need to get started, troubleshoot issues, and make the most of our platform.
+
+## Getting Started
+
+<CustomDocCardList
+	columns={3}
+	items={[
+		{
+			type: 'link',
+			href: 'getting-started/install-harper',
+			label: 'Install Harper',
+			description: 'Pick the installation method that best suits your environment',
+		},
+		{
+			type: 'link',
+			href: 'getting-started/what-is-harper',
+			label: 'What is Harper',
+			description: 'Learn about Harper, how it works, and some of its usecases',
+		},
+		{
+			type: 'link',
+			href: 'getting-started/harper-concepts',
+			label: 'Harper Concepts',
+			description: "Learn about Harper's fundamental concepts and how they interact",
+		},
+	]}
+/>
+
+## Building with Harper
+
+<CustomDocCardList
+	columns={3}
+	items={[
+		{
+			type: 'link',
+			href: 'developers/applications/',
+			label: 'Harper Applications',
+			description: 'Build your a fully featured Harper Component with custom functionality',
+		},
+		{
+			type: 'link',
+			href: 'developers/rest',
+			label: 'REST Queries',
+			description: 'The recommended HTTP interface for data access, querying, and manipulation',
+		},
+		{
+			type: 'link',
+			href: 'developers/operations-api/',
+			label: 'Operations API',
+			description: 'Configure, deploy, administer, and control your Harper instance',
+		},
+		{
+			type: 'link',
+			href: 'developers/replication/',
+			label: 'Clustering & Replication',
+			description:
+				'The process of connecting multiple Harper databases together to create a database mesh network that enables users to define data replication patterns.',
+		},
+		{
+			type: 'link',
+			href: 'administration/harper-studio/',
+			label: 'Explore the Harper Studio',
+			description:
+				'The web-based GUI for Harper. Studio enables you to administer, navigate, and monitor all of your Harper instances in a simple, user friendly interface.',
+		},
+	]}
+/>

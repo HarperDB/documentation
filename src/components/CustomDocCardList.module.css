@@ -1,0 +1,48 @@
+.cardGrid {
+	display: grid;
+	grid-template-columns: repeat(var(--columns, 2), 1fr);
+	gap: var(--ifm-spacing-horizontal);
+	margin-bottom: 2rem;
+}
+
+.customCard {
+	--ifm-link-color: var(--ifm-color-emphasis-800);
+	--ifm-link-hover-color: var(--ifm-color-emphasis-700);
+	--ifm-link-hover-decoration: none;
+	box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
+	border: 1px solid var(--ifm-color-emphasis-200);
+	transition: all var(--ifm-transition-fast) ease;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.customCard:hover {
+	border-color: var(--ifm-color-primary);
+	box-shadow: 0 3px 6px 0 rgb(0 0 0 / 20%);
+	text-decoration: none;
+}
+
+.cardTitle {
+	font-size: 1.2rem;
+	margin-bottom: 0.5rem;
+}
+
+.cardDescription {
+	font-size: 0.9rem;
+	color: var(--ifm-color-content-secondary);
+	margin-bottom: 0;
+}
+
+/* Responsive breakpoints */
+@media (max-width: 996px) {
+	.cardGrid {
+		grid-template-columns: repeat(min(2, var(--columns, 2)), 1fr);
+	}
+}
+
+@media (max-width: 650px) {
+	.cardGrid {
+		grid-template-columns: 1fr;
+	}
+}
