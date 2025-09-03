@@ -13,7 +13,7 @@ HarperDB version 4 ([Tucker release](v4-tucker/tucker)) represents major step fo
 - New analytics and licensing functionality for Fabric services integration
 - Further improvements to the plugin API
 
-## [4.6](v4-tucker/4.6.6)
+## [4.6](v4-tucker/4.6.8)
 
 - Vector Indexing - 4.6 introduces a new Vector Indexing system based on Hierarchical Navigable Small World Graphs.
 - New extension API - 4.6 introduces a new extension API for creating extensions components.

@@ -10,6 +10,10 @@ keywords: [harper, release notes, changelog, version history, updates]
 
 [4.7.0 Tucker](release-notes/v4-tucker/4.7.0)
 
+[4.6.8 Tucker](release-notes/v4-tucker/4.6.8)
+
+[4.6.7 Tucker](release-notes/v4-tucker/4.6.7)
+
 [4.6.6 Tucker](release-notes/v4-tucker/4.6.6)
 
 [4.6.5 Tucker](release-notes/v4-tucker/4.6.5)
