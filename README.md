@@ -33,9 +33,8 @@ npm run serve
 
 ```text
 ├── docs/                # Main documentation content
-├── images/              # Images for documentation
 ├── static/              # Static assets
-│   ├── img/             # Site images and logos
+│   ├── img/             # Site images and logos (versioned)
 │   └── js/              # JavaScript files
 ├── src/                 # React components and custom pages
 │   ├── css/             # Custom styles

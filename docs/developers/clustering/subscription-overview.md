@@ -20,7 +20,7 @@ A subscription consists of:
 
 #### Publish subscription
 
-![figure 2](/clustering/figure2.png)
+![figure 2](/img/v4.6/clustering/figure2.png)
 
 This diagram is an example of a `publish` subscription from the perspective of Node1.
 
@@ -28,7 +28,7 @@ The record with id 2 has been inserted in the dog table on Node1, after it has c
 
 #### Subscribe subscription
 
-![figure 3](/clustering/figure3.png)
+![figure 3](/img/v4.6/clustering/figure3.png)
 
 This diagram is an example of a `subscribe` subscription from the perspective of Node1.
 
@@ -36,10 +36,10 @@ The record with id 3 has been inserted in the dog table on Node2, after it has c
 
 #### Subscribe and Publish
 
-![figure 4](/clustering/figure4.png)
+![figure 4](/img/v4.6/clustering/figure4.png)
 
 This diagram shows both subscribe and publish but publish is set to false. You can see that because subscribe is true the insert on Node2 is being replicated on Node1 but because publish is set to false the insert on Node1 is _**not**_ being replicated on Node2.
 
-![figure 5](/clustering/figure5.png)
+![figure 5](/img/v4.6/clustering/figure5.png)
 
 This shows both subscribe and publish set to true. The insert on Node1 is replicated on Node2 and the update on Node2 is replicated on Node1.

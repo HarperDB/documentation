@@ -24,4 +24,4 @@ Harper inherits both functional and performance benefits by implementing LMDB as
 
 ## Harper Indexing Example (Single Table)
 
-![](/reference/HarperDB-3.0-Storage-Algorithm.png.webp)
+![](/img/v4.6/reference/HarperDB-3.0-Storage-Algorithm.png.webp)
