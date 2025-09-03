@@ -79,13 +79,12 @@ Generally the POST method can be used for custom actions since POST has the broa
 
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
-`````http
-````http
+```http
 POST /MyTable/
 Content-Type: application/json
 
-`{ "name": "some data" }`
-`````
+{ "name": "some data" }
+```
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
@@ -93,7 +92,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single property name and value, to find all records which provide value for the given property/attribute. It is important to note that this property must be configured to be indexed to search on it. For example:
 
-````http
+```http
 GET /my-resource/?property=value
 ```
 
@@ -129,10 +128,10 @@ HarperDB has several special query functions that use "call" syntax. These can b
 
 This allows you to specify which properties should be included in the responses. This takes several forms:
 
-* `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
-* `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
-* `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
+- `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
+- `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
+- `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
+- `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
 
 To get a list of product names with a category of software:
 
@@ -199,4 +198,3 @@ Content-Type: image/gif
 
 ...image data...
 ```
-````

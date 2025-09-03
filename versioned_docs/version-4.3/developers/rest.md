@@ -79,13 +79,12 @@ Generally the POST method can be used for custom actions since POST has the broa
 
 This is handled by the Resource method `post(data)`, which is a good method to extend to make various other types of modifications. Also, with a table you can create a new record without specifying a primary key, for example:
 
-`````http
-````http
+```http
 POST /MyTable/
 Content-Type: application/json
 
-`{ "name": "some data" }`
-`````
+{ "name": "some data" }
+```
 
 This will create a new record, auto-assigning a primary key, which will be returned in the `Location` header.
 
@@ -93,7 +92,7 @@ This will create a new record, auto-assigning a primary key, which will be retur
 
 URL query parameters provide a powerful language for specifying database queries in HarperDB. This can be used to search by a single attribute name and value, to find all records which provide value for the given property/attribute. It is important to note that this attribute must be configured to be indexed to search on it. For example:
 
-````http
+```http
 GET /my-resource/?property=value
 ```
 
@@ -123,7 +122,7 @@ The comparison operators include standard FIQL operators, `lt` (less than), `le`
 GET /Product/?category=software&price=gt=100&price=lt=200
 ```
 
-Comparison operators can also be used on Date fields, however, we have to ensure that the date format is properly escaped. For example, if we are looking for a listing date greater than `2017-03-08T09:00:00.000Z` we must escape the colons as  `%3A`:
+Comparison operators can also be used on Date fields, however, we have to ensure that the date format is properly escaped. For example, if we are looking for a listing date greater than `2017-03-08T09:00:00.000Z` we must escape the colons as `%3A`:
 
 ```
 GET /Product/?listDate=gt=2017-03-08T09%3A30%3A00.000Z
@@ -138,38 +137,49 @@ GET /Product/?name==Keyboard*
 Note that some HTTP clients may be overly aggressive in encoding query parameters, and you may need to disable extra encoding of query parameters, to ensure operators are passed through without manipulation.
 
 Here is a full list of the supported FIQL-style operators/comparators:
-* `==`: equal
-* `=lt=`: less than
-* `=le=`: less than or equal
-* `=gt=`: greater than
-* `=ge=`: greater than or equal
-* `=ne=`, !=: not equal
-* `=ct=`: contains the value (for strings)
-* `=sw=`, `==<value>*`: starts with the value (for strings)
-* `=ew=`: ends with the value (for strings)
-* `=`, `===`: strict equality (no type conversion)
-* `!==`: strict inequality (no type conversion)
+
+- `==`: equal
+- `=lt=`: less than
+- `=le=`: less than or equal
+- `=gt=`: greater than
+- `=ge=`: greater than or equal
+- `=ne=`, !=: not equal
+- `=ct=`: contains the value (for strings)
+- `=sw=`, `==<value>*`: starts with the value (for strings)
+- `=ew=`: ends with the value (for strings)
+- `=`, `===`: strict equality (no type conversion)
+- `!==`: strict inequality (no type conversion)
 
 ### Unions
+
 Conditions can also be applied with `OR` logic, returning the union of records that match either condition. This can be specified by using the `|` operator instead of `&`. For example, to return any product a rating of `5` _or_ a `featured` attribute that is `true`, we could write:
+
 ```http
 GET /Product/?rating=5|featured=true
 ```
 
 ### Grouping of Operators
+
 Multiple conditions with different operators can be combined with grouping of conditions to indicate the order of operation. Grouping conditions can be done with parenthesis, with standard grouping conventions as used in query and mathematical expressions. For example, a query to find products with a rating of 5 OR a price between 100 and 200 could be written:
+
 ```http
 GET /Product/?rating=5|(price=gt=100&price=lt=200)
 ```
+
 Grouping conditions can also be done with square brackets, which function the same as parenthesis for grouping conditions. The advantage of using square brackets is that you can include user provided values that might have parenthesis in them, and use standard URI component encoding functionality, which will safely escape/encode square brackets, but not parenthesis. For example, if we were constructing a query for products with a rating of a 5 and matching one of a set of user provided tags, a query could be built like:
+
 ```http
 GET /Product/?rating=5&[tag=fast|tag=scalable|tag=efficient]
 ```
+
 And the tags could be safely generated from user inputs in a tag array like:
+
 ```javascript
-let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`
+let url = `/Product/?rating=5[${tags.map(encodeURIComponent).join('|')}]`;
 ```
+
 More complex queries can be created by further nesting groups:
+
 ```http
 GET /Product/?price=lt=100|[rating=5&[tag=fast|tag=scalable|tag=efficient]&inStock=true]
 ```
@@ -182,11 +192,11 @@ HarperDB has several special query functions that use "call" syntax. These can b
 
 This function allows you to specify which properties should be included in the responses. This takes several forms:
 
-* `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
-* `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
-* `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
-* `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
-* `?select(property{subProperty1,subProperty2{subSubProperty,..}},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
+- `?select(property)`: This will return the values of the specified property directly in the response (will not be put in an object).
+- `?select(property1,property2)`: This returns the records as objects, but limited to the specified properties.
+- `?select([property1,property2,...])`: This returns the records as arrays of the property values in the specified properties.
+- `?select(property1,)`: This can be used to specify that objects should be returned with the single specified property.
+- `?select(property{subProperty1,subProperty2{subSubProperty,..}},...)`: This can be used to specify which sub-properties should be included in nested objects and joined/references records.
 
 To get a list of product names with a category of software:
 
@@ -209,19 +219,25 @@ GET /Product/?rating=gt=3&inStock=true&select(rating,name)&limit(20)
 This function allows you to indicate the sort order for the returned results. The argument for `sort()` is one or more properties that should be used to sort. If the property is prefixed with '+' or no prefix, the sort will be performed in ascending order by the indicated attribute/property. If the property is prefixed with '-', it will be sorted in descending order. If the multiple properties are specified, the sort will be performed on the first property, and for records with the same value for that property, the next property will be used to break the tie and sort results. This tie breaking will continue through any provided properties.
 
 For example, to sort by product name (in ascending order):
+
 ```http
 GET /Product?rating=gt=3&sort(+name)
 ```
+
 To sort by rating in ascending order, then by price in descending order for products with the same rating:
+
 ```http
 GET /Product?sort(+rating,-price)
 ```
 
 # Relationships
+
 HarperDB supports relationships in its data models, allowing for tables to define a relationship with data from other tables (or even itself) through foreign keys. These relationships can be one-to-many, many-to-one, or many-to-many (and even with ordered relationships). These relationships are defined in the schema, and then can easily be queried through chained attributes that act as "join" queries, allowing related attributes to referenced in conditions and selected for returned results.
 
 ## Chained Attributes and Joins
+
 To support relationships and hierarchical data structures, in addition to querying on top-level attributes, you can also query on chained attributes. Most importantly, this provides HarperDB's "join" functionality, allowing related tables to be queried and joined in the results. Chained properties are specified by using dot syntax. In order to effectively leverage join functionality, you need to define a relationship in your schema:
+
 ```graphql
 type Product @table @export {
 	id: ID @primaryKey
@@ -235,35 +251,47 @@ type Brand @table @export {
 	products: [Product] @relationship(to: "brandId")
 }
 ```
+
 And then you could query a product by brand name:
+
 ```http
 GET /Product/?brand.name=Microsoft
 ```
+
 This will query for products for which the `brandId` references a `Brand` record with a `name` of `"Microsoft"`.
 
 The `brand` attribute in `Product` is a "computed" attribute from the foreign key (`brandId`), for the many-to-one relationship to the `Brand`. In the schema above, we also defined the reverse one-to-many relationship from a `Brand` to a `Product`, and we could likewise query that:
+
 ```http
 GET /Brand/?products.name=Keyboard
 ```
+
 This would return any `Brand` with at least one product with a name `"Keyboard"`. Note, that both of these queries are effectively acting as an "INNER JOIN".
 
 ### Chained/Nested Select
+
 Computed relationship attributes are not included by default in query results. However, we can include them by specifying them in a select:
+
 ```http
 GET /Product/?brand.name=Microsoft&select(name,brand)
 ```
+
 We can also do a "nested" select and specify which sub-attributes to include. For example, if we only wanted to include the name property from the brand, we could do so:
+
 ```http
 GET /Product/?brand.name=Microsoft&select(name,brand{name})
 ```
+
 Or to specify multiple sub-attributes, we can comma delimit them. Note that selects can "join" to another table without any constraint/filter on the related/joined table:
+
 ```http
 GET /Product/?name=Keyboard&select(name,brand{name,id})
 ```
+
 When selecting properties from a related table without any constraints on the related table, this effectively acts like a "LEFT JOIN" and will omit the `brand` property if the brandId is `null` or references a non-existent brand.
 
-
 ### Many-to-many Relationships (Array of Foreign Keys)
+
 Many-to-many relationships are also supported, and can easily be created using an array of foreign key values, without requiring the traditional use of a junction table. This can be done by simply creating a relationship on an array-typed property that references a local array of foreign keys. For example, we could create a relationship to the resellers of a product (each product can have multiple resellers, each )
 
 ```graphql
@@ -279,11 +307,15 @@ type Reseller @table {
 	...
 }
 ```
+
 The product record can then hold an array of the reseller ids. When the `reseller` property is accessed (either through code or through select, conditions), the array of ids is resolved to an array of reseller records. We can also query through the resellers relationships like with the other relationships. For example, to query the products that are available through the "Cool Shop":
+
 ```http
 GET /Product/?resellers.name=Cool Shop&select(id,name,resellers{name,id})
 ```
+
 One of the benefits of using an array of foreign key values is that the this can be manipulated using standard array methods (in JavaScript), and the array can dictate an order to keys and therefore to the resulting records. For example, you may wish to define a specific order to the resellers and how they are listed (which comes first, last):
+
 ```http
 PUT /Product/123
 Content-Type: application/json
@@ -293,14 +325,16 @@ Content-Type: application/json
 ```
 
 ### Type Conversion
+
 Queries parameters are simply text, so there are several features for converting parameter values to properly typed values for performing correct searches. For the FIQL comparators, which includes `==`, `!=`, `=gt=`, `=lt=`, `=ge=`, `=gt=`, the parser will perform type conversion, according to the following rules:
-* `name==null`: Will convert the value to `null` for searching.
-* `name==123`: Will convert the value to a number _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
-* `name==true`: Will convert the value to a boolean _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
-* `name==number:123`: Will explicitly convert the value after "number:" to a number.
-* `name==boolean:true`: Will explicitly convert the value after "boolean:" to a boolean.
-* `name==string:some%20text`: Will explicitly keep the value after "string:" as a string (and perform URL component decoding)
-* `name==date:2024-01-05T20%3A07%3A27.955Z`: Will explicitly convert the value after "date:" to a Date object.
+
+- `name==null`: Will convert the value to `null` for searching.
+- `name==123`: Will convert the value to a number _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+- `name==true`: Will convert the value to a boolean _if_ the attribute is untyped (there is no type specified in a GraphQL schema, or the type is specified to be `Any`).
+- `name==number:123`: Will explicitly convert the value after "number:" to a number.
+- `name==boolean:true`: Will explicitly convert the value after "boolean:" to a boolean.
+- `name==string:some%20text`: Will explicitly keep the value after "string:" as a string (and perform URL component decoding)
+- `name==date:2024-01-05T20%3A07%3A27.955Z`: Will explicitly convert the value after "date:" to a Date object.
 
 If the attribute specifies a type (like `Float`) in the schema definition, the value will always be converted to the specified type before searching.
 
@@ -355,4 +389,3 @@ Content-Type: image/gif
 
 ...image data...
 ```
-````
