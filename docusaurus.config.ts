@@ -48,8 +48,7 @@ const config: Config = {
 	// Remove trailing slashes - GitHub Pages handles this fine and makes relative paths intuitive
 	trailingSlash: false,
 
-	// Serve images from the repository root or from env var path
-	staticDirectories: process.env.IMAGES_PATH ? ['static', process.env.IMAGES_PATH] : ['static', '../images'],
+	staticDirectories: ['static'],
 
 	// GitHub pages deployment config.
 	// If you aren't using GitHub pages, you don't need these.
@@ -80,7 +79,7 @@ const config: Config = {
 					}
 				},
 				lastVersion: '4.6',
-				includeCurrentVersion: false,
+				includeCurrentVersion: process.env.NODE_ENV === 'development',
 				versions: {
 					'4.6': {
 						// No banner for 4.6 as its the latest version

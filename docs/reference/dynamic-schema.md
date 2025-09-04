@@ -64,7 +64,7 @@ At this point the table does not have structure beyond what we provided, so the 
 
 **dev.dog**
 
-![](/reference/dynamic_schema_2_create_table.png.webp)
+![](/img/v4.6/reference/dynamic_schema_2_create_table.png.webp)
 
 **Insert Record**
 
@@ -85,7 +85,7 @@ With a single record inserted and new attributes defined, our table now looks li
 
 **dev.dog**
 
-![](/reference/dynamic_schema_3_insert_record.png.webp)
+![](/img/v4.6/reference/dynamic_schema_3_insert_record.png.webp)
 
 Indexes have been automatically created for `dog_name` and `owner_name` attributes.
 
@@ -109,7 +109,7 @@ In this case, there is no change to the schema. Our table now looks like this:
 
 **dev.dog**
 
-![](/reference/dynamic_schema_4_insert_additional_record.png.webp)
+![](/img/v4.6/reference/dynamic_schema_4_insert_additional_record.png.webp)
 
 **Update Existing Record**
 
@@ -130,7 +130,7 @@ Now we have a new attribute called `weight_lbs`. Our table now looks like this:
 
 **dev.dog**
 
-![](/reference/dynamic_schema_5_update_existing_record.png.webp)
+![](/img/v4.6/reference/dynamic_schema_5_update_existing_record.png.webp)
 
 **Query Table with SQL**
 
@@ -145,4 +145,4 @@ Now if we query for all records where `weight_lbs` is `null` we expect to get ba
 
 This results in the expected two records being returned.
 
-![](/reference/dynamic_schema_6_query_table_with_sql.png.webp)
+![](/img/v4.6/reference/dynamic_schema_6_query_table_with_sql.png.webp)

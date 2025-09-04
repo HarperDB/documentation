@@ -209,9 +209,9 @@ class BreedSource extends Resource {
 Breed.sourcedFrom(BreedSource, { expiration: 3600 });
 ```
 
-The [caching documentation](caching) provides much more information on how to use Harper's powerful caching capabilities and set up data sources.
+The [caching documentation](applications/caching) provides much more information on how to use Harper's powerful caching capabilities and set up data sources.
 
-Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../reference/globals) and the [Resource interface](../../reference/resource).
+Harper provides a powerful JavaScript API with significant capabilities that go well beyond a "getting started" guide. See our documentation for more information on using the [`globals`](../../reference/globals) and the [Resource interface](../../reference/resources).
 
 ## Configuring Applications/Components
 
@@ -221,7 +221,7 @@ For complete information of configuring applications, refer to the [Component Co
 
 Exporting resource will generate full RESTful endpoints. But, you may prefer to define endpoints through a framework. Harper includes a resource plugin for defining routes with the Fastify web framework. Fastify is a full-featured framework with many plugins, that provides sophisticated route definition capabilities.
 
-By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](define-routes) for more information on how to create Fastify routes.
+By default, applications are configured to load any modules in the `routes` directory (matching `routes/*.js`) with Fastify's autoloader, which will allow these modules to export a function to define fastify routes. See the [defining routes documentation](applications/define-routes) for more information on how to create Fastify routes.
 
 However, Fastify is not as fast as Harper's RESTful endpoints (about 10%-20% slower/more-overhead), nor does it automate the generation of a full uniform interface with correct RESTful header interactions (for caching control), so generally the Harper's REST interface is recommended for optimum performance and ease of use.
 
