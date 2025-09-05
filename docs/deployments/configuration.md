@@ -709,7 +709,7 @@ logging:
     logSuccessful: false
 ```
 
-## Defining Separate Logging Configurations
+#### Defining Separate Logging Configurations
 
 Harper's logger supports defining multiple logging configurations for different components in the system. Each logging configuration can be assigned its own `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`. All logging defaults to the configuration of the "main" logger as configured above, but when logging is configured for different loggers, they will use their own configuration. Separate loggers can be defined:
 
