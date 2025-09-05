@@ -709,7 +709,7 @@ logging:
     logSuccessful: false
 ```
 
-## Defining Separate Logging Configurations
+#### Defining Separate Logging Configurations
 
 Harper's logger supports defining multiple logging configurations for different components in the system. Each logging configuration can be assigned its own `path` (or `root`), `level`, `tag`, and flag to enable/disable logging to `stdStreams`. All logging defaults to the configuration of the "main" logger as configured above, but when logging is configured for different loggers, they will use their own configuration. Separate loggers can be defined:
 
@@ -1221,6 +1221,26 @@ Using the API:
 		}
 	]
 }
+```
+
+### analytics
+
+`analytics_aggregatePeriod` - _Type_: number; _Default_: 60 (seconds)
+
+This defines how often recorded metrics in the `system.hdb_raw_analytics` table are aggregated into the `system.hdb_analytics` table. The analytics operations in the operations API exclusively use the aggregated analytics.
+
+```yaml
+analytics:
+  aggregatePeriod: 60
+```
+
+`analytics_replicate` - _Type_: boolean; _Default_: false
+
+This defines whether or not the aggregated analytics data in `system.hdb_analytics` should be replicated to the rest of the cluster.
+
+```yaml
+analytics:
+  replicate: true
 ```
 
 ---
