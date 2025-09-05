@@ -1223,6 +1223,26 @@ Using the API:
 }
 ```
 
+### analytics
+
+`analytics_aggregatePeriod` - _Type_: number; _Default_: 60 (seconds)
+
+This defines how often recorded metrics in the `system.hdb_raw_analytics` table are aggregated into the `system.hdb_analytics` table. The analytics operations in the operations API exclusively use the aggregated analytics.
+
+```yaml
+analytics:
+  aggregatePeriod: 60
+```
+
+`analytics_replicate` - _Type_: boolean; _Default_: false
+
+This defines whether or not the aggregated analytics data in `system.hdb_analytics` should be replicated to the rest of the cluster.
+
+```yaml
+analytics:
+  replicate: true
+```
+
 ---
 
 ### Components
