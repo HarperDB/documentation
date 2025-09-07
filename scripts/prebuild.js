@@ -68,3 +68,7 @@ export default function Home(): JSX.Element {
 	fs.writeFileSync(indexPagePath, redirectContent);
 	console.log(`Created index redirect to ${routeBasePath}`);
 }
+
+// Generate release notes data
+console.log('Generating release notes data...');
+require('./generateReleaseNotesData')();
