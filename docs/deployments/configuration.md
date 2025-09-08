@@ -100,6 +100,10 @@ Limit the amount of time the parser will wait to receive the complete HTTP heade
 
 The maximum allowed size of HTTP headers in bytes.
 
+`requestQueueLimit` - _Type_: integer; _Default_: 20000
+
+The maximum estimated request queue time, in milliseconds. When the queue is above this limit, requests will be rejected with a 503.
+
 `keepAliveTimeout` - _Type_: integer; _Default_: 30,000 milliseconds (30 seconds)
 
 Sets the number of milliseconds of inactivity the server needs to wait for additional incoming data after it has finished processing the last response.
