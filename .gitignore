@@ -11,6 +11,9 @@ build
 # Root index page is conditionally generated if docs is not at the root
 /src/pages/index.tsx
 
+# Generated release notes data
+/release-notes-data.json
+
 # Misc
 .DS_Store
 .env.local
