@@ -28,5 +28,5 @@ export default function LatestPatchLink({ major, minor, label }: LatestPatchLink
 	const href = `/release-notes/v${major}-${releaseData.pupName.toLowerCase()}/${latestPatch}`;
 	const displayLabel = label || `${major}.${minor}`;
 
-	return <a href={href}>[{displayLabel}]</a>;
+	return <a href={href}>{displayLabel}</a>;
 }
