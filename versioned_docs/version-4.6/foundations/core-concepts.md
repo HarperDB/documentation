@@ -1,8 +1,8 @@
 ---
-title: Harper Concepts
+title: Core Concepts
 ---
 
-# Harper Concepts
+# Core Concepts
 
 As you begin your journey with Harper, there are a few concepts and definitions that you should understand.
 
@@ -19,6 +19,18 @@ Applications are a subset of components that cannot be used directly and must de
 ## Resources
 
 Resources in Harper encompass databases, tables, and schemas that store and structure data within the system. The concept is central to Harper's data management capabilities, with custom resources being enabled by the built-in jsResource extension. Resources represent the data layer of the Harper ecosystem and provide the foundation for data operations across applications built with the platform.
+
+## Extensions
+Extensions are the building blocks of the Harper component system. Applications depend on extensions to provide the functionality the application is implementing. For example, the built-in `graphqlSchema` extension enables applications to define their databases and tables using GraphQL schemas. Furthermore, the `@harperdb/nextjs` and `@harperdb/apollo` extensions are the building blocks that provide support for building Next.js and Apollo applications.
+
+All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
+
+Extensions can also depend on other extensions. For example, the `@harperdb/apollo` extension depends on the built-in `graphqlSchema` extension to create a cache table for Apollo queries. Applications can then use the `@harperdb/apollo` extension to implement an Apollo GraphQL backend server.
+
+## Plugins
+Plugins are a new iteration of the existing extension system. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (start vs startOnMainThread, handleFile vs setupFile, handleDirectory vs setupDirectory), plugins only have to define a single handleApplication method. Plugins are experimental, and complete documentation is available on the [plugin API](../reference/components/plugins.md) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
+
+
 
 ## Server
 

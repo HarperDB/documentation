@@ -125,10 +125,14 @@ docker logs <container_id>
 
 Once verified, you can access your Harper instance by opening your web browser and navigating to [http://localhost:9925](http://localhost:9925) (or the appropriate port based on your configuration).
 
-### Raw binary installation
+## Raw binary installation
 
-There's a different way to install Harper. You can choose your version and download the npm package and install it directly (you’ll still need Node.js and NPM). Click [this link](https://products-harperdb-io.s3.us-east-2.amazonaws.com/index.html) to download and install the package. Once you’ve downloaded the .tgz file, run the following command from the directory where you’ve placed it:
+You can choose your version and download the npm package and install it directly (you’ll still need Node.js and NPM). Click [this link](https://products-harperdb-io.s3.us-east-2.amazonaws.com/index.html) to download and install the package. Once you’ve downloaded the .tgz file, run the following command from the directory where you’ve placed it:
 
 ```bash
 npm install -g harperdb-X.X.X.tgz harperdb install
 ```
+
+:::info
+Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
+:::
