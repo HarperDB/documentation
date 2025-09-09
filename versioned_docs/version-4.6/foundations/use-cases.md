@@ -4,19 +4,57 @@ title: Harper Use Cases
 
 # Harper Use Cases
 
-With so much functionality built in, the use cases span nearly all application systems. Some of the most popular are listed below, motivated by new levels of performance and system simplicity.
+Harper is designed to cut out infrastructure complexity so you can move faster.  
+Here are some common ways developers use Harper in production today — each one showing how Harper’s architecture translates into real-world outcomes.
 
-### Online Catalogs & Content Delivery
+---
 
-For use cases like e-commerce, real estate listing, and content-oriented sites, Harper’s breakthroughs in performance and distribution pay dividends in the form of better SEO and higher conversion rates. One common implementation leverages Harper’s [Next.js Component](https://github.com/HarperDB/nextjs) to host modern, performant frontend applications. Other implementations leverage the built-in caching layer and JavaScript application system to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache) that remain fully responsive because of built-in WebSocket connections.
+## Online Catalogs & Content Delivery
 
-### Data Delivery Networks
+**Great for:** e-commerce sites, real estate listings, media & content platforms.  
 
-For use cases like real-time sports updates, flight tracking, and zero-day software update distribution, Harper is rapidly gaining popularity. Harper’s ability to receive and broadcast messages while simultaneously handling application logic and data storage streamlines operations and eliminates the need for multiple separate systems. To build an understanding of our messaging system function, refer to our [real-time documentation](../developers/real-time).
+Harper’s distributed architecture makes your pages load fast worldwide, improving **SEO** and **conversion rates**.  
 
-### Edge Inference Systems
+- Host your frontend directly with the [Next.js Component](https://github.com/HarperDB/nextjs).  
+- Use Harper’s built-in caching + JavaScript layer to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache).  
+- Keep pages instantly fresh with built-in **WebSocket connections**.  
 
-Capturing, storing, and processing real-time data streams from client and IoT systems typically requires a stack of technology. Harper’s selective data replication and self-healing connections make for an ideal multi-tier system where edge and cloud systems both run Harper, making everything more performant.
+:::info
+💡 **Why it matters:** Instead of stitching together CDN + DB + API layers, you deliver catalog and content experiences from a single platform.
+:::
 
-[We’re happy](https://www.harpersystems.dev/contact) to walk you through how to do this.
+---
 
+## Data Delivery Networks
+
+**Great for:** live sports updates, flight tracking, software updates.  
+
+Harper combines **messaging**, **data storage**, and **application logic** in one system. That means:  
+- Push real-time updates directly to clients.  
+- Process and store data without leaving Harper.  
+- Eliminate extra message brokers or caching systems.  
+
+Explore the [real-time docs](../developers/real-time) to see how it works.  
+
+:::info
+💡 **Why it matters:** You can build real-time data services in hours, not weeks, with fewer moving parts to manage.
+:::
+
+---
+
+## Edge Inference Systems
+
+**Great for:** IoT pipelines, sensor networks, edge AI.  
+
+Normally, capturing and analyzing streams at the edge requires a patchwork of tools. Harper simplifies this with:  
+- **Selective replication** between edge and cloud.  
+- **Self-healing connections** that keep data flowing even in flaky environments.  
+- The same Harper runtime running at both layers.  
+
+:::info
+💡 **Why it matters:** One consistent stack across edge and cloud makes AI/ML inference faster, cheaper, and easier to scale.
+:::
+
+---
+
+✅ Want to explore more? [Contact us](https://www.harpersystems.dev/contact) and we’ll walk you through building your own use case.

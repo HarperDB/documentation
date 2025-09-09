@@ -4,58 +4,90 @@ title: Harper Architecture
 
 # Harper Architecture
 
-For conceptual definitions of components, applications, extensions, and other Harper Concepts, [see this page](../foundations/core-concepts.md).
+Before diving deep into APIs and configuration, it helps to understand the big picture of how Harper works.  
+Harper uses a **three-layer architecture** designed for distributed, edge-first computing. Each layer builds on the next, letting you start simple and scale as your app grows.
 
-Harper employs a three-layer architecture designed for distributed edge computing. Each layer serves a distinct purpose: core services provide essential platform capabilities, extensions offer reusable middleware components, and applications deliver complete user-facing functionality.
-
-This layered approach enables developers to build complex data applications without managing low-level infrastructure concerns. Applications focus on business logic while leveraging extensions that handle common patterns. Extensions, in turn, build upon optimized core services that manage fundamental operations like data storage, networking, and file handling.
-
-The architecture's strength lies in its composition model. Applications declare dependencies on extensions, which automatically provide access to the core services they need. This creates clean separation of concerns while enabling powerful combinations of functionality through simple dependency declarations.
-
-
-<!-- ADD IMAGE -->
 ![](/img/v4.6/harper-architecture.png)
+
+At a high level:  
+- **Core services** handle data, networking, and files.  
+- **Extensions** layer in reusable features (REST, GraphQL, Next.js, etc.).  
+- **Applications** bring everything together to deliver user-facing functionality.  
+
+:::info
+💡 **Why it matters:** You focus on building your app, while Harper takes care of scaling, networking, and consistency behind the scenes.
+:::
+
+---
 
 ## Core Services
 
-Harper provides three core services that form the foundation:
+Harper ships with three essential services:
 
-- **database**: Data storage, retrieval, and transaction management
-- **networking**: HTTP/HTTPS server, request handling, and inter-node communication
-- **file-system**: File operations and static asset serving
+- **Database** → Fast storage, queries, and transactions.  
+- **Networking** → REST/HTTP, WebSockets, MQTT, and cluster communication.  
+- **File system** → File operations and serving static assets.  
 
+Think of these as Harper’s foundation—every extension and app builds on them.
 
-## Component Architecture
-### Applications
+---
 
-Applications are the top layer and represent the implementation of specific user-facing features. They depend on extensions to provide the functionality they need. Examples include Next.js applications that serve web interfaces or Apollo GraphQL servers that provide GraphQL APIs.
+## Applications & Extensions
 
-### Extensions
+Most of your work will happen here.  
 
-Extensions provide the support for implementing features and serve as building blocks for applications. They can depend on other extensions. For example, `@harperdb/apollo` depends on `graphqlSchema` to create cache tables for Apollo queries.
+### Applications  
+Applications sit at the top layer. They’re where you implement user-facing features. Examples:  
+- A **Next.js app** served directly from Harper.  
+- An **Apollo GraphQL server** exposing APIs.  
 
-Components are classified as either built-in (included with Harper) or custom (external packages).
+Applications don’t re-invent core logic—they declare the extensions they need.
 
-| **Component** | **Type** | **Purpose** | **Dependencies** |
-|----------|----------|----------|----------|
-| graphqlSchema    | Built-in Extension    | Schema-driven database design   | database    |
-| jsResource    | Built-in Extension   | Custom JavaScript resources   | database    |
-|rest    | Built-in Extension    |RESTful endpoint generation    | networking    |
-| @harperdb/nextjs   | Custom Extension   | Next.js framework support    | networking, file-system    |
-| @harperdb/apollo    | Custom Extension    | Apollo GraphQL server    | graphqlSchema, networking    |
+### Extensions  
+Extensions are Harper’s plug-in modules. They add reusable features to applications and can depend on each other.  
 
+| **Component**      | **Type**             | **What it adds**               | **Built on**             |
+|--------------------|----------------------|--------------------------------|--------------------------|
+| `graphqlSchema`    | Built-in Extension   | Define schemas + tables        | database                 |
+| `jsResource`       | Built-in Extension   | Custom JS resources            | database                 |
+| `rest`             | Built-in Extension   | Auto-generate REST endpoints   | networking               |
+| `@harperdb/nextjs` | Custom Extension     | Run Next.js apps               | networking, file-system  |
+| `@harperdb/apollo` | Custom Extension     | Apollo GraphQL APIs            | graphqlSchema, networking |
+
+:::info
+💡 **Why it matters:** With extensions, you can snap in major capabilities in minutes (like REST APIs or GraphQL), instead of writing server code from scratch.
+:::
+
+---
 
 ## Resource API
 
-Harper's Resource API provides a unified interface for data access. Resources correspond to HTTP methods:
+At the heart of Harper is the **Resource API**. It gives you a unified, consistent way to interact with data.  
 
-- `get()` - retrieve data
-- `post()` - create data or custom actions
-- `put()` - replace data
-- `patch()` - update data
+- `get()` → fetch data  
+- `post()` → create data or trigger actions  
+- `put()` → replace existing data  
+- `patch()` → update part of a record  
 
-Resource methods are automatically wrapped in transactions and committed when the method completes. This enables consistent multi-table operations and automatic change tracking.
+Every call is wrapped in a transaction, so multi-table operations stay consistent without extra boilerplate.  
+
+:::info
+💡 **Why it matters:** You can build reliable features—like signups, payments, or analytics—without hand-rolling transaction logic.
+:::
+
+---
 
 ## Transaction Model
 
-All HTTP requests operate within automatic transaction contexts. Resource methods can access multiple tables with guaranteed consistency through shared database snapshots. Changes are tracked automatically and committed together when the request completes successfully.
+All requests run inside automatic transactions:  
+- Read/write across multiple tables in a single request.  
+- Automatic change tracking.  
+- Guaranteed consistency at commit.  
+
+:::info
+💡 **Why it matters:** You don’t have to think about database race conditions or half-finished writes—Harper guarantees integrity by default.
+:::
+
+---
+
+✅ With this architecture in mind, you can see how Harper scales from “hello world” to complex, distributed applications. Next, try putting it into practice by [building your first app](../developers/applications/).

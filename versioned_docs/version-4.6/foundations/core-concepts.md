@@ -4,39 +4,70 @@ title: Core Concepts
 
 # Core Concepts
 
-As you begin your journey with Harper, there are a few concepts and definitions that you should understand.
+Before you build your first app with Harper, it helps to understand a few key ideas. These concepts show you how Harper is structured and why it’s flexible enough to power everything from a quick proof-of-concept to a production-ready platform.
 
 ## Components
 
-Harper components are a core Harper concept defined as flexible JavaScript based extensions of the highly extensible core Harper platform. They are executed by Harper directly and have complete access to the Harper [Global APIs](../reference/globals) (such as Resource, databases, and tables).
+Think of **components** as the building blocks of Harper.  
+They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).  
 
-A key aspect to components are their extensibility; components can be built on other components. For example, a [Harper Application](../developers/applications/) is a component that uses many other components. The [application template](https://github.com/HarperDB/application-template) demonstrates many of Harper's built-in components such as [rest](../reference/components/built-in-extensions#rest) (for automatic REST endpoint generation), [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) (for table schema definitions), and many more.
+Because components can build on top of each other, they give you composability. For example, a [Harper Application](../developers/applications/) is itself a component, combining smaller pieces like the [rest](../reference/components/built-in-extensions#rest) component for automatic REST APIs and the [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) component for defining tables.  
+
+:::info
+💡 **Why it matters:** Instead of wiring up a backend from scratch, you can piece together pre-built functionality and get to working endpoints fast.  
+:::
 
 ## Applications
 
-Applications are a subset of components that cannot be used directly and must depend on other extensions. Examples include defining schemas (using [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) built-in extension), defining custom resources (using [jsResource](../reference/components/built-in-extensions#jsresource) built-in extension), hosting static files (using [static](../reference/components/built-in-extensions#static) built-in extension), enabling REST querying of resources (using [rest](../reference/components/built-in-extensions#rest) built-in extension), and running [Next.js](https://github.com/HarperDB/nextjs), [Astro](https://github.com/HarperDB/astro), or [Apollo](https://github.com/HarperDB/apollo) applications through their respective extensions.
+An **application** is a special kind of component that pulls everything together.  
+Applications rely on extensions to do the work:  
+- Use `graphqlSchema` to define your data tables.  
+- Add `rest` to query that data instantly.  
+- Plug in `static` to serve files or front-end assets.  
+
+You can even run full frameworks like [Next.js](https://github.com/HarperDB/nextjs) or [Apollo](https://github.com/HarperDB/apollo) as Harper applications.  
+
+:::info
+💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch resources, APIs, and UI in one place.
+:::
 
 ## Resources
 
-Resources in Harper encompass databases, tables, and schemas that store and structure data within the system. The concept is central to Harper's data management capabilities, with custom resources being enabled by the built-in jsResource extension. Resources represent the data layer of the Harper ecosystem and provide the foundation for data operations across applications built with the platform.
+**Resources** are Harper’s data layer—databases, tables, and schemas. They’re where your app’s data lives. You can define them with GraphQL, extend them with JavaScript, and expose them through any Harper server protocol.  
+
+:::info
+💡 **Why it matters:** Whether you’re building SaaS or content apps, everything starts with structured, queryable data. Resources are how Harper manages it.
+:::
 
 ## Extensions
-Extensions are the building blocks of the Harper component system. Applications depend on extensions to provide the functionality the application is implementing. For example, the built-in `graphqlSchema` extension enables applications to define their databases and tables using GraphQL schemas. Furthermore, the `@harperdb/nextjs` and `@harperdb/apollo` extensions are the building blocks that provide support for building Next.js and Apollo applications.
 
-All together, the support for implementing a feature is the extension, and the actual implementation of the feature is the application.
+**Extensions** add features to your applications. Some common ones:  
+- `graphqlSchema` for database and table definitions.  
+- `@harperdb/nextjs` for Next.js integration.  
+- `@harperdb/apollo` for an Apollo GraphQL backend.  
 
-Extensions can also depend on other extensions. For example, the `@harperdb/apollo` extension depends on the built-in `graphqlSchema` extension to create a cache table for Apollo queries. Applications can then use the `@harperdb/apollo` extension to implement an Apollo GraphQL backend server.
+Extensions can depend on each other, so you can layer functionality.  
 
-## Plugins
-Plugins are a new iteration of the existing extension system. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (start vs startOnMainThread, handleFile vs setupFile, handleDirectory vs setupDirectory), plugins only have to define a single handleApplication method. Plugins are experimental, and complete documentation is available on the [plugin API](../reference/components/plugins.md) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
+:::info
+💡 **Why it matters:** Instead of reinventing the wheel, you extend Harper with what you need and focus on your business logic.
+:::
 
+## Plugins (Experimental)
 
+**Plugins** are the next evolution of extensions—lighter, simpler, and more powerful. They’re still experimental, but they’ll eventually replace extensions. You can explore the [plugin API](../reference/components/plugins.md) if you’re curious.  
+
+:::info
+💡 **Why it matters:** Plugins reduce boilerplate and make it easier to extend Harper with custom behavior.
+:::
 
 ## Server
 
-Harper is a multi-protocol server, handling incoming requests from clients and serving data from the data model. Harper supports multiple server protocols, with components for serving REST/HTTP (including Server-Sent Events), MQTT, WebSockets, and the Operations API (and custom server components can be added). Harper uses separate layers for the data model and the servers. The data model, which is defined with resources, can be exported and be used as the source for any of the servers. A single table or other resource can then be accessed and modified through REST, MQTT, SSE, or any other server protocol, for a powerful integrated model with multiple forms of access.
-Networking in Harper handles different communication protocols including HTTP, WebSocket, and MQTT, as well as event-driven systems. These networking capabilities enable Harper applications to communicate with other services, receive requests, send responses, and participate in real-time data exchange. The networking layer is fundamental to Harper's functionality as a versatile application platform.
+At the edge of Harper is the **server layer**, which connects your data to the outside world. Harper supports REST/HTTP, WebSockets, MQTT, and more. A single resource can be available through multiple protocols at once—so the same table can power a real-time dashboard, a mobile app, and a backend API.  
 
-\_\_
+:::info
+💡 **Why it matters:** You don’t have to choose between protocols. One data model, many ways to access it. 
+::: 
 
-As you go through Harper, you will pick up more knowledge of other advanced areas along the way, but with these concepts, you're now ready to create your first application.
+---
+
+✅ With these concepts in mind, you’re ready to [build your first application](../getting-started/quickstart.md). That’s where you’ll see how Components, Resources, and Extensions come together in practice.
