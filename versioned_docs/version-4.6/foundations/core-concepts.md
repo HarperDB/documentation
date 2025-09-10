@@ -28,7 +28,7 @@ Applications rely on extensions to do the work:
 You can even run full frameworks like [Next.js](https://github.com/HarperDB/nextjs) or [Apollo](https://github.com/HarperDB/apollo) as Harper applications.  
 
 :::info
-💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch resources, APIs, and UI in one place.
+💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch together resources, APIs, and UI in one place.
 :::
 
 ## Resources
