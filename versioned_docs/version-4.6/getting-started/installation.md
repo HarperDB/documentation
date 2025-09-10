@@ -30,7 +30,7 @@ The first time, you’ll set up your destination, username, password, and config
 curl http://localhost:9925/health
 ```
 :::info
-💡 Why choose NPM: It’s the simplest way to try Harper and build apps right from your laptop.
+💡 Why choose npm: It’s the simplest way to try Harper and build apps right from your laptop.
 :::
 
 ## Install with Docker
