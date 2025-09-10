@@ -11,7 +11,7 @@ Before you build your first app with Harper, it helps to understand a few key id
 **Components** are the building blocks of Harper.  
 They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).  
 
-Because components can build on top of each other, they give you composability. For example, a [Harper Application](../developers/applications/) is itself a component, combining smaller pieces like the [rest](../reference/components/built-in-extensions#rest) component for automatic REST APIs and the [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) component for defining tables.  
+Because components can build on top of each other, they give you composability. For example, a [Harper Application](../developers/applications/) is itself a component, combining smaller pieces like the [rest](../reference/components/built-in-extensions#rest) component extension for automatic REST APIs and the [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) component extension for defining tables.  
 
 :::info
 💡 **Why it matters:** Instead of wiring up a backend from scratch, you can piece together pre-built functionality and get to working endpoints fast.  
