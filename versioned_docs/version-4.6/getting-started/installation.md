@@ -7,7 +7,7 @@ title: Install Harper
 You can get Harper running in minutes.  
 Choose the option that fits your workflow:  
 
-- **NPM** → best for local development & quick starts.  
+- **npm** → best for local development & quick starts.  
 - **Docker** → best for containerized environments and team setups.  
 - **Raw binary** → best if you need a manual or offline install.  
 
