@@ -13,7 +13,7 @@ Choose the option that fits your workflow:
 
 ---
 
-## Install with NPM (fastest way)
+## Install with npm (fastest way)
 
 Make sure you have [Node.js](https://nodejs.org/) (LTS or newer). Then run:
 
