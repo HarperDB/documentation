@@ -230,21 +230,25 @@ const config: Config = {
 	],
 
 	themes: [
-		[
-			require.resolve('@easyops-cn/docusaurus-search-local'),
-			{
-				hashed: true,
-				language: ['en'],
-				indexDocs: true,
-				indexBlog: false,
-				indexPages: false,
-				docsRouteBasePath: routeBasePath,
-				highlightSearchTermsOnTargetPage: true,
-				searchResultLimits: 8,
-				// Explicitly set the search bar position
-				searchBarPosition: 'right',
-			},
-		],
+		// Use Algolia search in production when env vars are set, otherwise use local search
+		...(process.env.NODE_ENV === 'production' && process.env.ALGOLIA_APP_ID && process.env.ALGOLIA_SEARCH_KEY
+			? ['@docusaurus/theme-search-algolia']
+			: [
+					[
+						require.resolve('@easyops-cn/docusaurus-search-local'),
+						{
+							hashed: true,
+							language: ['en'],
+							indexDocs: true,
+							indexBlog: false,
+							indexPages: true,
+							docsRouteBasePath: routeBasePath,
+							highlightSearchTermsOnTargetPage: true,
+							searchResultLimits: 8,
+							searchBarPosition: 'right',
+						},
+					],
+				]),
 		'@docusaurus/theme-mermaid',
 	],
 
@@ -255,6 +259,15 @@ const config: Config = {
 	themeConfig: {
 		// Project's social card
 		image: 'img/HarperOpenGraph.png',
+		// Algolia search configuration (only used when Algolia theme is active)
+		algolia: {
+			appId: process.env.ALGOLIA_APP_ID || '',
+			apiKey: process.env.ALGOLIA_SEARCH_KEY || '',
+			indexName: process.env.ALGOLIA_INDEX_NAME || 'harper-docs',
+			contextualSearch: true,
+			searchPagePath: 'search',
+			searchParameters: {},
+		},
 		navbar: {
 			logo: {
 				alt: 'Harper Logo',
