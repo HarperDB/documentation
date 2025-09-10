@@ -105,10 +105,10 @@ body:
       label: Are you planning to fix this issue?
       description: Let us know if you'd like to contribute the fix!
       options:
+        - 'No, just reporting the issue'
+        - 'Maybe, depending on complexity'
         - "Yes, I'll submit a PR to fix this"
         - "Yes, but I'm a first-time contributor and could use guidance"
-        - 'Maybe, depending on complexity'
-        - 'No, just reporting the issue'
     validations:
       required: true
 
