@@ -147,14 +147,6 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			from: withBase('/custom-functions/debugging-custom-function'),
 			to: withBase('/developers/applications/debugging'),
 		},
-		{ from: withBase('/custom-functions/example-projects'), to: withBase('/developers/applications/example-projects') },
-
-		// Add-ons and SDKs
-		{ from: withBase('/add-ons-and-sdks'), to: withBase('/developers/applications/') },
-		{
-			from: withBase('/add-ons-and-sdks/google-data-studio'),
-			to: withBase('/developers/miscellaneous/google-data-studio'),
-		},
 
 		// SQL Guide
 		{ from: withBase('/sql-guide'), to: withBase('/developers/sql-guide/') },
