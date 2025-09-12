@@ -161,7 +161,9 @@ In this example, the entry handler method passed to `handleEntry` will manage th
 
 This example is heavily simplified, but it demonstrates how the different key parts of `scope` can be used together to provide a performant and reactive application experience.
 
-## Function: `handleApplication(scope: Scope): void | Promise<void>`
+## API
+
+### Function: `handleApplication(scope: Scope): void | Promise<void>`
 
 Parameters:
 
@@ -171,29 +173,29 @@ Returns: `void | Promise<void>`
 
 This is the only method a plugin module must export. It can be async and is awaited by the component loader. The `scope` argument provides access to the relative application's configuration, resources, and other APIs.
 
-## Class: `Scope`
+### Class: `Scope`
 
 - Extends [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
-### Event: `'close'`
+#### Event: `'close'`
 
 Emitted after the scope is closed via the `close()` method.
 
-### Event: `'error'`
+#### Event: `'error'`
 
 - `error` - `unknown` - The error that occurred.
 
-### Event: `'ready'`
+#### Event: `'ready'`
 
 Emitted when the Scope is ready to be used after loading the associated config file. It is awaited by the component loader, so it is not necessary to await it within the `handleApplication()` method.
 
-### `scope.close()`
+#### `scope.close()`
 
 Returns: `this` - The current `Scope` instance.
 
 Closes all associated entry handlers, the associated `scope.options` instance, emits the `'close'` event, and then removes all other listeners on the instance.
 
-### `scope.handleEntry([files][, handler])`
+#### `scope.handleEntry([files][, handler])`
 
 Parameters:
 
@@ -247,7 +249,7 @@ customPlugin:
 
 Then the default `EntryHandler` instances would be created to handle all entries within the `web` directory.
 
-### `scope.requestRestart()`
+#### `scope.requestRestart()`
 
 Returns: `void`
 
@@ -255,15 +257,15 @@ Request a Harper restart. This **does not** restart the instance immediately, bu
 
 This method is called automatically by the `scope` instance if the user has not defined an `scope.options.on('change')` handler or if an event handler exists and is missing a necessary handler method.
 
-### `scope.resources`
+#### `scope.resources`
 
 Returns: `Map<string, Resource>` - A map of the currently loaded [Resource](../globals#resource) instances.
 
-### `scope.server`
+#### `scope.server`
 
 Returns: `server` - A reference to the [server](../globals#server) global API.
 
-### `scope.options`
+#### `scope.options`
 
 Returns: [`OptionsWatcher`](#class-optionswatcher) - An instance of the `OptionsWatcher` class that provides access to the application's configuration options. Emits `'change'` events when the respective plugin part of the component's config file is modified.
 
@@ -293,39 +295,39 @@ Then modifying the `files` option in the `config.yaml` to `bar.js` would log the
 Files option changed to: bar.js
 ```
 
-### `scope.logger`
+#### `scope.logger`
 
 Returns: `logger` - A scoped instance of the [`logger`](../globals#logger) class that provides logging capabilities for the plugin.
 
 It is recommended to use this instead of the `logger` global.
 
-### `scope.name`
+#### `scope.name`
 
 Returns: `string` - The name of the plugin as configured in the `config.yaml` file. This is the key under which the plugin is configured.
 
-### `scope.directory`
+#### `scope.directory`
 
 Returns: `string` - The directory of the application. This is the root directory of the component where the `config.yaml` file is located.
 
-## Interface: `FilesOption`
+### Interface: `FilesOption`
 
 - `string` | `string[]` | [`FilesOptionObject`](#interface-filesoptionobject)
 
-## Interface: `FilesOptionObject`
+### Interface: `FilesOptionObject`
 
 - `source` - `string` | `string[]` - _required_ - The glob pattern string or array of strings.
 - `ignore` - `string` | `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
 
-## Interface: `FileAndURLPathConfig`
+### Interface: `FileAndURLPathConfig`
 
 - `files` - [`FilesOption`](#interface-filesoption) - _required_ - A glob pattern string, array of glob pattern strings, or a more expressive glob options object determining the set of files and directories to be resolved for the plugin.
 - `urlPath` - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries.
 
-## Class: `OptionsWatcher`
+### Class: `OptionsWatcher`
 
 - Extends [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
-### Event: `'change'`
+#### Event: `'change'`
 
 - `key` - `string[]` - The key of the changed option split into parts (e.g. `foo.bar` becomes `['foo', 'bar']`).
 - `value` - [`ConfigValue`](#interface-configvalue) - The new value of the option.
@@ -354,31 +356,31 @@ scope.options.on('change', (key, value, config) => {
 });
 ```
 
-### Event: `'close'`
+#### Event: `'close'`
 
 Emitted when the `OptionsWatcher` is closed via the `close()` method. The watcher is not usable after this event is emitted.
 
-### Event: `'error'`
+#### Event: `'error'`
 
 - `error` - `unknown` - The error that occurred.
 
-### Event: `'ready'`
+#### Event: `'ready'`
 
 - `config` - [`ConfigValue`](#interface-configvalue) | `undefined` - The configuration object of the plugin, if present.
 
 This event can be emitted multiple times. It is first emitted upon the initial load, but will also be emitted after restoring a configuration file or configuration object after a `'remove'` event.
 
-### Event: `'remove'`
+#### Event: `'remove'`
 
 The configuration was removed. This can happen if the configuration file was deleted, the configuration object within the file is deleted, or if the configuration file fails to parse. Once restored, the `'ready'` event will be emitted again.
 
-### `options.close()`
+#### `options.close()`
 
 Returns: `this` - The current `OptionsWatcher` instance.
 
 Closes the options watcher, removing all listeners and preventing any further events from being emitted. The watcher is not usable after this method is called.
 
-### `options.get(key)`
+#### `options.get(key)`
 
 Parameters:
 
@@ -388,37 +390,37 @@ Returns: [`ConfigValue`](#interface-configvalue) | `undefined`
 
 If the config is defined it will attempt to retrieve the value of the option at the specified key. If the key does not exist, it will return `undefined`.
 
-### `options.getAll()`
+#### `options.getAll()`
 
 Returns: [`ConfigValue`](#interface-configvalue) | `undefined`
 
 Returns the entire configuration object for the plugin. If the config is not defined, it will return `undefined`.
 
-### `options.getRoot()`
+#### `options.getRoot()`
 
 Returns: [`Config`](#interface-config) | `undefined`
 
 Returns the root configuration object of the application. This is the entire configuration object, basically the parsed form of the `config.yaml`. If the config is not defined, it will return `undefined`.
 
-### Interface: `Config`
+#### Interface: `Config`
 
 - `[key: string]` [`ConfigValue`](#interface-configvalue)
 
 An object representing the `config.yaml` file configuration.
 
-### Interface: `ConfigValue`
+#### Interface: `ConfigValue`
 
 - `string` | `number` | `boolean` | `null` | `undefined` | `ConfigValue[]` | [`Config`](#interface-config)
 
 Any valid configuration value type. Essentially, the primitive types, an array of those types, or an object comprised of values of those types.
 
-## Class: `EntryHandler`
+### Class: `EntryHandler`
 
 Extends: [`EventEmitter`](https://nodejs.org/docs/latest/api/events.html#class-eventemitter)
 
 Created by calling [`scope.handleEntry()`](#scopehandleentry) method.
 
-### Event: `'all'`
+#### Event: `'all'`
 
 - `entry` - [`FileEntry`](#interface-fileentry) | [`DirectoryEntry`](#interface-directoryentry) - The entry that was added, changed, or removed.
 
@@ -450,67 +452,67 @@ async function handleApplication(scope) {
 }
 ```
 
-### Event: `'add'`
+#### Event: `'add'`
 
 - `entry` - [`AddFileEvent`](#interface-addfileevent) - The file entry that was added.
 
 The `'add'` event is emitted when a file is created (or the watcher sees it for the first time). The event handler receives an `AddFileEvent` object that contains the file contents, URL path, absolute path, and other metadata.
 
-### Event: `'addDir'`
+#### Event: `'addDir'`
 
 - `entry` - [`AddDirectoryEvent`](#interface-adddirectoryevent) - The directory entry that was added.
 
 The `'addDir'` event is emitted when a directory is created (or the watcher sees it for the first time). The event handler receives an `AddDirectoryEvent` object that contains the URL path and absolute path of the directory.
 
-### Event: `'change'`
+#### Event: `'change'`
 
 - `entry` - [`ChangeFileEvent`](#interface-changefileevent) - The file entry that was changed.
 
 The `'change'` event is emitted when a file is modified. The event handler receives a `ChangeFileEvent` object that contains the updated file contents, URL path, absolute path, and other metadata.
 
-### Event: `'close'`
+#### Event: `'close'`
 
 Emitted when the entry handler is closed via the [`entryHandler.close()`](#entryhandlerclose) method.
 
-### Event: `'error'`
+#### Event: `'error'`
 
 - `error` - `unknown` - The error that occurred.
 
-### Event: `'ready'`
+#### Event: `'ready'`
 
 Emitted when the entry handler is ready to be used. This is not automatically awaited by the component loader, but also is not required. Calling `scope.handleEntry()` is perfectly sufficient. This is generally useful if you need to do something _after_ the entry handler is absolutely watching and handling entries.
 
-### Event: `'unlink'`
+#### Event: `'unlink'`
 
 - `entry` - [`UnlinkFileEvent`](#interface-unlinkfileevent) - The file entry that was deleted.
 
 The `'unlink'` event is emitted when a file is deleted. The event handler receives an `UnlinkFileEvent` object that contains the URL path and absolute path of the deleted file.
 
-### Event: `'unlinkDir'`
+#### Event: `'unlinkDir'`
 
 - `entry` - [`UnlinkDirectoryEvent`](#interface-unlinkdirectoryevent) - The directory entry that was deleted.
 
 The `'unlinkDir'` event is emitted when a directory is deleted. The event handler receives an `UnlinkDirectoryEvent` object that contains the URL path and absolute path of the deleted directory.
 
-### `entryHandler.name`
+#### `entryHandler.name`
 
 Returns: `string` - The name of the plugin as configured in the `config.yaml` file. This is the key under which the plugin is configured.
 
 The name of the plugin.
 
-### `entryHandler.directory`
+#### `entryHandler.directory`
 
 Returns: `string`
 
 The directory of the application. This is the root directory of the component where the `config.yaml` file is located.
 
-### `entryHandler.close()`
+#### `entryHandler.close()`
 
 Returns: `this` - The current `EntryHandler` instance.
 
 Closes the entry handler, removing all listeners and preventing any further events from being emitted. The handler can be started again using the [`entryHandler.update()`](#entryhandlerupdateconfig) method.
 
-### `entryHandler.update(config)`
+#### `entryHandler.update(config)`
 
 Parameters:
 
@@ -520,7 +522,7 @@ This method will update an existing entry handler to watch new entries. It will 
 
 This method returns a promise associated with the ready event of the updated handler.
 
-### Interface: `BaseEntry`
+#### Interface: `BaseEntry`
 
 - `stats` - [`fs.Stats`](https://nodejs.org/docs/latest/api/fs.html#class-fsstats) | `undefined` - The file system stats for the entry.
 - `urlPath` - `string` - The recommended URL path of the entry.
@@ -532,7 +534,7 @@ The `urlPath` is resolved based on the configured pattern (`files:` option) comb
 
 The `absolutePath` is the file system path for the entry.
 
-### Interface: `FileEntry`
+#### Interface: `FileEntry`
 
 Extends [`BaseEntry`](#interface-baseentry)
 
@@ -542,7 +544,7 @@ A specific extension of the `BaseEntry` interface representing a file entry. We 
 
 There is no `DirectoryEntry` since there is no other important metadata aside from the `BaseEntry` properties. If a user wants the contents of a directory, they should adjust the pattern to resolve files instead.
 
-### Interface: `EntryEvent`
+#### Interface: `EntryEvent`
 
 Extends [`BaseEntry`](#interface-baseentry)
 
@@ -551,7 +553,7 @@ Extends [`BaseEntry`](#interface-baseentry)
 
 A general interface representing the entry handle event objects.
 
-### Interface: `AddFileEvent`
+#### Interface: `AddFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -560,7 +562,7 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is created (or the watcher sees it for the first time).
 
-### Interface: `ChangeFileEvent`
+#### Interface: `ChangeFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -569,7 +571,7 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is modified.
 
-### Interface: `UnlinkFileEvent`
+#### Interface: `UnlinkFileEvent`
 
 Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
@@ -578,13 +580,13 @@ Extends [`EntryEvent`](#interface-entryevent), [FileEntry](#interface-fileentry)
 
 Event object emitted when a file is deleted.
 
-### Interface: `FileEntryEvent`
+#### Interface: `FileEntryEvent`
 
 - `AddFileEvent` | `ChangeFileEvent` | `UnlinkFileEvent`
 
 A union type representing the file entry events. These events are emitted when a file is created, modified, or deleted. The `FileEntry` interface provides the file contents and other metadata.
 
-### Interface: `AddDirectoryEvent`
+#### Interface: `AddDirectoryEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -593,7 +595,7 @@ Extends [`EntryEvent`](#interface-entryevent)
 
 Event object emitted when a directory is created (or the watcher sees it for the first time).
 
-### Interface: `UnlinkDirectoryEvent`
+#### Interface: `UnlinkDirectoryEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -602,13 +604,13 @@ Extends [`EntryEvent`](#interface-entryevent)
 
 Event object emitted when a directory is deleted.
 
-### Interface: `DirectoryEntryEvent`
+#### Interface: `DirectoryEntryEvent`
 
 - `AddDirectoryEvent` | `UnlinkDirectoryEvent`
 
 A union type representing the directory entry events. There are no change events for directories since they are not modified in the same way as files.
 
-### Function: `onEntryEventHandler(entryEvent: FileEntryEvent | DirectoryEntryEvent): void`
+#### Function: `onEntryEventHandler(entryEvent: FileEntryEvent | DirectoryEntryEvent): void`
 
 Parameters:
 
