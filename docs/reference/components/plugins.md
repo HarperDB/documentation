@@ -163,6 +163,14 @@ This example is heavily simplified, but it demonstrates how the different key pa
 
 ## API
 
+### TypeScript support
+
+The classes and types referenced below are all exported by the `harperdb` package. Just import the ones you need like this:
+
+```typescript
+import { Scope, type Config } from 'harperdb';
+```
+
 ### Function: `handleApplication(scope: Scope): void | Promise<void>`
 
 Parameters:
