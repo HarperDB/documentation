@@ -26,7 +26,7 @@ As plugins are meant to be used by applications in order to implement some featu
 
 As a brief overview, the general configuration options available for plugins are:
 
-- `files` - `string` | `string[]` | [`FilesOptionsObject`](#interface-filesoptionsobject) - _optional_ - A glob pattern string or array of strings that specifies the files and directories to be handled by the plugin's default `EntryHandler` instance.
+- `files` - `string` | `string[]` | [`FilesOptionObject`](#interface-filesoptionobject) - _optional_ - A glob pattern string or array of strings that specifies the files and directories to be handled by the plugin's default `EntryHandler` instance.
 - `urlPath` - `string` - _optional_ - A base URL path to prepend to the resolved `files` entries handled by the plugin's default `EntryHandler` instance.
 - `timeout` - `number` - _optional_ - The timeout in milliseconds for the plugin's operations. If not specified, the system default is **30 seconds**. Plugins may override the system default themselves, but this configuration option is the highest priority and takes precedence.
 
@@ -125,7 +125,7 @@ export function handleApplication(scope) {
 		switch (entry.eventType) {
 			case 'add':
 			case 'change':
-				// Store // Update the file contents in memory for serving
+				// Store / Update the file contents in memory for serving
 				staticFiles.set(entry.urlPath, entry.contents);
 				break;
 			case 'unlink':
@@ -309,9 +309,9 @@ Returns: `string` - The directory of the application. This is the root directory
 
 ## Interface: `FilesOption`
 
-- `string` | `string[]` | [`FilesOptionsObject`](#interface-filesoptionsobject)
+- `string` | `string[]` | [`FilesOptionObject`](#interface-filesoptionobject)
 
-## Interface: `FilesOptionsObject`
+## Interface: `FilesOptionObject`
 
 - `source` - `string` | `string[]` - _required_ - The glob pattern string or array of strings.
 - `ignore` - `string` | `string[]` - _optional_ - An array of glob patterns to exclude from matches. This is an alternative way to use negative patterns. Defaults to `[]`.
@@ -458,9 +458,9 @@ The `'add'` event is emitted when a file is created (or the watcher sees it for 
 
 ### Event: `'addDir'`
 
-- `entry` - [`AddDirEvent`](#interface-adddirevent) - The directory entry that was added.
+- `entry` - [`AddDirectoryEvent`](#interface-adddirectoryevent) - The directory entry that was added.
 
-The `'addDir'` event is emitted when a directory is created (or the watcher sees it for the first time). The event handler receives an `AddDirEvent` object that contains the URL path and absolute path of the directory.
+The `'addDir'` event is emitted when a directory is created (or the watcher sees it for the first time). The event handler receives an `AddDirectoryEvent` object that contains the URL path and absolute path of the directory.
 
 ### Event: `'change'`
 
@@ -488,9 +488,9 @@ The `'unlink'` event is emitted when a file is deleted. The event handler receiv
 
 ### Event: `'unlinkDir'`
 
-- `entry` - [`UnlinkDirEvent`](#interface-unlinkdirevent) - The directory entry that was deleted.
+- `entry` - [`UnlinkDirectoryEvent`](#interface-unlinkdirectoryevent) - The directory entry that was deleted.
 
-The `'unlinkDir'` event is emitted when a directory is deleted. The event handler receives an `UnlinkDirEvent` object that contains the URL path and absolute path of the deleted directory.
+The `'unlinkDir'` event is emitted when a directory is deleted. The event handler receives an `UnlinkDirectoryEvent` object that contains the URL path and absolute path of the deleted directory.
 
 ### `entryHandler.name`
 
@@ -584,7 +584,7 @@ Event object emitted when a file is deleted.
 
 A union type representing the file entry events. These events are emitted when a file is created, modified, or deleted. The `FileEntry` interface provides the file contents and other metadata.
 
-### Interface: `AddDirEvent`
+### Interface: `AddDirectoryEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -593,7 +593,7 @@ Extends [`EntryEvent`](#interface-entryevent)
 
 Event object emitted when a directory is created (or the watcher sees it for the first time).
 
-### Interface: `UnlinkDirEvent`
+### Interface: `UnlinkDirectoryEvent`
 
 Extends [`EntryEvent`](#interface-entryevent)
 
@@ -604,7 +604,7 @@ Event object emitted when a directory is deleted.
 
 ### Interface: `DirectoryEntryEvent`
 
-- `AddDirEvent` | `UnlinkDirEvent`
+- `AddDirectoryEvent` | `UnlinkDirectoryEvent`
 
 A union type representing the directory entry events. There are no change events for directories since they are not modified in the same way as files.
 
