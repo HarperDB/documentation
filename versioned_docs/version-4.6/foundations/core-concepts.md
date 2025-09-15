@@ -41,7 +41,7 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 
 ## Extensions
 
-**Extensions** add features to your applications. Some common ones:  
+**Extensions** enable features beyond the core of Harper. Generally, multiple Extensions combine to form useful Applications. Some common ones:  
 - `graphqlSchema` for database and table definitions.  
 - `@harperdb/nextjs` for Next.js integration.  
 - `@harperdb/apollo` for an Apollo GraphQL backend.  
