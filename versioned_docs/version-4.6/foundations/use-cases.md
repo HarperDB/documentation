@@ -15,7 +15,7 @@ Here are some common ways developers use Harper in production today — each one
 
 Harper’s distributed architecture makes your pages load fast worldwide, improving **SEO** and **conversion rates**.  
 
-- Host your frontend directly with the [Next.js Component](https://github.com/HarperDB/nextjs).  
+- Host your frontend directly with the [Next.js Extension](https://github.com/HarperDB/nextjs).  
 - Use Harper’s built-in caching + JavaScript layer to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache).  
 - Keep pages instantly fresh with built-in **WebSocket connections**.  
 
