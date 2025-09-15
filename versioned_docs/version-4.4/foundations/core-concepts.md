@@ -9,15 +9,18 @@ Before you build your first app with Harper, it helps to understand a few key id
 ## Components
 
 **Components** are the building blocks of Harper.  
-They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).  
+They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).
 
-Because components can build on top of each other, they give you composability. For example, a [Harper Application](../developers/applications/) is itself a component, combining smaller pieces like the [rest](../reference/components/built-in-extensions#rest) component extension for automatic REST APIs and the [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) component extension for defining tables.  
+Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../reference/components/built-in-extensions) are just kinds of components:
+
+- **Extensions** add individual capabilities, like defining tables or serving static assets.  
+- **Applications** pull multiple extensions and resources together into a complete product. 
 
 :::info
 💡 **Why it matters:** Instead of wiring up a backend from scratch, you can piece together pre-built functionality and get to working endpoints fast.  
 :::
 
-## Applications
+## Applications (a type of Component)
 
 An **application** is a special kind of component that pulls everything together.  
 Applications rely on extensions to do the work:  
@@ -31,17 +34,9 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch together resources, APIs, and UI in one place.
 :::
 
-## Resources
+## Extensions (a type of Component)
 
-**Resources** are Harper’s data layer—databases, tables, and schemas. They’re where your app’s data lives. You can define them with GraphQL, extend them with JavaScript, and expose them through any Harper server protocol.  
-
-:::info
-💡 **Why it matters:** Whether you’re building SaaS or content apps, everything starts with structured, queryable data. Resources are how Harper manages it.
-:::
-
-## Extensions
-
-**Extensions** add features to your applications. Some common ones:  
+**Extensions** enable features beyond the core of Harper. Generally, multiple Extensions combine to form useful Applications. Some common ones:  
 - `graphqlSchema` for database and table definitions.  
 - `@harperdb/nextjs` for Next.js integration.  
 - `@harperdb/apollo` for an Apollo GraphQL backend.  
@@ -50,6 +45,24 @@ Extensions can depend on each other, so you can layer functionality.
 
 :::info
 💡 **Why it matters:** Instead of reinventing the wheel, you extend Harper with what you need and focus on your business logic.
+:::
+
+## Resources
+
+**Resources** are Harper’s data layer and are implemented using the `Resource` class.  
+They represent databases, tables, and other data entities, and they provide a unified API for accessing, querying, modifying, and monitoring records.  
+
+At the simplest level, resources let you:  
+- Define schemas and tables for your application data.  
+- Query and update that data through Harper’s APIs.  
+- Extend the base `Resource` class with JavaScript to define custom data sources or behaviors.  
+
+Each `Resource` instance can represent a single record or a collection of records at a given point in time.  
+Static methods on the `Resource` class handle common operations like parsing paths, running transactions, and enforcing access controls, while instance methods give you a transactional view of individual records.  
+  
+
+:::info
+💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic
 :::
 
 ## Plugins (Experimental)

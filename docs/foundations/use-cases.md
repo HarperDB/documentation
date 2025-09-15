@@ -4,7 +4,7 @@ title: Harper Use Cases
 
 # Harper Use Cases
 
-Harper is designed to cut out infrastructure complexity so you can develop and iterate faster.  
+Harper is designed to cut out infrastructure complexity so you can move faster.  
 Here are some common ways developers use Harper in production today — each one showing how Harper’s architecture translates into real-world outcomes.
 
 ---
@@ -18,7 +18,7 @@ Harper’s distributed architecture makes your pages load fast worldwide, improv
 - Host your frontend directly with the [Next.js Extension](https://github.com/HarperDB/nextjs). 
 - Support any framework using Harper’s extension system.  
 - Use Harper’s built-in caching + JavaScript layer to [server-side render pages](https://www.harpersystems.dev/development/tutorials/server-side-rendering-with-multi-tier-cache).  
-- Keep pages instantly fresh with built-in **WebSocket connections**.  
+- Keep pages instantly fresh with built-in [WebSocket connections](../developers/real-time#websockets).  
 
 :::info
 💡 **Why it matters:** Instead of stitching together CDN + DB + API layers, you deliver catalog and content experiences from a single platform.

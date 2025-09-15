@@ -58,6 +58,10 @@ Extensions are Harper’s plug-in modules. They add reusable features to applica
 💡 **Why it matters:** With extensions, you can snap in major capabilities in minutes (like REST APIs or GraphQL), instead of writing server code from scratch.
 :::
 
+:::warning
+⚠️ **Heads up:** Extensions are gradually being replaced by **Plugins**, a lighter and more powerful model for extending Harper. Plugins are still experimental, but they represent the long-term direction of the platform. You can explore the [Plugin API](../reference/components/plugins.md) if you’d like to get ahead of the curve.  
+:::
+
 ---
 
 ## Resource API
