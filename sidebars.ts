@@ -8,18 +8,21 @@ const sidebars: SidebarsConfig = {
 			label: 'Harper Docs',
 		},
 		{
-			type: 'category',
-			label: 'Getting Started',
-			link: {
-				type: 'doc',
-				id: 'getting-started/index',
-			},
-			items: [
-				'getting-started/what-is-harper',
-				'getting-started/install-harper',
-				'getting-started/harper-concepts',
-				'getting-started/first-harper-app',
-			],
+			"type": "category",
+			"label": "Getting Started",
+			"items": [
+				"getting-started/installation",
+				"getting-started/quickstart"
+			]
+		},
+		{
+			"type": "category",
+			"label": "Foundations of Harper",
+			"items": [
+				"foundations/harper-architecture",
+				"foundations/core-concepts",
+				"foundations/use-cases"
+			]
 		},
 		{
 			type: 'category',
