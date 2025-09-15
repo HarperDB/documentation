@@ -4,7 +4,7 @@ title: Harper Use Cases
 
 # Harper Use Cases
 
-Harper is designed to cut out infrastructure complexity so you can move faster.  
+Harper is designed to cut out infrastructure complexity so you can develop and iterate faster.  
 Here are some common ways developers use Harper in production today — each one showing how Harper’s architecture translates into real-world outcomes.
 
 ---
