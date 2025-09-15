@@ -6,6 +6,7 @@ title: Reference
 
 This section contains technical details and reference materials for Harper.
 
+- [Caching](reference/caching)
 - [Resource API](reference/resource)
 - [Transactions](reference/transactions)
 - [Storage Algorithm](reference/storage-algorithm)

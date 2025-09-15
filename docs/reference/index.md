@@ -9,6 +9,7 @@ This section contains technical details and reference materials for Harper.
 - [Analytics](reference/analytics)
 - [Architecture](reference/architecture)
 - [Blob](reference/blob)
+- [Caching](reference/caching)
 - [Content Types](reference/content-types)
 - [Components](reference/components/)
   - [Applications](reference/components/applications)
