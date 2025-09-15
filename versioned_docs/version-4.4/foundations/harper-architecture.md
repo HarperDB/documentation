@@ -42,7 +42,7 @@ Most of your work will happen here.
 Applications sit at the top layer. They’re where you implement user-facing features. Examples:
 
 - A **Next.js app** served directly from Harper.
-- An **Apollo GraphQL server** exposing APIs.
+- A **basic app** from the [Getting Started guide](../getting-started/quickstart) that defines a schema, adds a table, and automatically exposes REST endpoints with the `rest` extension.
 
 Applications don’t re-invent core logic—they declare the extensions they need.
 
@@ -50,20 +50,22 @@ Applications don’t re-invent core logic—they declare the extensions they nee
 
 Extensions are Harper’s plug-in modules. They add reusable features to applications and can depend on each other.
 
+Here are a few common examples: 
+
 | **Component**      | **Type**           | **What it adds**             | **Built on**              |
 | ------------------ | ------------------ | ---------------------------- | ------------------------- |
-| `graphqlSchema`    | Built-in Extension | Define schemas + tables      | database                  |
-| `jsResource`       | Built-in Extension | Custom JS resources          | database                  |
-| `rest`             | Built-in Extension | Auto-generate REST endpoints | networking                |
-| `@harperdb/nextjs` | Custom Extension   | Run Next.js apps             | networking, file-system   |
-| `@harperdb/apollo` | Custom Extension   | Apollo GraphQL APIs          | graphqlSchema, networking |
+| [graphqlSchema](../reference/components/built-in-extensions#graphqlschema)    | Built-in Extension | Define schemas + tables      | database                  |
+| [jsResource](../reference/components/built-in-extensions#jsresource)        | Built-in Extension | Custom JS resources          | database                  |
+| [rest](../reference/components/built-in-extensions#rest)              | Built-in Extension | Auto-generate REST endpoints | networking                |
+| [@harperdb/nextjs](https://github.com/HarperDB/nextjs) | Custom Extension   | Run Next.js apps             | networking, file-system   |
+| [@harperdb/apollo](https://github.com/HarperDB/apollo) | Custom Extension   | Apollo GraphQL APIs          | graphqlSchema, networking |
 
 :::info
 💡 **Why it matters:** With extensions, you can snap in major capabilities in minutes (like REST APIs or GraphQL), instead of writing server code from scratch.
 :::
 
 :::warning
-⚠️ **Heads up:** Extensions are gradually being replaced by **Plugins**, a lighter and more powerful model for extending Harper. Plugins are still experimental, but they represent the long-term direction of the platform. You can explore the [Plugin API](../reference/components/plugins.md) if you’d like to get ahead of the curve.  
+⚠️ **Heads up:** Extensions are gradually being replaced by **Plugins**, a lighter and more powerful model for extending Harper. Plugins are still experimental, but they represent the long-term direction of the platform. You can explore the [Plugin API](../reference/components/plugins) if you’d like to get ahead of the curve.  
 :::
 
 ---
@@ -78,6 +80,8 @@ At the heart of Harper is the **Resource API**. It gives you a unified, consiste
 - `patch()` → update part of a record
 
 Every call is wrapped in a transaction, so multi-table operations stay consistent without extra boilerplate.
+
+For the complete API, see the [Resource reference](../reference/resources).
 
 :::info
 💡 **Why it matters:** You can build reliable features—like signups, payments, or analytics—without hand-rolling transaction logic.

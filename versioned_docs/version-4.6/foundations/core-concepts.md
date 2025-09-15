@@ -49,6 +49,16 @@ Extensions can depend on each other, so you can layer functionality.
 💡 **Why it matters:** Instead of reinventing the wheel, you extend Harper with what you need and focus on your business logic.
 :::
 
+## Plugins (Experimental)
+
+**Plugins** are the next evolution of extensions—lighter, simpler, and more powerful. They’re still experimental, but they’ll eventually replace extensions. You can explore the [plugin API](../reference/components/plugins) if you’re curious.
+
+Some built-in extensions have already been rewritten as plugins, so you may see both options in the documentation. Where possible, prefer the plugin version for new projects.
+
+:::info
+💡 **Why it matters:** Plugins reduce boilerplate and make it easier to extend Harper with custom behavior.
+:::
+
 ## Resources
 
 **Resources** are Harper’s data layer and are implemented using the `Resource` class.  
@@ -67,14 +77,6 @@ Static methods on the `Resource` class handle common operations like parsing pat
 💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic
 :::
 
-## Plugins (Experimental)
-
-**Plugins** are the next evolution of extensions—lighter, simpler, and more powerful. They’re still experimental, but they’ll eventually replace extensions. You can explore the [plugin API](../reference/components/plugins.md) if you’re curious.
-
-:::info
-💡 **Why it matters:** Plugins reduce boilerplate and make it easier to extend Harper with custom behavior.
-:::
-
 ## Server
 
 At the edge of Harper is the **server layer**, which connects your data to the outside world. Harper supports REST/HTTP, WebSockets, MQTT, and more. A single resource can be available through multiple protocols at once—so the same table can power a real-time dashboard, a mobile app, and a backend API.
@@ -85,4 +87,4 @@ At the edge of Harper is the **server layer**, which connects your data to the o
 
 ---
 
-✅ With these concepts in mind, you’re ready to [build your first application](../getting-started/quickstart.md). That’s where you’ll see how Components, Resources, and Extensions come together in practice.
+✅ With these concepts in mind, you’re ready to [build your first application](../getting-started/quickstart). That’s where you’ll see how Components, Resources, and Extensions come together in practice.
