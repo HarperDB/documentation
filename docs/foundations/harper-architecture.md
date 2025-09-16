@@ -12,7 +12,7 @@ Harper uses a **three-layer architecture** designed for distributed, edge-first 
 At a high level:
 
 - **Core services** handle data, networking, and files.
-- **Extensions** layer in reusable features (REST, GraphQL, Next.js, etc.).
+- **Plugins** layer in reusable features (REST, GraphQL, Next.js, etc.).
 - **Applications** bring everything together to deliver user-facing functionality.
 
 :::info
@@ -27,7 +27,7 @@ Harper ships with three essential services:
 
 - **Database** → Fast storage, queries, and transactions.
 - **Networking** → REST/HTTP, WebSockets, MQTT, and cluster communication.
-- **File system** → File operations and serving static assets.
+- **Component Management** → The system that loads, configures, and connects components (applications, plugins, resources) so they work together consistently.
 
 Think of these as Harper’s foundation—every extension and app builds on them.
 
@@ -46,27 +46,23 @@ Applications sit at the top layer. They’re where you implement user-facing fea
 
 Applications don’t re-invent core logic—they declare the extensions they need.
 
-### Extensions
+### Component Configuration
 
-Extensions are Harper’s plug-in modules. They add reusable features to applications and can depend on each other.
+Every Harper project starts with a **root configuration**.  
+This configuration declares which components (applications, plugins/extensions, resources) should be loaded and how they should be initialized.  
 
-Here are a few common examples: 
+Some components are self-contained, while others include configuration that ties into additional components. For example:  
 
-| **Component**      | **Type**           | **What it adds**             | **Built on**              |
-| ------------------ | ------------------ | ---------------------------- | ------------------------- |
-| [graphqlSchema](../reference/components/built-in-extensions#graphqlschema)    | Built-in Extension | Define schemas + tables      | database                  |
-| [jsResource](../reference/components/built-in-extensions#jsresource)        | Built-in Extension | Custom JS resources          | database                  |
-| [rest](../reference/components/built-in-extensions#rest)              | Built-in Extension | Auto-generate REST endpoints | networking                |
-| [@harperdb/nextjs](https://github.com/HarperDB/nextjs) | Custom Extension   | Run Next.js apps             | networking, file-system   |
-| [@harperdb/apollo](https://github.com/HarperDB/apollo) | Custom Extension   | Apollo GraphQL APIs          | graphqlSchema, networking |
+- An application in the root config might load the `rest` plugin.  
+- The `rest` plugin exposes data from the database, so its configuration links to `graphqlSchema`.  
+- `graphqlSchema` defines the tables that the database service makes available.  
+
+This layering of configuration is what makes Harper composable: by declaring one component in your root config, you can enable entire sets of functionality.  
 
 :::info
-💡 **Why it matters:** With extensions, you can snap in major capabilities in minutes (like REST APIs or GraphQL), instead of writing server code from scratch.
+💡 **Why it matters:** Instead of wiring everything manually, you declare the root config, and Harper initializes the components in the right relationships.  
 :::
 
-:::warning
-⚠️ **Heads up:** Extensions are gradually being replaced by **Plugins**, a lighter and more powerful model for extending Harper. Plugins are still experimental, but they represent the long-term direction of the platform. You can explore the [Plugin API](../reference/components/plugins) if you’d like to get ahead of the curve.  
-:::
 
 ---
 

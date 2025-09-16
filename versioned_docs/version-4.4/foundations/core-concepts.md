@@ -35,29 +35,24 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch together resources, APIs, and UI in one place.
 :::
 
-## Extensions (a type of Component)
+## Plugins (formerly Extensions)
 
-**Extensions** enable features beyond the core of Harper. Generally, multiple Extensions combine to form useful Applications. Some common ones:
+Harper has a special kind of component that isn’t meant to run standalone, but instead adds features to applications or other components. These were originally called **extensions**, and the newer API calls them **plugins**. Both terms refer to the same concept, but “plugin” is the direction going forward.
 
-- `graphqlSchema` for database and table definitions.
-- `@harperdb/nextjs` for Next.js integration.
-- `@harperdb/apollo` for an Apollo GraphQL backend.
+Examples you’ll see in the ecosystem include:
 
-Extensions can depend on each other, so you can layer functionality.
+- [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions
+- [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data
+- [static](../reference/components/built-in-extensions#static) for serving files or frontend assets
+- [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration
+- [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL
 
-:::info
-💡 **Why it matters:** Instead of reinventing the wheel, you extend Harper with what you need and focus on your business logic.
-:::
-
-## Plugins (Experimental)
-
-**Plugins** are the next evolution of extensions—lighter, simpler, and more powerful. They’re still experimental, but they’ll eventually replace extensions. You can explore the [plugin API](../reference/components/plugins) if you’re curious.
-
-Some built-in extensions have already been rewritten as plugins, so you may see both options in the documentation. Where possible, prefer the plugin version for new projects.
+Some built-in extensions have already been rewritten as plugins, so you may encounter both names in the documentation. Where possible, prefer the plugin version for new projects.
 
 :::info
-💡 **Why it matters:** Plugins reduce boilerplate and make it easier to extend Harper with custom behavior.
+💡 **Why it matters:** Plugins (formerly extensions) give Harper its flexibility. You can compose them into applications to get powerful functionality without writing boilerplate yourself.
 :::
+
 
 ## Resources
 

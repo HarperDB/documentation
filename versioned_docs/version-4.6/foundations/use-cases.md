@@ -9,6 +9,24 @@ Here are some common ways developers use Harper in production today — each one
 
 ---
 
+## RESTful APIs for Distributed & Cached Data
+
+**Great for:** web apps, mobile apps, data-heavy platforms.
+
+Harper’s most common use case is exposing distributed, cached data over a RESTful interface.  
+This lets you serve complex or large-scale datasets efficiently, with built-in caching and global distribution.  
+
+- Define your schema with the `graphqlSchema` plugin.  
+- Expose it instantly over REST using the `rest` plugin.  
+- Take advantage of Harper’s caching layer to serve hot data without extra infrastructure.  
+- Power both web and mobile applications from the same API.
+
+:::info
+💡 **Why it matters:** Instead of bolting a cache or API layer onto a database, Harper gives you a unified system that scales for real-world apps.
+:::
+
+---
+
 ## Online Catalogs & Content Delivery
 
 **Great for:** e-commerce sites, real estate listings, media & content platforms.
@@ -50,7 +68,6 @@ Explore the [real-time docs](../developers/real-time) to see how it works.
 
 Normally, capturing and analyzing streams at the edge requires a patchwork of tools. Harper simplifies this with:
 
-- **Selective replication** between edge and cloud.
 - **Self-healing connections** that keep data flowing even in flaky environments.
 - The same Harper runtime running at both layers.
 
