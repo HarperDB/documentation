@@ -41,9 +41,9 @@ Harper has a special kind of component that isn’t meant to run standalone, but
 
 Examples you’ll see in the ecosystem include:
 
-- [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions
-- [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data
-- [static](../reference/components/built-in-extensions#static) for serving files or frontend assets
+- [graphqlSchema](../developers/components/built-in#graphqlschema) for database and table definitions
+- [rest](../developers/components/built-in#rest) for RESTful access to your data
+- [static](../developers/components/built-in#static) for serving files or frontend assets
 - [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration
 - [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL
 
