@@ -11,7 +11,7 @@ Before you build your first app with Harper, it helps to understand a few key id
 **Components** are the building blocks of Harper.  
 They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).
 
-Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../reference/components/built-in-extensions) are just kinds of components:
+Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../developers/components/reference#extensions) are just kinds of components:
 
 - **Extensions** add individual capabilities, like defining tables or serving static assets.
 - **Applications** pull multiple extensions and resources together into a complete product.
