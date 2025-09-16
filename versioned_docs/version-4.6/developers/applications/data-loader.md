@@ -4,178 +4,122 @@ title: Data Loader
 
 # Data Loader
 
-The Data Loader is a built-in component that provides a reliable mechanism for loading data from JSON or YAML files into Harper tables as part of component deployment. This feature is particularly useful for ensuring specific records exist in your database when deploying components, such as seed data, configuration records, or initial application data.
+Now that you’ve set up your first application, let’s bring it to life with some data. Applications are only as useful as the information they hold, and Harper makes it simple to seed your database with initial records, configuration values, or even test users, without needing to write a custom script. This is where the Data Loader comes in.
 
-## Configuration
+Think of the Data Loader as your shortcut for putting essential data in place from day one. Whether it’s a set of default settings, an admin user account, or sample data for development, the Data Loader ensures that when your application is deployed, it’s immediately usable.
 
-To use the Data Loader, first specify your data files in the `config.yaml` in your component directory:
+In this section, we’ll add a few dogs to our `Dog` table so our application starts with meaningful data.
 
-```yaml
-dataLoader:
-  files: 'data/*.json'
-```
+## Creating a Data File
 
-The Data Loader is an [Extension](../../reference/components#extensions) and supports the standard `files` configuration option.
-
-## Data File Format
-
-Data files can be structured as either JSON or YAML files containing the records you want to load. Each data file must specify records for a single table - if you need to load data into multiple tables, create separate data files for each table.
-
-### Basic Example
-
-Create a data file in your component's data directory (one table per file):
+First, let’s make a `data` directory in our app and create a file called `dogs.json`:
 
 ```json
 {
 	"database": "myapp",
-	"table": "users",
+	"table": "Dog",
 	"records": [
 		{
 			"id": 1,
-			"username": "admin",
-			"email": "admin@example.com",
-			"role": "administrator"
+			"name": "Harper",
+			"breed": "Labrador",
+			"age": 3,
+			"tricks": ["sit"]
 		},
 		{
 			"id": 2,
-			"username": "user1",
-			"email": "user1@example.com",
-			"role": "standard"
+			"name": "Balto",
+			"breed": "Husky",
+			"age": 5,
+			"tricks": ["run", "pull sled"]
 		}
 	]
 }
 ```
 
-### Multiple Tables
+This file tells Harper: _“Insert these two records into the `Dog` table when this app runs.”_
 
-To load data into multiple tables, create separate data files for each table:
+## Connecting the Data Loader
 
-**users.json:**
+Next, let’s tell Harper to use this file when running the application. Open `config.yaml` in the root of your project and add:
+
+```yaml
+dataLoader:
+  files: 'data/dogs.json'
+```
+
+That’s it. Now the Data Loader knows where to look.
+
+## Running with Data
+
+Go ahead and start your app again:
+
+```bash
+harperdb dev .
+```
+
+This time, when Harper runs, it will automatically read `dogs.json` and load the records into the Dog table. You don’t need to write any import scripts or SQL statements, it just works.
+
+You can confirm the data is there by hitting the endpoint you created earlier:
+
+```bash
+curl http://localhost:9926/Dog/
+```
+
+You should see both `Harper` and `Balto` returned as JSON.
+
+### Updating Records
+
+What happens if you change the data file? Let’s update Harper’s age from 3 to 4 in `dogs.json.`
 
 ```json
 {
-	"database": "myapp",
-	"table": "users",
-	"records": [
-		{
-			"id": 1,
-			"username": "admin",
-			"email": "admin@example.com"
-		}
-	]
+	"id": 1,
+	"name": "Harper",
+	"breed": "Labrador",
+	"age": 4,
+	"tricks": ["sit"]
 }
 ```
 
-**settings.yaml:**
+When you save the file, Harper will notice the change and reload. The next time you query the endpoint, Harper’s age will be updated.
+
+The Data Loader is designed to be safe and repeatable. If a record already exists, it will only update when the file is newer than the record. This means you can re-run deployments without worrying about duplicates.
+
+### Adding More Tables
+
+If your app grows and you want to seed more than just dogs, you can create additional files. For example, a `settings.yaml` file:
 
 ```yaml
 database: myapp
-table: settings
+table: Settings
 records:
   - id: 1
     setting_name: app_name
-    setting_value: My Application
+    setting_value: Dog Tracker
   - id: 2
     setting_name: version
     setting_value: '1.0.0'
 ```
 
-## File Organization
-
-You can organize your data files in various ways:
-
-### Single File Pattern
-
-```yaml
-dataLoader:
-  files: 'data/seed-data.json'
-```
-
-### Multiple Files Pattern
+Then add it to your config:
 
 ```yaml
 dataLoader:
   files:
-    - 'data/users.json'
+    - 'data/dogs.json'
     - 'data/settings.yaml'
-    - 'data/initial-products.json'
 ```
 
-### Glob Pattern
+Harper will read both files and load them into their respective tables.
 
-```yaml
-dataLoader:
-  files: 'data/**/*.{json,yaml,yml}'
-```
+## Key Takeaway
 
-## Loading Behavior
+With the Data Loader, your app doesn’t start empty. It starts ready to use. You define your schema, write a simple data file, and Harper takes care of loading it. This keeps your applications consistent across environments, safe to redeploy, and quick to get started with.
 
-When Harper starts up with a component that includes the Data Loader:
-
-1. The Data Loader reads all specified data files (JSON or YAML)
-1. For each file, it validates that a single table is specified
-1. Records are inserted or updated based on timestamp comparison:
-   - New records are inserted if they don't exist
-   - Existing records are updated only if the data file's modification time is newer than the record's updated time
-   - This ensures data files can be safely reloaded without overwriting newer changes
-1. If records with the same primary key already exist, updates occur only when the file is newer
-
-Note: While the Data Loader can create tables automatically by inferring the schema from the provided records, it's recommended to define your table schemas explicitly using the [graphqlSchema](../applications/defining-schemas) component for better control and type safety.
-
-## Best Practices
-
-1. **Define Schemas First**: While the Data Loader can infer schemas, it's strongly recommended to define your table schemas and relations explicitly using the [graphqlSchema](../applications/defining-schemas) component before loading data. This ensures proper data types, constraints, and relationships between tables.
-
-1. **One Table Per File**: Remember that each data file can only load records into a single table. Organize your files accordingly.
-
-1. **Idempotency**: Design your data files to be idempotent - they should be safe to load multiple times without creating duplicate or conflicting data.
-
-1. **Version Control**: Include your data files in version control to ensure consistency across deployments.
-
-1. **Environment-Specific Data**: Consider using different data files for different environments (development, staging, production).
-
-1. **Data Validation**: Ensure your data files are valid JSON or YAML and match your table schemas before deployment.
-
-1. **Sensitive Data**: Avoid including sensitive data like passwords or API keys directly in data files. Use environment variables or secure configuration management instead.
-
-## Example Component Structure
-
-```
-my-component/
-├── config.yaml
-├── data/
-│   ├── users.json
-│   ├── roles.json
-│   └── settings.json
-├── schemas.graphql
-└── roles.yaml
-```
-
-With this structure, your `config.yaml` might look like:
-
-```yaml
-# Load environment variables first
-loadEnv:
-  files: '.env'
-
-# Define schemas
-graphqlSchema:
-  files: 'schemas.graphql'
-
-# Define roles
-roles:
-  files: 'roles.yaml'
-
-# Load initial data
-dataLoader:
-  files: 'data/*.json'
-
-# Enable REST endpoints
-rest: true
-```
+In just a few steps, we’ve gone from an empty Dog table to a real application with data that’s instantly queryable.
 
 ## Related Documentation
 
-- [Built-In Components](../../reference/components/built-in-extensions)
-- [Extensions](../../reference/components/extensions)
+- [Data Loader Reference](../../reference/applications/data-loader) – Complete configuration and format options.
 - [Bulk Operations](../operations-api/bulk-operations) - For loading data via the Operations API
