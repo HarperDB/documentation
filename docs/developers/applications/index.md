@@ -33,7 +33,7 @@ flowchart TD
 		CustomResource["Custom Resource"]
 	end
 
-	subgraph Extensions
+	subgraph Plugins
 		direction TB
 		subgraph Custom
 			NextjsExt["@harperdb/nextjs"]
@@ -49,22 +49,22 @@ flowchart TD
 	subgraph Core
 		direction TB
 		Database["database"]
-		FileSystem["file-system"]
-		Networking["networking"]
+		HTTP["http"]
+		WebSockets["ws"]
 	end
 
 	NextJSApp --> NextjsExt
 	ApolloApp --> ApolloExt
 	CustomResource --> JsResource & GraphqlSchema & Rest
 
-	NextjsExt --> Networking
-	NextjsExt --> FileSystem
+	NextjsExt --> HTTP
+	NextjsExt --> WebSockets
 	ApolloExt --> GraphqlSchema
 	ApolloExt --> Networking
 
 	GraphqlSchema --> Database
 	JsResource --> Database
-	Rest --> Networking
+	Rest --> HTTP
 ```
 
 > As of Harper v4.6, a new, **experimental** component system has been introduced called **plugins**. Plugins are a **new iteration of the existing extension system**. They are simultaneously a simplification and an extensibility upgrade. Instead of defining multiple methods (`start` vs `startOnMainThread`, `handleFile` vs `setupFile`, `handleDirectory` vs `setupDirectory`), plugins only have to define a single `handleApplication` method. Plugins are **experimental**, and complete documentation is available on the [plugin API](../../reference/components/plugins) page. In time we plan to deprecate the concept of extensions in favor of plugins, but for now, both are supported.
