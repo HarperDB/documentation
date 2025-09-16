@@ -14,11 +14,11 @@ Here are some common ways developers use Harper in production today — each one
 **Great for:** web apps, mobile apps, data-heavy platforms.
 
 Harper’s most common use case is exposing distributed, cached data over a RESTful interface.  
-This lets you serve complex or large-scale datasets efficiently, with built-in caching and global distribution.  
+This lets you serve complex or large-scale datasets efficiently, with built-in caching and global distribution.
 
-- Define your schema with the `graphqlSchema` plugin.  
-- Expose it instantly over REST using the `rest` plugin.  
-- Take advantage of Harper’s caching layer to serve hot data without extra infrastructure.  
+- Define your schema with the `graphqlSchema` plugin.
+- Expose it instantly over REST using the `rest` plugin.
+- Take advantage of Harper’s caching layer to serve hot data without extra infrastructure.
 - Power both web and mobile applications from the same API.
 
 :::info

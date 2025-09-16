@@ -53,7 +53,6 @@ Some built-in extensions have already been rewritten as plugins, so you may enco
 💡 **Why it matters:** Plugins (formerly extensions) give Harper its flexibility. You can compose them into applications to get powerful functionality without writing boilerplate yourself.
 :::
 
-
 ## Resources
 
 **Resources** are Harper’s data layer and are implemented using the `Resource` class.  

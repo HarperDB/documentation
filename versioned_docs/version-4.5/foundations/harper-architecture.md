@@ -49,20 +49,19 @@ Applications don’t re-invent core logic—they declare the extensions they nee
 ### Component Configuration
 
 Every Harper project starts with a **root configuration**.  
-This configuration declares which components (applications, plugins/extensions, resources) should be loaded and how they should be initialized.  
+This configuration declares which components (applications, plugins/extensions, resources) should be loaded and how they should be initialized.
 
-Some components are self-contained, while others include configuration that ties into additional components. For example:  
+Some components are self-contained, while others include configuration that ties into additional components. For example:
 
-- An application in the root config might load the `rest` plugin.  
-- The `rest` plugin exposes data from the database, so its configuration links to `graphqlSchema`.  
-- `graphqlSchema` defines the tables that the database service makes available.  
+- An application in the root config might load the `rest` plugin.
+- The `rest` plugin exposes data from the database, so its configuration links to `graphqlSchema`.
+- `graphqlSchema` defines the tables that the database service makes available.
 
-This layering of configuration is what makes Harper composable: by declaring one component in your root config, you can enable entire sets of functionality.  
+This layering of configuration is what makes Harper composable: by declaring one component in your root config, you can enable entire sets of functionality.
 
 :::info
 💡 **Why it matters:** Instead of wiring everything manually, you declare the root config, and Harper initializes the components in the right relationships.  
 :::
-
 
 ---
 
