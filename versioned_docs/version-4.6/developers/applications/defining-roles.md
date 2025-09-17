@@ -1,54 +1,65 @@
 ---
-title: Defining Roles
+title: Defining Application Roles
 ---
 
-In addition to [defining a database schema](./defining-schemas), you can also define roles in your application. Roles are a way to group permissions together and assign them to users as part of Harper's [role based access control](../security/users-and-roles). An application component may declare roles that should exist for the application in a roles configuration file. To use this, first specify your roles config file in the `config.yaml` in your application directory:
+# Defining Application Roles
+
+Applications are more than just tables and endpoints — they need access rules. Harper lets you define roles directly in your application so you can control who can do what, without leaving your codebase.
+
+Let’s walk through creating a role, assigning it, and seeing it in action.
+
+## Step 1: Declare a Role
+
+First, point Harper to a roles configuration file. Add this to your `config.yaml`:
 
 ```yaml
 roles:
   files: roles.yaml
 ```
 
-Now you can create a roles.yaml in your application directory:
+Then create a simple `roles.yaml` in your application directory. For example, here’s a role that can only read and insert data into the `Dog` table:
 
 ```yaml
-declared-role:
-  super_user: false # This is a boolean value that indicates if the role is a super user or not
-  # Now we can grant the permissions to databases, here we grant permissions to the default data database
-  data: # This is the same structure as role object that is used in the roles operations APIs
-    TableOne:
+dog_reader:
+  super_user: false
+  data:
+    Dog:
       read: true
       insert: true
-    TableTwo:
-      read: true
-      insert: false
-      update: true
-      delete: true
-      attributes:
-        name:
-          read: true
-          insert: false
-          update: true
 ```
 
-With this in place, where Harper starts up, it will create the roles in the roles.yaml file if they do not already exist. If they do exist, it will update the roles with the new permissions. This allows you to manage your roles in your application code and have them automatically created or updated when the application starts.
+When Harper starts up, it will create this role (or update it if it already exists).
 
-The structure of the roles.yaml file is:
+## Step 2: Assign the Role
+
+Now that the role exists, assign it to a user. You can do this through the [Users and Roles API](../security/users-and-roles) or via the CLI. Once assigned, the user’s permissions will reflect exactly what you declared in `roles.yaml`.
+
+For example, a user with the `dog_reader` role can insert new dog records, but not delete or update them.
+
+## Step 3: See It in Action
+
+Try it out. Sign in as the user with the `dog_reader` role and attempt the following:
 
 ```yaml
-<role-name>:
-  permission: # contains the permissions for the role, this structure is optional, and you can place flags like super_user here as a shortcut
-    super_user: <boolean>
-  <database-name>: # each database with permissions can be added as named properties on the role
-  tables: # this structure is optional, and table names can be placed directly under the database as a shortcut
-    <table-name>:
-      read: <boolean> # indicates if the role has read permission to this table
-      insert: <boolean> # indicates if the role has insert permission to this table
-      update: <boolean> # indicates if the role has update permission to this table
-      delete: <boolean> # indicates if the role has delete permission to this table
-      attributes:
-        <attribute-name>: # individual attributes can have permissions as well
-          read: <boolean>
-          insert: <boolean>
-          update: <boolean>
+# allowed
+curl -X POST http://localhost:9926/Dog/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Buddy", "breed": "Husky"}'
+
+# not allowed
+curl -X DELETE http://localhost:9926/Dog/<id>
 ```
+
+The first request succeeds because the role allows `insert`. The second fails because `delete` isn’t permitted. Just like that, you’ve enforced role-based access control inside your app.
+
+## Where to Go Next
+
+This page gave you the basics - declare a role, assign it, and see it work.
+
+For more advanced scenarios, including:
+
+- defining multiple databases per role,
+- granting fine-grained attribute-level permissions,
+- and the complete structure of `roles.yaml`,
+
+see the [Roles Reference](../../reference/Applications/defining-roles).
