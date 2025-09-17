@@ -13,8 +13,8 @@ They’re JavaScript-based modules that extend Harper’s core, and they can tal
 
 Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../reference/components/built-in-extensions) are just kinds of components:
 
-- **Extensions** add individual capabilities, like defining tables or serving static assets.
-- **Applications** pull multiple extensions and resources together into a complete product.
+- **Plugins** add individual capabilities, like defining tables or serving static assets.
+- **Applications** pull multiple plugins and resources together into a complete product.
 
 :::info
 💡 **Why it matters:** Instead of wiring up a backend from scratch, you can piece together pre-built functionality and get to working endpoints fast.  
