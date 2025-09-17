@@ -163,7 +163,7 @@ http://localhost:9926/Dog/?breed=Husky&name=Balto&select(id,name,breed)
 
 Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest) and see the [Schema reference](../developers/applications/defining-schemas) for more options for defining schemas.
 
-> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../../reference/graphql).
+> Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../reference/graphql).
 
 ## Key Takeaway
 
