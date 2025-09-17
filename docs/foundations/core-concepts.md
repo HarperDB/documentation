@@ -37,7 +37,7 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 
 ## Plugins (formerly Extensions)
 
-Harper has a special kind of component that isn’t meant to run standalone, but instead adds features to applications or other components. These were originally called **extensions**, and the newer API calls them **plugins**. Both terms refer to the same concept, but “plugin” is the direction going forward.
+**Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../reference/components/extensions) is still supported), but the new [plugin API](../reference/components/plugins) is simultaneously a simplification and extensibility upgrade. 
 
 Examples you’ll see in the ecosystem include:
 
