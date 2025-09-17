@@ -2,6 +2,9 @@
 title: Create Your First Application
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Create Your First Application
 
 Now that you've set up Harper, let's build a simple API. Harper lets you build powerful APIs with minimal effort. In just a few minutes, you'll have a functional REST API with automatic validation, indexing, and querying—all without writing a single line of code.
@@ -90,6 +93,9 @@ type Dog @table @export {
 
 By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be `http://localhost:9926/Dog/` with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
+<Tabs>
+<TabItem value="curl" label="curl">
+
 ```bash
 curl -X POST http://localhost:9926/Dog/ \
   -H "Content-Type: application/json" \
@@ -100,6 +106,30 @@ curl -X POST http://localhost:9926/Dog/ \
     "tricks": ["sits"]
   }'
 ```
+
+</TabItem>
+<TabItem value="fetch" label="fetch">
+
+```js
+fetch('http://localhost:9926/Dog/', {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify({
+		name: 'Harper',
+		breed: 'Labrador',
+		age: 3,
+		tricks: ['sits'],
+	}),
+})
+	.then((response) => response.json())
+	.then((data) => console.log(data))
+	.catch((error) => console.error(error));
+```
+
+</TabItem>
+</Tabs>
 
 With this a record will be created and the auto-assigned id will be available through the `Location` header. If you added a record, you can visit the path `/Dog/<id>` to view that record. Alternately, the curl command `curl http://localhost:9926/Dog/<id>` will achieve the same thing.
 
