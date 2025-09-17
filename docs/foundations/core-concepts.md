@@ -23,7 +23,7 @@ Because components can build on top of each other, they give you composability. 
 ## Applications (a type of Component)
 
 An **application** is a special kind of component that pulls everything together.  
-Applications rely on extensions to do the work:
+Applications rely on plugins to do the work:
 
 - Use `graphqlSchema` to define your data tables.
 - Add `rest` to query that data instantly.
