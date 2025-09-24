@@ -1,8 +1,8 @@
 ---
-title: Data Loader
+title: Loading Data
 ---
 
-# Data Loader
+# Loading Data
 
 Now that you’ve set up your first application, let’s bring it to life with some data. Applications are only as useful as the information they hold, and Harper makes it simple to seed your database with initial records, configuration values, or even test users, without needing to write a custom script. This is where the Data Loader plugin comes in.
 
@@ -68,6 +68,12 @@ curl http://localhost:9926/Dog/
 
 You should see both `Harper` and `Balto` returned as JSON.
 
+:::info
+💡 Notice the trailing `/` in the URL (`/Dog/`). This tells Harper to return all records in the table. Leaving it off would look for a single record instead.
+
+For more details on querying tables, resources, and records with the REST plugin, see the [REST reference docs](../../developers/rest).
+:::
+
 ### Updating Records
 
 What happens if you change the data file? Let’s update Harper’s age from 3 to 4 in `dogs.json.`
@@ -88,18 +94,20 @@ The Data Loader is designed to be safe and repeatable. If a record already exist
 
 ### Adding More Tables
 
-If your app grows and you want to seed more than just dogs, you can create additional files. For example, a `settings.yaml` file:
+If your app grows and you want to seed more than just dogs, you can create additional files. For example, a `breeds.yaml` file:
 
 ```yaml
 database: myapp
-table: Settings
+table: Breed
 records:
   - id: 1
-    setting_name: app_name
-    setting_value: Dog Tracker
+    name: Labrador
+    size: Large
+    lifespan: 12
   - id: 2
-    setting_name: version
-    setting_value: '1.0.0'
+    name: Husky
+    size: Medium
+    lifespan: 14
 ```
 
 Then add it to your config:
@@ -108,7 +116,7 @@ Then add it to your config:
 dataLoader:
   files:
     - 'data/dogs.json'
-    - 'data/settings.yaml'
+    - 'data/breeds.yaml'
 ```
 
 Harper will read both files and load them into their respective tables.
@@ -123,3 +131,4 @@ In just a few steps, we’ve gone from an empty Dog table to a real application 
 
 - [Data Loader Reference](../../reference/applications/data-loader) – Complete configuration and format options.
 - [Bulk Operations](../operations-api/bulk-operations) - For loading data via the Operations API
+- [Plugins](../../reference/components/plugins) – For adding custom functionality to applications.
