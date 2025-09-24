@@ -4,36 +4,49 @@ title: Debugging Applications
 
 # Debugging Applications
 
-Harper components and applications run inside the Harper process, which is a standard Node.js process that can be debugged with standard JavaScript development tools like Chrome's devtools, VSCode, and WebStorm. Debugging can be performed by launching the Harper entry script with your IDE, or you can start Harper in dev mode and connect your debugger to the running process (defaults to standard 9229 port):
+By now, you’ve built your first application and even added some data. But what if something doesn’t behave the way you expect? Debugging in Harper is meant to feel natural—you don’t need to set up complex tooling just to figure out what’s wrong. Let’s walk through how to spot issues and fix them quickly.
 
+## Start in Dev Mode
+
+The easiest way to debug is to run your application in development mode:
+
+```bash
+harperdb dev .
 ```
-harperdb dev
-# or to run and debug a specific app
-harperdb dev /path/to/app
-```
 
-Once you have connected a debugger, you may set breakpoints in your application and fully debug it. Note that when using the `dev` command from the CLI, this will run Harper in single-threaded mode. This would not be appropriate for production use, but makes it easier to debug applications.
+When Harper is in dev mode, a few things happen that make life easier:
 
-For local debugging and development, it is recommended that you use standard console log statements for logging. For production use, you may want to use Harper's logging facilities, so you aren't logging to the console. The logging functions are available on the global `logger` variable that is provided by Harper. This logger can be used to output messages directly to the Harper log using standardized logging level functions, described below. The log level can be set in the [Harper Configuration File](../../deployments/configuration).
+- Your app automatically reloads when you save changes.
+- Errors and logs show up immediately in your console.
+- Everything runs in a single-threaded mode—not what you’d use in production, but perfect for troubleshooting.
 
-Harper Logger Functions
+:::info
+Try it out: save a small change to your schema or code. Notice how Harper restarts for you and streams the output straight to your terminal. If something goes wrong, you’ll see it instantly.
+:::
 
-- `trace(message)`: Write a 'trace' level log, if the configured level allows for it.
-- `debug(message)`: Write a 'debug' level log, if the configured level allows for it.
-- `info(message)`: Write a 'info' level log, if the configured level allows for it.
-- `warn(message)`: Write a 'warn' level log, if the configured level allows for it.
-- `error(message)`: Write a 'error' level log, if the configured level allows for it.
-- `fatal(message)`: Write a 'fatal' level log, if the configured level allows for it.
-- `notify(message)`: Write a 'notify' level log.
+## Attach a Debugger
+Since Harper is just a Node.js process, you can connect your favorite JavaScript debugger when running in dev mode. It automatically opens on port `9229`, so you can set breakpoints and step through your application just like you would in any other Node project.
 
-For example, you can log a warning:
+For example, if you’re trying to understand why a request to `/Dog/` isn’t returning what you expect, attach a debugger, drop a breakpoint, and inspect the state.
+
+## Log What Matters
+Often, you don’t need a full debugger session—logs will do the job. Every Harper application has a global `logger` you can call at different levels:
 
 ```javascript
-logger.warn('You have been warned');
+logger.debug('Checking Dog record load');
+logger.info('Dog created successfully');
+logger.error('Dog creation failed');
 ```
 
-If you want to ensure a message is logged, you can use `notify` as these messages will appear in the log regardless of log level configured.
+Each level serves a purpose: trace the small details, warn about recoverable problems, or flag something critical with `fatal`. And if you need something that always shows up no matter what, use `notify`.
 
-## Viewing the Log
+The current log level is defined in your Harper configuration, so you’re in control of how much detail you see while you debug.
 
-The Harper Log can be found in your local `~/hdb/log/hdb.log` file (or in the log folder if you have specified an alternate hdb root), or in the Studio Status page. Additionally, you can use the [`read_log` operation](../operations-api/logs) to query the Harper log.
+## Where to Find Logs
+In addition to the console output, Harper also writes logs to disk. By default, they’re here:
+
+```bash
+~/hdb/log/hdb.log
+```
+
+If you’ve set a custom Harper root, check the `log/` folder inside it. You can also read logs from the Studio Status page or query them directly with the `read_log` operation.
