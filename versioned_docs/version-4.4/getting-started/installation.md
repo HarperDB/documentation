@@ -62,6 +62,7 @@ docker run -d \
   -v <host_directory>:/home/harperdb/hdb \
   -e HDB_ADMIN_USERNAME=HDB_ADMIN \
   -e HDB_ADMIN_PASSWORD=password \
+  -p 9925:9925 \
   -p 9926:9926 \
   harperdb/harperdb
 ```

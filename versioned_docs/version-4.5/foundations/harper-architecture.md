@@ -44,7 +44,7 @@ Applications sit at the top layer. They’re where you implement user-facing fea
 - A **Next.js app** served directly from Harper.
 - A **basic app** from the [Getting Started guide](../getting-started/quickstart) that defines a schema, adds a table, and automatically exposes REST endpoints with the `rest` extension.
 
-Applications don’t re-invent core logic—they declare the extensions they need.
+Applications don’t re-invent core logic—they declare the plugins they need.
 
 ### Component Configuration
 
@@ -76,7 +76,7 @@ At the heart of Harper is the **Resource API**. It gives you a unified, consiste
 
 Every call is wrapped in a transaction, so multi-table operations stay consistent without extra boilerplate.
 
-For the complete API, see the [Resource reference](../reference/resource).
+For the complete API, see the [Resource reference](../reference/resources).
 
 :::info
 💡 **Why it matters:** You can build reliable features—like signups, payments, or analytics—without hand-rolling transaction logic.

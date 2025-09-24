@@ -37,17 +37,13 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 
 ## Plugins (formerly Extensions)
 
-**Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../reference/components/extensions) is still supported), but the new [plugin API](../reference/components/plugins) is simultaneously a simplification and extensibility upgrade. 
+**Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../reference/components/extensions) is still supported), but the new [plugin API](../reference/components/plugins) is simultaneously a simplification and extensibility upgrade.
 
 Examples you’ll see in the ecosystem include:
 
-- [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions
-- [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data
-- [static](../reference/components/built-in-extensions#static) for serving files or frontend assets
-- [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration
-- [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL
+- **Built in extensions**: These are embedded in Harper and work out of the box. Examples include [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions, [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data, and [static](../reference/components/built-in-extensions#static) for serving files or frontend assets.
 
-Some built-in extensions have already been rewritten as plugins, so you may encounter both names in the documentation. Where possible, prefer the plugin version for new projects.
+- **Custom extensions**: These live outside of Harper and are installed from GitHub or npm. Harper supports a few official ones, and the ecosystem may include community plugins as well. Examples include [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration and [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL.
 
 :::info
 💡 **Why it matters:** Plugins (formerly extensions) give Harper its flexibility. You can compose them into applications to get powerful functionality without writing boilerplate yourself.
@@ -55,7 +51,7 @@ Some built-in extensions have already been rewritten as plugins, so you may enco
 
 ## Resources
 
-**Resources** are Harper’s data layer and are implemented using the `Resource` class.  
+**Resources** are Harper’s data layer and are implemented using the [`Resource`](../reference/resources/) class.  
 They represent databases, tables, and other data entities, and they provide a unified API for accessing, querying, modifying, and monitoring records.
 
 At the simplest level, resources let you:
@@ -68,7 +64,7 @@ Each `Resource` instance can represent a single record or a collection of record
 Static methods on the `Resource` class handle common operations like parsing paths, running transactions, and enforcing access controls, while instance methods give you a transactional view of individual records.
 
 :::info
-💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic
+💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic. For full details, see the [Resource reference documentation](../reference/resources/).
 :::
 
 ## Server

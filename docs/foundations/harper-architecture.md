@@ -44,7 +44,7 @@ Applications sit at the top layer. They’re where you implement user-facing fea
 - A **Next.js app** served directly from Harper.
 - A **basic app** from the [Getting Started guide](../getting-started/quickstart) that defines a schema, adds a table, and automatically exposes REST endpoints with the `rest` extension.
 
-Applications don’t re-invent core logic—they declare the extensions they need.
+Applications don’t re-invent core logic—they declare the plugins they need.
 
 ### Component Configuration
 
