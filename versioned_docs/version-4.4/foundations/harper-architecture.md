@@ -76,7 +76,7 @@ At the heart of Harper is the **Resource API**. It gives you a unified, consiste
 
 Every call is wrapped in a transaction, so multi-table operations stay consistent without extra boilerplate.
 
-For the complete API, see the [Resource reference](../reference/resources).
+For the complete API, see the [Resource reference](../reference/resource).
 
 :::info
 💡 **Why it matters:** You can build reliable features—like signups, payments, or analytics—without hand-rolling transaction logic.

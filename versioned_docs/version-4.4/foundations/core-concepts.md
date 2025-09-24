@@ -11,7 +11,7 @@ Before you build your first app with Harper, it helps to understand a few key id
 **Components** are the building blocks of Harper.  
 They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).
 
-Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../reference/components/built-in-extensions) are just kinds of components:
+Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../developers/components/reference#extensions) are just kinds of components:
 
 - **Plugins** add individual capabilities, like defining tables or serving static assets.
 - **Applications** pull multiple plugins and resources together into a complete product.
@@ -37,11 +37,11 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 
 ## Plugins (formerly Extensions)
 
-**Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../reference/components/extensions) is still supported), but the new [plugin API](../reference/components/plugins) is simultaneously a simplification and extensibility upgrade.
+**Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../developers/components/reference#extensions) is still supported), but the new plugin API is simultaneously a simplification and extensibility upgrade.
 
 Examples you’ll see in the ecosystem include:
 
-- **Built in extensions**: These are embedded in Harper and work out of the box. Examples include [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions, [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data, and [static](../reference/components/built-in-extensions#static) for serving files or frontend assets.
+- **Built in extensions**: These are embedded in Harper and work out of the box. Examples include [graphqlSchema](../developers/components/built-in#graphqlschema) for database and table definitions, [rest](../developers/rest) for RESTful access to your data, and [static](../developers/components/built-in#static) for serving files or frontend assets.
 
 - **Custom extensions**: These live outside of Harper and are installed from GitHub or npm. Harper supports a few official ones, and the ecosystem may include community plugins as well. Examples include [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration and [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL.
 
@@ -51,7 +51,7 @@ Examples you’ll see in the ecosystem include:
 
 ## Resources
 
-**Resources** are Harper’s data layer and are implemented using the [`Resource`](../reference/resources/) class.  
+**Resources** are Harper’s data layer and are implemented using the [`Resource`](../reference/resource/) class.  
 They represent databases, tables, and other data entities, and they provide a unified API for accessing, querying, modifying, and monitoring records.
 
 At the simplest level, resources let you:
@@ -64,7 +64,7 @@ Each `Resource` instance can represent a single record or a collection of record
 Static methods on the `Resource` class handle common operations like parsing paths, running transactions, and enforcing access controls, while instance methods give you a transactional view of individual records.
 
 :::info
-💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic. For full details, see the [Resource reference documentation](../reference/resources/).
+💡 **Why it matters:** Whether you’re working with standard tables or custom-defined resources, everything in Harper’s data layer builds on the same model. This gives you consistency when modeling data and flexibility to extend it with your own logic. For full details, see the [Resource reference documentation](../reference/resource/).
 :::
 
 ## Server
