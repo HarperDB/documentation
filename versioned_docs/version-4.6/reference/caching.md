@@ -3,270 +3,289 @@ title: Caching
 ---
 
 # Caching
-Harper provides integrated caching features for external data sources. This page documents all schema directives, configuration options, and resource APIs relevant to caching.
 
-## Schema Directives
+Harper includes integrated support for caching data from Harper and 3rd party sources. With built-in caching, distributed high-performance responsiveness, and low latency, Harper can function as a data caching server.
 
-### `@table(expiration: <seconds>)`
-Defines a table with caching behavior and optional expiration time (TTL).
-- expiration: Time in seconds before a record becomes stale.
-- Example:
-    ```graphql
-    type MyCache @table(expiration: 3600) {
-        id: ID @primaryKey
-    }
-    ```
-#### Expiration Properties
-You can configure multiple timing behaviors:
-- **expiration** – Time until record goes stale.
-- **eviction** – Time after expiration before the record is removed. Defaults to 0.
-- **scanInterval** – Interval for scanning expired records. Defaults to ¼ of (expiration + eviction).
+Cached data is stored in standard tables as queryable structured data. Data can be consumed in one format (e.g., JSON, CSV) and returned in another (e.g., MessagePack with selected properties). Harper also attaches timestamps and tags for caching control, supporting downstream caching.
 
-If only `expiration` is provided, it applies to all behaviors.
+## Table Configuration
 
-## Eviction with Indexing
-Eviction removes the non-indexed data of a cached record once it expires. However:
-- Indexed attributes remain stored so that indexes stay valid.
-- Evicted records exist as partial records.
-- If a query matches an evicted record, Harper will re-fetch it from the source on demand.
+### Defining a Cache Table
 
-This ensures cache eviction does not break query integrity.
+Schema example (`schema.graphql`):
 
-
-## Resource API
-Caching tables must define an external Resource in `resources.js`. Extend the global `Resource` class and implement methods as needed.
-
-### `get()`
-Fetches a record from the external data source.
-```javascript
-class MyAPI extends Resource {
-  async get() {
-    return (await fetch(`https://api.com/${this.getId()}`)).json();
-  }
+```graphql
+type MyCache @table(expiration: 3600) @export {
+	id: ID @primaryKey
 }
 ```
 
-### `put(data)`
-Write-through update to the source.
+- `@table(expiration: 3600)` defines a caching table with TTL.
+- Expiration is measured in seconds.
+- Expiration needed for passive caches (no active invalidation).
+- Expiration is optional if you provide notifications for invalidation.
+
+### Expiration Properties
+
+You may configure one or multiple expiration values:
+
+- **expiration**: Time until a record is considered stale.
+- **eviction**: Time after expiration before a record is removed (default = `0`).
+- **scanInterval**: Interval for scanning expired records (default = `¼ * (expiration + eviction)`).
+
+Additional expiration semantics:
+
+- **stale expiration**: Request may trigger origin fetch; stale record may still be returned.
+- **must-revalidate expiratio**n: Request must fetch from origin before returning.
+- **eviction expiration**: When record is removed from the table.
+
+## External Data Source
+
+### Defining a Resource
+
+Extend the `Resource` class in `resources.js`:
+
 ```javascript
-async put(data) {
-  await fetch(`https://api.com/${this.getId()}`, {
-    method: 'PUT',
-    body: JSON.stringify(data)
-  });
+class ThirdPartyAPI extends Resource {
+	async get() {
+		return (await fetch(`https://some-api.com/${this.getId()}`)).json();
+	}
 }
 ```
 
-### `delete()`
-Removes a record from the source.
+### Linking to a Cache Table
 
-### `ensureLoaded()`
-Ensures the record is loaded from source when using `put`, `post`, or `delete`.
-
-## Cache Control Context
-Each request context supports additional caching metadata:
-
-- `lastModified`: Set timestamp of last modification.
-- `expiresAt`: Explicitly set expiration time.
-- `replacingRecord`: Existing cached record for revalidation.
-- `replacingVersion` – Previous version timestamp for conditional revalidation (`If-Modified-Since`).
-
-Example:
 ```javascript
-this.getContext().lastModified = response.headers.get('Last-Modified');
-this.getContext().expiresAt = Date.now() + 60000; // 1 min
+const { MyCache } = tables;
+MyCache.sourcedFrom(ThirdPartyAPI);
 ```
 
-## Expiration from Source Headers
-You can set expirations dynamically based on source responses:
-```javascript
-let cacheInfo = response.headers.get('Cache-Control');
-let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
-if (maxAge) context.expiresAt = Date.now() + maxAge * 1000;
-```
-If the origin responds with `304 Not Modified`, return `context.replacingRecord` instead of re-downloading.
+Behavior:
 
-## Invalidation
-You can manually invalidate cached records to force re-fetch on next access:
+- Accessing `/MyCache/some-id`:
+  - If cached and valid → return.
+  - If missing or expired → call `get()`, fetch from source, store result, then return.
+
+Prevents cache stampede by ensuring concurrent requests wait for a single resolution.
+
+## Eviction and Indexing
+
+- Eviction = removal of cached copy only.
+- Evicted records remain in indexes.
+- Index data is preserved as "partial" records.
+- If query matches an evicted record → record is fetched on demand.
+
+## Timestamps
+
+```javascript
+class ThirdPartyAPI extends Resource {
+	async get() {
+		let response = await fetch(`https://some-api.com/${this.getId()}`);
+		this.getContext().lastModified = response.headers.get('Last-Modified');
+		return response.json();
+	}
+}
+```
+
+- `context.lastModified` stores record timestamp.
+
+## Expiration Control
+
+Set expiration dynamically:
+
+```javascript
+class ThirdPartyAPI extends Resource {
+	async get() {
+		const context = this.getContext();
+		let headers = new Headers();
+		if (context.replacingVersion) headers.set('If-Modified-Since', new Date(context.replacingVersion).toUTCString());
+
+		let response = await fetch(`https://some-api.com/${this.getId()}`, { headers });
+		let cacheInfo = response.headers.get('Cache-Control');
+		let maxAge = cacheInfo?.match(/max-age=(\d)/)?.[1];
+		if (maxAge) context.expiresAt = Date.now() + maxAge * 1000;
+
+		if (response.status === 304) return context.replacingRecord;
+	}
+}
+```
+
+## Active Caching and Invalidation
+
+### Passive Cache
+
+- Relies on expiration timers.
+- May contain stale data temporarily.
+
+### Active Cache
+
+- Data source notifies cache of changes.
+- Cache updates immediately.
+
+### Invalidate Example
+
 ```javascript
 const { MyTable } = tables;
 export class MyTableEndpoint extends MyTable {
-  async post(data) {
-    if (data.invalidate) this.invalidate();
+	async post(data) {
+		if (data.invalidate) this.invalidate();
+	}
+}
+```
+
+## Subscriptions
+
+### Implementing Subscribe
+
+```javascript
+class ThirdPartyAPI extends Resource {
+  async *subscribe() {
+    setInterval(async () => {
+      let update = (await fetch(`https://some-api.com/latest-update`)).json();
+      yield {
+        type: 'put',
+        id: update.id,
+        value: update.value,
+        timestamp: update.timestamp
+      };
+    }, 1000);
   }
 }
 ```
-Invalidation removes the cached entry but preserves schema consistency.
 
-## Events and Subscriptions
-Caching supports active updates via subscription.
+### Supported Event Types
 
-### Supported Event Types
-- `put`: Record updated, includes new value.
-- `invalidate`: Mark record stale without sending value.
-- `delete`: Record removed.
-- `message`: Publish/subscribe message.
-- `transaction`: Atomic batch of multiple writes.
+- `put`: Record updated (with `value`).
+- `invalidate`: Record invalidated (no value sent).
+- `delete`: Record deleted.
+- `message`: Message passed (no record change).
+- `transaction`: Batch of events (`writes` property).
 
-### Event Properties
-- **type**: Event type (above).
-- **id**: Primary key of record.
-- **value**: Record value (for put or message).
-- **writes**: Array of events (for transaction).
-- **timestamp**: Optional time of change.
-- **table**: Table name (for cross-table transactions).
+### Event Object Properties
 
-### subscribe()
-Return an async generator or stream to push events.
+- `type`: Event type.
+- `id`: Primary key of updated record.
+- `value`: Updated record (for `put`, `message`).
+- `writes`: Array of events (for transaction).
+- `table`: Table name (within transactions).
+- `timestamp`: Time of change.
+
+### Multithreading
+
+- By default, subscribe runs on one thread.
+- Use `subscribeOnThisThread` to scale:
+  ```javascript
+  class ThirdPartyAPI extends Resource {
+  	static subscribeOnThisThread(threadIndex) {
+  		return threadIndex < 2; // run on two threads
+  	}
+  }
+  ```
+
+### Stream Alternative
 
 ```javascript
-async *subscribe() {
-  yield { type: 'put', id: '123', value: { name: 'Harper' } };
-}
-```
-
-By default, subscriptions run on one worker thread.
-
-You can control this with:
-
-```javascript
-static subscribeOnThisThread(threadIndex) {
-  return threadIndex < 2; // run on first two threads
-}
-```
-
-Or use a stream:
-```javascript
-subscribe() {
-  const subscription = super.subscribe();
-  remoteService.on('update', (event) => subscription.send(event));
-  return subscription;
+class ThirdPartyAPI extends Resource {
+	subscribe() {
+		const subscription = super.subscribe();
+		setupListeningToRemoteService().on('update', (event) => {
+			subscription.send(event);
+		});
+		return subscription;
+	}
 }
 ```
 
 ## Downstream Caching
-Harper includes built-in support for client-side caching:
 
-- All cached entries include ETags.
-- Clients can use `If-None-Match` to get a `304 Not Modified` instead of re-downloading.
-- Subscription support means clients can layer their own caches (passive or active) on top of Harper.
+- Use REST interface for layered caching.
+- Timestamps provide `ETag` headers.
+- Clients can use `If-None-Match` for 304 responses.
+- Subscription-based updates propagate to downstream caches.
 
 ## Write-Through Caching
 
-If you implement `put()` or `delete()` on a Resource:
+### Writing Methods
 
-- Writes are passed to the canonical source.
-- The cache updates locally after source confirms success.
-- Harper uses a two-phase transaction:
-    - Source confirms the write.
-    - Local cache commits the change.
+```javascript
+class ThirdPartyAPI extends Resource {
+	async put(data) {
+		await fetch(`https://some-api.com/${this.getId()}`, {
+			method: 'PUT',
+			body: JSON.stringify(data),
+		});
+	}
+	async delete() {
+		await fetch(`https://some-api.com/${this.getId()}`, { method: 'DELETE' });
+	}
+}
+```
 
-This ensures consistency between the source and the cache.
+Writes:
 
-## Passive–Active Updates
-Resources can update related tables during a `get()`.
-Use the current context to perform transactional multi-table updates:
+- Forwarded to origin source.
+- Stored in cache.
+
+## Loading from Source in Other Methods
+
+Use `ensureLoaded()`:
+
+```javascript
+class MyCache extends tables.MyCache {
+	async post(data) {
+		await this.ensuredLoaded();
+		this.quantity = this.quantity - data.purchases;
+	}
+}
+```
+
+## Passive-Active Updates
+
+Transactional updates using `context`:
 
 ```javascript
 const { Post, Comment } = tables;
 class BlogSource extends Resource {
-  async get() {
-    const post = await (await fetch(`https://server/${this.getId()}`)).json();
-    for (let comment of post.comments) {
-      await Comment.put(comment, this); // transactionally linked
-    }
-    return post;
-  }
+	async get() {
+		const post = await (await fetch(`https://my-blog-server/${this.getId()}`)).json();
+		for (let comment of post.comments) {
+			await Comment.put(comment, this);
+		}
+		return post;
+	}
 }
+Post.sourcedFrom(BlogSource);
 ```
-Both `Post` and `Comment` are updated atomically with the same timestamp.
 
-## Cache-Control Headers
-Caching endpoints respect standard HTTP caching headers:
+## Cache-Control Header
 
-- `Cache-Control: max-age=<seconds>` – Define TTL.
-- `Cache-Control: only-if-cached` – Return 504 if not cached.
-- `Cache-Control: no-store` – Do not store result.
-- `Cache-Control: no-cache` – Force revalidation.
-- `stale-if-error` – Return stale result if source fails.
-- `must-revalidate` – Prevent stale return even if source fails.
+- PUT / POST:
+  `Cache-Control: max-age=86400` → record cached until stale.
+- GET:
+  - `only-if-cached`: Return if cached, else `504`.
+  - `no-store`: Do not retrieve from source.
+  - `no-cache`: Do not use cached record.
+  - `stale-if-error`: Allow stale if origin fails.
+  - `must-revalidate`: Forbid stale return even on error.
 
-## Behavior Overview
-### Passive Cache Flow
+## Caching Flow
 
-```mermaid
-flowchart TD
-    A[Client request]
-    B{Record in cache?}
-    C{In flight fetch exists?}
-    D[Wait for result]
-    E[Fetch from source]
-    F[Store in cache]
-    G{Record stale?}
-    H[Return cached record]
+### Read Flow
 
-    A --> B
-    B -- No --> C
-    C -- Yes --> D
-    C -- No --> E
-    E --> F
-    F --> H
-    B -- Yes --> G
-    G -- No --> H
-    G -- Yes --> E
-    D --> H
-```
-Lookup record in cache.
-
-- If missing/expired → call source `get()`.
-- If request in-flight → wait for result.
-- On retrieval → save to cache, return to client.
-- Expired records may be returned while refresh happens in background.
+1. Create resource instance.
+2. If cached:
+   - If fresh → return immediately.
+   - If stale → fetch from source, update cache asynchronously, return value.
+3. If not cached:
+   - If another request pending → wait for result.
+   - Else → fetch, cache, return.
 
 ### Write-Through Flow
 
-```mermaid
-flowchart TD
-    A[Client write request]
-    B[Resource instance created]
-    C[put or post called]
-    D[Transaction opened]
-    E[Write sent to source]
-    F{Source confirms}
-    G[Commit to local cache]
-    H[Resolve transaction and respond]
-    I[Abort transaction]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F -- Yes --> G
-    G --> H
-    F -- No --> I
-
-```
-- Resource instance created.
-- `put()` or `post()` called, transaction opened.
-- Write sent to source.
-- Source confirms → local cache commits.
-- Transaction resolved, response sent to client.
-
-## Example Configurations
-### Passive cache with expiration
-
-```javascript
-type BreedCache @table(expiration: 3600) @export {
-  id: ID @primaryKey
-}
-```
-
-### Active cache with subscription
-```javascript
-class BreedAPI extends Resource {
-  async *subscribe() {
-    yield { type: 'invalidate', id: 'husky' };
-  }
-}
-```
+1. Resource instance created.
+2. `put()` or `post()` recorded in transaction.
+3. Transaction commits:
+   - Write sent to source.
+   - Source confirms.
+   - Record written to cache table.
+4. Response returned after local commit.

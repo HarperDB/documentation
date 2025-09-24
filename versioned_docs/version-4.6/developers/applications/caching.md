@@ -1,6 +1,7 @@
 ---
 title: Caching
 ---
+
 # Caching
 
 In the [quickstart guide](../../getting-started/first-harper-app.md), you built a working Dog API in just a few minutes. That API is now ready to store and query data. But what happens when your application also needs to pull in data from other systems—say, a third-party service that provides dog breed information?
@@ -8,25 +9,29 @@ In the [quickstart guide](../../getting-started/first-harper-app.md), you built 
 If you hit that external API every time a user makes a request, you’ll pay the cost in speed, reliability, and maybe even money. That’s where Harper’s built-in caching comes in. Harper lets you cache external data in the same tables and APIs you’re already using, so your app feels fast, reliable, and cost-efficient without you writing glue code.
 
 ## Step 1: Add a Cache Table
+
 Caching in Harper works just like creating any other table. Open up your `schema.graphql` and add a cache table alongside your `Dog` table:
 
 ```graphql
 type BreedCache @table(expiration: 3600) @export {
-  id: ID @primaryKey
+	id: ID @primaryKey
 }
 ```
-Here, `expiration: 3600` means cached entries expire after an hour. Harper will automatically evict old data and refresh it when needed. By exporting this table, you instantly get a REST API for it at `http://localhost:9926/BreedCache/`.
+
+Here, `expiration: 3600` means cached entries expire after an hour. By exporting this table, you instantly get a REST API for it at `http://localhost:9926/BreedCache/`.
 
 ## Step 2: Connect to an External Source
+
 Now let’s say you want to enrich your Dog records with breed details from an external API. Instead of hitting that API directly every time, we’ll connect it to the `BreedCache` table.
 
 Open `resources.js` and define a resource:
 
 ```javascript
 class BreedAPI extends Resource {
-  async get() {
-    return (await fetch(`https://dog-api.com/${this.getId()}`)).json();
-  }
+	async get() {
+		const response = await fetch(`https://dog-api.com/${this.getId()}`);
+		return response.json();
+	}
 }
 
 const { BreedCache } = tables;
@@ -42,20 +47,22 @@ That’s it. When your app calls /BreedCache/husky, Harper will:
 Harper even prevents “cache stampedes”: if multiple users request the same breed at the same time, only one fetch goes out to the source.
 
 ## Step 3: Use the Cache in Your API
+
 Now you can combine your Dogs with cached breed info. For example, imagine you added a “breed” attribute to your Dog table earlier:
 
 ```graphql
 type Dog @table @export {
-  id: ID @primaryKey
-  name: String
-  breed: String @indexed
-  age: Int
+	id: ID @primaryKey
+	name: String
+	breed: String @indexed
+	age: Int
 }
 ```
 
 You can enrich a Dog API request by querying both Dog and BreedCache. The Dog table is your source of truth, while BreedCache ensures you never block on slow or flaky external APIs.
 
 ## Step 4: Keep Your Cache Fresh
+
 By default, caches are passive: they refresh only when requested and expired. Sometimes that’s fine. Other times, you’ll want them to stay in sync as soon as data changes at the source. Harper supports both:
 
 - Passive caching: great for data that doesn’t change often (like dog breed characteristics).
@@ -63,9 +70,64 @@ By default, caches are passive: they refresh only when requested and expired. So
 
 You can even invalidate records manually, or implement write-through caching so updates flow both ways.
 
+---
+
+## Example: Caching Expensive Dog Work (Non–Third-Party)
+
+Caching isn’t just for third-party APIs. You can also cache results of expensive work inside your own app—for example, computing detailed statistics about dogs.
+
+Here’s a resource that simulates a slow calculation (delayed by 2 seconds) to generate a “dog score” based on the name length:
+
+```javascript
+class DogStats extends Resource {
+	async get() {
+		// simulate a slow computation
+		await new Promise((r) => setTimeout(r, 2000));
+		return { score: this.getId().length * 42 };
+	}
+}
+
+const { DogStatsCache } = tables;
+DogStatsCache.sourcedFrom(DogStats);
+```
+
+Now when you hit `/DogStatsCache/fido`, the first request takes ~2 seconds. After that, requests return instantly from the cache until the entry expires.
+
 ## Step 5: Layer Caches for Your Users
 
-Caching doesn’t stop at Harper. Because every Harper cache table is a REST API, your clients can cache responses downstream too. Harper automatically tags responses with ETag headers so browsers or edge caches can hold onto data longer. That means your app is fast all the way down—from the source, to Harper, to the client.
+Caching doesn’t stop at Harper. Because every Harper cache table is a REST API, your clients can cache responses downstream too. Harper automatically tags responses with ETag headers so browsers or edge caches can hold onto data for the appropriate amount of time. That means your app is fast all the way down—from the source, to Harper, to the client.
+
+## Example: Inspecting Dog Cache Behavior
+
+Let’s see what caching looks like in practice with the `BreedCache` table.
+
+First request (miss, goes to source):
+
+```bash
+curl -i http://localhost:9926/BreedCache/husky
+```
+
+You’ll see a `200 OK` and a body with breed info. Importantly, Harper includes an ETag header, like:
+
+```bash
+ETag: "1727223589-husky"
+```
+
+Second request (hit, using ETag):
+
+```bash
+curl -i http://localhost:9926/BreedCache/husky \
+  -H 'If-None-Match: "1727223589-husky"'
+```
+
+Now Harper replies with:
+
+```bash
+304 Not Modified
+
+```
+
+No body is returned, and your client can reuse its cached data. Without sending back the ETag, you’ll always get a `200` instead of a `304`—so sending the tag is critical for real cache hits.
 
 ## Why This Matters
 
