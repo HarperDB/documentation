@@ -4,7 +4,7 @@ title: Data Loader
 
 # Data Loader
 
-Now that you’ve set up your first application, let’s bring it to life with some data. Applications are only as useful as the information they hold, and Harper makes it simple to seed your database with initial records, configuration values, or even test users, without needing to write a custom script. This is where the Data Loader comes in.
+Now that you’ve set up your first application, let’s bring it to life with some data. Applications are only as useful as the information they hold, and Harper makes it simple to seed your database with initial records, configuration values, or even test users, without needing to write a custom script. This is where the Data Loader plugin comes in.
 
 Think of the Data Loader as your shortcut for putting essential data in place from day one. Whether it’s a set of default settings, an admin user account, or sample data for development, the Data Loader ensures that when your application is deployed, it’s immediately usable.
 
