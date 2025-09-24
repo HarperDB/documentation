@@ -30,27 +30,47 @@ dog_reader:
 
 When Harper starts up, it will create this role (or update it if it already exists).
 
-## Step 2: Assign the Role
+## Step 2: Create a User for the Role
 
-Now that the role exists, assign it to a user. You can do this through the [Users and Roles API](../security/users-and-roles) or via the CLI. Once assigned, the user’s permissions will reflect exactly what you declared in `roles.yaml`.
+Next, create a non-super_user user and assign them this role. You can do this with the [Users and Roles API](../security/users-and-roles) (requires a super_user to run):
 
-For example, a user with the `dog_reader` role can insert new dog records, but not delete or update them.
+```bash
+curl -u admin:password -X POST http://localhost:9926 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "operation": "add_user",
+    "username": "alice",
+    "password": "password",
+    "role": "dog_reader"
+  }'
+```
 
-## Step 3: See It in Action
+Now you have a user named `alice` with the `dog_reader` role.
 
-Try it out. Sign in as the user with the `dog_reader` role and attempt the following:
+## Step 3: Make Requests as Different Users
 
-```yaml
-# allowed
-curl -X POST http://localhost:9926/Dog/ \
+Authenticate requests as `alice` to see how her role works:
+
+```bash
+# allowed (insert, role permits insert)
+curl -u alice:password -X POST http://localhost:9926/Dog/ \
   -H "Content-Type: application/json" \
   -d '{"name": "Buddy", "breed": "Husky"}'
 
-# not allowed
-curl -X DELETE http://localhost:9926/Dog/<id>
+# not allowed (delete, role does not permit delete)
+curl -u alice:password -X DELETE http://localhost:9926/Dog/1
 ```
 
-The first request succeeds because the role allows `insert`. The second fails because `delete` isn’t permitted. Just like that, you’ve enforced role-based access control inside your app.
+The first request succeeds with a `200 OK`. The second fails with a `403 Forbidden`.
+
+Now compare with a super_user:
+
+```bash
+# super_user can delete
+curl -u admin:password -X DELETE http://localhost:9926/Dog/1
+```
+
+This succeeds because the super_user role has full permissions.
 
 ## Where to Go Next
 
