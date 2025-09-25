@@ -150,6 +150,13 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 
 		// SQL Guide
 		{ from: withBase('/sql-guide'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/date-functions'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/features-matrix'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/functions'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/json-search'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/reserved-word'), to: withBase('/') },
+		{ from: withBase('/developers/sql-guide/sql-geospatial-functions'), to: withBase('/') },
 
 		// CLI
 		{ from: withBase('/harperdb-cli'), to: withBase('/deployments/harper-cli') },
