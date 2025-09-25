@@ -149,7 +149,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		},
 
 		// SQL Guide
-		{ from: withBase('/sql-guide'), to: withBase('/developers/sql-guide/') },
+		{ from: withBase('/sql-guide'), to: withBase('/') },
 
 		// CLI
 		{ from: withBase('/harperdb-cli'), to: withBase('/deployments/harper-cli') },
