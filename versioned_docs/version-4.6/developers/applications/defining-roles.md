@@ -20,7 +20,7 @@ roles:
 Then create a simple `roles.yaml` in your application directory. For example, here’s a role that can only read and insert data into the `Dog` table:
 
 ```yaml
-dog_reader:
+dog-reader:
   super_user: false
   data:
     Dog:
