@@ -61,7 +61,10 @@ Indexes make queries faster, especially if you’re filtering or sorting on cert
 For example, if you want to quickly look up dogs by breed, you can add:
 
 ```graphql
-breed: String @indexed
+type Dog @table @export(name: "dogs") {
+	# ...
+	breed: String @indexed
+}
 ```
 
 And if you want to get fancy, you can even use vector indexing for similarity search. Imagine storing embeddings of each dog’s description:
