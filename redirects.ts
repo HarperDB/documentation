@@ -194,13 +194,36 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 		// Extract the path after /release-notes/
 		const subpath = existingPath.replace('/release-notes/', '');
 
+		// Handle old version naming (4.tucker -> v4-tucker, etc.)
+		let oldSubpath = subpath;
+		const versionMap: Record<string, string> = {
+			'v1-alby': '1.alby',
+			'v2-penny': '2.penny',
+			'v3-monkey': '3.monkey',
+			'v4-tucker': '4.tucker',
+		};
+
+		// Check if the path starts with a new version name and convert to old format
+		for (const [newName, oldName] of Object.entries(versionMap)) {
+			if (subpath.startsWith(`${newName}/`) || subpath === newName) {
+				oldSubpath = subpath.replace(newName, oldName);
+				break;
+			}
+		}
+
 		// Add redirects from current version docs (4.6 is served at /docs/)
 		redirects.push(`/docs/technical-details/release-notes/${subpath}`);
+		if (oldSubpath !== subpath) {
+			redirects.push(`/docs/technical-details/release-notes/${oldSubpath}`);
+		}
 
 		// Also redirect from all versioned docs paths
 		const versions = ['4.1', '4.2', '4.3', '4.4', '4.5', '4.6'];
 		for (const version of versions) {
 			redirects.push(`/docs/${version}/technical-details/release-notes/${subpath}`);
+			if (oldSubpath !== subpath) {
+				redirects.push(`/docs/${version}/technical-details/release-notes/${oldSubpath}`);
+			}
 		}
 	}
 
