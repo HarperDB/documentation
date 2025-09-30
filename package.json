@@ -17,7 +17,8 @@
 		"format": "prettier .",
 		"format:check": "npm run format -- --check",
 		"format:write": "npm run format -- --write",
-		"lint": "echo 0;"
+		"lint": "echo 0;",
+		"preview:pr": "node scripts/preview-pr.mjs"
 	},
 	"dependencies": {
 		"@docusaurus/core": "3.8.1",
