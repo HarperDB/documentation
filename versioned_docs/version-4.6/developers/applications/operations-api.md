@@ -16,8 +16,8 @@ Everything in Harper starts with a database. Think of it as the logical containe
 
 ```json
 {
-  "operation": "create_database",
-  "database": "dev"
+	"operation": "create_database",
+	"database": "dev"
 }
 ```
 
@@ -25,7 +25,7 @@ If successful, Harper responds with:
 
 ```json
 {
-  "message": "database 'dev' successfully created"
+	"message": "database 'dev' successfully created"
 }
 ```
 
@@ -37,10 +37,10 @@ Inside our database, we’ll create a table to store information about dogs. Eve
 
 ```json
 {
-  "operation": "create_table",
-  "database": "dev",
-  "table": "dog",
-  "primary_key": "id"
+	"operation": "create_table",
+	"database": "dev",
+	"table": "dog",
+	"primary_key": "id"
 }
 ```
 
@@ -48,7 +48,7 @@ Response:
 
 ```json
 {
-  "message": "table 'dev.dog' successfully created."
+	"message": "table 'dev.dog' successfully created."
 }
 ```
 
@@ -60,19 +60,19 @@ Let’s add our first record: Penny, a dog we care about.
 
 ```json
 {
-  "operation": "insert",
-  "database": "dev",
-  "table": "dog",
-  "records": [
-    {
-      "id": 1,
-      "dog_name": "Penny",
-      "owner_name": "Kyle",
-      "breed_id": 154,
-      "age": 7,
-      "weight_lbs": 38
-    }
-  ]
+	"operation": "insert",
+	"database": "dev",
+	"table": "dog",
+	"records": [
+		{
+			"id": 1,
+			"dog_name": "Penny",
+			"owner_name": "Kyle",
+			"breed_id": 154,
+			"age": 7,
+			"weight_lbs": 38
+		}
+	]
 }
 ```
 
@@ -80,9 +80,9 @@ Response:
 
 ```json
 {
-  "message": "inserted 1 of 1 records",
-  "inserted_hashes": [1],
-  "skipped_hashes": []
+	"message": "inserted 1 of 1 records",
+	"inserted_hashes": [1],
+	"skipped_hashes": []
 }
 ```
 
@@ -95,45 +95,49 @@ More examples in the [NoSQL Operations reference](../../reference/operations-api
 Now that we have data, let’s retrieve it. You can query using NoSQL operations like `search_by_id` or `search_by_value`, or you can use SQL.
 
 **NoSQL Example**:
+
 ```json
 {
-  "operation": "search_by_id",
-  "database": "dev",
-  "table": "dog",
-  "ids": [1],
-  "get_attributes": ["dog_name", "owner_name"]
+	"operation": "search_by_id",
+	"database": "dev",
+	"table": "dog",
+	"ids": [1],
+	"get_attributes": ["dog_name", "owner_name"]
 }
 ```
 
 Response:
+
 ```json
 [
-  {
-    "dog_name": "Penny",
-    "owner_name": "Kyle"
-  }
+	{
+		"dog_name": "Penny",
+		"owner_name": "Kyle"
+	}
 ]
 ```
 
 **SQL Example:**
+
 ```json
 {
-  "operation": "sql",
-  "sql": "SELECT * FROM dev.dog WHERE id = 1"
+	"operation": "sql",
+	"sql": "SELECT * FROM dev.dog WHERE id = 1"
 }
 ```
 
 Response:
+
 ```json
 [
-  {
-    "id": 1,
-    "dog_name": "Penny",
-    "owner_name": "Kyle",
-    "age": 7,
-    "weight_lbs": 38,
-    "breed_id": 154
-  }
+	{
+		"id": 1,
+		"dog_name": "Penny",
+		"owner_name": "Kyle",
+		"age": 7,
+		"weight_lbs": 38,
+		"breed_id": 154
+	}
 ]
 ```
 
@@ -145,15 +149,15 @@ Dogs grow and change, and so does data. Updating Penny’s name is as simple as:
 
 ```json
 {
-  "operation": "update",
-  "database": "dev",
-  "table": "dog",
-  "records": [
-    {
-      "id": 1,
-      "dog_name": "Penny B"
-    }
-  ]
+	"operation": "update",
+	"database": "dev",
+	"table": "dog",
+	"records": [
+		{
+			"id": 1,
+			"dog_name": "Penny B"
+		}
+	]
 }
 ```
 
@@ -161,9 +165,9 @@ Response:
 
 ```json
 {
-  "message": "updated 1 of 1 records",
-  "update_hashes": [1],
-  "skipped_hashes": []
+	"message": "updated 1 of 1 records",
+	"update_hashes": [1],
+	"skipped_hashes": []
 }
 ```
 
@@ -175,17 +179,18 @@ Harper tracks background jobs (like CSV imports) and system logs (like errors or
 
 ```json
 {
-  "operation": "get_job",
-  "id": "4a982782-929a-4507-8794-26dae1132def"
+	"operation": "get_job",
+	"id": "4a982782-929a-4507-8794-26dae1132def"
 }
 ```
 
 **Read logs:**
+
 ```json
 {
-  "operation": "read_log",
-  "limit": 100,
-  "level": "error"
+	"operation": "read_log",
+	"limit": 100,
+	"level": "error"
 }
 ```
 
@@ -197,9 +202,9 @@ As workloads grow, you might want to adjust configuration. For example, increasi
 
 ```json
 {
-  "operation": "set_configuration",
-  "logging_level": "trace",
-  "clustering_enabled": true
+	"operation": "set_configuration",
+	"logging_level": "trace",
+	"clustering_enabled": true
 }
 ```
 
@@ -207,7 +212,7 @@ Changes require a restart:
 
 ```json
 {
-  "operation": "restart"
+	"operation": "restart"
 }
 ```
 
@@ -221,20 +226,20 @@ Add a role:
 
 ```json
 {
-  "operation": "add_role",
-  "role": "developer",
-  "permission": {
-    "dev": {
-      "tables": {
-        "dog": {
-          "read": true,
-          "insert": true,
-          "update": true,
-          "delete": false
-        }
-      }
-    }
-  }
+	"operation": "add_role",
+	"role": "developer",
+	"permission": {
+		"dev": {
+			"tables": {
+				"dog": {
+					"read": true,
+					"insert": true,
+					"update": true,
+					"delete": false
+				}
+			}
+		}
+	}
 }
 ```
 
@@ -242,11 +247,11 @@ Add a user:
 
 ```json
 {
-  "operation": "add_user",
-  "role": "developer",
-  "username": "hdb_user",
-  "password": "password",
-  "active": true
+	"operation": "add_user",
+	"role": "developer",
+	"username": "hdb_user",
+	"password": "password",
+	"active": true
 }
 ```
 
@@ -254,9 +259,9 @@ For token-based authentication:
 
 ```json
 {
-  "operation": "create_authentication_tokens",
-  "username": "hdb_user",
-  "password": "password"
+	"operation": "create_authentication_tokens",
+	"username": "hdb_user",
+	"password": "password"
 }
 ```
 
@@ -265,13 +270,14 @@ More in [Users and Roles](../../reference/operations-api/users-and-roles) and [T
 ## Step 9: Advanced Operations
 
 Finally, Harper provides deeper operational tools when you need them:
+
 - Backups with `get_backup`
 - Audit logs with `read_audit_log`
 - License management with `set_license`
 
 See the [full Operations API reference](../../reference/operations-api/) for every option.
 
-___
+---
 
 From creating a database and table to inserting data, querying with SQL or NoSQL, monitoring logs, tuning the system, and locking down security, the Operations API gives you the complete toolkit to run Harper programmatically.
 
