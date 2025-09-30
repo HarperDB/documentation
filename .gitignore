@@ -4,6 +4,9 @@ node_modules
 # Production
 build
 
+# PR Preview
+.preview
+
 # Generated files
 .docusaurus
 .cache-loader
