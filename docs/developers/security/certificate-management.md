@@ -55,6 +55,85 @@ tls:
   ...
 ```
 
+### Certificate Revocation Checking
+
+When using mTLS, you may also want to enable certificate revocation checking to ensure that revoked certificates cannot be used for authentication, even if they're still within their validity period. Harper supports two industry-standard methods for checking certificate revocation status:
+
+**CRL (Certificate Revocation List)**
+
+- A digitally signed list of revoked certificates published by the Certificate Authority
+- Downloaded and cached locally for fast verification
+- Updated periodically (typically daily)
+- Best for: High-volume verification, offline scenarios, predictable bandwidth usage
+
+**OCSP (Online Certificate Status Protocol)**
+
+- Real-time query to check individual certificate status
+- Provides immediate revocation status
+- Requires network connection for each check (with caching)
+- Best for: Real-time revocation status, certificates without CRL distribution points
+
+**Harper's Approach: CRL-First with OCSP Fallback**
+
+Harper uses a CRL-first strategy for optimal performance:
+
+1. Checks CRL if available (fast, cached locally for 24 hours by default)
+2. Falls back to OCSP if CRL is not available or fails (cached for 1 hour by default)
+3. Applies the configured failure mode if both methods fail
+
+This strategy provides the best balance of performance, reliability, and security.
+
+**Enabling Certificate Verification**
+
+Certificate revocation checking is disabled by default and must be explicitly enabled:
+
+```yaml
+http:
+  mtls:
+    required: true
+    certificateVerification: true # Enable with defaults
+```
+
+For production environments with high-security requirements, you can customize the verification settings:
+
+```yaml
+http:
+  mtls:
+    required: true
+    certificateVerification:
+      failureMode: fail-closed # Reject connections on verification failure
+      crl:
+        timeout: 15000 # 15 seconds to download CRL
+        cacheTtl: 43200000 # Cache for 12 hours
+      ocsp:
+        timeout: 8000 # 8 seconds for OCSP response
+        cacheTtl: 7200000 # Cache for 2 hours
+```
+
+**Performance Considerations**
+
+- **CRL caching**: CRLs are cached locally, so subsequent verifications are very fast (no network requests)
+- **OCSP caching**: Successful OCSP responses are cached (1 hour by default), errors cached for 5 minutes
+- **Background refresh**: CRLs are refreshed in the background before expiration to avoid blocking requests
+- **Graceful degradation**: Network failures don't block connections in fail-open mode
+
+**When to Use Certificate Verification**
+
+Enable certificate revocation checking when:
+
+- You need to immediately revoke access for compromised certificates
+- Compliance or security policies require revocation checking
+- You're in a zero-trust security environment
+- Client certificates have long validity periods
+
+You may skip it if:
+
+- All certificates have very short validity periods (e.g., < 24 hours)
+- You have alternative revocation mechanisms in place
+- Performance is critical and risk is acceptable
+
+For detailed configuration options, see the [configuration reference](../../deployments/configuration#http).
+
 ### Option: Nginx Reverse Proxy
 
 Instead of enabling HTTPS for Harper, Nginx can be used as a reverse proxy for Harper.
