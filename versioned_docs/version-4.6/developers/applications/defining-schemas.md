@@ -36,6 +36,8 @@ type Dog @table @export(name: "dogs") {
 }
 ```
 
+👉 We’ll walk through how to interact with exported tables later in the documentation, so for now just keep in mind that `@export` is what makes your schema available as an API.
+
 ## Add Derived Fields
 
 Suppose you want to keep track of adoption fees for each dog. Instead of storing the total with tax, you can compute it on the fly. That’s where `@computed` comes in:

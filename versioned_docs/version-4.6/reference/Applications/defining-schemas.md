@@ -4,7 +4,7 @@ title: Defining Schemas
 
 # Defining Schemas
 
-Schemas define tables and their attributes. Schemas can be declaratively defined in Harper's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](./) a helpful introduction to how to use schemas as part of database application development.
+Schemas define tables and their attributes. Schemas can be declaratively defined in Harper's using GraphQL schema definitions. Schemas definitions can be used to ensure that tables exist (that are required for applications), and have the appropriate attributes. Schemas can define the primary key, data types for attributes, if they are required, and specify which attributes should be indexed. The [introduction to applications provides](../../developers/applications/) a helpful introduction to how to use schemas as part of database application development.
 
 Schemas can be used to define the expected structure of data, but are also highly flexible and support heterogeneous data structures and by default allows data to include additional properties. The standard types for GraphQL schemas are specified in the [GraphQL schema documentation](https://graphql.org/learn/schema/).
 
@@ -78,7 +78,7 @@ type Brand @table @export {
 }
 ```
 
-Once this is defined we can use the `brand` attribute as a [property in our product instances](../../reference/resources/) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../rest).
+Once this is defined we can use the `brand` attribute as a [property in our product instances](../../reference/resources/) and allow for querying by `brand` and selecting brand attributes as returned properties in [query results](../../developers/rest).
 
 Again, the foreign key may be a multi-valued array (array of keys referencing the target table records). For example, if we had a list of features that references a Feature table:
 
