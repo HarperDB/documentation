@@ -146,50 +146,97 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 `user` - _Type_: string; _Default_: Common Name
 
-This configures a specific username to authenticate as for mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+This configures a specific username to authenticate as for HTTP mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
+
+**Note:** MQTT has its own `mqtt.network.mtls.user` setting (see [MQTT configuration](#mqtt)).
 
 `required` - _Type_: boolean; _Default_: false
 
-This can be enabled to require client certificates (mTLS) for all incoming connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
+This can be enabled to require client certificates (mTLS) for all incoming HTTP connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
 
-`certificateVerification` - _Type_: boolean | object; _Default_: true
+**Note:** MQTT has its own `mqtt.network.mtls.required` setting (see [MQTT configuration](#mqtt)). Replication uses node-based authentication via certificates or IP addresses, with credential-based fallback (see [Securing Replication Connections](../developers/replication/#securing-connections)).
 
-When mTLS is enabled, Harper verifies the revocation status of client certificates using OCSP (Online Certificate Status Protocol). This ensures that revoked certificates cannot be used for authentication.
+`certificateVerification` - _Type_: boolean | object; _Default_: false (disabled)
 
-Set to `false` to disable certificate verification, or configure with an object:
+When mTLS is enabled, Harper can verify the revocation status of client certificates using CRL (Certificate Revocation List) and/or OCSP (Online Certificate Status Protocol). This ensures that revoked certificates cannot be used for authentication.
 
-- `timeout` - _Type_: number; _Default_: 5000 - Maximum milliseconds to wait for OCSP response
-- `cacheTtl` - _Type_: number; _Default_: 3600000 - Milliseconds to cache verification results (default: 1 hour)
-- `failureMode` - _Type_: string; _Default_: 'fail-open' - Behavior when OCSP verification fails:
+**Certificate verification is disabled by default** and must be explicitly enabled for production environments where certificate revocation checking is required.
+
+Set to `true` to enable with defaults, `false` to disable, or configure with an object:
+
+**Global Settings:**
+
+- `failureMode` - _Type_: string; _Default_: 'fail-closed' - Global behavior when verification fails:
   - `'fail-open'`: Allow connection on verification failure (logs warning)
-  - `'fail-closed'`: Reject connection on verification failure
+  - `'fail-closed'`: Reject connection on verification failure (recommended)
+
+**CRL Configuration:** (enabled by default when certificateVerification is enabled)
+
+- `crl.enabled` - _Type_: boolean; _Default_: true - Enable/disable CRL checking
+- `crl.timeout` - _Type_: number; _Default_: 10000 - Maximum milliseconds to wait for CRL download
+- `crl.cacheTtl` - _Type_: number; _Default_: 86400000 - Milliseconds to cache CRL (24 hours)
+- `crl.gracePeriod` - _Type_: number; _Default_: 86400000 - Grace period after CRL nextUpdate (24 hours)
+- `crl.failureMode` - _Type_: string; _Default_: 'fail-closed' - CRL-specific failure mode
+
+**OCSP Configuration:** (enabled by default as fallback when certificateVerification is enabled)
+
+- `ocsp.enabled` - _Type_: boolean; _Default_: true - Enable/disable OCSP checking
+- `ocsp.timeout` - _Type_: number; _Default_: 5000 - Maximum milliseconds to wait for OCSP response
+- `ocsp.cacheTtl` - _Type_: number; _Default_: 3600000 - Milliseconds to cache successful OCSP responses (1 hour)
+- `ocsp.errorCacheTtl` - _Type_: number; _Default_: 300000 - Milliseconds to cache OCSP errors (5 minutes)
+- `ocsp.failureMode` - _Type_: string; _Default_: 'fail-closed' - OCSP-specific failure mode
+
+**Verification Strategy:**
+Harper uses a CRL-first strategy with OCSP fallback. When a client certificate is presented:
+
+1. Check CRL if available (fast, cached locally)
+2. Fall back to OCSP if CRL is not available or fails
+3. Apply the configured failure mode if both methods fail
 
 Example configurations:
 
 ```yaml
-# Basic mTLS with default certificate verification
+# Basic mTLS without certificate verification (certificate revocation not checked)
 http:
   mtls: true
 ```
 
 ```yaml
-# mTLS with certificate verification disabled (not recommended for production)
+# mTLS with certificate verification enabled (recommended for production)
 http:
   mtls:
-    required: true
-    user: user-name
-    certificateVerification: false
+    certificateVerification: true # Uses all defaults (CRL + OCSP, fail-closed)
+```
+
+```yaml
+# Require mTLS for all connections + certificate verification
+http:
+  mtls:
+    required: true # Reject connections without valid client certificate
+    certificateVerification: true
 ```
 
 ```yaml
 # mTLS with custom verification settings for high-security environments
 http:
   mtls:
-    required: true
     certificateVerification:
-      timeout: 10000 # 10 seconds for OCSP response
-      cacheTtl: 7200000 # Cache results for 2 hours
-      failureMode: fail-closed # Reject if OCSP check fails
+      failureMode: fail-closed # Global setting
+      crl:
+        timeout: 15000 # 15 seconds for CRL download
+        cacheTtl: 43200000 # Cache CRLs for 12 hours
+        gracePeriod: 86400000 # 24 hour grace period
+      ocsp:
+        timeout: 8000 # 8 seconds for OCSP response
+        cacheTtl: 7200000 # Cache results for 2 hours
+```
+
+```yaml
+# mTLS with CRL only (no OCSP fallback)
+http:
+  mtls:
+    certificateVerification:
+      ocsp: false # Disable OCSP, CRL remains enabled
 ```
 
 ---
@@ -301,6 +348,68 @@ The port to use for secure replication connections.
 `enableRootCAs` - _Type_: boolean; _Default_: true
 
 When true, Harper will verify certificates against the Node.js bundled CA store. The bundled CA store is a snapshot of the Mozilla CA store that is fixed at release time.
+
+`mtls` - _Type_: object;
+
+Configures mTLS settings for replication connections. **mTLS is always required for replication** and cannot be disabled (for security reasons). You can configure certificate verification settings:
+
+```yaml
+replication:
+  mtls:
+    certificateVerification: true # Enable certificate revocation checking
+```
+
+`certificateVerification` - _Type_: boolean | object; _Default_: false (disabled)
+
+When enabled, Harper will verify the revocation status of replication peer certificates using CRL and/or OCSP. This follows the same configuration structure as [HTTP certificate verification](#http) documented above.
+
+**Important:** mTLS itself is always enabled for replication connections and cannot be disabled. This setting only controls whether certificate revocation checking (CRL/OCSP) is performed.
+
+Example configurations:
+
+```yaml
+# Replication with mTLS but no certificate verification (default)
+replication:
+  hostname: server-one
+  routes:
+    - server-two
+  # mTLS is always enabled, certificate verification is optional
+```
+
+```yaml
+# Replication with certificate verification enabled (recommended for production)
+replication:
+  hostname: server-one
+  routes:
+    - server-two
+  mtls:
+    certificateVerification: true # Uses CRL and OCSP with defaults
+```
+
+```yaml
+# Replication with custom certificate verification settings
+replication:
+  hostname: server-one
+  routes:
+    - server-two
+  mtls:
+    certificateVerification:
+      crl:
+        timeout: 15000
+        cacheTtl: 43200000
+      ocsp:
+        timeout: 8000
+```
+
+Certificate verification can also be configured via environment variables:
+
+```bash
+REPLICATION_MTLS_CERTIFICATEVERIFICATION=true
+REPLICATION_MTLS_CERTIFICATEVERIFICATION_FAILUREMODE=fail-closed
+REPLICATION_MTLS_CERTIFICATEVERIFICATION_CRL=true
+REPLICATION_MTLS_CERTIFICATEVERIFICATION_CRL_TIMEOUT=15000
+REPLICATION_MTLS_CERTIFICATEVERIFICATION_OCSP=true
+```
 
 `blobTimeout` - _Type_: number; _Default_: 120000
 
