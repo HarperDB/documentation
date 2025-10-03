@@ -11,7 +11,7 @@ Before you build your first app with Harper, it helps to understand a few key id
 **Components** are the building blocks of Harper.  
 They’re JavaScript-based modules that extend Harper’s core, and they can talk directly to Harper’s [Global APIs](../reference/globals) (databases, tables, resources).
 
-Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Extensions](../reference/components/built-in-extensions) are just kinds of components:
+Because components can build on top of each other, they give you composability. For example, both [Applications](../developers/applications/) and [Plugins](../reference/components/built-in-extensions) are just kinds of components:
 
 - **Plugins** add individual capabilities, like defining tables or serving static assets.
 - **Applications** pull multiple plugins and resources together into a complete product.
@@ -35,18 +35,18 @@ You can even run full frameworks like [Next.js](https://github.com/HarperDB/next
 💡 **Why it matters:** Applications are how you ship real products on Harper. They let you stitch together resources, APIs, and UI in one place.
 :::
 
-## Plugins (formerly Extensions)
+## Plugins
 
 **Plugins** are a special kind of component that are not meant to run standalone, but instead add features to applications or other components. These were originally called **extensions** (and the [extension API](../reference/components/extensions) is still supported), but the new [plugin API](../reference/components/plugins) is simultaneously a simplification and extensibility upgrade.
 
 Examples you’ll see in the ecosystem include:
 
-- **Built in extensions**: These are embedded in Harper and work out of the box. Examples include [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions, [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data, and [static](../reference/components/built-in-extensions#static) for serving files or frontend assets.
+- **Built in plugins**: These are embedded in Harper and work out of the box. Examples include [graphqlSchema](../reference/components/built-in-extensions#graphqlschema) for database and table definitions, [rest](../reference/components/built-in-extensions#rest) for RESTful access to your data, and [static](../reference/components/built-in-extensions#static) for serving files or frontend assets.
 
-- **Custom extensions**: These live outside of Harper and are installed from GitHub or npm. Harper supports a few official ones, and the ecosystem may include community plugins as well. Examples include [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration and [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL.
+- **Custom plugins**: These live outside of Harper and are installed from GitHub or npm. Harper supports a few official ones, and the ecosystem may include community plugins as well. Examples include [@harperdb/nextjs](https://github.com/HarperDB/nextjs) for Next.js integration and [@harperdb/apollo](https://github.com/HarperDB/apollo) for Apollo GraphQL.
 
 :::info
-💡 **Why it matters:** Plugins (formerly extensions) give Harper its flexibility. You can compose them into applications to get powerful functionality without writing boilerplate yourself.
+💡 **Why it matters:** Plugins give Harper its flexibility. You can compose them into applications to get powerful functionality without writing boilerplate yourself.
 :::
 
 ## Resources

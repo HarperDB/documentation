@@ -23,7 +23,7 @@ harperdb
 ```
 
 That’s it! Harper is now running locally.
-The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration.md).
+The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration).
 
 ✅ Quick check: open http://localhost:9925 or run:
 
@@ -93,10 +93,10 @@ harperdb install
 
 Once Harper is running, you can:
 
-- [Build your first application](../getting-started/quickstart.md)
-- Explore the [Core Concepts](../foundations/core-concepts.md)
-- Learn about [Harper's architecture](../foundations/harper-architecture.md)
-- Review [Configuration options](../deployments/configuration.md)
+- [Build your first application](../getting-started/quickstart)
+- Explore the [Core Concepts](../foundations/core-concepts)
+- Learn about [Harper's architecture](../foundations/harper-architecture)
+- Review [Configuration options](../deployments/configuration)
 
 :::info
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).

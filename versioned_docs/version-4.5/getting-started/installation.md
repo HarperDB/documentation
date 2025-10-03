@@ -23,7 +23,7 @@ harperdb
 ```
 
 That’s it! Harper is now running locally.
-The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration.md).
+The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration).
 
 ✅ Quick check: open http://localhost:9925 or run:
 
@@ -43,28 +43,33 @@ Want Harper in a container? Pull the image:
 docker pull harperdb/harperdb
 ```
 
-Start a container:
-
-```bash
-docker run -d -p 9925:9925 harperdb/harperdb
-```
-
-✅ Quick check:
-
-```bash
-curl http://localhost:9925/health
-```
-
-For persistent storage and secure configs, mount a volume and pass environment variables:
+Start a container, mount a volume and pass environment variables:
 
 ```bash
 docker run -d \
   -v <host_directory>:/home/harperdb/hdb \
   -e HDB_ADMIN_USERNAME=HDB_ADMIN \
   -e HDB_ADMIN_PASSWORD=password \
+  -e THREADS=4 \
+  -e OPERATIONSAPI_NETWORK_PORT=null \
+  -e OPERATIONSAPI_NETWORK_SECUREPORT=9925 \
+  -e HTTP_SECUREPORT=9926 \
+  -e CLUSTERING_ENABLED=true \
+  -e CLUSTERING_USER=cluster_user \
+  -e CLUSTERING_PASSWORD=password \
+  -e CLUSTERING_NODENAME=hdb1 \
   -p 9925:9925 \
   -p 9926:9926 \
+  -p 9932:9932 \
   harperdb/harperdb
+```
+
+Here, the `<host_directory>` should be replaced with an actual directory path on your system where you want to store the persistent data. This command also exposes both the Harper Operations API (port 9925) and an additional HTTP port (9926).
+
+✅ Quick check:
+
+```bash
+curl http://localhost:9925/health
 ```
 
 :::info
@@ -88,10 +93,10 @@ harperdb install
 
 Once Harper is running, you can:
 
-- [Build your first application](../getting-started/quickstart.md)
-- Explore the [Core Concepts](../foundations/core-concepts.md)
-- Learn about [Harper's architecture](../foundations/harper-architecture.md)
-- Review [Configuration options](../deployments/configuration.md)
+- [Build your first application](../getting-started/quickstart)
+- Explore the [Core Concepts](../foundations/core-concepts)
+- Learn about [Harper's architecture](../foundations/harper-architecture)
+- Review [Configuration options](../deployments/configuration)
 
 :::info
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
