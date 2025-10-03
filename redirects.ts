@@ -55,7 +55,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		// Operations API
 		{
 			from: withBase('/developers/operations-api/utilities'),
-			to: withBase('/developers/operations-api/system-operations'),
+			to: withBase('/reference/operations-api/system-operations'),
 		},
 
 		// Installation paths
@@ -142,7 +142,10 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			from: [withBase('/custom-functions/using-npm-git'), withBase('/developers/custom-functions/create-project')],
 			to: withBase('/developers/applications/'),
 		},
-		{ from: withBase('/custom-functions/custom-functions-operations'), to: withBase('/developers/operations-api/') },
+		{
+			from: withBase('/custom-functions/custom-functions-operations'),
+			to: withBase('/developers/applications/operations-api/'),
+		},
 		{
 			from: withBase('/custom-functions/debugging-custom-function'),
 			to: withBase('/developers/applications/debugging'),
@@ -162,9 +165,9 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/audit-logging'), to: withBase('/administration/logging/audit-logging') },
 		{ from: withBase('/jobs'), to: withBase('/administration/jobs') },
 		{ from: withBase('/upgrade-hdb-instance'), to: withBase('/deployments/upgrade-hdb-instance') },
-		{ from: withBase('/operations-api'), to: withBase('/developers/operations-api/') },
+		{ from: withBase('/operations-api'), to: withBase('/developers/applications/operations-api/') },
 		{ from: withBase('/rest'), to: withBase('/developers/rest') },
-		{ from: withBase('/api'), to: withBase('/developers/operations-api/') },
+		{ from: withBase('/api'), to: withBase('/developers/applications/operations-api/') },
 
 		// File rename redirect
 		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
