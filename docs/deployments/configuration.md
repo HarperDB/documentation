@@ -148,13 +148,13 @@ You can also define specific mTLS options by specifying an object for mtls with 
 
 This configures a specific username to authenticate as for HTTP mTLS connections. If a `user` is defined, any authorized mTLS connection (that authorizes against the certificate authority) will be authenticated as this user. This can also be set to `null`, which indicates that no authentication is performed based on the mTLS authorization. When combined with `required: true`, this can be used to enforce that users must have authorized mTLS _and_ provide credential-based authentication.
 
-**Note:** MQTT has its own `mqtt.network.mtls.user` setting. Replication does not support user-based authentication (uses node-based authentication).
+**Note:** MQTT has its own `mqtt.network.mtls.user` setting (see [MQTT configuration](#mqtt)).
 
 `required` - _Type_: boolean; _Default_: false
 
 This can be enabled to require client certificates (mTLS) for all incoming HTTP connections. If enabled, any connection that doesn't provide an authorized certificate will be rejected/closed. By default, this is disabled, and authentication can take place with mTLS _or_ standard credential authentication.
 
-**Note:** MQTT has its own `mqtt.network.mtls.required` setting. Replication always requires mTLS (cannot be disabled).
+**Note:** MQTT has its own `mqtt.network.mtls.required` setting (see [MQTT configuration](#mqtt)). Replication uses node-based authentication via certificates or IP addresses, with credential-based fallback (see [Securing Replication Connections](../developers/replication/#securing-connections)).
 
 `certificateVerification` - _Type_: boolean | object; _Default_: false (disabled)
 

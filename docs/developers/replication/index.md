@@ -75,9 +75,12 @@ replication:
 
 ### Securing Connections
 
-Harper supports the highest levels of security through public key infrastructure based security and authorization. Depending on your security configuration, you can configure Harper in several different ways to build a connected cluster.
+Harper supports the highest levels of security through public key infrastructure based security and authorization. Replication connections use WebSocket protocol and support multiple authentication methods depending on your security configuration:
 
-When using certificate-based authentication, Harper automatically performs OCSP (Online Certificate Status Protocol) verification to check if certificates have been revoked. This ensures that compromised certificates cannot be used for replication connections. Certificate verification settings follow the same configuration as HTTP mTLS connections (see [certificate verification configuration](../../deployments/configuration#http)).
+- **Certificate-based authentication** (recommended for production): Nodes are identified by the certificate's common name (CN) or Subject Alternative Names (SANs)
+- **IP-based authentication** (for development/testing): Nodes are identified by their IP address when using insecure connections (see [Insecure Connection IP-based Authentication](#insecure-connection-ip-based-authentication) below)
+
+When using certificate-based authentication, Harper can automatically perform CRL (Certificate Revocation List) and OCSP (Online Certificate Status Protocol) verification to check if certificates have been revoked. This ensures that compromised certificates cannot be used for replication connections. OCSP and CRL verification works automatically with certificates from public certificate authorities (like Let's Encrypt or DigiCert) when `enableRootCAs` is enabled, as these certificates include the necessary OCSP responder URLs and CRL distribution points. For self-signed certificates or private CAs that don't support OCSP/CRL, you can use Harper's manual certificate revocation feature (see [Revoking Certificates](#revoking-certificates) below). Certificate verification settings follow the same configuration as HTTP mTLS connections (see [certificate verification configuration](../../deployments/configuration#http)).
 
 #### Provide your own certificates
 
