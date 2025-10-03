@@ -16,7 +16,7 @@ The configuration elements in `harperdb-config.yaml` use camelcase, such as `ope
 
 To change a configuration value, edit the `harperdb-config.yaml` file and save any changes. **HarperDB must be restarted for changes to take effect.**
 
-Alternatively, all configuration values can also be modified using environment variables, command line arguments, or the operations API via the [`set_configuration` operation](../developers/operations-api/configuration#set-configuration).
+Alternatively, all configuration values can also be modified using environment variables, command line arguments, or the operations API via the [`set_configuration` operation](../reference/operations-api/configuration#set-configuration).
 
 For nested configuration elements, use underscores to represent parent-child relationships. When accessed this way, elements are case-insensitive.
 

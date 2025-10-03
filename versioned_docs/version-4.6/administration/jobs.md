@@ -16,19 +16,19 @@ The job status can be **COMPLETE** or **IN_PROGRESS**.
 
 Example job operations include:
 
-[csv data load](../developers/operations-api/bulk-operations#csv-data-load)
+[csv data load](../reference/operations-api/bulk-operations#csv-data-load)
 
-[csv file load](../developers/operations-api/bulk-operations#csv-file-load)
+[csv file load](../reference/operations-api/bulk-operations#csv-file-load)
 
-[csv url load](../developers/operations-api/bulk-operations#csv-url-load)
+[csv url load](../reference/operations-api/bulk-operations#csv-url-load)
 
-[import from s3](../developers/operations-api/bulk-operations#import-from-s3)
+[import from s3](../reference/operations-api/bulk-operations#import-from-s3)
 
-[delete_records_before](../developers/operations-api/bulk-operations#delete-records-before)
+[delete_records_before](../reference/operations-api/bulk-operations#delete-records-before)
 
-[export_local](../developers/operations-api/bulk-operations#export-local)
+[export_local](../reference/operations-api/bulk-operations#export-local)
 
-[export_to_s3](../developers/operations-api/bulk-operations#export-to-s3)
+[export_to_s3](../reference/operations-api/bulk-operations#export-to-s3)
 
 Example Response from a Job Operation
 
@@ -42,7 +42,7 @@ Whenever one of these operations is initiated, an asynchronous job is created an
 
 ## Managing Jobs
 
-To check on a job's status, use the [get_job](../developers/operations-api/jobs#get-job) operation.
+To check on a job's status, use the [get_job](../reference/operations-api/jobs#get-job) operation.
 
 Get Job Request
 
@@ -77,7 +77,7 @@ Get Job Response
 
 ## Finding Jobs
 
-To find jobs (if the ID is not known) use the [search_jobs_by_start_date](../developers/operations-api/jobs#search-jobs-by-start-date) operation.
+To find jobs (if the ID is not known) use the [search_jobs_by_start_date](../reference/operations-api/jobs#search-jobs-by-start-date) operation.
 
 Search Jobs Request
 
