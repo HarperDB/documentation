@@ -4,7 +4,7 @@ title: Defining Schemas
 
 # Defining Schemas
 
-Schemas in Harper are your way of telling the database what your data should look like. You write them with GraphQL type definitions, and once defined, they make sure your tables exist, have the right fields, and behave consistently. At the same time, schemas remain flexible: by default, they’ll still allow extra properties unless you explicitly seal them.
+Schemas in Harper are your way of telling the database what your data should look like. You write them with GraphQL type definitions, and once defined, they make sure your tables exist, have the right fields, and behave consistently. At the same time, schemas remain flexible: by default, they'll still allow extra properties unless you explicitly seal them.
 
 Let’s see how this plays out with a single example table, and then keep evolving it as new requirements come up.
 
@@ -63,7 +63,10 @@ Indexes make queries faster, especially if you’re filtering or sorting on cert
 For example, if you want to quickly look up dogs by breed, you can add:
 
 ```graphql
-breed: String @indexed
+type Dog @table @export(name: "dogs") {
+	# ...
+	breed: String @indexed
+}
 ```
 
 And if you want to get fancy, you can even use vector indexing for similarity search. Imagine storing embeddings of each dog’s description:
