@@ -57,6 +57,26 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			from: withBase('/developers/operations-api/utilities'),
 			to: withBase('/reference/operations-api/system-operations'),
 		},
+		{ from: withBase('/developers/operations-api'), to: withBase('/developers/applications/operations-api') },
+		{
+			from: withBase('/developers/operations-api/databases-and-tables'),
+			to: withBase('/reference/operations-api/databases-and-tables'),
+		},
+		{
+			from: withBase('/developers/operations-api/system-operations'),
+			to: withBase('/reference/operations-api/system-operations'),
+		},
+		{ from: withBase('/developers/operations-api/clustering'), to: withBase('/reference/operations-api/clustering') },
+		{ from: withBase('/developers/operations-api/components'), to: withBase('/reference/operations-api/components') },
+		{ from: withBase('/developers/operations-api/logs'), to: withBase('/reference/operations-api/logs') },
+		{
+			from: withBase('/developers/operations-api/bulk-operations'),
+			to: withBase('/reference/operations-api/bulk-operations'),
+		},
+		{
+			from: withBase('/developers/operations-api/advanced-json-sql-examples'),
+			to: withBase('/reference/operations-api/advanced-json-sql-examples'),
+		},
 
 		// Installation paths
 		{ from: withBase('/install-harperdb'), to: withBase('/deployments/install-harper/') },
