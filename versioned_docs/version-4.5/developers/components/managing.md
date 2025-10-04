@@ -37,7 +37,6 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
      package=<path-to-project> \
      restart=true
    ```
-
    - Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
    - The `package=<path-to-project>` option creates a symlink to the component simplifying restarts
      - By default, the `deploy_component` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
