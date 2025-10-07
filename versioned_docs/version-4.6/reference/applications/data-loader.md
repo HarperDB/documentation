@@ -174,6 +174,6 @@ rest: true
 
 ## Related Documentation
 
-- [Data Loader (Application Guide)](../../developers/applications/data-loader) – Step-by-step walkthrough with examples.
+- [Data Loader (Application Guide)](../../developers/applications/loading-data) – Step-by-step walkthrough with examples.
 - [Bulk Operations](../../developers/operations-api/bulk-operations) – Load data programmatically via the Operations API.
 - [Extensions](../components/extensions) – General reference for Harper Extensions.

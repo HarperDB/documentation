@@ -24,7 +24,7 @@ Load data from JSON or YAML files into Harper tables as part of component deploy
 
 This component is an [Extension](..#extensions) and can be configured with the `files` configuration option.
 
-Complete documentation for this feature is available here: [Data Loader](../../developers/applications/data-loader)
+Complete documentation for this feature is available here: [Data Loader](../../developers/applications/loading-data)
 
 ```yaml
 dataLoader:
