@@ -184,6 +184,18 @@ const config: Config = {
 			},
 		],
 
+		// Fabric documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'fabric',
+				path: 'fabric',
+				routeBasePath: 'fabric',
+				sidebarPath: './sidebarsFabric.ts',
+				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+			},
+		],
+
 		// Theme
 		[
 			'@docusaurus/theme-classic',
@@ -289,6 +301,13 @@ const config: Config = {
 					docId: 'v4-tucker/index',
 					position: 'left',
 					label: 'Release Notes',
+				},
+				{
+					type: 'docSidebar',
+					sidebarId: 'fabricSidebar',
+					docsPluginId: 'fabric',
+					position: 'left',
+					label: 'Fabric',
 				},
 				{
 					type: 'docsVersionDropdown',
