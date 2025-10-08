@@ -57,5 +57,6 @@
 	"engines": {
 		"node": ">=22"
 	},
-	"prettier": "@harperdb/code-guidelines/prettier"
+	"prettier": "@harperdb/code-guidelines/prettier",
+	"license": "Apache-2.0"
 }
