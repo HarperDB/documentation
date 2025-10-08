@@ -170,7 +170,10 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/administration/logging/logging'), to: withBase('/administration/logging/standard-logging') },
 
 		// Old Technical Details -> Reference paths
-		{ from: withBase('/technical-details/reference'), to: withBase('/reference/') }
+		{ from: withBase('/technical-details/reference'), to: withBase('/reference/') },
+
+		// Getting Started -> Root
+		{ from: withBase('/getting-started'), to: withBase('/') }
 	);
 
 	return redirects;
