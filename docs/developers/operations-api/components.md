@@ -6,12 +6,15 @@ title: Components
 
 ## Add Component
 
-Creates a new component project in the component root directory using a predefined template.
+Creates a new component project in the component root directory using a specified template (defaults to the [application template](https://github.com/HarperFast/application-template)).
 
 _Operation is restricted to super_user roles only_
 
 - `operation` _(required)_ - must always be `add_component`
 - `project` _(required)_ - the name of the project you wish to create
+- `template` _(optional)_ - the URL of a git repository to use as a template. Must be a string. Defaults to `https://github.com/HarperFast/application-template`
+- `install_command` _(optional)_ - A command to use when installing the component. Must be a string. Defaults to `npm install`. Depending on the host environment, you can use this to switch to using an alternative package manager.
+- `install_timeout` _(optional)_ - The maximum time, in milliseconds, to wait for the install command to complete. Must be a number. Defaults to `300000` (5 minutes)
 - `replicated` _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
 
 ### Body
@@ -81,7 +84,8 @@ _Operation is restricted to super_user roles only_
 - `payload` _(optional)_ - a base64-encoded string representation of the .tar file. Must be a string
 - `restart` _(optional)_ - must be either a boolean or the string `rolling`. If set to `rolling`, a rolling restart will be triggered after the component is deployed, meaning that each node in the cluster will be sequentially restarted (waiting for the last restart to start the next). If set to `true`, the restart will not be rolling, all nodes will be restarted in parallel. If `replicated` is `true`, the restart operations will be replicated across the cluster.
 - `replicated` _(optional)_ - if true, Harper will replicate the component to all nodes in the cluster. Must be a boolean.
-- `install_command` _(optional)_ - A command to use when installing the component. Must be a string. This can be used to install dependencies with pnpm or yarn, for example, like: `"install_command": "npm install -g pnpm && pnpm install"`
+- `install_command` _(optional)_ - A command to use when installing the component. Must be a string. Defaults to `npm install`. Depending on the host environment, you can use this to switch to using an alternative package manager.
+- `install_timeout` _(optional)_ - The maximum time, in milliseconds, to wait for the install command to complete. Must be a number. Defaults to `300000` (5 minutes)
 
 ### Body
 

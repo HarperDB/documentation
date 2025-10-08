@@ -39,7 +39,6 @@ Alternatively, to mimic interfacing with a hosted Harper instance, use operation
      package=<path-to-project> \
      restart=true
    ```
-
    - Make sure to omit the `target` option so that it _deploys_ to the Harper instance running locally
    - The `package=<path-to-project>` option creates a symlink to the application simplifying restarts
      - By default, the `deploy` operation command will _deploy_ the current directory by packaging it up and streaming the bytes. By specifying `package`, it skips this and references the file path directly
@@ -119,6 +118,43 @@ Furthermore, the `package` field can be set to any valid [npm dependency value](
 These `package` values are all supported because behind-the-scenes, Harper is generating a `package.json` file for the components. Then, it uses a form of `npm install` to resolve them as dependencies. This is why symlinks are generated when specifying a file path locally. The following [Advanced](#advanced) section explores this pattern in more detail.
 
 Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`.
+
+## Dependency Management
+
+Naturally, applications may have dependencies. Since we operate on top of Node.js, we default to leveraging `npm` and `package.json` for dependency management.
+
+As already covered; there is a number of ways to run an application on Harper. From symlinking to a local directory, to deploying it via the `deploy_component` operation. Harper does its best to seamlessly run your application.\
+
+During application loading, if an application directory contains a `node_modules` directory or it excludes a `package.json`, Harper will skip dependency installation. Otherwise, Harper will check the application's config (values specified in the `harperdb-config.yaml` file) for `install: { command, timeout }` fields (see the example below for more information). If it exists, Harper will use the specified command to install dependencies. If not, then Harper will attempt to derive the package manager from the [`package.json#devEngines#packageManager`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#devengines) field. Finally, if no package manager or install command could be derived, Harper will default to using `npm install`.
+
+The Application operations [`add_component`](../../developers/operations-api/components.md#add-component) and [`deploy_component`](../../developers/operations-api/components.md#deploy-component) support customizing the install command (and timeout) through the `install_command` and `install_timeout` fields.
+
+If you plan to use an alternative package manager than `npm`, ensure it installed and configured on the host machine. Harper does not currently support the `"onFail": "download"` option in `package.json#devEngines#packageManager` and will fallback to `"onFail": "error"` behavior.
+
+### Example `harperdb-config.yaml`
+
+```yaml
+myApp:
+  package: ./my-app
+  install:
+    command: yarn install
+    timeout: 600000 # 10 minutes
+```
+
+### Example `package.json`
+
+```json
+{
+	"name": "my-app",
+	"version": "1.0.0",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"onFail": "error"
+		}
+	}
+}
+```
 
 ## Advanced
 
