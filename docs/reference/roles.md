@@ -1,8 +1,8 @@
 ---
-title: Defining Application Roles
+title: Roles
 ---
 
-# Defining Application Roles
+# Roles
 
 Roles in Harper are part of the application’s role-based access control (RBAC) system. You can declare roles in your application and manage their permissions through a roles configuration file. When the application starts, Harper will ensure all declared roles exist with the specified permissions, updating them if necessary.
 
