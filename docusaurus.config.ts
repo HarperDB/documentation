@@ -79,10 +79,14 @@ const config: Config = {
 					}
 				},
 				lastVersion: '4.6',
-				includeCurrentVersion: process.env.NODE_ENV === 'development',
+				includeCurrentVersion: true,
 				versions: {
+					'current': {
+						label: '4.7-beta',
+						banner: 'unreleased',
+					},
 					'4.6': {
-						// No banner for 4.6 as its the latest version
+						// No banner for 4.6 as its the latest stable version
 						banner: 'none',
 					},
 					'4.5': {
