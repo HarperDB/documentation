@@ -14,7 +14,7 @@ Audit log is enabled by default. To disable the audit log, set `logging.auditLog
 
 #### read_audit_log
 
-The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [Harper API documentation](../../developers/operations-api/logs).
+The `read_audit_log` operation is flexible, enabling users to query with many parameters. All operations search on a single table. Filter options include timestamps, usernames, and table hash values. Additional examples found in the [Harper API documentation](../../reference/operations-api/logs).
 
 **Search by Timestamp**
 
