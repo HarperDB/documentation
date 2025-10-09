@@ -35,7 +35,40 @@ If you are setting up a production server on Linux, [we have much more extensive
 
 ## With Docker
 
-If you would like to run Harper in Docker, install [Docker Desktop](https://docs.docker.com/desktop/) on your Mac or Windows computer. Otherwise, install the [Docker Engine](https://docs.docker.com/engine/install/) on your Linux server.
+If you would like to run Harper in Docker, install [Docker Desktop](https://docs.docker.com/desktop/) on your Mac or Windows computer. Otherwise, install the [Docker Engine](https://docs.docker.com/engine/install/) on your Linux server. You can then pull the image:
+
+```bash
+docker pull harperdb/harperdb
+```
+
+Start a container, mount a volume and pass environment variables:
+
+```bash
+docker run -d \
+  -v <host_directory>:/home/harperdb/hdb \
+  -e HDB_ADMIN_USERNAME=HDB_ADMIN \
+  -e HDB_ADMIN_PASSWORD=password \
+  -e THREADS=4 \
+  -e OPERATIONSAPI_NETWORK_PORT=null \
+  -e OPERATIONSAPI_NETWORK_SECUREPORT=9925 \
+  -e HTTP_SECUREPORT=9926 \
+  -p 9925:9925 \
+  -p 9926:9926 \
+  -p 9933:9933 \
+  harperdb/harperdb
+```
+
+Here, the `<host_directory>` should be replaced with an actual directory path on your system where you want to store the persistent data. This command also exposes both the Harper Operations API (port 9925) and an additional HTTP port (9926).
+
+✅ Quick check:
+
+```bash
+curl http://localhost:9925/health
+```
+
+:::info
+💡 Why choose Docker: Great for consistent team environments, CI/CD pipelines, or deploying Harper alongside other services.
+:::
 
 Once Docker Desktop or Docker Engine is installed, visit our [Docker Hub page](https://hub.docker.com/r/harperdb/harperdb) for information and examples on how to run a Harper container.
 
