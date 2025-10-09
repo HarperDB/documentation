@@ -82,4 +82,4 @@ For more advanced scenarios, including:
 - granting fine-grained attribute-level permissions,
 - and the complete structure of `roles.yaml`,
 
-see the [Roles Reference](../../reference/Applications/defining-roles).
+see the [Roles Reference](../../reference/roles).
