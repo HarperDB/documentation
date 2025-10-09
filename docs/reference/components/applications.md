@@ -130,7 +130,7 @@ During application loading, if an application directory contains a `node_modules
 
 The Application operations [`add_component`](../../developers/operations-api/components.md#add-component) and [`deploy_component`](../../developers/operations-api/components.md#deploy-component) support customizing the install command (and timeout) through the `install_command` and `install_timeout` fields.
 
-If you plan to use an alternative package manager than `npm`, ensure it installed and configured on the host machine. Harper does not currently support the `"onFail": "download"` option in `package.json#devEngines#packageManager` and will fallback to `"onFail": "error"` behavior.
+If you plan to use an alternative package manager than `npm`, ensure it is installed and configured on the host machine. Harper does not currently support the `"onFail": "download"` option in `package.json#devEngines#packageManager` and will fallback to `"onFail": "error"` behavior.
 
 ### Example `harperdb-config.yaml`
 
