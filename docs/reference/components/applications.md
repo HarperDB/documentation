@@ -124,7 +124,7 @@ Finally, don't forget to include `restart=true`, or run `harperdb restart target
 
 Naturally, applications may have dependencies. Since we operate on top of Node.js, we default to leveraging `npm` and `package.json` for dependency management.
 
-As already covered; there is a number of ways to run an application on Harper. From symlinking to a local directory, to deploying it via the `deploy_component` operation. Harper does its best to seamlessly run your application.\
+As already covered, there are a number of ways to run an application on Harper. From symlinking to a local directory, to deploying it via the `deploy_component` operation. Harper does its best to seamlessly run your application.
 
 During application loading, if an application directory contains a `node_modules` directory or it excludes a `package.json`, Harper will skip dependency installation. Otherwise, Harper will check the application's config (values specified in the `harperdb-config.yaml` file) for `install: { command, timeout }` fields (see the example below for more information). If it exists, Harper will use the specified command to install dependencies. If not, then Harper will attempt to derive the package manager from the [`package.json#devEngines#packageManager`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#devengines) field. Finally, if no package manager or install command could be derived, Harper will default to using `npm install`.
 
