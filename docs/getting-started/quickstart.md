@@ -8,18 +8,20 @@ Now that you've set up Harper, let's build a simple API. Harper lets you build p
 
 ## Setup Your Project
 
-Start by cloning the Harper application template:
+If you have installed Harper locally, start by cloning the Harper application template:
 
 ```bash
 git clone https://github.com/HarperDB/application-template my-app
 cd my-app
 ```
 
+If you are working the Fabric studio UI, you can navigate to your cluster and then to the "Applications" tab. Then choose to "Create New Application" (using the standard application template). This will create a new application based on the `application-template`.
+
 ## Creating our first Table
 
 The core of a Harper application is the database, so let's create a database table.
 
-A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
+A quick and expressive way to define a table is through a [GraphQL Schema](https://graphql.org/learn/schema). Using your editor of choice, edit the file named `schema.graphql` in the root of the application directory, `my-app`, that we created above. In the Fabric UI, simply click on `schema.graphql` to start editing it. To create a table, we will need to add a `type` of `@table` named `Dog` (and you can remove the example table in the template):
 
 ```graphql
 type Dog @table {
@@ -43,6 +45,8 @@ Now we tell Harper to run this as an application:
 harperdb dev . # tell Harper cli to run current directory as an application in dev mode
 ```
 
+If you are using the Fabric UI, you can click "Restart Cluster" to apply these schema changes.
+
 Harper will now create the `Dog` table and its `id` attribute we just defined. Not only is this an easy way to create a table, but this schema is included in our application, which will ensure that this table exists wherever we deploy this application (to any Harper instance).
 
 ## Adding Attributes to our Table
@@ -61,6 +65,8 @@ type Dog @table {
 This will ensure that new records must have these properties with these types.
 
 Because we ran `harperdb dev .` earlier (dev mode), Harper is now monitoring the contents of our application directory for changes and reloading when they occur. This means that once we save our schema file with these new attributes, Harper will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined. The dev mode will also ensure that any logging or errors are immediately displayed in the console (rather only in the log file).
+
+If you are running in Fabric, again, you can click "Restart Cluster" to apply any changes. You can navigate to the "Databases" page to see your new table and add records to it.
 
 As a document database, Harper supports heterogeneous records, so you can freely specify additional properties on any record. If you do want to restrict the records to only defined properties, you can always do that by adding the sealed directive:
 
@@ -88,11 +94,27 @@ type Dog @table @export {
 }
 ```
 
-By default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be `http://localhost:9926/Dog/` with a full REST API. We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
+For a local instance, by default the application HTTP server port is `9926` (this can be [configured here](../deployments/configuration#http)), so the local URL would be `http://localhost:9926/Dog/` with a full REST API. In Fabric, a public hostname/URL will be created, and you can go to the "Config" page to see your "Application URL", which should look like `your-cluster.your-org.harperfabric.com`. You can directly query this with an HTTPS URL, by including authentication information.
+
+We can PUT or POST data into this table using this new path, and then GET or DELETE from it as well (you can even view data directly from the browser). If you have not added any records yet, we could use a PUT or POST to add a record. PUT is appropriate if you know the id, and POST can be used to assign an id:
 
 ```bash
 curl -X POST http://localhost:9926/Dog/ \
   -H "Content-Type: application/json" \
+  -d '{
+    "name": "Harper",
+    "breed": "Labrador",
+    "age": 3,
+    "tricks": ["sits"]
+  }'
+```
+
+Or in Fabric:
+
+```bash
+curl -X POST https://your-cluster.your-org.harperfabric.com/Dog/ \
+  -H "Content-Type: application/json" \
+  -H "Authentication: Basic <base64 encoded user:pass>"
   -d '{
     "name": "Harper",
     "breed": "Labrador",
@@ -107,7 +129,7 @@ With this a record will be created and the auto-assigned id will be available th
 
 Now that you've created your first API endpoints, it's important to ensure they're protected. Without authentication, anyone could potentially access, misuse, or overload your APIs, whether by accident or malicious intent. Authentication verifies who is making the request and enables you to control access based on identity, roles, or permissions. It’s a foundational step in building secure, reliable applications.
 
-Endpoints created with Harper automatically support `Basic`, `Cookie`, and `JWT` authentication methods. See the documentation on [security](../developers/security/) for more information on different levels of access.
+Endpoints created with Harper automatically support `Basic` authentication, JWT authentication, and maintaining authentication with cookie-based session. See the documentation on [security](../developers/security/) for more information on different levels of access.
 
 By default, Harper also automatically authorizes all requests from loopback IP addresses (from the same computer) as the superuser, to make it simple to interact for local development. If you want to test authentication/authorization, or enforce stricter security, you may want to disable the [`authentication.authorizeLocal` setting](../deployments/configuration#authentication).
 
@@ -161,9 +183,32 @@ http://localhost:9926/Dog/?breed=Labrador
 http://localhost:9926/Dog/?breed=Husky&name=Balto&select(id,name,breed)
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest) and see the [Schema reference](../developers/applications/defining-schemas) for more options for defining schemas.
+In Fabric, you can directly open such URLs directly in the browser, where the browser will prompt you for your username and password:
+
+```
+https://your-cluster.your-org.harperfabric.com/Dog/?name=Harper
+...
+```
+
+Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest) and see the [Schema reference](../developers/applications/defining-schemas) for more options for defining schemas. If you were developing locally, you are ready to deploy to Fabric.
 
 > Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../reference/graphql).
+
+## Deploy to Fabric
+
+In the recommended flow, you have been developing your application locally, but now you are ready to deploy your application to Fabric. The recommended way of doing this is to commit your code to a git repository, where Harper can directly pull your application from the repository and run it. To get started, it is easiest to put this in a public repository for ease of access and deployment. Once you have committed your code to a git repository, you can go to the "Applications" page, and select "Import Application". You can then enter the URL of your repository and Fabric will deploy in on your cluster. We also recommend using git tags and deploying by tag name for control over application versioning. You can import and deploy a tag in a repository using import of a URL like "git+https://git@github.com/my-org/my-app.git#semver:v1.0.27".
+
+You can also deploy to fabric using the CLI. With this approach, you can "push" your application code into your Fabric cluster. From the command line, go into your application directory and run:
+
+```bash
+harperdb deploy_component \
+     project=<my-app-name> \
+     package=<path-to-project> \ # optional, uses cwd if not specified
+     restart=true \
+     replicated=true # deploy to your whole cluster
+```
+
+Once you have deployed and restarted, your application is live and ready to be used by the world!
 
 ## Key Takeaway
 
