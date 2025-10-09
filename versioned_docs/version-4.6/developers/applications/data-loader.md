@@ -114,11 +114,25 @@ When Harper starts up with a component that includes the Data Loader:
 
 1. The Data Loader reads all specified data files (JSON or YAML)
 1. For each file, it validates that a single table is specified
-1. Records are inserted or updated based on timestamp comparison:
+1. Records are inserted or updated based on content hash comparison:
    - New records are inserted if they don't exist
-   - Existing records are updated only if the data file's modification time is newer than the record's updated time
-   - This ensures data files can be safely reloaded without overwriting newer changes
-1. If records with the same primary key already exist, updates occur only when the file is newer
+   - Existing records are updated only if the data file content has changed
+   - User modifications made via Operations API or other methods are preserved - those records won't be overwritten
+   - Users can add extra fields to data-loader records without blocking future updates to the original fields
+1. The Data Loader uses SHA-256 content hashing stored in a system table (`hdb_dataloader_hash`) to track which records it has loaded and detect changes
+
+### Change Detection
+
+The Data Loader intelligently handles various scenarios:
+
+- **New records**: Inserted with their content hash stored
+- **Unchanged records**: Skipped (no database writes)
+- **Changed data file**: Records are updated using `patch` to preserve any extra fields users may have added
+- **User-created records**: Records created outside the Data Loader (via Operations API, REST, etc.) are never overwritten
+- **User-modified records**: Records modified after being loaded are preserved and not overwritten
+- **User-added fields**: Extra fields added to data-loader records are preserved during updates
+
+This approach ensures data files can be safely reloaded across deployments and node scaling without losing user modifications.
 
 Note: While the Data Loader can create tables automatically by inferring the schema from the provided records, it's recommended to define your table schemas explicitly using the [graphqlSchema](../applications/defining-schemas) component for better control and type safety.
 
