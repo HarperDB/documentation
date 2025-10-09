@@ -120,6 +120,43 @@ These `package` values are all supported because behind-the-scenes, Harper is ge
 
 Finally, don't forget to include `restart=true`, or run `harperdb restart target=<remote>`.
 
+## Dependency Management
+
+Naturally, applications may have dependencies. Since we operate on top of Node.js, we default to leveraging `npm` and `package.json` for dependency management.
+
+As already covered, there are a number of ways to run an application on Harper. From symlinking to a local directory, to deploying it via the `deploy_component` operation. Harper does its best to seamlessly run your application.
+
+During application loading, if an application directory contains a `node_modules` directory or it excludes a `package.json`, Harper will skip dependency installation. Otherwise, Harper will check the application's config (values specified in the `harperdb-config.yaml` file) for `install: { command, timeout }` fields (see the example below for more information). If it exists, Harper will use the specified command to install dependencies. If not, then Harper will attempt to derive the package manager from the [`package.json#devEngines#packageManager`](https://docs.npmjs.com/cli/v10/configuring-npm/package-json#devengines) field (which can specify an npm alternate like yarn or pnpm). Finally, if no package manager or install command could be derived, Harper will default to using `npm install`.
+
+The Application operations [`add_component`](../../developers/operations-api/components.md#add-component) and [`deploy_component`](../../developers/operations-api/components.md#deploy-component) support customizing the install command (and timeout) through the `install_command` and `install_timeout` fields.
+
+If you plan to use an alternative package manager than `npm`, ensure it is installed and configured on the host machine. Harper does not currently support the `"onFail": "download"` option in `package.json#devEngines#packageManager` and will fallback to `"onFail": "error"` behavior.
+
+### Example `harperdb-config.yaml`
+
+```yaml
+myApp:
+  package: ./my-app
+  install:
+    command: yarn install
+    timeout: 600000 # 10 minutes
+```
+
+### Example `package.json`
+
+```json
+{
+	"name": "my-app",
+	"version": "1.0.0",
+	"devEngines": {
+		"packageManager": {
+			"name": "pnpm",
+			"onFail": "error"
+		}
+	}
+}
+```
+
 ## Advanced
 
 The following methods are advanced and should be executed with caution as they can have unintended side-effects. Always backup any critical Harper instances before continuing.
