@@ -190,9 +190,23 @@ https://your-cluster.your-org.harperfabric.com/Dog/?name=Harper
 ...
 ```
 
-Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest) and see the [Schema reference](../developers/applications/defining-schemas) for more options for defining schemas.
+Congratulations, you now have created a secure database application backend with a table, a well-defined structure, access controls, and a functional REST endpoint with query capabilities! See the [REST documentation for more information on HTTP access](../developers/rest) and see the [Schema reference](../developers/applications/defining-schemas) for more options for defining schemas. If you were developing locally, you are ready to deploy to Fabric.
 
 > Additionally, you may now use GraphQL (over HTTP) to create queries. See the documentation for that new feature [here](../reference/graphql).
+
+## Deploy to Fabric
+
+In the recommended flow, you have been developing your application locally, but now you are ready to deploy your application to Fabric. The recommended way of doing this is to commit your code to a git repository, where Harper can directly pull your application from the repository and run it. To get started, it is easiest to put this in a public repository for ease of access and deployment. Once you have committed your code to a git repository, you can go to the "Applications" page, and select "Import Application". You can then enter the URL of your repository and Fabric will deploy in on your cluster. We also recommend using git tags and deploying by tag name for control over application versioning. You can import and deploy a tag in a repository using import of a URL like "git+https://git@github.com/my-org/my-app.git#semver:v1.0.27".
+
+You can also deploy to fabric using the CLI. With this approach, you can "push" your application code into your Fabric cluster. From the command line, go into your application directory and run:
+
+```bash
+harperdb deploy_component \
+     project=<my-app-name> \
+     package=<path-to-project> \ # optional, uses cwd if not specified
+     restart=true \
+     replicated=true # deploy to your whole cluster
+```
 
 ## Key Takeaway
 
