@@ -27,8 +27,8 @@ To import an existing application:
 ## Updating an application
 To update an existing application:
 1. Select "Applications" from the menu if not already there
-2. Click the three dots to the right of the application you wish to update
-3. Select "Update Application" from the dropdown menu
-4. Enter the "Package Reference URL" (must be a valid URL)
-5. Click "Update"( **Note**: this will prompt the cluster to restart)
-6. Your application will be updated
+2. Click the top level name of the application in the applications list
+3. Select "Redeploy Application"
+4. Enter the new "Package Reference URL" (must be a valid URL)
+5. Click "Redeploy"( **Note**: this will prompt the cluster to restart)
+6. Your application will be updated and redeployed.
