@@ -31,6 +31,6 @@ Create and customize as many roles as appropriate for organization
 5. Enter new user’s email
 6. Select desired role from drop down. (**Note**: roles and associated permissions can be created and managed by organization admins)
 7. Click "Add User" button to finalize adding new user
-**Note**: If person does not yet have a Harper Fabric account, you will be prompted to invite them
-User will be sent verification email, with instructions on how to activate their account.
+**Note**: If person does not yet have a Harper Fabric Studio account, you will be prompted to invite them. 
+User will be sent verification email, with instructions on how to activate their account. Once accepted, user will be added to organization with assigned role.
 
