@@ -35,9 +35,7 @@ Self-hosted clusters are provisioned entirely outside of Harper’s infrastructu
 Please follow the cluster configuration menu for more information on estimated performance and cost. Clusters will begin provisioning as soon as you complete your selections.
 Clusters are provisioned in real time, as soon as selections are complete
 
-## Other Notes:
-Average provisioning time dedicated
-* Cannot guarantee any provisioning time for self-hosted
-Note: all performance metrics are estimates unless otherwise noted
-Once cluster is created, will be prompted to set username and password for each cluster
+### Additional Information:
+* Cannot guarantee any provisioning time for self-hosted. (**Note**: All performance metrics are estimates unless otherwise noted.)
+* Once a cluster is created, you will be prompted to set a username and password for each cluster.
 
