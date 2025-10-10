@@ -4,7 +4,7 @@ title: Create a Fabric Studio Account
 
 # Create a Fabric Studio Account
 
-Start at the [Harper Fabric Studio sign up page](https://studio.harperdb.io/sign-up).
+Start at the [Harper Fabric Studio sign up page](https://fabric.harper.fast/#/sign-up).
 
 1. Provide the following information:
    - First Name
