@@ -3,9 +3,11 @@ title: Managing Applications
 ---
 
 # Managing Applications
+
 After setting a username/password for cluster, you will automatically be directed to the applications page for the cluster. From here, users can either import or create an application to run on Harper.
 
 ## Creating a New Application
+
 To create a new application:
 
 1. Select "Applications" from the menu if not already there
@@ -15,6 +17,7 @@ To create a new application:
 5. Your new application will appear in the applications list
 
 ## Importing an Application
+
 To import an existing application:
 
 1. Select "Applications" from the menu if not already there
@@ -25,7 +28,9 @@ To import an existing application:
 6. Your imported application will appear in the applications list
 
 ## Updating an application
+
 To update an existing application:
+
 1. Select "Applications" from the menu if not already there
 2. Click the top level name of the application in the applications list
 3. Select "Redeploy Application"

@@ -14,15 +14,14 @@ Note: If you want to connect insecure HTTP instances from the secure HTTPS Fabri
 2. Select an **organization**.
 3. Click "+ New Cluster" on the top right corner.
 4. In the "New Cluster" page, Fill out the required fields.
-    * Cluster Name - A name for your the cluster.
-    * Harper Deployment - Select "Self-Hosted" (This will allow you to connect to your self-hosted HarperDB instance).
-    * Support & Usage. - Keep the default option "Self Supported and Managed"
-    * Optional Cluster Load Balancer Host Name - This is an optional field. You can leave it blank.
-    * Instance - In the Dropdown, select whether your instance is `HTTP://` or `HTTPS://`. Unsure? Harper Instance by default is set to `HTTPS://` when installed in an instance.
-    * Host Name - The hostname or IP address of your HarperDB instance. Choose `localhost` if you are running the instance on the same machine you're accessing Harper Studio Cloud with. 
-    * Port - The port number your HarperDB instance is listening on. Default is `9925`.
+   - Cluster Name - A name for your the cluster.
+   - Harper Deployment - Select "Self-Hosted" (This will allow you to connect to your self-hosted HarperDB instance).
+   - Support & Usage. - Keep the default option "Self Supported and Managed"
+   - Optional Cluster Load Balancer Host Name - This is an optional field. You can leave it blank.
+   - Instance - In the Dropdown, select whether your instance is `HTTP://` or `HTTPS://`. Unsure? Harper Instance by default is set to `HTTPS://` when installed in an instance.
+   - Host Name - The hostname or IP address of your HarperDB instance. Choose `localhost` if you are running the instance on the same machine you're accessing Harper Studio Cloud with.
+   - Port - The port number your HarperDB instance is listening on. Default is `9925`.
 
 5. Click "Create New Cluster". You have now successfully created a new cluster connecting to your local Harper Instance.
-
 
 A comprehensive guide is provided by Adobe [here](https://experienceleague.adobe.com/docs/target/using/experiences/vec/troubleshoot-composer/mixed-content.html).
