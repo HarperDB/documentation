@@ -12,10 +12,10 @@ A cluster is a group of instances managed together to run applications and servi
 1. Navigate to your organization page.
 2. Click the "+ New Cluster" button in the upper right of the sub-menu.
 3. Enter the required fields:
-    - **Harper System Name**: A unique name for your cluster within the organization.
+    - **Cluster Name**: A unique name for your cluster within the organization.
     - **Harper Deployment**: Choose between Colocated, Dedicated, or Self-hosted (see below for details).
     - **Performance & Usage**: Select the instance size that best fits your needs. Options include Free, Medium, High, Very High.
-    - **Host Name (Full Host Name)**: Choose between Colocated, Dedicated, or Self-hosted (see below for details).
+    - **Host Name (Full Host Name)**: Enter the host name for your cluster. This will be part of the URL used to access your cluster (e.g., `<cluster name>.<your organization subdomain>.harperfabric.com`).
     - **Region**: Select the geographic region where you want your cluster to be hosted. Options include US, Global, Europe.
     - **Estimated P90 Latency, Distribution**: Displays estimated latency based on your selected region and instance size.
 4. Click the "Confirm Payment Details" or "Create New Cluster"(if you chose the free tier) button on the bottom right of the page.
