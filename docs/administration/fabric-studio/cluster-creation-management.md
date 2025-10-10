@@ -14,9 +14,9 @@ A cluster is a group of instances managed together to run applications and servi
 3. Enter the required fields:
     - **Cluster Name**: A unique name for your cluster within the organization.
     - **Harper Deployment**: Choose between Colocated, Dedicated, or Self-hosted (see below for details).
-    - **Performance & Usage**: Select the instance size that best fits your needs. Options include Free, Medium, High, Very High.
+    - **Performance & Usage**: Select the cluster size that best fits your needs. Examples include Free, Medium, High, Very High.
     - **Host Name (Full Host Name)**: Enter the host name for your cluster. This will be part of the URL used to access your cluster (e.g., `<cluster name>.<your organization subdomain>.harperfabric.com`).
-    - **Region**: Select the geographic region where you want your cluster to be hosted. Options include US, Global, Europe.
+    - **Region**: Select the geographic region where you want your cluster to be hosted. Examples include US, Global, Europe.
     - **Estimated P90 Latency, Distribution**: Displays estimated latency based on your selected region and instance size.
 4. Click the "Confirm Payment Details" or "Create New Cluster"(if you chose the free tier) button on the bottom right of the page.
 5. *Confirm or replace the preferred payment method. Add a new card if necessary
@@ -25,7 +25,7 @@ A cluster is a group of instances managed together to run applications and servi
 ## Harper Deployment Types:
 
 ### Colocated: 
-Multi-tenant clusters are deployed on shared hosts alongside clusters from other organizations, but data and workloads remain completely isolated. Colocated deployments are optimal for organizations seeking excellent performance across any of our three available regions: US, Global, or Europe
+Multi-tenant clusters are deployed on shared hosts alongside clusters from other organizations, but data and workloads remain completely isolated. Colocated deployments are optimal for organizations seeking excellent performance across available regions.
 
 ### Dedicated: 
 Dedicated clusters run on hosts reserved for a single organization. These environments are available in ten more specialized regions, and offer performance isolation and higher resource limits. Dedicated deployments are ideal for organizations with stricter compliance or performance requirements
@@ -35,6 +35,7 @@ Self-hosted clusters are provisioned entirely outside of Harper’s infrastructu
 Please follow the cluster configuration menu for more information on estimated performance and cost. Clusters will begin provisioning as soon as you complete your selections.
 Clusters are provisioned in real time, as soon as selections are complete
 
+## Other Notes:
 Average provisioning time dedicated
 * Cannot guarantee any provisioning time for self-hosted
 Note: all performance metrics are estimates unless otherwise noted

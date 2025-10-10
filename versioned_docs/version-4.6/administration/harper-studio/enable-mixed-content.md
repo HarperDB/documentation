@@ -10,11 +10,11 @@ Note: Enabling mixed content is not recommended for production systems as it can
 
 ## Steps to Connect to a Self-Hosted Harper Instance
 
-1. Log into [Harper Studio Cloud](https://studio.harperdb.io/).
+1. Log into [Harper Studio Cloud](https://fabric.harper.fast/).
 2. Select an **organization**.
 3. Click "+ New Cluster" on the top right corner.
 4. In the "New Cluster" page, Fill out the required fields.
-    * Harper System Name - A name for your the cluster.
+    * Cluster Name - A name for your the cluster.
     * Harper Deployment - Select "Self-Hosted" (This will allow you to connect to your self-hosted HarperDB instance).
     * Support & Usage. - Keep the default option "Self Supported and Managed"
     * Optional Cluster Load Balancer Host Name - This is an optional field. You can leave it blank.
@@ -23,13 +23,6 @@ Note: Enabling mixed content is not recommended for production systems as it can
     * Port - The port number your HarperDB instance is listening on. Default is `9925`.
 
 5. Click "Create New Cluster". You have now successfully created a new cluster connecting to your local Harper Instance.
-
-### Chrome/Edge
-
-
-### FireFox
-
-### Safari
 
 
 A comprehensive guide is provided by Adobe [here](https://experienceleague.adobe.com/docs/target/using/experiences/vec/troubleshoot-composer/mixed-content.html).
