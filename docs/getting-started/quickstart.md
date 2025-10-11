@@ -204,6 +204,9 @@ You can also deploy to fabric using the CLI. With this approach, you can "push" 
 harperdb deploy_component \
      project=<my-app-name> \
      package=<path-to-project> \ # optional, uses cwd if not specified
+     target=<your-cluster.your-org.harperfabric.com> \
+     username=<username> \
+     password=<password> \
      restart=true \
      replicated=true # deploy to your whole cluster
 ```
