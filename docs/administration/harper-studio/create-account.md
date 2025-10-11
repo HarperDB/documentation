@@ -4,7 +4,7 @@ title: Create a Studio Account
 
 # Create a Studio Account
 
-Start at the [Harper Studio sign up page](https://studio.harperdb.io/sign-up).
+Start at the [Harper Studio sign up page](https://fabric.harper.fast/#/sign-up).
 
 1. Provide the following information:
    - First Name
