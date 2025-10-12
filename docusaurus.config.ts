@@ -79,10 +79,14 @@ const config: Config = {
 					}
 				},
 				lastVersion: '4.6',
-				includeCurrentVersion: process.env.NODE_ENV === 'development',
+				includeCurrentVersion: true,
 				versions: {
+					'current': {
+						label: '4.7-beta',
+						banner: 'unreleased',
+					},
 					'4.6': {
-						// No banner for 4.6 as its the latest version
+						// No banner for 4.6 as its the latest stable version
 						banner: 'none',
 					},
 					'4.5': {
@@ -181,6 +185,18 @@ const config: Config = {
 
 					return sorted;
 				},
+			},
+		],
+
+		// Fabric documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'fabric',
+				path: 'fabric',
+				routeBasePath: 'fabric',
+				sidebarPath: './sidebarsFabric.ts',
+				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
 			},
 		],
 
@@ -289,6 +305,13 @@ const config: Config = {
 					docId: 'v4-tucker/index',
 					position: 'left',
 					label: 'Release Notes',
+				},
+				{
+					type: 'docSidebar',
+					sidebarId: 'fabricSidebar',
+					docsPluginId: 'fabric',
+					position: 'left',
+					label: 'Fabric',
 				},
 				{
 					type: 'docsVersionDropdown',
