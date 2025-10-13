@@ -1,97 +1,44 @@
 ---
-title: Install Harper
+title: Install and Connect Harper
 ---
 
-# Install Harper
+# Install and Connect Harper
 
-You can get Harper running in minutes.  
-Choose the option that fits your workflow:
+The recommended approach for efficiently developing applications with Harper is to install Harper locally for efficient development of an application and deploy it to [Harper Fabric](https://fabric.harper.fast), our distributed data application platform service. However, you can also develop directly in Fabric, if you want to quickly try it out. You can also run a self-hosted Harper server, and manage it with our Fabric studio management UI.
 
-- **npm** → best for local development & quick starts.
-- **Docker** → best for containerized environments and team setups.
-- **Raw binary** → best if you need a manual or offline install.
+## Install with npm
 
----
-
-## Install with npm (fastest way)
-
-Make sure you have [Node.js](https://nodejs.org/) (LTS or newer). Then run:
+The fastest way to get Harper running locally is to install with npm. Make sure you have [Node.js](https://nodejs.org/) (LTS or newer). Then run:
 
 ```bash
 npm install -g harperdb
 harperdb
 ```
 
-That’s it! Harper is now running locally.
-The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration).
+The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration). That’s it! Harper is now running locally.
 
-✅ Quick check: open http://localhost:9925 or run:
-
-```bash
-curl http://localhost:9925/health
-```
-
-:::info
-💡 Why choose npm: It’s the simplest way to try Harper and build apps right from your laptop.
-:::
-
-## Install with Docker
-
-Want Harper in a container? Pull the image:
-
-```bash
-docker pull harperdb/harperdb
-```
-
-Start a container, mount a volume and pass environment variables:
-
-```bash
-docker run -d \
-  -v <host_directory>:/home/harperdb/hdb \
-  -e HDB_ADMIN_USERNAME=HDB_ADMIN \
-  -e HDB_ADMIN_PASSWORD=password \
-  -e THREADS=4 \
-  -e OPERATIONSAPI_NETWORK_PORT=null \
-  -e OPERATIONSAPI_NETWORK_SECUREPORT=9925 \
-  -e HTTP_SECUREPORT=9926 \
-  -e CLUSTERING_ENABLED=true \
-  -e CLUSTERING_USER=cluster_user \
-  -e CLUSTERING_PASSWORD=password \
-  -e CLUSTERING_NODENAME=hdb1 \
-  -p 9925:9925 \
-  -p 9926:9926 \
-  -p 9932:9932 \
-  harperdb/harperdb
-```
-
-Here, the `<host_directory>` should be replaced with an actual directory path on your system where you want to store the persistent data. This command also exposes both the Harper Operations API (port 9925) and an additional HTTP port (9926).
-
-✅ Quick check:
+✅ Quick check: open http://localhost:9925, which will launch the studio UI for managing your local server, or run this for a quick health check:
 
 ```bash
 curl http://localhost:9925/health
 ```
 
-:::info
-💡 Why choose Docker: Great for consistent team environments, CI/CD pipelines, or deploying Harper alongside other services.
-:::
+Harper can also be [installed with our Docker image or you can download Harper for manual or offline installation](../deployments/install-harper).
 
-## Install from Raw Binary
+## Manage and Deploy with Fabric
 
-Need offline or manual setup? Download the package from [our release index](https://products-harperdb-io.s3.us-east-2.amazonaws.com/index.html), then install:
+Fabric is our service for managing and deploying Harper on a distributed network. Fabric makes it easy to create new Harper "clusters", the Harper application platform running on distributed nodes, and deploy your application to this service. Fabric has a management interface, and provides a UI for managing your deployments and even your local instance that you just installed. You can sign up for Fabric for free, and create a free Harper cluster to deploy your application:
 
-```bash
-npm install -g harperdb-X.X.X.tgz
-harperdb install
-```
+- Go to [Fabric](https://fabric.harper.fast) and sign-up for a new account.
+  - You will need to agree to the terms of service and verify your email address.
+- Once you have created an account, you can create an organization. This will allow you to collaboratively managing your Harper services with others. This will also define the host domain that will be used.
+- You can now create a new Harper cluster or instance:
+  - Create a free Harper cluster for trying out Harper.
+  - Purchase a Harper cluster with higher performance, scalability, and limits.
+  - Add your own local instance to manage everything in one place.
+- Once you have a Harper cluster, you will be ready to create a new application directly on Fabric, or be ready to deploy an application to Fabric.
 
-:::info
-💡 Why choose Raw Binary: Works without Docker, ideal for controlled environments.
-:::
-
-## Next Steps
-
-Once Harper is running, you can:
+Once Harper is running or you are connected to Fabric, we recommend that you walk through the steps of [building your first application](../getting-started/quickstart) and learn more about Harper's concepts and architecture:
 
 - [Build your first application](../getting-started/quickstart)
 - Explore the [Core Concepts](../foundations/core-concepts)
