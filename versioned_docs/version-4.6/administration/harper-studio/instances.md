@@ -10,7 +10,7 @@ The Harper Studio allows you to administer all of your HarperDinstances in one p
 - **5G Wavelength Instance** Managed installations of Harper running on the Verizon network through AWS Wavelength, what we call 5G Wavelength Instances. _Note, these instances are only accessible via the Verizon network._
 - **Enterprise Instance** Any Harper installation that is managed by you. These include instances hosted within your cloud provider accounts (for example, from the AWS or Digital Ocean Marketplaces), privately hosted instances, or instances installed locally.
 
-All interactions between the Studio and your instances take place directly from your browser. Harper stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the Harper instances using the standard [Harper API](../../developers/operations-api/).
+All interactions between the Studio and your instances take place directly from your browser. Harper stores metadata about your instances, which enables the Studio to display these instances when you log in. Beyond that, all traffic is routed from your browser to the Harper instances using the standard [Harper API](../../developers/applications/operations-api).
 
 ## Organization Instance List
 
