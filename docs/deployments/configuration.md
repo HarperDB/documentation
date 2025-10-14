@@ -73,7 +73,7 @@ http:
 
 `compressionThreshold` - _Type_: number; _Default_: 1200 (bytes)
 
-For HTTP clients that support (Brotli) compression encoding, responses that are larger than than this threshold will be compressed (also note that for clients that accept compression, any streaming responses from queries are compressed as well, since the size is not known beforehand).
+For HTTP clients that support (Brotli) compression encoding, responses that are larger than this threshold will be compressed (also note that for clients that accept compression, any streaming responses from queries are compressed as well, since the size is not known beforehand).
 
 ```yaml
 http:
