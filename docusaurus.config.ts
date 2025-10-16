@@ -78,19 +78,19 @@ const config: Config = {
 						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
 					}
 				},
-				lastVersion: '4.6',
-				includeCurrentVersion: true,
+				lastVersion: '4.7',
+				includeCurrentVersion: false,
 				versions: {
-					'current': {
-						label: '4.7-beta',
-						banner: 'unreleased',
+					'4.7': {
+						// No banner for 4.7 as it's the latest stable version
+						banner: 'none',
 					},
 					'4.6': {
-						// No banner for 4.6 as its the latest stable version
+						// No banner for 4.6 as it's still actively maintained
 						banner: 'none',
 					},
 					'4.5': {
-						// No banner for 4.5 as its still actively maintained
+						// No banner for 4.5 as it's still actively maintained
 						banner: 'none',
 					},
 				},
