@@ -1,0 +1,83 @@
+---
+title: Harper Docs
+---
+
+import CustomDocCardList from '@site/src/components/CustomDocCardList';
+
+# Harper Docs
+
+:::info
+[Connect with our team!](https://www.harpersystems.dev/contact)
+:::
+
+Harper is an all-in-one backend technology that fuses database technologies, caching, application hosting, and messaging functions into a single system. Unlike traditional architectures where each piece runs independently and incurs extra costs and latency from serialization and network operations between processes, Harper systems can handle workloads seamlessly and efficiently.
+
+Here, you'll find all things Harper, and everything you need to get started, troubleshoot issues, and make the most of our platform.
+
+## Getting Started
+
+The recommended approach for efficiently developing applications with Harper is to develop locally and deploy them to Harper Fabric, our distributed data application platform service. Our getting started guide will walk you through how to install Harper locally, sign up for Fabric service, build a simple application and deploy it.
+
+<CustomDocCardList
+	columns={3}
+	items={[
+		{
+			type: 'link',
+			href: '/docs/getting-started/installation',
+			label: 'Install Harper',
+			description: 'Learn how to install Harper locally, sign up for Fabric and deploy to it.',
+		},
+		{
+			type: 'link',
+			href: '/docs/getting-started/quickstart',
+			label: 'Create an App',
+			description: 'Learn how to build your first Harper application.',
+		},
+		{
+			type: 'link',
+			href: '/docs/foundations/harper-architecture',
+			label: 'Harper Architecture',
+			description: 'Learn about what Harper is composed of, and how they work together',
+		},
+	]}
+/>
+
+## Building with Harper
+
+<CustomDocCardList
+	columns={3}
+	items={[
+		{
+			type: 'link',
+			href: '/docs/developers/applications/',
+			label: 'Harper Applications',
+			description: 'Build your a fully featured Harper Component with custom functionality',
+		},
+		{
+			type: 'link',
+			href: '/docs/developers/rest',
+			label: 'REST Queries',
+			description: 'The recommended HTTP interface for data access, querying, and manipulation',
+		},
+		{
+			type: 'link',
+			href: '/docs/developers/operations-api/',
+			label: 'Operations API',
+			description: 'Configure, deploy, administer, and control your Harper instance',
+		},
+		{
+			type: 'link',
+			href: '/docs/developers/replication/',
+			label: 'Clustering & Replication',
+			description:
+				'The process of connecting multiple Harper databases together to create a database mesh network that enables users to define data replication patterns.',
+		},
+		{
+			type: 'link',
+			href: '/docs/administration/harper-studio/',
+			label: 'Explore the Harper Studio',
+			description:
+				'The web-based GUI for Harper. Studio enables you to administer, navigate, and monitor all of your Harper instances in a simple, user friendly interface.',
+		},
+	]}
+/>
