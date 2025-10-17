@@ -159,17 +159,15 @@ export class CustomDog extends Dog {
 	async post(target, data) {
 		if (data.action === 'add-trick') {
 			const record = this.update(target);
-			record.tricks.push(data.trick); // we be persisted when the transaction commits
+			record.tricks.push(data.trick); // will be persisted when the transaction commits
 		}
 	}
 }
 ```
 
-And a POST request to /CustomDog/ would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
+And a POST request to /CustomDog/ would call this `post` method. The `update` method return an `Updatable` object, which automatically tracks changes you make to your record and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
 
-The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
-
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
+We can also define custom authorization capabilities here. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
@@ -178,7 +176,7 @@ export class CustomDog extends Dog {
 		if (data.action === 'add-trick') {
 			const context = this.getContext();
 			// if we want to skip the default permission checks, we can turn off checkPermissions:
-			target.checkPermissions = false;
+			target.checkPermission = false; // don't have update perform any permission check
 			const record = this.update(target);
 			// and do our own/custom permission check:
 			if (record.owner !== context.user?.username) {
@@ -200,11 +198,11 @@ export default class CustomDog extends Dog {
 	...
 ```
 
-This will allow requests to url like / to be directly resolved to this resource.
+This will allow requests to the root url `/` to be directly resolved to this resource.
 
 ## Define Custom Data Sources
 
-We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
+We can also directly implement the `Resource` class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 
 ```javascript
 const { Breed } = tables; // our Breed table
