@@ -70,6 +70,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/install-harperdb/node-ver-requirement'), to: withBase('/deployments/install-harper/') },
 		{ from: withBase('/deployments/install-harperdb'), to: withBase('/deployments/install-harper/') },
 		{ from: withBase('/deployments/install-harperdb/linux'), to: withBase('/deployments/install-harper/linux') },
+		{ from: withBase('/getting-started/install-harper'), to: withBase('/getting-started/installation') },
 
 		// Harper Studio (old HarperDB Studio paths)
 		{ from: withBase('/harperdb-studio'), to: withBase('/administration/harper-studio/') },
