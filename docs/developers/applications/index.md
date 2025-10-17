@@ -12,7 +12,7 @@ When working through this guide, we recommend you use the [Harper Application Te
 
 Before we get started, let's clarify some terminology that is used throughout the documentation.
 
-**Components** are the high-level concept for modules that extend the Harper core platform adding additional functionality. The application you will build here is a component. In addition to applications, components also encompass extensions.
+**Components** are the high-level concept for any modules that extend the Harper core platform adding additional functionality. The application you will build here is a type of component. In addition to applications, components also encompass extensions.
 
 > We are actively working to disambiguate the terminology. When you see "component", such as in the Operations API or CLI, it generally refers to an application. We will do our best to clarify exactly which classification of a component whenever possible.
 
@@ -81,9 +81,9 @@ This guide is going to walk you through building a basic Harper application usin
 
 ## Custom Functionality with JavaScript
 
-[The getting started guide](../../getting-started/quickstart) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+[The getting started guide](../../getting-started/quickstart) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
-To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
+To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). Let's add a property to the dog records when they are returned, that includes their age in human years. To do this, we get the `Dog` class from the defined tables, extend it (with our custom logic), and export it:
 
 ```javascript
 // resources.js:
@@ -101,7 +101,7 @@ export class DogWithHumanAge extends Dog {
 }
 ```
 
-Here we exported the `DogWithHumanAge` class (exported with the same name), which directly maps to the endpoint path. Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. Resource classes provide getters/setters for every defined attribute so that accessing instance properties like `age`, will get the value from the underlying record. The instance holds information about the primary key of the record so updates and actions can be applied to the correct record. And changing or assigning new properties can be saved or included in the resource as it returned and serialized. The `return super.get(query)` call at the end allows for any query parameters to be applied to the resource, such as selecting individual properties (with a [`select` query parameter](./rest#selectproperties)).
+Here we exported the `DogWithHumanAge` class, which directly maps to the endpoint path (exported with the same name). Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. The `return super.get(target)` call at the end allows for any request target information (like query parameters) to be applied to the `get`, allowing metadata or queries to be pass through.
 
 Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
 
@@ -140,7 +140,16 @@ export class DogWithBreed extends Dog {
 }
 ```
 
-The call to `Breed.get` will return an instance of the `Breed` resource class, which holds the record specified the provided id/primary key. Like the `Dog` instance, we can access or change properties on the Breed instance.
+The call to `Breed.get` will return a record from the `Breed` table as specified by the provided id/primary key. Like the `Dog` record, we can directly use this object or copy properties.
+
+We may also want to customize access to this data. By default, the `target` has a `checkPermission` property that indicates that the table's `get` method will check if there is a valid user with access to a table before returning a record (and throw an `AccessViolation` if they do not). However, we can explicitly allow permission to the table's data/records by setting `checkPermission` to `false`:
+
+```javascript
+	async get(target) {
+		target.checkPermission = false;
+		const record = await super.get(target);
+		...
+```
 
 Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method. the POST method has much more open-ended semantics and is a good choice for custom actions. POST requests are handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks` array to a specific instance. We might do it like this, and specify an action to be able to differentiate actions:
 
@@ -150,17 +159,15 @@ export class CustomDog extends Dog {
 	async post(target, data) {
 		if (data.action === 'add-trick') {
 			const record = this.update(target);
-			record.tricks.push(data.trick);
+			record.tricks.push(data.trick); // will be persisted when the transaction commits
 		}
 	}
 }
 ```
 
-And a POST request to /CustomDog/ would call this `post` method. The Resource class then automatically tracks changes you make to your resource instances and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
+And a POST request to /CustomDog/ would call this `post` method. The `update` method return an `Updatable` object, which automatically tracks changes you make to your record and saves those changes when this transaction is committed (again these methods are automatically wrapped in a transaction and committed once the request handler is finished). So when you push data on to the `tricks` array, this will be recorded and persisted when this method finishes and before sending a response to the client.
 
-The `post` method automatically marks the current instance as being update. However, you can also explicitly specify that you are changing a resource by calling the `update()` method. If you want to modify a resource instance that you retrieved through a `get()` call (like `Breed.get()` call above), you can call its `update()` method to ensure changes are saved (and will be committed in the current transaction).
-
-We can also define custom authorization capabilities. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
+We can also define custom authorization capabilities here. For example, we might want to specify that only the owner of a dog can make updates to a dog. We could add logic to our `post()` method or `put()` method to do this. For example, we might do this:
 
 ```javascript
 export class CustomDog extends Dog {
@@ -169,7 +176,7 @@ export class CustomDog extends Dog {
 		if (data.action === 'add-trick') {
 			const context = this.getContext();
 			// if we want to skip the default permission checks, we can turn off checkPermissions:
-			target.checkPermissions = false;
+			target.checkPermission = false; // don't have update perform any permission check
 			const record = this.update(target);
 			// and do our own/custom permission check:
 			if (record.owner !== context.user?.username) {
@@ -191,11 +198,11 @@ export default class CustomDog extends Dog {
 	...
 ```
 
-This will allow requests to url like / to be directly resolved to this resource.
+This will allow requests to the root url `/` to be directly resolved to this resource.
 
 ## Define Custom Data Sources
 
-We can also directly implement the Resource class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
+We can also directly implement the `Resource` class and use it to create new data sources from scratch that can be used as endpoints. Custom resources can also be used as caching sources. Let's say that we defined a `Breed` table that was a cache of information about breeds from another source. We could implement a caching table like:
 
 ```javascript
 const { Breed } = tables; // our Breed table
