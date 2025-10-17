@@ -140,7 +140,16 @@ export class DogWithBreed extends Dog {
 }
 ```
 
-The call to `Breed.get` will return an instance of the `Breed` resource class, which holds the record specified the provided id/primary key. Like the `Dog` instance, we can access or change properties on the Breed instance.
+The call to `Breed.get` will return a record from the `Breed` table as specified by the provided id/primary key. Like the `Dog` record, we can directly use this object or copy properties.
+
+We may also want to customize access to this data. By default, the `target` has a `checkPermission` property that indicates that the table's `get` method will check if there is a valid user with access to a table before returning a record (and throw an `AccessViolation` if they do not). However, we can explicitly allow permission to the table's data/records by setting `checkPermission` to `false`:
+
+```javascript
+	async get(target) {
+		target.checkPermission = false;
+		const record = await super.get(target);
+		...
+```
 
 Here we have focused on customizing how we retrieve data, but we may also want to define custom actions for writing data. While HTTP PUT method has a specific semantic definition (replace current record), a common method for custom actions is through the HTTP POST method. the POST method has much more open-ended semantics and is a good choice for custom actions. POST requests are handled by our Resource's post() method. Let's say that we want to define a POST handler that adds a new trick to the `tricks` array to a specific instance. We might do it like this, and specify an action to be able to differentiate actions:
 
