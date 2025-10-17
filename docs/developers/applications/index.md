@@ -12,7 +12,7 @@ When working through this guide, we recommend you use the [Harper Application Te
 
 Before we get started, let's clarify some terminology that is used throughout the documentation.
 
-**Components** are the high-level concept for modules that extend the Harper core platform adding additional functionality. The application you will build here is a component. In addition to applications, components also encompass extensions.
+**Components** are the high-level concept for any modules that extend the Harper core platform adding additional functionality. The application you will build here is a type of component. In addition to applications, components also encompass extensions.
 
 > We are actively working to disambiguate the terminology. When you see "component", such as in the Operations API or CLI, it generally refers to an application. We will do our best to clarify exactly which classification of a component whenever possible.
 
@@ -81,9 +81,9 @@ This guide is going to walk you through building a basic Harper application usin
 
 ## Custom Functionality with JavaScript
 
-[The getting started guide](../../getting-started/quickstart) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. Let's add a property to the dog records when they are returned, that includes their age in human years. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+[The getting started guide](../../getting-started/quickstart) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
-To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). To do this, we get the `Dog` class from the defined tables, extend it, and export it:
+To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). Let's add a property to the dog records when they are returned, that includes their age in human years. To do this, we get the `Dog` class from the defined tables, extend it (with our custom logic), and export it:
 
 ```javascript
 // resources.js:
@@ -101,7 +101,7 @@ export class DogWithHumanAge extends Dog {
 }
 ```
 
-Here we exported the `DogWithHumanAge` class (exported with the same name), which directly maps to the endpoint path. Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. Resource classes provide getters/setters for every defined attribute so that accessing instance properties like `age`, will get the value from the underlying record. The instance holds information about the primary key of the record so updates and actions can be applied to the correct record. And changing or assigning new properties can be saved or included in the resource as it returned and serialized. The `return super.get(query)` call at the end allows for any query parameters to be applied to the resource, such as selecting individual properties (with a [`select` query parameter](./rest#selectproperties)).
+Here we exported the `DogWithHumanAge` class, which directly maps to the endpoint path (exported with the same name). Therefore, now we have a `/DogWithHumanAge/<dog-id>` endpoint based on this class, just like the direct table interface that was exported as `/Dog/<dog-id>`, but the new endpoint will return objects with the computed `humanAge` property. The `return super.get(target)` call at the end allows for any request target information (like query parameters) to be applied to the `get`, allowing metadata or queries to be pass through.
 
 Often we may want to incorporate data from other tables or data sources in your data models. Next, let's say that we want a `Breed` table that holds detailed information about each breed, and we want to add that information to the returned dog object. We might define the Breed table as (back in schema.graphql):
 
@@ -159,7 +159,7 @@ export class CustomDog extends Dog {
 	async post(target, data) {
 		if (data.action === 'add-trick') {
 			const record = this.update(target);
-			record.tricks.push(data.trick);
+			record.tricks.push(data.trick); // we be persisted when the transaction commits
 		}
 	}
 }
