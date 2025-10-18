@@ -243,6 +243,15 @@ const config: Config = {
 				},
 			},
 		],
+
+		// GA4
+		[
+			'@docusaurus/plugin-google-gtag',
+			{
+				trackingID: process.env.GA4_TRACKING_ID || '',
+				anonymizeIP: true,
+			},
+		],
 	],
 
 	themes: [
