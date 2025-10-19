@@ -4,7 +4,9 @@ title: Custom Functions
 
 # Custom Functions
 
-_These operations are deprecated._
+:::warning Deprecated
+These operations are deprecated.
+:::
 
 ## Custom Functions Status
 

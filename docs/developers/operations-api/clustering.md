@@ -4,7 +4,7 @@ title: Clustering
 
 # Clustering
 
-The following operations are available for configuring and managing [Harper replication](../replication/).\
+The following operations are available for configuring and managing [Harper replication](../replication/).
 
 _**If you are using NATS for clustering, please see the**_ [_**NATS Clustering Operations**_](clustering-nats) _**documentation.**_
 
