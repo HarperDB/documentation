@@ -56,6 +56,7 @@ jobs:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
           ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+          GA4_TRACKING_ID: ${{ secrets.GA4_TRACKING_ID }}
         run: |
           echo "Building Docusaurus site..."
           echo "Using DOCUSAURUS_ROUTE_BASE_PATH: $DOCUSAURUS_ROUTE_BASE_PATH"
