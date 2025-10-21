@@ -208,7 +208,7 @@ _Operation is restricted to super_user roles only_
 
 ## Set Configuration
 
-Modifies the HarperDB configuration file parameters. Must follow with a restart or restart_service operation.
+Modifies the HarperDB configuration file parameters. Must follow with a [restart](#restart) or [restart_service](#restart-service) operation.
 
 _Operation is restricted to super_user roles only_
 

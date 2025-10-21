@@ -6,7 +6,7 @@ title: Configuration
 
 ## Set Configuration
 
-Modifies the Harper configuration file parameters. Must follow with a restart or restart_service operation.
+Modifies the Harper configuration file parameters. Must follow with a [restart](./system-operations#restart) or [restart_service](./system-operations#restart-service) operation.
 
 _Operation is restricted to super_user roles only_
 

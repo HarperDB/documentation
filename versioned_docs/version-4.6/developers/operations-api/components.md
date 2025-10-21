@@ -523,7 +523,10 @@ _Operation is restricted to super_user roles only_
 
 ## Install Node Modules
 
-This operation is deprecated, as it is handled automatically by deploy_component and restart.
+:::warning Deprecated
+This operation is deprecated, as it is handled automatically by [deploy_component](#deploy-component) and [restart](./system-operations#restart).
+:::
+
 Executes npm install against specified custom function projects.
 
 _Operation is restricted to super_user roles only_

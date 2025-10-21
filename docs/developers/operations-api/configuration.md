@@ -6,13 +6,13 @@ title: Configuration
 
 ## Set Configuration
 
-Modifies the Harper configuration file parameters. Must follow with a restart or restart_service operation.
+Modifies the Harper configuration file parameters. Must follow with a [restart](./system-operations#restart) or [restart_service](./system-operations#restart-service) operation.
 
 _Operation is restricted to super_user roles only_
 
 - `operation` _(required)_ - must always be `set_configuration`
-- `logging_level` _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
-- `clustering_enabled` _(example/optional)_ - one or more configuration keywords to be updated in the Harper configuration file
+- `logging_level` _(optional)_ - one or more configuration keywords to be updated in the Harper configuration file
+- `clustering_enabled` _(optional)_ - one or more configuration keywords to be updated in the Harper configuration file
 
 ### Body
 
