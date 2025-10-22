@@ -17,7 +17,6 @@ _Operation is restricted to super_user roles only_
 - `from` _(optional)_ - date to begin showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is first log in `hdb.log`
 - `until` _(optional)_ - date to end showing log results. Must be `YYYY-MM-DD` or `YYYY-MM-DD hh:mm:ss`. Default is last log in `hdb.log`
 - `order` _(optional)_ - order to display logs desc or asc by timestamp. By default, will maintain `hdb.log` order
-- `log_name` _(optional)_ - filename of log to read. Options are `hdb.log`, `install.log`, `clustering_hub.log`, or `clustering_leaf.log`. Default is `hdb.log`
 
 ### Body
 
