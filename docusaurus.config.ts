@@ -371,7 +371,7 @@ const config: Config = {
 						},
 						{
 							label: 'X (Twitter)',
-							href: 'https://twitter.com/harperdbio',
+							href: 'https://twitter.com/harper_fast',
 						},
 					],
 				},
@@ -388,7 +388,7 @@ const config: Config = {
 						},
 						{
 							label: 'GitHub',
-							href: 'https://github.com/HarperDB/harperdb',
+							href: 'https://github.com/HarperFast/harperdb',
 						},
 						{
 							label: 'Contact',
