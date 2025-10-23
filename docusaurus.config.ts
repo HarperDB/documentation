@@ -362,12 +362,12 @@ const config: Config = {
 					title: 'Community',
 					items: [
 						{
-							label: 'Slack',
-							href: 'https://harperdbcommunity.slack.com',
+							label: 'Discord',
+							href: 'https://discord.gg/VzZuaw3Xay',
 						},
 						{
 							label: 'LinkedIn',
-							href: 'https://www.linkedin.com/company/harpersystems/',
+							href: 'https://www.linkedin.com/company/harperfast/',
 						},
 						{
 							label: 'X (Twitter)',
@@ -384,15 +384,15 @@ const config: Config = {
 						},
 						{
 							label: 'Blog',
-							href: 'https://www.harpersystems.dev/blog',
+							href: 'https://www.harper.fast/resources',
 						},
 						{
 							label: 'GitHub',
-							href: 'https://github.com/HarperFast/harperdb',
+							href: 'https://github.com/HarperFast',
 						},
 						{
 							label: 'Contact',
-							href: 'https://www.harpersystems.dev/contact',
+							href: 'mailto:opensource@harperdb.io',
 						},
 					],
 				},
