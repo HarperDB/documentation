@@ -69,17 +69,17 @@ export HARPER_SET_CONFIG='{"authentication":{"enabled":true}}'
 
 The key difference between these variables is their precedence and behavior when configuration changes:
 
-| Feature         | HARPER_DEFAULT_CONFIG       | HARPER_SET_CONFIG               |
-| --------------- | --------------------------- | ------------------------------- |
-| **Purpose**     | Provide sensible defaults   | Force critical settings         |
-| **Precedence**  | Lower (respects user edits) | Highest (always overrides)      |
-| **User edits**  | Respected after detection   | Always overridden               |
-| **Key removal** | Restores original values    | Deletes values                  |
-| **Use case**    | Container defaults          | Security/compliance enforcement |
+| Feature         | HARPER_DEFAULT_CONFIG          | HARPER_SET_CONFIG               |
+| --------------- | ------------------------------ | ------------------------------- |
+| **Purpose**     | Provide sensible defaults      | Force critical settings         |
+| **Precedence**  | Lower (respects user edits)    | Highest (always overrides)      |
+| **User edits**  | Respected after detection      | Always overridden               |
+| **Key removal** | Restores original values       | Deletes values                  |
+| **Use case**    | Installation/runtime defaults  | Security/compliance enforcement |
 
 ### HARPER_DEFAULT_CONFIG
 
-`HARPER_DEFAULT_CONFIG` provides default configuration values for new installations while respecting user modifications. This is ideal for containerized deployments where you want to provide sensible defaults without preventing administrators from customizing their instances.
+`HARPER_DEFAULT_CONFIG` provides default configuration values while respecting user modifications. This is ideal for scenarios where you want to provide sensible defaults without preventing administrators from customizing their instances.
 
 #### Behavior
 
@@ -95,14 +95,15 @@ The key difference between these variables is their precedence and behavior when
 - Automatically detects and respects manual user edits to the config file
 - When a key is removed from the environment variable, the original value is restored
 
-#### Example: Container Default Port
+#### Example: Setting Default Port
 
 ```bash
-# Set default port for all container instances
+# Set default port and logging level
 export HARPER_DEFAULT_CONFIG='{"http":{"port":8080},"logging":{"level":"info"}}'
 
-# Install Harper
-npm install harperdb
+# Install and start Harper
+npm install -g harperdb
+harperdb
 
 # The config file will have port 8080 and info logging
 
@@ -132,8 +133,9 @@ export HARPER_DEFAULT_CONFIG='{"logging":{"level":"info"}}'
 # Force authentication and specific logging for compliance
 export HARPER_SET_CONFIG='{"authentication":{"enabled":true},"logging":{"level":"error","stdStreams":true}}'
 
-# Start Harper
-npm start
+# Install and start Harper
+npm install -g harperdb
+harperdb
 
 # Any attempt to change these values in harperdb-config.yaml will be
 # overridden on the next restart. The SET_CONFIG values always win.
