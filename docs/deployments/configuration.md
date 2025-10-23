@@ -69,13 +69,13 @@ export HARPER_SET_CONFIG='{"authentication":{"enabled":true}}'
 
 The key difference between these variables is their precedence and behavior when configuration changes:
 
-| Feature         | HARPER_DEFAULT_CONFIG          | HARPER_SET_CONFIG               |
-| --------------- | ------------------------------ | ------------------------------- |
-| **Purpose**     | Provide sensible defaults      | Force critical settings         |
-| **Precedence**  | Lower (respects user edits)    | Highest (always overrides)      |
-| **User edits**  | Respected after detection      | Always overridden               |
-| **Key removal** | Restores original values       | Deletes values                  |
-| **Use case**    | Installation/runtime defaults  | Security/compliance enforcement |
+| Feature         | HARPER_DEFAULT_CONFIG         | HARPER_SET_CONFIG               |
+| --------------- | ----------------------------- | ------------------------------- |
+| **Purpose**     | Provide sensible defaults     | Force critical settings         |
+| **Precedence**  | Lower (respects user edits)   | Highest (always overrides)      |
+| **User edits**  | Respected after detection     | Always overridden               |
+| **Key removal** | Restores original values      | Deletes values                  |
+| **Use case**    | Installation/runtime defaults | Security/compliance enforcement |
 
 ### HARPER_DEFAULT_CONFIG
 
