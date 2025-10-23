@@ -56,7 +56,7 @@ To install Harper overtop of an existing configuration file, set `HDB_CONFIG` to
 
 ## Environment Variable-Based Configuration
 
-Harper provides two special environment variables intended for managing configuration in containerized and cloud deployments: `HARPER_DEFAULT_CONFIG` and `HARPER_SET_CONFIG`. These variables allow you to configure Harper instances through environment variables using JSON-formatted configuration objects.
+Harper provides two special environment variables for managing configuration: `HARPER_DEFAULT_CONFIG` and `HARPER_SET_CONFIG`. These variables allow you to configure Harper instances through environment variables using JSON-formatted configuration objects.
 
 ### Overview
 
