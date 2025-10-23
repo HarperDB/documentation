@@ -302,7 +302,7 @@ const config: Config = {
 				alt: 'Harper Logo',
 				src: 'img/HarperPrimaryBlk.svg',
 				srcDark: 'img/HarperPrimaryWht.svg',
-				href: 'https://www.harpersystems.dev',
+				href: 'https://www.harper.fast/',
 			},
 			items: [
 				{
