@@ -302,7 +302,7 @@ const config: Config = {
 				alt: 'Harper Logo',
 				src: 'img/HarperPrimaryBlk.svg',
 				srcDark: 'img/HarperPrimaryWht.svg',
-				href: 'https://www.harpersystems.dev',
+				href: 'https://www.harper.fast/',
 			},
 			items: [
 				{
@@ -362,16 +362,16 @@ const config: Config = {
 					title: 'Community',
 					items: [
 						{
-							label: 'Slack',
-							href: 'https://harperdbcommunity.slack.com',
+							label: 'Discord',
+							href: 'https://discord.gg/VzZuaw3Xay',
 						},
 						{
 							label: 'LinkedIn',
-							href: 'https://www.linkedin.com/company/harpersystems/',
+							href: 'https://www.linkedin.com/company/harperfast/',
 						},
 						{
 							label: 'X (Twitter)',
-							href: 'https://twitter.com/harperdbio',
+							href: 'https://twitter.com/harper_fast',
 						},
 					],
 				},
@@ -379,20 +379,20 @@ const config: Config = {
 					title: 'More',
 					items: [
 						{
-							label: 'Harper Systems',
-							href: 'https://www.harpersystems.dev',
+							label: 'Harper Fast',
+							href: 'https://www.harper.fast',
 						},
 						{
 							label: 'Blog',
-							href: 'https://www.harpersystems.dev/blog',
+							href: 'https://www.harper.fast/resources',
 						},
 						{
 							label: 'GitHub',
-							href: 'https://github.com/HarperDB/harperdb',
+							href: 'https://github.com/HarperFast',
 						},
 						{
 							label: 'Contact',
-							href: 'https://www.harpersystems.dev/contact',
+							href: 'mailto:opensource@harperdb.io',
 						},
 					],
 				},
