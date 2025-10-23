@@ -379,8 +379,8 @@ const config: Config = {
 					title: 'More',
 					items: [
 						{
-							label: 'Harper Systems',
-							href: 'https://www.harpersystems.dev',
+							label: 'Harper Fast',
+							href: 'https://www.harper.fast',
 						},
 						{
 							label: 'Blog',
