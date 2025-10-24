@@ -275,6 +275,15 @@ threads:
 
 This specifies the heap memory limit for each thread, in megabytes. The default heap limit is a heuristic based on available memory and thread count.
 
+`heapSnapshotNearLimit` - _Type_: boolean;
+
+```yaml
+threads:
+  heapSnapshotNearLimit: true
+```
+
+This specifies that heap snapshot should be taken when the heap limit is near the limit.
+
 ---
 
 ### `replication`
