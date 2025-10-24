@@ -5,7 +5,10 @@ title: Harper Docs
 # Harper Docs
 
 :::info
-[Connect with our team!](https://www.harpersystems.dev/contact)
+
+### Get the Most Out of Harper
+
+Join our Discord to access expert support, collaborate with Harper’s core team, and stay up to date on the latest platform updates. [Join Our Discord →](https://discord.gg/VzZuaw3Xay)
 :::
 
 ## What is Harper? Performance, Simplicity, and Scale.
