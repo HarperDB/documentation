@@ -54,6 +54,161 @@ To use a custom configuration file to set values on install, use the CLI/ENV var
 
 To install Harper overtop of an existing configuration file, set `HDB_CONFIG` to the root path of your install `<ROOTPATH>/harperdb-config.yaml`
 
+## Environment Variable-Based Configuration
+
+Harper provides two special environment variables for managing configuration: `HARPER_DEFAULT_CONFIG` and `HARPER_SET_CONFIG`. These variables allow you to configure Harper instances through environment variables using JSON-formatted configuration objects.
+
+### Overview
+
+Both environment variables accept JSON-formatted configuration that mirrors the structure of `harperdb-config.yaml`:
+
+```bash
+export HARPER_DEFAULT_CONFIG='{"http":{"port":8080},"logging":{"level":"info"}}'
+export HARPER_SET_CONFIG='{"authentication":{"enabled":true}}'
+```
+
+The key difference between these variables is their precedence and behavior when configuration changes:
+
+| Feature         | HARPER_DEFAULT_CONFIG         | HARPER_SET_CONFIG               |
+| --------------- | ----------------------------- | ------------------------------- |
+| **Purpose**     | Provide sensible defaults     | Force critical settings         |
+| **Precedence**  | Lower (respects user edits)   | Highest (always overrides)      |
+| **User edits**  | Respected after detection     | Always overridden               |
+| **Key removal** | Restores original values      | Deletes values                  |
+| **Use case**    | Installation/runtime defaults | Security/compliance enforcement |
+
+### HARPER_DEFAULT_CONFIG
+
+`HARPER_DEFAULT_CONFIG` provides default configuration values while respecting user modifications. This is ideal for scenarios where you want to provide sensible defaults without preventing administrators from customizing their instances.
+
+#### Behavior
+
+**At installation time:**
+
+- Overrides template default values
+- Respects values set by `HARPER_SET_CONFIG`
+- Respects values from existing config files (when using `HDB_CONFIG`)
+
+**At runtime:**
+
+- Only updates values it originally set
+- Automatically detects and respects manual user edits to the config file
+- When a key is removed from the environment variable, the original value is restored
+
+#### Example: Setting Default Port
+
+```bash
+# Set default port and logging level
+export HARPER_DEFAULT_CONFIG='{"http":{"port":8080},"logging":{"level":"info"}}'
+
+# Install and start Harper
+npm install -g harperdb
+harperdb
+
+# The config file will have port 8080 and info logging
+
+# If an administrator manually edits the config to use port 9000,
+# Harper will detect this change and respect it on subsequent restarts
+
+# If you remove http.port from the env var later:
+export HARPER_DEFAULT_CONFIG='{"logging":{"level":"info"}}'
+# The port will be restored to its original template default (9925)
+```
+
+### HARPER_SET_CONFIG
+
+`HARPER_SET_CONFIG` forces configuration values that must never be changed by users. This is designed for security policies, compliance requirements, or critical operational settings that need to be enforced across all instances.
+
+#### Behavior
+
+**At runtime:**
+
+- Always overrides all other configuration sources
+- Takes precedence over user edits, file values, and `HARPER_DEFAULT_CONFIG`
+- When a key is removed from the environment variable, it's deleted from the config (no restoration)
+
+#### Example: Enforce Security Settings
+
+```bash
+# Force authentication and specific logging for compliance
+export HARPER_SET_CONFIG='{"authentication":{"enabled":true},"logging":{"level":"error","stdStreams":true}}'
+
+# Install and start Harper
+npm install -g harperdb
+harperdb
+
+# Any attempt to change these values in harperdb-config.yaml will be
+# overridden on the next restart. The SET_CONFIG values always win.
+
+# If you later remove authentication from SET_CONFIG:
+export HARPER_SET_CONFIG='{"logging":{"level":"error","stdStreams":true}}'
+# The authentication section will be removed from the config entirely
+```
+
+### Combining Both Variables
+
+You can use both environment variables together for maximum flexibility:
+
+```bash
+# Provide sensible defaults for most settings
+export HARPER_DEFAULT_CONFIG='{"http":{"port":8080,"cors":true},"logging":{"level":"info"}}'
+
+# But enforce critical security settings that cannot be changed
+export HARPER_SET_CONFIG='{"authentication":{"enabled":true,"sessionTokenExpiration":3600}}'
+```
+
+In this scenario:
+
+- Administrators can customize the HTTP port, CORS settings, and logging level
+- Authentication settings are always enforced and cannot be changed
+
+### Configuration Precedence
+
+The complete configuration precedence order (highest to lowest):
+
+1. **HARPER_SET_CONFIG** - Always wins
+2. **User manual edits** - Detected through drift detection
+3. **HARPER_DEFAULT_CONFIG** - Applied if no user edits detected
+4. **File defaults** - Original template values
+
+### State Tracking
+
+Harper maintains a state file at `{rootPath}/backup/.harper-config-state.json` to track the source of each configuration value. This enables:
+
+- **Drift detection**: Identifying when users manually edit values set by `HARPER_DEFAULT_CONFIG`
+- **Restoration**: Restoring original values when keys are removed from `HARPER_DEFAULT_CONFIG`
+- **Conflict resolution**: Determining which source should take precedence
+
+### Important Notes
+
+- Both environment variables must contain valid JSON matching the structure of `harperdb-config.yaml`
+- Configuration validation occurs after environment variables are applied
+- Invalid values will be caught by Harper's configuration validator
+- Changes to these environment variables require a Harper restart to take effect
+- The state file is specific to each Harper instance (stored in the root path)
+
+### Format Reference
+
+The JSON structure mirrors the YAML configuration file. For example:
+
+**YAML format:**
+
+```yaml
+http:
+  port: 8080
+  cors: true
+logging:
+  level: info
+  rotation:
+    enabled: true
+```
+
+**Environment variable format:**
+
+```json
+{ "http": { "port": 8080, "cors": true }, "logging": { "level": "info", "rotation": { "enabled": true } } }
+```
+
 ---
 
 ## Configuration Options
