@@ -373,6 +373,10 @@ const config: Config = {
 							label: 'X (Twitter)',
 							href: 'https://twitter.com/harper_fast',
 						},
+						{
+							label: 'Bluesky',
+							href: 'https://bsky.app/profile/harper.fast',
+						},
 					],
 				},
 				{
