@@ -187,7 +187,7 @@ The `@updatedTime` directive indicates that this property should be assigned a t
 
 #### `@sealed`
 
-The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself
+The `@sealed` directive specifies that no additional properties should be allowed on records besides those specified in the type itself.
 
 ### Defined vs Dynamic Schemas
 
