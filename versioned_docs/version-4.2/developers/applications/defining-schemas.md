@@ -59,7 +59,7 @@ This table would be available at the URL path `/my-table/`. Without the `name` p
 
 #### `@sealed`
 
-The `@sealed` directive specifies that no additional properties should be allowed on records besides though specified in the type itself.
+The `@sealed` directive specifies that no additional properties should be allowed on records besides those specified in the type itself..
 
 ### Field Directives
 
