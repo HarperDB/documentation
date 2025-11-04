@@ -6,7 +6,7 @@ title: Install Harper
 
 ## Install Harper
 
-This documentation contains information for installing Harper locally. Note that if you’d like to get up and running quickly, you can try a [managed instance with Harper Cloud](https://studio.harperdb.io/sign-up). Harper is a cross-platform database; we recommend Linux for production use, but Harper can run on Windows and Mac as well, for development purposes. Installation is usually very simple and just takes a few steps, but there are a few different options documented here.
+This documentation contains information for installing Harper locally. Note that if you’d like to get up and running quickly, you can deploy it to [Harper Fabric](https://fabric.harper.fast) our distributed data application platform service. Harper is a cross-platform database; we recommend Linux for production use. Installation is usually very simple and just takes a few steps, but there are a few different options documented here. Harper can also run on Windows and Mac, for development purposes only. Note: For Windows, we strongly recommend the use of Windows Subsystem for Linux (WSL).
 
 Harper runs on Node.js, so if you do not have it installed, you need to do that first (if you have installed, you can skip to installing Harper, itself). Node.js can be downloaded and installed from [their site](https://nodejs.org/). For Linux and Mac, we recommend installing and managing Node versions with [NVM, which has instructions for installation](https://github.com/nvm-sh/nvm). Generally NVM can be installed with the following command:
 
