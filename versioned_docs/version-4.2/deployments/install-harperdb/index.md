@@ -20,7 +20,7 @@ And then logout and login, and then install Node.js using nvm. We recommend usin
 nvm install --lts
 ```
 
-#### `Install and Start HarperDB <a href="#install" id="install"></a>`
+#### Install and Start HarperDB
 
 Then you can install HarperDB with NPM and start it:
 
