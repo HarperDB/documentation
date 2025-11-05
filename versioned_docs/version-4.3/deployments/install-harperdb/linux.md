@@ -143,7 +143,7 @@ Install Node.js using nvm ([read more about specific Node version requirements](
 nvm install <the node version>
 ```
 
-### `Install and Start HarperDB <a href="#install" id="install"></a>`
+### Install and Start HarperDB
 
 Here is an example of installing HarperDB with minimal configuration.
 
