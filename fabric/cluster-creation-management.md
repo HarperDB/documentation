@@ -23,6 +23,20 @@ A cluster is a group of instances managed together to run applications and servi
 5. \*Confirm or replace the preferred payment method. Add a new card if necessary
 6. Cluster will begin provisioning as soon as you complete your selections.
 
+
+## Editing a Cluster
+
+To edit an existing cluster:
+
+1. Navigate to your organization page.
+2. Locate the cluster you want to edit in the list of clusters.
+3. Click the three dots menu next to the cluster name and select "Edit" from the dropdown.
+4. Make the necessary changes to the cluster configuration such as:
+   - Performance & Usage
+   - Modifying the Region location and Estimated P90 Latency
+   - Adding or removing additional regions.
+5. Click the "Save Changes" or "Confirm Payment Details" button to summarize and apply your modifications.
+
 ## Harper Deployment Types:
 
 ### Colocated:
