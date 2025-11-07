@@ -15,7 +15,7 @@ build
 /src/pages/index.tsx
 
 # Generated release notes data
-/release-notes-data.json
+release-notes-data.json
 
 # Misc
 .DS_Store
