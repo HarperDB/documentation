@@ -23,7 +23,6 @@ A cluster is a group of instances managed together to run applications and servi
 5. \*Confirm or replace the preferred payment method. Add a new card if necessary
 6. Cluster will begin provisioning as soon as you complete your selections.
 
-
 ## Editing a Cluster
 
 To edit an existing cluster:
