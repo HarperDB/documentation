@@ -16,7 +16,7 @@ To install the Harper Grafana integration:
 
 4. Follow the steps under "[Installing on a local Grafana](https://grafana.com/grafana/plugins/harperfast-harper-datasource/?tab=installation)"
 
-## Harper Fabric Cluster
+## Connect to Harper
 
 4.  Navigate to your Grafana instance URL specified under `Installing Harper on Grafana Cloud`.
 5.  On the left sidebar, click the `Connections` navigation link and select `Add new connection`

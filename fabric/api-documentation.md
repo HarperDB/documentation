@@ -10,15 +10,9 @@ Harper provides a self-generating API documentation page via [Swagger UI](https:
 
 To access the API documentation, navigate to the following URL in your web browser:
 
-Example:
-
-```bash
-# Fabric Studio
-https://fabric.harper.fast/#/<org>/<cluster-or-instance>/apis
-
-# Fabric Localhost
-http://localhost:9925/#/apis
-```
+1. Sign in to your Harper Fabric Studio.
+2. Select your Organization and Cluster.
+3. Sign in to the Cluster and navigate to the `APIs` tab in the sub-menu.
 
 ## API Execution
 
