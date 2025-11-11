@@ -4,7 +4,7 @@ title: API Documentation
 
 # API Documentation
 
-Harper provides a self-generating API documentation page via [Swagger UI](https://github.com/swagger-api/swagger-ui) integration. This page allows developers to explore and test the various API endpoints available in your Harper instance/cluster.
+Harper provides automatically generated API documentation page via [Swagger UI](https://github.com/swagger-api/swagger-ui) integration. This page allows developers to explore and test the various API endpoints available in your Harper instance/cluster.
 
 ## Accessing the API Documentation
 
