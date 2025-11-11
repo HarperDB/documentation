@@ -4,7 +4,7 @@ title: Grafana Integration
 
 # Setup Grafana Integration with Harper
 
-Grafana is an observability platform for monitoring and visualizing metrics, logs, and traces. Harper provides a plug-in to integrate with Grafana for enhanced analytics and visualization capabilities.
+Grafana is an observability platform for monitoring and visualizing metrics, logs, and traces. Harper provides a plugin to integrate with Grafana for enhanced analytics and visualization capabilities.
 
 To install the Harper Grafana integration:
 
