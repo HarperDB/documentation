@@ -282,7 +282,7 @@ threads:
   heapSnapshotNearLimit: true
 ```
 
-This specifies that heap snapshot should be taken when the heap limit is near the limit.
+This specifies that a heap snapshot should be taken when the heap limit is near the limit.
 
 ---
 
