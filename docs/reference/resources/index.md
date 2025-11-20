@@ -82,6 +82,40 @@ Make sure that if are extending and `export`ing your table with this class, that
 
 All Resource methods that are called from HTTP methods may directly return data or may return a [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) object or an object with `headers` and a `status` (HTTP status code), to explicitly return specific headers and status code.
 
+## Usage Examples
+
+Most application code interacts with tables using their static methods: `get`, `put`, `create`, and `search`. To access tables in your custom resource, import the `databases` (or `tables`) globals from the `harperdb` package. For example:
+
+### Quick reference
+
+```js
+import { databases } from "harperdb";
+
+const MyTable = databases.database_name.table_name;
+
+// Within your Resource class:
+// Create a new record (ID generated)
+const created = await MyTable.create(
+  { name: "Example", status: "active" }
+);
+
+// Retrieve by primary key
+const record = await MyTable.get(created[MyTable.id]);
+
+// Insert or replace by ID
+await MyTable.put(created[MyTable.id], { ...record, status: "inactive" });
+
+// Run a query
+const query = {
+  conditions: [{ attribute: "status", value: "active" }],
+  limit: 50,
+};
+
+for await (const record of MyTable.search(query)) {
+  // Handle each row
+}
+```
+
 ## Global Variables
 
 ### `tables`
