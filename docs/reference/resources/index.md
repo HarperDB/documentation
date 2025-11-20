@@ -89,30 +89,28 @@ Most application code interacts with tables using their static methods: `get`, `
 ### Quick reference
 
 ```js
-import { databases } from "harperdb";
+import { databases } from 'harperdb';
 
 const MyTable = databases.database_name.table_name;
 
 // Within your Resource class:
 // Create a new record (ID generated)
-const created = await MyTable.create(
-  { name: "Example", status: "active" }
-);
+const created = await MyTable.create({ name: 'Example', status: 'active' });
 
 // Retrieve by primary key
 const record = await MyTable.get(created[MyTable.id]);
 
 // Insert or replace by ID
-await MyTable.put(created[MyTable.id], { ...record, status: "inactive" });
+await MyTable.put(created[MyTable.id], { ...record, status: 'inactive' });
 
 // Run a query
 const query = {
-  conditions: [{ attribute: "status", value: "active" }],
-  limit: 50,
+	conditions: [{ attribute: 'status', value: 'active' }],
+	limit: 50,
 };
 
 for await (const record of MyTable.search(query)) {
-  // Handle each row
+	// Handle each row
 }
 ```
 
