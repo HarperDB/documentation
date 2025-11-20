@@ -230,13 +230,24 @@ The URL of the current Harper instance.
 
 `databases` - _Type_: string/array; _Default_: "\*" (all databases)
 
-Configure which databases to replicate. This can be a string for all database or an array for specific databases.
+Configure which databases to replicate. This can be a string for all database or an array for specific databases. The list can be a simple array of database names:
 
 ```yaml
 replication:
   databases:
-    - db1
-    - db2
+    - system
+    - data
+    - mydb
+```
+
+The database list can also specify databases that are purely "sharded" databases. For databases that are marked as sharded, replication will _only_ create database subscription connections to nodes in the same shard. Sharding can still function without this setting, since the residency location for sharding can be determined for each table or each record. However, using this setting will reduce the overhead of connections in situations where all data is uniformly sharded, creating a simpler and more efficient replication topology. To mark databases as sharded, you can specify a list of databases with a `name` and `sharded` flag:
+
+```yaml
+replication:
+  databases:
+    - name: system
+    - name: data
+      sharded: true
 ```
 
 `routes` - _Type_: array;
