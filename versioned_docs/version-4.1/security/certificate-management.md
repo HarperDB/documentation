@@ -4,7 +4,7 @@ title: Certificate Management
 
 # Certificate Management
 
-This document is information on managing certificates for the Operations API and the Custom Functions API. For information on certificate managment for clustering see [clustering certificate management](../clustering/certificate-management).
+This document is information on managing certificates for the Operations API and the Custom Functions API. For information on certificate managment for clustering see [clustering certificate management](../../reference/clustering/certificate-management).
 
 ## Development
 
