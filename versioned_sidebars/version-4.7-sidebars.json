@@ -26,11 +26,11 @@
 				}
 			]
 		},
-        {
-          "type": "category",
-          "label": "Foundations of Harper",
-          "items": ["foundations/harper-architecture", "foundations/core-concepts", "foundations/use-cases"]
-        },
+		{
+			"type": "category",
+			"label": "Foundations of Harper",
+			"items": ["foundations/harper-architecture", "foundations/core-concepts", "foundations/use-cases"]
+		},
 		{
 			"type": "category",
 			"label": "Administration",
