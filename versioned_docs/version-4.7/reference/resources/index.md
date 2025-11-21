@@ -88,9 +88,41 @@ All Resource methods that are called from HTTP methods may directly return data 
 
 This is an object with all the tables in the default database (the default database is "data"). Each table that has been declared or created will be available as a (standard) property on this object, and the value will be the table class that can be used to interact with that table. The table classes implement the Resource API.
 
+#### Example
+
+```js
+const MyTable = tables.table_name;
+
+// Within your Resource class:
+// Create a new record (ID generated)
+const created = await MyTable.create({ name: 'Example', status: 'active' });
+
+// Retrieve by primary key
+const record = await MyTable.get(created[MyTable.id]);
+
+// Insert or replace by ID
+await MyTable.put(created[MyTable.id], { ...record, status: 'inactive' });
+
+// Run a query
+const query = {
+	conditions: [{ attribute: 'status', value: 'active' }],
+	limit: 50,
+};
+
+for await (const record of MyTable.search(query)) {
+	// Handle each row
+}
+```
+
 ### `databases`
 
 This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created will be available as a (standard) property on this object. The property values are an object with the tables in that database, where each property is a table, like the `tables` object. In fact, `databases.data === tables` should always be true.
+
+#### Example
+
+```js
+const MyTable = databases.data.table_name;
+```
 
 ### `Resource`
 
