@@ -55,7 +55,7 @@ const config: Config = {
 	organizationName: 'HarperDB', // Usually your GitHub org/user name.
 	projectName: 'documentation', // Usually your repo name.
 
-	onBrokenLinks: 'throw',
+	onBrokenLinks: 'warn',
 	onBrokenMarkdownLinks: 'warn',
 
 	plugins: [

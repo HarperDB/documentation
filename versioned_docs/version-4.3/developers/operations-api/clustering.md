@@ -158,7 +158,7 @@ _Operation is restricted to super_user roles only_
 
 ## Add Node
 
-Registers an additional HarperDB instance with associated subscriptions. Learn more about [HarperDB clustering here](../clustering/).
+Registers an additional HarperDB instance with associated subscriptions. Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
@@ -201,7 +201,7 @@ _Operation is restricted to super_user roles only_
 
 ## Update Node
 
-Modifies an existing HarperDB instance registration and associated subscriptions. This operation behaves as a PATCH/upsert, meaning it will insert or update the specified replication configurations while leaving other table replication configuration untouched. Learn more about [HarperDB clustering here](../clustering/).
+Modifies an existing HarperDB instance registration and associated subscriptions. This operation behaves as a PATCH/upsert, meaning it will insert or update the specified replication configurations while leaving other table replication configuration untouched. Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
@@ -285,7 +285,7 @@ _Operation is restricted to super_user roles only_
 
 ## Cluster Status
 
-Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about [HarperDB clustering here](../clustering/).
+Returns an array of status objects from a cluster. A status object will contain the clustering node name, whether or not clustering is enabled, and a list of possible connections. Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
@@ -332,7 +332,7 @@ _Operation is restricted to super_user roles only_
 
 ## Cluster Network
 
-Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about [HarperDB clustering here](../clustering/).
+Returns an object array of enmeshed nodes. Each node object will contain the name of the node, the amount of time (in milliseconds) it took for it to respond, the names of the nodes it is enmeshed with and the routes set in its config file. Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
@@ -379,7 +379,7 @@ _Operation is restricted to super_user roles only_
 
 ## Remove Node
 
-Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about [HarperDB clustering here](../clustering/).
+Removes a HarperDB instance and associated subscriptions from the cluster. Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
@@ -408,7 +408,7 @@ _Operation is restricted to super_user roles only_
 ## Configure Cluster
 
 Bulk create/remove subscriptions for any number of remote nodes. Resets and replaces any existing clustering setup.
-Learn more about [HarperDB clustering here](../clustering/).
+Learn more about[HarperDB clustering here](../../reference/clustering)
 
 _Operation is restricted to super_user roles only_
 
