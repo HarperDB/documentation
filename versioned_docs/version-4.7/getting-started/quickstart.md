@@ -8,7 +8,7 @@ Now that you've set up Harper, let's build a simple API. Harper lets you build p
 
 ## Setup Your Project
 
-If you have installed Harper locally, start by cloning the Harper application template:
+If you have installed Harper locally, start by cloning the [Harper Application Template](https://github.com/HarperDB/application-template) :
 
 ```bash
 git clone https://github.com/HarperDB/application-template my-app

@@ -4,7 +4,7 @@ title: Certificate Management
 
 # Certificate Management
 
-This document is information on managing certificates for Harper external facing APIs. For information on certificate management for clustering see [clustering certificate management](../clustering/certificate-management).
+This document is information on managing certificates for Harper external facing APIs. For information on certificate management for clustering see [clustering certificate management](../../reference/clustering/certificate-management).
 
 ## Development
 

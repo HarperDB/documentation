@@ -3,12 +3,12 @@ title: SQL JSON Search
 ---
 
 :::warning
-HarperDB encourages developers to utilize other querying tools over SQL for performance purposes. HarperDB SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
+Harper encourages developers to utilize other querying tools over SQL for performance purposes. Harper SQL is intended for data investigation purposes and uses cases where performance is not a priority. SQL optimizations are on our roadmap for the future.
 :::
 
 # SQL JSON Search
 
-HarperDB automatically indexes all top level attributes in a row / object written to a table. However, any attributes which hold JSON data do not have their nested attributes indexed. In order to make searching and/or transforming these JSON documents easy, HarperDB offers a special SQL function called SEARCH_JSON. The SEARCH_JSON function works in SELECT & WHERE clauses allowing queries to perform powerful filtering on any element of your JSON by implementing the [JSONata library](https://docs.jsonata.org/overview.html) into our SQL engine.
+Harper automatically indexes all top level attributes in a row / object written to a table. However, any attributes which hold JSON data do not have their nested attributes indexed. In order to make searching and/or transforming these JSON documents easy, Harper offers a special SQL function called SEARCH_JSON. The SEARCH_JSON function works in SELECT & WHERE clauses allowing queries to perform powerful filtering on any element of your JSON by implementing the [JSONata library](https://docs.jsonata.org/overview.html) into our SQL engine.
 
 ## Syntax
 
@@ -172,6 +172,6 @@ SEARCH_JSON(
 
 As seen above we execute the same name filter against the cast array, the primary difference is we are wrapping the filtered results in $count(…). As it looks this returns a count of the results back which we then use against our SQL comparator of >= 2.
 
-To see further SEARCH_JSON examples in action view our Postman Collection that provides a [sample database & data with query examples](../operations-api/advanced-json-sql-examples).
+To see further SEARCH_JSON examples in action view our Postman Collection that provides a [sample database & data with query examples](../../developers/operations-api/advanced-json-sql-examples).
 
 To learn more about how to build expressions check out the JSONata documentation: [https://docs.jsonata.org/overview](https://docs.jsonata.org/overview)
