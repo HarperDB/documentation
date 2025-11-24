@@ -142,7 +142,7 @@ const event = await Events.create({ eventType: 'login', timestamp: Date.now() })
 
 // Query events
 for await (const e of Events.search({ conditions: [{ attribute: 'eventType', value: 'login' }] })) {
-  // Handle each event
+	// Handle each event
 }
 ```
 
