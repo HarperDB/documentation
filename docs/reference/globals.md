@@ -73,7 +73,7 @@ for await (const record of ProductTable.search(query)) {
 
 This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created in your `schema.graphql` file will be available as a property on this object. The property values are objects containing the tables in that database, where each property is a table, just like the `tables` object. In fact, `databases.data === tables` should always be true.
 
-#### Example
+### Example
 
 ```js
 const ProductTable = databases.data.Product; // Default database
