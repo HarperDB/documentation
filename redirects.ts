@@ -149,8 +149,12 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			to: withBase('/developers/applications/debugging'),
 		},
 
-		// SQL Guide
-		{ from: withBase('/sql-guide'), to: withBase('/developers/sql-guide/') },
+		// SQL Guide Root Page
+		{ from: withBase('/sql-guide'), to: withBase('/reference/sql-guide/') },
+		{ from: withBase('/developers/sql-guide'), to: withBase('/reference/sql-guide/') },
+
+		// Clustering Root Page
+		{ from: withBase('/clustering'), to: withBase('/reference/clustering/') },
 
 		// CLI
 		{ from: withBase('/harperdb-cli'), to: withBase('/deployments/harper-cli') },
@@ -285,6 +289,21 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 		}
 	}
 
+	if (existingPath.startsWith(`${basePath}/reference/sql-guide`)) {
+		const subpath = existingPath.replace(`${basePath}/reference/sql-guide`, '');
+		if (subpath) {
+			redirects.push(`${basePath}/sql-guide${subpath}`);
+			redirects.push(`${basePath}/developers/sql-guide${subpath}`);
+		}
+	}
+
+	if (existingPath.startsWith(`${basePath}/reference/clustering`)) {
+		const subpath = existingPath.replace(`${basePath}/reference/clustering`, '');
+		if (subpath) {
+			redirects.push(`${basePath}/developers/clustering${subpath}`);
+		}
+	}
+
 	// Old Technical Details -> Reference paths
 	if (existingPath.startsWith(`${basePath}/reference/`)) {
 		const subpath = existingPath.replace(`${basePath}/reference/`, '');
@@ -296,7 +315,6 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 	// Don't create wildcard redirects for these as they're all explicitly defined:
 	// - /developers/security/* (all subpaths are explicit)
 	// - /deployments/harper-cli (explicit)
-	// - /developers/sql-guide/* (has explicit redirect)
 	// - /developers/operations-api/* (has explicit redirects)
 
 	return redirects.length > 0 ? redirects : undefined;

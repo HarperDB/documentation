@@ -4,7 +4,7 @@ title: Manage Replication
 
 # Manage Replication
 
-Harper instance clustering and replication can be configured directly through the Harper Studio. It is recommended to read through the [clustering documentation](../../developers/clustering/) first to gain a strong understanding of Harper clustering behavior.
+Harper instance clustering and replication can be configured directly through the Harper Studio. It is recommended to read through the [clustering documentation](../../reference/clustering/) first to gain a strong understanding of Harper clustering behavior.
 
 All clustering configuration is handled through the **replication** page of the Harper Studio, accessed with the following instructions:
 
@@ -22,7 +22,7 @@ Note, the **replication** page will only be available to super users.
 
 ## Initial Configuration
 
-Harper instances do not have clustering configured by default. The Harper Studio will walk you through the initial configuration. Upon entering the **replication** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen. It is worth reviewing the [Creating a Cluster User](../../developers/clustering/creating-a-cluster-user) document before proceeding.
+Harper instances do not have clustering configured by default. The Harper Studio will walk you through the initial configuration. Upon entering the **replication** screen for the first time you will need to complete the following configuration. Configurations are set in the **enable clustering** panel on the left while actions are described in the middle of the screen. It is worth reviewing the [Creating a Cluster User](../../reference/clustering/creating-a-cluster-user) document before proceeding.
 
 1. Enter Cluster User username. (Defaults to `cluster_user`).
 1. Enter Cluster Password.
