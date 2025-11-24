@@ -106,9 +106,8 @@ Once declared, `Product` will be available as `tables.Product` (or `databases.da
 ```js
 const ProductTable = tables.Product; // Same as databases.data.Product
 
-// Within your Resource class:
-// Create a new record (ID generated)
-const created = await ProductTable.create({ name: 'Example', status: 'active' });
+// Create a new record (`id` is automatically generated when using `.create()`)
+const created = await ProductTable.create({ name: 'Shirt', price: 9.50 });
 
 // Retrieve by primary key
 const record = await ProductTable.get(created.id);
