@@ -114,7 +114,7 @@ const created = await ProductTable.create({ name: 'Example', status: 'active' })
 const record = await ProductTable.get(created.id);
 
 // Insert or replace by ID
-await ProductTable.put(created.id, { ...record, status: 'inactive' });
+await ProductTable.put(created.id, { ...record, price: 7.50 });
 
 // Query for all products with a `price` less than `8.00`
 const query = {
