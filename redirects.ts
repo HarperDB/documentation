@@ -289,9 +289,9 @@ export function createRedirects(existingPath: string, basePath: string = ''): st
 		}
 	}
 
-	if(existingPath.startsWith(`${basePath}/reference/sql-guide`)) {
+	if (existingPath.startsWith(`${basePath}/reference/sql-guide`)) {
 		const subpath = existingPath.replace(`${basePath}/reference/sql-guide`, '');
-		if(subpath) {
+		if (subpath) {
 			redirects.push(`${basePath}/sql-guide${subpath}`);
 			redirects.push(`${basePath}/developers/sql-guide${subpath}`);
 		}
