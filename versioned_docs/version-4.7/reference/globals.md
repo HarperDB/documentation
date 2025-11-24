@@ -49,17 +49,17 @@ Once declared, `Product` will be available as `tables.Product` (or `databases.da
 const ProductTable = tables.Product; // Same as databases.data.Product
 
 // Create a new record (`id` is automatically generated when using `.create()`)
-const created = await ProductTable.create({ name: 'Shirt', price: 9.50 });
+const created = await ProductTable.create({ name: 'Shirt', price: 9.5 });
 
 // Retrieve by primary key
 const record = await ProductTable.get(created.id);
 
 // Insert or replace by ID
-await ProductTable.put(created.id, { ...record, price: 7.50 });
+await ProductTable.put(created.id, { ...record, price: 7.5 });
 
 // Query for all products with a `price` less than `8.00`
 const query = {
-	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.00 }],
+	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.0 }],
 };
 
 for await (const record of ProductTable.search(query)) {
