@@ -99,22 +99,22 @@ type Product @table {
 }
 ```
 
-Once declared, `Product` will be available as `tables.Product` (or `databases.data.Product`). This mapping is automatic: every table defined in the default database in your schema will appear as a property on the `tables` object.
+Once declared, `Product` will be available as `tables.Product` (or `databases.data.Product`). This mapping is automatic: every table defined in the default database in your schema will appear as a property on the `tables` object. For more info, read our complete [guide on defining schemas](./developers/applications/defining-schemas).
 
 #### Example
 
 ```js
-const MyTable = tables.table_name; // Same as databases.data.MyTable
+const ProductTable = tables.Product; // Same as databases.data.Product
 
 // Within your Resource class:
 // Create a new record (ID generated)
-const created = await MyTable.create({ name: 'Example', status: 'active' });
+const created = await ProductTable.create({ name: 'Example', status: 'active' });
 
 // Retrieve by primary key
-const record = await MyTable.get(created.id);
+const record = await ProductTable.get(created.id);
 
 // Insert or replace by ID
-await MyTable.put(created.id, { ...record, status: 'inactive' });
+await ProductTable.put(created.id, { ...record, status: 'inactive' });
 
 // Run a query
 const query = {
@@ -122,7 +122,7 @@ const query = {
 	limit: 50,
 };
 
-for await (const record of MyTable.search(query)) {
+for await (const record of ProductTable.search(query)) {
 	// Handle each row
 }
 ```
@@ -134,7 +134,7 @@ This is an object with all the databases that have been defined in Harper (in th
 #### Example
 
 ```js
-const MyTable = databases.data.MyTable; // Default database
+const ProductTable = databases.data.Product; // Default database
 const Events = databases.analytics.Events; // Another database
 
 // Create a new event record
