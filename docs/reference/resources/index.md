@@ -116,10 +116,9 @@ const record = await ProductTable.get(created.id);
 // Insert or replace by ID
 await ProductTable.put(created.id, { ...record, status: 'inactive' });
 
-// Run a query
+// Query for all products with a `price` less than `8.00`
 const query = {
-	conditions: [{ attribute: 'status', value: 'active' }],
-	limit: 50,
+	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.00 }],
 };
 
 for await (const record of ProductTable.search(query)) {
