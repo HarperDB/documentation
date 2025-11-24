@@ -43,7 +43,7 @@ type Product @table {
 
 Once declared, `Product` will be available as `tables.Product` (or `databases.data.Product`). This mapping is automatic: every table defined in the default database in your schema will appear as a property on the `tables` object. For more info, read our complete [guide on defining schemas](../developers/applications/defining-schemas).
 
-#### Example
+### Example
 
 ```js
 const ProductTable = tables.Product; // Same as databases.data.Product
