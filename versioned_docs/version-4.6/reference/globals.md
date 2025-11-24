@@ -26,7 +26,7 @@ const { tables, Resource } = require('harperdb');
 
 The global variables include:
 
-### `tables`
+## `tables`
 
 This is an object with all the tables in the default database (the default database is "data"). Each table that has been declared or created in your `schema.graphql` file will be available as a property on this object, and the value will be the table class that can be used to interact with that table. The table classes implement the Resource API.
 
@@ -43,25 +43,23 @@ type Product @table {
 
 Once declared, `Product` will be available as `tables.Product` (or `databases.data.Product`). This mapping is automatic: every table defined in the default database in your schema will appear as a property on the `tables` object. For more info, read our complete [guide on defining schemas](../developers/applications/defining-schemas).
 
-#### Example
+### Example
 
 ```js
 const ProductTable = tables.Product; // Same as databases.data.Product
 
-// Within your Resource class:
-// Create a new record (ID generated)
-const created = await ProductTable.create({ name: 'Example', status: 'active' });
+// Create a new record (`id` is automatically generated when using `.create()`)
+const created = await ProductTable.create({ name: 'Shirt', price: 9.50 });
 
 // Retrieve by primary key
 const record = await ProductTable.get(created.id);
 
 // Insert or replace by ID
-await ProductTable.put(created.id, { ...record, status: 'inactive' });
+await ProductTable.put(created.id, { ...record, price: 7.50 });
 
-// Run a query
+// Query for all products with a `price` less than `8.00`
 const query = {
-	conditions: [{ attribute: 'status', value: 'active' }],
-	limit: 50,
+	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.00 }],
 };
 
 for await (const record of ProductTable.search(query)) {
@@ -69,11 +67,11 @@ for await (const record of ProductTable.search(query)) {
 }
 ```
 
-### `databases`
+## `databases`
 
 This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created in your `schema.graphql` file will be available as a property on this object. The property values are objects containing the tables in that database, where each property is a table, just like the `tables` object. In fact, `databases.data === tables` should always be true.
 
-#### Example
+### Example
 
 ```js
 const ProductTable = databases.data.Product; // Default database
