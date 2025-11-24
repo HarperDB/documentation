@@ -111,10 +111,10 @@ const MyTable = tables.table_name; // Same as databases.data.MyTable
 const created = await MyTable.create({ name: 'Example', status: 'active' });
 
 // Retrieve by primary key
-const record = await MyTable.get(created[MyTable.id]);
+const record = await MyTable.get(created.id);
 
 // Insert or replace by ID
-await MyTable.put(created[MyTable.id], { ...record, status: 'inactive' });
+await MyTable.put(created.id, { ...record, status: 'inactive' });
 
 // Run a query
 const query = {
