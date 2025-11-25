@@ -103,24 +103,26 @@ Once declared, `Product` will be available as `tables.Product` (or `databases.da
 #### Example
 
 ```js
-const ProductTable = tables.Product; // Same as databases.data.Product
+const Product = tables.Product; // Same as databases.data.Product
 
 // Create a new record (`id` is automatically generated when using `.create()`)
-const created = await ProductTable.create({ name: 'Shirt', price: 9.5 });
+const created = await Product.create({ name: 'Shirt', price: 9.5 });
+
+// Modify the record
+await Product.patch(created.id, { price: Math.round(created.price * 0.8 * 100) / 100 }); // 20% off!
 
 // Retrieve by primary key
-const record = await ProductTable.get(created.id);
+const record = await Product.get(created.id);
 
-// Insert or replace by ID
-await ProductTable.put({ id: record.id, name: record.name, price: 7.5 });
+logger.info('New price:', record.price);
 
 // Query for all products with a `price` less than `8.00`
 const query = {
 	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.0 }],
 };
 
-for await (const record of ProductTable.search(query)) {
-	// Handle each row
+for await (const record of Product.search(query)) {
+	// ...
 }
 ```
 
