@@ -113,7 +113,7 @@ const created = await ProductTable.create({ name: 'Shirt', price: 9.5 });
 const record = await ProductTable.get(created.id);
 
 // Insert or replace by ID
-await ProductTable.put(created.id, { ...record, price: 7.5 });
+await ProductTable.put({ ...record, price: 7.5 });
 
 // Query for all products with a `price` less than `8.00`
 const query = {
