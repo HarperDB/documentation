@@ -132,7 +132,7 @@ This is an object with all the databases that have been defined in Harper (in th
 #### Example
 
 ```js
-const ProductTable = databases.data.Product; // Default database
+const Product = databases.data.Product; // Default database
 const Events = databases.analytics.Events; // Another database
 
 // Create a new event record
