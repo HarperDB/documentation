@@ -86,11 +86,65 @@ All Resource methods that are called from HTTP methods may directly return data 
 
 ### `tables`
 
-This is an object with all the tables in the default database (the default database is "data"). Each table that has been declared or created will be available as a (standard) property on this object, and the value will be the table class that can be used to interact with that table. The table classes implement the Resource API.
+This is an object with all the tables in the default database (the default database is "data"). Each table that has been declared or created in your `schema.graphql` file will be available as a property on this object, and the value will be the table class that can be used to interact with that table. The table classes implement the Resource API.
+
+**Schema Definition:**
+Tables are defined in your `schema.graphql` file using the `@table` directive. For example:
+
+```graphql
+type Product @table {
+	id: ID @primaryKey
+	name: String
+	price: Float
+}
+```
+
+Once declared, `Product` will be available as `tables.Product` (or `databases.data.Product`). This mapping is automatic: every table defined in the default database in your schema will appear as a property on the `tables` object. For more info, read our complete [guide on defining schemas](../developers/applications/defining-schemas).
+
+#### Example
+
+```js
+const Product = tables.Product; // Same as databases.data.Product
+
+// Create a new record (`id` is automatically generated when using `.create()`)
+const created = await Product.create({ name: 'Shirt', price: 9.5 });
+
+// Modify the record
+await Product.patch(created.id, { price: Math.round(created.price * 0.8 * 100) / 100 }); // 20% off!
+
+// Retrieve by primary key
+const record = await Product.get(created.id);
+
+logger.info('New price:', record.price);
+
+// Query for all products with a `price` less than `8.00`
+const query = {
+	conditions: [{ attribute: 'price', comparator: 'less_than', value: 8.0 }],
+};
+
+for await (const record of Product.search(query)) {
+	// ...
+}
+```
 
 ### `databases`
 
-This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created will be available as a (standard) property on this object. The property values are an object with the tables in that database, where each property is a table, like the `tables` object. In fact, `databases.data === tables` should always be true.
+This is an object with all the databases that have been defined in Harper (in the running instance). Each database that has been declared or created in your `schema.graphql` file will be available as a property on this object. The property values are objects containing the tables in that database, where each property is a table, just like the `tables` object. In fact, `databases.data === tables` should always be true.
+
+#### Example
+
+```js
+const Product = databases.data.Product; // Default database
+const Events = databases.analytics.Events; // Another database
+
+// Create a new event record
+const event = await Events.create({ eventType: 'login', timestamp: Date.now() });
+
+// Query events
+for await (const e of Events.search({ conditions: [{ attribute: 'eventType', value: 'login' }] })) {
+	// Handle each event
+}
+```
 
 ### `Resource`
 
