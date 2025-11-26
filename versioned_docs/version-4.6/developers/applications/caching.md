@@ -26,6 +26,8 @@ You can provide a single expiration and it defines the behavior for all three. Y
 - `eviction` - The amount of time after expiration before a record can be evicted (defaults to zero).
 - `scanInterval` - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
+How often records are evicted is based on the `scanInterval` setting. Using Javascript's `setHours` method, we divide days and years by the interval in the local timezone of the Harper server to find the specific times to run at, regardless of the start time of the Harper server. For example, if the Harper server started at 1205 and the table `expiration` was set to 1 hour, with the default `scanInterval` (here being 15 minutes, one quarter of the TTL) eviction would run at 1215, 1230, 1245, 1300 etc. If the Harper server started at 1205pm and the `expiration` was set to 1 day, with the default `scanInterval` (now of 6 hours) the eviction would run at 1800 the same day, 0000 and 0600 the next day, etc.
+
 ## Define External Data Source
 
 Next, you need to define the source for your cache. External data sources could be HTTP APIs, other databases, microservices, or any other source of data. This can be defined as a resource class in your application's `resources.js` module. You can extend the `Resource` class (which is available as a global variable in the Harper environment) as your base class. The first method to implement is a `get()` method to define how to retrieve the source data. For example, if we were caching an external HTTP API, we might define it as such:
