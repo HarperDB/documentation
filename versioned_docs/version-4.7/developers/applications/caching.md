@@ -38,14 +38,12 @@ You can provide a single expiration and it defines the behavior for all three. Y
 
 `expiration` = 1 hour with default `scanInterval` (15 minutes, one quarter of `expiration`). This creates the following fixed eviction schedule:
 
-```
-00:00  
-00:15  
-00:30  
-00:45  
-01:00  
-... continuing every 15 minutes ...
-```
+> 00:00  
+> 00:15  
+> 00:30  
+> 00:45  
+> 01:00  
+> ... continuing every 15 minutes ...
 
 If the server starts at 12:05 it does not run eviction at 12:20 or “15 minutes after startup.” Instead, the next scheduled anchor is 12:15, then 12:30, 12:45, 13:00, etc. The schedule is clock-aligned, not startup-aligned.
 
@@ -53,13 +51,11 @@ If the server starts at 12:05 it does not run eviction at 12:20 or “15 minutes
 
 `expiration` = 1 day with default `scanInterval` (6 hours, one quarter of `expiration`). This creates the following fixed eviction schedule:
 
-```
-00:00  
-06:00  
-12:00  
-18:00
-... continuing every 6 hours ...
-```
+> 00:00  
+> 06:00  
+> 12:00  
+> 18:00  
+> ... continuing every 6 hours ...
 
 If the server starts at 12:05 the next matching eviction time is 18:00 the same day, then 00:00, 06:00, 12:00, 18:00, etc. If the server starts at 19:30 the schedule does not shift. Instead, the next anchor time is 00:00, and the regular 6-hour cycle continues.
 
