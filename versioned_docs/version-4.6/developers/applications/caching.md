@@ -26,7 +26,42 @@ You can provide a single expiration and it defines the behavior for all three. Y
 - `eviction` - The amount of time after expiration before a record can be evicted (defaults to zero).
 - `scanInterval` - The interval for scanning for expired records (defaults to one quarter of the total of expiration and eviction).
 
-How often records are evicted is based on the `scanInterval` setting. Using Javascript's `setHours` method, we divide days and years by the interval in the local timezone of the Harper server to find the specific times to run at, regardless of the start time of the Harper server. For example, if the Harper server started at 1205 and the table `expiration` was set to 1 hour, with the default `scanInterval` (here being 15 minutes, one quarter of the TTL) eviction would run at 1215, 1230, 1245, 1300 etc. If the Harper server started at 1205pm and the `expiration` was set to 1 day, with the default `scanInterval` (now of 6 hours) the eviction would run at 1800 the same day, 0000 and 0600 the next day, etc.
+#### How `scanInterval` Determines the Eviction Cycle
+
+`scanInterval` determines fixed clock-aligned times when eviction runs, and these times are the same regardless of when the server started. Harper takes the `scanInterval` and divides the TTL (`expiration` + `eviction`) into evenly spaced “anchor times.” These anchors are calculated in the local timezone of the server. This allows Harper to “snap” the eviction schedule to predictable points on the clock, such as every 15 minutes or every 6 hours, based on the interval length. As a result:
+
+- The server’s startup time does not affect when eviction runs.
+- Eviction timings are deterministic and timezone-aware.
+- For any given configuration, the eviction schedule is the same across restarts and across servers in the same local timezone.
+
+#### Example: 1-Hour Expiration
+
+`expiration` = 1 hour with default `scanInterval` (15 minutes, one quarter of `expiration`). This creates the following fixed eviction schedule:
+
+```
+00:00  
+00:15  
+00:30  
+00:45  
+01:00  
+... continuing every 15 minutes ...
+```
+
+If the server starts at 12:05 it does not run eviction at 12:20 or “15 minutes after startup.” Instead, the next scheduled anchor is 12:15, then 12:30, 12:45, 13:00, etc. The schedule is clock-aligned, not startup-aligned.
+
+#### Example: 1-Day Expiration
+
+`expiration` = 1 day with default `scanInterval` (6 hours, one quarter of `expiration`). This creates the following fixed eviction schedule:
+
+```
+00:00  
+06:00  
+12:00  
+18:00
+... continuing every 6 hours ...
+```
+
+If the server starts at 12:05 the next matching eviction time is 18:00 the same day, then 00:00, 06:00, 12:00, 18:00, etc. If the server starts at 19:30 the schedule does not shift. Instead, the next anchor time is 00:00, and the regular 6-hour cycle continues.
 
 ## Define External Data Source
 
