@@ -42,7 +42,7 @@ type Dog @table {
 Now we tell Harper to run this as an application:
 
 ```bash
-harperdb dev . # tell Harper cli to run current directory as an application in dev mode
+harperdb dev ./ # tell Harper cli to run current directory as an application in dev mode
 ```
 
 If you are using the Fabric UI, you can click "Restart Cluster" to apply these schema changes.
@@ -64,7 +64,7 @@ type Dog @table {
 
 This will ensure that new records must have these properties with these types.
 
-Because we ran `harperdb dev .` earlier (dev mode), Harper is now monitoring the contents of our application directory for changes and reloading when they occur. This means that once we save our schema file with these new attributes, Harper will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined. The dev mode will also ensure that any logging or errors are immediately displayed in the console (rather only in the log file).
+Because we ran `harperdb dev ./` earlier (dev mode), Harper is now monitoring the contents of our application directory for changes and reloading when they occur. This means that once we save our schema file with these new attributes, Harper will automatically reload our application, read `my-app/schema.graphql` and update the `Dog` table and attributes we just defined. The dev mode will also ensure that any logging or errors are immediately displayed in the console (rather only in the log file).
 
 If you are running in Fabric, again, you can click "Restart Cluster" to apply any changes. You can navigate to the "Databases" page to see your new table and add records to it.
 
