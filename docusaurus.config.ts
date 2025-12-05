@@ -52,7 +52,7 @@ const config: Config = {
 
 	// GitHub pages deployment config.
 	// If you aren't using GitHub pages, you don't need these.
-	organizationName: 'HarperDB', // Usually your GitHub org/user name.
+	organizationName: 'HarperFast', // Usually your GitHub org/user name.
 	projectName: 'documentation', // Usually your repo name.
 
 	onBrokenLinks: 'throw',
@@ -72,10 +72,10 @@ const config: Config = {
 					// For current docs: versionDocsDirPath is 'docs'
 					if (versionDocsDirPath.startsWith('versioned_docs')) {
 						// Versioned docs are in versioned_docs/version-X.X/
-						return `https://github.com/HarperDB/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
+						return `https://github.com/HarperFast/documentation/blob/main/${versionDocsDirPath}/${docPath}`;
 					} else {
 						// Current docs are in the root docs/ directory
-						return `https://github.com/HarperDB/documentation/blob/main/docs/${docPath}`;
+						return `https://github.com/HarperFast/documentation/blob/main/docs/${docPath}`;
 					}
 				},
 				lastVersion: '4.7',
@@ -156,7 +156,7 @@ const config: Config = {
 				path: 'release-notes',
 				routeBasePath: 'release-notes',
 				sidebarPath: './sidebarsReleaseNotes.ts',
-				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+				editUrl: 'https://github.com/HarperFast/documentation/blob/main/',
 				// Sort by semantic version and filter out index files from sidebar
 				async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
 					const sidebarItems = await defaultSidebarItemsGenerator(args);
@@ -196,7 +196,7 @@ const config: Config = {
 				path: 'fabric',
 				routeBasePath: 'fabric',
 				sidebarPath: './sidebarsFabric.ts',
-				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+				editUrl: 'https://github.com/HarperFast/documentation/blob/main/',
 			},
 		],
 
@@ -332,7 +332,7 @@ const config: Config = {
 					dropdownActiveClassDisabled: true,
 				},
 				{
-					href: 'https://github.com/HarperDB/documentation',
+					href: 'https://github.com/HarperFast/documentation',
 					label: 'GitHub',
 					position: 'right',
 				},
@@ -363,7 +363,7 @@ const config: Config = {
 					items: [
 						{
 							label: 'Discord',
-							href: 'https://discord.gg/VzZuaw3Xay',
+							href: 'https://harper.fast/discord',
 						},
 						{
 							label: 'LinkedIn',
@@ -384,11 +384,11 @@ const config: Config = {
 					items: [
 						{
 							label: 'Harper Fast',
-							href: 'https://www.harper.fast',
+							href: 'https://harper.fast',
 						},
 						{
 							label: 'Blog',
-							href: 'https://www.harper.fast/resources',
+							href: 'https://harper.fast/resources',
 						},
 						{
 							label: 'GitHub',
