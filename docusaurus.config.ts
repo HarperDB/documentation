@@ -59,6 +59,17 @@ const config: Config = {
 	onBrokenMarkdownLinks: 'warn',
 
 	plugins: [
+		// Learn documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'learn',
+				path: 'learn',
+				routeBasePath: 'learn',
+				sidebarPath: './sidebarsLearn.ts',
+				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+			},
+		],
 		// Main documentation
 		[
 			'@docusaurus/plugin-content-docs',
@@ -305,6 +316,13 @@ const config: Config = {
 				href: 'https://www.harper.fast/',
 			},
 			items: [
+				{
+					type: 'docSidebar',
+					sidebarId: 'learnSidebar',
+					docsPluginId: 'learn',
+					position: 'left',
+					label: 'Learn',
+				},
 				{
 					type: 'docSidebar',
 					sidebarId: 'docsSidebar',
