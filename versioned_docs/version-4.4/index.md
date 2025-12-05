@@ -8,7 +8,7 @@ title: Harper Docs
 
 ### Get the Most Out of Harper
 
-Join our Discord to access expert support, collaborate with Harper’s core team, and stay up to date on the latest platform updates. [Join Our Discord →](https://discord.gg/VzZuaw3Xay)
+Join our Discord to access expert support, collaborate with Harper’s core team, and stay up to date on the latest platform updates. [Join Our Discord →](https://harper.fast/discord)
 :::
 
 ## What is Harper? Performance, Simplicity, and Scale.
