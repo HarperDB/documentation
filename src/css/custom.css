@@ -36,3 +36,25 @@ code,
 	tab-size: 2;
 	-moz-tab-size: 2;
 }
+
+/* Custom styles for Learn sidebar category headers */
+.learn-category-header .menu__list-item-collapsible:hover {
+	background: none;
+}
+
+.learn-category-header .menu__list-item-collapsible .menu__link {
+	color: #6c757d !important; /* Grey text color */
+	border-radius: 0;
+	border-bottom: 1px solid #dee2e6; /* Underline */
+	padding-bottom: 0.25rem;
+	margin-bottom: 0.5rem;
+	cursor: default; /* Change cursor since it's not clickable */
+	font-weight: 600; /* Make it stand out as a header */
+	pointer-events: none; /* Disable clicking */
+}
+
+/* Dark mode styling for category headers */
+[data-theme='dark'] .learn-category-header .menu__list-item-collapsible .menu__link {
+	color: #adb5bd !important; /* Lighter grey for dark mode */
+	border-bottom-color: #495057; /* Darker underline for dark mode */
+}
