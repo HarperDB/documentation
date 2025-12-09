@@ -2,28 +2,55 @@
 title: Install and Connect Harper
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Install and Connect Harper
 
-The recommended approach for efficiently developing applications with Harper is to install Harper locally for efficient development of an application and deploy it to [Harper Fabric](https://fabric.harper.fast), our distributed data application platform service. However, you can also develop directly in Fabric, if you want to quickly try it out. You can also run a self-hosted Harper server, and manage it with our Fabric studio management UI.
+Developers have two recommended approaches for developing Harper applications; either locally or with [Harper Fabric](https://fabric.harper.fast), our distributed data application platform service. If you start developing locally, you can always switch to Fabric by deploying your application. If you're interested in setting up a Fabric instance, navigate to the [Fabric](../../fabric/index.md) part of the documentation, and then come back after you have created your first Fabric cluster.
 
-## Install with npm
+## Install Harper Locally
 
-The fastest way to get Harper running locally is to install with npm. Make sure you have [Node.js](https://nodejs.org/) (LTS or newer). Then run:
+Harper is published to the npm registry and requires Node.js current, active LTS, or maintenance LTS versions to run.
 
-```bash
-npm install -g harperdb
-harperdb
-```
-
-The first time, you’ll set up your destination, username, password, and [configuration](../deployments/configuration). That’s it! Harper is now running locally.
-
-✅ Quick check: open http://localhost:9925, which will launch the studio UI for managing your local server, or run this for a quick health check:
+The fastest way to get started is by installing Harper globally using an npm compatible package manager:
 
 ```bash
-curl http://localhost:9925/health
+npm install -g harper
 ```
 
-Harper can also be [installed with our Docker image or you can download Harper for manual or offline installation](../deployments/install-harper).
+Then, execute the Harper CLI to start the interactive installation process:
+
+```bash
+harper install
+```
+
+After completing the installation, run within the current command process using:
+
+```bash
+harper
+```
+
+To check if everything is configured correctly and ready to go for development, run a quick health check using the `/health` endpoint available within the Operations API server.
+
+:::note
+If you configured a different Operations API port, use that instead of `9925` here.
+:::
+
+<Tabs>
+  <TabItem value="curl">
+    ```bash
+    curl http://localhost:9925/health
+    ```
+  </TabItem>
+  <TabItem value="fetch">
+```typescript
+const response = await fetch('http://localhost:9925/health');
+const text = await response.text();
+console.log(text);
+```
+  </TabItem>
+</Tabs>
 
 ## Manage and Deploy with Fabric
 
@@ -44,7 +71,3 @@ Once Harper is running or you are connected to Fabric, we recommend that you wal
 - Explore the [Core Concepts](../foundations/core-concepts)
 - Learn about [Harper's architecture](../foundations/harper-architecture)
 - Review [Configuration options](../deployments/configuration)
-
-:::info
-Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
-:::
