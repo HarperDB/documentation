@@ -5,13 +5,35 @@ title: Install and Connect Harper
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+import GeneralPrerequisites from '../../src/components/learn/general-prerequisites.mdx';
+
 # Install and Connect Harper
 
-Developers have two recommended approaches for developing Harper applications; either locally or with [Harper Fabric](https://fabric.harper.fast), our distributed data application platform service. If you start developing locally, you can always switch to Fabric by deploying your application. If you're interested in setting up a Fabric instance, navigate to the [Fabric](../../fabric/index.md) part of the documentation, and then come back after you have created your first Fabric cluster.
+One of Harper's primary goals since day 1 was to be easy to install and get started with. The core Harper application itself is just a Node.js application with some native module dependencies. The simplest and easiest way to get started using Harper is by installing it using npm (or any npm compatible Node.js package manager). In addition to installing Harper directly to your local development environment, the Harper team provides a Docker image ([`harperdb/harperdb`](https://hub.docker.com/r/harperdb/harperdb)), and most recently a platform service called [Harper Fabric](https://fabric.harper.fast).
 
-## Install Harper Locally
+This guide will demonstrate all three ways to get started as well as introduce some basic Harper features such as the CLI and our built in health endpoint.
 
-Harper is published to the npm registry and requires Node.js current, active LTS, or maintenance LTS versions to run.
+## What You Will Learn
+
+- How to install Harper locally
+- How to use the `harperdb` CLI
+- How to get setup using Harper Fabric
+- How to install and setup Harper as a container
+- How to perform a health check using the built-in Harper Operations API health endpoint
+
+## Prerequisites
+
+Like the [Welcome](../) page stated, all guide pages require a set of system prerequisites such as command line access, HTTP client, and an uptodate Node.js version. This guide is no different, and uniquely _only_ requires those prerequisites. They are repeated here for your convenience, but future guides will not include them.
+
+<GeneralPrerequisites />
+
+## Local Installation and Setup
+
+:::note
+If you want to use the cloud-hosted, platform service Harper Fabric instead of a local installation, skip ahead to the [Get Started with Fabric](#get-started-with-fabric) section.
+:::
+
+Harper is published to the npm registry as [`harperdb`](https://www.npmjs.com/package/harperdb) and requires Node.js current, active LTS, or maintenance LTS versions to run.
 
 The fastest way to get started is by installing Harper globally using an npm compatible package manager:
 
@@ -25,49 +47,236 @@ Then, execute the Harper CLI to start the interactive installation process:
 harper install
 ```
 
-After completing the installation, run within the current command process using:
+The interactive installation process will prompt with a number of questions. It should look something like this:
 
-```bash
-harper
+```
+> harperdb install
+
+Starting HarperDB install...
+
+Terms & Conditions can be found at https://harperdb.io/legal/end-user-license-agreement
+and can be viewed by typing or copying and pasting the URL into your web browser.
+I agree to the HarperDB Terms and Conditions: (yes/no) yes
+Please enter a destination for HarperDB: /Users/user/hdb
+Please enter a username for the administrative user: HDB_ADMIN
+Please enter a password for the administrative user: [hidden]
+Default Config - dev (easy access/debugging) or prod (security/performance): (dev/prod) dev
+Please enter the hostname for this server: localhost
+
+HarperDB installation was successful.
+
+[main/0] [notify]: HarperDB installation was successful.
 ```
 
-To check if everything is configured correctly and ready to go for development, run a quick health check using the `/health` endpoint available within the Operations API server.
+For the purpose of this getting started guide it is important to keep track of the installation path, the admin username and password, and to select the `dev` default configuration values.
+
+All options can also be specified using environment variables or CLI arguments. For a complete list see the [Harper CLI](../../docs/deployments/harper-cli) reference docs.
+
+For a quick installation helper use the following (make sure to replace the `<password>` and `<user>` tags before executing):
+
+```bash
+harperdb install \
+  --TC_AGREEMENT=yes \
+  --DEFAULTS_MODE=dev \
+  --HDB_ADMIN_USERNAME=HDB_ADMIN \
+  --HDB_ADMIN_PASSWORD=<password> \
+  --ROOTPATH='/Users/<user>/hdb' \
+  --REPLICATION_HOSTNAME=localhost
+```
+
+### Running Harper
+
+After completing the installation, run Harper using:
+
+```bash
+harperdb
+```
+
+This command runs Harper in the current command process. As long as the `logging.stdStream` configuration option is set to `true` (which is the default when using the `dev` default mode), Harper will also stream all logs to the `stdout` and `stderr` streams too.
+
+If all is working correctly, you should see the following output in your terminal:
+
+```
+> harperdb
+Starting HarperDB...
+
+               ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
+           ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
+       ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
+   ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒
+   ▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒
+    ▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒
+    ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
+   ▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+  ▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+ ▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒
+  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
+     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+         ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+            ▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
+               ▒▒▒▒▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+                   ▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒
+                      ▒▒▒▒▒▒▒
+
+                    HarperDB, Inc. Denver, CO.
+
+[main/0] [info]: HarperDB PID <pid>
+[main/0] [info]: Checking if HDB software has been updated
+Debugger listening on ws://127.0.0.1:9229/<inspector-id>
+For help, see: https://nodejs.org/en/docs/inspector
+[main/0] [info]: All root applications loaded
+[http/1] [info]: Domain socket listening on /Users/harper/hdb/operations-server
+HarperDB 4.y.z successfully started
+[main/0] [notify]: HarperDB successfully started.
+
+Hostname:           localhost
+Worker Threads:     1
+Root Path:          /Users/harper/hdb
+Debugging:          enabled: true
+Logging:            level: info, location: /Users/harper/hdb/log/hdb.log, stdout/err
+Default:            HTTP (and WS): 9926, CORS: enabled for *
+Operations API:     HTTP: 9925, CORS: enabled for *, unix socket: /Users/harper/hdb/operations-server
+MQTT:               TCP: 1883, TLS: 8883, WS: 9926
+Replication:        WS: 9925, WSS: 9933
+
+Note that log messages are being sent to the console (stdout and stderr) in addition to the log file /Users/ethan/hdb/log/hdb.log. This can be disabled by setting logging.stdStreams to false, and the log file can be directly monitored/tailed.
+This server does not have valid usage licenses, this should only be used for educational and development purposes.
+```
+
+This initial output contains a lot of helpful information. After the ASCII logo, there are a number of important log lines displaying the application process ID, the debugger endpoint, and domain socket path, and the Harper application version. Log lines are always prepended with the thread name, number, and then log level. `[main/0]` is the main thread, and `[http/1]` is the singular, additional worker thread. `[info]` is the default log level. After the log lines is specific application configuration information. It shows the application hostname, the number of worker threads, where Harper was installed, is the debugger enabled, logging level and location, and then ports, CORS, and socket path details for various networking protocols. We'll dive into all of these in due time.
+
+Interrupting the process (CTRL/CMD + C) will shut down Harper.
+
+With Harper successfully running, skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide. Or continue reading for more information regarding running Harper as a background process, installing Harper using containerization, or getting started with Harper Fabric.
+
+### Running Harper as a background process
+
+If you want to run Harper in the background, use `harperdb start` instead.
+
+```
+> harperdb start
+Starting HarperDB...
+
+               ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
+           ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
+       ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
+   ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒
+   ▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒
+    ▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒
+    ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
+   ▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+  ▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+ ▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒
+  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
+     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+         ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+            ▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
+               ▒▒▒▒▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
+                   ▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒
+                      ▒▒▒▒▒▒▒
+
+                    HarperDB, Inc. Denver, CO.
+
+[main/0] [info]: HarperDB PID 49036
+[main/0] [info]: Checking if HDB software has been updated
+HarperDB 4.7.12 successfully started
+[main/0] [notify]: HarperDB successfully started.
+```
+
+This output will still include the ASCII logo, and then a couple log lines displaying the process ID and Harper version, but then the process will exit and the standard streams are terminated. In order to see more log lines you must read the actual log file available by default at `<rootpath>/log/hdb.log`. For example, you can tail stream the log file using something like:
+
+```bash
+tail -f <rootpath>/log/hdb.log
+```
+
+Now, you must use `harperdb stop` to shut down Harper.
+
+```
+> harperdb stop
+Stopping HarperDB.
+[main/0] [notify]: Stopping HarperDB.
+```
+
+Start Harper if you stopped it, and skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide.
+
+## Containerization
+
+Harper is also readily available as a Docker image [`harperdb/harperdb`](https://hub.docker.com/r/harperdb/harperdb).
+
+The Docker image is not too much different from the local installation and setup. We recommend at least reading through the previous [Local Installation and Setup](#local-installation-and-setup) section first.
+
+The image is based off of a Node.js image and the default tag is always published using the latest Harper version and latest Node.js Active LTS version.
+
+The image uses sensible default environment variables, agreeing to the terms and conditions, setting a rootpath ensured by the image itself, creating a default admin user with username `HDB_ADMIN` and password `password`, and enabled standard streams logging.
+
+Just like in the local installation setup, Harper enables the user to specify configuration values using environment variables; these all work the same with the image. For a complete list of CLI configuration values see the [Harper CLI](../../docs/deployments/harper-cli) reference documentation.
+
+Using a Docker compatible container manager of choice, the simplest way to get started is using:
+
+```bash
+docker pull harperdb/harperdb
+docker run -d \
+  -v /Users/harper/hdb:/home/harperdb/hdb \
+  -p 9925:9925 \
+  -p 9926:9926 \
+  harperdb/harperdb
+```
+
+The `-v` option will mount the Harper installation to the container host which is useful for development purposes.
+
+Now, there should be a running Harper container available just like a local installation. Skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your containerize Harper instance is running and complete this getting started guide.
+
+## Get Started with Fabric
+
+Fabric is our service for managing and deploying Harper on a distributed network. Fabric makes it easy to create new Harper clusters, the Harper application platform running on distributed nodes, and deploy your application to this service. Fabric has a management interface, and provides a UI for managing your deployments and even your local instance that you just installed. You can sign up for Fabric for free, and create a free Harper cluster to deploy your application:
+
+- Go to [Fabric](https://fabric.harper.fast) and sign-up for a new account.
+  - You will need to agree to the terms of service and verify your email address.
+- Once you have created an account, you can create an organization. This will allow you to collaboratively manage your Harper services with others. This will also define the host domain that will be used.
+- You can now create a new Harper cluster or instance:
+  - Create a free Harper cluster for trying out Harper.
+  - Purchase a Harper cluster with higher performance, scalability, and limits.
+  - Add your own local instance to manage everything in one place.
+
+After successfully creating a Harper Fabric cluster, take note of the cluster URL and continue to the [Performing a health check](#performing-a-health-check) section to verify your instance.
+
+If you have any issues getting started with Fabric, consult the dedicated [Fabric documentation](../../fabric/). If you still need help, join the official Harper community [Discord](https://harper.fast/discord) and get help from the Harper engineering team.
+
+## Performing a health check
+
+To check if everything is configured correctly and ready to go for development, run a health check using the built-in `/health` endpoint for the Operations API server.
 
 :::note
 If you configured a different Operations API port, use that instead of `9925` here.
+
+Similarly, if you are using a Harper Fabric cluster, replace the `http://localhost` with the cluster URL.
 :::
 
 <Tabs>
   <TabItem value="curl">
-    ```bash
-    curl http://localhost:9925/health
-    ```
+
+```bash
+curl http://localhost:9925/health
+```
+
   </TabItem>
   <TabItem value="fetch">
+
 ```typescript
 const response = await fetch('http://localhost:9925/health');
 const text = await response.text();
 console.log(text);
 ```
+
   </TabItem>
+
 </Tabs>
 
-## Manage and Deploy with Fabric
+If you see `HarperDB is running.`, fantastic work! You've successfully installed and setup Harper. Continue on to the next part of the Getting Started section, [creating your first Harper application](./quickstart).
 
-Fabric is our service for managing and deploying Harper on a distributed network. Fabric makes it easy to create new Harper "clusters", the Harper application platform running on distributed nodes, and deploy your application to this service. Fabric has a management interface, and provides a UI for managing your deployments and even your local instance that you just installed. You can sign up for Fabric for free, and create a free Harper cluster to deploy your application:
+## Additional Resources
 
-- Go to [Fabric](https://fabric.harper.fast) and sign-up for a new account.
-  - You will need to agree to the terms of service and verify your email address.
-- Once you have created an account, you can create an organization. This will allow you to collaboratively managing your Harper services with others. This will also define the host domain that will be used.
-- You can now create a new Harper cluster or instance:
-  - Create a free Harper cluster for trying out Harper.
-  - Purchase a Harper cluster with higher performance, scalability, and limits.
-  - Add your own local instance to manage everything in one place.
-- Once you have a Harper cluster, you will be ready to create a new application directly on Fabric, or be ready to deploy an application to Fabric.
-
-Once Harper is running or you are connected to Fabric, we recommend that you walk through the steps of [building your first application](../getting-started/quickstart) and learn more about Harper's concepts and architecture:
-
-- [Build your first application](../getting-started/quickstart)
-- Explore the [Core Concepts](../foundations/core-concepts)
-- Learn about [Harper's architecture](../foundations/harper-architecture)
-- Review [Configuration options](../deployments/configuration)
+- [Harper CLI](../../docs/deployments/harper-cli) reference documentation
+- [Harper Fabric](../../fabric/) documentation
