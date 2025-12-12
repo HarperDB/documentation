@@ -1,0 +1,221 @@
+---
+title: Create Your First Application
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+With Harper successfully installed and setup, let's dive into building your first Harper Application, a simple REST API. Harper lets you build powerful APIs with minimal effort. In just a few minutes, you'll have a functional REST API with automatic validation, indexing, and querying—all without writing a single line of code.
+
+## What You Will Learn
+
+- Overview of Harper architecture
+- What are Harper core services, plugins, and applications
+- How to run a Harper application
+- How to define a table using schemas
+- How to automatically create a REST API from a table schema
+- How to interact with the table using the generated REST API
+  - Create, Read, Update, and Delete data
+
+## Prerequisites
+
+- Working Harper Installation
+  - Complete previous guide [Install and Connect Harper](./install-and-connect-harper)
+
+## Harper Architecture
+
+Before diving into building your first Harper application, it is important to understand a bit about Harper's architecture. The simplest way to think about Harper is as a stack.
+
+```
+┏━━━━━━━━━━━━━━━━━━┓
+┃ Applications     ┃
+┠──────────────────┨
+┃ Plugins          ┃
+┃  - rest          ┃
+┃  - graphqlSchema ┃
+┃  - ...           ┃
+┠──────────────────┨
+┃ Core Services:   ┃
+┃  - database      ┃
+┃  - networking    ┃
+┃  - component     ┃
+┃    management    ┃
+┗━━━━━━━━━━━━━━━━━━┛
+```
+
+At the bottom are the **core services** that make up the foundation of the Harper platform. This includes the high-performance **database**, extensible **networking** middleware, and **component** management system. Components are extensions of the core Harper system, and are further classified as **plugins** and **applications**.
+
+**Plugins** come next in the stack. Plugins have access to APIs exposing many of Harper's core services, and are capable of implementing more advanced features than what the core services provide. Many of Harper's features are implemented as **built-in plugins**. Additional features can be implemented as **custom plugins**. In this guide, we'll be demonstrating some of Harper's built-in plugins `graphqlSchema` and `rest`. Later guides will demonstrate many more.
+
+And finally, the top of the stack are **applications**. This is where any user-facing functionality is implemented. Applications use plugins to implement their business logic. Everything from database table schemas, to web applications.
+
+The key difference between plugins and applications is that plugins enable the functionality, and applications implement it. Its similar to that of a front-end framework. React on its own doesn't actually do anything, you actually need to build a "React App" for it to do anything meaningful.
+
+## Initialize the Harper Application
+
+Without further a do, lets get started building your first Harper application!
+
+:::tip
+Throughout this guide you'll see tabs like the ones just below that provide different instructions based on your installation choice from the previous guide. The "Local Installation" is for both globally installed and containerized Harper applications; the point being you have access to the file system. The "Fabric" option is for the Harper Fabric platform service deployment and will involve managing applications and modifying files through the Fabric UI within your browser.
+
+These tabs are all synchronized together, so select your installation method and enjoy learning how to build your first Harper application!
+:::
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Get started by cloning the [`HarperFast/create-your-first-application`](https://github.com/HarperFast/create-your-first-application) repo and opening it your editor of choice. If you have installed Harper using a container, make sure to run this within the `dev/` directory that the container was mounted to.
+
+```bash
+git clone https://github.com/HarperFast/create-your-first-application.git first-harper-app
+```
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+From the Cluster page, navigate to the Applications tab and click on "New Application" on the left-hand sidebar.
+
+Give the application a name such as "first-harper-app", and then click on the "Import" tab.
+
+Specify `https://github.com/HarperFast/create-your-first-application` in the "Git Repository URL" field.
+
+Keep the "Install Command" empty and the "Authorization" as "Public Access".
+
+Finally, click the "Import Application" button and wait for the application to be instantiated.
+
+	</TabItem>
+</Tabs>
+
+## Create a Table
+
+The core of most Harper applications is the data. Harper's data system is made up of databases and tables. There are many ways to create them, and the primary method is to use a GraphQL-like syntax to define table schemas. These schemas are not true GraphQL, and you don't have to use GraphQL for querying neither.
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Open `schema.graphql` in your text editor.
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+Navigate to the Files tab for your new application and open the `schema.graphql` file.
+
+	</TabItem>
+</Tabs>
+
+Within `schema.graphql`, add:
+
+```graphql
+type Dog @table {
+	id: ID @primaryKey
+}
+```
+
+Harper has defined custom directives, such as `@table` and `@primaryKey`, to specify special behavior for the table schema.
+
+The `@table` directive is what instructs Harper that this is in fact a table schema versus an arbitrary type.
+
+The `@primaryKey` directive specifies which attribute is meant to be the primary key for indexing.
+
+Next, lets add some more properties to the schema.
+
+```graphql
+type Dog @table {
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
+}
+```
+
+Harper's schema system piggybacks off of the standard GraphQL field types such as `String`, `Int`, and many more.
+
+:::info
+For a full list of field types, see the [Schema Field Types](../../docs/developers/applications/defining-schemas#field-types) reference documentation.
+:::
+
+Now you have a schema for a `Dog` table with four attributes `id`, `name`, `breed`, and `age`.
+
+The next step is to tell Harper about your schema file.
+
+Open the `config.yaml` file and add the following:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+```
+
+The `config.yaml` file is how Harper applications configure plugins. The `graphqlSchema` plugin is built-in to Harper so there is no additional steps needed to configure it, but custom plugins do require installing dependencies (more on that in another guide).
+
+The `files` property allows you to specify a file glob pattern for the plugin. In this case, we are only specifying a single file, but you can specify any glob pattern here too.
+
+With the `schema.graphql` and `config.yaml` in place, now its time to run your application for the first time.
+
+## Running your Application
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+If Harper is still running, shut it down using CTRL/CMD + C for a foreground process or `harperdb stop` for a background process.
+
+Within your application directory, open a command line and run `harperdb dev .`
+
+TODO: Insert description of `dev` command
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+Click the restart button 
+
+TODO: Fill in actual steps for fabric here
+
+	</TabItem>
+</Tabs>
+
+## Interacting with the `Dog` table
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Locally, using the Operations API via the CLI and curl
+
+Inspect the database and table using `describe_database` and `describe_table`
+
+Add a record using `insert`
+
+Hint at additional operations apis for other CRUD ops but encourage the user to read on for REST API guide
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+Using the Database UI
+
+Learn about the database and table
+
+Add a record manually
+
+Hint at additional methods for CRUD ops but encourage the user to read on for REST API guide
+
+	</TabItem>
+</Tabs>
+
+## Enabling automatic REST API generation
+
+Add @export to schema
+Edit config.yaml with rest: true
+
+## Interacting with the `/Dog` API
+
+### Creating entries with POST and PUT
+
+### Reading entries with GET
+
+#### Querying by attribute
+
+### Updating entries with PUT and PATCH
+
+### Deleting entries with DELETE
+
+## Key Take Aways
+
+## Additional Resources
