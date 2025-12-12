@@ -177,8 +177,48 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		// Old Technical Details -> Reference paths
 		{ from: withBase('/technical-details/reference'), to: withBase('/reference/') },
 
-		// Getting Started -> Root
-		{ from: withBase('/getting-started'), to: withBase('/') }
+		// Getting Started and Foundations pages to new Learn section
+		{ from: withBase('/getting-started'), to: withBase('/learn/') },
+		{ from: withBase('/4.6/getting-started'), to: withBase('/learn/') },
+		{ from: withBase('/4.5/getting-started'), to: withBase('/learn/') },
+		{ from: withBase('/4.4/getting-started'), to: withBase('/learn/') },
+
+		{
+			from: withBase('/getting-started/installation'),
+			to: withBase('/learn/getting-started/install-and-connect-harper'),
+		},
+		{
+			from: withBase('/4.6/getting-started/installation'),
+			to: withBase('/learn/getting-started/install-and-connect-harper'),
+		},
+		{
+			from: withBase('/4.5/getting-started/installation'),
+			to: withBase('/learn/getting-started/install-and-connect-harper'),
+		},
+		{
+			from: withBase('/4.4/getting-started/installation'),
+			to: withBase('/learn/getting-started/install-and-connect-harper'),
+		},
+
+		{ from: withBase('/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
+		{ from: withBase('/4.6/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
+		{ from: withBase('/4.5/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
+		{ from: withBase('/4.4/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
+
+		{ from: withBase('/foundations/harper-architecture'), to: withBase('/learn/') },
+		{ from: withBase('/4.6/foundations/harper-architecture'), to: withBase('/learn/') },
+		{ from: withBase('/4.5/foundations/harper-architecture'), to: withBase('/learn/') },
+		{ from: withBase('/4.4/foundations/harper-architecture'), to: withBase('/learn/') },
+
+		{ from: withBase('/foundations/core-concepts'), to: withBase('/learn/') },
+		{ from: withBase('/4.6/foundations/core-concepts'), to: withBase('/learn/') },
+		{ from: withBase('/4.5/foundations/core-concepts'), to: withBase('/learn/') },
+		{ from: withBase('/4.4/foundations/core-concepts'), to: withBase('/learn/') },
+
+		{ from: withBase('/foundations/use-cases'), to: withBase('/learn/') },
+		{ from: withBase('/4.6/foundations/use-cases'), to: withBase('/learn/') },
+		{ from: withBase('/4.5/foundations/use-cases'), to: withBase('/learn/') },
+		{ from: withBase('/4.4/foundations/use-cases'), to: withBase('/learn/') }
 	);
 
 	return redirects;
