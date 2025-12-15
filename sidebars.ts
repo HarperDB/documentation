@@ -9,16 +9,6 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: 'category',
-			label: 'Getting Started',
-			items: ['getting-started/installation', 'getting-started/quickstart'],
-		},
-		{
-			type: 'category',
-			label: 'Foundations of Harper',
-			items: ['foundations/harper-architecture', 'foundations/core-concepts', 'foundations/use-cases'],
-		},
-		{
-			type: 'category',
 			label: 'Developers',
 			link: {
 				type: 'generated-index',

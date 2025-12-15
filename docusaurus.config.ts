@@ -363,13 +363,9 @@ const config: Config = {
 					title: 'Documentation',
 					items: [
 						{
-							label: 'Quickstart',
-							to: `${routeBasePath}/getting-started/quickstart`,
+							label: 'Learn',
+							to: `/learn`,
 						},
-						// {
-						// 	label: 'Developers',
-						// 	to: `${routeBasePath}/developers`,
-						// },
 						{
 							label: 'Administration',
 							to: `${routeBasePath}/administration`,
