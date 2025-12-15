@@ -13,10 +13,9 @@ This guide will demonstrate all three ways to get started as well as introduce s
 
 ## What You Will Learn
 
-- How to install Harper locally
+- How to install Harper locally using a Node.js package manager or a container
 - How to use the `harperdb` CLI
 - How to get setup using Harper Fabric
-- How to install and setup Harper as a container
 - How to perform a health check using the built-in Harper Operations API health endpoint
 
 ## Prerequisites
@@ -28,7 +27,7 @@ Like the [Welcome](../) page stated, all guide pages require a set of system pre
 ## Local installation and setup
 
 :::note
-If you want to use the cloud-hosted, platform service Harper Fabric instead of a local installation, skip ahead to the [Getting started with Fabric](#get-started-with-fabric) section.
+If you want to use the cloud-hosted, platform service Harper Fabric instead of a local installation, skip ahead to the [Getting started with Fabric](#getting-started-with-fabric) section.
 :::
 
 <Tabs groupId="local-install">
@@ -201,7 +200,7 @@ This server does not have valid usage licenses, this should only be used for edu
 
 This initial output contains a lot of helpful information. After the ASCII logo, there are a number of important log lines displaying the application process ID, the debugger endpoint, and domain socket path, and the Harper application version. Log lines are always prepended with the thread name, number, and then log level. `[main/0]` is the main thread, and `[http/1]` is the singular, additional worker thread. `[info]` is the default log level. After the log lines is specific application configuration information. It shows the application hostname, the number of worker threads, where Harper was installed, is the debugger enabled, logging level and location, and then ports, CORS, and socket path details for various networking protocols. We'll explain all of these in due time.
 
-Interrupting the process (CTRL/CMD + C) will shut down Harper.
+Interrupting the process (`CTRL/CMD + C`) will shut down Harper.
 
 With Harper successfully running, skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide. Or continue reading for more information on getting started with Harper Fabric.
 
@@ -253,7 +252,7 @@ console.log(text);
 
 </Tabs>
 
-If you see `HarperDB is running.`, fantastic work! You've successfully installed and setup Harper. Continue on to the next part of the Getting Started section, [creating your first Harper application](./quickstart).
+If you see `HarperDB is running.`, fantastic work! You've successfully installed and setup Harper. Continue on to the next part of the Getting Started section, [creating your first Harper application](./create-your-first-application).
 
 ## Additional Resources
 

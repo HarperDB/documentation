@@ -5,7 +5,7 @@ title: Create Your First Application
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-With Harper successfully installed and setup, let's dive into building your first Harper Application, a simple REST API. Harper lets you build powerful APIs with minimal effort. In just a few minutes, you'll have a functional REST API with automatic validation, indexing, and querying—all without writing a single line of code.
+With Harper successfully installed and setup, let's dive into building your first Harper Application, a simple REST API. Harper lets you build powerful APIs with minimal effort.
 
 ## What You Will Learn
 
@@ -18,8 +18,7 @@ With Harper successfully installed and setup, let's dive into building your firs
 
 ## Prerequisites
 
-- Working Harper Installation
-  - Complete previous guide [Install and Connect Harper](./install-and-connect-harper)
+- Working Harper Installation (previous guide [Install and Connect Harper](./install-and-connect-harper))
 
 ## Harper Architecture
 
@@ -57,7 +56,7 @@ Lets get started building your first Harper application!
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
 
-Get started by cloning the [`HarperFast/create-your-first-application`](https://github.com/HarperFast/create-your-first-application) repo and opening it your editor of choice. If you have installed Harper using a container, make sure to run this within the `dev/` directory that the container was mounted to.
+Get started by cloning the [`HarperFast/create-your-first-application`](https://github.com/HarperFast/create-your-first-application) repo and opening it your editor of choice. If you have installed Harper using a container, make sure to clone into the `dev/` directory that the container was mounted to.
 
 ```bash
 git clone https://github.com/HarperFast/create-your-first-application.git first-harper-app
@@ -124,7 +123,7 @@ type Dog @table {
 Harper's schema system piggybacks off of the standard GraphQL field types such as `String`, `Int`, and many more.
 
 :::info
-The Harper schema system has a lot of great features for making it effortless to define tables. We'll get into more custom directives later.
+The Harper schema system has a lot of great features for making it effortless to define tables. We'll demonstrate more custom directives later.
 :::
 
 Now you have a schema for a `Dog` table with four attributes `id`, `name`, `breed`, and `age`.
@@ -333,5 +332,5 @@ Fantastic work! You've successfully created your first Harper application. There
 
 ## Additional Resources
 
-- [Table Schema](../../docs/developers/applications/defining-schemas.md) reference
-- [REST](../../docs/developers/rest.md) reference
+- [Table Schema](../../docs/developers/applications/defining-schemas) reference
+- [REST](../../docs/developers/rest) reference
