@@ -139,7 +139,7 @@ Keep in mind that Harper is installed at the `/home/harperdb/hdb` path within th
   </TabItem>
 </Tabs>
 
-### Running Harper as a foreground process
+### Running Harper
 
 After completing the installation, run Harper using:
 
@@ -203,58 +203,7 @@ This initial output contains a lot of helpful information. After the ASCII logo,
 
 Interrupting the process (CTRL/CMD + C) will shut down Harper.
 
-With Harper successfully running, skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide. Or continue reading for more information regarding running Harper as a background process, or getting started with Harper Fabric.
-
-### Running Harper as a background process
-
-If you want to run Harper in the background, use `harperdb start` instead.
-
-```
-> harperdb start
-Starting HarperDB...
-
-               ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
-           ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
-       ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
-   ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒
-   ▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒
-    ▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒
-    ▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
-   ▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
-  ▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒
- ▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒
-▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒
-  ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒
-     ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
-         ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
-            ▒▒▒▓▓▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒
-               ▒▒▒▒▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒
-                   ▒▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒
-                      ▒▒▒▒▒▒▒
-
-                    HarperDB, Inc. Denver, CO.
-
-[main/0] [info]: HarperDB PID 49036
-[main/0] [info]: Checking if HDB software has been updated
-HarperDB 4.7.12 successfully started
-[main/0] [notify]: HarperDB successfully started.
-```
-
-This output will still include the ASCII logo, and then a couple log lines displaying the process ID and Harper version, but then the process will exit and the standard streams are terminated. In order to see more log lines you must read the actual log file available by default at `<rootpath>/log/hdb.log`. For example, you can tail stream the log file using something like:
-
-```bash
-tail -f <rootpath>/log/hdb.log
-```
-
-Now, you must use `harperdb stop` to shut down Harper.
-
-```
-> harperdb stop
-Stopping HarperDB.
-[main/0] [notify]: Stopping HarperDB.
-```
-
-Start Harper if you stopped it, and skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide.
+With Harper successfully running, skip ahead to [Performing a health check](#performing-a-health-check) to learn how to verify your local Harper instance is running and complete this getting started guide. Or continue reading for more information on getting started with Harper Fabric.
 
 ## Getting started with Fabric
 

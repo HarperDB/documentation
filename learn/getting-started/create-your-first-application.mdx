@@ -11,11 +11,10 @@ With Harper successfully installed and setup, let's dive into building your firs
 
 - Overview of Harper architecture
 - What are Harper core services, plugins, and applications
-- How to run a Harper application
 - How to define a table using schemas
+- How to run a Harper application
 - How to automatically create a REST API from a table schema
 - How to interact with the table using the generated REST API
-  - Create, Read, Update, and Delete data
 
 ## Prerequisites
 
@@ -51,15 +50,9 @@ And finally, the top of the stack are **applications**. This is where any user-f
 
 The key difference between plugins and applications is that plugins enable the functionality, and applications implement it. Its similar to that of a front-end framework. React on its own doesn't actually do anything, you actually need to build a "React App" for it to do anything meaningful.
 
-## Initialize the Harper Application
+## Initializing the Harper Application
 
-Without further a do, lets get started building your first Harper application!
-
-:::tip
-Throughout this guide you'll see tabs like the ones just below that provide different instructions based on your installation choice from the previous guide. The "Local Installation" is for both globally installed and containerized Harper applications; the point being you have access to the file system. The "Fabric" option is for the Harper Fabric platform service deployment and will involve managing applications and modifying files through the Fabric UI within your browser.
-
-These tabs are all synchronized together, so select your installation method and enjoy learning how to build your first Harper application!
-:::
+Lets get started building your first Harper application!
 
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
@@ -86,9 +79,9 @@ Finally, click the "Import Application" button and wait for the application to b
 	</TabItem>
 </Tabs>
 
-## Create a Table
+## Creating a Table
 
-The core of most Harper applications is the data. Harper's data system is made up of databases and tables. There are many ways to create them, and the primary method is to use a GraphQL-like syntax to define table schemas. These schemas are not true GraphQL, and you don't have to use GraphQL for querying neither.
+The core of most Harper applications is the data. Harper's data system is made up of databases and tables. There are many ways to create them, and the primary method is to use a GraphQL-like syntax to define table schemas. Even though you use GraphQL to define your table schemas, you do not need to use GraphQL for querying.
 
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
@@ -131,7 +124,7 @@ type Dog @table {
 Harper's schema system piggybacks off of the standard GraphQL field types such as `String`, `Int`, and many more.
 
 :::info
-For a full list of field types, see the [Schema Field Types](../../docs/developers/applications/defining-schemas#field-types) reference documentation.
+The Harper schema system has a lot of great features for making it effortless to define tables. We'll get into more custom directives later.
 :::
 
 Now you have a schema for a `Dog` table with four attributes `id`, `name`, `breed`, and `age`.
@@ -151,71 +144,194 @@ The `files` property allows you to specify a file glob pattern for the plugin. I
 
 With the `schema.graphql` and `config.yaml` in place, now its time to run your application for the first time.
 
-## Running your Application
+## Running the Application
 
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
 
-If Harper is still running, shut it down using CTRL/CMD + C for a foreground process or `harperdb stop` for a background process.
+If Harper is still running, shut it down using `CTRL/CMD + C`.
 
 Within your application directory, open a command line and run `harperdb dev .`
 
-TODO: Insert description of `dev` command
+The `dev` command will watch all files (except for `node_modules` directory) within your application directory and restart Harper when changes are detected.
 
 	</TabItem>
 	<TabItem value="fabric" label="Fabric">
 
-Click the restart button 
-
-TODO: Fill in actual steps for fabric here
+Click "Restart Cluster" to apply the new file changes.
 
 	</TabItem>
 </Tabs>
 
-## Interacting with the `Dog` table
+## Enabling the REST API
+
+Navigate back to the `schema.graphql` file and add `@export` directive to the table schema:
+
+```graphql
+type Dog @table @export {
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
+}
+```
+
+Then in `config.yaml` enable the REST API plugin:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+rest: true
+```
 
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
 
-Locally, using the Operations API via the CLI and curl
+If Harper is still running with the `dev` command, it should have automatically restarted.
 
-Inspect the database and table using `describe_database` and `describe_table`
+If you look closely at the Harper logs, a new line should be added to the system configuration details: 
 
-Add a record using `insert`
+```
+REST:               HTTP: 9926
+```
 
-Hint at additional operations apis for other CRUD ops but encourage the user to read on for REST API guide
+This line tells you that the Harper REST API is configured on port `9926` (this is configurable, and this value is the default).
 
 	</TabItem>
 	<TabItem value="fabric" label="Fabric">
 
-Using the Database UI
-
-Learn about the database and table
-
-Add a record manually
-
-Hint at additional methods for CRUD ops but encourage the user to read on for REST API guide
+Click "Restart Cluster" to apply the new file changes.
 
 	</TabItem>
 </Tabs>
 
-## Enabling automatic REST API generation
+## Create a Record
 
-Add @export to schema
-Edit config.yaml with rest: true
+With everything in place, now its time to create your first record for the `Dog` table.
 
-## Interacting with the `/Dog` API
+With the automatic REST API generation you have a plethora of options for interacting with the `Dog` table. We'll keep it simple for now, but will explore everything this has to offer in later guides.
 
-### Creating entries with POST and PUT
+Create a `POST` request using the REST API port and the `/Dog/` endpoint (don't forget the trailing slash). Include a JSON body with the specified attributes except for `id`:
 
-### Reading entries with GET
+:::note
+If you're using Fabric remember to replace the `localhost` with your cluster's URL
+:::
 
-#### Querying by attribute
+<Tabs groupId="http-client">
+  <TabItem value="curl">
 
-### Updating entries with PUT and PATCH
+```bash
+curl 'http://localhost:9926/Dog/' \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Harper",
+    "breed": "Black Labrador / Chow Mix",
+    "age": 5
+  }' | jq
+```
 
-### Deleting entries with DELETE
+  </TabItem>
+  <TabItem value="fetch">
 
-## Key Take Aways
+```typescript
+const response = await fetch('http://localhost:9926/Dog/', {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		"name": "Harper",
+		"breed": "Black Labrador / Chow Mix",
+		"age": 5
+	})
+});
+const id = await response.text();
+console.log(id);
+```
+
+  </TabItem>
+</Tabs>
+
+If you see a 36-character ID returned, then the record was successfully created!
+
+With Harper tables, the `POST` method automatically generates IDs for you. You can still specify IDs yourself using a `PUT` method, and we'll explore those details in a future guide.
+
+## Read a Record
+
+Now, with the returned ID, create a `GET` request to the endpoint `/Dog/<id>`:
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s 'http://localhost:9926/Dog/<id>' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/<id>');
+const dog = await response.json();
+console.log(dog);
+```
+
+  </TabItem>
+</Tabs>
+
+You should see the record we just created returned as JSON:
+
+```json
+{
+  "name": "Harper",
+  "breed": "Black Labrador / Chow Mix",
+  "age": 5,
+  "id": "<id>"
+}
+```
+
+## Query a Record
+
+The REST API isn't just for basic CRUD operations. It can also be used to create search queries using URL query strings.
+
+Start by creating another `GET` query, but this time do not include the `<id>` part. Make sure to include a trailing slash. Then, include a query string containing an attribute and a value such as `?age=5`.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s 'http://localhost:9926/Dog/?age=5' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/?age=5');
+const dog = await response.json();
+console.log(dog);
+```
+
+  </TabItem>
+</Tabs>
+
+Search queries return a list of records that match the specified conditions, in this example there is only one record in the table, so the result will be a list containing just that one record:
+
+```json
+[
+  {
+    "name": "Harper",
+    "breed": "Labrador",
+    "age": 7,
+    "id": "<id>"
+  }
+]
+```
+
+Fantastic work! You've successfully created your first Harper application. There is so much more that the Harper platform has to offer. Continue on to more guide content to learn more about building with Harper.
 
 ## Additional Resources
+
+- [Table Schema](../../docs/developers/applications/defining-schemas.md) reference
+- [REST](../../docs/developers/rest.md) reference
