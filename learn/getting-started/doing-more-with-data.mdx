@@ -1,0 +1,424 @@
+---
+title: Doing More with Data
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## What you Will Learn
+
+- How to continue using the Operations API and REST API to work with data
+- How to Create, Read, Updated, and Delete entries
+- How HTTP methods `GET`, `POST`, `PUT`, `PATCH`, and `DELETE` map to various CRUD operations
+
+## Prerequisites
+
+- Working Harper Application
+- At least one table
+
+## Using `describe_database` and `describe_table` operations
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Remember the `/health` endpoint from the previous guide? Lets explore what else the Operations API can do, starting with inspecting the default database using the `describe_database` operation.
+
+The Operation API is a JSON-based API. All requests go to the base path and configured Operations API port (9925 by default). Every request body should contain an `operation` property with the corresponding operation name. Most operations allow additional properties too. Its important to always include the `Content-Type: application/json` header.
+
+The `describe_database` operation allows you specify the database using the `database` field, and defaults to `data`. In fact, throughout Harper, the default database is always `data`. When something like the table schema you defined previously, or this `describe_database` operation, if a database is not specified, Harper will use `data`.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+:::tip
+We recommend you have `jq` or another JSON rendering tool for displaying the JSON output of Operations API responses.
+:::
+
+```bash
+curl -s http://localhost:9925 \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"operation":"describe_database"}' | jq
+```
+
+And if you want to be explicit about the database to describe:
+
+```bash
+curl -s http://localhost:9925 \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"operation":"describe_database","database":"data"}' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9925', {
+	method: 'POST',
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		operation: "describe_database",
+		// And if you want to be explicit about the database to describe:
+		// database: "data"
+	})
+});
+const json = await response.json();
+console.log(json);
+```
+
+  </TabItem>
+</Tabs>
+
+Result:
+
+```json
+{
+  "Dog": {
+    "schema": "data",
+    "name": "Dog",
+    "hash_attribute": "id",
+    "audit": true,
+    "schema_defined": true,
+    "attributes": [
+      {
+        "attribute": "id",
+        "type": "ID",
+        "is_primary_key": true
+      },
+      {
+        "attribute": "name",
+        "type": "String"
+      },
+      {
+        "attribute": "breed",
+        "type": "String"
+      },
+      {
+        "attribute": "age",
+        "type": "Int"
+      }
+    ],
+    "db_size": 196608,
+    "sources": [],
+    "record_count": 0,
+    "table_size": 0,
+    "db_audit_size": 16384
+  }
+}
+```
+
+The `describe_database` operation returns an JSON object where the keys are the table names, and the values are the details about the table.
+
+This result shows the table defined by the schema in the previous step. It shows its attributes as well as other important metadata such as the `hash_attribute`, `sources`, and more. Don't worry if these don't make sense right now, we'll dig into all of these details and more in later guides.
+
+In addition to using JSON requests, some operations are also available through the CLI.
+
+Lets try the `describe_table` operation this time using the Harper CLI:
+
+```bash
+harperdb describe_table table=Dog
+```
+
+Remember that the `database` is automatically defaulted to `data`, but you can specify it explicitly if you want:
+
+```bash
+harperdb describe_table database=data table=Dog
+```
+
+Result:
+
+```
+schema: data
+name: Dog
+hash_attribute: id
+audit: true
+schema_defined: true
+attributes:
+  - attribute: id
+    type: ID
+    is_primary_key: true
+  - attribute: name
+    type: String
+  - attribute: breed
+    type: String
+  - attribute: age
+    type: Int
+db_size: 196608
+sources: []
+record_count: 0
+table_size: 0
+db_audit_size: 16384
+```
+
+There are many more operations available including those for managing data, applications, and more. We'll introduce more over time, but now lets move ahead to automatic REST API generation.
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+Using the Database UI
+
+Learn about the database and table
+
+Add a record manually
+
+Hint at additional methods for CRUD ops but encourage the user to read on for REST API guide
+
+	</TabItem>
+</Tabs>
+
+## Automatic REST API generation
+
+:::tip
+If you need to check your work or need a reference for the code in this step, checkout the `02-rest-api` branch from the `HarperFast/create-your-first-application` repo [here](https://github.com/HarperFast/create-your-first-application/tree/02-rest-api).
+:::
+
+
+Navigate back to the `schema.graphql` file and add `@export` directive to the table schema:
+
+```graphql
+type Dog @table @export {
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
+}
+```
+
+Then in `config.yaml` add enable the REST API plugin:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+rest: true
+```
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+If Harper is still running with the `dev` command, it should have automatically restarted.
+
+If you look closely at the Harper logs, a new line should be added to the system configuration details: 
+
+```
+REST:               HTTP: 9926
+```
+
+This line tells you that the Harper REST API is configured on port `9926` (this is configurable, and this value is the default).
+
+	</TabItem>
+	<TabItem value="fabric" label="Fabric">
+
+Click the restart button 
+
+TODO: Fill in actual steps for fabric here
+
+	</TabItem>
+</Tabs>
+
+To verify if everything is working correctly, make a GET request to the `/Dog` endpoint. Don't forget to use the REST API port, this is likely different from the Operations API port used previously. And ensure there is no trailing slash after `/Dog`.
+
+:::note
+If you're using Fabric remember to replace the `localhost` with your cluster's URL
+:::
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s http://localhost:9926/Dog | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog');
+const json = await response.json();
+console.log(json);
+```
+
+  </TabItem>
+</Tabs>
+
+Result:
+
+```
+{
+  "records": "./",
+  "name": "Dog",
+  "database": "data",
+  "auditSize": 1,
+  "attributes": [
+    {
+      "type": "ID",
+      "name": "id",
+      "isPrimaryKey": true,
+      "attribute": "id"
+    },
+    {
+      "type": "String",
+      "name": "name",
+      "attribute": "name"
+    },
+    {
+      "type": "String",
+      "name": "breed",
+      "attribute": "breed"
+    },
+    {
+      "type": "Int",
+      "name": "age",
+      "attribute": "age"
+    }
+  ]
+}
+```
+
+The automatic REST API is really powerful. As you just experienced, the root path (without a trailing slash) results in information about the table. Similar to using the `describe_table` operation.
+
+If you include a trailing slash, such as `/Dog/`, this indicates a collection. In this case, the root collection is all the records. We don't have any records yet, but we'll change that momentarily.
+
+Lets continue exploring how to use the REST API to interact with the Dog table.
+
+## Creating entries with POST
+
+So far, we've only tried GET requests on the root path. Lets change this to a POST and create some records for the table!
+
+POST requests use the table collection path (with a trailing slash), `/Dog/`, and a body containing all attributes for a record except for the id. POST requests will automatically generate a ID for the record and return it in the response.
+
+Ensure the URL for the request contains the correct port (9926) and includes a trailing slash after the table name (`/Dog/`).
+
+Then, ensure that the body contains the specified attributes, `name`, `breed`, and `age`.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl http://localhost:9926/Dog/ \
+  -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Harper",
+    "breed": "Black Labrador / Chow Mix",
+    "age": 5
+  }' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/', {
+	method: "POST",
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		"name": "Harper",
+		"breed": "Black Labrador / Chow Mix",
+		"age": 5
+	})
+});
+const id = await response.text();
+console.log(id);
+```
+
+  </TabItem>
+</Tabs>
+
+If you see a 36-character ID returned, then the record was successfully created!
+
+## Reading entries with GET
+
+Next, copy the ID from the previous step and create a GET request to the endpoint `/Dog/<id>`. This time, make sure to omit a trailing slash as we want to get the entry with that ID.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s http://localhost:9926/Dog/<id> | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/<id>');
+const dog = await response.json();
+console.log(dog);
+```
+
+  </TabItem>
+</Tabs>
+
+Result:
+
+```json
+{
+  "name": "Harper",
+  "breed": "Black Labrador / Chow Mix",
+  "age": 5,
+  "id": "<id>"
+}
+```
+
+And just like that we were able to see the record created in the previous step.
+
+## Using PUT to Update (and Create) Entries
+
+Using the ID from before, lets create a `PUT` method and update the age value of the 
+
+In addition to using `POST` to create entries, you may also use `PUT`. The important difference is that you now must specify your own ID value when using `PUT`.
+
+The ID you specify does not need to be the same shape as the one generated by Harper automatically. For simplicity sake, lets use a 4 digit number.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl http://localhost:9926/Dog/1234 \
+  -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Lincoln",
+    "breed": "Shepherd",
+    "age": 4
+  }'
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/1234', {
+	method: "PUT",
+	headers: {
+		"Content-Type": "application/json"
+	},
+	body: JSON.stringify({
+		"name": "Lincoln",
+		"breed": "Shepherd",
+		"age": 4
+	})
+});
+console.log(response.status);
+```
+
+  </TabItem>
+</Tabs>
+
+The `PUT` method returns a `204 No Content` status code when successful.
+
+Now being able to create entries using `PUT` is simply an effect of the semantics of `PUT`. This method can also be used to update the 
+
+## Updating entries with PUT and PATCH
+
+
+
+## Querying by attribute
+### Deleting entries with DELETE
+
+## Key Take Aways
