@@ -62,8 +62,8 @@ Get started by cloning the [`HarperFast/create-your-first-application`](https://
 git clone https://github.com/HarperFast/create-your-first-application.git first-harper-app
 ```
 
-	</TabItem>
-	<TabItem value="fabric" label="Fabric">
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
 
 From the Cluster page, navigate to the Applications tab and click on "New Application" on the left-hand sidebar.
 
@@ -75,7 +75,8 @@ Keep the "Install Command" empty and the "Authorization" as "Public Access".
 
 Finally, click the "Import Application" button and wait for the application to be instantiated.
 
-	</TabItem>
+    </TabItem>
+
 </Tabs>
 
 ## Creating a Table
@@ -87,12 +88,13 @@ The core of most Harper applications is the data. Harper's data system is made u
 
 Open `schema.graphql` in your text editor.
 
-	</TabItem>
-	<TabItem value="fabric" label="Fabric">
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
 
 Navigate to the Files tab for your new application and open the `schema.graphql` file.
 
-	</TabItem>
+    </TabItem>
+
 </Tabs>
 
 Within `schema.graphql`, add:
@@ -154,12 +156,13 @@ Within your application directory, open a command line and run `harperdb dev .`
 
 The `dev` command will watch all files (except for `node_modules` directory) within your application directory and restart Harper when changes are detected.
 
-	</TabItem>
-	<TabItem value="fabric" label="Fabric">
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
 
 Click "Restart Cluster" to apply the new file changes.
 
-	</TabItem>
+    </TabItem>
+
 </Tabs>
 
 ## Enabling the REST API
@@ -188,7 +191,7 @@ rest: true
 
 If Harper is still running with the `dev` command, it should have automatically restarted.
 
-If you look closely at the Harper logs, a new line should be added to the system configuration details: 
+If you look closely at the Harper logs, a new line should be added to the system configuration details:
 
 ```
 REST:               HTTP: 9926
@@ -196,12 +199,13 @@ REST:               HTTP: 9926
 
 This line tells you that the Harper REST API is configured on port `9926` (this is configurable, and this value is the default).
 
-	</TabItem>
-	<TabItem value="fabric" label="Fabric">
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
 
 Click "Restart Cluster" to apply the new file changes.
 
-	</TabItem>
+    </TabItem>
+
 </Tabs>
 
 ## Create a Record
@@ -235,15 +239,15 @@ curl 'http://localhost:9926/Dog/' \
 
 ```typescript
 const response = await fetch('http://localhost:9926/Dog/', {
-	method: "POST",
+	method: 'POST',
 	headers: {
-		"Content-Type": "application/json"
+		'Content-Type': 'application/json',
 	},
 	body: JSON.stringify({
-		"name": "Harper",
-		"breed": "Black Labrador / Chow Mix",
-		"age": 5
-	})
+		name: 'Harper',
+		breed: 'Black Labrador / Chow Mix',
+		age: 5,
+	}),
 });
 const id = await response.text();
 console.log(id);
@@ -283,10 +287,10 @@ You should see the record we just created returned as JSON:
 
 ```json
 {
-  "name": "Harper",
-  "breed": "Black Labrador / Chow Mix",
-  "age": 5,
-  "id": "<id>"
+	"name": "Harper",
+	"breed": "Black Labrador / Chow Mix",
+	"age": 5,
+	"id": "<id>"
 }
 ```
 
@@ -319,12 +323,12 @@ Search queries return a list of records that match the specified conditions, in 
 
 ```json
 [
-  {
-    "name": "Harper",
-    "breed": "Labrador",
-    "age": 7,
-    "id": "<id>"
-  }
+	{
+		"name": "Harper",
+		"breed": "Labrador",
+		"age": 7,
+		"id": "<id>"
+	}
 ]
 ```
 

@@ -70,7 +70,7 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 		{ from: withBase('/install-harperdb/node-ver-requirement'), to: withBase('/deployments/install-harper/') },
 		{ from: withBase('/deployments/install-harperdb'), to: withBase('/deployments/install-harper/') },
 		{ from: withBase('/deployments/install-harperdb/linux'), to: withBase('/deployments/install-harper/linux') },
-		{ from: withBase('/getting-started/install-harper'), to: withBase('/getting-started/installation') },
+		{ from: withBase('/getting-started/install-harper'), to: withBase('/learn/getting-started/install-and-connect-harper') },
 
 		// Harper Studio (old HarperDB Studio paths)
 		{ from: withBase('/harperdb-studio'), to: withBase('/administration/harper-studio/') },
@@ -200,10 +200,10 @@ function generateDocsRedirects(basePath: string): RedirectRule[] {
 			to: withBase('/learn/getting-started/install-and-connect-harper'),
 		},
 
-		{ from: withBase('/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
-		{ from: withBase('/4.6/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
-		{ from: withBase('/4.5/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
-		{ from: withBase('/4.4/getting-started/quickstart'), to: withBase('/learn/getting-started/quickstart') },
+		{ from: withBase('/getting-started/quickstart'), to: withBase('/learn/') },
+		{ from: withBase('/4.6/getting-started/quickstart'), to: withBase('/learn/') },
+		{ from: withBase('/4.5/getting-started/quickstart'), to: withBase('/learn/') },
+		{ from: withBase('/4.4/getting-started/quickstart'), to: withBase('/learn/') },
 
 		{ from: withBase('/foundations/harper-architecture'), to: withBase('/learn/') },
 		{ from: withBase('/4.6/foundations/harper-architecture'), to: withBase('/learn/') },

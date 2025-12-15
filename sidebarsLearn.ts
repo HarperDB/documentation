@@ -16,13 +16,13 @@ const sidebarsLearn: SidebarsConfig = {
 				{
 					type: 'doc',
 					id: 'getting-started/install-and-connect-harper',
-					label: 'Install and Connect Harper'
+					label: 'Install and Connect Harper',
 				},
 				{
 					type: 'doc',
 					id: 'getting-started/create-your-first-application',
-					label: 'Create your First Application'
-				}
+					label: 'Create your First Application',
+				},
 			],
 		},
 		{
