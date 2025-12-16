@@ -56,7 +56,6 @@ const config: Config = {
 	projectName: 'documentation', // Usually your repo name.
 
 	onBrokenLinks: 'throw',
-	onBrokenMarkdownLinks: 'warn',
 
 	plugins: [
 		// Learn documentation
@@ -294,6 +293,9 @@ const config: Config = {
 
 	markdown: {
 		mermaid: true,
+		hooks: {
+			onBrokenMarkdownLinks: 'warn',
+		},
 	},
 
 	themeConfig: {
