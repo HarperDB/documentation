@@ -75,9 +75,9 @@ jobs:
           HARPER_PREVIEW_USERNAME: ${{ secrets.HARPER_PREVIEW_USERNAME }}
           HARPER_PREVIEW_PASSWORD: ${{ secrets.HARPER_PREVIEW_PASSWORD }}
         run: |
-          cd "$PR_DIR"
+          cd "pr-${{ github.event.pull_request.number }}"
           # Add your additional arguments here
-          npx harper deploy \
+          harper deploy \
             target=$HARPER_PREVIEW_TARGET \
             username=$HARPER_PREVIEW_USERNAME \
             password=$HARPER_PREVIEW_PASSWORD \
