@@ -1,8 +1,6 @@
 name: Deploy Docusaurus to GitHub Pages
 
 on:
-  # Trigger the workflow on pull requests and pushes to specific branches
-  pull_request:
   push:
     branches:
       - main
@@ -10,34 +8,20 @@ on:
   workflow_dispatch:
 
 # Concurrency configuration to manage parallel workflow runs
-#
-# Group composition: pages-<event_type>-<unique_identifier>
-# - event_type: 'pull_request', 'push', or 'workflow_dispatch'
-# - unique_identifier: PR number for PRs, branch ref for pushes/manual runs
-#
-# Examples of group names:
-# - PR #123: "pages-pull_request-123"
-# - Push to main: "pages-push-refs/heads/main"
-# - Manual run on main: "pages-workflow_dispatch-refs/heads/main"
-#
-# Behavior:
-# - PRs: New commits cancel previous runs (cancel-in-progress: true)
-# - Main branch: Runs complete without cancellation (cancel-in-progress: false)
-# - Manual dispatch: Runs complete without cancellation (cancel-in-progress: false)
 concurrency:
-  group: pages-${{ github.event_name }}-${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
   build:
     name: Build Docusaurus
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: '22'
           cache: 'npm'
@@ -81,8 +65,6 @@ jobs:
     needs: build
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
-    # Only deploy on push to main or manual trigger, not on PRs
-    if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'workflow_dispatch'
 
     permissions:
       pages: write

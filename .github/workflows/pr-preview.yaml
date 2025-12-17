@@ -44,6 +44,13 @@ jobs:
           echo "Building site with base URL: $DOCUSAURUS_BASE_URL"
           npm run build
 
+      - name: Upload build artifact for local testing
+        uses: actions/upload-artifact@v4
+        with:
+          name: pr-${{ github.event.pull_request.number }}-build
+          path: build/
+          retention-days: 30
+
       - name: Prepare deployment directory
         run: |
           PR_DIR="pr-${{ github.event.pull_request.number }}"
@@ -149,9 +156,19 @@ jobs:
           npm install harperdb
 
       - name: Remove preview deployment
+        env:
+          HARPER_PREVIEW_TARGET: ${{ secrets.HARPER_PREVIEW_TARGET }}
+          HARPER_PREVIEW_USERNAME: ${{ secrets.HARPER_PREVIEW_USERNAME }}
+          HARPER_PREVIEW_PASSWORD: ${{ secrets.HARPER_PREVIEW_PASSWORD }}
         run: |
           # Add your cleanup command here (e.g., harper undeploy or similar)
-          npx harper drop-component project=pr-${{ github.event.pull_request.number }} replicated=true restart=true
+          npx harper drop-component \
+            target=${HARPER_PREVIEW_TARGET}:9925 \
+            username=$HARPER_PREVIEW_USERNAME \
+            password=$HARPER_PREVIEW_PASSWORD \
+            project=pr-${{ github.event.pull_request.number }} \
+            replicated=true \
+            restart=true
           echo "Cleaning up preview for PR #${{ github.event.pull_request.number }}"
 
       - name: Update deployment status
