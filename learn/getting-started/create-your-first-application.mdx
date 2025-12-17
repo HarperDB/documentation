@@ -214,7 +214,7 @@ With everything in place, now its time to create your first record for the `Dog`
 
 With the automatic REST API generation you have a plethora of options for interacting with the `Dog` table. We'll keep it simple for now, but will explore everything this has to offer in later guides.
 
-Create a `POST` request using the REST API port and the `/Dog/` endpoint (don't forget the trailing slash). Include a JSON body with the specified attributes except for `id`:
+Create a `PUT` request using the REST API port and the path `/Dog/001`. Include a JSON body with the specified attributes except for `id`. The `001` in the URL will be used as the ID for this entry.
 
 :::note
 If you're using Fabric remember to replace the `localhost` with your cluster's URL
@@ -224,22 +224,23 @@ If you're using Fabric remember to replace the `localhost` with your cluster's U
   <TabItem value="curl">
 
 ```bash
-curl 'http://localhost:9926/Dog/' \
-  -X POST \
+curl 'http://localhost:9926/Dog/001' \
+  -X PUT \
   -H "Content-Type: application/json" \
   -d '{
     "name": "Harper",
     "breed": "Black Labrador / Chow Mix",
     "age": 5
-  }' | jq
+  }' \
+  -w "%{http_code}"
 ```
 
   </TabItem>
   <TabItem value="fetch">
 
 ```typescript
-const response = await fetch('http://localhost:9926/Dog/', {
-	method: 'POST',
+const response = await fetch('http://localhost:9926/Dog/001', {
+	method: 'PUT',
 	headers: {
 		'Content-Type': 'application/json',
 	},
@@ -249,33 +250,30 @@ const response = await fetch('http://localhost:9926/Dog/', {
 		age: 5,
 	}),
 });
-const id = await response.text();
-console.log(id);
+console.log(response.status);
 ```
 
   </TabItem>
 </Tabs>
 
-If you see a 36-character ID returned, then the record was successfully created!
-
-With Harper tables, the `POST` method automatically generates IDs for you. You can still specify IDs yourself using a `PUT` method, and we'll explore those details in a future guide.
+If you see `204` status code, then the record was successfully created!
 
 ## Read a Record
 
-Now, with the returned ID, create a `GET` request to the endpoint `/Dog/<id>`:
+Now, with the returned ID, create a `GET` request to the endpoint `/Dog/001`:
 
 <Tabs groupId="http-client">
   <TabItem value="curl">
 
 ```bash
-curl -s 'http://localhost:9926/Dog/<id>' | jq
+curl -s 'http://localhost:9926/Dog/001' | jq
 ```
 
   </TabItem>
   <TabItem value="fetch">
 
 ```typescript
-const response = await fetch('http://localhost:9926/Dog/<id>');
+const response = await fetch('http://localhost:9926/Dog/001');
 const dog = await response.json();
 console.log(dog);
 ```
@@ -290,7 +288,7 @@ You should see the record we just created returned as JSON:
 	"name": "Harper",
 	"breed": "Black Labrador / Chow Mix",
 	"age": 5,
-	"id": "<id>"
+	"id": "001"
 }
 ```
 
@@ -298,7 +296,7 @@ You should see the record we just created returned as JSON:
 
 The REST API isn't just for basic CRUD operations. It can also be used to create search queries using URL query strings.
 
-Start by creating another `GET` query, but this time do not include the `<id>` part. Make sure to include a trailing slash. Then, include a query string containing an attribute and a value such as `?age=5`.
+Start by creating another `GET` query, but this time do not include the ID (`001`) part. Make sure to include a trailing slash. Then, include a query string containing an attribute and a value such as `?age=5`.
 
 <Tabs groupId="http-client">
   <TabItem value="curl">
@@ -327,7 +325,7 @@ Search queries return a list of records that match the specified conditions, in 
 		"name": "Harper",
 		"breed": "Black Labrador / Chow Mix",
 		"age": 5,
-		"id": "<id>"
+		"id": "001"
 	}
 ]
 ```
@@ -348,7 +346,7 @@ Push-based deployments is powered by the Harper CLI and is where your the user w
 
 For a true production application, Harper recommends using pull-based deployments so that you can deploy tagged versions of your application repository. But for development and experimentation, push-based is perfectly fine. Later guides will explore pull-based deployment workflows in more detail.
 
-To get started with push-based deployments, open a command line and set the current directory to the application directory. Run the `harper deploy` command using the Fabric clusters URL, username, and password:
+To get started with push-based deployments, open a command line and set the current directory to the application directory. Run the `harper deploy` command using the Fabric cluster's URL, username, and password:
 
 ```bash
 harper deploy \
