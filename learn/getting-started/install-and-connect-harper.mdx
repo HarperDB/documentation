@@ -7,14 +7,14 @@ import TabItem from '@theme/TabItem';
 
 import GeneralPrerequisites from '../../src/components/learn/general-prerequisites.mdx';
 
-One of Harper's primary goals since day 1 was to be easy to install and get started with. The core Harper application itself is just a Node.js application with some native module dependencies. The simplest and easiest way to get started using Harper is by installing it using npm (or any npm compatible Node.js package manager). In addition to installing Harper directly to your local development environment, the Harper team provides a Docker image ([`harperdb/harperdb`](https://hub.docker.com/r/harperdb/harperdb)), and most recently a platform service called [Harper Fabric](https://fabric.harper.fast).
+One of Harper's primary goals since day one was to be easy to install and get started with. The core Harper application itself is just a Node.js application with some native module dependencies. The simplest and easiest way to get started using Harper is by installing it using npm (or any npm compatible Node.js package manager). In addition to installing Harper directly to your local development environment, the Harper team provides a Docker image ([`harperdb/harperdb`](https://hub.docker.com/r/harperdb/harperdb)), and most recently a platform service called [Harper Fabric](https://fabric.harper.fast).
 
 This guide will demonstrate all three ways to get started as well as introduce some basic Harper features such as the CLI and our built in health endpoint.
 
 ## What You Will Learn
 
 - How to install Harper locally using a Node.js package manager or a container
-- How to use the `harperdb` CLI
+- How to use the `harper` CLI
 - How to get setup using Harper Fabric
 - How to perform a health check using the built-in Harper Operations API health endpoint
 
@@ -41,6 +41,35 @@ The fastest way to get started is by installing Harper globally using an npm com
 npm install -g harperdb
 ```
 
+Then, execute the Harper CLI:
+
+```bash
+harper
+```
+
+When installing locally on your machine, you can specify any destination for Harper, we recommend using something within your home directory such as `$HOME/hdb`. Keep note of what you specify for the username and password, and make sure you select the `dev` default config and set the hostname to `localhost`.
+
+:::important
+Do not actually enter `$HOME` in the destination prompt; it should automatically fill in the value of your home directory. Otherwise, specify the absolute path for the Harper installation.
+:::
+
+```
+Starting HarperDB install...
+
+Terms & Conditions can be found at https://harperdb.io/legal/end-user-license-agreement
+and can be viewed by typing or copying and pasting the URL into your web browser.
+I agree to the HarperDB Terms and Conditions: (yes/no) yes
+Please enter a destination for HarperDB: $HOME/hdb
+Please enter a username for the administrative user: HDB_ADMIN
+Please enter a password for the administrative user: [hidden]
+Default Config - dev (easy access/debugging) or prod (security/performance): (dev/prod) dev
+Please enter the hostname for this server: localhost
+
+HarperDB installation was successful.
+
+[main/0] [notify]: HarperDB installation was successful.
+```
+
   </TabItem>
   <TabItem value="docker" label="Docker">
 
@@ -56,102 +85,33 @@ Using a Docker compatible container manager of choice, the simplest way to get s
 docker pull harperdb/harperdb
 docker run -it \
   --name harper \
-  -v /Users/<user>/hdb:/home/harperdb/hdb \
-  -v /Users/<user>/dev:/home/harperdb/dev \
+  -v $HOME/hdb:/home/harperdb/hdb \
+  -v $HOME/dev:/home/harperdb/dev \
   -e DEFAULTS_MODE=dev \
   -e REPLICATION_HOSTNAME=localhost \
   -p 9925:9925 \
   -p 9926:9926 \
-  harperdb/harperdb \
-  /bin/bash
+  harperdb/harperdb
 ```
 
-The `-v` options will mount the Harper installation (`hdb/`) as well as a development directory (`dev/`) to the container host which is useful for development purposes. Now the `hdb/` path will contain the Harper installation parts (once you install), and the `dev/` directory can be used to create projects (which future guides will require).
+The `-v` options will mount the Harper installation (`hdb/`) as well as a development directory (`dev/`) to the container host which is useful for development purposes. The `hdb/` path will contain the Harper installation parts, and the `dev/` directory can be used to create projects (which future guides will require).
 
 The additional environment variables specified by `-e` options ensures the installation is setup for local development.
 
-Without the `-it` and `/bin/bash` parts, the image will start (and install) the Harper application by default. For the purposes of these guides, access to the `harperdb` CLI is necessary, so we recommend to always exec into the container.
+The image is configured to automatically run the `harper` command upon startup. During container creation, this will automatically complete the Harper installation step.
+
+The Harper installation process is normally an interactive prompt; however, it also supports overrides using environment variables or CLI arguments. Since the image contains preset environment variables and additional environment variables `DEFAULTS_MODE` and `REPLICATION_HOSTNAME` are included in the `docker run` command, Harper will complete its installation step completely non-interactively.
 
   </TabItem>
 </Tabs>
 
-Then, execute the Harper CLI to start the installation process:
+After completing the installation step, Harper should now be running in the active process.
 
-```bash
-harperdb install
-```
-
-The Harper installation process is an interactive prompt, however it also supports overrides using environment variables or CLI arguments. It supports partial or complete overrides for the installation prompts and even allows additional configuration options to be specified too.
-
-This guide focusses on a happy path in order to keep things simple. If you're interested in learning more about all of Harper's configuration options see the the [Harper CLI](../../docs/deployments/harper-cli) reference docs.
-
-<Tabs groupId="local-install">
-  <TabItem value="npm" label="npm">
-
-When installing locally on your machine, you can specify any destination for Harper, we recommend using something within your user directory such as `/User/<user>/hdb`. Keep note of what you specify for the username and password, and make sure you select the `dev` default config and set the hostname to `localhost`.
-
-```
-> harperdb install
-
-Starting HarperDB install...
-
-Terms & Conditions can be found at https://harperdb.io/legal/end-user-license-agreement
-and can be viewed by typing or copying and pasting the URL into your web browser.
-I agree to the HarperDB Terms and Conditions: (yes/no) yes
-Please enter a destination for HarperDB: /User/<user>/hdb
-Please enter a username for the administrative user: HDB_ADMIN
-Please enter a password for the administrative user: [hidden]
-Default Config - dev (easy access/debugging) or prod (security/performance): (dev/prod) dev
-Please enter the hostname for this server: localhost
-
-HarperDB installation was successful.
-
-[main/0] [notify]: HarperDB installation was successful.
-```
-
-  </TabItem>
-  <TabItem value="docker" label="Docker">
-
-The base image presets a number of configuration environment variables. The additional `DEFAULTS_MODE` and `REPLICATION_HOSTNAME` variables included in the `docker run` command complete the installation prompts making the whole command non-interactive.
-
-```
-> harperdb install
-
-Starting HarperDB install...
-
-Terms & Conditions can be found at https://harperdb.io/legal/end-user-license-agreement
-and can be viewed by typing or copying and pasting the URL into your web browser.
-I agree to the HarperDB Terms and Conditions: (yes/no) yes
-Please enter a destination for HarperDB: /home/harperdb/hdb
-Please enter a username for the administrative user: HDB_ADMIN
-Please enter a password for the administrative user: [hidden]
-Default Config - dev (easy access/debugging) or prod (security/performance): (dev/prod) dev
-Please enter the hostname for this server: localhost
-
-HarperDB installation was successful.
-
-[main/0] [notify]: HarperDB installation was successful.
-```
-
-Keep in mind that Harper is installed at the `/home/harperdb/hdb` path within the container (which is mounted to some path on the host system if you used `-v` in the `docker run` command), and that the username and password are defaulted to `HDB_ADMIN` and `password` respectively.
-
-  </TabItem>
-</Tabs>
-
-### Running Harper
-
-After completing the installation, run Harper using:
-
-```bash
-harperdb
-```
-
-This command runs Harper in the current command process. As long as the `logging.stdStream` configuration option is set to `true` (which is the default when using the `dev` default mode), Harper will also stream all logs to the `stdout` and `stderr` streams too.
+As long as the `logging.stdStream` configuration option is set to `true` (which is the default when using the `dev` default mode), Harper will also stream all logs to the `stdout` and `stderr` streams too.
 
 If all is working correctly, you should see the following output in your command line:
 
 ```
-> harperdb
 Starting HarperDB...
 
                ▒▒▒▓▓▓▓▓▓▓▓▓▓▓▒▒
@@ -227,16 +187,14 @@ To check if everything is configured correctly and ready to go for development, 
 The Operations API provides a full set of capabilities for configuring, deploying, administering, and controlling Harper. We'll learn more about it throughout all of the guide pages.
 
 :::note
-If you configured a different Operations API port, use that instead of `9925` here.
-
-Similarly, if you are using a Harper Fabric cluster, replace the `http://localhost` with the cluster URL.
+If you are using a Harper Fabric cluster, replace the `http://localhost` with the cluster URL.
 :::
 
 <Tabs>
   <TabItem value="curl">
 
 ```bash
-curl http://localhost:9925/health
+curl 'http://localhost:9925/health'
 ```
 
   </TabItem>
