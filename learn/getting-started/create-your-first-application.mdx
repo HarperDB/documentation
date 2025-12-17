@@ -334,6 +334,32 @@ Search queries return a list of records that match the specified conditions, in 
 
 Fantastic work! You've successfully created your first Harper application. There is so much more that the Harper platform has to offer. Continue on to more guide content to learn more about building with Harper.
 
+## Bonus: Deploy your Application to Fabric
+
+If you have been developing your Harper application locally, this section will walk you through deploying it to Fabric.
+
+Before continuing, if you haven't already set up a Fabric cluster, go back to the previous article and complete the [Getting started with Fabric](./install-and-connect-harper.mdx#getting-started-with-fabric) step and make sure to keep track of the cluster URL, as well as the admin username and password.
+
+Harper supports both **pull** and **push** based deployment workflows.
+
+Pull-based deployments is generally powered by a Git repository where Harper will _pull_ your application from the repository.
+
+Push-based deployments is powered by the Harper CLI and is where your the user will _push_ your application to the Harper instance.
+
+For a true production application, Harper recommends using pull-based deployments so that you can deploy tagged versions of your application repository. But for development and experimentation, push-based is perfectly fine. Later guides will explore pull-based deployment workflows in more detail.
+
+To get started with push-based deployments, open a command line and set the current directory to the application directory. Run the `harper deploy` command using the Fabric clusters URL, username, and password:
+
+```bash
+harper deploy \
+  target=<URL> \
+  username=<username> \
+  password=<password> \
+  project=first-harper-app \
+  restart=true \
+  replicated=true
+```
+
 ## Additional Resources
 
 - [Table Schema](../../docs/developers/applications/defining-schemas) reference
