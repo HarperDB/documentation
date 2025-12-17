@@ -77,8 +77,8 @@ jobs:
         run: |
           cd "pr-${{ github.event.pull_request.number }}"
           # Add your additional arguments here
-          harper deploy \
-            target=$HARPER_PREVIEW_TARGET \
+          npx harper deploy \
+            target=${HARPER_PREVIEW_TARGET}:9925 \
             username=$HARPER_PREVIEW_USERNAME \
             password=$HARPER_PREVIEW_PASSWORD \
             project=pr-${{ github.event.pull_request.number }} \
