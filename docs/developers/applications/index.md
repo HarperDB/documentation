@@ -81,7 +81,7 @@ This guide is going to walk you through building a basic Harper application usin
 
 ## Custom Functionality with JavaScript
 
-[The getting started guide](../../learn/) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
+[The getting started guide](/learn/) covers how to build an application entirely through schema configuration. However, if your application requires more custom functionality, you will probably want to employ your own JavaScript modules to implement more specific features and interactions. This gives you tremendous flexibility and control over how data is accessed and modified in Harper. Let's take a look at how we can use JavaScript to extend and define "resources" for custom functionality. In Harper, data is accessed through our [Resource API](../../reference/resources/), a standard interface to access data sources, tables, and make them available to endpoints. Database tables are `Resource` classes, and so extending the function of a table is as simple as extending their class.
 
 To define custom (JavaScript) resources as endpoints, we need to create a `resources.js` module (this goes in the root of your application folder). And then endpoints can be defined with Resource classes that `export`ed. This can be done in addition to, or in lieu of the `@export`ed types in the schema.graphql. If you are exporting and extending a table you defined in the schema make sure you remove the `@export` from the schema so that don't export the original table or resource to the same endpoint/path you are exporting with a class. Resource classes have methods that correspond to standard HTTP/REST methods, like `get`, `post`, `patch`, and `put` to implement specific handling for any of these methods (for tables they all have default implementations). Let's add a property to the dog records when they are returned, that includes their age in human years. To do this, we get the `Dog` class from the defined tables, extend it (with our custom logic), and export it:
 
@@ -117,8 +117,8 @@ type Breed @table {
 We use the new table's (static) `get()` method to retrieve a breed by id. Harper will maintain the current context, ensuring that we are accessing the data atomically, in a consistent snapshot across tables. This provides:
 
 1. Automatic tracking of most recently updated timestamps across resources for caching purposes
-1. Sharing of contextual metadata (like user who requested the data)
-1. Transactional atomicity for any writes (not needed in this get operation, but important for other operations)
+2. Sharing of contextual metadata (like user who requested the data)
+3. Transactional atomicity for any writes (not needed in this get operation, but important for other operations)
 
 The resource methods are automatically wrapped with a transaction and will automatically commit the changes when the method finishes. This allows us to fully utilize multiple resources in our current transaction. With our own snapshot of the database for the Dog and Breed table we can then access data like this:
 
