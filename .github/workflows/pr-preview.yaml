@@ -162,7 +162,7 @@ jobs:
           HARPER_PREVIEW_PASSWORD: ${{ secrets.HARPER_PREVIEW_PASSWORD }}
         run: |
           # Add your cleanup command here (e.g., harper undeploy or similar)
-          npx harper drop-component \
+          npx harper drop_component \
             target=${HARPER_PREVIEW_TARGET}:9925 \
             username=$HARPER_PREVIEW_USERNAME \
             password=$HARPER_PREVIEW_PASSWORD \
