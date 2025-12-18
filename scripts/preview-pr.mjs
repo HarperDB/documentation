@@ -98,7 +98,7 @@ async function main() {
 		// Get the workflow run for this PR (using sanitized branch name)
 		const runs = JSON.parse(
 			execSync(
-				`gh api repos/HarperDB/documentation/actions/runs --paginate -X GET -f branch=${sanitizedBranch} --jq '.workflow_runs | map(select(.conclusion == "success" and .name == "Deploy PR Preview")) | sort_by(.created_at) | reverse | .[0]'`,
+				`gh api repos/HarperFast/documentation/actions/runs --paginate -X GET -f branch=${sanitizedBranch} --jq '.workflow_runs | map(select(.conclusion == "success" and .name == "Deploy PR Preview")) | sort_by(.created_at) | reverse | .[0]'`,
 				{ encoding: 'utf-8' }
 			)
 		);
@@ -121,7 +121,7 @@ async function main() {
 
 		// Get the artifacts for this run
 		const artifacts = JSON.parse(
-			execSync(`gh api repos/HarperDB/documentation/actions/runs/${runs.id}/artifacts --jq '.artifacts'`, {
+			execSync(`gh api repos/HarperFast/documentation/actions/runs/${runs.id}/artifacts --jq '.artifacts'`, {
 				encoding: 'utf-8',
 			})
 		);
@@ -162,7 +162,7 @@ async function main() {
 		// Download the artifact
 		console.log('⬇️  Downloading artifact...');
 		const artifactZip = join(PR_DIR, 'artifact.zip');
-		execSync(`gh api repos/HarperDB/documentation/actions/artifacts/${artifact.id}/zip > "${artifactZip}"`, {
+		execSync(`gh api repos/HarperFast/documentation/actions/artifacts/${artifact.id}/zip > "${artifactZip}"`, {
 			stdio: 'inherit',
 		});
 
@@ -200,7 +200,10 @@ async function main() {
 		console.log(`\n🚀 Starting preview server...\n`);
 
 		// Start the server with quoted path to prevent injection
-		execSync(`npm run serve -- --dir "${BUILD_DIR}"`, { stdio: 'inherit' });
+		execSync(`npm run serve -- --dir "${BUILD_DIR}"`, {
+			stdio: 'inherit',
+			env: { ...process.env, DOCUSAURUS_BASE_URL: `pr-${PR_NUMBER}` },
+		});
 	} catch (error) {
 		console.error('\n❌ Error:', error.message);
 		process.exit(1);
