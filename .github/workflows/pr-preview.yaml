@@ -74,7 +74,7 @@ jobs:
 
       - name: Install HarperDB CLI
         run: |
-          npm install harperdb
+          npm install -g harperdb
 
       - name: Deploy to HarperDB
         env:
@@ -84,7 +84,7 @@ jobs:
         run: |
           cd "pr-${{ github.event.pull_request.number }}"
           # Add your additional arguments here
-          npx harper deploy \
+          harper deploy \
             target=${HARPER_PREVIEW_TARGET}:9925 \
             username=$HARPER_PREVIEW_USERNAME \
             password=$HARPER_PREVIEW_PASSWORD \
@@ -153,7 +153,7 @@ jobs:
 
       - name: Install HarperDB CLI
         run: |
-          npm install harperdb
+          npm install -g harperdb
 
       - name: Remove preview deployment
         env:
@@ -162,7 +162,7 @@ jobs:
           HARPER_PREVIEW_PASSWORD: ${{ secrets.HARPER_PREVIEW_PASSWORD }}
         run: |
           # Add your cleanup command here (e.g., harper undeploy or similar)
-          npx harper drop_component \
+          harper drop_component \
             target=${HARPER_PREVIEW_TARGET}:9925 \
             username=$HARPER_PREVIEW_USERNAME \
             password=$HARPER_PREVIEW_PASSWORD \
