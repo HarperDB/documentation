@@ -39,7 +39,7 @@ Finally, when it’s time to deploy, explore [replication](./developers/replicat
 
 If you would like to jump into the most advanced capabilities, learn about [components](developers/components/index.md).
 
-For a more comprehensive deep dive, take a look at our [Getting Started Guide](./getting-started/quickstart).
+For a more comprehensive deep dive, take a look at our [Getting Started Guide](/learn/).
 
 :::warning
 Need help? Please don’t hesitate to [reach out](https://www.harpersystems.dev/contact).
@@ -68,7 +68,7 @@ Capturing, storing, and processing real-time data streams from client and IoT sy
 <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', margin: '2rem 0'}}>
   <div style={{border: '1px solid #e0e0e0', borderRadius: '8px', padding: '1.5rem', transition: 'box-shadow 0.2s'}}>
     <h3 style={{marginTop: '0'}}>
-      <a href="./4.4/getting-started/quickstart" style={{textDecoration: 'none', color: 'inherit'}}>
+      <a href="/learn/" style={{textDecoration: 'none', color: 'inherit'}}>
         Quickstart
       </a>
     </h3>

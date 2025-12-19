@@ -1,0 +1,372 @@
+---
+title: Create Your First Application
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+With Harper successfully installed and setup, let's dive into building your first Harper Application, a simple REST API. Harper lets you build powerful APIs with minimal effort.
+
+## What You Will Learn
+
+- Overview of Harper architecture
+- What are Harper core services, plugins, and applications
+- How to define a table using schemas
+- How to run a Harper application
+- How to automatically create a REST API from a table schema
+- How to interact with the table using the generated REST API
+
+## Prerequisites
+
+- Working Harper Installation (previous guide [Install and Connect Harper](./install-and-connect-harper))
+
+## Harper Architecture
+
+Before diving into building your first Harper application, it is important to understand a bit about Harper's architecture. The simplest way to think about Harper is as a stack.
+
+```
+┏━━━━━━━━━━━━━━━━━━┓
+┃ Applications     ┃
+┠──────────────────┨
+┃ Plugins          ┃
+┃  - rest          ┃
+┃  - graphqlSchema ┃
+┃  - ...           ┃
+┠──────────────────┨
+┃ Core Services:   ┃
+┃  - database      ┃
+┃  - networking    ┃
+┃  - component     ┃
+┃    management    ┃
+┗━━━━━━━━━━━━━━━━━━┛
+```
+
+At the bottom are the **core services** that make up the foundation of the Harper platform. This includes the high-performance **database**, extensible **networking** middleware, and **component** management system. Components are extensions of the core Harper system, and are further classified as **plugins** and **applications**.
+
+**Plugins** come next in the stack. Plugins have access to APIs exposing many of Harper's core services, and are capable of implementing more advanced features than what the core services provide. Many of Harper's features are implemented as **built-in plugins**. Additional features can be implemented as **custom plugins**. In this guide, we'll be demonstrating some of Harper's built-in plugins `graphqlSchema` and `rest`. Later guides will demonstrate many more.
+
+And finally, the top of the stack are **applications**. This is where any user-facing functionality is implemented. Applications use plugins to implement their business logic, everything from database table schemas to web applications.
+
+The key difference between plugins and applications is that plugins enable the functionality and applications implement it. It's similar to that of a front-end framework. React on its own doesn't actually do anything, you actually need to build a "React App" for it to do anything meaningful.
+
+## Initializing the Harper Application
+
+Let's get started building your first Harper application!
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Get started by cloning the [`HarperFast/create-your-first-application`](https://github.com/HarperFast/create-your-first-application) repo and opening it your editor of choice. If you have installed Harper using a container, make sure to clone into the `dev/` directory that the container was mounted to.
+
+```bash
+git clone https://github.com/HarperFast/create-your-first-application.git first-harper-app
+```
+
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
+
+From the "Cluster" page, navigate to the "Applications" tab and click on "New Application" on the left-hand sidebar.
+
+Give the application a name such as "first-harper-app", then click on the "Import" tab.
+
+Specify `https://github.com/HarperFast/create-your-first-application` in the "Git Repository URL" field.
+
+Keep the "Install Command" empty and the "Authorization" as "Public Access".
+
+Finally, click the "Import Application" button and wait for the application to be instantiated.
+
+    </TabItem>
+
+</Tabs>
+
+## Creating a Table
+
+The core of most Harper applications is the data. Harper's data system is made up of databases and tables. There are many ways to create them, and the primary method is to use a GraphQL-like syntax to define table schemas. Even though you use GraphQL to define your table schemas, you do not need to use GraphQL for querying.
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+Open `schema.graphql` in your text editor.
+
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
+
+Navigate to the Files tab for your new application and open the `schema.graphql` file.
+
+    </TabItem>
+
+</Tabs>
+
+Within `schema.graphql`, add:
+
+```graphql
+type Dog @table {
+	id: ID @primaryKey
+}
+```
+
+Harper has defined custom directives, such as `@table` and `@primaryKey`, to specify special behavior for the table schema.
+
+The `@table` directive is what instructs Harper that this is in fact a table schema versus an arbitrary type.
+
+The `@primaryKey` directive specifies which attribute is meant to be the primary key for indexing.
+
+Next, lets add some more properties to the schema.
+
+```graphql
+type Dog @table {
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
+}
+```
+
+Harper's schema system piggybacks off of the standard GraphQL field types such as `String`, `Int`, and many more.
+
+:::info
+The Harper schema system has a lot of great features for making it effortless to define tables. We'll demonstrate more custom directives later.
+:::
+
+Now you have a schema for a `Dog` table with four attributes `id`, `name`, `breed`, and `age`.
+
+The next step is to tell Harper about your schema file.
+
+Open the `config.yaml` file and add the following:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+```
+
+The `config.yaml` file is how Harper applications configure plugins. The `graphqlSchema` plugin is built-in to Harper so there is no additional steps needed to configure it, but custom plugins do require installing dependencies (more on that in another guide).
+
+The `files` property allows you to specify a file glob pattern for the plugin. In this case, we are only specifying a single file, but you can specify any glob pattern here too.
+
+With the `schema.graphql` and `config.yaml` in place, now its time to run your application for the first time.
+
+:::note
+If you need to check your work, checkout the [`01-create-table`](https://github.com/HarperFast/create-your-first-application/tree/01-create-table) branch.
+:::
+
+## Running the Application
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+If Harper is still running, shut it down using `CTRL/CMD + C`.
+
+Within your application directory, open a command line and run `harper dev .`
+
+The `dev` command will watch all files (except for `node_modules` directory) within your application directory and restart Harper when changes are detected.
+
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
+
+Click "Restart Cluster" to apply the new file changes.
+
+    </TabItem>
+
+</Tabs>
+
+## Enabling the REST API
+
+Navigate back to the `schema.graphql` file and add `@export` directive to the table schema:
+
+```graphql
+type Dog @table @export {
+	id: ID @primaryKey
+	name: String
+	breed: String
+	age: Int
+}
+```
+
+Then in `config.yaml` enable the REST API plugin:
+
+```yaml
+graphqlSchema:
+  files: 'schema.graphql'
+rest: true
+```
+
+<Tabs groupId="installation">
+	<TabItem value="local" label="Local Installation">
+
+If Harper is still running with the `dev` command, it should have automatically restarted.
+
+If you look closely at the Harper logs, a new line should be added to the system configuration details:
+
+```
+REST:               HTTP: 9926
+```
+
+This line tells you that the Harper REST API is configured on port `9926` (this is configurable and this value is the default).
+
+    </TabItem>
+    <TabItem value="fabric" label="Fabric">
+
+Click "Restart Cluster" to apply the new file changes.
+
+    </TabItem>
+
+</Tabs>
+
+:::note
+If you need to check your work, checkout the [`02-rest-api`](https://github.com/HarperFast/create-your-first-application/tree/02-rest-api) branch.
+:::
+
+## Create a Record
+
+With everything in place, now its time to create your first record for the `Dog` table.
+
+With the automatic REST API generation you have a plethora of options for interacting with the `Dog` table. We'll keep it simple for now, but will explore everything this has to offer in later guides.
+
+Create a `PUT` request using the REST API port and the path `/Dog/001`. Include a JSON body with the specified attributes except for `id`. The `001` in the URL will be used as the ID for this entry.
+
+:::note
+If you're using Fabric remember to replace the `localhost` with your cluster's URL
+:::
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl 'http://localhost:9926/Dog/001' \
+  -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Harper",
+    "breed": "Black Labrador / Chow Mix",
+    "age": 5
+  }' \
+  -w "%{http_code}"
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/001', {
+	method: 'PUT',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify({
+		name: 'Harper',
+		breed: 'Black Labrador / Chow Mix',
+		age: 5,
+	}),
+});
+console.log(response.status);
+```
+
+  </TabItem>
+</Tabs>
+
+If you see `204` status code, then the record was successfully created!
+
+## Read a Record
+
+Now, with the returned ID, create a `GET` request to the endpoint `/Dog/001`:
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s 'http://localhost:9926/Dog/001' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/001');
+const dog = await response.json();
+console.log(dog);
+```
+
+  </TabItem>
+</Tabs>
+
+You should see the record we just created returned as JSON:
+
+```json
+{
+	"name": "Harper",
+	"breed": "Black Labrador / Chow Mix",
+	"age": 5,
+	"id": "001"
+}
+```
+
+## Query a Record
+
+The REST API isn't just for basic CRUD operations. It can also be used to create search queries using URL query strings.
+
+Start by creating another `GET` query, but this time do not include the ID (`001`) part. Make sure to include a trailing slash. Then, include a query string containing an attribute and a value such as `?age=5`.
+
+<Tabs groupId="http-client">
+  <TabItem value="curl">
+
+```bash
+curl -s 'http://localhost:9926/Dog/?age=5' | jq
+```
+
+  </TabItem>
+  <TabItem value="fetch">
+
+```typescript
+const response = await fetch('http://localhost:9926/Dog/?age=5');
+const dog = await response.json();
+console.log(dog);
+```
+
+  </TabItem>
+</Tabs>
+
+Search queries return a list of records that match the specified conditions, in this example there is only one record in the table, so the result will be a list containing just that one record:
+
+```json
+[
+	{
+		"name": "Harper",
+		"breed": "Black Labrador / Chow Mix",
+		"age": 5,
+		"id": "001"
+	}
+]
+```
+
+Fantastic work! You've successfully created your first Harper application. There is so much more that the Harper platform has to offer. Continue on to more guide content to learn more about building with Harper.
+
+## Bonus: Deploy your Application to Fabric
+
+If you have been developing your Harper application locally, this section will walk you through deploying it to Fabric.
+
+Before continuing, if you haven't already set up a Fabric cluster, go back to the previous article and complete the [Getting started with Fabric](./install-and-connect-harper.mdx#getting-started-with-fabric) step and make sure to keep track of the cluster URL, as well as the admin username and password.
+
+Harper supports both **pull** and **push** based deployment workflows.
+
+Pull-based deployments is generally powered by a Git repository where Harper will _pull_ your application from the repository.
+
+Push-based deployments is powered by the Harper CLI and is where your the user will _push_ your application to the Harper instance.
+
+For a true production application, Harper recommends using pull-based deployments so that you can deploy tagged versions of your application repository. But for development and experimentation, push-based is perfectly fine. Later guides will explore pull-based deployment workflows in more detail.
+
+To get started with push-based deployments, open a command line and set the current directory to the application directory. Run the `harper deploy` command using the Fabric cluster's URL, username, and password:
+
+```bash
+harper deploy \
+  target=<URL> \
+  username=<username> \
+  password=<password> \
+  project=first-harper-app \
+  restart=true \
+  replicated=true
+```
+
+## Additional Resources
+
+- [Table Schema](../../docs/developers/applications/defining-schemas) reference
+- [REST](../../docs/developers/rest) reference

@@ -56,9 +56,19 @@ const config: Config = {
 	projectName: 'documentation', // Usually your repo name.
 
 	onBrokenLinks: 'throw',
-	onBrokenMarkdownLinks: 'warn',
 
 	plugins: [
+		// Learn documentation
+		[
+			'@docusaurus/plugin-content-docs',
+			{
+				id: 'learn',
+				path: 'learn',
+				routeBasePath: 'learn',
+				sidebarPath: './sidebarsLearn.ts',
+				editUrl: 'https://github.com/HarperFast/documentation/blob/main/',
+			},
+		],
 		// Main documentation
 		[
 			'@docusaurus/plugin-content-docs',
@@ -283,6 +293,9 @@ const config: Config = {
 
 	markdown: {
 		mermaid: true,
+		hooks: {
+			onBrokenMarkdownLinks: 'warn',
+		},
 	},
 
 	themeConfig: {
@@ -305,6 +318,13 @@ const config: Config = {
 				href: 'https://www.harper.fast/',
 			},
 			items: [
+				{
+					type: 'docSidebar',
+					sidebarId: 'learnSidebar',
+					docsPluginId: 'learn',
+					position: 'left',
+					label: 'Learn',
+				},
 				{
 					type: 'docSidebar',
 					sidebarId: 'docsSidebar',
@@ -345,13 +365,9 @@ const config: Config = {
 					title: 'Documentation',
 					items: [
 						{
-							label: 'Quickstart',
-							to: `${routeBasePath}/getting-started/quickstart`,
+							label: 'Learn',
+							to: `/learn`,
 						},
-						// {
-						// 	label: 'Developers',
-						// 	to: `${routeBasePath}/developers`,
-						// },
 						{
 							label: 'Administration',
 							to: `${routeBasePath}/administration`,
