@@ -47,7 +47,7 @@ Then, execute the Harper CLI:
 harper
 ```
 
-When installing locally on your machine, you can specify any destination for Harper, we recommend using something within your home directory such as `$HOME/hdb`. Keep note of what you specify for the username and password, and make sure you select the `dev` default config and set the hostname to `localhost`.
+When installing locally on your machine, you can specify any destination for Harper, we recommend using something within your home directory such as `$HOME/hdb`. Keep note of what you specify for the username and password. Make sure you select the `dev` default config and set the hostname to `localhost`.
 
 :::important
 Do not actually enter `$HOME` in the destination prompt; it should automatically fill in the value of your home directory. Otherwise, specify the absolute path for the Harper installation.
@@ -158,7 +158,7 @@ Note that log messages are being sent to the console (stdout and stderr) in addi
 This server does not have valid usage licenses, this should only be used for educational and development purposes.
 ```
 
-This initial output contains a lot of helpful information. After the ASCII logo, there are a number of important log lines displaying the application process ID, the debugger endpoint, and domain socket path, and the Harper application version. Log lines are always prepended with the thread name, number, and then log level. `[main/0]` is the main thread, and `[http/1]` is the singular, additional worker thread. `[info]` is the default log level. After the log lines is specific application configuration information. It shows the application hostname, the number of worker threads, where Harper was installed, is the debugger enabled, logging level and location, and then ports, CORS, and socket path details for various networking protocols. We'll explain all of these in due time.
+This initial output contains a lot of helpful information. After the ASCII logo, there are a number of important log lines displaying the application process ID, the debugger endpoint, the domain socket path, and the Harper application version. Log lines are always prepended with the thread name, number, and log level. `[main/0]` is the main thread. `[http/1]` is the singular, additional worker thread. `[info]` is the default log level. After the log lines is specific application configuration information. It shows the application hostname, the number of worker threads, where Harper was installed, is the debugger enabled, logging level and location followed by ports, CORS, and socket path details for various networking protocols. We'll explain all of these in due time.
 
 Interrupting the process (`CTRL/CMD + C`) will shut down Harper.
 
@@ -166,7 +166,7 @@ With Harper successfully running, skip ahead to [Performing a health check](#per
 
 ## Getting started with Fabric
 
-Fabric is our service for managing and deploying Harper on a distributed network. Fabric makes it easy to create new Harper clusters, the Harper application platform running on distributed nodes, and deploy your application to this service. Fabric has a management interface, and provides a UI for managing your deployments and even your local instance that you just installed. You can sign up for Fabric for free, and create a free Harper cluster to deploy your application:
+Fabric is our service for managing and deploying Harper on a distributed network. Fabric makes it easy to create new Harper clusters, the Harper application platform running on distributed nodes, and deploy your application to this service. Fabric has a management interface, and provides a UI for managing your deployments and even your local instance that you just installed. You can sign up for Fabric for free and create a free Harper cluster to deploy your application:
 
 - Go to [Fabric](https://fabric.harper.fast) and sign-up for a new account.
   - You will need to agree to the terms of service and verify your email address.

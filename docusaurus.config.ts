@@ -66,7 +66,7 @@ const config: Config = {
 				path: 'learn',
 				routeBasePath: 'learn',
 				sidebarPath: './sidebarsLearn.ts',
-				editUrl: 'https://github.com/HarperDB/documentation/blob/main/',
+				editUrl: 'https://github.com/HarperFast/documentation/blob/main/',
 			},
 		],
 		// Main documentation

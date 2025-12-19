@@ -45,13 +45,13 @@ At the bottom are the **core services** that make up the foundation of the Harpe
 
 **Plugins** come next in the stack. Plugins have access to APIs exposing many of Harper's core services, and are capable of implementing more advanced features than what the core services provide. Many of Harper's features are implemented as **built-in plugins**. Additional features can be implemented as **custom plugins**. In this guide, we'll be demonstrating some of Harper's built-in plugins `graphqlSchema` and `rest`. Later guides will demonstrate many more.
 
-And finally, the top of the stack are **applications**. This is where any user-facing functionality is implemented. Applications use plugins to implement their business logic. Everything from database table schemas, to web applications.
+And finally, the top of the stack are **applications**. This is where any user-facing functionality is implemented. Applications use plugins to implement their business logic, everything from database table schemas to web applications.
 
-The key difference between plugins and applications is that plugins enable the functionality, and applications implement it. Its similar to that of a front-end framework. React on its own doesn't actually do anything, you actually need to build a "React App" for it to do anything meaningful.
+The key difference between plugins and applications is that plugins enable the functionality and applications implement it. It's similar to that of a front-end framework. React on its own doesn't actually do anything, you actually need to build a "React App" for it to do anything meaningful.
 
 ## Initializing the Harper Application
 
-Lets get started building your first Harper application!
+Let's get started building your first Harper application!
 
 <Tabs groupId="installation">
 	<TabItem value="local" label="Local Installation">
@@ -65,9 +65,9 @@ git clone https://github.com/HarperFast/create-your-first-application.git first-
     </TabItem>
     <TabItem value="fabric" label="Fabric">
 
-From the Cluster page, navigate to the Applications tab and click on "New Application" on the left-hand sidebar.
+From the "Cluster" page, navigate to the "Applications" tab and click on "New Application" on the left-hand sidebar.
 
-Give the application a name such as "first-harper-app", and then click on the "Import" tab.
+Give the application a name such as "first-harper-app", then click on the "Import" tab.
 
 Specify `https://github.com/HarperFast/create-your-first-application` in the "Git Repository URL" field.
 
@@ -201,7 +201,7 @@ If you look closely at the Harper logs, a new line should be added to the system
 REST:               HTTP: 9926
 ```
 
-This line tells you that the Harper REST API is configured on port `9926` (this is configurable, and this value is the default).
+This line tells you that the Harper REST API is configured on port `9926` (this is configurable and this value is the default).
 
     </TabItem>
     <TabItem value="fabric" label="Fabric">
