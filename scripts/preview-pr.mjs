@@ -98,7 +98,7 @@ async function main() {
 		// Get the workflow run for this PR (using sanitized branch name)
 		const runs = JSON.parse(
 			execSync(
-				`gh api repos/HarperDB/documentation/actions/runs --paginate -X GET -f branch=${sanitizedBranch} --jq '.workflow_runs | map(select(.conclusion == "success" and .name == "Deploy Docusaurus to GitHub Pages")) | sort_by(.created_at) | reverse | .[0]'`,
+				`gh api repos/HarperFast/documentation/actions/runs --paginate -X GET -f branch=${sanitizedBranch} --jq '.workflow_runs | map(select(.conclusion == "success" and .name == "Deploy PR Preview")) | sort_by(.created_at) | reverse | .[0]'`,
 				{ encoding: 'utf-8' }
 			)
 		);
@@ -121,15 +121,16 @@ async function main() {
 
 		// Get the artifacts for this run
 		const artifacts = JSON.parse(
-			execSync(`gh api repos/HarperDB/documentation/actions/runs/${runs.id}/artifacts --jq '.artifacts'`, {
+			execSync(`gh api repos/HarperFast/documentation/actions/runs/${runs.id}/artifacts --jq '.artifacts'`, {
 				encoding: 'utf-8',
 			})
 		);
 
-		const artifact = artifacts.find((a) => a.name === 'github-pages');
+		const artifactName = `pr-${PR_NUMBER}-build`;
+		const artifact = artifacts.find((a) => a.name === artifactName);
 
 		if (!artifact) {
-			console.error(`❌ No 'github-pages' artifact found for this PR`);
+			console.error(`❌ No '${artifactName}' artifact found for this PR`);
 			process.exit(1);
 		}
 
@@ -161,7 +162,7 @@ async function main() {
 		// Download the artifact
 		console.log('⬇️  Downloading artifact...');
 		const artifactZip = join(PR_DIR, 'artifact.zip');
-		execSync(`gh api repos/HarperDB/documentation/actions/artifacts/${artifact.id}/zip > "${artifactZip}"`, {
+		execSync(`gh api repos/HarperFast/documentation/actions/artifacts/${artifact.id}/zip > "${artifactZip}"`, {
 			stdio: 'inherit',
 		});
 
@@ -170,18 +171,10 @@ async function main() {
 			throw new Error('Downloaded artifact file not found');
 		}
 
-		// Extract the artifact (it's a tar.gz inside a zip)
+		// Extract the artifact (it's a direct zip of the build directory)
 		console.log('📂 Extracting artifact...');
-		execSync(`unzip -q "${artifactZip}" -d "${PR_DIR}"`, { stdio: 'inherit' });
-
-		// The github-pages artifact contains a tar.gz file
-		const tarFile = join(PR_DIR, 'artifact.tar');
-		if (existsSync(tarFile)) {
-			mkdirSync(BUILD_DIR, { recursive: true });
-			execSync(`tar -xzf "${tarFile}" -C "${BUILD_DIR}"`, { stdio: 'inherit' });
-		} else {
-			throw new Error('Expected artifact.tar not found in artifact');
-		}
+		mkdirSync(BUILD_DIR, { recursive: true });
+		execSync(`unzip -q "${artifactZip}" -d "${BUILD_DIR}"`, { stdio: 'inherit' });
 
 		// Verify extracted files are within expected directory
 		const resolvedBuildDir = join(BUILD_DIR);
@@ -189,9 +182,8 @@ async function main() {
 			throw new Error('Security violation: extracted files outside preview directory');
 		}
 
-		// Clean up compressed files
+		// Clean up zip file
 		rmSync(artifactZip, { force: true });
-		rmSync(tarFile, { force: true });
 
 		console.log('\n✅ Preview ready!\n');
 		console.log(`📁 Build location: ${BUILD_DIR}`);
@@ -208,7 +200,10 @@ async function main() {
 		console.log(`\n🚀 Starting preview server...\n`);
 
 		// Start the server with quoted path to prevent injection
-		execSync(`npm run serve -- --dir "${BUILD_DIR}"`, { stdio: 'inherit' });
+		execSync(`npm run serve -- --dir "${BUILD_DIR}"`, {
+			stdio: 'inherit',
+			env: { ...process.env, DOCUSAURUS_BASE_URL: `pr-${PR_NUMBER}` },
+		});
 	} catch (error) {
 		console.error('\n❌ Error:', error.message);
 		process.exit(1);
