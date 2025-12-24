@@ -206,21 +206,21 @@ Note that in this example, we are using loop back addresses, which can be a conv
 
 ### Controlled Replication Flow
 
-By default, Harper will replicate all data in all databases, with symmetric bi-directional flow between nodes. However, there are times when you may want to control the replication flow between nodes, and dictate that data should only be replicated in one direction between certain nodes. This can be done by setting the direction in the `replicates` attribute of the node definition when adding the node or configuring the replication route. For example, to configure a node to only send data to `node-two`, and only receive data from `node-three` you can add the following to the replication route:
+By default, Harper will replicate all data in all databases, with symmetric bi-directional flow between nodes. However, there are times when you may want to control the replication flow between nodes, and dictate that data should only be replicated in one direction between certain nodes. This can be done by setting the direction in the `replicates` attribute of the node definition when adding the node or configuring the replication route. For example, to configure a node to only send data to `node-two` (which only receives), and only receive data from `node-three` (which only sends) you can add the following to the replication route:
 
 ```yaml
 replication:
   databases:
     - data
   routes:
-    - name: node-two
-      replicates:
-        sends: true
-        receives: false
-    - name: node-three
+    - host: node-two
       replicates:
         sends: false
         receives: true
+    - host: node-three
+      replicates:
+        sends: true
+        receives: false
 ```
 
 When using controlled flow replication, you will typically have different route configurations for each node to every other node. In that case, typically you do want to ensure that you are _not_ replicating the `system` database, since the `system` database containes the node configurations, and replicating the `system` database will cause all nodes to be replicated and have identical route configurations.
