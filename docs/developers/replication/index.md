@@ -204,15 +204,30 @@ replication:
 
 Note that in this example, we are using loop back addresses, which can be a convenient way to run multiple nodes on a single machine for testing and development.
 
+### Controlled Replication Flow
+
+By default, Harper will replicate all data in all databases, with symmetric bi-directional flow between nodes. However, there are times when you may want to control the replication flow between nodes, and dictate that data should only be replicated in one direction between certain nodes. This can be done by setting the direction in the `replicates` attribute of the node definition when adding the node or configuring the replication route. For example, to configure a node to only send data to `node-two` (which only receives), and only receive data from `node-three` (which only sends) you can add the following to the replication route:
+
+```yaml
+replication:
+  databases:
+    - data
+  routes:
+    - host: node-two
+      replicates:
+        sends: false
+        receives: true
+    - host: node-three
+      replicates:
+        sends: true
+        receives: false
+```
+
+When using controlled flow replication, you will typically have different route configurations for each node to every other node. In that case, typically you do want to ensure that you are _not_ replicating the `system` database, since the `system` database containes the node configurations, and replicating the `system` database will cause all nodes to be replicated and have identical route configurations.
+
 #### Explicit Subscriptions
 
-#### Managing Node Connections and Subscriptions in Harper
-
-By default, Harper automatically handles connections and subscriptions between nodes, ensuring data consistency across your cluster. It even uses data routing to manage node failures. But if you want more control, you can manage these connections manually by explicitly subscribing to nodes. This is useful for advanced configurations, testing, or debugging.
-
-#### Important Notes on Explicit Subscriptions
-
-If you choose to manage subscriptions manually, Harper will no longer handle data consistency for you. This means there’s no guarantee that all nodes will have consistent data if subscriptions don’t fully replicate in all directions. If a node goes down, it’s possible that some data wasn’t replicated before the failure.
+By default, Harper automatically handles connections and subscriptions between nodes, ensuring data consistency across your cluster. It even uses data routing to manage node failures. However, you can manage these connections manually by explicitly subscribing to nodes. This should _not_ be used for production replication and should be avoided and exists only for testing, debugging, and legacy migration. This will likely be removed in V5. If you choose to manage subscriptions manually, Harper will no longer handle data consistency for you. This means there’s no guarantee that all nodes will have consistent data if subscriptions don’t fully replicate in all directions. If a node goes down, it’s possible that some data wasn’t replicated before the failure. If you want single direction replication, you can use controlled replication flow described above.
 
 #### How to Subscribe to Nodes
 
