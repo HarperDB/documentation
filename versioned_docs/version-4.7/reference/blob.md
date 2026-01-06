@@ -36,9 +36,46 @@ export class MyEndpoint extends MyTable {
 			status: 200,
 			headers: {},
 			body: record.data, // record.data is a blob
-		});
+		};
 	}
 }
+```
+
+When using the exported REST APIs for your tables, blobs will by default be treated with a UTF-8 encoding and contain text/plain content.
+
+```bash
+curl -X POST --location "http://localhost:9926/MyTable/" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "data": "Why hello there, world!"
+        }'
+```
+
+To store arbitrary binary content (such as audio data) in a blob, using CBOR is recommended when making API requests. This will let you control the contents of the blob precisely.
+
+If you need to use JSON, Base64 encoding your contents can be a great choice, but you'll need to do a bit of work to control the encoding of the underlying blob:
+
+```typescript
+export class MyTable extends tables.MyTable {
+	static loadAsInstance = false;
+
+	create(target: RequestTarget, record: Partial<MyTable>) {
+		if (record.data) {
+			record.data = Buffer.from(record.data, 'base64');
+		}
+		return super.create(target, record);
+	}
+}
+```
+
+Now you can create records and they'll be encoded appropriately. For example, here's a small .jpg encoded in base64:
+
+```bash
+curl -X POST --location "http://localhost:9926/MyTable/" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "data": "/9j/4QDKRXhpZgAATU0AKgAAAAgABgESAAMAAAABAAEAAAEaAAUAAAABAAAAVgEbAAUAAAABAAAAXgEoAAMAAAABAAIAAAITAAMAAAABAAEAAIdpAAQAAAABAAAAZgAAAAAAAABIAAAAAQAAAEgAAAABAAeQAAAHAAAABDAyMjGRAQAHAAAABAECAwCgAAAHAAAABDAxMDCgAQADAAAAAQABAACgAgAEAAAAAQAAABCgAwAEAAAAAQAAABCkBgADAAAAAQAAAAAAAAAAAAD/2wCEAAEBAQEBAQIBAQIDAgICAwQDAwMDBAYEBAQEBAYHBgYGBgYGBwcHBwcHBwcICAgICAgJCQkJCQsLCwsLCwsLCwsBAgICAwMDBQMDBQsIBggLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLCwsLC//dAAQAAf/AABEIABAAEAMBIgACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APz68CaN8Mp/DWveJviDqE0R0qGIwWsGEaR532J83uwwABXH+MtP8N6Hryad4cvJrm3lgjlX7WES4R2zujcIAvy8YIHQ+1eYeKdAu9VtTNpUvk3aAeWSxCblOVJA4O08jIrR0/R1txDc37m4u0QK8p7tjkgdBmv2zD4apGvUq1KjcXtHTTRWP0nEUqzxcatKbUEkuWy5fN3+Lmvt0tp2t//Z"
+        }'
 ```
 
 One of the important characteristics of blobs is they natively support asynchronous streaming of data. This is important for both creation and retrieval of large data. When we create a blob with `createBlob`, the returned blob will create the storage entry, but the data will be streamed to storage. This means that you can create a blob from a buffer or from a stream. You can also create a record that references a blob before the blob is fully written to storage. For example, you can create a blob from a stream:
